@@ -30,7 +30,7 @@ typedef enum OzyTableViewSize {
 	NSMutableArray *_sectionStarts;
 }
 
-@property (nonatomic, retain) UITableView *tableView;
+@property (nonatomic, readonly) UITableView *tableView;
 @property (nonatomic, retain) NSMutableArray *objects;
 @property (nonatomic, assign, getter=isEditable) BOOL editable;
 @property (nonatomic, assign) BOOL useIndexes;

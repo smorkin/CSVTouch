@@ -8,7 +8,7 @@
 
 #import "CSVRow.h"
 #import "OzyTableViewController.h"
-#import "CSV_TouchAppDelegate.h"
+#import "CSVPreferencesController.h"
 #import "CSVDataViewController.h"
 #import "CSVFileParser.h"
 

@@ -9,6 +9,7 @@
 #import "CSVDataViewController.h"
 #import "OzyTableViewController.h"
 #import "CSV_TouchAppDelegate.h"
+#import "CSVPreferencesController.h"
 #import "CSVFileParser.h"
 #import "CSVRow.h"
 #import "OzyTextViewController.h"
@@ -54,8 +55,8 @@
 	}
 	
 	if( needsResorting &&
-	   ([[CSV_TouchAppDelegate sharedInstance] maxNumberOfObjectsToSort] == 0 ||
-		[workObjects count] <= [[CSV_TouchAppDelegate sharedInstance] maxNumberOfObjectsToSort]) )
+	   ([CSVPreferencesController maxNumberOfObjectsToSort] == 0 ||
+		[workObjects count] <= [CSVPreferencesController maxNumberOfObjectsToSort]) )
 	{
 		[workObjects sortUsingSelector:@selector(compareShort:)];
 		currentFile.hasBeenSorted = YES;
@@ -117,19 +118,14 @@
 	}
 }	
 	
-- (void) selectFile:(CSVFileParser *)file shortDescriptions:(NSArray *)shortDescriptions
-{
-	
-	BOOL hasSetShortDescriptions = NO;
-	
+- (void) selectFile:(CSVFileParser *)file
+{		
 	// Store current position of itemController and search string
 	[self cacheCurrentFileData];
 		
 	[currentFile release];
 	currentFile = [file retain];
 	[currentFile parseIfNecessary];
-//	if( shortDescriptions )
-//		hasSetShortDescriptions = [currentFile setShortDescriptions:shortDescriptions];
 	NSString *cachedSearchString = [searchStringForFileName objectForKey:[currentFile fileName]];
 	if( cachedSearchString )
 		searchBar.text = cachedSearchString;
@@ -137,7 +133,7 @@
 		searchBar.text = @"";
 	[self updateColumnNames];
 	[itemController setTitle:[file tableViewDescription]];
-	[self refreshObjectsWithResorting:(hasSetShortDescriptions ? NO : !currentFile.hasBeenSorted)];
+	[self refreshObjectsWithResorting:!currentFile.hasBeenSorted];
 	
 	// Reset last known position of items
 	NSDictionary *indexPathDictionary = [indexPathForFileName objectForKey:[currentFile fileName]];
@@ -151,11 +147,6 @@
 													 animated:NO];
 	   }
 	}
-}
-
-- (void) selectFile:(CSVFileParser *)file
-{
-	[self selectFile:file shortDescriptions:nil];
 }
 
 - (void) updateBadgeValueUsingItem:(UINavigationItem *)item push:(BOOL)push
@@ -225,7 +216,6 @@
 #define DEFS_INDEX_PATH @"indexPath"
 #define DEFS_ITEM_POSITIONS_FOR_FILES @"itemPositionsForFiles"
 #define DEFS_SEARCH_STRINGS_FOR_FILES @"searchStringsForFiles"
-#define DEFS_CURRENT_FILE_SHORT_DESCRIPTIONS @"currentFileShortDescriptions"
 
 - (void) applicationWillTerminate
 {
@@ -238,9 +228,13 @@
 		[defaults setObject:columnNamesForFileName forKey:DEFS_COLUMN_NAMES];
 	}
 	
-	if( indexPathForFileName )
+	if( indexPathForFileName && ![CSVPreferencesController useGroupingForItemsHasChangedSinceStart] )
 	{
 		[defaults setObject:indexPathForFileName forKey:DEFS_ITEM_POSITIONS_FOR_FILES];
+	}
+	else
+	{
+		[defaults removeObjectForKey:DEFS_ITEM_POSITIONS_FOR_FILES];
 	}
 	
 	if( searchStringForFileName )
@@ -260,24 +254,33 @@
 	
 	if( [self topViewController] == detailsController )
 	{
-		[defaults setObject:[[[itemController tableView] indexPathForSelectedRow] dictionaryRepresentation]
-					 forKey:DEFS_INDEX_PATH];
+		if( ![CSVPreferencesController useGroupingForItemsHasChangedSinceStart] )
+			[defaults setObject:[[[itemController tableView] indexPathForSelectedRow] dictionaryRepresentation]
+						 forKey:DEFS_INDEX_PATH];
+		else
+			[defaults removeObjectForKey:DEFS_INDEX_PATH];
 	}
-	else
+	else if( [self topViewController] == itemController )
 	{
-		NSArray *a = [[(OzyTableViewController *)[self topViewController] tableView] indexPathsForVisibleRows];
+		NSArray *a = [[itemController tableView] indexPathsForVisibleRows];
+		if( [a count] > 0 && ![CSVPreferencesController useGroupingForItemsHasChangedSinceStart] )
+			[defaults setObject:[[a objectAtIndex:0] dictionaryRepresentation] forKey:DEFS_INDEX_PATH];
+		else
+			[defaults removeObjectForKey:DEFS_INDEX_PATH];
+	}
+	else if( [self topViewController] == fileController )
+	{
+		NSArray *a = [[fileController tableView] indexPathsForVisibleRows];
 		if( [a count] > 0 )
 			[defaults setObject:[[a objectAtIndex:0] dictionaryRepresentation] forKey:DEFS_INDEX_PATH];
 		else
 			[defaults removeObjectForKey:DEFS_INDEX_PATH];
 	}
-	
-	NSArray *shortDescriptions = [currentFile shortDescriptions];
-	if( shortDescriptions )
-		[defaults setObject:shortDescriptions forKey:DEFS_CURRENT_FILE_SHORT_DESCRIPTIONS];
 	else
-		[defaults removeObjectForKey:DEFS_CURRENT_FILE_SHORT_DESCRIPTIONS];
-	
+	{
+		[defaults removeObjectForKey:DEFS_INDEX_PATH];
+	}
+		
 	[defaults synchronize];
 }
 
@@ -290,8 +293,8 @@
 	fileController.editable = YES;
 	fileController.size = OZY_NORMAL;
 	itemController.editable = NO;
-	itemController.size = [[CSV_TouchAppDelegate sharedInstance] tableViewSize];
-	itemController.useIndexes = TRUE;
+	itemController.size = [CSVPreferencesController tableViewSize];
+	itemController.useIndexes = [CSVPreferencesController useGroupingForItems];
 	
 	// Autocorrection of searching should be off
 	searchBar.autocorrectionType = UITextAutocorrectionTypeNo;
@@ -311,12 +314,12 @@
 		[columnNamesForFileName release];
 		columnNamesForFileName = [[NSMutableDictionary alloc] initWithDictionary:defaultNames];
 	}
-	NSDictionary *itemPositions = [defaults objectForKey:DEFS_ITEM_POSITIONS_FOR_FILES];
-	if( itemPositions && [itemPositions isKindOfClass:[NSDictionary class]] )
-	{
-		[indexPathForFileName release];
-		indexPathForFileName = [[NSMutableDictionary alloc] initWithDictionary:itemPositions];
-	}
+//	NSDictionary *itemPositions = [defaults objectForKey:DEFS_ITEM_POSITIONS_FOR_FILES];
+//	if( itemPositions && [itemPositions isKindOfClass:[NSDictionary class]] )
+//	{
+//		[indexPathForFileName release];
+//		indexPathForFileName = [[NSMutableDictionary alloc] initWithDictionary:itemPositions];
+//	}
 	NSDictionary *searchStrings = [defaults objectForKey:DEFS_SEARCH_STRINGS_FOR_FILES];
 	if( searchStrings && [searchStrings isKindOfClass:[NSDictionary class]] )
 	{
@@ -330,7 +333,7 @@
 	{
 		if( [fileName isEqualToString:[file fileName]] )
 		{
-			[self selectFile:file shortDescriptions:[defaults objectForKey:DEFS_CURRENT_FILE_SHORT_DESCRIPTIONS]];
+			[self selectFile:file];
 			break;
 		}
 	}

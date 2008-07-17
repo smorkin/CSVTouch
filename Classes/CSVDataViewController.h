@@ -23,7 +23,7 @@
 	CSVFileParser *currentFile;
 	BOOL itemsNeedResorting;
 	BOOL itemsNeedFiltering;
-	
+
 	// Cached data for files
 	NSMutableDictionary *columnNamesForFileName;
 	NSMutableDictionary *indexPathForFileName;

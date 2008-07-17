@@ -7,9 +7,9 @@
 //
 
 #import "OzyTableViewController.h"
-#import "CSVDataViewController.h"
 #import "CSVRow.h"
 #import "OzymandiasAdditions.h"
+#import "CSVPreferencesController.h"
 
 #define MINI_FONT_SIZE 12
 #define SMALL_FONT_SIZE 15
@@ -309,7 +309,7 @@
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
-	return YES;
+	return [CSVPreferencesController allowRotatableInterface];
 }
 
 // Not used right now

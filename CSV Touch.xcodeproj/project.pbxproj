@@ -19,7 +19,7 @@
 		F42D908E0DE95538001A2E5C /* CSVDataViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F42D908D0DE95538001A2E5C /* CSVDataViewController.m */; };
 		F473432E0E2A90B20072F3DE /* col.png in Resources */ = {isa = PBXBuildFile; fileRef = F473432C0E2A90B20072F3DE /* col.png */; };
 		F473432F0E2A90B20072F3DE /* row.png in Resources */ = {isa = PBXBuildFile; fileRef = F473432D0E2A90B20072F3DE /* row.png */; };
-		F47819850E2BDE7A00B44E78 /* CSVPreferencesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F47819840E2BDE7A00B44E78 /* CSVPreferencesViewController.m */; };
+		F47819850E2BDE7A00B44E78 /* CSVPreferencesController.m in Sources */ = {isa = PBXBuildFile; fileRef = F47819840E2BDE7A00B44E78 /* CSVPreferencesController.m */; };
 		F48836580DF53E2C0063EF75 /* CSVFileParser.m in Sources */ = {isa = PBXBuildFile; fileRef = F48836570DF53E2C0063EF75 /* CSVFileParser.m */; };
 		F4A73D1B0E2EB49200E1DF27 /* OzymandiasAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F4A73D1A0E2EB49200E1DF27 /* OzymandiasAdditions.m */; };
 		F4AE44870DF469BF001197AB /* CSVRow.m in Sources */ = {isa = PBXBuildFile; fileRef = F4AE44860DF469BF001197AB /* CSVRow.m */; };
@@ -52,8 +52,8 @@
 		F42D908D0DE95538001A2E5C /* CSVDataViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSVDataViewController.m; sourceTree = "<group>"; };
 		F473432C0E2A90B20072F3DE /* col.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = col.png; sourceTree = "<group>"; };
 		F473432D0E2A90B20072F3DE /* row.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = row.png; sourceTree = "<group>"; };
-		F47819830E2BDE7A00B44E78 /* CSVPreferencesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSVPreferencesViewController.h; sourceTree = "<group>"; };
-		F47819840E2BDE7A00B44E78 /* CSVPreferencesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSVPreferencesViewController.m; sourceTree = "<group>"; };
+		F47819830E2BDE7A00B44E78 /* CSVPreferencesController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSVPreferencesController.h; sourceTree = "<group>"; };
+		F47819840E2BDE7A00B44E78 /* CSVPreferencesController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSVPreferencesController.m; sourceTree = "<group>"; };
 		F48836560DF53E2C0063EF75 /* CSVFileParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSVFileParser.h; sourceTree = "<group>"; };
 		F48836570DF53E2C0063EF75 /* CSVFileParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSVFileParser.m; sourceTree = "<group>"; };
 		F4A73D190E2EB49200E1DF27 /* OzymandiasAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OzymandiasAdditions.h; sourceTree = "<group>"; };
@@ -102,8 +102,8 @@
 				F4E5EAA90E0884D8002EB091 /* OzyRotatableTabBarController.m */,
 				F4E5EE2E0E09B591002EB091 /* OzyTextViewController.h */,
 				F4E5EE2F0E09B591002EB091 /* OzyTextViewController.m */,
-				F47819830E2BDE7A00B44E78 /* CSVPreferencesViewController.h */,
-				F47819840E2BDE7A00B44E78 /* CSVPreferencesViewController.m */,
+				F47819830E2BDE7A00B44E78 /* CSVPreferencesController.h */,
+				F47819840E2BDE7A00B44E78 /* CSVPreferencesController.m */,
 				F4A73D190E2EB49200E1DF27 /* OzymandiasAdditions.h */,
 				F4A73D1A0E2EB49200E1DF27 /* OzymandiasAdditions.m */,
 			);
@@ -241,7 +241,7 @@
 				F4E5EA950E08843D002EB091 /* OzyRotatableViewController.m in Sources */,
 				F4E5EAAA0E0884D8002EB091 /* OzyRotatableTabBarController.m in Sources */,
 				F4E5EE300E09B591002EB091 /* OzyTextViewController.m in Sources */,
-				F47819850E2BDE7A00B44E78 /* CSVPreferencesViewController.m in Sources */,
+				F47819850E2BDE7A00B44E78 /* CSVPreferencesController.m in Sources */,
 				F4A73D1B0E2EB49200E1DF27 /* OzymandiasAdditions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -39,9 +39,6 @@
 - (NSString *) fileName;
 - (NSUInteger) stringLength;
 
-- (BOOL) setShortDescriptions:(NSArray *)array;
-- (NSArray *) shortDescriptions;
-
 @end
 
 @interface CSVFileParser (OzyTableViewProtocol) <OzyTableViewObject>

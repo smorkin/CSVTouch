@@ -7,12 +7,12 @@
 //
 
 #import "OzyRotatableTabBarController.h"
-
+#import "CSVPreferencesController.h"
 
 @implementation OzyRotatableTabBarController
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-	return YES;
+	return [CSVPreferencesController allowRotatableInterface];
 }
 
 @end

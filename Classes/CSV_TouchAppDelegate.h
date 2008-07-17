@@ -20,18 +20,6 @@
 	IBOutlet OzyRotatableViewController *startupController;
 	IBOutlet UIActivityIndicatorView *startupActivityView;
 	
-	// Preferences
-	// Data
-	IBOutlet UISegmentedControl *encodingControl;
-	IBOutlet UISwitch *smartDelimiterSwitch;
-	IBOutlet UISegmentedControl *delimiterControl;
-	// Appearance
-	IBOutlet UISegmentedControl *sizeControl;
-	// Sorting
-	IBOutlet UISwitch *numericCompareSwitch;
-	IBOutlet UISwitch *caseInsensitiveCompareSwitch;
-	IBOutlet UITextField *maxNumberOfObjectsToSort;
-
 	// Downloading a new file
 	IBOutlet UIViewController *downloadNewFileController;
 	IBOutlet UITextField *newFileURL;
@@ -43,6 +31,7 @@
 
 + (CSV_TouchAppDelegate *) sharedInstance;
 + (NSArray *) allowedDelimiters;
++ (BOOL) allowRotation;
 
 @property (nonatomic, retain) UIWindow *window;
 @property (nonatomic, retain) UITabBarController *tabBarController;
@@ -52,18 +41,6 @@
 - (IBAction) downloadNewFile:(id)sender;
 - (IBAction) doDownloadNewFile:(id)sender;
 - (IBAction) cancelDownloadNewFile:(id)sender;
-- (IBAction) sizeControlChanged:(id)sender;
-- (IBAction) delimiterControlChanged:(id)sender;
-- (IBAction) encodingControlChanged:(id)sender;
-- (IBAction) sortingChanged:(id)sender;
 - (IBAction) refreshFile:(id)sender;
 
-- (NSString *) delimiter;
-- (NSInteger) tableViewSize;
-- (NSStringEncoding) encoding;
-- (BOOL) smartDelimiter;
-- (NSUInteger) maxNumberOfObjectsToSort;
-
 @end
-
-extern NSUInteger sortingMask;

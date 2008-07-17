@@ -8,6 +8,7 @@
 
 #import "CSVFileParser.h"
 #import "CSVRow.h"
+#import "CSVPreferencesController.h"
 #import "CSV_TouchAppDelegate.h"
 #import "OzyTableViewController.h"
 #import "csv.h"
@@ -54,7 +55,7 @@
 	unsigned char *row[maxWords];
 	NSMutableArray *result = [NSMutableArray arrayWithCapacity:(testing ? 2 : 5000)];
 	lineStart = lineEnd = nextLineStart = 0;
-	NSUInteger encoding = [[CSV_TouchAppDelegate sharedInstance] encoding];
+	NSUInteger encoding = [CSVPreferencesController encoding];
 	int maxNumberOfRows = (testing ? 2 : 1000000);
 	int foundColumns = -1;
 	
@@ -118,7 +119,7 @@
 {    
 	int delimiter;
 
-	if( [[CSV_TouchAppDelegate sharedInstance] smartDelimiter] )
+	if( [CSVPreferencesController smartDelimiter] )
 	{
 		int bestResult = 0;
 		int bestDelimiter = 0;
@@ -136,7 +137,7 @@
 	}
 	else
 	{
-		delimiter = [[[CSV_TouchAppDelegate sharedInstance] delimiter] characterAtIndex:0]; 
+		delimiter = [[CSVPreferencesController delimiter] characterAtIndex:0]; 
 	}
 	
 	// Check for errors
@@ -176,7 +177,7 @@
 	_columnNames = [[NSMutableArray alloc] init];
 	_rawData = [d retain];
 	_rawString = [[NSString alloc] initWithData:_rawData 
-									   encoding:[[CSV_TouchAppDelegate sharedInstance] encoding]];
+									   encoding:[CSVPreferencesController encoding]];
 	_hasBeenParsed = NO;
 	return self;
 }
@@ -217,31 +218,6 @@
 					   self.URL, FILEPARSER_URL,
 					   nil];
 	[d writeToFile:self.filePath atomically:YES];
-}
-
-- (BOOL) setShortDescriptions:(NSArray *)array
-{
-	if( [array count] == [_parsedItems count] )
-	{
-		NSUInteger count = [array count];
-		for( NSUInteger i = 0 ; i < count ; i++ )
-			[[_parsedItems objectAtIndex:i] setShortDescription:[array objectAtIndex:i]];
-		return TRUE;
-	}
-	else if( !array )
-	{
-		[self invalidateShortDescriptions];
-		return TRUE;
-	}
-	return FALSE;
-}
-
-- (NSArray *) shortDescriptions
-{
-	NSMutableArray *a =	[NSMutableArray arrayWithCapacity:[_parsedItems count]];
-	for( CSVRow *row in _parsedItems )
-		[a addObject:row.shortDescription];
-	return a;
 }
 
 @end
