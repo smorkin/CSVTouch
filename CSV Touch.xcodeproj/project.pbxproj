@@ -90,6 +90,8 @@
 				1D3623250D0F684500981E51 /* CSV_TouchAppDelegate.m */,
 				F42D908C0DE95538001A2E5C /* CSVDataViewController.h */,
 				F42D908D0DE95538001A2E5C /* CSVDataViewController.m */,
+				F47819830E2BDE7A00B44E78 /* CSVPreferencesController.h */,
+				F47819840E2BDE7A00B44E78 /* CSVPreferencesController.m */,
 				28C286DF0D94DF7D0034E888 /* OzyTableViewController.h */,
 				28C286E00D94DF7D0034E888 /* OzyTableViewController.m */,
 				F4AE44850DF469BF001197AB /* CSVRow.h */,
@@ -102,8 +104,6 @@
 				F4E5EAA90E0884D8002EB091 /* OzyRotatableTabBarController.m */,
 				F4E5EE2E0E09B591002EB091 /* OzyTextViewController.h */,
 				F4E5EE2F0E09B591002EB091 /* OzyTextViewController.m */,
-				F47819830E2BDE7A00B44E78 /* CSVPreferencesController.h */,
-				F47819840E2BDE7A00B44E78 /* CSVPreferencesController.m */,
 				F4A73D190E2EB49200E1DF27 /* OzymandiasAdditions.h */,
 				F4A73D1A0E2EB49200E1DF27 /* OzymandiasAdditions.m */,
 			);
