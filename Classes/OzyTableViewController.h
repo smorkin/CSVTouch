@@ -25,6 +25,8 @@ typedef enum OzyTableViewSize {
 	NSMutableArray *_objects;
 	BOOL _editable;
 	BOOL _useIndexes;
+	BOOL _removeDisclosure;
+	NSString *_titleForSingleSection;
 	OzyTableViewSize _size;
 	NSMutableArray *_sectionIndexes;
 	NSMutableArray *_sectionStarts;
@@ -35,13 +37,15 @@ typedef enum OzyTableViewSize {
 @property (nonatomic, assign, getter=isEditable) BOOL editable;
 @property (nonatomic, assign) BOOL useIndexes;
 @property (nonatomic, assign) OzyTableViewSize size;
+@property (nonatomic, assign) BOOL removeDisclosure;
+@property (nonatomic, retain) NSString *titleForSingleSection;
 
 - (void) dataLoaded;
 
 + (UIView *) headerViewForSize:(OzyTableViewSize)size;
 
-- (NSIndexPath *) indexPathForObjectAtIndex:(NSUInteger)index;
 - (NSUInteger) indexForObjectAtIndexPath:(NSIndexPath *)indexPath;
+- (BOOL) itemExistsAtIndexPath:(NSIndexPath *)indexPath;
 
 // Note that setObjects does this automatically, so only call if you have manipulated objects
 // some other way using OzyTableViewCOntroller.objects method.

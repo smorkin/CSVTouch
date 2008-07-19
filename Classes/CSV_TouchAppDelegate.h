@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@class OzyRotatableViewController;
+@class OzyRotatableViewController, CSVFileParser;
 
 @interface CSV_TouchAppDelegate : NSObject <UIApplicationDelegate, UITabBarControllerDelegate> {
 	
@@ -41,6 +41,7 @@
 - (IBAction) downloadNewFile:(id)sender;
 - (IBAction) doDownloadNewFile:(id)sender;
 - (IBAction) cancelDownloadNewFile:(id)sender;
-- (IBAction) refreshFile:(id)sender;
+
+- (void) openDownloadFileWithString:(NSString *)URL;
 
 @end

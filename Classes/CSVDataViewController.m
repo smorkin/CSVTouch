@@ -136,11 +136,13 @@
 	[self refreshObjectsWithResorting:!currentFile.hasBeenSorted];
 	
 	// Reset last known position of items
+	// First scroll to top, if we don't find any setting
+	[itemController.tableView scrollToTopWithAnimation:NO];
 	NSDictionary *indexPathDictionary = [indexPathForFileName objectForKey:[currentFile fileName]];
 	if( [indexPathDictionary isKindOfClass:[NSDictionary class]] )
 	{
 		NSIndexPath *indexPath = [NSIndexPath indexPathWithDictionary:indexPathDictionary];
-	   if( [itemController indexForObjectAtIndexPath:indexPath] < [itemController.objects count] )
+		if( [itemController itemExistsAtIndexPath:indexPath] )
 	   {
 		   [[itemController tableView] scrollToRowAtIndexPath:indexPath
 											 atScrollPosition:UITableViewScrollPositionTop
@@ -290,6 +292,7 @@
 	[[editController tableView] setEditing:YES animated:NO];
 	editController.editable = YES;
 	editController.size = OZY_NORMAL;
+	editController.titleForSingleSection = @"Select & Arrange Columns";
 	fileController.editable = YES;
 	fileController.size = OZY_NORMAL;
 	itemController.editable = NO;
@@ -356,7 +359,7 @@
 		NSIndexPath *indexPath = [NSIndexPath indexPathWithDictionary:indexPathDictionary];
 		if( [self topViewController] == detailsController )
 		{
-			if( [itemController indexForObjectAtIndexPath:indexPath] < [itemController.objects count] )
+			if( [itemController itemExistsAtIndexPath:indexPath] )
 			{
 				[[itemController tableView] selectRowAtIndexPath:indexPath
 														animated:NO
@@ -365,8 +368,7 @@
 			}
 		}
 		else if([[self topViewController] isKindOfClass:[OzyTableViewController class]] &&
-				[[(OzyTableViewController *)[self topViewController] objects] count] > 
-				[(OzyTableViewController *)[self topViewController] indexForObjectAtIndexPath:indexPath] )
+				[(OzyTableViewController *)[self topViewController] itemExistsAtIndexPath:indexPath])
 		{
 			[[(OzyTableViewController *)[self topViewController] tableView] scrollToRowAtIndexPath:indexPath
 																				  atScrollPosition:UITableViewScrollPositionTop
@@ -476,15 +478,22 @@ static CSVDataViewController *sharedInstance = nil;
 	}
 	else if( tableView == [fileController tableView] )
 	{
-		CSVFileParser *selectedFile = [[fileController objects] objectAtIndex:indexPath.row];
-		if( [selectedFile stringLength] > 75000 && selectedFile != currentFile && !selectedFile.hasBeenSorted )
+		if( refreshingFilesInProgress )
 		{
-			[self.view addSubview:activityView];
-			[fileParsingActivityView startAnimating];
+			[[CSV_TouchAppDelegate sharedInstance] openDownloadFileWithString:[(CSVFileParser *)[[fileController objects] objectAtIndex:indexPath.row] URL]];
 		}
-		[self performSelector:@selector(delayedPushItemController:)
-				   withObject:selectedFile
-				   afterDelay:0];
+		else
+		{
+			CSVFileParser *selectedFile = [[fileController objects] objectAtIndex:indexPath.row];
+			if( [selectedFile stringLength] > 75000 && selectedFile != currentFile && !selectedFile.hasBeenSorted )
+			{
+				[self.view addSubview:activityView];
+				[fileParsingActivityView startAnimating];
+			}
+			[self performSelector:@selector(delayedPushItemController:)
+					   withObject:selectedFile
+					   afterDelay:0];
+		}
 	}
 }
 
@@ -544,6 +553,56 @@ static CSVDataViewController *sharedInstance = nil;
 	[[itemController objects] sortUsingSelector:@selector(compareShort:)];
 	[itemController refreshIndexes];
 	[itemController dataLoaded];
+}
+
+- (void) newFileDownloaded:(CSVFileParser *)newFile
+{
+	for( NSUInteger i = 0 ; i < [[fileController objects] count] ; i++ )
+	{
+		CSVFileParser *oldFile = [[fileController objects] objectAtIndex:i];
+		if( [[newFile fileName] isEqualToString:[oldFile fileName]] )
+		{
+			[[fileController objects] removeObjectAtIndex:i];
+			break;
+		}
+	}
+	[[fileController objects] addObject:newFile];
+	[[fileController objects] sortUsingSelector:@selector(compareFileName:)];
+	[fileController dataLoaded];
+	if( [self topViewController] == fileController )
+		[self updateBadgeValueUsingItem:fileController.navigationItem push:YES];
+}
+			
+- (UIBarButtonItem *) refreshFilesItem
+{
+	return [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh 
+														  target:self 
+														  action:@selector(toggleRefreshFiles:)] autorelease];
+}
+
+- (UIBarButtonItem *) stopRefreshingFilesItem
+{
+	return [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone 
+														  target:self 
+														  action:@selector(toggleRefreshFiles:)] autorelease];
+}
+
+- (IBAction) toggleRefreshFiles:(id)sender
+{
+	refreshingFilesInProgress = !refreshingFilesInProgress;
+	if( refreshingFilesInProgress )
+	{
+		fileController.removeDisclosure = YES;
+		if( [self currentFile] )
+			[[CSV_TouchAppDelegate sharedInstance] openDownloadFileWithString:[[self currentFile] URL]];
+		[fileController.navigationItem setRightBarButtonItem:[self stopRefreshingFilesItem] animated:YES];
+	}
+	else
+	{
+		fileController.removeDisclosure = NO;
+		[fileController.navigationItem setRightBarButtonItem:[self refreshFilesItem] animated:YES];
+	}
+	[fileController dataLoaded];
 }
 
 - (void)searchBar:(UISearchBar *)modifiedSearchBar textDidChange:(NSString *)searchText

@@ -25,6 +25,8 @@
 @synthesize editable = _editable;
 @synthesize useIndexes = _useIndexes;
 @synthesize size = _size;
+@synthesize removeDisclosure = _removeDisclosure;
+@synthesize titleForSingleSection = _titleForSingleSection;
 
 - (void) refreshIndexes
 {
@@ -43,15 +45,19 @@
 		NSString *currentFirstLetter;
 		for( NSUInteger i = 0 ; i < objectCount ; i++)
 		{
-			currentFirstLetter = [[(CSVRow *)[self.objects objectAtIndex:i] shortDescription] substringToIndex:1];
-			if( !latestFirstLetter || ![currentFirstLetter isEqualToString:latestFirstLetter] )
+			NSString *shortDescription = [(CSVRow *)[self.objects objectAtIndex:i] shortDescription];
+			if( [shortDescription length] == 0 )
+				continue;
+			currentFirstLetter = [shortDescription substringToIndex:1];
+			if(!latestFirstLetter ||
+			   ![[currentFirstLetter lowercaseString] isEqualToString:[latestFirstLetter lowercaseString]] )
 			{
 				if(!latestFirstLetter ||
 				   ![latestFirstLetter containsDigit] ||
 				   ![currentFirstLetter containsDigit] )
 				{
 					[_sectionStarts addObject:[NSNumber numberWithInt:i]];
-					[_sectionIndexes addObject:([currentFirstLetter containsDigit] ? DIGIT_SECTION_INDEX : currentFirstLetter)];
+					[_sectionIndexes addObject:([currentFirstLetter containsDigit] ? DIGIT_SECTION_INDEX : [currentFirstLetter uppercaseString])];
 					latestFirstLetter = currentFirstLetter;
 				}
 			}
@@ -111,28 +117,6 @@
 	}
 }
 
-- (NSIndexPath *) indexPathForObjectAtIndex:(NSUInteger)index
-{
-	if( index >= [self.objects count] || index < 0 )
-		return [NSIndexPath indexPathForRow:0 inSection:0];
-
-	if( [_sectionStarts count] > 0 )
-	{
-		NSUInteger section;
-		for( section = 0 ; section < [_sectionStarts count] ; section++ )
-		{
-			if( index < [[_sectionStarts objectAtIndex:section] intValue] )
-				return [NSIndexPath indexPathForRow:(index - [[_sectionStarts objectAtIndex:section-1] intValue] ) inSection:section-1];
-			section++;
-		}
-		return [NSIndexPath indexPathForRow:(index - [[_sectionStarts objectAtIndex:section-1] intValue] ) inSection:section-1];
-	}
-	else
-	{
-		return [NSIndexPath indexPathForRow:index inSection:0];
-	}
-}
-
 - (NSUInteger) indexForObjectAtIndexPath:(NSIndexPath *)indexPath
 {
 	if( [_sectionStarts count] > 0 )
@@ -147,6 +131,28 @@
 		return indexPath.row;
 	}
 }
+
+- (BOOL) itemExistsAtIndexPath:(NSIndexPath *)indexPath
+{
+	if( [_sectionStarts count] > 0 )
+	{
+		if( indexPath.section == [_sectionStarts count] - 1 )
+			return [[_sectionStarts objectAtIndex:indexPath.section] intValue] + indexPath.row < [self.objects count];
+		else if( indexPath.section < [_sectionStarts count] - 1 )
+			return [[_sectionStarts objectAtIndex:indexPath.section] intValue] + indexPath.row < 
+			[[_sectionStarts objectAtIndex:indexPath.section + 1] intValue];
+		else
+			return NO;
+	}
+	else if( indexPath.section != 0 )
+	{
+		return NO;
+	}
+	else
+	{
+		return indexPath.row < [self.objects count];
+	}
+}	
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
@@ -183,7 +189,7 @@
 	}
 	else
 	{
-		return @"";
+		return (self.titleForSingleSection ? self.titleForSingleSection : @"");
 	}
 	
 }
@@ -196,7 +202,7 @@
 	}
 	else
 	{
-		return [NSArray arrayWithObjects: @"", nil];
+		return nil;
 	}	
 }
 
@@ -244,7 +250,6 @@
 		cell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:cellIdentifier] autorelease];
 		[cell setFont:[[cell font] fontWithSize:fontSize]];
 	}
-	cell.accessoryType = (self.useIndexes ? UITableViewCellAccessoryNone : UITableViewCellAccessoryDisclosureIndicator);
 	return cell;
 }
 
@@ -261,6 +266,14 @@
 		cell.text = [(<OzyTableViewObject>)item tableViewDescription];
 	else
 		cell.text = [item description];
+	if( self.removeDisclosure )
+	{
+		cell.accessoryType = UITableViewCellAccessoryNone;
+	}
+	else
+	{
+		cell.accessoryType = (self.useIndexes ? UITableViewCellAccessoryNone : UITableViewCellAccessoryDisclosureIndicator);
+	}
 	return cell;
 }
 

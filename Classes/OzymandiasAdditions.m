@@ -34,3 +34,15 @@
 }
 
 @end
+
+@implementation UITableView (OzymandiasExtension)
+
+- (void) scrollToTopWithAnimation:(BOOL)animate
+{
+	if( [[self dataSource] tableView:self numberOfRowsInSection:0] > 0 )
+		[self scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]
+					atScrollPosition:UITableViewScrollPositionTop
+							animated:animate];
+}
+
+@end

@@ -36,6 +36,8 @@
 	// An array with the current indexes to use for the items
 	NSMutableArray *columnIndexes;
 	int *rawColumnIndexes;
+	
+	BOOL refreshingFilesInProgress;
 }
 
 + (CSVDataViewController *) sharedInstance;
@@ -43,11 +45,14 @@
 - (IBAction) edit:(id)sender;
 - (IBAction) editDone:(id)sender;
 - (IBAction) resetColumnNames:(id)sender;
+- (IBAction) toggleRefreshFiles:(id)sender;
 
 - (void) setFiles:(NSArray *) files;
 
 - (void) reparseFiles;
 - (void) resortObjects;
+
+- (void) newFileDownloaded:(CSVFileParser *)file;
 
 - (NSArray *) columnIndexes;
 - (int *) rawColumnIndexes;

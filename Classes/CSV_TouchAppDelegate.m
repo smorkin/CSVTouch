@@ -160,8 +160,8 @@ static CSV_TouchAppDelegate *sharedInstance = nil;
 	fp.filePath = [[CSV_TouchAppDelegate documentsPath] stringByAppendingPathComponent:[[newFileURL text] lastPathComponent]];
 	fp.URL = [newFileURL text]; 
 	[fp saveToFile];
+	[[self dataController] newFileDownloaded:fp];
 	[fp release];
-	[self loadLocalFiles];
 	[self downloadDone];
 }
 
@@ -197,23 +197,10 @@ static CSV_TouchAppDelegate *sharedInstance = nil;
 	[self downloadDone];
 }
 
-- (IBAction) refreshFile:(id)sender
+- (void) openDownloadFileWithString:(NSString *)URL
 {
-	CSVFileParser *fp = [[self dataController] currentFile];
-	if( fp )
-	{
-		newFileURL.text = fp.URL;
-		[self downloadNewFile:self];
-	}
-	else
-	{
-		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"No File Selected"
-														message:@"Please select a file to refresh"
-													   delegate:self
-											  cancelButtonTitle:@"OK"
-											  otherButtonTitles:nil];
-		[alert show];
-	}
+	newFileURL.text = URL;
+	[self downloadNewFile:self];
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField

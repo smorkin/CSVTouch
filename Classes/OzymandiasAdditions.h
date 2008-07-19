@@ -19,3 +19,9 @@
 - (NSDictionary *) dictionaryRepresentation;
 
 @end
+
+@interface UITableView (OzymandiasExtension)
+
+- (void) scrollToTopWithAnimation:(BOOL)animate;
+
+@end

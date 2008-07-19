@@ -45,29 +45,29 @@
 		case 1:
 			return [words objectAtIndex:indexes[0]];
 		case 2:
-			return [NSString stringWithFormat:@"%@→%@", 
+			return [NSString stringWithFormat:@"%@‧%@", 
 					[words objectAtIndex:indexes[0]], 
 					[words objectAtIndex:indexes[1]]];
 		case 3:
-			return [NSString stringWithFormat:@"%@→%@→%@", 
+			return [NSString stringWithFormat:@"%@‧%@‧%@", 
 					[words objectAtIndex:indexes[0]], 
 					[words objectAtIndex:indexes[1]], 
 					[words objectAtIndex:indexes[2]]];			
 		case 4:
-			return [NSString stringWithFormat:@"%@→%@→%@→%@", 
+			return [NSString stringWithFormat:@"%@‧%@‧%@‧%@", 
 					[words objectAtIndex:indexes[0]], 
 					[words objectAtIndex:indexes[1]], 
 					[words objectAtIndex:indexes[2]], 
 					[words objectAtIndex:indexes[3]]];			
 		case 5:
-			return [NSString stringWithFormat:@"%@→%@→%@→%@→%@", 
+			return [NSString stringWithFormat:@"%@‧%@‧%@‧%@‧%@", 
 					[words objectAtIndex:indexes[0]], 
 					[words objectAtIndex:indexes[1]], 
 					[words objectAtIndex:indexes[2]], 
 					[words objectAtIndex:indexes[3]], 
 					[words objectAtIndex:indexes[4]]];			
 		case 6:
-			return [NSString stringWithFormat:@"%@→%@→%@→%@→%@→%@", 
+			return [NSString stringWithFormat:@"%@‧%@‧%@‧%@‧%@‧%@", 
 					[words objectAtIndex:indexes[0]], 
 					[words objectAtIndex:indexes[1]], 
 					[words objectAtIndex:indexes[2]], 
@@ -75,7 +75,7 @@
 					[words objectAtIndex:indexes[4]],			
 					[words objectAtIndex:indexes[5]]];			
 		case 7:
-			return [NSString stringWithFormat:@"%@→%@→%@→%@→%@→%@→%@", 
+			return [NSString stringWithFormat:@"%@‧%@‧%@‧%@‧%@‧%@‧%@", 
 					[words objectAtIndex:indexes[0]], 
 					[words objectAtIndex:indexes[1]], 
 					[words objectAtIndex:indexes[2]], 
@@ -84,7 +84,7 @@
 					[words objectAtIndex:indexes[5]],			
 					[words objectAtIndex:indexes[6]]];	
 		case 8:
-			return [NSString stringWithFormat:@"%@→%@→%@→%@→%@→%@→%@→%@", 
+			return [NSString stringWithFormat:@"%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@", 
 					[words objectAtIndex:indexes[0]], 
 					[words objectAtIndex:indexes[1]], 
 					[words objectAtIndex:indexes[2]], 
@@ -94,7 +94,7 @@
 					[words objectAtIndex:indexes[6]],			
 					[words objectAtIndex:indexes[7]]];	
 		case 9:
-			return [NSString stringWithFormat:@"%@→%@→%@→%@→%@→%@→%@→%@→%@", 
+			return [NSString stringWithFormat:@"%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@", 
 					[words objectAtIndex:indexes[0]], 
 					[words objectAtIndex:indexes[1]], 
 					[words objectAtIndex:indexes[2]], 
@@ -105,7 +105,7 @@
 					[words objectAtIndex:indexes[7]],			
 					[words objectAtIndex:indexes[8]]];	
 		case 10:
-			return [NSString stringWithFormat:@"%@→%@→%@→%@→%@→%@→%@→%@→%@→%@", 
+			return [NSString stringWithFormat:@"%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@", 
 					[words objectAtIndex:indexes[0]], 
 					[words objectAtIndex:indexes[1]], 
 					[words objectAtIndex:indexes[2]], 
@@ -117,7 +117,7 @@
 					[words objectAtIndex:indexes[8]],			
 					[words objectAtIndex:indexes[9]]];			
 		case 11:
-			return [NSString stringWithFormat:@"%@→%@→%@→%@→%@→%@→%@→%@→%@→%@→%@", 
+			return [NSString stringWithFormat:@"%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@", 
 					[words objectAtIndex:indexes[0]], 
 					[words objectAtIndex:indexes[1]], 
 					[words objectAtIndex:indexes[2]], 
@@ -130,7 +130,7 @@
 					[words objectAtIndex:indexes[9]],
 					[words objectAtIndex:indexes[10]]];			
 		case 12:
-			return [NSString stringWithFormat:@"%@→%@→%@→%@→%@→%@→%@→%@→%@→%@→%@→%@", 
+			return [NSString stringWithFormat:@"%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@", 
 					[words objectAtIndex:indexes[0]], 
 					[words objectAtIndex:indexes[1]], 
 					[words objectAtIndex:indexes[2]], 
@@ -144,7 +144,7 @@
 					[words objectAtIndex:indexes[10]],			
 					[words objectAtIndex:indexes[11]]];			
 		case 13:
-			return [NSString stringWithFormat:@"%@→%@→%@→%@→%@→%@→%@→%@→%@→%@→%@→%@→%@", 
+			return [NSString stringWithFormat:@"%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@", 
 					[words objectAtIndex:indexes[0]], 
 					[words objectAtIndex:indexes[1]], 
 					[words objectAtIndex:indexes[2]], 
@@ -159,7 +159,7 @@
 					[words objectAtIndex:indexes[11]],			
 					[words objectAtIndex:indexes[12]]];			
 		case 14:
-			return [NSString stringWithFormat:@"%@→%@→%@→%@→%@→%@→%@→%@→%@→%@→%@→%@→%@→%@", 
+			return [NSString stringWithFormat:@"%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@", 
 					[words objectAtIndex:indexes[0]], 
 					[words objectAtIndex:indexes[1]], 
 					[words objectAtIndex:indexes[2]], 
@@ -175,7 +175,7 @@
 					[words objectAtIndex:indexes[12]],			
 					[words objectAtIndex:indexes[13]]];			
 		case 15:
-			return [NSString stringWithFormat:@"%@→%@→%@→%@→%@→%@→%@→%@→%@→%@→%@→%@→%@→%@→%@", 
+			return [NSString stringWithFormat:@"%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@", 
 					[words objectAtIndex:indexes[0]], 
 					[words objectAtIndex:indexes[1]], 
 					[words objectAtIndex:indexes[2]], 
@@ -192,7 +192,7 @@
 					[words objectAtIndex:indexes[13]],			
 					[words objectAtIndex:indexes[14]]];			
 		case 16:
-			return [NSString stringWithFormat:@"%@→%@→%@→%@→%@→%@→%@→%@→%@→%@→%@→%@→%@→%@→%@→%@", 
+			return [NSString stringWithFormat:@"%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@", 
 					[words objectAtIndex:indexes[0]], 
 					[words objectAtIndex:indexes[1]], 
 					[words objectAtIndex:indexes[2]], 
@@ -213,7 +213,7 @@
 		{
 			NSMutableString *s = [[NSMutableString alloc] initWithCapacity:200];
 			for( NSUInteger i = 0 ; i < [words count] ; i++ )
-				[s appendFormat:@"%@→", [words objectAtIndex:i]];
+				[s appendFormat:@"%@‧", [words objectAtIndex:i]];
 			return s;
 		}
 	}
