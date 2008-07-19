@@ -172,6 +172,7 @@ static CSVPreferencesController *sharedInstance = nil;
 #define PREFS_MAX_NUMBER_TO_SORT @"maxNumberOfObjectsToSort"
 #define PREFS_ALLOW_ROTATION @"allowRotation"
 #define PREFS_USE_GROUPING_FOR_ITEMS @"useGroupingForItems"
+#define PREFS_SHOW_STATUS_BAR @"showStatusBar"
 
 - (void) loadPreferences
 {
@@ -229,18 +230,23 @@ static CSVPreferencesController *sharedInstance = nil;
 	[numericCompareSwitch setOn:((sortingMask & NSNumericSearch) != 0) animated:NO];
 	[caseInsensitiveCompareSwitch setOn:((sortingMask & NSCaseInsensitiveSearch) != 0) animated:NO];
 	
-	maxNumberOfObjectsToSort.text = [NSString stringWithFormat:@"%d", [CSVPreferencesController maxNumberOfObjectsToSort]];
-	
+	maxNumberOfObjectsToSort.text = [NSString stringWithFormat:@"%d", [CSVPreferencesController maxNumberOfObjectsToSort]];	
 	allowRotatableInterface.on = [CSVPreferencesController allowRotatableInterface];
-	
 	useGroupingForItems.on = [CSVPreferencesController useGroupingForItems];
+	showStatusBar.on = [CSVPreferencesController showStatusBar];
 }
 
 - (void) applicationDidFinishLaunching
 {
-	sharedInstance = self;
 	[self pushViewController:prefsSelectionController animated:NO];
 	[self loadPreferences];
+}
+
+- (id) initWithCoder:(NSCoder *)aDecoder
+{
+	self = [super initWithCoder:aDecoder];
+	sharedInstance = self;
+	return self;
 }
 
 + (NSString *) delimiter
@@ -365,6 +371,19 @@ static BOOL useGroupingForItemsHasChangedSinceStart = NO;
 	}
 }
 
++ (BOOL) showStatusBar
+{
+	return [[NSUserDefaults standardUserDefaults] boolForKey:PREFS_SHOW_STATUS_BAR];
+}
+
++ (void) setShowStatusBar:(BOOL)shouldShow
+{
+	if( [self showStatusBar] != shouldShow )
+	{
+		[[NSUserDefaults standardUserDefaults] setBool:shouldShow
+												forKey:PREFS_SHOW_STATUS_BAR];
+	}
+}
 
 NSUInteger sortingMask;
 
@@ -463,6 +482,11 @@ NSUInteger sortingMask;
 - (IBAction) groupingChanged:(id)sender
 {
 	[CSVPreferencesController setUseGroupingForItems:[useGroupingForItems isOn]];
+}
+
+- (IBAction) showStatusBarChanged:(id)sender
+{
+	[CSVPreferencesController setShowStatusBar:[showStatusBar isOn]];
 }
 
 @end

@@ -97,14 +97,15 @@ static CSV_TouchAppDelegate *sharedInstance = nil;
 	[[self dataController] applicationDidFinishLaunching];
 	
 	// Configure and show the window
+	[startupActivityView stopAnimating];
 	[startupController.view removeFromSuperview];
 	[window addSubview:tabBarController.view];
 	[window makeKeyAndVisible];
-	[startupActivityView stopAnimating];
 }
 
 - (void)applicationDidFinishLaunching:(UIApplication *)application
 {
+	[[UIApplication sharedApplication] setStatusBarHidden:![CSVPreferencesController showStatusBar] animated:YES];
 	[window addSubview:startupController.view];
 	[startupActivityView startAnimating];
 	

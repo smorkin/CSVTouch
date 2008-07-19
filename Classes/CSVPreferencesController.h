@@ -26,6 +26,7 @@
 	IBOutlet UISegmentedControl *sizeControl;
 	IBOutlet UISwitch *allowRotatableInterface;
 	IBOutlet UISwitch *useGroupingForItems;
+	IBOutlet UISwitch *showStatusBar;
 	// Sorting
 	IBOutlet UISwitch *numericCompareSwitch;
 	IBOutlet UISwitch *caseInsensitiveCompareSwitch;
@@ -47,6 +48,7 @@
 - (IBAction) sortingChanged:(id)sender;
 - (IBAction) rotationChanged:(id)sender;
 - (IBAction) groupingChanged:(id)sender;
+- (IBAction) showStatusBarChanged:(id)sender;
 
 + (NSString *) delimiter;
 + (NSInteger) tableViewSize;
@@ -55,6 +57,7 @@
 + (NSUInteger) maxNumberOfObjectsToSort;
 + (BOOL) allowRotatableInterface;
 + (BOOL) useGroupingForItems;
++ (BOOL) showStatusBar;
 + (NSUInteger) sortingMask;
 extern NSUInteger sortingMask; // This is available for performance-critical operations
 
