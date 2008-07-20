@@ -32,6 +32,16 @@
 	NSMutableArray *filteredObjects = [NSMutableArray array];
 	NSMutableArray *workObjects;
 	NSString *searchString = [[searchBar text] lowercaseString];
+	
+	// We should always resort all objects, no matter which are actually shown
+	if( needsResorting &&
+	   ([CSVPreferencesController maxNumberOfObjectsToSort] == 0 ||
+		[allObjects count] <= [CSVPreferencesController maxNumberOfObjectsToSort]) )
+	{
+		[allObjects sortUsingSelector:@selector(compareShort:)];
+		currentFile.hasBeenSorted = YES;
+	}
+	
 	if( searchString && ![searchString isEqualToString:@""] )
 	{
 		NSArray *words = [searchString componentsSeparatedByString:@" "];
@@ -54,13 +64,6 @@
 		workObjects = allObjects;
 	}
 	
-	if( needsResorting &&
-	   ([CSVPreferencesController maxNumberOfObjectsToSort] == 0 ||
-		[workObjects count] <= [CSVPreferencesController maxNumberOfObjectsToSort]) )
-	{
-		[workObjects sortUsingSelector:@selector(compareShort:)];
-		currentFile.hasBeenSorted = YES;
-	}
 	[itemController setObjects:workObjects];
 	[itemController dataLoaded];
 }

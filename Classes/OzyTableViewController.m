@@ -28,6 +28,26 @@
 @synthesize removeDisclosure = _removeDisclosure;
 @synthesize titleForSingleSection = _titleForSingleSection;
 
+- (NSString *) comparisonCharacterForCharacter:(NSString *)character
+{
+	if( [character containsDigit] )
+		return @"0";
+	else if( (sortingMask & NSCaseInsensitiveSearch) == 0 )
+		return character;
+	else
+		return [character lowercaseString];
+}
+
+- (NSString *) sectionTitleForCharacter:(NSString *)character
+{
+	if( [character containsDigit] )
+		return DIGIT_SECTION_INDEX;
+	else if( (sortingMask & NSCaseInsensitiveSearch) == 0 )
+		return character;
+	else
+		return [character uppercaseString];
+}
+
 - (void) refreshIndexes
 {
 	if( self.useIndexes )
@@ -48,18 +68,26 @@
 			NSString *shortDescription = [(CSVRow *)[self.objects objectAtIndex:i] shortDescription];
 			if( [shortDescription length] == 0 )
 				continue;
+			
+			// For performance reasons, we compare using isEqualToString: before we
+			// do the possible transformation to comparison character 
 			currentFirstLetter = [shortDescription substringToIndex:1];
 			if(!latestFirstLetter ||
-			   ![[currentFirstLetter lowercaseString] isEqualToString:[latestFirstLetter lowercaseString]] )
+			   (![currentFirstLetter isEqualToString:latestFirstLetter] && 
+				![[self comparisonCharacterForCharacter:currentFirstLetter] isEqualToString:
+				  [self comparisonCharacterForCharacter:latestFirstLetter]] ))
 			{
-				if(!latestFirstLetter ||
-				   ![latestFirstLetter containsDigit] ||
-				   ![currentFirstLetter containsDigit] )
-				{
-					[_sectionStarts addObject:[NSNumber numberWithInt:i]];
-					[_sectionIndexes addObject:([currentFirstLetter containsDigit] ? DIGIT_SECTION_INDEX : [currentFirstLetter uppercaseString])];
-					latestFirstLetter = currentFirstLetter;
-				}
+				[_sectionStarts addObject:[NSNumber numberWithInt:i]];
+				[_sectionIndexes addObject:[self sectionTitleForCharacter:currentFirstLetter]];
+				latestFirstLetter = currentFirstLetter;
+			}				
+			else if(![currentFirstLetter isEqualToString:latestFirstLetter] && 
+					![[self comparisonCharacterForCharacter:currentFirstLetter] isEqualToString:
+					  [self comparisonCharacterForCharacter:latestFirstLetter]] )
+			{
+				[_sectionStarts addObject:[NSNumber numberWithInt:i]];
+				[_sectionIndexes addObject:[self sectionTitleForCharacter:currentFirstLetter]];
+				latestFirstLetter = currentFirstLetter;
 			}
 		}
 	}

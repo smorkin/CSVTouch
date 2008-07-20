@@ -29,7 +29,7 @@
 	IBOutlet UISwitch *showStatusBar;
 	// Sorting
 	IBOutlet UISwitch *numericCompareSwitch;
-	IBOutlet UISwitch *caseInsensitiveCompareSwitch;
+	IBOutlet UISwitch *caseSensitiveCompareSwitch;
 	IBOutlet UITextField *maxNumberOfObjectsToSort;	
 }
 

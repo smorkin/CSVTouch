@@ -14,8 +14,7 @@
 			<integer value="12"/>
 			<integer value="361"/>
 			<integer value="227"/>
-			<integer value="323"/>
-			<integer value="330"/>
+			<integer value="329"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -630,7 +629,7 @@ A</string>
 							<bool key="IBUIOpaque">NO</bool>
 							<bool key="IBUIClipsSubviews">YES</bool>
 							<bool key="IBUIUserInteractionEnabled">NO</bool>
-							<string key="IBUIText">Case insensitive:</string>
+							<string key="IBUIText">Case sensitive:</string>
 							<reference key="IBUITextColor" ref="359172350"/>
 							<nil key="IBUIHighlightedColor"/>
 							<int key="IBUIBaselineAdjustment">1</int>
@@ -699,6 +698,7 @@ A</string>
 							<int key="NSvFlags">290</int>
 							<string key="NSFrame">{{20, 49}, {280, 44}}</string>
 							<reference key="NSSuperview" ref="1068330230"/>
+							<reference key="NSWindow"/>
 							<bool key="IBUIOpaque">NO</bool>
 							<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
 							<int key="IBUITag">2</int>
@@ -729,6 +729,7 @@ A</string>
 							<int key="NSvFlags">293</int>
 							<string key="NSFrame">{{89, 20}, {143, 21}}</string>
 							<reference key="NSSuperview" ref="1068330230"/>
+							<reference key="NSWindow"/>
 							<bool key="IBUIOpaque">NO</bool>
 							<bool key="IBUIClipsSubviews">YES</bool>
 							<bool key="IBUIUserInteractionEnabled">NO</bool>
@@ -744,6 +745,7 @@ A</string>
 							<int key="NSvFlags">292</int>
 							<string key="NSFrame">{{206, 106}, {94, 27}}</string>
 							<reference key="NSSuperview" ref="1068330230"/>
+							<reference key="NSWindow"/>
 							<bool key="IBUIOpaque">NO</bool>
 							<bool key="IBUIClipsSubviews">YES</bool>
 							<bool key="IBUIMultipleTouchEnabled">YES</bool>
@@ -756,6 +758,7 @@ A</string>
 							<int key="NSvFlags">292</int>
 							<string key="NSFrame">{{20, 109}, {107, 21}}</string>
 							<reference key="NSSuperview" ref="1068330230"/>
+							<reference key="NSWindow"/>
 							<bool key="IBUIOpaque">NO</bool>
 							<bool key="IBUIClipsSubviews">YES</bool>
 							<bool key="IBUIUserInteractionEnabled">NO</bool>
@@ -770,6 +773,7 @@ A</string>
 							<int key="NSvFlags">292</int>
 							<string key="NSFrame">{{20, 143}, {99, 21}}</string>
 							<reference key="NSSuperview" ref="1068330230"/>
+							<reference key="NSWindow"/>
 							<bool key="IBUIOpaque">NO</bool>
 							<bool key="IBUIClipsSubviews">YES</bool>
 							<bool key="IBUIUserInteractionEnabled">NO</bool>
@@ -779,11 +783,12 @@ A</string>
 							<int key="IBUIBaselineAdjustment">1</int>
 							<float key="IBUIMinimumFontSize">1.000000e+01</float>
 						</object>
-						<object class="IBUILabel" id="395139290">
+						<object class="IBUILabel" id="1070368237">
 							<reference key="NSNextResponder" ref="1068330230"/>
 							<int key="NSvFlags">292</int>
 							<string key="NSFrame">{{20, 181}, {127, 21}}</string>
 							<reference key="NSSuperview" ref="1068330230"/>
+							<reference key="NSWindow"/>
 							<bool key="IBUIOpaque">NO</bool>
 							<bool key="IBUIClipsSubviews">YES</bool>
 							<bool key="IBUIUserInteractionEnabled">NO</bool>
@@ -798,6 +803,7 @@ A</string>
 							<int key="NSvFlags">292</int>
 							<string key="NSFrame">{{206, 143}, {94, 27}}</string>
 							<reference key="NSSuperview" ref="1068330230"/>
+							<reference key="NSWindow"/>
 							<bool key="IBUIOpaque">NO</bool>
 							<bool key="IBUIClipsSubviews">YES</bool>
 							<bool key="IBUIMultipleTouchEnabled">YES</bool>
@@ -805,11 +811,12 @@ A</string>
 							<int key="IBUIContentVerticalAlignment">0</int>
 							<bool key="IBUIOn">YES</bool>
 						</object>
-						<object class="IBUISwitch" id="12867788">
+						<object class="IBUISwitch" id="62692036">
 							<reference key="NSNextResponder" ref="1068330230"/>
 							<int key="NSvFlags">292</int>
 							<string key="NSFrame">{{206, 178}, {94, 27}}</string>
 							<reference key="NSSuperview" ref="1068330230"/>
+							<reference key="NSWindow"/>
 							<bool key="IBUIOpaque">NO</bool>
 							<bool key="IBUIClipsSubviews">YES</bool>
 							<bool key="IBUIMultipleTouchEnabled">YES</bool>
@@ -820,6 +827,7 @@ A</string>
 					</object>
 					<string key="NSFrameSize">{320, 367}</string>
 					<reference key="NSSuperview"/>
+					<reference key="NSWindow"/>
 					<object class="NSColor" key="IBUIBackgroundColor">
 						<int key="NSColorSpace">3</int>
 						<bytes key="NSWhite">MQA</bytes>
@@ -1324,14 +1332,6 @@ bWFuY2Ugd2lsbCBiZSBtdWNoIGJldHRlciA6LSkuA</string>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">caseInsensitiveCompareSwitch</string>
-						<reference key="source" ref="709150383"/>
-						<reference key="destination" ref="538551399"/>
-					</object>
-					<int key="connectionID">391</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchOutletConnection" key="connection">
 						<string key="label">maxNumberOfObjectsToSort</string>
 						<reference key="source" ref="709150383"/>
 						<reference key="destination" ref="263419257"/>
@@ -1427,18 +1427,26 @@ bWFuY2Ugd2lsbCBiZSBtdWNoIGJldHRlciA6LSkuA</string>
 					<object class="IBCocoaTouchOutletConnection" key="connection">
 						<string key="label">showStatusBar</string>
 						<reference key="source" ref="709150383"/>
-						<reference key="destination" ref="12867788"/>
+						<reference key="destination" ref="62692036"/>
 					</object>
 					<int key="connectionID">409</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
 						<string key="label">showStatusBarChanged:</string>
-						<reference key="source" ref="12867788"/>
+						<reference key="source" ref="62692036"/>
 						<reference key="destination" ref="709150383"/>
 						<int key="IBEventType">13</int>
 					</object>
 					<int key="connectionID">410</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">caseSensitiveCompareSwitch</string>
+						<reference key="source" ref="709150383"/>
+						<reference key="destination" ref="538551399"/>
+					</object>
+					<int key="connectionID">411</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -1848,8 +1856,8 @@ bWFuY2Ugd2lsbCBiZSBtdWNoIGJldHRlciA6LSkuA</string>
 							<reference ref="959617468"/>
 							<reference ref="795507198"/>
 							<reference ref="273205631"/>
-							<reference ref="12867788"/>
-							<reference ref="395139290"/>
+							<reference ref="62692036"/>
+							<reference ref="1070368237"/>
 						</object>
 						<reference key="parent" ref="1000771597"/>
 					</object>
@@ -2009,12 +2017,12 @@ bWFuY2Ugd2lsbCBiZSBtdWNoIGJldHRlciA6LSkuA</string>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">407</int>
-						<reference key="object" ref="395139290"/>
+						<reference key="object" ref="1070368237"/>
 						<reference key="parent" ref="1068330230"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">408</int>
-						<reference key="object" ref="12867788"/>
+						<reference key="object" ref="62692036"/>
 						<reference key="parent" ref="1068330230"/>
 					</object>
 				</object>
@@ -2276,7 +2284,7 @@ bWFuY2Ugd2lsbCBiZSBtdWNoIGJldHRlciA6LSkuA</string>
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">410</int>
+			<int key="maxID">411</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -2362,7 +2370,7 @@ bWFuY2Ugd2lsbCBiZSBtdWNoIGJldHRlciA6LSkuA</string>
 							<string>aboutController</string>
 							<string>allowRotatableInterface</string>
 							<string>appearancePrefsController</string>
-							<string>caseInsensitiveCompareSwitch</string>
+							<string>caseSensitiveCompareSwitch</string>
 							<string>dataPrefsController</string>
 							<string>delimiterControl</string>
 							<string>encodingControl</string>

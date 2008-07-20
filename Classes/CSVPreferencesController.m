@@ -228,7 +228,7 @@ static CSVPreferencesController *sharedInstance = nil;
 	else
 		sortingMask = 0;
 	[numericCompareSwitch setOn:((sortingMask & NSNumericSearch) != 0) animated:NO];
-	[caseInsensitiveCompareSwitch setOn:((sortingMask & NSCaseInsensitiveSearch) != 0) animated:NO];
+	[caseSensitiveCompareSwitch setOn:((sortingMask & NSCaseInsensitiveSearch) == 0) animated:NO];
 	
 	maxNumberOfObjectsToSort.text = [NSString stringWithFormat:@"%d", [CSVPreferencesController maxNumberOfObjectsToSort]];	
 	allowRotatableInterface.on = [CSVPreferencesController allowRotatableInterface];
@@ -465,10 +465,10 @@ NSUInteger sortingMask;
 
 - (IBAction) sortingChanged:(id)sender
 {
-	sortingMask = 0;
+	sortingMask = NSCaseInsensitiveSearch;
 	if( [numericCompareSwitch isOn] )
 		sortingMask ^= NSNumericSearch;
-	if( [caseInsensitiveCompareSwitch isOn] )
+	if( [caseSensitiveCompareSwitch isOn] )
 		sortingMask ^= NSCaseInsensitiveSearch;
 	[CSVPreferencesController setSortingMask:sortingMask];
 	[[CSVDataViewController sharedInstance] resortObjects];
