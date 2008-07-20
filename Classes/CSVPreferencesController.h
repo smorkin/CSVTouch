@@ -41,6 +41,7 @@
 @interface CSVPreferencesController (PreferenceData)
 
 - (void) applicationDidFinishLaunching;
+- (void) applicationWillTerminate;
 
 - (IBAction) sizeControlChanged:(id)sender;
 - (IBAction) delimiterControlChanged:(id)sender;

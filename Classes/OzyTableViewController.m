@@ -350,7 +350,7 @@
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
-	return [CSVPreferencesController allowRotatableInterface];
+	return [(id <OzymandiasApplicationDelegate>)[[UIApplication sharedApplication] delegate] allowRotation];
 }
 
 // Not used right now

@@ -15,6 +15,7 @@
 #import "CSVFileParser.h"
 #import "csv.h"
 
+#define SELECTED_TAB_BAR_INDEX @"selectedTabBarIndex"
 
 @implementation CSV_TouchAppDelegate
 
@@ -23,7 +24,7 @@
 
 static CSV_TouchAppDelegate *sharedInstance = nil;
 
-+ (BOOL) allowRotation
+- (BOOL) allowRotation
 {
 	return [CSVPreferencesController allowRotatableInterface];	
 }
@@ -95,10 +96,13 @@ static CSV_TouchAppDelegate *sharedInstance = nil;
 	[self loadLocalFiles];
 	[[self prefsController] applicationDidFinishLaunching];
 	[[self dataController] applicationDidFinishLaunching];
-	
+
+	tabBarController.selectedIndex = [[NSUserDefaults standardUserDefaults] integerForKey:SELECTED_TAB_BAR_INDEX];
+
 	// Configure and show the window
 	[startupActivityView stopAnimating];
 	[startupController.view removeFromSuperview];
+	
 	[window addSubview:tabBarController.view];
 	[window makeKeyAndVisible];
 }
@@ -123,6 +127,9 @@ static CSV_TouchAppDelegate *sharedInstance = nil;
 - (void)applicationWillTerminate:(UIApplication *)application 
 {
 	[[self dataController] applicationWillTerminate];
+	[[self prefsController] applicationWillTerminate];
+	[[NSUserDefaults standardUserDefaults] setInteger:tabBarController.selectedIndex
+											   forKey:SELECTED_TAB_BAR_INDEX];
 }
 
 - (void)dealloc {
@@ -176,7 +183,7 @@ static CSV_TouchAppDelegate *sharedInstance = nil;
 	[downloadActivityView startAnimating];
 	[rawData release];
 	rawData = [[NSMutableData alloc] init];
-	NSURL *url = [NSURL URLWithString:[newFileURL text]];
+	NSURL *url = [NSURL URLWithString:[[newFileURL text] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
 	NSURLRequest *theRequest=[NSURLRequest requestWithURL:url
                                               cachePolicy:NSURLRequestReloadIgnoringLocalCacheData
                                           timeoutInterval:10.0];

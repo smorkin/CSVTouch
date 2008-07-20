@@ -320,12 +320,12 @@
 		[columnNamesForFileName release];
 		columnNamesForFileName = [[NSMutableDictionary alloc] initWithDictionary:defaultNames];
 	}
-//	NSDictionary *itemPositions = [defaults objectForKey:DEFS_ITEM_POSITIONS_FOR_FILES];
-//	if( itemPositions && [itemPositions isKindOfClass:[NSDictionary class]] )
-//	{
-//		[indexPathForFileName release];
-//		indexPathForFileName = [[NSMutableDictionary alloc] initWithDictionary:itemPositions];
-//	}
+	NSDictionary *itemPositions = [defaults objectForKey:DEFS_ITEM_POSITIONS_FOR_FILES];
+	if( itemPositions && [itemPositions isKindOfClass:[NSDictionary class]] )
+	{
+		[indexPathForFileName release];
+		indexPathForFileName = [[NSMutableDictionary alloc] initWithDictionary:itemPositions];
+	}
 	NSDictionary *searchStrings = [defaults objectForKey:DEFS_SEARCH_STRINGS_FOR_FILES];
 	if( searchStrings && [searchStrings isKindOfClass:[NSDictionary class]] )
 	{
@@ -490,6 +490,19 @@ static CSVDataViewController *sharedInstance = nil;
 			CSVFileParser *selectedFile = [[fileController objects] objectAtIndex:indexPath.row];
 			if( [selectedFile stringLength] > 75000 && selectedFile != currentFile && !selectedFile.hasBeenSorted )
 			{
+				if( self.interfaceOrientation == UIInterfaceOrientationLandscapeLeft ||
+				   self.interfaceOrientation == UIInterfaceOrientationLandscapeRight )
+				{
+					CGRect frame = activityView.frame;
+					frame.size = CGSizeMake(480, 320);
+					activityView.frame = frame;
+				}
+				else
+				{
+					CGRect frame = activityView.frame;
+					frame.size = CGSizeMake(320, 480);
+					activityView.frame = frame;
+				}
 				[self.view addSubview:activityView];
 				[fileParsingActivityView startAnimating];
 			}

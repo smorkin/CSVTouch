@@ -25,3 +25,9 @@
 - (void) scrollToTopWithAnimation:(BOOL)animate;
 
 @end
+
+@protocol OzymandiasApplicationDelegate
+@required
+- (BOOL) allowRotation;
+@end
+

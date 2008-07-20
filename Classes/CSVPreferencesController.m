@@ -10,6 +10,7 @@
 #import "CSVDataViewController.h"
 #import "OzyRotatableViewController.h"
 #import "OzyTableViewController.h"
+#import "OzymandiasAdditions.h"
 
 @interface OzyEncodingItem : NSObject
 {
@@ -92,7 +93,7 @@ static CSVPreferencesController *sharedInstance = nil;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-	return [CSVPreferencesController allowRotatableInterface];
+	return [(id <OzymandiasApplicationDelegate>)[[UIApplication sharedApplication] delegate] allowRotation];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -236,10 +237,62 @@ static CSVPreferencesController *sharedInstance = nil;
 	showStatusBar.on = [CSVPreferencesController showStatusBar];
 }
 
+#define ABOUT_ID @"aboutID"
+#define DATA_ID @"dataID"
+#define SORTING_ID @"sortingID"
+#define APPEARANCE_ID @"appearanceID"
+
+#define DEFS_CURRENT_PREFS_CONTROLLER_STACK @"currentPrefsControllerStack"
+
+- (NSString *) idForController:(UIViewController *)controller
+{
+	if( controller == aboutController )
+		return ABOUT_ID;
+	else if( controller == dataPrefsController )
+		return DATA_ID;
+	else if( controller == sortingPrefsController )
+		return SORTING_ID;
+	else if( controller == appearancePrefsController )
+		return APPEARANCE_ID;
+	else
+		return @"";
+}
+
+- (UIViewController *) controllerForId:(NSString *) controllerId
+{
+	if( [controllerId isEqualToString:ABOUT_ID] )
+		return aboutController;
+	else if( [controllerId isEqualToString:DATA_ID] )
+		return dataPrefsController;
+	else if( [controllerId isEqualToString:SORTING_ID] )
+		return sortingPrefsController;
+	else if( [controllerId isEqualToString:APPEARANCE_ID] )
+		return appearancePrefsController;
+	else
+		return nil;	
+}
+
 - (void) applicationDidFinishLaunching
 {
 	[self pushViewController:prefsSelectionController animated:NO];
+
+	NSArray *controllerStack = [[NSUserDefaults standardUserDefaults] objectForKey:DEFS_CURRENT_PREFS_CONTROLLER_STACK];
+	for( NSString *controllerId in controllerStack )
+	{
+		UIViewController *controller = [self controllerForId:controllerId];
+		if( controller )
+			[self pushViewController:controller animated:NO];
+	}
+	
 	[self loadPreferences];
+}
+
+- (void) applicationWillTerminate
+{
+	NSMutableArray *controllerStack = [NSMutableArray array];
+	for( UIViewController *controller in [self viewControllers] )
+		[controllerStack addObject:[self idForController:controller]];
+	[[NSUserDefaults standardUserDefaults] setObject:controllerStack forKey:DEFS_CURRENT_PREFS_CONTROLLER_STACK];	
 }
 
 - (id) initWithCoder:(NSCoder *)aDecoder

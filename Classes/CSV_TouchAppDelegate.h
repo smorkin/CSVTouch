@@ -7,10 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "OzymandiasAdditions.h"
 
 @class OzyRotatableViewController, CSVFileParser;
 
-@interface CSV_TouchAppDelegate : NSObject <UIApplicationDelegate, UITabBarControllerDelegate> {
+@interface CSV_TouchAppDelegate : NSObject <UIApplicationDelegate,
+UITabBarControllerDelegate,
+OzymandiasApplicationDelegate> {
 	
 	// Main view
 	IBOutlet UIWindow *window;
@@ -31,7 +34,6 @@
 
 + (CSV_TouchAppDelegate *) sharedInstance;
 + (NSArray *) allowedDelimiters;
-+ (BOOL) allowRotation;
 
 @property (nonatomic, retain) UIWindow *window;
 @property (nonatomic, retain) UITabBarController *tabBarController;

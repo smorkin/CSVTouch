@@ -7,12 +7,12 @@
 //
 
 #import "OzyRotatableViewController.h"
-#import "CSVPreferencesController.h"
+#import "OzymandiasAdditions.h"
 
 @implementation OzyRotatableViewController
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-	return [CSVPreferencesController allowRotatableInterface];
+	return [(id <OzymandiasApplicationDelegate>)[[UIApplication sharedApplication] delegate] allowRotation];
 }
 
 @end
