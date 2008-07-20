@@ -289,7 +289,7 @@
 	[defaults synchronize];
 }
 
-- (void) applicationDidFinishLaunching
+- (void) applicationDidFinishLaunchingInEmergencyMode:(BOOL)emergencyMode
 {	
 	// Setup stuff for controllers which can't be configured using InterfaceBuilder
 	[[editController tableView] setEditing:YES animated:NO];
@@ -309,6 +309,9 @@
 	// we must do this in case we have no saved navigationstack
 	[self pushViewController:fileController animated:NO];
 	[self updateBadgeValueUsingItem:fileController.navigationItem push:YES];
+	
+	if( emergencyMode )
+		return;
 	
 	// Read last state to be able to get back to where we were before quitting last time
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];

@@ -12,7 +12,10 @@
 @implementation OzyRotatableTabBarController
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-	return [(id <OzymandiasApplicationDelegate>)[[UIApplication sharedApplication] delegate] allowRotation];
+	if( [[[UIApplication sharedApplication] delegate] respondsToSelector:@selector(allowRotation)] )
+		return [(id <OzymandiasApplicationDelegate>)[[UIApplication sharedApplication] delegate] allowRotation];
+	else
+		return YES;
 }
 
 @end

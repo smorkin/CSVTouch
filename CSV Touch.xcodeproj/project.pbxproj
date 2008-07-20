@@ -26,7 +26,6 @@
 		F4AE44870DF469BF001197AB /* CSVRow.m in Sources */ = {isa = PBXBuildFile; fileRef = F4AE44860DF469BF001197AB /* CSVRow.m */; };
 		F4E5EA950E08843D002EB091 /* OzyRotatableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4E5EA940E08843D002EB091 /* OzyRotatableViewController.m */; };
 		F4E5EAAA0E0884D8002EB091 /* OzyRotatableTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4E5EAA90E0884D8002EB091 /* OzyRotatableTabBarController.m */; };
-		F4E5EB310E0892C0002EB091 /* csv.png in Resources */ = {isa = PBXBuildFile; fileRef = F4E5EB300E0892C0002EB091 /* csv.png */; };
 		F4E5EE300E09B591002EB091 /* OzyTextViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4E5EE2F0E09B591002EB091 /* OzyTextViewController.m */; };
 /* End PBXBuildFile section */
 
@@ -66,7 +65,6 @@
 		F4E5EA940E08843D002EB091 /* OzyRotatableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OzyRotatableViewController.m; sourceTree = "<group>"; };
 		F4E5EAA80E0884D8002EB091 /* OzyRotatableTabBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OzyRotatableTabBarController.h; sourceTree = "<group>"; };
 		F4E5EAA90E0884D8002EB091 /* OzyRotatableTabBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OzyRotatableTabBarController.m; sourceTree = "<group>"; };
-		F4E5EB300E0892C0002EB091 /* csv.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = csv.png; sourceTree = "<group>"; };
 		F4E5EE2E0E09B591002EB091 /* OzyTextViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OzyTextViewController.h; sourceTree = "<group>"; };
 		F4E5EE2F0E09B591002EB091 /* OzyTextViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OzyTextViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -154,7 +152,6 @@
 				28AD735F0D9D9599002E5188 /* MainWindow.xib */,
 				F473432C0E2A90B20072F3DE /* col.png */,
 				F473432D0E2A90B20072F3DE /* row.png */,
-				F4E5EB300E0892C0002EB091 /* csv.png */,
 				8D1107310486CEB800E47090 /* Info.plist */,
 			);
 			name = Resources;
@@ -220,7 +217,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				28AD73600D9D9599002E5188 /* MainWindow.xib in Resources */,
-				F4E5EB310E0892C0002EB091 /* csv.png in Resources */,
 				F473432E0E2A90B20072F3DE /* col.png in Resources */,
 				F473432F0E2A90B20072F3DE /* row.png in Resources */,
 				F443B3980E32819100C208EB /* comma.png in Resources */,

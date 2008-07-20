@@ -40,7 +40,7 @@
 
 @interface CSVPreferencesController (PreferenceData)
 
-- (void) applicationDidFinishLaunching;
+- (void) applicationDidFinishLaunchingInEmergencyMode:(BOOL) emergencyMode;
 - (void) applicationWillTerminate;
 
 - (IBAction) sizeControlChanged:(id)sender;

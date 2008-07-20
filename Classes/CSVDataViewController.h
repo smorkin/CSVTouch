@@ -60,7 +60,7 @@
 - (void) setSize:(NSInteger)size;
 
 - (void) applicationWillTerminate;
-- (void) applicationDidFinishLaunching;
+- (void) applicationDidFinishLaunchingInEmergencyMode:(BOOL) emergencyMode;
 
 - (CSVFileParser *) currentFile;
 @end

@@ -91,11 +91,17 @@ static CSV_TouchAppDelegate *sharedInstance = nil;
 	return self;
 }
 
+- (BOOL) emergencyModeOn
+{
+	return (startupController.interfaceOrientation == UIInterfaceOrientationLandscapeLeft ||
+			startupController.interfaceOrientation == UIInterfaceOrientationLandscapeRight);
+}
+
 - (void) delayedStartup
 {
 	[self loadLocalFiles];
-	[[self prefsController] applicationDidFinishLaunching];
-	[[self dataController] applicationDidFinishLaunching];
+	[[self prefsController] applicationDidFinishLaunchingInEmergencyMode:[self emergencyModeOn]];
+	[[self dataController] applicationDidFinishLaunchingInEmergencyMode:[self emergencyModeOn]];
 
 	tabBarController.selectedIndex = [[NSUserDefaults standardUserDefaults] integerForKey:SELECTED_TAB_BAR_INDEX];
 
@@ -109,7 +115,7 @@ static CSV_TouchAppDelegate *sharedInstance = nil;
 
 - (void)applicationDidFinishLaunching:(UIApplication *)application
 {
-	[[UIApplication sharedApplication] setStatusBarHidden:![CSVPreferencesController showStatusBar] animated:YES];
+	[[UIApplication sharedApplication] setStatusBarHidden:![CSVPreferencesController showStatusBar] animated:NO];
 	[window addSubview:startupController.view];
 	[startupActivityView startAnimating];
 	

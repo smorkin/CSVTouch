@@ -93,7 +93,10 @@ static CSVPreferencesController *sharedInstance = nil;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-	return [(id <OzymandiasApplicationDelegate>)[[UIApplication sharedApplication] delegate] allowRotation];
+	if( [[[UIApplication sharedApplication] delegate] respondsToSelector:@selector(allowRotation)] )
+		return [(id <OzymandiasApplicationDelegate>)[[UIApplication sharedApplication] delegate] allowRotation];
+	else
+		return YES;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -272,8 +275,11 @@ static CSVPreferencesController *sharedInstance = nil;
 		return nil;	
 }
 
-- (void) applicationDidFinishLaunching
+static BOOL startupInProgress = NO;
+
+- (void) applicationDidFinishLaunchingInEmergencyMode:(BOOL)emergencyMode
 {
+	startupInProgress = TRUE;
 	[self pushViewController:prefsSelectionController animated:NO];
 
 	NSArray *controllerStack = [[NSUserDefaults standardUserDefaults] objectForKey:DEFS_CURRENT_PREFS_CONTROLLER_STACK];
@@ -285,6 +291,7 @@ static CSVPreferencesController *sharedInstance = nil;
 	}
 	
 	[self loadPreferences];
+	startupInProgress = FALSE;
 }
 
 - (void) applicationWillTerminate
@@ -514,6 +521,15 @@ NSUInteger sortingMask;
 	NSStringEncoding encoding = [OzyEncodingItem encodingForUserDescription:
 								 [encodingControl titleForSegmentAtIndex:[encodingControl selectedSegmentIndex]]];
 	[CSVPreferencesController setEncoding:encoding];
+	if( !startupInProgress )
+	{
+		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Restart required"
+														message:@"Files you have looked at won't update until after restarting"
+													   delegate:self
+											  cancelButtonTitle:@"OK"
+											  otherButtonTitles:nil];
+		[alert show];
+	}
 }
 
 - (IBAction) sortingChanged:(id)sender
@@ -535,11 +551,29 @@ NSUInteger sortingMask;
 - (IBAction) groupingChanged:(id)sender
 {
 	[CSVPreferencesController setUseGroupingForItems:[useGroupingForItems isOn]];
+	if( !startupInProgress )
+	{
+		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Restart required"
+														message:@"This change won't take effect until you restart"
+													   delegate:self
+											  cancelButtonTitle:@"OK"
+											  otherButtonTitles:nil];
+		[alert show];
+	}
 }
 
 - (IBAction) showStatusBarChanged:(id)sender
 {
 	[CSVPreferencesController setShowStatusBar:[showStatusBar isOn]];
+	if( !startupInProgress )
+	{
+		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Restart required"
+														message:@"This change won't take effect until you restart"
+													   delegate:self
+											  cancelButtonTitle:@"OK"
+											  otherButtonTitles:nil];
+		[alert show];
+	}
 }
 
 @end
