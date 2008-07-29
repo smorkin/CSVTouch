@@ -8,7 +8,7 @@
 		<string key="IBDocument.HIToolboxVersion">352.00</string>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="361"/>
+			<integer value="363"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -401,7 +401,7 @@ A</string>
 			<object class="IBUIViewController" id="1009293147">
 				<string key="IBUITitle">Preferences</string>
 				<object class="IBUIView" key="IBUIView" id="176800199">
-					<reference key="NSNextResponder"/>
+					<nil key="NSNextResponder"/>
 					<int key="NSvFlags">274</int>
 					<object class="NSMutableArray" key="NSSubviews">
 						<bool key="EncodedWithXMLCoder">YES</bool>
@@ -410,7 +410,6 @@ A</string>
 							<int key="NSvFlags">274</int>
 							<string key="NSFrameSize">{320, 367}</string>
 							<reference key="NSSuperview" ref="176800199"/>
-							<reference key="NSWindow"/>
 							<bool key="IBUIOpaque">NO</bool>
 							<bool key="IBUIClipsSubviews">YES</bool>
 							<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
@@ -424,8 +423,6 @@ A</string>
 						</object>
 					</object>
 					<string key="NSFrameSize">{320, 367}</string>
-					<reference key="NSSuperview"/>
-					<reference key="NSWindow"/>
 					<object class="NSColor" key="IBUIBackgroundColor">
 						<int key="NSColorSpace">3</int>
 						<bytes key="NSWhite">MQA</bytes>
@@ -862,11 +859,11 @@ dGVtcyBTaXplIjogU2l6ZSBvZiBpdGVtIHJvd3MgaW4gdGhlIGl0ZW1zIHZpZXcuCi0gIlJvdGF0aW9u
 IjogU3VwcG9ydCByb3RhdGluZyB0aGUgdmlld3Mgd2hlbiByb3RhdGluZyB0aGUgaVBob25lL2lQb2Qg
 VG91Y2ggb3Igbm90LgotICJHcm91cCBJdGVtcyI6IFNob3VsZCB0aGUgaXRlbSBsaXN0IGJlIGdyb3Vw
 ZWQgb3Igbm90LCBpLmUuIHVzZSBoZWFkZXJzIGZvciBpdGVtcyB3aXRoIHRoZSBzYW1lIGluaXRpYWwg
-bGV0dGVyIG9yIG5vdC4KCi0gQW5kIGZpbmFsbHksIEknbSBhd2FyZSB0aGF0IHRoZSBwZXJmb3JtYW5j
-ZSBvZiB0aGUgYXBwbGljYXRpb24gaXMgbm90IGFsd2F5cyBhcyBnb29kIGFzIEknZCBsaWtlOyBJIGFt
-IHRyeWluZyB0byBtYWtlIGl0IGJldHRlci4gTm90ZSB0aGF0IG9uY2UgeW91IGhhdmUgbG9va2VkIGF0
-IGEgZmlsZSwgYXMgbG9uZyBhcyB5b3UgZG9uJ3QgcXVpdCB0aGUgYXBwbGljYXRpb24gb3Igc2VsZWN0
-IGFub3RoZXIgZmlsZSwgcGVyZm9ybWFuY2Ugd2lsbCBiZSBtdWNoIGJldHRlciA6LSkuA</string>
+bGV0dGVyIG9yIG5vdC4KCi0gUGVyZm9ybWFuY2U6IElmIHlvdSBmZWxsIHBlcmZvcm1hbmNlIGlzIGxh
+Y2tpbmcsIHRyeSBzd2l0Y2hpbmcgb2Ygc29ydGluZyBmb3IgbW9yZSB0aGFuIFggbnVtYmVyIG9mIG9i
+amVjdHMuIE5vdGUgdGhhdCBvbmNlIHlvdSBoYXZlIGxvb2tlZCBhdCBhIGZpbGUsIGFzIGxvbmcgYXMg
+eW91IGRvbid0IHF1aXQgdGhlIGFwcGxpY2F0aW9uLCBwZXJmb3JtYW5jZSB3aWxsIGJlIG11Y2ggYmV0
+dGVyIGZvciB0aGF0IGZpbGUuA</string>
 							<reference key="IBUIFont" ref="647398949"/>
 							<int key="IBUIMarginTop">0</int>
 						</object>
