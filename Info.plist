@@ -26,9 +26,9 @@
 	<key>CFBundleExecutable</key>
 	<string>${EXECUTABLE_NAME}</string>
 	<key>CFBundleIconFile</key>
-	<string>comma</string>
+	<string>icon</string>
 	<key>CFBundleIdentifier</key>
-	<string>se.ozymandias.${PRODUCT_NAME:identifier}</string>
+	<string>se.ozymandias.csvtouch</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
