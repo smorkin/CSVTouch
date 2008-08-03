@@ -170,13 +170,15 @@ static CSVPreferencesController *sharedInstance = nil;
 
 #define PREFS_ENCODING @"encoding"
 #define PREFS_SMART_DELIMITER @"smartDelimiter"
-#define PREFS_DELIMITET @"delimiter"
+#define PREFS_DELIMITER @"delimiter"
 #define PREFS_SORTING_MASK @"sortingMask"
 #define PREFS_TABLEVIEW_SIZE @"tableViewSize"
 #define PREFS_MAX_NUMBER_TO_SORT @"maxNumberOfObjectsToSort"
 #define PREFS_ALLOW_ROTATION @"allowRotation"
 #define PREFS_USE_GROUPING_FOR_ITEMS @"useGroupingForItems"
 #define PREFS_SHOW_STATUS_BAR @"showStatusBar"
+#define PREFS_SHOW_INLINE_PREFERENCES @"showInlinePreferences"
+#define PREFS_SAFE_START @"safeStart"
 
 - (void) loadPreferences
 {
@@ -226,7 +228,7 @@ static CSVPreferencesController *sharedInstance = nil;
 			encodingControl.selectedSegmentIndex = i;
 	}
 	
-	NSString *sorting = [[NSUserDefaults standardUserDefaults] objectForKey:@"sortingMask"];
+	NSString *sorting = [[NSUserDefaults standardUserDefaults] objectForKey:PREFS_SORTING_MASK];
 	if( sorting )
 		sortingMask = [sorting intValue];
 	else
@@ -312,7 +314,7 @@ static BOOL startupInProgress = NO;
 + (NSString *) delimiter
 {
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-	NSString *s = [defaults stringForKey:@"delimiter"];
+	NSString *s = [defaults stringForKey:PREFS_DELIMITER];
 	if( !s )
 		s = @";";
 	return s;
@@ -321,14 +323,14 @@ static BOOL startupInProgress = NO;
 + (void) setDelimiter:(NSString *)s
 {
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-	[defaults setObject:s forKey:@"delimiter"];
+	[defaults setObject:s forKey:PREFS_DELIMITER];
 }
 
 + (BOOL) smartDelimiter
 {
-	id obj = [[NSUserDefaults standardUserDefaults] objectForKey:@"smartDelimiter"];
+	id obj = [[NSUserDefaults standardUserDefaults] objectForKey:PREFS_SMART_DELIMITER];
 	if( obj )
-		return [[NSUserDefaults standardUserDefaults] boolForKey:@"smartDelimiter"];
+		return [[NSUserDefaults standardUserDefaults] boolForKey:PREFS_SMART_DELIMITER];
 	else
 		return YES;
 }
@@ -336,17 +338,17 @@ static BOOL startupInProgress = NO;
 + (void) setSmartDelimiter:(BOOL)useSmart
 {
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-	[defaults setBool:useSmart forKey:@"smartDelimiter"];
+	[defaults setBool:useSmart forKey:PREFS_SMART_DELIMITER];
 }
 
 + (NSInteger) tableViewSize
 {
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-	NSString *s = [defaults stringForKey:@"tableViewSize"];
-	if( !s || [s intValue] < 0 || [s intValue] > OZY_MINI )
+	NSInteger s = [defaults integerForKey:PREFS_TABLEVIEW_SIZE];
+	if( s < 0 || s > OZY_MINI )
 		return OZY_MINI;
 	else
-		return [s intValue];
+		return s;
 }
 
 // Note that we use setObject here instead of setInteger.
@@ -355,12 +357,12 @@ static BOOL startupInProgress = NO;
 {
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 	[defaults setObject:[NSNumber numberWithInt:size]
-				 forKey:@"tableViewSize"];
+				 forKey:PREFS_TABLEVIEW_SIZE];
 }
 
 + (NSUInteger) maxNumberOfObjectsToSort
 {
-	return [[NSUserDefaults standardUserDefaults] integerForKey:@"maxNumberOfObjectsToSort"];
+	return [[NSUserDefaults standardUserDefaults] integerForKey:PREFS_MAX_NUMBER_TO_SORT];
 }	
 
 + (void) setMaxNumberOfObjectsToSort:(int) newValue
@@ -369,7 +371,7 @@ static BOOL startupInProgress = NO;
 	if( oldValue != newValue && newValue >= 0 )
 	{
 		NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-		[defaults setInteger:newValue forKey:@"maxNumberOfObjectsToSort"];
+		[defaults setInteger:newValue forKey:PREFS_MAX_NUMBER_TO_SORT];
 		if( newValue == 0 || newValue > oldValue )
 			[[CSVDataViewController sharedInstance] resortObjects];
 	}	
@@ -449,7 +451,7 @@ NSUInteger sortingMask;
 
 + (NSUInteger) sortingMask
 {
-	NSString *sorting = [[NSUserDefaults standardUserDefaults] objectForKey:@"sortingMask"];
+	NSString *sorting = [[NSUserDefaults standardUserDefaults] objectForKey:PREFS_SORTING_MASK];
 	if( sorting )
 		sortingMask = [sorting intValue];
 	else
@@ -459,7 +461,7 @@ NSUInteger sortingMask;
 
 + (void) setSortingMask:(int)mask
 {
-	[[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithFormat:@"%d", mask] forKey:@"sortingMask"];
+	[[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithFormat:@"%d", mask] forKey:PREFS_SORTING_MASK];
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField

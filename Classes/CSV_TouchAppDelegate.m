@@ -9,6 +9,7 @@
 #import "CSV_TouchAppDelegate.h"
 #import "OzyTableViewController.h"
 #import "OzyRotatableViewController.h"
+#import "OzyRotatableTabBarController.h"
 #import "CSVDataViewController.h"
 #import "CSVPreferencesController.h"
 #import "CSVRow.h"
@@ -16,6 +17,7 @@
 #import "csv.h"
 
 #define SELECTED_TAB_BAR_INDEX @"selectedTabBarIndex"
+#define PREFS_SHOW_INLINE_PREFERENCES @"showInlinePreferences"
 
 @implementation CSV_TouchAppDelegate
 
@@ -54,11 +56,14 @@ static CSV_TouchAppDelegate *sharedInstance = nil;
 	return [[tabBarController viewControllers] objectAtIndex:1];
 }
 
-//- (IBAction) prefsDone:(id)sender
-//{
-//	[tabBarController setSelectedViewController:[[tabBarController viewControllers] objectAtIndex:0]];
-//}
-//
+- (UIViewController *) viewController
+{
+	if( [[NSUserDefaults standardUserDefaults] boolForKey:PREFS_SHOW_INLINE_PREFERENCES] )
+		return tabBarController;
+	else
+		return [self dataController];
+}
+
 + (NSString *) documentsPath
 {
 	NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
@@ -93,8 +98,7 @@ static CSV_TouchAppDelegate *sharedInstance = nil;
 
 - (BOOL) emergencyModeOn
 {
-	return (startupController.interfaceOrientation == UIInterfaceOrientationLandscapeLeft ||
-			startupController.interfaceOrientation == UIInterfaceOrientationLandscapeRight);
+	return [[NSUserDefaults standardUserDefaults] boolForKey:@"safeStart"];
 }
 
 - (void) delayedStartup
@@ -103,13 +107,22 @@ static CSV_TouchAppDelegate *sharedInstance = nil;
 	[[self prefsController] applicationDidFinishLaunchingInEmergencyMode:[self emergencyModeOn]];
 	[[self dataController] applicationDidFinishLaunchingInEmergencyMode:[self emergencyModeOn]];
 
-	tabBarController.selectedIndex = [[NSUserDefaults standardUserDefaults] integerForKey:SELECTED_TAB_BAR_INDEX];
 
 	// Configure and show the window
 	[startupActivityView stopAnimating];
 	[startupController.view removeFromSuperview];
 	
-	[window addSubview:tabBarController.view];
+	if( [[NSUserDefaults standardUserDefaults] boolForKey:PREFS_SHOW_INLINE_PREFERENCES] )
+	{
+		tabBarController.selectedIndex = [[NSUserDefaults standardUserDefaults] integerForKey:SELECTED_TAB_BAR_INDEX];
+		[window addSubview:tabBarController.view];
+	}
+	else
+	{
+		UIView *view = [[self dataController] view];
+		view.frame = [[UIScreen mainScreen] applicationFrame];
+		[window addSubview:view];
+	}
 	[window makeKeyAndVisible];
 }
 
@@ -149,7 +162,7 @@ static CSV_TouchAppDelegate *sharedInstance = nil;
 {
 	[downloadActivityView stopAnimating];
 	[newFileURL endEditing:YES];
-	[tabBarController dismissModalViewControllerAnimated:YES];
+	[[self viewController] dismissModalViewControllerAnimated:YES];
 }
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
@@ -181,7 +194,7 @@ static CSV_TouchAppDelegate *sharedInstance = nil;
 
 - (IBAction) downloadNewFile:(id)sender
 {
-	[tabBarController presentModalViewController:downloadNewFileController animated:YES];
+	[[self viewController] presentModalViewController:downloadNewFileController animated:YES];
 }
 
 - (IBAction) doDownloadNewFile:(id)sender
