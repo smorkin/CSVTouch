@@ -41,6 +41,11 @@ static CSV_TouchAppDelegate *sharedInstance = nil;
 	return delimiters;
 }
 
++ (BOOL) showInlinePreferences
+{
+	return TRUE;
+}
+
 + (CSV_TouchAppDelegate *) sharedInstance
 {
 	return sharedInstance;
@@ -58,7 +63,7 @@ static CSV_TouchAppDelegate *sharedInstance = nil;
 
 - (UIViewController *) viewController
 {
-	if( [[NSUserDefaults standardUserDefaults] boolForKey:PREFS_SHOW_INLINE_PREFERENCES] )
+	if( [CSV_TouchAppDelegate showInlinePreferences] )
 		return tabBarController;
 	else
 		return [self dataController];
@@ -112,7 +117,7 @@ static CSV_TouchAppDelegate *sharedInstance = nil;
 	[startupActivityView stopAnimating];
 	[startupController.view removeFromSuperview];
 	
-	if( [[NSUserDefaults standardUserDefaults] boolForKey:PREFS_SHOW_INLINE_PREFERENCES] )
+	if( [CSV_TouchAppDelegate showInlinePreferences] )
 	{
 		tabBarController.selectedIndex = [[NSUserDefaults standardUserDefaults] integerForKey:SELECTED_TAB_BAR_INDEX];
 		[window addSubview:tabBarController.view];

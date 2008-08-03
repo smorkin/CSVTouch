@@ -185,7 +185,6 @@ static CSVPreferencesController *sharedInstance = nil;
 #define PREFS_ALLOW_ROTATION @"allowRotation"
 #define PREFS_USE_GROUPING_FOR_ITEMS @"useGroupingForItems"
 #define PREFS_SHOW_STATUS_BAR @"showStatusBar"
-#define PREFS_SHOW_INLINE_PREFERENCES @"showInlinePreferences"
 #define PREFS_SAFE_START @"safeStart"
 
 - (void) loadPreferences
@@ -491,12 +490,18 @@ NSUInteger sortingMask;
 
 - (IBAction) sizeControlChanged:(id)sender
 {
+	if( startupInProgress )
+		return;
+	
 	[CSVPreferencesController setTableViewSize:[sizeControl selectedSegmentIndex]];
 	[[CSVDataViewController sharedInstance] setSize:[sizeControl selectedSegmentIndex]];
 }
 
 - (IBAction) delimiterControlChanged:(id)sender
 {
+	if( startupInProgress )
+		return;
+	
 	switch( [delimiterControl selectedSegmentIndex] )
 	{
 		case 0:
@@ -523,27 +528,30 @@ NSUInteger sortingMask;
 	[CSVPreferencesController setSmartDelimiter:[smartDelimiterSwitch isOn]];
 	//	[delimiterControl setEnabled:![self smartDelimiter]];
 	delimiterControl.hidden = [CSVPreferencesController smartDelimiter];
-	[[CSVDataViewController sharedInstance] reparseFiles];
+	[[CSVDataViewController sharedInstance] markFilesAsDirty];
 }
 
 - (IBAction) encodingControlChanged:(id)sender
 {
+	if( startupInProgress )
+		return;
+	
 	NSStringEncoding encoding = [OzyEncodingItem encodingForUserDescription:
 								 [encodingControl titleForSegmentAtIndex:[encodingControl selectedSegmentIndex]]];
 	[CSVPreferencesController setEncoding:encoding];
-	if( !startupInProgress )
-	{
-		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Restart required"
-														message:@"Files you have looked at won't update until after restarting"
-													   delegate:self
-											  cancelButtonTitle:@"OK"
-											  otherButtonTitles:nil];
-		[alert show];
-	}
+	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Restart required"
+													message:@"Files you have looked at won't update until after restarting"
+												   delegate:self
+										  cancelButtonTitle:@"OK"
+										  otherButtonTitles:nil];
+	[alert show];
 }
 
 - (IBAction) sortingChanged:(id)sender
 {
+	if( startupInProgress )
+		return;
+	
 	sortingMask = NSCaseInsensitiveSearch;
 	if( [numericCompareSwitch isOn] )
 		sortingMask ^= NSNumericSearch;
@@ -555,35 +563,38 @@ NSUInteger sortingMask;
 
 - (IBAction) rotationChanged:(id)sender
 {
+	if( startupInProgress )
+		return;
+	
 	[CSVPreferencesController setAllowRotatableInterface:[allowRotatableInterface isOn]];
 }
 
 - (IBAction) groupingChanged:(id)sender
 {
+	if( startupInProgress )
+		return;
+	
 	[CSVPreferencesController setUseGroupingForItems:[useGroupingForItems isOn]];
-	if( !startupInProgress )
-	{
-		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Restart required"
-														message:@"This change won't take effect until you restart"
-													   delegate:self
-											  cancelButtonTitle:@"OK"
-											  otherButtonTitles:nil];
-		[alert show];
-	}
+	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Restart required"
+													message:@"This change won't take effect until you restart"
+												   delegate:self
+										  cancelButtonTitle:@"OK"
+										  otherButtonTitles:nil];
+	[alert show];
 }
 
 - (IBAction) showStatusBarChanged:(id)sender
 {
+	if( startupInProgress )
+		return;
+		
 	[CSVPreferencesController setShowStatusBar:[showStatusBar isOn]];
-	if( !startupInProgress )
-	{
-		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Restart required"
-														message:@"This change won't take effect until you restart"
-													   delegate:self
-											  cancelButtonTitle:@"OK"
-											  otherButtonTitles:nil];
-		[alert show];
-	}
+	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Restart required"
+													message:@"This change won't take effect until you restart"
+												   delegate:self
+										  cancelButtonTitle:@"OK"
+										  otherButtonTitles:nil];
+	[alert show];
 }
 
 @end

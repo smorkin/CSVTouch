@@ -558,10 +558,10 @@ static CSVDataViewController *sharedInstance = nil;
 		[self updateBadgeValueUsingItem:fileController.navigationItem push:YES];
 }
 
-- (void) reparseFiles
+- (void) markFilesAsDirty
 {
 	for( CSVFileParser *fileParser in [fileController objects] )
-		[fileParser reparseIfParsed];
+		fileParser.hasBeenParsed = NO;
 	[self updateColumnNames];
 	[self refreshObjectsWithResorting:YES];
 	[self updateBadgeValueUsingItem:[self topViewController].navigationItem push:YES];

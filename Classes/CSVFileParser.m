@@ -42,8 +42,9 @@
 
 // Returns FALSE if error is encountered
 - (BOOL) parse:(NSString *)s
-		  delimiter:(int)delimiter
-			testing:(BOOL)testing
+	 delimiter:(int)delimiter
+	   testing:(BOOL)testing
+  foundColumns:(int *)foundColumns
 {
 	int numberOfRows = 0;
 	NSUInteger lineStart, lineEnd, nextLineStart;
@@ -57,7 +58,7 @@
 	lineStart = lineEnd = nextLineStart = 0;
 	NSUInteger encoding = [CSVPreferencesController encoding];
 	int maxNumberOfRows = (testing ? 2 : 1000000);
-	int foundColumns = -1;
+	*foundColumns = -1;
 	
 	[_parsedItems removeAllObjects];
 	[_columnNames removeAllObjects];
@@ -86,9 +87,9 @@
 			}
 			
 			// Check for consistency
-			if( foundColumns == -1 )
-				foundColumns = wordNumber;
-			else if( foundColumns != wordNumber && wordNumber != 0 )
+			if( *foundColumns == -1 )
+				*foundColumns = wordNumber;
+			else if( *foundColumns != wordNumber && wordNumber != 0 )
 			{
 				[_columnNames removeAllObjects];
 				[_parsedItems removeAllObjects];
@@ -96,18 +97,22 @@
 				return FALSE;
 			}
 			
-			// Add data
-			if( numberOfRows == 0 )
-				[_columnNames addObjectsFromArray:words];
-			else
+			// Add data if not testing
+			if( !testing )
 			{
-				CSVRow *row = [[CSVRow alloc] init];
-				row.items = words;
-				row.fileParser = self;
-				row.rawDataPosition = numberOfRows;
-				[_parsedItems addObject:row];
-				[row release];
+				if( numberOfRows == 0 )
+					[_columnNames addObjectsFromArray:words];
+				else
+				{
+					CSVRow *row = [[CSVRow alloc] init];
+					row.items = words;
+					row.fileParser = self;
+					row.rawDataPosition = numberOfRows;
+					[_parsedItems addObject:row];
+					[row release];
+				}
 			}
+			
 			[words release];
 		}
 		numberOfRows++;
@@ -118,6 +123,7 @@
 - (void)parseString:(NSString *)s
 {    
 	int delimiter;
+	int foundColumns;
 
 	if( [CSVPreferencesController smartDelimiter] )
 	{
@@ -125,11 +131,11 @@
 		int bestDelimiter = 0;
 		for( NSString *testDelimiter in [CSV_TouchAppDelegate allowedDelimiters] )
 		{
-			if([self parse:s delimiter:[testDelimiter characterAtIndex:0] testing:YES] &&
-			   [_parsedItems count] > 0 &&
-			   [_parsedItems count] > bestResult )
+			if([self parse:s delimiter:[testDelimiter characterAtIndex:0] testing:YES foundColumns:&foundColumns] &&
+			   foundColumns > 0 &&
+			   foundColumns > bestResult )
 			{
-				bestResult = [_parsedItems count];
+				bestResult = foundColumns;
 				bestDelimiter = [testDelimiter characterAtIndex:0];
 			}
 		}
@@ -141,7 +147,7 @@
 	}
 	
 	// Check for errors
-	if( ![self parse:s delimiter:delimiter testing:NO] )
+	if( ![self parse:s delimiter:delimiter testing:NO foundColumns:&foundColumns] )
 	{
 		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"File Parsing Error"
 														message:@"Different number of objects in different columns"

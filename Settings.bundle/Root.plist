@@ -12,20 +12,6 @@
 			<key>Type</key>
 			<string>PSToggleSwitchSpecifier</string>
 			<key>Title</key>
-			<string>Inline Preferences</string>
-			<key>Key</key>
-			<string>showInlinePreferences</string>
-			<key>DefaultValue</key>
-			<true/>
-			<key>TrueValue</key>
-			<true/>
-			<key>FalseValue</key>
-			<false/>
-		</dict>
-		<dict>
-			<key>Type</key>
-			<string>PSToggleSwitchSpecifier</string>
-			<key>Title</key>
 			<string>Safe Start</string>
 			<key>Key</key>
 			<string>safeStart</string>

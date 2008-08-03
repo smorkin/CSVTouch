@@ -49,7 +49,7 @@
 
 - (void) setFiles:(NSArray *) files;
 
-- (void) reparseFiles;
+- (void) markFilesAsDirty;
 - (void) resortObjects;
 
 - (void) newFileDownloaded:(CSVFileParser *)file;
