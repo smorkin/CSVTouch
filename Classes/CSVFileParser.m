@@ -57,7 +57,7 @@
 	NSMutableArray *result = [NSMutableArray arrayWithCapacity:(testing ? 2 : 5000)];
 	lineStart = lineEnd = nextLineStart = 0;
 	NSUInteger encoding = [CSVPreferencesController encoding];
-	int maxNumberOfRows = (testing ? 2 : 1000000);
+	int maxNumberOfRows = (testing ? 5 : 1000000);
 	*foundColumns = -1;
 	
 	[_parsedItems removeAllObjects];
@@ -74,7 +74,7 @@
 			int wordNumber = 0;
 			NSString *word;
 			NSMutableArray *words = [[NSMutableArray alloc] init];
-			while( row[wordNumber] != '\0' )
+			while( row[wordNumber] != '\0' && wordNumber < maxWords)
 			{
 				if( [result count] < wordNumber+1 )
 					[result addObject:[NSMutableArray array]];
