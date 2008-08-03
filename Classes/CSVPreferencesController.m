@@ -107,7 +107,7 @@ static CSVPreferencesController *sharedInstance = nil;
 - (NSInteger)tableView:(UITableView *)table numberOfRowsInSection:(NSInteger)section
 {
 	if( section == 0 )
-		return 1;
+		return 2;
 	else
 		return 3;
 }
@@ -125,7 +125,10 @@ static CSVPreferencesController *sharedInstance = nil;
 	
 	if( indexPath.section == 0 )
 	{
-		cell.text = @"About";
+		if( indexPath.row == 0 )
+			cell.text = @"About";
+		else if( indexPath.row == 1 )
+			cell.text = @"Legal";
 	}
 	else
 	{
@@ -142,7 +145,12 @@ static CSVPreferencesController *sharedInstance = nil;
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	if( indexPath.section == 0 )
-		[self pushViewController:aboutController animated:YES];
+	{
+		if( indexPath.row == 0 )
+			[self pushViewController:aboutController animated:YES];
+		else if( indexPath.row == 1 )
+			[self pushViewController:legalController animated:YES];
+	}
 	else
 	{
 		if( indexPath.row == 0 )

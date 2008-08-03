@@ -22,8 +22,10 @@
 		F473432F0E2A90B20072F3DE /* row.png in Resources */ = {isa = PBXBuildFile; fileRef = F473432D0E2A90B20072F3DE /* row.png */; };
 		F47819850E2BDE7A00B44E78 /* CSVPreferencesController.m in Sources */ = {isa = PBXBuildFile; fileRef = F47819840E2BDE7A00B44E78 /* CSVPreferencesController.m */; };
 		F48836580DF53E2C0063EF75 /* CSVFileParser.m in Sources */ = {isa = PBXBuildFile; fileRef = F48836570DF53E2C0063EF75 /* CSVFileParser.m */; };
+		F4990C170E4276C500D64667 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = F4990C160E4276C500D64667 /* Settings.bundle */; };
 		F4A73D1B0E2EB49200E1DF27 /* OzymandiasAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F4A73D1A0E2EB49200E1DF27 /* OzymandiasAdditions.m */; };
 		F4AE44870DF469BF001197AB /* CSVRow.m in Sources */ = {isa = PBXBuildFile; fileRef = F4AE44860DF469BF001197AB /* CSVRow.m */; };
+		F4BE8AB10E4503AC00F2A27B /* dist.plist in Resources */ = {isa = PBXBuildFile; fileRef = F4BE8AB00E4503AC00F2A27B /* dist.plist */; };
 		F4E5EA950E08843D002EB091 /* OzyRotatableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4E5EA940E08843D002EB091 /* OzyRotatableViewController.m */; };
 		F4E5EAAA0E0884D8002EB091 /* OzyRotatableTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4E5EAA90E0884D8002EB091 /* OzyRotatableTabBarController.m */; };
 		F4E5EE300E09B591002EB091 /* OzyTextViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4E5EE2F0E09B591002EB091 /* OzyTextViewController.m */; };
@@ -62,10 +64,12 @@
 		F47819840E2BDE7A00B44E78 /* CSVPreferencesController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSVPreferencesController.m; sourceTree = "<group>"; };
 		F48836560DF53E2C0063EF75 /* CSVFileParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSVFileParser.h; sourceTree = "<group>"; };
 		F48836570DF53E2C0063EF75 /* CSVFileParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSVFileParser.m; sourceTree = "<group>"; };
+		F4990C160E4276C500D64667 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		F4A73D190E2EB49200E1DF27 /* OzymandiasAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OzymandiasAdditions.h; sourceTree = "<group>"; };
 		F4A73D1A0E2EB49200E1DF27 /* OzymandiasAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OzymandiasAdditions.m; sourceTree = "<group>"; };
 		F4AE44850DF469BF001197AB /* CSVRow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSVRow.h; sourceTree = "<group>"; };
 		F4AE44860DF469BF001197AB /* CSVRow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSVRow.m; sourceTree = "<group>"; };
+		F4BE8AB00E4503AC00F2A27B /* dist.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = dist.plist; sourceTree = "<group>"; };
 		F4E5EA930E08843D002EB091 /* OzyRotatableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OzyRotatableViewController.h; sourceTree = "<group>"; };
 		F4E5EA940E08843D002EB091 /* OzyRotatableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OzyRotatableViewController.m; sourceTree = "<group>"; };
 		F4E5EAA80E0884D8002EB091 /* OzyRotatableTabBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OzyRotatableTabBarController.h; sourceTree = "<group>"; };
@@ -132,6 +136,8 @@
 				F4174D3C0E40F99C00351EE4 /* iTunes Connect */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
+				F4990C160E4276C500D64667 /* Settings.bundle */,
+				F4BE8AB00E4503AC00F2A27B /* dist.plist */,
 			);
 			name = CustomTemplate;
 			sourceTree = "<group>";
@@ -262,6 +268,8 @@
 				F473432E0E2A90B20072F3DE /* col.png in Resources */,
 				F473432F0E2A90B20072F3DE /* row.png in Resources */,
 				F4174D150E40A4A200351EE4 /* icon.png in Resources */,
+				F4990C170E4276C500D64667 /* Settings.bundle in Resources */,
+				F4BE8AB10E4503AC00F2A27B /* dist.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -379,6 +387,37 @@
 			};
 			name = Distribution;
 		};
+		F4BE8A980E44FF1100F2A27B /* Privatdistribution */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CODE_SIGN_ENTITLEMENTS = dist.plist;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Simon Wigzell";
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "\"$SRCROOT\"/**";
+				PREBINDING = NO;
+				PROVISIONING_PROFILE = "A409E390-7514-4EB6-823F-DF66350929D6";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "A409E390-7514-4EB6-823F-DF66350929D6";
+				SDKROOT = iphoneos2.0;
+			};
+			name = Privatdistribution;
+		};
+		F4BE8A990E44FF1100F2A27B /* Privatdistribution */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CODE_SIGN_ENTITLEMENTS = dist.plist;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Simon Wigzell";
+				COPY_PHASE_STRIP = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = CSV_Touch_Prefix.pch;
+				INFOPLIST_FILE = Info.plist;
+				PRODUCT_NAME = "CSV Touch";
+			};
+			name = Privatdistribution;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -388,6 +427,7 @@
 				1D6058940D05DD3E006BFB54 /* Debug */,
 				1D6058950D05DD3E006BFB54 /* Release */,
 				F40C24340E3259B500C3B20E /* Distribution */,
+				F4BE8A990E44FF1100F2A27B /* Privatdistribution */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -398,6 +438,7 @@
 				C01FCF4F08A954540054247B /* Debug */,
 				C01FCF5008A954540054247B /* Release */,
 				F40C24330E3259B500C3B20E /* Distribution */,
+				F4BE8A980E44FF1100F2A27B /* Privatdistribution */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
