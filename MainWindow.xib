@@ -85,30 +85,30 @@
 			<object class="IBUITabBarController" id="975341448">
 				<object class="IBUISimulatedTabBarMetrics" key="IBUISimulatedBottomBarMetrics"/>
 				<object class="IBUISimulatedStatusBarMetrics" key="IBUISimulatedStatusBarMetrics"/>
-				<object class="IBUIViewController" key="IBUISelectedViewController" id="709150383">
-					<object class="IBUITabBarItem" key="IBUITabBarItem" id="975114348">
-						<int key="IBUITag">1</int>
-						<string key="IBUITitle">Preferences</string>
+				<object class="IBUIViewController" key="IBUISelectedViewController" id="1067888901">
+					<object class="IBUITabBarItem" key="IBUITabBarItem" id="485766070">
+						<string key="IBUITitle">Items</string>
 						<object class="NSCustomResource" key="IBUIImage">
 							<string key="NSClassName">NSImage</string>
-							<string key="NSResourceName">row.png</string>
+							<string key="NSResourceName">col.png</string>
 						</object>
 					</object>
 					<reference key="IBUIParentViewController" ref="975341448"/>
 				</object>
 				<object class="NSMutableArray" key="IBUIViewControllers">
 					<bool key="EncodedWithXMLCoder">YES</bool>
-					<object class="IBUIViewController" id="1067888901">
-						<object class="IBUITabBarItem" key="IBUITabBarItem" id="485766070">
-							<string key="IBUITitle">Items</string>
+					<reference ref="1067888901"/>
+					<object class="IBUIViewController" id="709150383">
+						<object class="IBUITabBarItem" key="IBUITabBarItem" id="975114348">
+							<int key="IBUITag">1</int>
+							<string key="IBUITitle">Preferences</string>
 							<object class="NSCustomResource" key="IBUIImage">
 								<string key="NSClassName">NSImage</string>
-								<string key="NSResourceName">col.png</string>
+								<string key="NSResourceName">row.png</string>
 							</object>
 						</object>
 						<reference key="IBUIParentViewController" ref="975341448"/>
 					</object>
-					<reference ref="709150383"/>
 				</object>
 				<object class="IBUITabBar" key="IBUITabBar" id="652967997">
 					<nil key="NSNextResponder"/>
@@ -863,7 +863,28 @@ bGV0dGVyIG9yIG5vdC4KCi0gUGVyZm9ybWFuY2U6IElmIHlvdSBmZWxsIHBlcmZvcm1hbmNlIGlzIGxh
 Y2tpbmcsIHRyeSBzd2l0Y2hpbmcgb2Ygc29ydGluZyBmb3IgbW9yZSB0aGFuIFggbnVtYmVyIG9mIG9i
 amVjdHMuIE5vdGUgdGhhdCBvbmNlIHlvdSBoYXZlIGxvb2tlZCBhdCBhIGZpbGUsIGFzIGxvbmcgYXMg
 eW91IGRvbid0IHF1aXQgdGhlIGFwcGxpY2F0aW9uLCBwZXJmb3JtYW5jZSB3aWxsIGJlIG11Y2ggYmV0
-dGVyIGZvciB0aGF0IGZpbGUuA</string>
+dGVyIGZvciB0aGF0IGZpbGUuCgoKVGhlIHNvZnR3YXJlIHVzZXMgY29kZSBmcm9tIE1pY2hhZWwgQi4g
+QWxsZW46CgovKiBjc3YgLSByZWFkIHdyaXRlIGNvbW1hIHNlcGFyYXRlZCB2YWx1ZSBmb3JtYXQNCiAq
+IENvcHlyaWdodCAoYykgMjAwMyBNaWNoYWVsIEIuIEFsbGVuIDxtYmEyMDAwIGlvcGxleC5jb20+DQog
+Kg0KICogVGhlIE1JVCBMaWNlbnNlDQogKiANCiAqIFBlcm1pc3Npb24gaXMgaGVyZWJ5IGdyYW50ZWQs
+IGZyZWUgb2YgY2hhcmdlLCB0byBhbnkgcGVyc29uIG9idGFpbmluZyBhDQogKiBjb3B5IG9mIHRoaXMg
+c29mdHdhcmUgYW5kIGFzc29jaWF0ZWQgZG9jdW1lbnRhdGlvbiBmaWxlcyAodGhlICJTb2Z0d2FyZSIp
+LA0KICogdG8gZGVhbCBpbiB0aGUgU29mdHdhcmUgd2l0aG91dCByZXN0cmljdGlvbiwgaW5jbHVkaW5n
+IHdpdGhvdXQgbGltaXRhdGlvbg0KICogdGhlIHJpZ2h0cyB0byB1c2UsIGNvcHksIG1vZGlmeSwgbWVy
+Z2UsIHB1Ymxpc2gsIGRpc3RyaWJ1dGUsIHN1YmxpY2Vuc2UsDQogKiBhbmQvb3Igc2VsbCBjb3BpZXMg
+b2YgdGhlIFNvZnR3YXJlLCBhbmQgdG8gcGVybWl0IHBlcnNvbnMgdG8gd2hvbSB0aGUNCiAqIFNvZnR3
+YXJlIGlzIGZ1cm5pc2hlZCB0byBkbyBzbywgc3ViamVjdCB0byB0aGUgZm9sbG93aW5nIGNvbmRpdGlv
+bnM6DQogKiANCiAqIFRoZSBhYm92ZSBjb3B5cmlnaHQgbm90aWNlIGFuZCB0aGlzIHBlcm1pc3Npb24g
+bm90aWNlIHNoYWxsIGJlIGluY2x1ZGVkDQogKiBpbiBhbGwgY29waWVzIG9yIHN1YnN0YW50aWFsIHBv
+cnRpb25zIG9mIHRoZSBTb2Z0d2FyZS4NCiAqIA0KICogVEhFIFNPRlRXQVJFIElTIFBST1ZJREVEICJB
+UyBJUyIsIFdJVEhPVVQgV0FSUkFOVFkgT0YgQU5ZIEtJTkQsIEVYUFJFU1MgT1INCiAqIElNUExJRUQs
+IElOQ0xVRElORyBCVVQgTk9UIExJTUlURUQgVE8gVEhFIFdBUlJBTlRJRVMgT0YgTUVSQ0hBTlRBQklM
+SVRZLA0KICogRklUTkVTUyBGT1IgQSBQQVJUSUNVTEFSIFBVUlBPU0UgQU5EIE5PTklORlJJTkdFTUVO
+VC4gSU4gTk8gRVZFTlQgU0hBTEwNCiAqIFRIRSBBVVRIT1JTIE9SIENPUFlSSUdIVCBIT0xERVJTIEJF
+IExJQUJMRSBGT1IgQU5ZIENMQUlNLCBEQU1BR0VTIE9SDQogKiBPVEhFUiBMSUFCSUxJVFksIFdIRVRI
+RVIgSU4gQU4gQUNUSU9OIE9GIENPTlRSQUNULCBUT1JUIE9SIE9USEVSV0lTRSwNCiAqIEFSSVNJTkcg
+RlJPTSwgT1VUIE9GIE9SIElOIENPTk5FQ1RJT04gV0lUSCBUSEUgU09GVFdBUkUgT1IgVEhFIFVTRSBP
+Ug0KICogT1RIRVIgREVBTElOR1MgSU4gVEhFIFNPRlRXQVJFLg0KICovDQo</string>
 							<reference key="IBUIFont" ref="647398949"/>
 							<int key="IBUIMarginTop">0</int>
 						</object>
@@ -2419,7 +2440,7 @@ dGVyIGZvciB0aGF0IGZpbGUuA</string>
 							<string>UITextField</string>
 							<string>UIActivityIndicatorView</string>
 							<string>OzyRotatableViewController</string>
-							<string>UITabBarController</string>
+							<string>OzyRotatableTabBarController</string>
 							<string>UIWindow</string>
 						</object>
 					</object>
