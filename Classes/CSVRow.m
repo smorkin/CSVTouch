@@ -213,7 +213,7 @@
 		{
 			NSMutableString *s = [[NSMutableString alloc] initWithCapacity:200];
 			for( NSUInteger i = 0 ; i < [words count] ; i++ )
-				[s appendFormat:@"%@‧", [words objectAtIndex:i]];
+				[s appendFormat:@"%@‧", [words objectAtIndex:indexes[i]]];
 			return s;
 		}
 	}

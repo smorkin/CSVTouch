@@ -9,9 +9,9 @@
 	};
 	1D3623250D0F684500981E51 /* CSV_TouchAppDelegate.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {768, 3402}}";
-			sepNavSelRange = "{490, 29}";
-			sepNavVisRange = "{180, 532}";
+			sepNavIntBoundsRect = "{{0, 0}, {749, 3514}}";
+			sepNavSelRange = "{2779, 0}";
+			sepNavVisRange = "{2413, 1525}";
 			sepNavWindowFrame = "{{142, 108}, {750, 558}}";
 		};
 	};
@@ -317,6 +317,24 @@
 			F49395C40E4652CF00B9D904 /* PlistBookmark */ = F49395C40E4652CF00B9D904 /* PlistBookmark */;
 			F49395C50E4652CF00B9D904 /* PBXTextBookmark */ = F49395C50E4652CF00B9D904 /* PBXTextBookmark */;
 			F49395C60E4652CF00B9D904 /* PlistBookmark */ = F49395C60E4652CF00B9D904 /* PlistBookmark */;
+			F49395D20E46565100B9D904 /* PlistBookmark */ = F49395D20E46565100B9D904 /* PlistBookmark */;
+			F49395D30E46565100B9D904 /* PBXTextBookmark */ = F49395D30E46565100B9D904 /* PBXTextBookmark */;
+			F49395D40E46565100B9D904 /* PBXTextBookmark */ = F49395D40E46565100B9D904 /* PBXTextBookmark */;
+			F49395D50E46565100B9D904 /* PlistBookmark */ = F49395D50E46565100B9D904 /* PlistBookmark */;
+			F49395D60E46565100B9D904 /* PBXTextBookmark */ = F49395D60E46565100B9D904 /* PBXTextBookmark */;
+			F49395D70E46565100B9D904 /* PBXTextBookmark */ = F49395D70E46565100B9D904 /* PBXTextBookmark */;
+			F49395D80E46565100B9D904 /* PBXTextBookmark */ = F49395D80E46565100B9D904 /* PBXTextBookmark */;
+			F49395D90E46565100B9D904 /* PBXTextBookmark */ = F49395D90E46565100B9D904 /* PBXTextBookmark */;
+			F49395DA0E46565100B9D904 /* PBXTextBookmark */ = F49395DA0E46565100B9D904 /* PBXTextBookmark */;
+			F49395DB0E46565100B9D904 /* PBXTextBookmark */ = F49395DB0E46565100B9D904 /* PBXTextBookmark */;
+			F49395DE0E4656C500B9D904 /* PBXTextBookmark */ = F49395DE0E4656C500B9D904 /* PBXTextBookmark */;
+			F49395DF0E4656C500B9D904 /* PBXTextBookmark */ = F49395DF0E4656C500B9D904 /* PBXTextBookmark */;
+			F49395E00E4656C500B9D904 /* PBXTextBookmark */ = F49395E00E4656C500B9D904 /* PBXTextBookmark */;
+			F49395E10E4656C500B9D904 /* PBXTextBookmark */ = F49395E10E4656C500B9D904 /* PBXTextBookmark */;
+			F49395E20E4656C500B9D904 /* PBXTextBookmark */ = F49395E20E4656C500B9D904 /* PBXTextBookmark */;
+			F49395E30E4656C500B9D904 /* PBXTextBookmark */ = F49395E30E4656C500B9D904 /* PBXTextBookmark */;
+			F49395E40E4656C500B9D904 /* PBXTextBookmark */ = F49395E40E4656C500B9D904 /* PBXTextBookmark */;
+			F49395E50E4656C500B9D904 /* PBXTextBookmark */ = F49395E50E4656C500B9D904 /* PBXTextBookmark */;
 			F4990C670E434CD100D64667 = F4990C670E434CD100D64667 /* PlistBookmark */;
 			F4990C680E434CD100D64667 = F4990C680E434CD100D64667 /* PBXTextBookmark */;
 			F4990C690E434CD100D64667 = F4990C690E434CD100D64667 /* PBXTextBookmark */;
@@ -425,7 +443,7 @@
 		hitCount = 0;
 		ignoreCount = 0;
 		location = CoreFoundation;
-		modificationTime = 239489764.05395;
+		modificationTime = 239489924.052684;
 		state = 1;
 		symbolName = "-[NSException raise]";
 	};
@@ -449,7 +467,7 @@
 		fRef = 1D3623250D0F684500981E51 /* CSV_TouchAppDelegate.m */;
 		name = "CSV_TouchAppDelegate.m: 186";
 		rLen = 0;
-		rLoc = 4900;
+		rLoc = 4878;
 		rType = 0;
 		vrLen = 1563;
 		vrLoc = 4291;
@@ -479,7 +497,7 @@
 		fRef = 1D3623250D0F684500981E51 /* CSV_TouchAppDelegate.m */;
 		name = "CSV_TouchAppDelegate.m: 186";
 		rLen = 0;
-		rLoc = 4900;
+		rLoc = 4878;
 		rType = 0;
 		vrLen = 1563;
 		vrLoc = 4291;
@@ -508,7 +526,7 @@
 		ignoreCount = 0;
 		lineNumber = 189;
 		location = "CSV Touch";
-		modificationTime = 239489764.052952;
+		modificationTime = 239489924.052073;
 		state = 1;
 	};
 	F469A5FD0E45E826002F64A4 /* csv.c:194 */ = {
@@ -525,7 +543,7 @@
 		ignoreCount = 0;
 		lineNumber = 194;
 		location = "CSV Touch";
-		modificationTime = 239489764.053204;
+		modificationTime = 239489924.052199;
 		state = 1;
 	};
 	F469A60C0E45ECED002F64A4 /* csv.c:180 */ = {
@@ -542,7 +560,7 @@
 		ignoreCount = 0;
 		lineNumber = 180;
 		location = "CSV Touch";
-		modificationTime = 239489764.053438;
+		modificationTime = 239489924.05232;
 		state = 1;
 	};
 	F469A60E0E4628A6002F64A4 /* PBXTextBookmark */ = {
@@ -564,9 +582,9 @@
 	};
 	F47819840E2BDE7A00B44E78 /* CSVPreferencesController.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {750, 8330}}";
+			sepNavIntBoundsRect = "{{0, 0}, {749, 8428}}";
 			sepNavSelRange = "{5308, 0}";
-			sepNavVisRange = "{5006, 1040}";
+			sepNavVisRange = "{4607, 1711}";
 			sepNavWindowFrame = "{{59, 102}, {868, 671}}";
 		};
 	};
@@ -579,9 +597,9 @@
 	};
 	F48836570DF53E2C0063EF75 /* CSVFileParser.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {715, 3430}}";
-			sepNavSelRange = "{2822, 21}";
-			sepNavVisRange = "{2482, 674}";
+			sepNavIntBoundsRect = "{{0, 0}, {749, 3472}}";
+			sepNavSelRange = "{3839, 0}";
+			sepNavVisRange = "{5027, 1031}";
 			sepNavWindowFrame = "{{57, 113}, {578, 660}}";
 		};
 	};
@@ -643,7 +661,7 @@
 		ignoreCount = 0;
 		lineNumber = 185;
 		location = "CSV Touch";
-		modificationTime = 239489764.052566;
+		modificationTime = 239489924.051785;
 		state = 1;
 	};
 	F49395110E463EA300B9D904 /* PlistBookmark */ = {
@@ -1824,6 +1842,189 @@
 		rLen = 0;
 		rLoc = 2147483647;
 	};
+	F49395D20E46565100B9D904 /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = F4990C220E42770D00D64667 /* Root.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+			PreferenceSpecifiers,
+			0,
+		);
+		name = /Users/simon/Utveckling/CSVReader/Settings.bundle/Root.plist;
+		rLen = 0;
+		rLoc = 2147483647;
+	};
+	F49395D30E46565100B9D904 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = F47819840E2BDE7A00B44E78 /* CSVPreferencesController.m */;
+		name = "CSVPreferencesController.m: 188";
+		rLen = 0;
+		rLoc = 5308;
+		rType = 0;
+		vrLen = 1040;
+		vrLoc = 5006;
+	};
+	F49395D40E46565100B9D904 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1D3623250D0F684500981E51 /* CSV_TouchAppDelegate.m */;
+		rLen = 0;
+		rLoc = 2731;
+		rType = 0;
+	};
+	F49395D50E46565100B9D904 /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = F4990C220E42770D00D64667 /* Root.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+			PreferenceSpecifiers,
+			0,
+		);
+		name = /Users/simon/Utveckling/CSVReader/Settings.bundle/Root.plist;
+		rLen = 0;
+		rLoc = 2147483647;
+	};
+	F49395D60E46565100B9D904 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = F47819840E2BDE7A00B44E78 /* CSVPreferencesController.m */;
+		name = "CSVPreferencesController.m: 530";
+		rLen = 0;
+		rLoc = 15936;
+		rType = 0;
+		vrLen = 1284;
+		vrLoc = 15543;
+	};
+	F49395D70E46565100B9D904 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1D3623250D0F684500981E51 /* CSV_TouchAppDelegate.m */;
+		name = "CSV_TouchAppDelegate.m: 186";
+		rLen = 0;
+		rLoc = 4878;
+		rType = 0;
+		vrLen = 738;
+		vrLoc = 4356;
+	};
+	F49395D80E46565100B9D904 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = F47819840E2BDE7A00B44E78 /* CSVPreferencesController.m */;
+		name = "CSVPreferencesController.m: 188";
+		rLen = 0;
+		rLoc = 5308;
+		rType = 0;
+		vrLen = 1048;
+		vrLoc = 5006;
+	};
+	F49395D90E46565100B9D904 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1D3623250D0F684500981E51 /* CSV_TouchAppDelegate.m */;
+		name = "CSV_TouchAppDelegate.m: 20";
+		rLen = 29;
+		rLoc = 490;
+		rType = 0;
+		vrLen = 532;
+		vrLoc = 180;
+	};
+	F49395DA0E46565100B9D904 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = F47819840E2BDE7A00B44E78 /* CSVPreferencesController.m */;
+		name = "CSVPreferencesController.m: 188";
+		rLen = 0;
+		rLoc = 5308;
+		rType = 0;
+		vrLen = 1040;
+		vrLoc = 5006;
+	};
+	F49395DB0E46565100B9D904 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1D3623250D0F684500981E51 /* CSV_TouchAppDelegate.m */;
+		name = "CSV_TouchAppDelegate.m: 119";
+		rLen = 0;
+		rLoc = 2724;
+		rType = 0;
+		vrLen = 703;
+		vrLoc = 2413;
+	};
+	F49395DE0E4656C500B9D904 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1D3623250D0F684500981E51 /* CSV_TouchAppDelegate.m */;
+		name = "CSV_TouchAppDelegate.m: 121";
+		rLen = 0;
+		rLoc = 2779;
+		rType = 0;
+		vrLen = 1525;
+		vrLoc = 2413;
+	};
+	F49395DF0E4656C500B9D904 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = F47819840E2BDE7A00B44E78 /* CSVPreferencesController.m */;
+		name = "CSVPreferencesController.m: 188";
+		rLen = 0;
+		rLoc = 5308;
+		rType = 0;
+		vrLen = 1711;
+		vrLoc = 4607;
+	};
+	F49395E00E4656C500B9D904 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = F48836570DF53E2C0063EF75 /* CSVFileParser.m */;
+		name = "CSVFileParser.m: 150";
+		rLen = 0;
+		rLoc = 3839;
+		rType = 0;
+		vrLen = 1031;
+		vrLoc = 5027;
+	};
+	F49395E10E4656C500B9D904 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = F4AE44860DF469BF001197AB /* CSVRow.m */;
+		name = "CSVRow.m: 22";
+		rLen = 50;
+		rLoc = 474;
+		rType = 0;
+		vrLen = 1070;
+		vrLoc = 0;
+	};
+	F49395E20E4656C500B9D904 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1D3623250D0F684500981E51 /* CSV_TouchAppDelegate.m */;
+		name = "CSV_TouchAppDelegate.m: 121";
+		rLen = 0;
+		rLoc = 2779;
+		rType = 0;
+		vrLen = 1525;
+		vrLoc = 2413;
+	};
+	F49395E30E4656C500B9D904 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = F47819840E2BDE7A00B44E78 /* CSVPreferencesController.m */;
+		name = "CSVPreferencesController.m: 188";
+		rLen = 0;
+		rLoc = 5308;
+		rType = 0;
+		vrLen = 1711;
+		vrLoc = 4607;
+	};
+	F49395E40E4656C500B9D904 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = F48836570DF53E2C0063EF75 /* CSVFileParser.m */;
+		name = "CSVFileParser.m: 150";
+		rLen = 0;
+		rLoc = 3839;
+		rType = 0;
+		vrLen = 1031;
+		vrLoc = 5027;
+	};
+	F49395E50E4656C500B9D904 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = F4AE44860DF469BF001197AB /* CSVRow.m */;
+		name = "CSVRow.m: 216";
+		rLen = 0;
+		rLoc = 8094;
+		rType = 0;
+		vrLen = 1390;
+		vrLoc = 7124;
+	};
 	F4990C220E42770D00D64667 /* Root.plist */ = {
 		isa = PBXFileReference;
 		lastKnownFileType = text.plist.xml;
@@ -2184,9 +2385,9 @@
 	};
 	F4AE44860DF469BF001197AB /* CSVRow.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {751, 4298}}";
-			sepNavSelRange = "{474, 50}";
-			sepNavVisRange = "{0, 1083}";
+			sepNavIntBoundsRect = "{{0, 0}, {749, 3864}}";
+			sepNavSelRange = "{8094, 0}";
+			sepNavVisRange = "{7124, 1390}";
 		};
 	};
 	F4BE8AB40E4503E800F2A27B /* PBXTextBookmark */ = {
