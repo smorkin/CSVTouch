@@ -186,6 +186,7 @@ static CSVPreferencesController *sharedInstance = nil;
 #define PREFS_USE_GROUPING_FOR_ITEMS @"useGroupingForItems"
 #define PREFS_SHOW_STATUS_BAR @"showStatusBar"
 #define PREFS_SAFE_START @"safeStart"
+#define PREFS_KEEP_QUOTES @"keepQuotes"
 
 - (void) loadPreferences
 {
@@ -247,6 +248,7 @@ static CSVPreferencesController *sharedInstance = nil;
 	allowRotatableInterface.on = [CSVPreferencesController allowRotatableInterface];
 	useGroupingForItems.on = [CSVPreferencesController useGroupingForItems];
 	showStatusBar.on = [CSVPreferencesController showStatusBar];
+	keepQuotes.on = [CSVPreferencesController keepQuotes];
 }
 
 #define ABOUT_ID @"aboutID"
@@ -454,6 +456,20 @@ static BOOL useGroupingForItemsHasChangedSinceStart = NO;
 	}
 }
 
++ (BOOL) keepQuotes
+{
+	return [[NSUserDefaults standardUserDefaults] boolForKey:PREFS_KEEP_QUOTES];
+}
+
++ (void) setKeepQuotes:(BOOL)keepQuotes
+{
+	if( [self keepQuotes] != keepQuotes )
+	{
+		[[NSUserDefaults standardUserDefaults] setBool:keepQuotes
+												forKey:PREFS_KEEP_QUOTES];
+	}
+}
+
 NSUInteger sortingMask;
 
 + (NSUInteger) sortingMask
@@ -469,6 +485,16 @@ NSUInteger sortingMask;
 + (void) setSortingMask:(int)mask
 {
 	[[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithFormat:@"%d", mask] forKey:PREFS_SORTING_MASK];
+}
+
+- (void) showAlertAboutChangedPrefs:(NSString *) msg
+{
+	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Restart required"
+													message:msg
+												   delegate:self
+										  cancelButtonTitle:@"OK"
+										  otherButtonTitles:nil];
+	[alert show];	
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
@@ -539,12 +565,7 @@ NSUInteger sortingMask;
 	NSStringEncoding encoding = [OzyEncodingItem encodingForUserDescription:
 								 [encodingControl titleForSegmentAtIndex:[encodingControl selectedSegmentIndex]]];
 	[CSVPreferencesController setEncoding:encoding];
-	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Restart required"
-													message:@"Files you have looked at won't update until after restarting"
-												   delegate:self
-										  cancelButtonTitle:@"OK"
-										  otherButtonTitles:nil];
-	[alert show];
+	[self showAlertAboutChangedPrefs:@"Files you have looked at won't update until after restarting"];
 }
 
 - (IBAction) sortingChanged:(id)sender
@@ -575,26 +596,25 @@ NSUInteger sortingMask;
 		return;
 	
 	[CSVPreferencesController setUseGroupingForItems:[useGroupingForItems isOn]];
-	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Restart required"
-													message:@"This change won't take effect until you restart"
-												   delegate:self
-										  cancelButtonTitle:@"OK"
-										  otherButtonTitles:nil];
-	[alert show];
+	[self showAlertAboutChangedPrefs:@"This change won't take effect until you restart"];
 }
 
 - (IBAction) showStatusBarChanged:(id)sender
 {
 	if( startupInProgress )
 		return;
-		
+	
 	[CSVPreferencesController setShowStatusBar:[showStatusBar isOn]];
-	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Restart required"
-													message:@"This change won't take effect until you restart"
-												   delegate:self
-										  cancelButtonTitle:@"OK"
-										  otherButtonTitles:nil];
-	[alert show];
+	[self showAlertAboutChangedPrefs:@"This change won't take effect until you restart"];
+}
+
+- (IBAction) keepQuotesChanged:(id)sender
+{
+	if( startupInProgress )
+		return;
+	
+	[CSVPreferencesController setKeepQuotes:[keepQuotes isOn]];
+	[self showAlertAboutChangedPrefs:@"Files you have looked at won't update until after restarting"];
 }
 
 @end

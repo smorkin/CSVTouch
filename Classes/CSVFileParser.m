@@ -58,6 +58,8 @@
 	lineStart = lineEnd = nextLineStart = 0;
 	NSUInteger encoding = [CSVPreferencesController encoding];
 	int maxNumberOfRows = (testing ? 5 : 1000000);
+	int csvParseFlags = CSV_TRIM | ([CSVPreferencesController keepQuotes] ? 0 : CSV_QUOTES);
+	
 	*foundColumns = -1;
 	
 	[_parsedItems removeAllObjects];
@@ -69,7 +71,7 @@
 		lineRange = NSMakeRange(lineStart, lineEnd - lineStart);
 		line      = [s substringWithRange:lineRange];
 		if( csv_row_parse((const unsigned char *)[line cStringUsingEncoding:encoding], 
-						  65536, buf, 65536, row, maxWords, delimiter, CSV_TRIM | CSV_QUOTES) != -1 )
+						  65536, buf, 65536, row, maxWords, delimiter, csvParseFlags) != -1 )
 		{
 			int wordNumber = 0;
 			NSString *word;

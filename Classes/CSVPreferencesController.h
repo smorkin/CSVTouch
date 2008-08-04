@@ -21,6 +21,7 @@
 	
 	// Data
 	IBOutlet UISegmentedControl *encodingControl;
+	IBOutlet UISwitch *keepQuotes;
 	IBOutlet UISwitch *smartDelimiterSwitch;
 	IBOutlet UISegmentedControl *delimiterControl;
 	// Appearance
@@ -51,6 +52,7 @@
 - (IBAction) rotationChanged:(id)sender;
 - (IBAction) groupingChanged:(id)sender;
 - (IBAction) showStatusBarChanged:(id)sender;
+- (IBAction) keepQuotesChanged:(id)sender;
 
 + (NSString *) delimiter;
 + (NSInteger) tableViewSize;
@@ -60,6 +62,7 @@
 + (BOOL) allowRotatableInterface;
 + (BOOL) useGroupingForItems;
 + (BOOL) showStatusBar;
++ (BOOL) keepQuotes;
 + (NSUInteger) sortingMask;
 extern NSUInteger sortingMask; // This is available for performance-critical operations
 
