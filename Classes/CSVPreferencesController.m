@@ -109,7 +109,7 @@ static CSVPreferencesController *sharedInstance = nil;
 	if( section == 0 )
 		return 2;
 	else
-		return 3;
+		return 4;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -138,6 +138,8 @@ static CSVPreferencesController *sharedInstance = nil;
 			cell.text = @"Sorting";
 		else if( indexPath.row == 2 )
 			cell.text = @"Appearance";
+		else if( indexPath.row == 3 )
+			cell.text = @"Debug";
 	}
 	return cell;
 }
@@ -159,6 +161,8 @@ static CSVPreferencesController *sharedInstance = nil;
 			[self pushViewController:sortingPrefsController animated:YES];
 		else if( indexPath.row == 2 )
 			[self pushViewController:appearancePrefsController animated:YES];
+		else if( indexPath.row == 3 )
+			[self pushViewController:debugPrefsController animated:YES];
 	}
 }
 	
@@ -187,6 +191,9 @@ static CSVPreferencesController *sharedInstance = nil;
 #define PREFS_SHOW_STATUS_BAR @"showStatusBar"
 #define PREFS_SAFE_START @"safeStart"
 #define PREFS_KEEP_QUOTES @"keepQuotes"
+#define PREFS_SHOW_DEBUG_INFO @"showDebugInfo"
+#define PREFS_USE_SIMPLE_DETAILS_VIEW @"useSimpleDetailsView"
+#define PREFS_USE_BLACK_THEME @"useBlackTheme"
 
 - (void) loadPreferences
 {
@@ -249,6 +256,8 @@ static CSVPreferencesController *sharedInstance = nil;
 	useGroupingForItems.on = [CSVPreferencesController useGroupingForItems];
 	showStatusBar.on = [CSVPreferencesController showStatusBar];
 	keepQuotes.on = [CSVPreferencesController keepQuotes];
+	showDebugInfo.on = [CSVPreferencesController showDebugInfo];
+	useSimpleDetailsView.on = [CSVPreferencesController useSimpleDetailsView];
 }
 
 #define ABOUT_ID @"aboutID"
@@ -470,6 +479,45 @@ static BOOL useGroupingForItemsHasChangedSinceStart = NO;
 	}
 }
 
++ (BOOL) showDebugInfo
+{
+	return [[NSUserDefaults standardUserDefaults] boolForKey:PREFS_SHOW_DEBUG_INFO];
+}
+
++ (void) setShowDebugInfo:(BOOL)showDebugInfo
+{
+	if( [self showDebugInfo] != showDebugInfo )
+	{
+		[[NSUserDefaults standardUserDefaults] setBool:showDebugInfo
+												forKey:PREFS_SHOW_DEBUG_INFO];
+	}
+}
+
++ (BOOL) useSimpleDetailsView
+{
+	return [[NSUserDefaults standardUserDefaults] boolForKey:PREFS_USE_SIMPLE_DETAILS_VIEW];
+}
+
++ (void) setUseSimpleDetailsView:(BOOL)useSimple
+{
+	if( [self useSimpleDetailsView] != useSimple )
+	{
+		[[NSUserDefaults standardUserDefaults] setBool:useSimple
+												forKey:PREFS_USE_SIMPLE_DETAILS_VIEW];
+	}
+}
+
++ (BOOL) useBlackTheme
+{
+	return [[NSUserDefaults standardUserDefaults] boolForKey:PREFS_USE_BLACK_THEME];
+}
+
++ (BOOL) safeStart
+{
+	return [[NSUserDefaults standardUserDefaults] boolForKey:PREFS_SAFE_START];
+}
+
+
 NSUInteger sortingMask;
 
 + (NSUInteger) sortingMask
@@ -587,7 +635,7 @@ NSUInteger sortingMask;
 	if( startupInProgress )
 		return;
 	
-	[CSVPreferencesController setAllowRotatableInterface:[allowRotatableInterface isOn]];
+	[CSVPreferencesController setAllowRotatableInterface:allowRotatableInterface.on];
 }
 
 - (IBAction) groupingChanged:(id)sender
@@ -595,7 +643,7 @@ NSUInteger sortingMask;
 	if( startupInProgress )
 		return;
 	
-	[CSVPreferencesController setUseGroupingForItems:[useGroupingForItems isOn]];
+	[CSVPreferencesController setUseGroupingForItems:useGroupingForItems.on];
 	[self showAlertAboutChangedPrefs:@"This change won't take effect until you restart"];
 }
 
@@ -604,7 +652,7 @@ NSUInteger sortingMask;
 	if( startupInProgress )
 		return;
 	
-	[CSVPreferencesController setShowStatusBar:[showStatusBar isOn]];
+	[CSVPreferencesController setShowStatusBar:showStatusBar.on];
 	[self showAlertAboutChangedPrefs:@"This change won't take effect until you restart"];
 }
 
@@ -613,8 +661,24 @@ NSUInteger sortingMask;
 	if( startupInProgress )
 		return;
 	
-	[CSVPreferencesController setKeepQuotes:[keepQuotes isOn]];
+	[CSVPreferencesController setKeepQuotes:keepQuotes.on];
 	[self showAlertAboutChangedPrefs:@"Files you have looked at won't update until after restarting"];
+}
+
+- (IBAction) showDebugInfoChanged:(id)sender
+{
+	if( startupInProgress )
+		return;
+	
+	[CSVPreferencesController setShowDebugInfo:showDebugInfo.on];
+}
+
+- (IBAction) useSimpleDetailsViewChanged:(id)sender
+{
+	if( startupInProgress )
+		return;
+	
+	[CSVPreferencesController setUseSimpleDetailsView:useSimpleDetailsView.on];
 }
 
 @end

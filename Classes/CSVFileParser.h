@@ -16,12 +16,19 @@
 	NSString *_rawString;
 	NSString *_filePath;
 	NSString *_URL;
+	NSString *_problematicRow;
+	int _droppedRows;
+	unichar _usedDelimiter;
 	BOOL _hasBeenParsed;
 	BOOL _hasBeenSorted;
 }
 
 @property (nonatomic, copy) NSString *filePath;
 @property (nonatomic, copy) NSString *URL;
+@property (nonatomic, readonly) NSString *rawString;
+@property (nonatomic, readonly) unichar usedDelimiter;
+@property (nonatomic, readonly) NSString *problematicRow;
+@property (nonatomic, readonly) int droppedRows;
 @property (nonatomic, assign) BOOL hasBeenSorted;
 @property (nonatomic, assign) BOOL hasBeenParsed;
 

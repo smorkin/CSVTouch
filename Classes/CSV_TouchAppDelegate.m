@@ -101,16 +101,18 @@ static CSV_TouchAppDelegate *sharedInstance = nil;
 	return self;
 }
 
-- (BOOL) emergencyModeOn
-{
-	return [[NSUserDefaults standardUserDefaults] boolForKey:@"safeStart"];
-}
-
 - (void) delayedStartup
 {
 	[self loadLocalFiles];
-	[[self prefsController] applicationDidFinishLaunchingInEmergencyMode:[self emergencyModeOn]];
-	[[self dataController] applicationDidFinishLaunchingInEmergencyMode:[self emergencyModeOn]];
+	[[self prefsController] applicationDidFinishLaunchingInEmergencyMode:[CSVPreferencesController safeStart]];
+	[[self dataController] applicationDidFinishLaunchingInEmergencyMode:[CSVPreferencesController safeStart]];
+	
+	if( [CSVPreferencesController useBlackTheme] )
+	{
+		[self dataController].navigationBar.barStyle = UIBarStyleBlackOpaque;
+		[self prefsController].navigationBar.barStyle = UIBarStyleBlackOpaque;
+		[[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackOpaque animated:NO];
+	}		
 
 
 	// Configure and show the window

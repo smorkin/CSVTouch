@@ -19,6 +19,17 @@
 #define OBJECTS_ID @"objectsID"
 #define DETAILS_ID @"detailsID"
 
+@interface NSString (FancyDetailsComparison)
+- (NSComparisonResult) compareFancyDetails:(NSString *)s;
+@end
+
+@implementation NSString (FancyDetailsComparison)
+- (NSComparisonResult) compareFancyDetails:(NSString *)s
+{
+	return [self compare:s options:sortingMask];
+}
+@end
+
 @implementation CSVDataViewController
 
 - (CSVFileParser *) currentFile
@@ -121,6 +132,14 @@
 	}
 }	
 	
+- (UIViewController *) currentDetailsController
+{
+	if( [CSVPreferencesController useSimpleDetailsView] )
+		return detailsController;
+	else
+		return fancyDetailsController;
+}
+
 - (void) selectFile:(CSVFileParser *)file
 {		
 	// Store current position of itemController and search string
@@ -160,18 +179,19 @@
 	NSString *addString = @"";
 	
 	// Row or details controller will be visible
-	if( (push && item == itemController.navigationItem) || 
-	   (!push && item == detailsController.navigationItem) ||
-	   (push && item == detailsController.navigationItem))
+	if((push && item == itemController.navigationItem) || 
+	   (item == detailsController.navigationItem) ||
+		(item == fancyDetailsController.navigationItem))
 	{
 		count = [[itemController objects] count];
 		if( count != [[currentFile itemsWithResetShortdescriptions:NO] count] )
 			addString = [NSString stringWithFormat:@"/%d", [[currentFile itemsWithResetShortdescriptions:NO] count]];
 		self.tabBarItem.title = @"Items";
 	}
-	// File controller will be visible
-	else if( (!push && item == itemController.navigationItem) ||
-			(push && item == fileController.navigationItem))
+	// File controller will be visible (or parseErrorController involved, in which case always use Files data)
+	else if((!push && item == itemController.navigationItem) ||
+			(push && item == fileController.navigationItem) ||
+			(item == parseErrorController.navigationItem))
 	{
 		count = [[fileController objects] count];
 		self.tabBarItem.title = @"Files";
@@ -185,10 +205,21 @@
 
 - (void) selectDetailsForRow:(NSUInteger)row
 {
-	if( [[itemController objects] count] > row )
-		[[detailsController textView] setText:[(CSVRow *)[[itemController objects] objectAtIndex:row] longDescription]];
+	if( [CSVPreferencesController useSimpleDetailsView] )	
+	{
+		if( [[itemController objects] count] > row )
+			[[detailsController textView] setText:[(CSVRow *)[[itemController objects] objectAtIndex:row] longDescription]];
+		else
+			[[detailsController textView] setText:@"No data found!"];
+	}
 	else
-		[[detailsController textView] setText:@"No data found!"];
+	{
+		NSMutableArray *items = [(CSVRow *)[[itemController objects] objectAtIndex:row] longDescriptionInArray];
+		[items sortUsingSelector:@selector(compareFancyDetails:)];
+		fancyDetailsController.objects = items;
+		fancyDetailsController.removeDisclosure = YES;
+		[fancyDetailsController dataLoaded];
+	}
 }
 
 - (NSString *) idForController:(UIViewController *)controller
@@ -197,7 +228,7 @@
 		return FILES_ID;
 	else if( controller == itemController )
 		return OBJECTS_ID;
-	else if( controller == detailsController )
+	else if( controller == [self currentDetailsController] )
 		return DETAILS_ID;
 	else
 		return @"";
@@ -210,7 +241,7 @@
 	else if( [controllerId isEqualToString:OBJECTS_ID] )
 		return itemController;
 	else if( [controllerId isEqualToString:DETAILS_ID] )
-		return detailsController;
+		return [self currentDetailsController];
 	else
 		return nil;	
 }
@@ -257,7 +288,7 @@
 		[controllerStack addObject:[self idForController:controller]];
 	[defaults setObject:controllerStack forKey:DEFS_CURRENT_CONTROLLER_STACK];
 	
-	if( [self topViewController] == detailsController )
+	if( [self topViewController] == detailsController || [self topViewController] == fancyDetailsController )
 	{
 		if( ![CSVPreferencesController useGroupingForItemsHasChangedSinceStart] )
 			[defaults setObject:[[[itemController tableView] indexPathForSelectedRow] dictionaryRepresentation]
@@ -301,7 +332,8 @@
 	itemController.editable = NO;
 	itemController.size = [CSVPreferencesController tableViewSize];
 	itemController.useIndexes = [CSVPreferencesController useGroupingForItems];
-	
+	fancyDetailsController.size = [CSVPreferencesController tableViewSize];
+		
 	// Autocorrection of searching should be off
 	searchBar.autocorrectionType = UITextAutocorrectionTypeNo;
 
@@ -363,7 +395,7 @@
 	if( [indexPathDictionary isKindOfClass:[NSDictionary class]] )
 	{
 		NSIndexPath *indexPath = [NSIndexPath indexPathWithDictionary:indexPathDictionary];
-		if( [self topViewController] == detailsController )
+		if( [self topViewController] == [self currentDetailsController] )
 		{
 			if( [itemController itemExistsAtIndexPath:indexPath] )
 			{
@@ -385,7 +417,8 @@
 
 - (void) setSize:(NSInteger)size
 {
-	itemController.size = size;	
+	itemController.size = size;
+	fancyDetailsController.size = size;
 }
 
 static CSVDataViewController *sharedInstance = nil;
@@ -417,6 +450,8 @@ static CSVDataViewController *sharedInstance = nil;
 	[itemController release];
 	[editController release];
 	[fileController release];
+	[fancyDetailsController release];
+	[parseErrorController release];
 	[currentFile release];
 	[columnNamesForFileName release];
 	[indexPathForFileName release];
@@ -458,8 +493,54 @@ static CSVDataViewController *sharedInstance = nil;
 	}
 }
 
++ (NSString *) parseErrorStringForFile:(CSVFileParser *)file
+{
+	NSMutableString *s = [NSMutableString string];
+	
+	// What type of problem?
+	if( file.problematicRow && ![file.problematicRow isEqualToString:@""] )
+	{
+		[s appendFormat:@"Different number of objects in different rows. Potentially first problematic row:\n\n%@\n\n", file.problematicRow];
+		if( [CSVPreferencesController keepQuotes] && [file.problematicRow hasSubstring:@"\""])
+			[s appendString:@"Try switching off the \"Keep Quotes\"-setting."];
+	}
+	else if( [file.rawString length] == 0 )
+	{
+		[s appendString:@"Couldn't read the file using the selected encoding."];
+	}
+	else
+	{
+		[s appendFormat:@"Found %d items in %d columns, using delimiter '%C'; check \"Data\" preferences.\n\n",
+		 [[file itemsWithResetShortdescriptions:NO] count],
+		 [[file availableColumnNames] count],
+		 file.usedDelimiter];
+		[s appendFormat:@"File read when using the selected encoding:\n\n%@", file.rawString];
+	}
+	
+	return s;
+}
+
+- (IBAction) toggleShowingRawString:(id)sender
+{
+	if( showingRawString )
+	{
+		[[parseErrorController textView] setText:[CSVDataViewController parseErrorStringForFile:currentFile]];
+	}
+	else
+	{
+		[[parseErrorController textView] setText:[NSString stringWithFormat:@"File read when using the selected encoding:\n\n%@", currentFile.rawString]];
+	}
+	showingRawString = !showingRawString;
+}
+
 - (void) delayedPushItemController:(CSVFileParser *)selectedFile
 {
+	if( [fileParsingActivityView isAnimating] )
+	{
+		[fileParsingActivityView stopAnimating];
+		[activityView removeFromSuperview];
+	}
+
 	if( currentFile != selectedFile )
 	{
 		[self selectFile:selectedFile];
@@ -467,12 +548,33 @@ static CSVDataViewController *sharedInstance = nil;
 												 animated:NO];
 		[itemController dataLoaded];
 	}
-	if( [fileParsingActivityView isAnimating] )
+	
+	// Check if there seems to be a problem with the file preventing us from reading it
+	if( [[currentFile itemsWithResetShortdescriptions:NO] count] < 2 ||
+		[[currentFile availableColumnNames] count] == 0 ||
+	   ([[currentFile availableColumnNames] count] == 1 && [CSVPreferencesController showDebugInfo]) )
 	{
-		[fileParsingActivityView stopAnimating];
-		[activityView removeFromSuperview];
+		showingRawString = NO;
+		[[parseErrorController textView] setText:[CSVDataViewController parseErrorStringForFile:currentFile]];
+		[self pushViewController:parseErrorController animated:YES];
 	}
-	[self pushViewController:itemController animated:YES];
+	else
+	{
+		// We could read the file and will display it, but we should also check if we have dropped any rows
+		if( currentFile.droppedRows > 0 && [CSVPreferencesController showDebugInfo] )
+		{
+			UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Dropped Rows!"
+															message:[NSString stringWithFormat:@"%d rows dropped due to problems reading them. Last dropped row:\n%@",
+																	 currentFile.droppedRows, currentFile.problematicRow]
+														   delegate:[[UIApplication sharedApplication] delegate]
+												  cancelButtonTitle:@"OK"
+												  otherButtonTitles:nil];
+			[alert show];
+			
+			
+		}
+		[self pushViewController:itemController animated:YES];
+	}
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -480,7 +582,8 @@ static CSVDataViewController *sharedInstance = nil;
 	if( tableView == [itemController tableView] )
 	{
 		[self selectDetailsForRow:[itemController indexForObjectAtIndexPath:indexPath]];
-		[self pushViewController:detailsController animated:YES];
+		[self pushViewController:[self currentDetailsController]
+						animated:YES];
 	}
 	else if( tableView == [fileController tableView] )
 	{
@@ -518,6 +621,12 @@ static CSVDataViewController *sharedInstance = nil;
 
 - (IBAction) edit:(id)sender
 {
+	if( [CSVPreferencesController useBlackTheme] )
+	{
+		searchBar.barStyle = UIBarStyleBlackOpaque;
+		editNavigationBar.barStyle = UIBarStyleBlackOpaque;
+	}
+	
 	[editController setTitle:[currentFile tableViewDescription]];
 	[self presentModalViewController:editController animated:YES];
 }
@@ -612,8 +721,6 @@ static CSVDataViewController *sharedInstance = nil;
 	if( refreshingFilesInProgress )
 	{
 		fileController.removeDisclosure = YES;
-		if( [self currentFile] )
-			[[CSV_TouchAppDelegate sharedInstance] openDownloadFileWithString:[[self currentFile] URL]];
 		[fileController.navigationItem setRightBarButtonItem:[self stopRefreshingFilesItem] animated:YES];
 	}
 	else

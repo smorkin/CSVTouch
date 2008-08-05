@@ -11,6 +11,8 @@
 
 @interface NSString (OzymandiasExtension)
 - (BOOL) containsDigit;
+- (BOOL) hasSubstring:(NSString *)s;
+- (NSComparisonResult) numericSensitiveCompare:(NSString *)s;
 @end
 
 @interface NSIndexPath (OzymandiasExtension)

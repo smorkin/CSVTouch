@@ -219,6 +219,39 @@
 	}
 }
 
+- (NSMutableArray *) longDescriptionInArray
+{
+	NSMutableArray *array = [NSMutableArray array];
+	
+	// First add sorted column data
+	NSArray *columnIndexes = [[CSVDataViewController sharedInstance] columnIndexes];
+	NSArray *availableColumnNames = [self.fileParser availableColumnNames];
+	for( NSNumber *index in columnIndexes )
+	{
+		NSString *s = [NSString stringWithFormat:@"%@: %@", 
+					   [availableColumnNames objectAtIndex:[index intValue]], 
+					   [self.items objectAtIndex:[index intValue]]];
+		[array addObject:s];
+	}
+	
+	// Then add other data
+	if( [columnIndexes count] < [availableColumnNames count] )
+	{
+		for( NSUInteger i = 0 ; i < [self.items count] ; i++ )
+		{
+			if( ![columnIndexes containsObject:[NSNumber numberWithInt:i]] )
+			{
+				NSString *s = [NSString stringWithFormat:@"%@: %@",
+							   [availableColumnNames objectAtIndex:i],
+							   [self.items objectAtIndex:i]];
+				[array addObject:s];
+			}				
+		}
+	}
+	
+	return array;
+}
+
 - (NSString *) shortDescription
 {
 	if( !_shortDescription )

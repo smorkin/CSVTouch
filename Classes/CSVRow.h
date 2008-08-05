@@ -24,6 +24,7 @@
 @property (nonatomic, assign) NSUInteger rawDataPosition;
 
 - (NSString *) longDescription;
+- (NSMutableArray *) longDescriptionInArray;
 
 - (NSComparisonResult) compareShort:(CSVRow *)r;
 

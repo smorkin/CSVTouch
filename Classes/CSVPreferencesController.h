@@ -16,6 +16,7 @@
 	IBOutlet OzyRotatableViewController *dataPrefsController;
 	IBOutlet OzyRotatableViewController *sortingPrefsController;
 	IBOutlet OzyRotatableViewController *appearancePrefsController;
+	IBOutlet OzyRotatableViewController *debugPrefsController;
 	IBOutlet OzyRotatableViewController *aboutController;
 	IBOutlet OzyRotatableViewController *legalController;
 	
@@ -29,10 +30,13 @@
 	IBOutlet UISwitch *allowRotatableInterface;
 	IBOutlet UISwitch *useGroupingForItems;
 	IBOutlet UISwitch *showStatusBar;
+	IBOutlet UISwitch *useSimpleDetailsView;
 	// Sorting
 	IBOutlet UISwitch *numericCompareSwitch;
 	IBOutlet UISwitch *caseSensitiveCompareSwitch;
-	IBOutlet UITextField *maxNumberOfObjectsToSort;	
+	IBOutlet UITextField *maxNumberOfObjectsToSort;
+	// Debug
+	IBOutlet UISwitch *showDebugInfo;
 }
 
 + (CSVPreferencesController *) sharedInstance;
@@ -53,6 +57,8 @@
 - (IBAction) groupingChanged:(id)sender;
 - (IBAction) showStatusBarChanged:(id)sender;
 - (IBAction) keepQuotesChanged:(id)sender;
+- (IBAction) showDebugInfoChanged:(id)sender;
+- (IBAction) useSimpleDetailsViewChanged:(id)sender;
 
 + (NSString *) delimiter;
 + (NSInteger) tableViewSize;
@@ -63,6 +69,10 @@
 + (BOOL) useGroupingForItems;
 + (BOOL) showStatusBar;
 + (BOOL) keepQuotes;
++ (BOOL) showDebugInfo;
++ (BOOL) safeStart;
++ (BOOL) useSimpleDetailsView;
++ (BOOL) useBlackTheme;
 + (NSUInteger) sortingMask;
 extern NSUInteger sortingMask; // This is available for performance-critical operations
 

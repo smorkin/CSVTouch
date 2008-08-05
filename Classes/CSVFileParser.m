@@ -20,8 +20,12 @@
 
 @synthesize filePath = _filePath;
 @synthesize URL = _URL;
+@synthesize rawString = _rawString;
+@synthesize usedDelimiter = _usedDelimiter;
 @synthesize hasBeenSorted = _hasBeenSorted;
 @synthesize hasBeenParsed = _hasBeenParsed;
+@synthesize problematicRow = _problematicRow;
+@synthesize droppedRows = _droppedRows;
 
 - (NSArray *) availableColumnNames
 {
@@ -64,6 +68,10 @@
 	
 	[_parsedItems removeAllObjects];
 	[_columnNames removeAllObjects];
+	[_problematicRow autorelease];
+	_problematicRow = nil;
+	_droppedRows = 0;
+	
 	while( nextLineStart < length && numberOfRows < maxNumberOfRows )
 	{
 		[s getLineStart:&lineStart end:&nextLineStart
@@ -96,6 +104,10 @@
 				[_columnNames removeAllObjects];
 				[_parsedItems removeAllObjects];
 				[words release];
+				if( !testing )
+				{
+					_problematicRow = [[NSString stringWithFormat:@"Row %d: %@", numberOfRows, line] retain];
+				}
 				return FALSE;
 			}
 			
@@ -117,6 +129,12 @@
 			
 			[words release];
 		}
+		else
+		{
+			_droppedRows++;
+			[_problematicRow release];
+			_problematicRow = [[NSString stringWithFormat:@"Row %d: %@", numberOfRows, line] retain];
+		}
 		numberOfRows++;
 	}
 	return TRUE;
@@ -124,13 +142,12 @@
 
 - (void)parseString:(NSString *)s
 {    
-	int delimiter;
 	int foundColumns;
 
 	if( [CSVPreferencesController smartDelimiter] )
 	{
 		int bestResult = 0;
-		int bestDelimiter = 0;
+		unichar bestDelimiter = ',';
 		for( NSString *testDelimiter in [CSV_TouchAppDelegate allowedDelimiters] )
 		{
 			if([self parse:s delimiter:[testDelimiter characterAtIndex:0] testing:YES foundColumns:&foundColumns] &&
@@ -141,24 +158,15 @@
 				bestDelimiter = [testDelimiter characterAtIndex:0];
 			}
 		}
-		delimiter = bestDelimiter;
+		_usedDelimiter = bestDelimiter;
 	}
 	else
 	{
-		delimiter = [[CSVPreferencesController delimiter] characterAtIndex:0]; 
+		_usedDelimiter = [[CSVPreferencesController delimiter] characterAtIndex:0]; 
 	}
 	
-	// Check for errors
-	if( ![self parse:s delimiter:delimiter testing:NO foundColumns:&foundColumns] )
-	{
-		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"File Parsing Error"
-														message:@"Different number of objects in different columns"
-													   delegate:[CSV_TouchAppDelegate sharedInstance]
-											  cancelButtonTitle:@"OK"
-											  otherButtonTitles:nil];
-		[alert show];				
-		return;
-	}
+	// Parse file
+	[self parse:s delimiter:_usedDelimiter testing:NO foundColumns:&foundColumns];
 }
 
 - (void) parseIfNecessary
@@ -196,6 +204,7 @@
 	[_columnNames release];
 	[_rawString release];
 	[_rawData release];
+	[_problematicRow release];
 	self.URL = nil;
 	self.filePath = nil;
 	[super dealloc];

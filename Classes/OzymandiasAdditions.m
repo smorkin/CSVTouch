@@ -14,6 +14,18 @@
 {
 	return [self rangeOfCharacterFromSet:[NSCharacterSet decimalDigitCharacterSet]].length > 0;
 }
+
+- (BOOL) hasSubstring:(NSString *)s
+{
+	NSRange range = [self rangeOfString:s];
+	return range.location != NSNotFound;
+}
+
+- (NSComparisonResult) numericSensitiveCompare:(NSString *)s
+{
+	return [self compare:s options:NSNumericSearch];
+}
+
 @end
 
 @implementation NSIndexPath (OzymandiasExtension)

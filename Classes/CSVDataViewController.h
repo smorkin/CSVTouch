@@ -13,8 +13,10 @@
 @interface CSVDataViewController : UINavigationController <UITableViewDelegate>
 {
 	IBOutlet OzyTextViewController *detailsController;
+	IBOutlet OzyTableViewController *fancyDetailsController;
 	IBOutlet OzyTableViewController *itemController;
 	IBOutlet OzyTableViewController *fileController;
+	IBOutlet OzyTextViewController *parseErrorController;
 	
 	// For better GUI when things are slow...
 	IBOutlet UIView *activityView;
@@ -31,6 +33,7 @@
 
 	// Edit view
 	IBOutlet OzyTableViewController *editController;
+	IBOutlet UINavigationBar *editNavigationBar;
 	IBOutlet UISearchBar *searchBar;
 	
 	// An array with the current indexes to use for the items
@@ -38,6 +41,7 @@
 	int *rawColumnIndexes;
 	
 	BOOL refreshingFilesInProgress;
+	BOOL showingRawString;
 }
 
 + (CSVDataViewController *) sharedInstance;
@@ -46,6 +50,7 @@
 - (IBAction) editDone:(id)sender;
 - (IBAction) resetColumnNames:(id)sender;
 - (IBAction) toggleRefreshFiles:(id)sender;
+- (IBAction) toggleShowingRawString:(id)sender;
 
 - (void) setFiles:(NSArray *) files;
 
