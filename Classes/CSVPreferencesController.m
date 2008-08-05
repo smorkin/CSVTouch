@@ -254,7 +254,6 @@ static CSVPreferencesController *sharedInstance = nil;
 	maxNumberOfObjectsToSort.text = [NSString stringWithFormat:@"%d", [CSVPreferencesController maxNumberOfObjectsToSort]];	
 	allowRotatableInterface.on = [CSVPreferencesController allowRotatableInterface];
 	useGroupingForItems.on = [CSVPreferencesController useGroupingForItems];
-	showStatusBar.on = [CSVPreferencesController showStatusBar];
 	keepQuotes.on = [CSVPreferencesController keepQuotes];
 	showDebugInfo.on = [CSVPreferencesController showDebugInfo];
 	useSimpleDetailsView.on = [CSVPreferencesController useSimpleDetailsView];
@@ -453,16 +452,10 @@ static BOOL useGroupingForItemsHasChangedSinceStart = NO;
 
 + (BOOL) showStatusBar
 {
-	return [[NSUserDefaults standardUserDefaults] boolForKey:PREFS_SHOW_STATUS_BAR];
-}
-
-+ (void) setShowStatusBar:(BOOL)shouldShow
-{
-	if( [self showStatusBar] != shouldShow )
-	{
-		[[NSUserDefaults standardUserDefaults] setBool:shouldShow
-												forKey:PREFS_SHOW_STATUS_BAR];
-	}
+	if( [[NSUserDefaults standardUserDefaults] objectForKey:PREFS_SHOW_STATUS_BAR] )
+		return [[NSUserDefaults standardUserDefaults] boolForKey:PREFS_SHOW_STATUS_BAR];
+	else
+		return YES;
 }
 
 + (BOOL) keepQuotes
@@ -644,15 +637,6 @@ NSUInteger sortingMask;
 		return;
 	
 	[CSVPreferencesController setUseGroupingForItems:useGroupingForItems.on];
-	[self showAlertAboutChangedPrefs:@"This change won't take effect until you restart"];
-}
-
-- (IBAction) showStatusBarChanged:(id)sender
-{
-	if( startupInProgress )
-		return;
-	
-	[CSVPreferencesController setShowStatusBar:showStatusBar.on];
 	[self showAlertAboutChangedPrefs:@"This change won't take effect until you restart"];
 }
 

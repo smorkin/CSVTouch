@@ -29,7 +29,6 @@
 	IBOutlet UISegmentedControl *sizeControl;
 	IBOutlet UISwitch *allowRotatableInterface;
 	IBOutlet UISwitch *useGroupingForItems;
-	IBOutlet UISwitch *showStatusBar;
 	IBOutlet UISwitch *useSimpleDetailsView;
 	// Sorting
 	IBOutlet UISwitch *numericCompareSwitch;
@@ -55,7 +54,6 @@
 - (IBAction) sortingChanged:(id)sender;
 - (IBAction) rotationChanged:(id)sender;
 - (IBAction) groupingChanged:(id)sender;
-- (IBAction) showStatusBarChanged:(id)sender;
 - (IBAction) keepQuotesChanged:(id)sender;
 - (IBAction) showDebugInfoChanged:(id)sender;
 - (IBAction) useSimpleDetailsViewChanged:(id)sender;

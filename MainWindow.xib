@@ -8,6 +8,7 @@
 		<string key="IBDocument.HIToolboxVersion">352.00</string>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
+			<integer value="330"/>
 			<integer value="211"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
@@ -795,7 +796,6 @@ A</string>
 							<int key="NSvFlags">290</int>
 							<string key="NSFrame">{{20, 31}, {280, 44}}</string>
 							<reference key="NSSuperview" ref="1068330230"/>
-							<reference key="NSWindow"/>
 							<bool key="IBUIOpaque">NO</bool>
 							<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
 							<int key="IBUITag">2</int>
@@ -826,7 +826,6 @@ A</string>
 							<int key="NSvFlags">293</int>
 							<string key="NSFrame">{{89, 2}, {143, 21}}</string>
 							<reference key="NSSuperview" ref="1068330230"/>
-							<reference key="NSWindow"/>
 							<bool key="IBUIOpaque">NO</bool>
 							<bool key="IBUIClipsSubviews">YES</bool>
 							<bool key="IBUIUserInteractionEnabled">NO</bool>
@@ -842,7 +841,6 @@ A</string>
 							<int key="NSvFlags">289</int>
 							<string key="NSFrame">{{206, 82}, {94, 27}}</string>
 							<reference key="NSSuperview" ref="1068330230"/>
-							<reference key="NSWindow"/>
 							<bool key="IBUIOpaque">NO</bool>
 							<bool key="IBUIClipsSubviews">YES</bool>
 							<bool key="IBUIMultipleTouchEnabled">YES</bool>
@@ -855,7 +853,6 @@ A</string>
 							<int key="NSvFlags">292</int>
 							<string key="NSFrame">{{20, 85}, {107, 21}}</string>
 							<reference key="NSSuperview" ref="1068330230"/>
-							<reference key="NSWindow"/>
 							<bool key="IBUIOpaque">NO</bool>
 							<bool key="IBUIClipsSubviews">YES</bool>
 							<bool key="IBUIUserInteractionEnabled">NO</bool>
@@ -870,26 +867,10 @@ A</string>
 							<int key="NSvFlags">292</int>
 							<string key="NSFrame">{{20, 117}, {99, 21}}</string>
 							<reference key="NSSuperview" ref="1068330230"/>
-							<reference key="NSWindow"/>
 							<bool key="IBUIOpaque">NO</bool>
 							<bool key="IBUIClipsSubviews">YES</bool>
 							<bool key="IBUIUserInteractionEnabled">NO</bool>
 							<string key="IBUIText">Group Items:</string>
-							<reference key="IBUITextColor" ref="359172350"/>
-							<nil key="IBUIHighlightedColor"/>
-							<int key="IBUIBaselineAdjustment">1</int>
-							<float key="IBUIMinimumFontSize">1.000000e+01</float>
-						</object>
-						<object class="IBUILabel" id="1070368237">
-							<reference key="NSNextResponder" ref="1068330230"/>
-							<int key="NSvFlags">292</int>
-							<string key="NSFrame">{{20, 155}, {132, 21}}</string>
-							<reference key="NSSuperview" ref="1068330230"/>
-							<reference key="NSWindow"/>
-							<bool key="IBUIOpaque">NO</bool>
-							<bool key="IBUIClipsSubviews">YES</bool>
-							<bool key="IBUIUserInteractionEnabled">NO</bool>
-							<string key="IBUIText">Show Status Bar:</string>
 							<reference key="IBUITextColor" ref="359172350"/>
 							<nil key="IBUIHighlightedColor"/>
 							<int key="IBUIBaselineAdjustment">1</int>
@@ -900,20 +881,6 @@ A</string>
 							<int key="NSvFlags">289</int>
 							<string key="NSFrame">{{206, 117}, {94, 27}}</string>
 							<reference key="NSSuperview" ref="1068330230"/>
-							<reference key="NSWindow"/>
-							<bool key="IBUIOpaque">NO</bool>
-							<bool key="IBUIClipsSubviews">YES</bool>
-							<bool key="IBUIMultipleTouchEnabled">YES</bool>
-							<int key="IBUIContentHorizontalAlignment">0</int>
-							<int key="IBUIContentVerticalAlignment">0</int>
-							<bool key="IBUIOn">YES</bool>
-						</object>
-						<object class="IBUISwitch" id="62692036">
-							<reference key="NSNextResponder" ref="1068330230"/>
-							<int key="NSvFlags">289</int>
-							<string key="NSFrame">{{206, 152}, {94, 27}}</string>
-							<reference key="NSSuperview" ref="1068330230"/>
-							<reference key="NSWindow"/>
 							<bool key="IBUIOpaque">NO</bool>
 							<bool key="IBUIClipsSubviews">YES</bool>
 							<bool key="IBUIMultipleTouchEnabled">YES</bool>
@@ -924,9 +891,8 @@ A</string>
 						<object class="IBUILabel" id="704898220">
 							<reference key="NSNextResponder" ref="1068330230"/>
 							<int key="NSvFlags">292</int>
-							<string key="NSFrame">{{20, 189}, {127, 21}}</string>
+							<string key="NSFrame">{{20, 155}, {127, 21}}</string>
 							<reference key="NSSuperview" ref="1068330230"/>
-							<reference key="NSWindow"/>
 							<bool key="IBUIOpaque">NO</bool>
 							<bool key="IBUIClipsSubviews">YES</bool>
 							<bool key="IBUIUserInteractionEnabled">NO</bool>
@@ -939,9 +905,8 @@ A</string>
 						<object class="IBUISwitch" id="506071772">
 							<reference key="NSNextResponder" ref="1068330230"/>
 							<int key="NSvFlags">289</int>
-							<string key="NSFrame">{{206, 186}, {94, 27}}</string>
+							<string key="NSFrame">{{206, 152}, {94, 27}}</string>
 							<reference key="NSSuperview" ref="1068330230"/>
-							<reference key="NSWindow"/>
 							<bool key="IBUIOpaque">NO</bool>
 							<bool key="IBUIClipsSubviews">YES</bool>
 							<bool key="IBUIMultipleTouchEnabled">YES</bool>
@@ -952,7 +917,6 @@ A</string>
 					</object>
 					<string key="NSFrameSize">{320, 367}</string>
 					<reference key="NSSuperview"/>
-					<reference key="NSWindow"/>
 					<object class="NSColor" key="IBUIBackgroundColor">
 						<int key="NSColorSpace">3</int>
 						<bytes key="NSWhite">MQA</bytes>
@@ -1645,23 +1609,6 @@ Zm9yIHRoZSByZW1vdmVkIGNvbHVtbnMuA</string>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">showStatusBar</string>
-						<reference key="source" ref="709150383"/>
-						<reference key="destination" ref="62692036"/>
-					</object>
-					<int key="connectionID">409</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchEventConnection" key="connection">
-						<string key="label">showStatusBarChanged:</string>
-						<reference key="source" ref="62692036"/>
-						<reference key="destination" ref="709150383"/>
-						<int key="IBEventType">13</int>
-					</object>
-					<int key="connectionID">410</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchOutletConnection" key="connection">
 						<string key="label">caseSensitiveCompareSwitch</string>
 						<reference key="source" ref="709150383"/>
 						<reference key="destination" ref="538551399"/>
@@ -2217,8 +2164,6 @@ Zm9yIHRoZSByZW1vdmVkIGNvbHVtbnMuA</string>
 							<reference ref="959617468"/>
 							<reference ref="795507198"/>
 							<reference ref="273205631"/>
-							<reference ref="62692036"/>
-							<reference ref="1070368237"/>
 							<reference ref="704898220"/>
 							<reference ref="506071772"/>
 						</object>
@@ -2377,16 +2322,6 @@ Zm9yIHRoZSByZW1vdmVkIGNvbHVtbnMuA</string>
 						<int key="objectID">338</int>
 						<reference key="object" ref="340840191"/>
 						<reference key="parent" ref="176800199"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">407</int>
-						<reference key="object" ref="1070368237"/>
-						<reference key="parent" ref="1068330230"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">408</int>
-						<reference key="object" ref="62692036"/>
-						<reference key="parent" ref="1068330230"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">412</int>
@@ -2639,8 +2574,6 @@ Zm9yIHRoZSByZW1vdmVkIGNvbHVtbnMuA</string>
 					<string>399.IBPluginDependency</string>
 					<string>402.IBPluginDependency</string>
 					<string>403.IBPluginDependency</string>
-					<string>407.IBPluginDependency</string>
-					<string>408.IBPluginDependency</string>
 					<string>412.CustomClassName</string>
 					<string>412.IBEditorWindowLastContentRect</string>
 					<string>412.IBPluginDependency</string>
@@ -2755,7 +2688,7 @@ Zm9yIHRoZSByZW1vdmVkIGNvbHVtbnMuA</string>
 					<string>{{327, 244}, {320, 480}}</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>OzyRotatableViewController</string>
-					<string>{{384, 276}, {320, 480}}</string>
+					<string>{{316, 276}, {320, 480}}</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<real value="0.000000e+00"/>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -2783,8 +2716,6 @@ Zm9yIHRoZSByZW1vdmVkIGNvbHVtbnMuA</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>{{264, 44}, {320, 460}}</string>
-					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -2923,14 +2854,12 @@ Zm9yIHRoZSByZW1vdmVkIGNvbHVtbnMuA</string>
 							<string>keepQuotesChanged:</string>
 							<string>rotationChanged:</string>
 							<string>showDebugInfoChanged:</string>
-							<string>showStatusBarChanged:</string>
 							<string>sizeControlChanged:</string>
 							<string>sortingChanged:</string>
 							<string>useSimpleDetailsViewChanged:</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>id</string>
 							<string>id</string>
 							<string>id</string>
 							<string>id</string>
@@ -2960,7 +2889,6 @@ Zm9yIHRoZSByZW1vdmVkIGNvbHVtbnMuA</string>
 							<string>numericCompareSwitch</string>
 							<string>prefsSelectionController</string>
 							<string>showDebugInfo</string>
-							<string>showStatusBar</string>
 							<string>sizeControl</string>
 							<string>smartDelimiterSwitch</string>
 							<string>sortingPrefsController</string>
@@ -2982,7 +2910,6 @@ Zm9yIHRoZSByZW1vdmVkIGNvbHVtbnMuA</string>
 							<string>UITextField</string>
 							<string>UISwitch</string>
 							<string>OzyRotatableViewController</string>
-							<string>UISwitch</string>
 							<string>UISwitch</string>
 							<string>UISegmentedControl</string>
 							<string>UISwitch</string>

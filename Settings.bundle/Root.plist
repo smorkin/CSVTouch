@@ -36,7 +36,7 @@
 			<key>Key</key>
 			<string>showStatusBar</string>
 			<key>DefaultValue</key>
-			<false/>
+			<true/>
 			<key>TrueValue</key>
 			<true/>
 			<key>FalseValue</key>
