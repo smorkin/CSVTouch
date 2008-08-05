@@ -243,13 +243,8 @@ static CSVPreferencesController *sharedInstance = nil;
 			encodingControl.selectedSegmentIndex = i;
 	}
 	
-	NSString *sorting = [[NSUserDefaults standardUserDefaults] objectForKey:PREFS_SORTING_MASK];
-	if( sorting )
-		sortingMask = [sorting intValue];
-	else
-		sortingMask = 0;
-	[numericCompareSwitch setOn:((sortingMask & NSNumericSearch) != 0) animated:NO];
-	[caseSensitiveCompareSwitch setOn:((sortingMask & NSCaseInsensitiveSearch) == 0) animated:NO];
+	[numericCompareSwitch setOn:(([CSVPreferencesController sortingMask] & NSNumericSearch) != 0) animated:NO];
+	[caseSensitiveCompareSwitch setOn:(([CSVPreferencesController sortingMask] & NSCaseInsensitiveSearch) == 0) animated:NO];
 	
 	maxNumberOfObjectsToSort.text = [NSString stringWithFormat:@"%d", [CSVPreferencesController maxNumberOfObjectsToSort]];	
 	allowRotatableInterface.on = [CSVPreferencesController allowRotatableInterface];
@@ -519,7 +514,7 @@ NSUInteger sortingMask;
 	if( sorting )
 		sortingMask = [sorting intValue];
 	else
-		sortingMask = 0;
+		sortingMask = NSNumericSearch ^ NSCaseInsensitiveSearch;
 	return sortingMask;
 }
 
@@ -592,7 +587,7 @@ NSUInteger sortingMask;
 		default:
 			break;
 	}
-	[CSVPreferencesController setSmartDelimiter:[smartDelimiterSwitch isOn]];
+	[CSVPreferencesController setSmartDelimiter:smartDelimiterSwitch.on];
 	//	[delimiterControl setEnabled:![self smartDelimiter]];
 	delimiterControl.hidden = [CSVPreferencesController smartDelimiter];
 	[[CSVDataViewController sharedInstance] markFilesAsDirty];
@@ -614,10 +609,10 @@ NSUInteger sortingMask;
 	if( startupInProgress )
 		return;
 	
-	sortingMask = NSCaseInsensitiveSearch;
-	if( [numericCompareSwitch isOn] )
+	sortingMask = 0;
+	if( numericCompareSwitch.on )
 		sortingMask ^= NSNumericSearch;
-	if( [caseSensitiveCompareSwitch isOn] )
+	if( !caseSensitiveCompareSwitch.on )
 		sortingMask ^= NSCaseInsensitiveSearch;
 	[CSVPreferencesController setSortingMask:sortingMask];
 	[[CSVDataViewController sharedInstance] resortObjects];
