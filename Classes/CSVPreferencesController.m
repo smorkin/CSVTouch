@@ -393,7 +393,7 @@ static BOOL startupInProgress = NO;
 	if( obj )
 		return [obj intValue];
 	else
-		return NSUTF8StringEncoding;
+		return NSISOLatin1StringEncoding;
 }
 
 + (void) setEncoding:(NSStringEncoding)encoding

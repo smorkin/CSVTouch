@@ -532,11 +532,7 @@ static CSVDataViewController *sharedInstance = nil;
 
 - (void) delayedPushItemController:(CSVFileParser *)selectedFile
 {
-	if( [fileParsingActivityView isAnimating] )
-	{
-		[fileParsingActivityView stopAnimating];
-		[activityView removeFromSuperview];
-	}
+	[[CSV_TouchAppDelegate sharedInstance] slowActivityCompleted];
 
 	if( currentFile != selectedFile )
 	{
@@ -557,18 +553,29 @@ static CSVDataViewController *sharedInstance = nil;
 	}
 	else
 	{
-		// We could read the file and will display it, but we should also check if we have dropped any rows
-		if( currentFile.droppedRows > 0 && [CSVPreferencesController showDebugInfo] )
+		// We could read the file and will display it, but we should also check if we have dropped any other problems
+		if( [CSVPreferencesController showDebugInfo] )
 		{
-			UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Dropped Rows!"
-															message:[NSString stringWithFormat:@"%d rows dropped due to problems reading them. Last dropped row:\n%@",
-																	 currentFile.droppedRows, currentFile.problematicRow]
-														   delegate:[[UIApplication sharedApplication] delegate]
-												  cancelButtonTitle:@"OK"
-												  otherButtonTitles:nil];
-			[alert show];
-			
-			
+			if( currentFile.droppedRows > 0 )
+			{
+				UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Dropped Rows!"
+																message:[NSString stringWithFormat:@"%d rows dropped due to problems reading them. Last dropped row:\n%@",
+																		 currentFile.droppedRows, currentFile.problematicRow]
+															   delegate:[[UIApplication sharedApplication] delegate]
+													  cancelButtonTitle:@"OK"
+													  otherButtonTitles:nil];
+				[alert show];
+			}
+			else if([[currentFile availableColumnNames] count] != 
+					[[NSSet setWithArray:[currentFile availableColumnNames]] count] )
+			{
+				UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Identical Column Titles!"
+																message:@"Some of the columns have the same title; this makes some functionality involving columns behave weird"
+															   delegate:[[UIApplication sharedApplication] delegate]
+													  cancelButtonTitle:@"OK"
+													  otherButtonTitles:nil];
+				[alert show];
+			}
 		}
 		[self pushViewController:itemController animated:YES];
 	}
@@ -599,28 +606,14 @@ static CSVDataViewController *sharedInstance = nil;
 	{
 		if( refreshingFilesInProgress )
 		{
-			[[CSV_TouchAppDelegate sharedInstance] openDownloadFileWithString:[(CSVFileParser *)[[fileController objects] objectAtIndex:indexPath.row] URL]];
+			[[CSV_TouchAppDelegate sharedInstance] downloadFileWithString:[(CSVFileParser *)[[fileController objects] objectAtIndex:indexPath.row] URL]];
 		}
 		else
 		{
 			CSVFileParser *selectedFile = [[fileController objects] objectAtIndex:indexPath.row];
 			if( [selectedFile stringLength] > 75000 && selectedFile != currentFile && !selectedFile.hasBeenSorted )
 			{
-				if( self.interfaceOrientation == UIInterfaceOrientationLandscapeLeft ||
-				   self.interfaceOrientation == UIInterfaceOrientationLandscapeRight )
-				{
-					CGRect frame = activityView.frame;
-					frame.size = CGSizeMake(480, 320);
-					activityView.frame = frame;
-				}
-				else
-				{
-					CGRect frame = activityView.frame;
-					frame.size = CGSizeMake(320, 480);
-					activityView.frame = frame;
-				}
-				[self.view addSubview:activityView];
-				[fileParsingActivityView startAnimating];
+				[[CSV_TouchAppDelegate sharedInstance] slowActivityStartedInViewController:self];
 			}
 			[self performSelector:@selector(delayedPushItemController:)
 					   withObject:selectedFile

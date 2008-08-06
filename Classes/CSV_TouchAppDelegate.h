@@ -29,6 +29,10 @@ OzymandiasApplicationDelegate> {
 	IBOutlet UIActivityIndicatorView *downloadActivityView;
 	IBOutlet UIToolbar *downloadToolbar;
 
+	// For better GUI when things are slow...
+	IBOutlet UIView *activityView;
+	IBOutlet UIActivityIndicatorView *fileParsingActivityView;
+	
 	NSURLConnection *connection;
     NSMutableData *rawData;
 }
@@ -45,6 +49,9 @@ OzymandiasApplicationDelegate> {
 - (IBAction) doDownloadNewFile:(id)sender;
 - (IBAction) cancelDownloadNewFile:(id)sender;
 
-- (void) openDownloadFileWithString:(NSString *)URL;
+- (void) downloadFileWithString:(NSString *)URL;
+
+- (void) slowActivityStartedInViewController:(UIViewController *)viewController;
+- (void) slowActivityCompleted;
 
 @end

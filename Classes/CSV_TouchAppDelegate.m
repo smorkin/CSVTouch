@@ -169,6 +169,7 @@ static CSV_TouchAppDelegate *sharedInstance = nil;
 - (void) downloadDone
 {
 	[downloadActivityView stopAnimating];
+	[self slowActivityCompleted];
 	[newFileURL endEditing:YES];
 	[[self viewController] dismissModalViewControllerAnimated:YES];
 }
@@ -205,12 +206,10 @@ static CSV_TouchAppDelegate *sharedInstance = nil;
 	[[self viewController] presentModalViewController:downloadNewFileController animated:YES];
 }
 
-- (IBAction) doDownloadNewFile:(id)sender
+- (void) startDownloadUsingURL:(NSURL *)url
 {
-	[downloadActivityView startAnimating];
 	[rawData release];
 	rawData = [[NSMutableData alloc] init];
-	NSURL *url = [NSURL URLWithString:[[newFileURL text] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
 	NSURLRequest *theRequest=[NSURLRequest requestWithURL:url
                                               cachePolicy:NSURLRequestReloadIgnoringLocalCacheData
                                           timeoutInterval:10.0];
@@ -227,15 +226,25 @@ static CSV_TouchAppDelegate *sharedInstance = nil;
 	}
 }
 
+// This is when the user presses the "Download" button (the icon with the map) or presses "Enter" on keyboard
+- (IBAction) doDownloadNewFile:(id)sender
+{
+	[downloadActivityView startAnimating];
+	[self startDownloadUsingURL:[NSURL URLWithString:[[newFileURL text] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
+}
+
 - (IBAction) cancelDownloadNewFile:(id)sender
 {
 	[self downloadDone];
 }
 
-- (void) openDownloadFileWithString:(NSString *)URL
+- (void) downloadFileWithString:(NSString *)URL
 {
+	[self slowActivityStartedInViewController:[self dataController]];
+	[self startDownloadUsingURL:[NSURL URLWithString:[URL stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
+
+	// Update this if you want to download a file from a similar URL later on
 	newFileURL.text = URL;
-	[self downloadNewFile:self];
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
@@ -246,4 +255,22 @@ static CSV_TouchAppDelegate *sharedInstance = nil;
 	}
 	return YES;
 }
+
+- (void) slowActivityStartedInViewController:(UIViewController *)viewController
+{
+	activityView.frame = viewController.view.frame;
+	[viewController.view addSubview:activityView];
+	[fileParsingActivityView startAnimating];
+}
+
+- (void) slowActivityCompleted
+{
+	if( [fileParsingActivityView isAnimating] )
+	{
+		[fileParsingActivityView stopAnimating];
+		[activityView removeFromSuperview];
+	}
+}	
+	
+
 @end

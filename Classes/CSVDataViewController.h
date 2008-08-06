@@ -18,10 +18,6 @@
 	IBOutlet OzyTableViewController *fileController;
 	IBOutlet OzyTextViewController *parseErrorController;
 	
-	// For better GUI when things are slow...
-	IBOutlet UIView *activityView;
-	IBOutlet UIActivityIndicatorView *fileParsingActivityView;
-
 	CSVFileParser *currentFile;
 	BOOL itemsNeedResorting;
 	BOOL itemsNeedFiltering;
