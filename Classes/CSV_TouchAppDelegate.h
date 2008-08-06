@@ -27,6 +27,7 @@ OzymandiasApplicationDelegate> {
 	IBOutlet UIViewController *downloadNewFileController;
 	IBOutlet UITextField *newFileURL;
 	IBOutlet UIActivityIndicatorView *downloadActivityView;
+	IBOutlet UIToolbar *downloadToolbar;
 
 	NSURLConnection *connection;
     NSMutableData *rawData;

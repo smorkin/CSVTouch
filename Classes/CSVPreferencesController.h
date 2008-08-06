@@ -29,7 +29,6 @@
 	IBOutlet UISegmentedControl *sizeControl;
 	IBOutlet UISwitch *allowRotatableInterface;
 	IBOutlet UISwitch *useGroupingForItems;
-	IBOutlet UISwitch *useSimpleDetailsView;
 	// Sorting
 	IBOutlet UISwitch *numericCompareSwitch;
 	IBOutlet UISwitch *caseSensitiveCompareSwitch;
@@ -56,7 +55,6 @@
 - (IBAction) groupingChanged:(id)sender;
 - (IBAction) keepQuotesChanged:(id)sender;
 - (IBAction) showDebugInfoChanged:(id)sender;
-- (IBAction) useSimpleDetailsViewChanged:(id)sender;
 
 + (NSString *) delimiter;
 + (NSInteger) tableViewSize;
@@ -69,7 +67,6 @@
 + (BOOL) keepQuotes;
 + (BOOL) showDebugInfo;
 + (BOOL) safeStart;
-+ (BOOL) useSimpleDetailsView;
 + (BOOL) useBlackTheme;
 + (NSUInteger) sortingMask;
 extern NSUInteger sortingMask; // This is available for performance-critical operations

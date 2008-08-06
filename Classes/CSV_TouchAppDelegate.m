@@ -111,6 +111,7 @@ static CSV_TouchAppDelegate *sharedInstance = nil;
 	{
 		[self dataController].navigationBar.barStyle = UIBarStyleBlackOpaque;
 		[self prefsController].navigationBar.barStyle = UIBarStyleBlackOpaque;
+		downloadToolbar.barStyle = UIBarStyleBlackOpaque;
 		[[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackOpaque animated:NO];
 	}		
 

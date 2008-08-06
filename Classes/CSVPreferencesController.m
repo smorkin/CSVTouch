@@ -192,7 +192,6 @@ static CSVPreferencesController *sharedInstance = nil;
 #define PREFS_SAFE_START @"safeStart"
 #define PREFS_KEEP_QUOTES @"keepQuotes"
 #define PREFS_SHOW_DEBUG_INFO @"showDebugInfo"
-#define PREFS_USE_SIMPLE_DETAILS_VIEW @"useSimpleDetailsView"
 #define PREFS_USE_BLACK_THEME @"useBlackTheme"
 
 - (void) loadPreferences
@@ -251,7 +250,6 @@ static CSVPreferencesController *sharedInstance = nil;
 	useGroupingForItems.on = [CSVPreferencesController useGroupingForItems];
 	keepQuotes.on = [CSVPreferencesController keepQuotes];
 	showDebugInfo.on = [CSVPreferencesController showDebugInfo];
-	useSimpleDetailsView.on = [CSVPreferencesController useSimpleDetailsView];
 }
 
 #define ABOUT_ID @"aboutID"
@@ -481,20 +479,6 @@ static BOOL useGroupingForItemsHasChangedSinceStart = NO;
 	}
 }
 
-+ (BOOL) useSimpleDetailsView
-{
-	return [[NSUserDefaults standardUserDefaults] boolForKey:PREFS_USE_SIMPLE_DETAILS_VIEW];
-}
-
-+ (void) setUseSimpleDetailsView:(BOOL)useSimple
-{
-	if( [self useSimpleDetailsView] != useSimple )
-	{
-		[[NSUserDefaults standardUserDefaults] setBool:useSimple
-												forKey:PREFS_USE_SIMPLE_DETAILS_VIEW];
-	}
-}
-
 + (BOOL) useBlackTheme
 {
 	return [[NSUserDefaults standardUserDefaults] boolForKey:PREFS_USE_BLACK_THEME];
@@ -650,14 +634,6 @@ NSUInteger sortingMask;
 		return;
 	
 	[CSVPreferencesController setShowDebugInfo:showDebugInfo.on];
-}
-
-- (IBAction) useSimpleDetailsViewChanged:(id)sender
-{
-	if( startupInProgress )
-		return;
-	
-	[CSVPreferencesController setUseSimpleDetailsView:useSimpleDetailsView.on];
 }
 
 @end

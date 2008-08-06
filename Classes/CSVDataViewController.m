@@ -132,14 +132,14 @@
 	}
 }	
 	
-- (UIViewController *) currentDetailsController
-{
-	if( [CSVPreferencesController useSimpleDetailsView] )
-		return detailsController;
-	else
-		return fancyDetailsController;
-}
-
+//- (UIViewController *) currentDetailsController
+//{
+//	if( [CSVPreferencesController useSimpleDetailsView] )
+//		return detailsController;
+//	else
+//		return fancyDetailsController;
+//}
+//
 - (void) selectFile:(CSVFileParser *)file
 {		
 	// Store current position of itemController and search string
@@ -205,21 +205,18 @@
 
 - (void) selectDetailsForRow:(NSUInteger)row
 {
-	if( [CSVPreferencesController useSimpleDetailsView] )	
-	{
-		if( [[itemController objects] count] > row )
-			[[detailsController textView] setText:[(CSVRow *)[[itemController objects] objectAtIndex:row] longDescription]];
-		else
-			[[detailsController textView] setText:@"No data found!"];
-	}
+	// First simple details view
+	if( [[itemController objects] count] > row )
+		[[detailsController textView] setText:[(CSVRow *)[[itemController objects] objectAtIndex:row] longDescription]];
 	else
-	{
-		NSMutableArray *items = [(CSVRow *)[[itemController objects] objectAtIndex:row] longDescriptionInArray];
-		[items sortUsingSelector:@selector(compareFancyDetails:)];
-		fancyDetailsController.objects = items;
-		fancyDetailsController.removeDisclosure = YES;
-		[fancyDetailsController dataLoaded];
-	}
+		[[detailsController textView] setText:@"No data found!"];
+	
+	// Then fancy view
+	NSMutableArray *items = [(CSVRow *)[[itemController objects] objectAtIndex:row] longDescriptionInArray];
+	[items sortUsingSelector:@selector(compareFancyDetails:)];
+	fancyDetailsController.objects = items;
+	fancyDetailsController.removeDisclosure = YES;
+	[fancyDetailsController dataLoaded];
 }
 
 - (NSString *) idForController:(UIViewController *)controller
@@ -228,7 +225,7 @@
 		return FILES_ID;
 	else if( controller == itemController )
 		return OBJECTS_ID;
-	else if( controller == [self currentDetailsController] )
+	else if( controller == fancyDetailsController || controller == detailsController )
 		return DETAILS_ID;
 	else
 		return @"";
@@ -241,7 +238,7 @@
 	else if( [controllerId isEqualToString:OBJECTS_ID] )
 		return itemController;
 	else if( [controllerId isEqualToString:DETAILS_ID] )
-		return [self currentDetailsController];
+		return fancyDetailsController;
 	else
 		return nil;	
 }
@@ -395,7 +392,7 @@
 	if( [indexPathDictionary isKindOfClass:[NSDictionary class]] )
 	{
 		NSIndexPath *indexPath = [NSIndexPath indexPathWithDictionary:indexPathDictionary];
-		if( [self topViewController] == [self currentDetailsController] )
+		if( [self topViewController] == fancyDetailsController )
 		{
 			if( [itemController itemExistsAtIndexPath:indexPath] )
 			{
@@ -577,13 +574,26 @@ static CSVDataViewController *sharedInstance = nil;
 	}
 }
 
+- (IBAction) toggleDetailsView:(id)sender
+{
+	if( [self topViewController] == detailsController )
+	{
+		[self popViewControllerAnimated:NO];
+		[self pushViewController:fancyDetailsController animated:NO];
+	}
+	else
+	{
+		[self popViewControllerAnimated:NO];
+		[self pushViewController:detailsController animated:NO];
+	}	
+}
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	if( tableView == [itemController tableView] )
 	{
 		[self selectDetailsForRow:[itemController indexForObjectAtIndexPath:indexPath]];
-		[self pushViewController:[self currentDetailsController]
-						animated:YES];
+		[self pushViewController:fancyDetailsController animated:YES];
 	}
 	else if( tableView == [fileController tableView] )
 	{

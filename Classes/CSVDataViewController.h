@@ -51,6 +51,7 @@
 - (IBAction) resetColumnNames:(id)sender;
 - (IBAction) toggleRefreshFiles:(id)sender;
 - (IBAction) toggleShowingRawString:(id)sender;
+- (IBAction) toggleDetailsView:(id)sender;
 
 - (void) setFiles:(NSArray *) files;
 
