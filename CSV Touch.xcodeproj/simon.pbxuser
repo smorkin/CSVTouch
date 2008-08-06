@@ -4,14 +4,14 @@
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {749, 826}}";
 			sepNavSelRange = "{528, 0}";
-			sepNavVisRange = "{143, 1228}";
+			sepNavVisRange = "{146, 906}";
 		};
 	};
 	1D3623250D0F684500981E51 /* CSV_TouchAppDelegate.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {840, 3976}}";
-			sepNavSelRange = "{6699, 0}";
-			sepNavVisRange = "{6698, 1014}";
+			sepNavIntBoundsRect = "{{0, 0}, {840, 3836}}";
+			sepNavSelRange = "{6842, 0}";
+			sepNavVisRange = "{6698, 792}";
 			sepNavWindowFrame = "{{142, 108}, {750, 558}}";
 		};
 	};
@@ -37,7 +37,7 @@
 		};
 	};
 	29B97313FDCFA39411CA2CEA /* Project object */ = {
-		activeBuildConfigurationName = Privatdistribution;
+		activeBuildConfigurationName = Distribution;
 		activeExecutable = F41233730DE4ABFC005E355F /* CSV Touch */;
 		activeSDKPreference = iphoneos2.0;
 		activeTarget = 1D6058900D05DD3D006BFB54 /* CSV Touch */;
@@ -336,6 +336,18 @@
 			F491C3050E4A4C9A002FB86B /* PBXTextBookmark */ = F491C3050E4A4C9A002FB86B /* PBXTextBookmark */;
 			F491C30D0E4A4D04002FB86B /* PBXTextBookmark */ = F491C30D0E4A4D04002FB86B /* PBXTextBookmark */;
 			F491C30F0E4A510D002FB86B /* PBXTextBookmark */ = F491C30F0E4A510D002FB86B /* PBXTextBookmark */;
+			F491C3170E4A513D002FB86B /* PBXTextBookmark */ = F491C3170E4A513D002FB86B /* PBXTextBookmark */;
+			F491C31A0E4A551F002FB86B /* PBXTextBookmark */ = F491C31A0E4A551F002FB86B /* PBXTextBookmark */;
+			F491C31B0E4A551F002FB86B /* PBXTextBookmark */ = F491C31B0E4A551F002FB86B /* PBXTextBookmark */;
+			F491C31C0E4A551F002FB86B /* PBXTextBookmark */ = F491C31C0E4A551F002FB86B /* PBXTextBookmark */;
+			F491C31D0E4A551F002FB86B /* PBXTextBookmark */ = F491C31D0E4A551F002FB86B /* PBXTextBookmark */;
+			F491C31E0E4A551F002FB86B /* PBXTextBookmark */ = F491C31E0E4A551F002FB86B /* PBXTextBookmark */;
+			F491C31F0E4A551F002FB86B /* PBXTextBookmark */ = F491C31F0E4A551F002FB86B /* PBXTextBookmark */;
+			F491C3200E4A551F002FB86B /* PBXTextBookmark */ = F491C3200E4A551F002FB86B /* PBXTextBookmark */;
+			F491C3210E4A551F002FB86B /* PBXTextBookmark */ = F491C3210E4A551F002FB86B /* PBXTextBookmark */;
+			F491C3220E4A551F002FB86B /* PBXTextBookmark */ = F491C3220E4A551F002FB86B /* PBXTextBookmark */;
+			F491C3230E4A551F002FB86B /* PBXTextBookmark */ = F491C3230E4A551F002FB86B /* PBXTextBookmark */;
+			F491C3240E4A551F002FB86B /* PBXTextBookmark */ = F491C3240E4A551F002FB86B /* PBXTextBookmark */;
 			F493958F0E464F4E00B9D904 = F493958F0E464F4E00B9D904 /* PBXTextBookmark */;
 			F4A30C750E30129100422116 = F4A30C750E30129100422116 /* PBXTextBookmark */;
 			F4BE8AB40E4503E800F2A27B = F4BE8AB40E4503E800F2A27B /* PBXTextBookmark */;
@@ -616,7 +628,7 @@
 		fRef = F42D908D0DE95538001A2E5C /* CSVDataViewController.m */;
 		name = "CSVDataViewController.m: 626";
 		rLen = 0;
-		rLoc = 20977;
+		rLoc = 21051;
 		rType = 0;
 		vrLen = 528;
 		vrLoc = 20249;
@@ -716,16 +728,16 @@
 	};
 	F42D908C0DE95538001A2E5C /* CSVDataViewController.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {749, 924}}";
-			sepNavSelRange = "{592, 0}";
-			sepNavVisRange = "{144, 1168}";
+			sepNavIntBoundsRect = "{{0, 0}, {749, 952}}";
+			sepNavSelRange = "{722, 22}";
+			sepNavVisRange = "{148, 690}";
 		};
 	};
 	F42D908D0DE95538001A2E5C /* CSVDataViewController.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1068, 10416}}";
-			sepNavSelRange = "{19004, 0}";
-			sepNavVisRange = "{18338, 1246}";
+			sepNavIntBoundsRect = "{{0, 0}, {1068, 10430}}";
+			sepNavSelRange = "{12346, 0}";
+			sepNavVisRange = "{11301, 1660}";
 			sepNavWindowFrame = "{{59, 215}, {750, 558}}";
 		};
 	};
@@ -768,9 +780,9 @@
 	};
 	F47819840E2BDE7A00B44E78 /* CSVPreferencesController.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {762, 8960}}";
+			sepNavIntBoundsRect = "{{0, 0}, {749, 8918}}";
 			sepNavSelRange = "{2366, 0}";
-			sepNavVisRange = "{1984, 1144}";
+			sepNavVisRange = "{1984, 653}";
 			sepNavWindowFrame = "{{59, 102}, {868, 671}}";
 		};
 	};
@@ -840,7 +852,7 @@
 		fRef = F42D908D0DE95538001A2E5C /* CSVDataViewController.m */;
 		name = "CSVDataViewController.m: 579";
 		rLen = 18;
-		rLoc = 19731;
+		rLoc = 19805;
 		rType = 0;
 		vrLen = 1562;
 		vrLoc = 18567;
@@ -906,7 +918,7 @@
 		fRef = F42D908D0DE95538001A2E5C /* CSVDataViewController.m */;
 		name = "CSVDataViewController.m: 581";
 		rLen = 0;
-		rLoc = 19784;
+		rLoc = 19858;
 		rType = 0;
 		vrLen = 1442;
 		vrLoc = 18567;
@@ -916,7 +928,7 @@
 		fRef = F42D908D0DE95538001A2E5C /* CSVDataViewController.m */;
 		name = "CSVDataViewController.m: 581";
 		rLen = 2;
-		rLoc = 19782;
+		rLoc = 19856;
 		rType = 0;
 		vrLen = 1433;
 		vrLoc = 18567;
@@ -926,7 +938,7 @@
 		fRef = F42D908D0DE95538001A2E5C /* CSVDataViewController.m */;
 		name = "CSVDataViewController.m: 581";
 		rLen = 0;
-		rLoc = 19784;
+		rLoc = 19858;
 		rType = 0;
 		vrLen = 1434;
 		vrLoc = 18567;
@@ -983,7 +995,7 @@
 		fRef = F42D908D0DE95538001A2E5C /* CSVDataViewController.m */;
 		name = "CSVDataViewController.m: 587";
 		rLen = 0;
-		rLoc = 19894;
+		rLoc = 19968;
 		rType = 0;
 		vrLen = 1300;
 		vrLoc = 18476;
@@ -1411,7 +1423,7 @@
 		fRef = F42D908D0DE95538001A2E5C /* CSVDataViewController.m */;
 		name = "CSVDataViewController.m: 602";
 		rLen = 22;
-		rLoc = 20334;
+		rLoc = 20408;
 		rType = 0;
 		vrLen = 825;
 		vrLoc = 19423;
@@ -1438,7 +1450,7 @@
 		fRef = F42D908D0DE95538001A2E5C /* CSVDataViewController.m */;
 		name = "CSVDataViewController.m: 602";
 		rLen = 22;
-		rLoc = 20334;
+		rLoc = 20408;
 		rType = 0;
 		vrLen = 1436;
 		vrLoc = 19242;
@@ -1458,7 +1470,7 @@
 		fRef = F42D908D0DE95538001A2E5C /* CSVDataViewController.m */;
 		name = "CSVDataViewController.m: 602";
 		rLen = 22;
-		rLoc = 20334;
+		rLoc = 20408;
 		rType = 0;
 		vrLen = 825;
 		vrLoc = 19423;
@@ -1488,7 +1500,7 @@
 		fRef = F42D908D0DE95538001A2E5C /* CSVDataViewController.m */;
 		name = "CSVDataViewController.m: 602";
 		rLen = 22;
-		rLoc = 20334;
+		rLoc = 20408;
 		rType = 0;
 		vrLen = 1396;
 		vrLoc = 19147;
@@ -1508,7 +1520,7 @@
 		fRef = F42D908D0DE95538001A2E5C /* CSVDataViewController.m */;
 		name = "CSVDataViewController.m: 604";
 		rLen = 0;
-		rLoc = 20292;
+		rLoc = 20366;
 		rType = 0;
 		vrLen = 1354;
 		vrLoc = 19564;
@@ -1548,7 +1560,7 @@
 		comments = "error: 'fileParsingActivityView' undeclared (first use in this function)";
 		fRef = F42D908D0DE95538001A2E5C /* CSVDataViewController.m */;
 		rLen = 1;
-		rLoc = 535;
+		rLoc = 536;
 		rType = 1;
 	};
 	F491C2BD0E4A43F6002FB86B /* PBXTextBookmark */ = {
@@ -1556,7 +1568,7 @@
 		fRef = F42D908D0DE95538001A2E5C /* CSVDataViewController.m */;
 		name = "CSVDataViewController.m: 602";
 		rLen = 0;
-		rLoc = 20292;
+		rLoc = 20366;
 		rType = 0;
 		vrLen = 1428;
 		vrLoc = 19309;
@@ -1576,7 +1588,7 @@
 		fRef = F42D908D0DE95538001A2E5C /* CSVDataViewController.m */;
 		name = "CSVDataViewController.m: 602";
 		rLen = 0;
-		rLoc = 20292;
+		rLoc = 20366;
 		rType = 0;
 		vrLen = 1361;
 		vrLoc = 19102;
@@ -1606,7 +1618,7 @@
 		fRef = F42D908D0DE95538001A2E5C /* CSVDataViewController.m */;
 		name = "CSVDataViewController.m: 622";
 		rLen = 1;
-		rLoc = 20738;
+		rLoc = 20812;
 		rType = 0;
 		vrLen = 1379;
 		vrLoc = 19423;
@@ -1636,7 +1648,7 @@
 		fRef = F42D908D0DE95538001A2E5C /* CSVDataViewController.m */;
 		name = "CSVDataViewController.m: 622";
 		rLen = 1;
-		rLoc = 20738;
+		rLoc = 20812;
 		rType = 0;
 		vrLen = 1379;
 		vrLoc = 19422;
@@ -1666,7 +1678,7 @@
 		fRef = F42D908D0DE95538001A2E5C /* CSVDataViewController.m */;
 		name = "CSVDataViewController.m: 612";
 		rLen = 0;
-		rLoc = 20658;
+		rLoc = 20732;
 		rType = 0;
 		vrLen = 1316;
 		vrLoc = 19515;
@@ -1696,7 +1708,7 @@
 		fRef = F42D908D0DE95538001A2E5C /* CSVDataViewController.m */;
 		name = "CSVDataViewController.m: 609";
 		rLen = 0;
-		rLoc = 20658;
+		rLoc = 20732;
 		rType = 0;
 		vrLen = 1316;
 		vrLoc = 19515;
@@ -1746,7 +1758,7 @@
 		fRef = F42D908D0DE95538001A2E5C /* CSVDataViewController.m */;
 		name = "CSVDataViewController.m: 605";
 		rLen = 0;
-		rLoc = 20738;
+		rLoc = 20812;
 		rType = 0;
 		vrLen = 989;
 		vrLoc = 19650;
@@ -1756,7 +1768,7 @@
 		fRef = F42D908D0DE95538001A2E5C /* CSVDataViewController.m */;
 		name = "CSVDataViewController.m: 605";
 		rLen = 0;
-		rLoc = 20738;
+		rLoc = 20812;
 		rType = 0;
 		vrLen = 923;
 		vrLoc = 19650;
@@ -1776,7 +1788,7 @@
 		fRef = F42D908D0DE95538001A2E5C /* CSVDataViewController.m */;
 		name = "CSVDataViewController.m: 605";
 		rLen = 0;
-		rLoc = 20738;
+		rLoc = 20812;
 		rType = 0;
 		vrLen = 801;
 		vrLoc = 19650;
@@ -1796,7 +1808,7 @@
 		fRef = F42D908D0DE95538001A2E5C /* CSVDataViewController.m */;
 		name = "CSVDataViewController.m: 605";
 		rLen = 0;
-		rLoc = 20738;
+		rLoc = 20812;
 		rType = 0;
 		vrLen = 801;
 		vrLoc = 19650;
@@ -1806,7 +1818,7 @@
 		fRef = F42D908D0DE95538001A2E5C /* CSVDataViewController.m */;
 		name = "CSVDataViewController.m: 605";
 		rLen = 0;
-		rLoc = 20738;
+		rLoc = 20812;
 		rType = 0;
 		vrLen = 1012;
 		vrLoc = 19496;
@@ -1826,7 +1838,7 @@
 		fRef = F42D908D0DE95538001A2E5C /* CSVDataViewController.m */;
 		name = "CSVDataViewController.m: 605";
 		rLen = 0;
-		rLoc = 20738;
+		rLoc = 20812;
 		rType = 0;
 		vrLen = 1012;
 		vrLoc = 19496;
@@ -1886,7 +1898,7 @@
 		fRef = F42D908D0DE95538001A2E5C /* CSVDataViewController.m */;
 		name = "CSVDataViewController.m: 605";
 		rLen = 0;
-		rLoc = 20738;
+		rLoc = 20812;
 		rType = 0;
 		vrLen = 1291;
 		vrLoc = 19029;
@@ -1906,7 +1918,7 @@
 		fRef = F42D908D0DE95538001A2E5C /* CSVDataViewController.m */;
 		name = "CSVDataViewController.m: 605";
 		rLen = 0;
-		rLoc = 20738;
+		rLoc = 20812;
 		rType = 0;
 		vrLen = 1291;
 		vrLoc = 19029;
@@ -1966,7 +1978,7 @@
 		fRef = F42D908D0DE95538001A2E5C /* CSVDataViewController.m */;
 		name = "CSVDataViewController.m: 605";
 		rLen = 0;
-		rLoc = 20738;
+		rLoc = 20812;
 		rType = 0;
 		vrLen = 1350;
 		vrLoc = 18972;
@@ -1996,7 +2008,7 @@
 		fRef = F42D908D0DE95538001A2E5C /* CSVDataViewController.m */;
 		name = "CSVDataViewController.m: 573";
 		rLen = 0;
-		rLoc = 19343;
+		rLoc = 19417;
 		rType = 0;
 		vrLen = 1497;
 		vrLoc = 18502;
@@ -2006,7 +2018,7 @@
 		fRef = F42D908D0DE95538001A2E5C /* CSVDataViewController.m */;
 		name = "CSVDataViewController.m: 569";
 		rLen = 0;
-		rLoc = 19001;
+		rLoc = 19075;
 		rType = 0;
 		vrLen = 1492;
 		vrLoc = 18502;
@@ -2016,7 +2028,7 @@
 		fRef = F42D908D0DE95538001A2E5C /* CSVDataViewController.m */;
 		name = "CSVDataViewController.m: 569";
 		rLen = 0;
-		rLoc = 19004;
+		rLoc = 19078;
 		rType = 0;
 		vrLen = 1635;
 		vrLoc = 18161;
@@ -2026,7 +2038,7 @@
 		fRef = F42D908D0DE95538001A2E5C /* CSVDataViewController.m */;
 		name = "CSVDataViewController.m: 569";
 		rLen = 0;
-		rLoc = 19004;
+		rLoc = 19078;
 		rType = 0;
 		vrLen = 1417;
 		vrLoc = 18161;
@@ -2036,7 +2048,7 @@
 		fRef = F42D908D0DE95538001A2E5C /* CSVDataViewController.m */;
 		name = "CSVDataViewController.m: 569";
 		rLen = 0;
-		rLoc = 19004;
+		rLoc = 19078;
 		rType = 0;
 		vrLen = 1246;
 		vrLoc = 18338;
@@ -2046,10 +2058,130 @@
 		fRef = F42D908D0DE95538001A2E5C /* CSVDataViewController.m */;
 		name = "CSVDataViewController.m: 569";
 		rLen = 0;
-		rLoc = 19004;
+		rLoc = 19078;
 		rType = 0;
 		vrLen = 1246;
 		vrLoc = 18338;
+	};
+	F491C3170E4A513D002FB86B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = F42D908D0DE95538001A2E5C /* CSVDataViewController.m */;
+		name = "CSVDataViewController.m: 569";
+		rLen = 0;
+		rLoc = 19078;
+		rType = 0;
+		vrLen = 1246;
+		vrLoc = 18338;
+	};
+	F491C31A0E4A551F002FB86B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = F47819840E2BDE7A00B44E78 /* CSVPreferencesController.m */;
+		name = "CSVPreferencesController.m: 79";
+		rLen = 0;
+		rLoc = 2366;
+		rType = 0;
+		vrLen = 653;
+		vrLoc = 1984;
+	};
+	F491C31B0E4A551F002FB86B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1D3623250D0F684500981E51 /* CSV_TouchAppDelegate.m */;
+		name = "CSV_TouchAppDelegate.m: 243";
+		rLen = 0;
+		rLoc = 6842;
+		rType = 0;
+		vrLen = 792;
+		vrLoc = 6698;
+	};
+	F491C31C0E4A551F002FB86B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1D3623240D0F684500981E51 /* CSV_TouchAppDelegate.h */;
+		name = "CSV_TouchAppDelegate.h: 22";
+		rLen = 0;
+		rLoc = 528;
+		rType = 0;
+		vrLen = 906;
+		vrLoc = 146;
+	};
+	F491C31D0E4A551F002FB86B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = F42D908C0DE95538001A2E5C /* CSVDataViewController.h */;
+		name = "CSVDataViewController.h: 26";
+		rLen = 22;
+		rLoc = 722;
+		rType = 0;
+		vrLen = 690;
+		vrLoc = 148;
+	};
+	F491C31E0E4A551F002FB86B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = F42D908D0DE95538001A2E5C /* CSVDataViewController.m */;
+		name = "CSVDataViewController.m: 475";
+		rLen = 0;
+		rLoc = 15641;
+		rType = 0;
+		vrLen = 1400;
+		vrLoc = 15440;
+	};
+	F491C31F0E4A551F002FB86B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = F42D908D0DE95538001A2E5C /* CSVDataViewController.m */;
+		name = "CSVDataViewController.m: 569";
+		rLen = 0;
+		rLoc = 19078;
+		rType = 0;
+		vrLen = 1246;
+		vrLoc = 18338;
+	};
+	F491C3200E4A551F002FB86B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = F47819840E2BDE7A00B44E78 /* CSVPreferencesController.m */;
+		name = "CSVPreferencesController.m: 79";
+		rLen = 0;
+		rLoc = 2366;
+		rType = 0;
+		vrLen = 653;
+		vrLoc = 1984;
+	};
+	F491C3210E4A551F002FB86B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1D3623250D0F684500981E51 /* CSV_TouchAppDelegate.m */;
+		name = "CSV_TouchAppDelegate.m: 243";
+		rLen = 0;
+		rLoc = 6842;
+		rType = 0;
+		vrLen = 792;
+		vrLoc = 6698;
+	};
+	F491C3220E4A551F002FB86B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1D3623240D0F684500981E51 /* CSV_TouchAppDelegate.h */;
+		name = "CSV_TouchAppDelegate.h: 22";
+		rLen = 0;
+		rLoc = 528;
+		rType = 0;
+		vrLen = 906;
+		vrLoc = 146;
+	};
+	F491C3230E4A551F002FB86B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = F42D908C0DE95538001A2E5C /* CSVDataViewController.h */;
+		name = "CSVDataViewController.h: 26";
+		rLen = 22;
+		rLoc = 722;
+		rType = 0;
+		vrLen = 690;
+		vrLoc = 148;
+	};
+	F491C3240E4A551F002FB86B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = F42D908D0DE95538001A2E5C /* CSVDataViewController.m */;
+		name = "CSVDataViewController.m: 365";
+		rLen = 0;
+		rLoc = 12346;
+		rType = 0;
+		vrLen = 1660;
+		vrLoc = 11301;
 	};
 	F493958F0E464F4E00B9D904 /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;

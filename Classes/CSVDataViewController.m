@@ -339,9 +339,6 @@
 	[self pushViewController:fileController animated:NO];
 	[self updateBadgeValueUsingItem:fileController.navigationItem push:YES];
 	
-	if( emergencyMode )
-		return;
-	
 	// Read last state to be able to get back to where we were before quitting last time
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 
@@ -364,6 +361,10 @@
 		[searchStringForFileName release];
 		searchStringForFileName = [[NSMutableDictionary alloc] initWithDictionary:searchStrings];
 	}
+	
+	// If starting up in emergency mode, we should not do anything more here
+	if( emergencyMode )
+		return;
 	
 	// 2. Read in the saved current file
 	NSString *fileName = [defaults objectForKey:DEFS_CURRENT_FILE];

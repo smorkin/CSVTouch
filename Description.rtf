@@ -9,6 +9,7 @@
 To read the files, you must be able to access them using a standard WWW address, like "http://www.mysite.com/myfile.csv". However, once the file has been read, it is stored locally on the device and no further web access is necessary. If you change anything in the CSV file at the WWW address, it is trivial to download the new version from the device.\
 \
 FEATURES:\
+- Multiple CSV files stored on your device for offline browsing\
 - Can read files using ",", ";", "|", space, or tab as column separator\
 - Handles all characters, including Japanese, if you use UTF8 encoding\
 - Handles thousands objects (depending on number of columns)\
@@ -19,16 +20,19 @@ Version 1.1\
 BUGFIXES\
 - Fixed bug with delimiter handling which could prevent some files using something besides "," to work\
 - Fixed bug when having more than 16 columns made columns not possible to rearrange\
-- Added possibility for safe start (in general Settings application on the iPhone/iPod); this prevents the app from remembering where it was when you last quit the application. This can be useful both for deleting problematic files which can prevent CSV Touch from starting (simply delete the file after safe start), but also if you prefer this way of working\
-Changed how I handle switching delimiter on-the-fly; now only files you haven't looked at will use the new delimiter until a restart.\
+- Added possibility for safe start (in general Settings application on the iPhone/iPod); this prevents the app from remembering where it was when you last quit the application. This can be useful both for deleting problematic files which can prevent CSV Touch from starting (simply delete the file after safe start), but also if you prefer to always start from the Files view\
+- Changed how I handle switching delimiter on-the-fly; now only files you haven't looked at will use the new delimiter until a restart. If you have looked at lots of files when you change the delimiter, this avoids a potentially lengthy pause while all of these files are handled at once\
 \
 Version 1.2\
-Added possibility to keep quotes in a file, which makes files with quotes inside a column work\
-Added better information for trouble-shooting if a file cannot be read properly\
-Added a debug preference which can be switched on for even more information\
-Added a black theme (available in general iPhone/iPod Settings)\
-Moved the setting for whether to show the status bar or not to the general Settings as well\
-Small polish in some views\
+\
+- Added a black theme (available in general iPhone/iPod Settings)\
+- Added a new details view (the old one is still available in case there is too much data to show nicely in the new view)\
+- Moved the setting for whether to show the status bar or not to the general Settings\
+- Faster & Easier to understand interface for re-downloading a file\
+- Added possibility to keep quotes in a file, which makes files with quotes inside a column work; note that other files might have problems if this is switched on. See http://www.ozymandias.se for examples of when this setting is useful\
+- Added better information for trouble-shooting if a file cannot be read properly\
+- Added a debug preference which can be switched on for even more information if you have problems\
+- Diverse polish & bugfixes\
 \
 ID\
 \
