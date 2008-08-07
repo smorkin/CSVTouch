@@ -61,7 +61,7 @@
 	NSMutableArray *result = [NSMutableArray arrayWithCapacity:(testing ? 2 : 5000)];
 	lineStart = lineEnd = nextLineStart = 0;
 	NSUInteger encoding = [CSVPreferencesController encoding];
-	int maxNumberOfRows = (testing ? 5 : 1000000);
+	int maxNumberOfRows = (testing ? 3 : 1000000);
 	int csvParseFlags = CSV_TRIM | ([CSVPreferencesController keepQuotes] ? 0 : CSV_QUOTES);
 	
 	*foundColumns = -1;
@@ -101,14 +101,24 @@
 				*foundColumns = wordNumber;
 			else if( *foundColumns != wordNumber && wordNumber != 0 )
 			{
-				[_columnNames removeAllObjects];
-				[_parsedItems removeAllObjects];
-				[words release];
-				if( !testing )
+				if(!testing &&
+				   ![CSVPreferencesController showDebugInfo] && 
+					wordNumber < *foundColumns )
 				{
-					_problematicRow = [[NSString stringWithFormat:@"Row %d: %@", numberOfRows, line] retain];
+					for( int i = 0 ; i < *foundColumns - wordNumber ; i++ )
+						[words addObject:@""];
 				}
-				return FALSE;
+				else
+				{
+					[_columnNames removeAllObjects];
+					[_parsedItems removeAllObjects];
+					[words release];
+					if( !testing )
+					{
+						_problematicRow = [[NSString stringWithFormat:@"Row %d: %@", numberOfRows, line] retain];
+					}
+					return FALSE;
+				}
 			}
 			
 			// Add data if not testing

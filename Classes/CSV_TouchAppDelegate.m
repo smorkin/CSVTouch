@@ -112,7 +112,7 @@ static CSV_TouchAppDelegate *sharedInstance = nil;
 		[self dataController].navigationBar.barStyle = UIBarStyleBlackOpaque;
 		[self prefsController].navigationBar.barStyle = UIBarStyleBlackOpaque;
 		downloadToolbar.barStyle = UIBarStyleBlackOpaque;
-		[[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackOpaque animated:NO];
+		[[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackOpaque animated:YES];
 	}		
 
 
@@ -136,7 +136,7 @@ static CSV_TouchAppDelegate *sharedInstance = nil;
 
 - (void)applicationDidFinishLaunching:(UIApplication *)application
 {
-	[[UIApplication sharedApplication] setStatusBarHidden:![CSVPreferencesController showStatusBar] animated:NO];
+	[[UIApplication sharedApplication] setStatusBarHidden:![CSVPreferencesController showStatusBar] animated:YES];
 	[window addSubview:startupController.view];
 	[startupActivityView startAnimating];
 	
@@ -168,6 +168,8 @@ static CSV_TouchAppDelegate *sharedInstance = nil;
 
 - (void) downloadDone
 {
+	[connection release];
+	connection = nil;
 	[downloadActivityView stopAnimating];
 	[self slowActivityCompleted];
 	[newFileURL endEditing:YES];
@@ -190,7 +192,7 @@ static CSV_TouchAppDelegate *sharedInstance = nil;
     [rawData appendData:newData];
 }
 
-- (void)connectionDidFinishLoading:(NSURLConnection *)connection
+- (void)connectionDidFinishLoading:(NSURLConnection *)conn
 {
 	CSVFileParser *fp = [[CSVFileParser alloc] initWithRawData:rawData];
 	fp.filePath = [[CSV_TouchAppDelegate documentsPath] stringByAppendingPathComponent:[[newFileURL text] lastPathComponent]];
