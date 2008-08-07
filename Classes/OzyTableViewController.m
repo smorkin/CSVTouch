@@ -276,8 +276,9 @@
 	if (cell == nil)
 	{
 		cell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:cellIdentifier] autorelease];
-		[cell setFont:[[cell font] fontWithSize:fontSize]];
 	}
+	
+	[cell setFont:[[cell font] fontWithSize:fontSize]];
 	return cell;
 }
 
