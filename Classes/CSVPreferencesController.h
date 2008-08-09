@@ -18,7 +18,6 @@
 	IBOutlet OzyRotatableViewController *appearancePrefsController;
 	IBOutlet OzyRotatableViewController *debugPrefsController;
 	IBOutlet OzyRotatableViewController *aboutController;
-	IBOutlet OzyRotatableViewController *legalController;
 	
 	// Data
 	IBOutlet UISegmentedControl *encodingControl;

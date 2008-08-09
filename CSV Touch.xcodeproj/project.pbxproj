@@ -56,6 +56,7 @@
 		F4174D420E40F9BD00351EE4 /* Thumbnail.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Thumbnail.jpg; sourceTree = "<group>"; };
 		F4174D430E40F9D400351EE4 /* Large comma.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Large comma.png"; sourceTree = "<group>"; };
 		F4174D440E40F9D400351EE4 /* Large comma.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = "Large comma.tif"; sourceTree = "<group>"; };
+		F419D10E0E4D233000111CBE /* Legal.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Legal.plist; path = Settings.bundle/Legal.plist; sourceTree = "<group>"; };
 		F42D908C0DE95538001A2E5C /* CSVDataViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSVDataViewController.h; sourceTree = "<group>"; };
 		F42D908D0DE95538001A2E5C /* CSVDataViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSVDataViewController.m; sourceTree = "<group>"; };
 		F473432C0E2A90B20072F3DE /* col.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = col.png; sourceTree = "<group>"; };
@@ -137,6 +138,7 @@
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
 				F4990C160E4276C500D64667 /* Settings.bundle */,
+				F419D10E0E4D233000111CBE /* Legal.plist */,
 				F4BE8AB00E4503AC00F2A27B /* dist.plist */,
 			);
 			name = CustomTemplate;

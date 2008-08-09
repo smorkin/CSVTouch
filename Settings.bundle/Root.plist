@@ -46,7 +46,7 @@
 			<key>Type</key>
 			<string>PSGroupSpecifier</string>
 			<key>Title</key>
-			<string>Trouble-shooting</string>
+			<string>Troubleshooting</string>
 		</dict>
 		<dict>
 			<key>Type</key>
@@ -61,6 +61,20 @@
 			<true/>
 			<key>FalseValue</key>
 			<false/>
+		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSGroupSpecifier</string>
+			<key>Title</key>
+			<string>General</string>
+		</dict>
+		<dict>
+			<key>File</key>
+			<string>Legal</string>
+			<key>Title</key>
+			<string>Legal</string>
+			<key>Type</key>
+			<string>PSChildPaneSpecifier</string>
 		</dict>
 	</array>
 </dict>
