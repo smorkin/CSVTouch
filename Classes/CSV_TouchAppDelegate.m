@@ -107,6 +107,8 @@ static CSV_TouchAppDelegate *sharedInstance = nil;
 	[[self prefsController] applicationDidFinishLaunchingInEmergencyMode:[CSVPreferencesController safeStart]];
 	[[self dataController] applicationDidFinishLaunchingInEmergencyMode:[CSVPreferencesController safeStart]];
 	
+	newFileURL.clearButtonMode = UITextFieldViewModeWhileEditing;
+	
 	if( [CSVPreferencesController useBlackTheme] )
 	{
 		[self dataController].navigationBar.barStyle = UIBarStyleBlackOpaque;
@@ -256,6 +258,25 @@ static CSV_TouchAppDelegate *sharedInstance = nil;
 		[self performSelector:@selector(doDownloadNewFile:) withObject:self afterDelay:0];
 	}
 	return YES;
+}
+
+- (void) delayedURLOpen:(NSString *)s
+{
+	[self downloadFileWithString:s];
+	tabBarController.selectedIndex = 0;
+	[[self dataController] popToRootViewControllerAnimated:NO];
+}
+
+- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url
+{
+	if( [[url scheme] isEqualToString:@"csvtouch"] )
+	{
+		[self performSelector:@selector(delayedURLOpen:)
+				   withObject:[NSString stringWithFormat:@"http:%@", [url resourceSpecifier]]
+				   afterDelay:0];
+		return YES;
+	}
+	return NO;
 }
 
 - (void) slowActivityStartedInViewController:(UIViewController *)viewController

@@ -29,6 +29,8 @@
 		F4E5EA950E08843D002EB091 /* OzyRotatableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4E5EA940E08843D002EB091 /* OzyRotatableViewController.m */; };
 		F4E5EAAA0E0884D8002EB091 /* OzyRotatableTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4E5EAA90E0884D8002EB091 /* OzyRotatableTabBarController.m */; };
 		F4E5EE300E09B591002EB091 /* OzyTextViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4E5EE2F0E09B591002EB091 /* OzyTextViewController.m */; };
+		F4E928760E4EE808006165B0 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = F4E928750E4EE808006165B0 /* Default.png */; };
+		F4E9290B0E4F5D4C006165B0 /* parseCSV.m in Sources */ = {isa = PBXBuildFile; fileRef = F4E9290A0E4F5D4C006165B0 /* parseCSV.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -77,6 +79,9 @@
 		F4E5EAA90E0884D8002EB091 /* OzyRotatableTabBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OzyRotatableTabBarController.m; sourceTree = "<group>"; };
 		F4E5EE2E0E09B591002EB091 /* OzyTextViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OzyTextViewController.h; sourceTree = "<group>"; };
 		F4E5EE2F0E09B591002EB091 /* OzyTextViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OzyTextViewController.m; sourceTree = "<group>"; };
+		F4E928750E4EE808006165B0 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
+		F4E929090E4F5D4C006165B0 /* parseCSV.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = parseCSV.h; sourceTree = "<group>"; };
+		F4E9290A0E4F5D4C006165B0 /* parseCSV.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = parseCSV.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -116,6 +121,8 @@
 				F4E5EE2F0E09B591002EB091 /* OzyTextViewController.m */,
 				F4A73D190E2EB49200E1DF27 /* OzymandiasAdditions.h */,
 				F4A73D1A0E2EB49200E1DF27 /* OzymandiasAdditions.m */,
+				F4E929090E4F5D4C006165B0 /* parseCSV.h */,
+				F4E9290A0E4F5D4C006165B0 /* parseCSV.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -162,6 +169,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				F4E928750E4EE808006165B0 /* Default.png */,
 				F4174D140E40A4A200351EE4 /* icon.png */,
 				28AD735F0D9D9599002E5188 /* MainWindow.xib */,
 				F473432C0E2A90B20072F3DE /* col.png */,
@@ -272,6 +280,7 @@
 				F4174D150E40A4A200351EE4 /* icon.png in Resources */,
 				F4990C170E4276C500D64667 /* Settings.bundle in Resources */,
 				F4BE8AB10E4503AC00F2A27B /* dist.plist in Resources */,
+				F4E928760E4EE808006165B0 /* Default.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -295,6 +304,7 @@
 				F4E5EE300E09B591002EB091 /* OzyTextViewController.m in Sources */,
 				F47819850E2BDE7A00B44E78 /* CSVPreferencesController.m in Sources */,
 				F4A73D1B0E2EB49200E1DF27 /* OzymandiasAdditions.m in Sources */,
+				F4E9290B0E4F5D4C006165B0 /* parseCSV.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

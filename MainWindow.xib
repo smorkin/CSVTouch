@@ -8,6 +8,7 @@
 		<string key="IBDocument.HIToolboxVersion">352.00</string>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
+			<integer value="79"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -122,7 +123,7 @@
 			</object>
 			<object class="IBUIViewController" id="64250082">
 				<object class="IBUIView" key="IBUIView" id="946984282">
-					<nil key="NSNextResponder"/>
+					<reference key="NSNextResponder"/>
 					<int key="NSvFlags">274</int>
 					<object class="NSMutableArray" key="NSSubviews">
 						<bool key="EncodedWithXMLCoder">YES</bool>
@@ -142,11 +143,6 @@
 								</object>
 								<object class="IBUIBarButtonItem" id="548491075">
 									<int key="IBUISystemItemIdentifier">5</int>
-									<reference key="IBUIToolbar" ref="199461731"/>
-								</object>
-								<object class="IBUIBarButtonItem" id="862984754">
-									<int key="IBUIStyle">1</int>
-									<int key="IBUISystemItemIdentifier">10</int>
 									<reference key="IBUIToolbar" ref="199461731"/>
 								</object>
 							</object>
@@ -189,8 +185,34 @@
 							<bool key="IBUIHidesWhenStopped">NO</bool>
 							<int key="IBUIStyle">2</int>
 						</object>
+						<object class="IBUITextView" id="106426283">
+							<reference key="NSNextResponder" ref="946984282"/>
+							<int key="NSvFlags">274</int>
+							<string key="NSFrame">{{20, 124}, {280, 316}}</string>
+							<reference key="NSSuperview" ref="946984282"/>
+							<bool key="IBUIOpaque">NO</bool>
+							<bool key="IBUIClipsSubviews">YES</bool>
+							<bool key="IBUIMultipleTouchEnabled">YES</bool>
+							<bool key="IBUIShowsHorizontalScrollIndicator">NO</bool>
+							<bool key="IBUIDelaysContentTouches">NO</bool>
+							<bool key="IBUICanCancelContentTouches">NO</bool>
+							<float key="IBUIMinimumZoomScale">0.000000e+00</float>
+							<float key="IBUIMaximumZoomScale">0.000000e+00</float>
+							<bool key="IBUIBouncesZoom">NO</bool>
+							<string type="base64-UTF8" key="IBUIText">MS4gRm9yIEZUUCBkb3dubG9hZCwgcmVtb3ZlICJodHRwOi8vIiBhbmQgdXNlCgpmdHA6Ly91c2VybmFt
+ZTpwYXNzd29yZEBmdHBzZXJ2ZXIuY29tL2ZpbGUuY3N2CgoyLiBBbiBleGFtcGxlIGZpbGUgdG8gdGVz
+dCBDU1YgVG91Y2ggaXMgYXZhaWxhYmxlIGF0CgpodHRwOi8vaWRpc2subWFjLmNvbS9zaW1vbl93aWd6
+ZWxsLVB1YmxpYy9HYW1lcy5jc3Y</string>
+							<object class="NSFont" key="IBUIFont">
+								<string key="NSName">Helvetica</string>
+								<double key="NSSize">1.100000e+01</double>
+								<int key="NSfFlags">16</int>
+							</object>
+							<int key="IBUIMarginTop">0</int>
+						</object>
 					</object>
 					<string key="NSFrameSize">{320, 460}</string>
+					<reference key="NSSuperview"/>
 					<object class="NSColor" key="IBUIBackgroundColor">
 						<int key="NSColorSpace">3</int>
 						<bytes key="NSWhite">MQA</bytes>
@@ -1099,14 +1121,6 @@ Zm9yIHRoZSByZW1vdmVkIGNvbHVtbnMuA</string>
 					<int key="connectionID">93</int>
 				</object>
 				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchEventConnection" key="connection">
-						<string key="label">doDownloadNewFile:</string>
-						<reference key="source" ref="862984754"/>
-						<reference key="destination" ref="664661524"/>
-					</object>
-					<int key="connectionID">94</int>
-				</object>
-				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
 						<string key="label">delegate</string>
 						<reference key="source" ref="617927550"/>
@@ -1745,6 +1759,7 @@ Zm9yIHRoZSByZW1vdmVkIGNvbHVtbnMuA</string>
 							<reference ref="199461731"/>
 							<reference ref="617927550"/>
 							<reference ref="488838928"/>
+							<reference ref="106426283"/>
 						</object>
 						<reference key="parent" ref="64250082"/>
 					</object>
@@ -1754,7 +1769,6 @@ Zm9yIHRoZSByZW1vdmVkIGNvbHVtbnMuA</string>
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<reference ref="119050119"/>
-							<reference ref="862984754"/>
 							<reference ref="548491075"/>
 						</object>
 						<reference key="parent" ref="946984282"/>
@@ -1762,11 +1776,6 @@ Zm9yIHRoZSByZW1vdmVkIGNvbHVtbnMuA</string>
 					<object class="IBObjectRecord">
 						<int key="objectID">81</int>
 						<reference key="object" ref="119050119"/>
-						<reference key="parent" ref="199461731"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">82</int>
-						<reference key="object" ref="862984754"/>
 						<reference key="parent" ref="199461731"/>
 					</object>
 					<object class="IBObjectRecord">
@@ -2351,6 +2360,11 @@ Zm9yIHRoZSByZW1vdmVkIGNvbHVtbnMuA</string>
 						<reference key="object" ref="411791826"/>
 						<reference key="parent" ref="683814877"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">467</int>
+						<reference key="object" ref="106426283"/>
+						<reference key="parent" ref="946984282"/>
+					</object>
 				</object>
 			</object>
 			<object class="NSMutableDictionary" key="flattenedProperties">
@@ -2479,13 +2493,13 @@ Zm9yIHRoZSByZW1vdmVkIGNvbHVtbnMuA</string>
 					<string>447.IBPluginDependency</string>
 					<string>457.IBPluginDependency</string>
 					<string>459.IBPluginDependency</string>
+					<string>467.IBPluginDependency</string>
 					<string>76.CustomClassName</string>
 					<string>76.IBEditorWindowLastContentRect</string>
 					<string>76.IBPluginDependency</string>
 					<string>79.IBPluginDependency</string>
 					<string>80.IBPluginDependency</string>
 					<string>81.IBPluginDependency</string>
-					<string>82.IBPluginDependency</string>
 					<string>83.IBPluginDependency</string>
 					<string>84.IBPluginDependency</string>
 				</object>
@@ -2621,9 +2635,9 @@ Zm9yIHRoZSByZW1vdmVkIGNvbHVtbnMuA</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-					<string>OzyRotatableViewController</string>
-					<string>{{213, 201}, {320, 480}}</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+					<string>OzyRotatableViewController</string>
+					<string>{{213, 200}, {320, 480}}</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -2652,7 +2666,7 @@ Zm9yIHRoZSByZW1vdmVkIGNvbHVtbnMuA</string>
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">463</int>
+			<int key="maxID">467</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">

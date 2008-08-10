@@ -498,7 +498,7 @@ static CSVDataViewController *sharedInstance = nil;
 	// What type of problem?
 	if( file.problematicRow && ![file.problematicRow isEqualToString:@""] )
 	{
-		[s appendFormat:@"Different number of objects in different rows. Potentially first problematic row:\n\n%@\n\n", file.problematicRow];
+		[s appendFormat:@"Wrong number of objects in row(s). Potentially first problematic row:\n\n%@\n\n", file.problematicRow];
 		if( [CSVPreferencesController keepQuotes] && [file.problematicRow hasSubstring:@"\""])
 			[s appendString:@"Try switching off the \"Keep Quotes\"-setting."];
 	}
