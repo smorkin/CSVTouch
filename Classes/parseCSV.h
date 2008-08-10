@@ -14,14 +14,15 @@
 	int bufferSize;
 	char delimiter;
 	NSStringEncoding encoding;
+	NSString *_string;
 }
 -(id)init;
--(BOOL)openFile:(NSString*)fileName;
--(void)closeFile;
 -(char)autodetectDelimiter;
 -(char)delimiter;
 -(void)setDelimiter:(char)newDelimiter;
--(void)setBufferSize:(int)newBufferSize;
 -(NSMutableArray*)parseFile;
 -(void)setEncoding:(NSStringEncoding)newEncoding;
+
+@property (nonatomic, retain) NSString *string;
+
 @end

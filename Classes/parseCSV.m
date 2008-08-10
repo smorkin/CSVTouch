@@ -26,6 +26,9 @@ static char *cstrstr(const char *haystack, const char needle) {
 }
 
 @implementation CSVParser
+
+@synthesize string = _string;
+
 /*
  * Copies a string without beginning- and end-quotes if there are
  * any and returns a pointer to the string or NULL if malloc() failed
@@ -94,6 +97,11 @@ static char *cstrstr(const char *haystack, const char needle) {
 	return 0;
 }
 
+- (void) setBufferSize:(int)newSize
+{
+	bufferSize = newSize;
+}
+
 /*
  * Parses the CSV-file with the given filename and stores the result in a
  * NSMutableArray.
@@ -102,53 +110,64 @@ static char *cstrstr(const char *haystack, const char needle) {
 -(NSMutableArray*)parseFile {
 	NSMutableArray *csvLine = [NSMutableArray array];
 	NSMutableArray *csvContent = [NSMutableArray array];
-	if (fileHandle <= 0)
-		return csvContent;
+//	if (fileHandle <= 0)
+//		return csvContent;
 	char possibleDelimiters[4] = ",;\t\0";
-	int n = 1, diff;
+	int bytesToRead = 1, diff;
 	unsigned int quoteCount = 0;
 	bool firstLine = true;
+	const char *allData = [_string cStringUsingEncoding:encoding];
+	int readBytes = 0;
+	int length = strlen(allData);
+	[self setBufferSize:length+1];
 	char *buffer = malloc(sizeof(char) * (bufferSize + 1));
 	char *textp, *laststop, *lineBeginning, *lastLineBuffer = NULL;
-	lseek(fileHandle, 0, SEEK_SET);
-	while (n > 0) {
-		if (lastLineBuffer != NULL) {
-			if (strlen(lastLineBuffer) == bufferSize) {
-				[csvContent removeAllObjects];
-				[csvContent addObject: [NSArray arrayWithObject: @"ERROR: Buffer too small"]];
-				return csvContent;
-			}
-
-			// Care for the quotes in lastLineBuffer!
-			textp = lastLineBuffer;
-			while (*textp != '\0') {
-				if (*textp == '\"')
-					quoteCount++;
-				textp++;
-			}
-			strcpy(buffer, lastLineBuffer);
-			diff = strlen(lastLineBuffer);
-			// Make the buffer bigger
-			buffer = realloc(buffer, diff + bufferSize);
-			if (buffer == NULL) {
-				[csvContent removeAllObjects];
-				[csvContent addObject: [NSArray arrayWithObject: @"ERROR: Could not allocate bytes for buffer"]];
-				return csvContent;
-			}
-			lastLineBuffer = NULL;
-		} else diff = 0;
-		n = read(fileHandle, (buffer + diff), bufferSize);
-		if (n <= 0)
-			break;
+	
+//	char *currentPos = 0;
+//	lseek(fileHandle, 0, SEEK_SET);
+//	while (bytesToRead > 0) {
+//		if (lastLineBuffer != NULL) {
+//			// Care for the quotes in lastLineBuffer!
+//			textp = lastLineBuffer;
+//			while (*textp != '\0') {
+//				if (*textp == '\"')
+//					quoteCount++;
+//				textp++;
+//			}
+//			strcpy(buffer, lastLineBuffer);
+//			diff = strlen(lastLineBuffer);
+//			// Make the buffer bigger
+//			buffer = realloc(buffer, diff + bufferSize);
+//			lastLineBuffer = NULL;
+//		} 
+//		else
+//		{
+//			diff = 0;
+//		}
+//		
+		bytesToRead =  MIN(bufferSize, length - readBytes);
+//		if( bytesToRead <= 0 )
+//		{
+//			break;
+//		}
+//		else
+		{
+			memcpy(buffer, allData+readBytes, bytesToRead);
+			readBytes += bytesToRead;
+		}
+//		n = read(fileHandle, (buffer + diff), bufferSize);
+//		if (n <= 0)
+//			break;
 		// Terminate buffer correctly
-		if ((diff+n) <= (bufferSize + diff))
-			buffer[diff+n] = '\0';
+		if ((diff+bytesToRead) <= (bufferSize + diff))
+			buffer[diff+bytesToRead] = '\0';
 		
 		textp = (char*)buffer;
 
 		while (*textp != '\0') {
 			// If we don't have a delimiter yet and this is the first line...
-			if (firstLine && delimiter == '\0') {
+			if (firstLine && delimiter == '\0') 
+			{
 				firstLine = false;
 				// ...we assume that this is the header which also contains the separation character
 				while (NOT_EOL(textp) && cstrstr(possibleDelimiters, *textp) == NULL)
@@ -220,20 +239,8 @@ static char *cstrstr(const char *haystack, const char needle) {
 			while (EOL(textp))
 				textp++;
 		}
-	}
+//	}
 	return csvContent;
-}
-
--(BOOL)openFile:(NSString*)fileName {
-	fileHandle = open([fileName cString], O_RDONLY);
-	return (fileHandle > 0);
-}
-
--(void)closeFile {
-	if (fileHandle > 0) {
-		close(fileHandle);
-		fileHandle = 0;
-	}
 }
 
 -(char)delimiter {
@@ -244,9 +251,6 @@ static char *cstrstr(const char *haystack, const char needle) {
 	delimiter = newDelimiter;
 }
 
--(void)setBufferSize:(int)newBufferSize {
-	bufferSize = newBufferSize;
-}
 -(void)setEncoding:(NSStringEncoding)newEncoding {
 	encoding = newEncoding;
 }
