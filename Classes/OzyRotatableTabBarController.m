@@ -8,6 +8,7 @@
 
 #import "OzyRotatableTabBarController.h"
 #import "OzymandiasAdditions.h"
+#import "CSVPreferencesController.h"
 
 @implementation OzyRotatableTabBarController
 
@@ -16,6 +17,14 @@
 		return [(id <OzymandiasApplicationDelegate>)[[UIApplication sharedApplication] delegate] allowRotation];
 	else
 		return YES;
+}
+
+// Ugly fix for problem where navigation bar "slips down" when rotating to landscape
+// mode while statusbar not showing...
+- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+	if( ![CSVPreferencesController showStatusBar ] )
+		[[UIApplication sharedApplication] setStatusBarHidden:NO animated:NO];
 }
 
 @end
