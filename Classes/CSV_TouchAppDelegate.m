@@ -124,6 +124,7 @@ static CSV_TouchAppDelegate *sharedInstance = nil;
 	
 	if( [CSV_TouchAppDelegate showInlinePreferences] )
 	{
+		tabBarController.view.contentMode = UIViewContentModeScaleToFill;
 		tabBarController.selectedIndex = [[NSUserDefaults standardUserDefaults] integerForKey:SELECTED_TAB_BAR_INDEX];
 		[window addSubview:tabBarController.view];
 	}

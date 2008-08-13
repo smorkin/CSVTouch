@@ -63,7 +63,7 @@
 		{
 			objectDescription = [[row shortDescription] lowercaseString];
 			for( wordNr = 0 ;
-				wordNr < wordCount && [objectDescription rangeOfString:[words objectAtIndex:wordNr]].length > 0; 
+				wordNr < wordCount && [objectDescription hasSubstring:[words objectAtIndex:wordNr]]; 
 				wordNr++ );
 				if( wordNr == wordCount )
 					[filteredObjects addObject:row];
@@ -132,21 +132,18 @@
 	}
 }	
 	
-//- (UIViewController *) currentDetailsController
-//{
-//	if( [CSVPreferencesController useSimpleDetailsView] )
-//		return detailsController;
-//	else
-//		return fancyDetailsController;
-//}
-//
-- (void) selectFile:(CSVFileParser *)file
+
+- (BOOL) selectFile:(CSVFileParser *)file
 {		
 	// Store current position of itemController and search string
 	[self cacheCurrentFileData];
 		
 	[currentFile release];
 	currentFile = [file retain];
+	if( !currentFile.rawString )
+	{
+		return FALSE;
+	}
 	[currentFile parseIfNecessary];
 	NSString *cachedSearchString = [searchStringForFileName objectForKey:[currentFile fileName]];
 	if( cachedSearchString )
@@ -171,6 +168,7 @@
 													 animated:NO];
 	   }
 	}
+	return TRUE;
 }
 
 - (void) updateBadgeValueUsingItem:(UINavigationItem *)item push:(BOOL)push
@@ -181,7 +179,8 @@
 	// Row or details controller will be visible
 	if((push && item == itemController.navigationItem) || 
 	   (item == detailsController.navigationItem) ||
-		(item == fancyDetailsController.navigationItem))
+	   (item == fancyDetailsController.navigationItem) ||
+	   (item == htmlDetailsController.navigationItem))
 	{
 		count = [[itemController objects] count];
 		if( count != [[currentFile itemsWithResetShortdescriptions:NO] count] )
@@ -217,6 +216,38 @@
 	fancyDetailsController.objects = items;
 	fancyDetailsController.removeDisclosure = YES;
 	[fancyDetailsController dataLoaded];
+	
+	// Then html view
+	NSMutableString *s = [NSMutableString string];
+	[s appendFormat:@"<html><head><title>Details</title></head><body>"];
+	
+	[s appendFormat:@"<p><font size=\"+5\">Hej</font>på dig!</p>"];
+	[s appendFormat:@"<p><font size=\"+5\">Hej</font>på dig!</p>"];
+	[s appendFormat:@"<p><font size=\"+5\">Hej</font>på dig!</p>"];
+	[s appendFormat:@"<p><a href=\"http://www.ozymandias.se\">http://www.ozymandias.se</a></p>"];
+	[s appendFormat:@"<p><a href=\"mailto:simon@ozymandas.se\">mailto:simon@ozymandas.se</a></p>"];
+	[s appendFormat:@"<p>070-5760925</p>"];
+	[s appendFormat:@"</body></html>"];
+	[(UIWebView *)[htmlDetailsController view] loadHTMLString:s baseURL:nil];
+}
+
+- (void) delayedHtmlClick:(NSURL *)URL
+{
+	[[UIApplication sharedApplication] openURL:URL];
+}
+
+- (BOOL)webView:(UIWebView *)webView
+shouldStartLoadWithRequest:(NSURLRequest *)request 
+ navigationType:(UIWebViewNavigationType)navigationType
+{
+	if( navigationType == UIWebViewNavigationTypeLinkClicked )
+	{
+		[self performSelector:@selector(delayedHtmlClick:)
+				   withObject:[request URL]
+				   afterDelay:0];
+		return NO;
+	}
+	return YES;
 }
 
 - (NSString *) idForController:(UIViewController *)controller
@@ -225,7 +256,9 @@
 		return FILES_ID;
 	else if( controller == itemController )
 		return OBJECTS_ID;
-	else if( controller == fancyDetailsController || controller == detailsController )
+	else if( controller == fancyDetailsController ||
+			controller == detailsController ||
+			controller == htmlDetailsController)
 		return DETAILS_ID;
 	else
 		return @"";
@@ -285,7 +318,9 @@
 		[controllerStack addObject:[self idForController:controller]];
 	[defaults setObject:controllerStack forKey:DEFS_CURRENT_CONTROLLER_STACK];
 	
-	if( [self topViewController] == detailsController || [self topViewController] == fancyDetailsController )
+	if( [self topViewController] == detailsController ||
+	   [self topViewController] == fancyDetailsController ||
+	   [self topViewController] == htmlDetailsController )
 	{
 		if( ![CSVPreferencesController useGroupingForItemsHasChangedSinceStart] )
 			[defaults setObject:[[[itemController tableView] indexPathForSelectedRow] dictionaryRepresentation]
@@ -449,6 +484,7 @@ static CSVDataViewController *sharedInstance = nil;
 	[editController release];
 	[fileController release];
 	[fancyDetailsController release];
+	[htmlDetailsController release];
 	[parseErrorController release];
 	[currentFile release];
 	[columnNamesForFileName release];
@@ -537,7 +573,13 @@ static CSVDataViewController *sharedInstance = nil;
 
 	if( currentFile != selectedFile )
 	{
-		[self selectFile:selectedFile];
+		if( ![self selectFile:selectedFile] )
+		{
+			showingRawString = NO;
+			[[parseErrorController textView] setText:[CSVDataViewController parseErrorStringForFile:currentFile]];
+			[self pushViewController:parseErrorController animated:YES];
+			return;			
+		}
 		[[itemController tableView] deselectRowAtIndexPath:[[itemController tableView] indexPathForSelectedRow]
 												 animated:NO];
 		[itemController dataLoaded];
@@ -582,18 +624,38 @@ static CSVDataViewController *sharedInstance = nil;
 	}
 }
 
+- (UIViewController *) currentDetailsController
+{
+	switch(selectedDetailsView)
+	{
+		case 0:
+			return fancyDetailsController;
+		case 1:
+			return htmlDetailsController;
+		case 2:
+		default:
+			return detailsController;
+	}
+}
+
 - (IBAction) toggleDetailsView:(id)sender
 {
-	if( [self topViewController] == detailsController )
+	if( [self currentDetailsController] == fancyDetailsController )
 	{
 		[self popViewControllerAnimated:NO];
-		[self pushViewController:fancyDetailsController animated:NO];
+		[self pushViewController:htmlDetailsController animated:NO];
 	}
-	else
+	else if( [self currentDetailsController] == htmlDetailsController )
 	{
 		[self popViewControllerAnimated:NO];
 		[self pushViewController:detailsController animated:NO];
 	}	
+	else if( [self currentDetailsController] == detailsController )
+	{
+		[self popViewControllerAnimated:NO];
+		[self pushViewController:fancyDetailsController animated:NO];
+	}	
+	selectedDetailsView = (selectedDetailsView+1) % 3;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -601,7 +663,7 @@ static CSVDataViewController *sharedInstance = nil;
 	if( tableView == [itemController tableView] )
 	{
 		[self selectDetailsForRow:[itemController indexForObjectAtIndexPath:indexPath]];
-		[self pushViewController:fancyDetailsController animated:YES];
+		[self pushViewController:[self currentDetailsController] animated:YES];
 	}
 	else if( tableView == [fileController tableView] )
 	{

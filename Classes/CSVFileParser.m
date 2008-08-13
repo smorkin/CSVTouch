@@ -12,9 +12,11 @@
 #import "CSV_TouchAppDelegate.h"
 #import "OzyTableViewController.h"
 #import "csv.h"
+#import "parseCSV.h"
 
 #define FILEPARSER_RAW_DATA @"rawData"
 #define FILEPARSER_URL @"URL"
+
 
 @implementation CSVFileParser
 
@@ -71,6 +73,48 @@
 	[_problematicRow autorelease];
 	_problematicRow = nil;
 	_droppedRows = 0;
+	
+	if( [CSVPreferencesController allowRotatableInterface] )
+	{
+		CSVParser *parser = [[[CSVParser alloc] init] autorelease];
+		[parser setEncoding:NSUTF8StringEncoding];
+		parser.string = s;
+		NSMutableArray *tmp = [parser parseFile];
+		
+		if( [tmp count] > 0 )
+		{
+			if( !testing )
+			{
+				[_columnNames addObjectsFromArray:[tmp objectAtIndex:0]];
+				int numberOfColumns = [_columnNames count];
+				[tmp removeObjectAtIndex:0];
+				numberOfRows = [tmp count];
+				NSArray *words;
+				for( NSUInteger i = 0 ; i < numberOfRows ; i++ )
+				{
+					words = [tmp objectAtIndex:i];
+					if( [words count] != numberOfColumns )
+					{
+						_problematicRow = [[NSString stringWithFormat:@"Item %d, content: %@", i+1, words] retain];
+						[_columnNames removeAllObjects];
+						[_parsedItems removeAllObjects];
+						return FALSE;
+					}
+					else
+					{
+						CSVRow *row = [[CSVRow alloc] init];
+						row.items = words;
+						row.fileParser = self;
+						row.rawDataPosition = numberOfRows;
+						[_parsedItems addObject:row];
+						[row release];
+					}
+				}
+			}
+			
+		}
+		return YES;
+	}
 	
 	while( nextLineStart < length && numberOfRows < maxNumberOfRows )
 	{

@@ -46,6 +46,8 @@
 - (NSString *) fileName;
 - (NSUInteger) stringLength;
 
+- (unichar) delimiter;
+
 @end
 
 @interface CSVFileParser (OzyTableViewProtocol) <OzyTableViewObject>

@@ -99,6 +99,7 @@ static CSVPreferencesController *sharedInstance = nil;
 		return YES;
 }
 
+
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
 	return 2;
@@ -144,6 +145,7 @@ static CSVPreferencesController *sharedInstance = nil;
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+	[[UIApplication sharedApplication] setStatusBarHidden:YES animated:NO];
 	if( indexPath.section == 0 )
 	{
 		if( indexPath.row == 0 )

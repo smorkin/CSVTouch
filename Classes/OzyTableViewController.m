@@ -97,7 +97,7 @@
 {
 	if( objects != self.objects )
 	{
-		[_objects autorelease];
+		[_objects release];
 		_objects = [objects retain];
 	}
 	[self refreshIndexes];

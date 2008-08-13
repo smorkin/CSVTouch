@@ -1,0 +1,12 @@
+Requests
+
+- Fixa html-view el.dyl. för details
+- Navigation i details view (acceleration?)
+- Search inuti items view
+- Horisontell scroll i items view
+- Tabbad text i items view
+- Editerbart data
+
+Kind of fixed...
+
+- Fixa landscape->portrait-bugg

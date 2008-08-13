@@ -12,6 +12,7 @@
 @interface NSString (OzymandiasExtension)
 - (BOOL) containsDigit;
 - (BOOL) hasSubstring:(NSString *)s;
+- (BOOL) containsURL;
 - (NSComparisonResult) numericSensitiveCompare:(NSString *)s;
 @end
 

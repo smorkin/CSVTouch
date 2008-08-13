@@ -31,7 +31,7 @@ static char *cstrstr(const char *haystack, const char needle) {
 
 /*
  * Copies a string without beginning- and end-quotes if there are
- * any and returns a pointer to the string or NULL if malloc() failed
+ * any and returns the string
  *
  */
 -(NSString*)parseString:(char*)textp withLastStop:(char*)laststop {
@@ -40,17 +40,14 @@ static char *cstrstr(const char *haystack, const char needle) {
 		laststop++;
 		stringSize -= 2;
 	}
-	char *retval = (char*)malloc(stringSize + 1);
-	if (retval != NULL) {
-		strncpy(retval, laststop, (size_t)(stringSize));
-		retval[stringSize] = '\0';
-	}
-	NSMutableString *tempString = [NSMutableString stringWithCString: retval encoding:encoding];
+	NSMutableString *tempString = [[[NSMutableString alloc] initWithBytes:(const void *)laststop
+								   length:stringSize
+								   encoding:encoding] autorelease];
 	[tempString replaceOccurrencesOfString:@"\"\"" 
 				    withString:@"\"" 
 				       options:0
 				         range:NSMakeRange(0, [tempString length])];
-	return [NSString stringWithString: tempString];
+	return tempString;
 }
 
 -(id)init {
@@ -66,6 +63,13 @@ static char *cstrstr(const char *haystack, const char needle) {
 		encoding = NSISOLatin1StringEncoding;
 	}
 	return self;
+}
+
+- (void) dealloc
+{
+	self.string = nil;
+	
+	[super dealloc];
 }
 
 /*
@@ -107,139 +111,96 @@ static char *cstrstr(const char *haystack, const char needle) {
  * NSMutableArray.
  *
  */
--(NSMutableArray*)parseFile {
+-(NSMutableArray*)parseFile
+{
 	NSMutableArray *csvLine = [NSMutableArray array];
 	NSMutableArray *csvContent = [NSMutableArray array];
-//	if (fileHandle <= 0)
-//		return csvContent;
 	char possibleDelimiters[4] = ",;\t\0";
-	int bytesToRead = 1, diff;
 	unsigned int quoteCount = 0;
 	bool firstLine = true;
 	const char *allData = [_string cStringUsingEncoding:encoding];
-	int readBytes = 0;
 	int length = strlen(allData);
 	[self setBufferSize:length+1];
-	char *buffer = malloc(sizeof(char) * (bufferSize + 1));
 	char *textp, *laststop, *lineBeginning, *lastLineBuffer = NULL;
 	
-//	char *currentPos = 0;
-//	lseek(fileHandle, 0, SEEK_SET);
-//	while (bytesToRead > 0) {
-//		if (lastLineBuffer != NULL) {
-//			// Care for the quotes in lastLineBuffer!
-//			textp = lastLineBuffer;
-//			while (*textp != '\0') {
-//				if (*textp == '\"')
-//					quoteCount++;
-//				textp++;
-//			}
-//			strcpy(buffer, lastLineBuffer);
-//			diff = strlen(lastLineBuffer);
-//			// Make the buffer bigger
-//			buffer = realloc(buffer, diff + bufferSize);
-//			lastLineBuffer = NULL;
-//		} 
-//		else
-//		{
-//			diff = 0;
-//		}
-//		
-		bytesToRead =  MIN(bufferSize, length - readBytes);
-//		if( bytesToRead <= 0 )
-//		{
-//			break;
-//		}
-//		else
+	textp = (char*)allData;
+	
+	while (*textp != '\0') {
+		// If we don't have a delimiter yet and this is the first line...
+		if (firstLine && delimiter == '\0') 
 		{
-			memcpy(buffer, allData+readBytes, bytesToRead);
-			readBytes += bytesToRead;
-		}
-//		n = read(fileHandle, (buffer + diff), bufferSize);
-//		if (n <= 0)
-//			break;
-		// Terminate buffer correctly
-		if ((diff+bytesToRead) <= (bufferSize + diff))
-			buffer[diff+bytesToRead] = '\0';
-		
-		textp = (char*)buffer;
-
-		while (*textp != '\0') {
-			// If we don't have a delimiter yet and this is the first line...
-			if (firstLine && delimiter == '\0') 
-			{
-				firstLine = false;
-				// ...we assume that this is the header which also contains the separation character
-				while (NOT_EOL(textp) && cstrstr(possibleDelimiters, *textp) == NULL)
-					textp++;
-
-				// Check if a delimiter was found and set it
-				if (NOT_EOL(textp)) {
-					delimiter = *cstrstr((const char*)possibleDelimiters, *textp);
-					printf("delim is %c / %d :-)\n", delimiter, delimiter);
-					while (NOT_EOL(textp))
-						textp++;
-				}
-
-				textp = (char*)buffer;
-			} 
-
-			if (strlen(textp) > 0) {
-				// This is data
-				laststop = textp;
-				lineBeginning = textp;
-
-				// Parsing is splitted in parts till EOL
-				while (NOT_EOL(textp) || (*textp != '\0' && (quoteCount % 2) != 0)) {
-					// If we got two quotes and a delimiter before and after, this is an empty value
-					if (	*textp == '\"' && 
-						*(textp+1) == '\"') {
-						// we'll just skip this, but firstly check if it's an empty value
-						if (	(textp > (const char*)buffer) && 
-							*(textp-1) == delimiter && 
-							*(textp+2) == delimiter) {
-							[csvLine addObject: @""];
-						}
-						textp++;
-					} else if (*textp == '\"')
-						quoteCount++;
-					else if (*textp == delimiter && (quoteCount % 2) == 0) {
-						// There is a delimiter which is not between an unmachted pair of quotes?
-						[csvLine addObject: [self parseString:textp withLastStop:laststop]];
-						laststop = textp + 1;
-					}
-
-					// Go to the next character
-					textp++;
-				}
-
-				if (laststop == textp && *(textp-1) == delimiter) {
-					[csvLine addObject:@""];
-					if ((int)(buffer + bufferSize + diff - textp) > 0) {
-						lineBeginning = textp + 1;
-						[csvContent addObject: csvLine];
-					}
-					csvLine = [NSMutableArray new];
-				}
-				if (laststop != textp && (quoteCount % 2) == 0) {
-					[csvLine addObject: [self parseString:textp withLastStop:laststop]];
-					
-					if ((int)(buffer + bufferSize + diff - textp) > 0) {
-						lineBeginning = textp + 1;
-						[csvContent addObject: csvLine];
-					}
-					csvLine = [NSMutableArray new];
-				} 
-				if ((*textp == '\0' || (quoteCount % 2) != 0) && lineBeginning != textp) {
-					lastLineBuffer = lineBeginning;
-					csvLine = [NSMutableArray new];
-				}
-			}
-
-			while (EOL(textp))
+			firstLine = false;
+			// ...we assume that this is the header which also contains the separation character
+			while (NOT_EOL(textp) && cstrstr(possibleDelimiters, *textp) == NULL)
 				textp++;
+			
+			// Check if a delimiter was found and set it
+			if (NOT_EOL(textp)) {
+				delimiter = *cstrstr((const char*)possibleDelimiters, *textp);
+				printf("delim is %c / %d :-)\n", delimiter, delimiter);
+				while (NOT_EOL(textp))
+					textp++;
+			}
+			
+			textp = (char*)allData;
+		} 
+		
+		if (strlen(textp) > 0) 
+		{
+			// This is data
+			laststop = textp;
+			lineBeginning = textp;
+			
+			// Parsing is splitted in parts till EOL
+			while (NOT_EOL(textp) || (*textp != '\0' && (quoteCount % 2) != 0)) {
+				// If we got two quotes and a delimiter before and after, this is an empty value
+				if (	*textp == '\"' && 
+					*(textp+1) == '\"') {
+					// we'll just skip this, but firstly check if it's an empty value
+					if (	(textp > (const char*)allData) && 
+						*(textp-1) == delimiter && 
+						*(textp+2) == delimiter) {
+						[csvLine addObject: @""];
+					}
+					textp++;
+				} else if (*textp == '\"')
+					quoteCount++;
+				else if (*textp == delimiter && (quoteCount % 2) == 0) {
+					// There is a delimiter which is not between an unmachted pair of quotes?
+					[csvLine addObject: [self parseString:textp withLastStop:laststop]];
+					laststop = textp + 1;
+				}
+				
+				// Go to the next character
+				textp++;
+			}
+			
+			if (laststop == textp && *(textp-1) == delimiter) {
+				[csvLine addObject:@""];
+				if ((int)(allData + bufferSize - textp) > 0) {
+					lineBeginning = textp + 1;
+					[csvContent addObject: csvLine];
+				}
+				csvLine = [NSMutableArray array];
+			}
+			if (laststop != textp && (quoteCount % 2) == 0) {
+				[csvLine addObject: [self parseString:textp withLastStop:laststop]];
+				
+				if ((int)(allData + bufferSize - textp) > 0) {
+					lineBeginning = textp + 1;
+					[csvContent addObject: csvLine];
+				}
+				csvLine = [NSMutableArray array];
+			} 
+			if ((*textp == '\0' || (quoteCount % 2) != 0) && lineBeginning != textp) {
+				lastLineBuffer = lineBeginning;
+				csvLine = [NSMutableArray array];
+			}
 		}
-//	}
+		
+		while (EOL(textp))
+			textp++;
+	}
 	return csvContent;
 }
 

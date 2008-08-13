@@ -21,6 +21,12 @@
 	return range.location != NSNotFound;
 }
 
+- (BOOL) containsURL
+{
+	return [self hasSubstring:@"://"] || [self hasSubstring:@"mailto:"];
+}
+
+
 - (NSComparisonResult) numericSensitiveCompare:(NSString *)s
 {
 	return [self compare:s options:NSNumericSearch];

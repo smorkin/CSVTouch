@@ -8,7 +8,7 @@
 		<string key="IBDocument.HIToolboxVersion">352.00</string>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="293"/>
+			<integer value="470"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -123,7 +123,7 @@
 			</object>
 			<object class="IBUIViewController" id="64250082">
 				<object class="IBUIView" key="IBUIView" id="946984282">
-					<reference key="NSNextResponder"/>
+					<nil key="NSNextResponder"/>
 					<int key="NSvFlags">274</int>
 					<object class="NSMutableArray" key="NSSubviews">
 						<bool key="EncodedWithXMLCoder">YES</bool>
@@ -132,7 +132,6 @@
 							<int key="NSvFlags">290</int>
 							<string key="NSFrameSize">{320, 44}</string>
 							<reference key="NSSuperview" ref="946984282"/>
-							<reference key="NSWindow"/>
 							<bool key="IBUIOpaque">NO</bool>
 							<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
 							<object class="NSMutableArray" key="IBUIItems">
@@ -153,7 +152,6 @@
 							<int key="NSvFlags">288</int>
 							<string key="NSFrame">{{20, 55}, {258, 31}}</string>
 							<reference key="NSSuperview" ref="946984282"/>
-							<reference key="NSWindow"/>
 							<bool key="IBUIOpaque">NO</bool>
 							<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
 							<int key="IBUIContentVerticalAlignment">0</int>
@@ -181,7 +179,6 @@
 							<int key="NSvFlags">292</int>
 							<string key="NSFrame">{{286, 60}, {20, 20}}</string>
 							<reference key="NSSuperview" ref="946984282"/>
-							<reference key="NSWindow"/>
 							<bool key="IBUIOpaque">NO</bool>
 							<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
 							<bool key="IBUIUserInteractionEnabled">NO</bool>
@@ -193,7 +190,6 @@
 							<int key="NSvFlags">274</int>
 							<string key="NSFrame">{{20, 124}, {280, 316}}</string>
 							<reference key="NSSuperview" ref="946984282"/>
-							<reference key="NSWindow"/>
 							<bool key="IBUIOpaque">NO</bool>
 							<bool key="IBUIClipsSubviews">YES</bool>
 							<bool key="IBUIMultipleTouchEnabled">YES</bool>
@@ -217,8 +213,6 @@ ZWxsLVB1YmxpYy9HYW1lcy5jc3Y</string>
 						</object>
 					</object>
 					<string key="NSFrameSize">{320, 460}</string>
-					<reference key="NSSuperview"/>
-					<reference key="NSWindow"/>
 					<object class="NSColor" key="IBUIBackgroundColor">
 						<int key="NSColorSpace">3</int>
 						<bytes key="NSWhite">MQA</bytes>
@@ -385,52 +379,6 @@ ZWxsLVB1YmxpYy9HYW1lcy5jc3Y</string>
 				<object class="IBUISimulatedTabBarMetrics" key="IBUISimulatedBottomBarMetrics" id="476052701"/>
 				<object class="IBUISimulatedStatusBarMetrics" key="IBUISimulatedStatusBarMetrics"/>
 			</object>
-			<object class="IBUIViewController" id="278937882">
-				<object class="IBUIView" key="IBUIView" id="1037687366">
-					<reference key="NSNextResponder"/>
-					<int key="NSvFlags">274</int>
-					<object class="NSMutableArray" key="NSSubviews">
-						<bool key="EncodedWithXMLCoder">YES</bool>
-						<object class="IBUITextView" id="356154342">
-							<reference key="NSNextResponder" ref="1037687366"/>
-							<int key="NSvFlags">274</int>
-							<string key="NSFrameSize">{320, 416}</string>
-							<reference key="NSSuperview" ref="1037687366"/>
-							<bool key="IBUIOpaque">NO</bool>
-							<bool key="IBUIClipsSubviews">YES</bool>
-							<bool key="IBUIMultipleTouchEnabled">YES</bool>
-							<bool key="IBUIShowsHorizontalScrollIndicator">NO</bool>
-							<bool key="IBUIDelaysContentTouches">NO</bool>
-							<bool key="IBUICanCancelContentTouches">NO</bool>
-							<float key="IBUIMinimumZoomScale">0.000000e+00</float>
-							<float key="IBUIMaximumZoomScale">0.000000e+00</float>
-							<bool key="IBUIBouncesZoom">NO</bool>
-							<bool key="IBUIEditable">NO</bool>
-							<string type="base64-UTF8" key="IBUIText">Tm8gZGV0YWlscyBhdmFpbGFibGUuIE1vc3QgbGlrZWx5LCB5b3UgaGF2ZSBjaGFuZ2VkICJHcm91cCBJ
-dGVtcyIgc2V0dGluZyBhbmQgdGhlbiByZXN0YXJ0ZWQgd2hlbiB0aGlzIHZpZXcgd2FzIHZpc2libGUu
-A</string>
-							<int key="IBUIMarginTop">0</int>
-						</object>
-					</object>
-					<string key="NSFrameSize">{320, 416}</string>
-					<reference key="NSSuperview"/>
-					<object class="NSColor" key="IBUIBackgroundColor">
-						<int key="NSColorSpace">3</int>
-						<bytes key="NSWhite">MQA</bytes>
-						<reference key="NSCustomColorSpace" ref="484353543"/>
-					</object>
-					<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
-				</object>
-				<object class="IBUINavigationItem" key="IBUINavigationItem" id="438767619">
-					<reference key="IBUINavigationBar"/>
-					<string key="IBUITitle">Details</string>
-					<object class="IBUIBarButtonItem" key="IBUIRightBarButtonItem" id="368651729">
-						<string key="IBUITitle">Enhanced</string>
-						<int key="IBUIStyle">1</int>
-					</object>
-				</object>
-				<object class="IBUISimulatedStatusBarMetrics" key="IBUISimulatedStatusBarMetrics"/>
-			</object>
 			<object class="IBUIViewController" id="749880378">
 				<string key="IBUITitle">Items</string>
 				<object class="IBUIView" key="IBUIView" id="99336636">
@@ -465,11 +413,82 @@ A</string>
 				<object class="IBUINavigationItem" key="IBUINavigationItem" id="683814877">
 					<string key="IBUITitle">Details</string>
 					<object class="IBUIBarButtonItem" key="IBUIRightBarButtonItem" id="411791826">
+						<string key="IBUITitle">Links</string>
+						<int key="IBUIStyle">1</int>
+					</object>
+				</object>
+				<object class="IBUISimulatedTabBarMetrics" key="IBUISimulatedBottomBarMetrics"/>
+				<object class="IBUISimulatedStatusBarMetrics" key="IBUISimulatedStatusBarMetrics"/>
+			</object>
+			<object class="IBUIViewController" id="615418519">
+				<string key="IBUITitle">Details</string>
+				<object class="IBUIWebView" key="IBUIView" id="728645271">
+					<reference key="NSNextResponder"/>
+					<int key="NSvFlags">274</int>
+					<string key="NSFrameSize">{320, 367}</string>
+					<reference key="NSSuperview"/>
+					<bool key="IBUIOpaque">NO</bool>
+					<bool key="IBUIClipsSubviews">YES</bool>
+					<bool key="IBUIMultipleTouchEnabled">YES</bool>
+					<bool key="IBUIScalesPageToFit">YES</bool>
+					<bool key="IBUIDetectsPhoneNumbers">YES</bool>
+				</object>
+				<object class="IBUINavigationItem" key="IBUINavigationItem" id="458700768">
+					<reference key="IBUINavigationBar"/>
+					<string key="IBUITitle">Details</string>
+					<object class="IBUIBarButtonItem" key="IBUIRightBarButtonItem" id="126594052">
 						<string key="IBUITitle">Simple</string>
 						<int key="IBUIStyle">1</int>
 					</object>
 				</object>
 				<object class="IBUISimulatedTabBarMetrics" key="IBUISimulatedBottomBarMetrics"/>
+				<object class="IBUISimulatedNavigationBarMetrics" key="IBUISimulatedTopBarMetrics">
+					<bool key="IBUIPrompted">NO</bool>
+				</object>
+				<object class="IBUISimulatedStatusBarMetrics" key="IBUISimulatedStatusBarMetrics"/>
+			</object>
+			<object class="IBUIViewController" id="278937882">
+				<object class="IBUIView" key="IBUIView" id="1037687366">
+					<nil key="NSNextResponder"/>
+					<int key="NSvFlags">274</int>
+					<object class="NSMutableArray" key="NSSubviews">
+						<bool key="EncodedWithXMLCoder">YES</bool>
+						<object class="IBUITextView" id="356154342">
+							<reference key="NSNextResponder" ref="1037687366"/>
+							<int key="NSvFlags">274</int>
+							<string key="NSFrameSize">{320, 416}</string>
+							<reference key="NSSuperview" ref="1037687366"/>
+							<bool key="IBUIOpaque">NO</bool>
+							<bool key="IBUIClipsSubviews">YES</bool>
+							<bool key="IBUIMultipleTouchEnabled">YES</bool>
+							<bool key="IBUIShowsHorizontalScrollIndicator">NO</bool>
+							<bool key="IBUIDelaysContentTouches">NO</bool>
+							<bool key="IBUICanCancelContentTouches">NO</bool>
+							<float key="IBUIMinimumZoomScale">0.000000e+00</float>
+							<float key="IBUIMaximumZoomScale">0.000000e+00</float>
+							<bool key="IBUIBouncesZoom">NO</bool>
+							<bool key="IBUIEditable">NO</bool>
+							<string type="base64-UTF8" key="IBUIText">Tm8gZGV0YWlscyBhdmFpbGFibGUuIE1vc3QgbGlrZWx5LCB5b3UgaGF2ZSBjaGFuZ2VkICJHcm91cCBJ
+dGVtcyIgc2V0dGluZyBhbmQgdGhlbiByZXN0YXJ0ZWQgd2hlbiB0aGlzIHZpZXcgd2FzIHZpc2libGUu
+A</string>
+							<int key="IBUIMarginTop">0</int>
+						</object>
+					</object>
+					<string key="NSFrameSize">{320, 416}</string>
+					<object class="NSColor" key="IBUIBackgroundColor">
+						<int key="NSColorSpace">3</int>
+						<bytes key="NSWhite">MQA</bytes>
+						<reference key="NSCustomColorSpace" ref="484353543"/>
+					</object>
+					<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
+				</object>
+				<object class="IBUINavigationItem" key="IBUINavigationItem" id="438767619">
+					<string key="IBUITitle">Details</string>
+					<object class="IBUIBarButtonItem" key="IBUIRightBarButtonItem" id="368651729">
+						<string key="IBUITitle">Enhanced</string>
+						<int key="IBUIStyle">1</int>
+					</object>
+				</object>
 				<object class="IBUISimulatedStatusBarMetrics" key="IBUISimulatedStatusBarMetrics"/>
 			</object>
 			<object class="IBUIViewController" id="691523058">
@@ -1682,6 +1701,30 @@ Zm9yIHRoZSByZW1vdmVkIGNvbHVtbnMuA</string>
 					</object>
 					<int key="connectionID">463</int>
 				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">htmlDetailsController</string>
+						<reference key="source" ref="1067888901"/>
+						<reference key="destination" ref="615418519"/>
+					</object>
+					<int key="connectionID">472</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchEventConnection" key="connection">
+						<string key="label">toggleDetailsView:</string>
+						<reference key="source" ref="126594052"/>
+						<reference key="destination" ref="1067888901"/>
+					</object>
+					<int key="connectionID">477</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">delegate</string>
+						<reference key="source" ref="728645271"/>
+						<reference key="destination" ref="1067888901"/>
+					</object>
+					<int key="connectionID">478</int>
+				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<object class="NSArray" key="orderedObjects">
@@ -2373,6 +2416,36 @@ Zm9yIHRoZSByZW1vdmVkIGNvbHVtbnMuA</string>
 						<reference key="object" ref="106426283"/>
 						<reference key="parent" ref="946984282"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">470</int>
+						<reference key="object" ref="615418519"/>
+						<object class="NSMutableArray" key="children">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<reference ref="728645271"/>
+							<reference ref="458700768"/>
+						</object>
+						<reference key="parent" ref="957960031"/>
+						<string key="objectName">html details</string>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">471</int>
+						<reference key="object" ref="728645271"/>
+						<reference key="parent" ref="615418519"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">473</int>
+						<reference key="object" ref="458700768"/>
+						<object class="NSMutableArray" key="children">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<reference ref="126594052"/>
+						</object>
+						<reference key="parent" ref="615418519"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">476</int>
+						<reference key="object" ref="126594052"/>
+						<reference key="parent" ref="458700768"/>
+					</object>
 				</object>
 			</object>
 			<object class="NSMutableDictionary" key="flattenedProperties">
@@ -2502,6 +2575,12 @@ Zm9yIHRoZSByZW1vdmVkIGNvbHVtbnMuA</string>
 					<string>457.IBPluginDependency</string>
 					<string>459.IBPluginDependency</string>
 					<string>467.IBPluginDependency</string>
+					<string>470.CustomClassName</string>
+					<string>470.IBEditorWindowLastContentRect</string>
+					<string>470.IBPluginDependency</string>
+					<string>471.IBPluginDependency</string>
+					<string>473.IBPluginDependency</string>
+					<string>476.IBPluginDependency</string>
 					<string>76.CustomClassName</string>
 					<string>76.IBEditorWindowLastContentRect</string>
 					<string>76.IBPluginDependency</string>
@@ -2636,10 +2715,16 @@ Zm9yIHRoZSByZW1vdmVkIGNvbHVtbnMuA</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>OzyTableViewController</string>
-					<string>{{198, 276}, {320, 480}}</string>
+					<string>{{393, 268}, {320, 480}}</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+					<string>OzyRotatableViewController</string>
+					<string>{{212, -152}, {320, 480}}</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -2674,7 +2759,7 @@ Zm9yIHRoZSByZW1vdmVkIGNvbHVtbnMuA</string>
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">469</int>
+			<int key="maxID">478</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -2712,6 +2797,7 @@ Zm9yIHRoZSByZW1vdmVkIGNvbHVtbnMuA</string>
 							<string>editNavigationBar</string>
 							<string>fancyDetailsController</string>
 							<string>fileController</string>
+							<string>htmlDetailsController</string>
 							<string>itemController</string>
 							<string>parseErrorController</string>
 							<string>searchBar</string>
@@ -2723,6 +2809,7 @@ Zm9yIHRoZSByZW1vdmVkIGNvbHVtbnMuA</string>
 							<string>UINavigationBar</string>
 							<string>OzyTableViewController</string>
 							<string>OzyTableViewController</string>
+							<string>OzyRotatableViewController</string>
 							<string>OzyTableViewController</string>
 							<string>OzyTextViewController</string>
 							<string>UISearchBar</string>

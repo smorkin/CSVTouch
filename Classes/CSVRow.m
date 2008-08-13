@@ -22,15 +22,6 @@
 - (NSComparisonResult) compareShort:(CSVRow *)row
 {
 	return [self.shortDescription compare:row.shortDescription options:sortingMask];
-	
-//	NSComparisonResult r;
-//	NSArray *otherItems = row.items;
-//	for( NSUInteger i = 0 ; i < [_items count] ; i++ )
-//	{
-//		if( (r = [[_items objectAtIndex:i] compare:[otherItems objectAtIndex:i] options:sortingMask]) != NSOrderedSame )
-//			return r;
-//	}
-//	return NSOrderedSame;
 }
 
 + (NSString *) concatenateWords:(NSArray *)words
@@ -39,6 +30,8 @@
 {
 	if( indexCount <= 0 )
 		return @"";
+	else if( indexCount > [words count] )
+		return nil;
 	
 	switch(indexCount)
 	{
@@ -211,7 +204,7 @@
 					[words objectAtIndex:indexes[15]]];			
 		default:
 		{
-			NSMutableString *s = [[NSMutableString alloc] initWithCapacity:200];
+			NSMutableString *s = [[[NSMutableString alloc] initWithCapacity:200] autorelease];
 			for( NSUInteger i = 0 ; i < [words count] ; i++ )
 				[s appendFormat:@"%@‧", [words objectAtIndex:indexes[i]]];
 			return s;
@@ -292,22 +285,30 @@
 	return s;
 }
 
-- (id)initWithCoder:(NSCoder *)aDecoder
+- (void) dealloc
 {
-	self = [super init];
-	
-	self.shortDescription = [[aDecoder decodeObjectForKey:@"shortDescription"] retain];
-	self.items = [[aDecoder decodeObjectForKey:@"items"] retain];
-    return self;	
+	self.items = nil;
+	self.shortDescription = nil;
+	self.fileParser = nil;
+	[super dealloc];
 }
 
-- (void)encodeWithCoder:(NSCoder *)coder
-{
-	if( _shortDescription )
-		[coder encodeObject:_shortDescription forKey:@"shortDescription"];
-	if( _items )
-		[coder encodeObject:_items forKey:@"items"];
-}
+//- (id)initWithCoder:(NSCoder *)aDecoder
+//{
+//	self = [super init];
+//	
+//	self.shortDescription = [[aDecoder decodeObjectForKey:@"shortDescription"] retain];
+//	self.items = [[aDecoder decodeObjectForKey:@"items"] retain];
+//    return self;	
+//}
+//
+//- (void)encodeWithCoder:(NSCoder *)coder
+//{
+//	if( _shortDescription )
+//		[coder encodeObject:_shortDescription forKey:@"shortDescription"];
+//	if( _items )
+//		[coder encodeObject:_items forKey:@"items"];
+//}
 
 @end
 

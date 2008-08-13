@@ -8,15 +8,21 @@
 
 #import <UIKit/UIKit.h>
 
-@class OzyTableViewController, CSVFileParser, OzyTextViewController;
+@class OzyTableViewController,
+CSVFileParser, 
+OzyTextViewController,
+OzyRotatableViewController;
 
 @interface CSVDataViewController : UINavigationController <UITableViewDelegate>
 {
 	IBOutlet OzyTextViewController *detailsController;
 	IBOutlet OzyTableViewController *fancyDetailsController;
+	IBOutlet OzyRotatableViewController *htmlDetailsController;
 	IBOutlet OzyTableViewController *itemController;
 	IBOutlet OzyTableViewController *fileController;
 	IBOutlet OzyTextViewController *parseErrorController;
+	
+	int selectedDetailsView; // 0 = fancy, 1 = web, 2 = simple
 	
 	CSVFileParser *currentFile;
 	BOOL itemsNeedResorting;

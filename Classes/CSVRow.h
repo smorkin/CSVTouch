@@ -10,7 +10,7 @@
 
 @class CSVFileParser;
 
-@interface CSVRow : NSObject <NSCoding>
+@interface CSVRow : NSObject
 {
 	NSString *_shortDescription;
 	NSArray *_items;
