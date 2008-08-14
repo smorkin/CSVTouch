@@ -26,10 +26,10 @@ typedef enum OzyTableViewSize {
 	BOOL _editable;
 	BOOL _useIndexes;
 	BOOL _removeDisclosure;
-	NSString *_titleForSingleSection;
 	OzyTableViewSize _size;
 	NSMutableArray *_sectionIndexes;
 	NSMutableArray *_sectionStarts;
+	NSArray *_sectionTitles;
 }
 
 @property (nonatomic, readonly) UITableView *tableView;
@@ -38,7 +38,11 @@ typedef enum OzyTableViewSize {
 @property (nonatomic, assign) BOOL useIndexes;
 @property (nonatomic, assign) OzyTableViewSize size;
 @property (nonatomic, assign) BOOL removeDisclosure;
-@property (nonatomic, retain) NSString *titleForSingleSection;
+@property (nonatomic, retain) NSArray *sectionTitles;
+
+// Only use this when not using indexes but you still want sections.
+// Content should be NSNumbers, starting at "0".
+- (void) setSectionStarts:(NSArray *)starts;
 
 - (void) dataLoaded;
 

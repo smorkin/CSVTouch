@@ -191,6 +191,7 @@ static CSVPreferencesController *sharedInstance = nil;
 #define PREFS_KEEP_QUOTES @"keepQuotes"
 #define PREFS_SHOW_DEBUG_INFO @"showDebugInfo"
 #define PREFS_USE_BLACK_THEME @"useBlackTheme"
+#define PREFS_USE_CORRECT_PARSING @"useCorrectParsing"
 
 - (void) loadPreferences
 {
@@ -485,6 +486,11 @@ static BOOL useGroupingForItemsHasChangedSinceStart = NO;
 + (BOOL) safeStart
 {
 	return [[NSUserDefaults standardUserDefaults] boolForKey:PREFS_SAFE_START];
+}
+
++ (BOOL) useCorrectParsing
+{
+	return [[NSUserDefaults standardUserDefaults] boolForKey:PREFS_USE_CORRECT_PARSING];
 }
 
 

@@ -67,6 +67,7 @@
 + (BOOL) showDebugInfo;
 + (BOOL) safeStart;
 + (BOOL) useBlackTheme;
++ (BOOL) useCorrectParsing;
 + (NSUInteger) sortingMask;
 extern NSUInteger sortingMask; // This is available for performance-critical operations
 

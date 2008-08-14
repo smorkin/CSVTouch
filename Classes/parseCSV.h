@@ -17,7 +17,6 @@
 	NSString *_string;
 }
 -(id)init;
--(char)autodetectDelimiter;
 -(char)delimiter;
 -(void)setDelimiter:(char)newDelimiter;
 -(NSMutableArray*)parseFile;

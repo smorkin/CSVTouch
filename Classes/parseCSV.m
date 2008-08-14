@@ -58,7 +58,7 @@ static char *cstrstr(const char *haystack, const char needle) {
 		// Set fileHandle to an invalid value
 		fileHandle = 0;
 		// Set delimiter to 0
-		delimiter = '\0';
+		delimiter = ',';
 		// Set default encoding
 		encoding = NSISOLatin1StringEncoding;
 	}
@@ -70,35 +70,6 @@ static char *cstrstr(const char *haystack, const char needle) {
 	self.string = nil;
 	
 	[super dealloc];
-}
-
-/*
- * Gets the CSV-delimiter from the given filename using the first line
- * which should be the header-line. Returns 0 on error.
- *
- */
--(char)autodetectDelimiter {
-	char possibleDelimiters[4] = ",;\t\0";
-
-	char buffer[bufferSize+1];
-	// Seek to the beginning of the file
-	lseek(fileHandle, 0, SEEK_SET);
-
-	// Fill the buffer
-	if (read(fileHandle, buffer, bufferSize) > 0) {
-		char *textp = buffer;
-		// ...we assume that this is the header which also contains the separation character
-		while (NOT_EOL(textp) && cstrstr(possibleDelimiters, *textp) == NULL)
-			textp++;
-
-		// Check if a delimiter was found and set it
-		if (NOT_EOL(textp)) {
-			delimiter = *cstrstr((const char*)possibleDelimiters, *textp);
-			return delimiter;
-		}
-	}
-
-	return 0;
 }
 
 - (void) setBufferSize:(int)newSize
@@ -115,9 +86,7 @@ static char *cstrstr(const char *haystack, const char needle) {
 {
 	NSMutableArray *csvLine = [NSMutableArray array];
 	NSMutableArray *csvContent = [NSMutableArray array];
-	char possibleDelimiters[4] = ",;\t\0";
 	unsigned int quoteCount = 0;
-	bool firstLine = true;
 	const char *allData = [_string cStringUsingEncoding:encoding];
 	int length = strlen(allData);
 	[self setBufferSize:length+1];
@@ -125,27 +94,9 @@ static char *cstrstr(const char *haystack, const char needle) {
 	
 	textp = (char*)allData;
 	
-	while (*textp != '\0') {
-		// If we don't have a delimiter yet and this is the first line...
-		if (firstLine && delimiter == '\0') 
-		{
-			firstLine = false;
-			// ...we assume that this is the header which also contains the separation character
-			while (NOT_EOL(textp) && cstrstr(possibleDelimiters, *textp) == NULL)
-				textp++;
-			
-			// Check if a delimiter was found and set it
-			if (NOT_EOL(textp)) {
-				delimiter = *cstrstr((const char*)possibleDelimiters, *textp);
-				printf("delim is %c / %d :-)\n", delimiter, delimiter);
-				while (NOT_EOL(textp))
-					textp++;
-			}
-			
-			textp = (char*)allData;
-		} 
-		
-		if (strlen(textp) > 0) 
+	while (*textp != '\0')
+	{
+//		if (strlen(textp) > 0) 
 		{
 			// This is data
 			laststop = textp;

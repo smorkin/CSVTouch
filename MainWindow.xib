@@ -8,7 +8,6 @@
 		<string key="IBDocument.HIToolboxVersion">352.00</string>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="470"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -413,7 +412,7 @@ ZWxsLVB1YmxpYy9HYW1lcy5jc3Y</string>
 				<object class="IBUINavigationItem" key="IBUINavigationItem" id="683814877">
 					<string key="IBUITitle">Details</string>
 					<object class="IBUIBarButtonItem" key="IBUIRightBarButtonItem" id="411791826">
-						<string key="IBUITitle">Links</string>
+						<string type="base64-UTF8" key="IBUITitle">TGlua3Mg4p6UA</string>
 						<int key="IBUIStyle">1</int>
 					</object>
 				</object>
@@ -423,10 +422,9 @@ ZWxsLVB1YmxpYy9HYW1lcy5jc3Y</string>
 			<object class="IBUIViewController" id="615418519">
 				<string key="IBUITitle">Details</string>
 				<object class="IBUIWebView" key="IBUIView" id="728645271">
-					<reference key="NSNextResponder"/>
+					<nil key="NSNextResponder"/>
 					<int key="NSvFlags">274</int>
 					<string key="NSFrameSize">{320, 367}</string>
-					<reference key="NSSuperview"/>
 					<bool key="IBUIOpaque">NO</bool>
 					<bool key="IBUIClipsSubviews">YES</bool>
 					<bool key="IBUIMultipleTouchEnabled">YES</bool>
@@ -434,10 +432,9 @@ ZWxsLVB1YmxpYy9HYW1lcy5jc3Y</string>
 					<bool key="IBUIDetectsPhoneNumbers">YES</bool>
 				</object>
 				<object class="IBUINavigationItem" key="IBUINavigationItem" id="458700768">
-					<reference key="IBUINavigationBar"/>
 					<string key="IBUITitle">Details</string>
 					<object class="IBUIBarButtonItem" key="IBUIRightBarButtonItem" id="126594052">
-						<string key="IBUITitle">Simple</string>
+						<string type="base64-UTF8" key="IBUITitle">U2ltcGxlIOKelA</string>
 						<int key="IBUIStyle">1</int>
 					</object>
 				</object>
@@ -485,7 +482,7 @@ A</string>
 				<object class="IBUINavigationItem" key="IBUINavigationItem" id="438767619">
 					<string key="IBUITitle">Details</string>
 					<object class="IBUIBarButtonItem" key="IBUIRightBarButtonItem" id="368651729">
-						<string key="IBUITitle">Enhanced</string>
+						<string type="base64-UTF8" key="IBUITitle">RW5oYW5jZWQg4p6UA</string>
 						<int key="IBUIStyle">1</int>
 					</object>
 				</object>
@@ -2715,7 +2712,7 @@ Zm9yIHRoZSByZW1vdmVkIGNvbHVtbnMuA</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>OzyTableViewController</string>
-					<string>{{393, 268}, {320, 480}}</string>
+					<string>{{360, 268}, {320, 480}}</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>

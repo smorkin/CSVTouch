@@ -51,33 +51,24 @@
 	 delimiter:(int)delimiter
 	   testing:(BOOL)testing
   foundColumns:(int *)foundColumns
+	useCorrect:(BOOL)useCorrect
 {
-	int numberOfRows = 0;
-	NSUInteger lineStart, lineEnd, nextLineStart;
-	NSUInteger length = [s length];
-	NSRange lineRange;
-	NSString *line;
-	int maxWords = 64;
-	unsigned char buf[1000000];
-	unsigned char *row[maxWords];
-	NSMutableArray *result = [NSMutableArray arrayWithCapacity:(testing ? 2 : 5000)];
-	lineStart = lineEnd = nextLineStart = 0;
 	NSUInteger encoding = [CSVPreferencesController encoding];
-	int maxNumberOfRows = (testing ? 3 : 1000000);
 	int csvParseFlags = CSV_TRIM | ([CSVPreferencesController keepQuotes] ? 0 : CSV_QUOTES);
 	
 	*foundColumns = -1;
-	
 	[_parsedItems removeAllObjects];
 	[_columnNames removeAllObjects];
 	[_problematicRow autorelease];
 	_problematicRow = nil;
 	_droppedRows = 0;
 	
-	if( [CSVPreferencesController allowRotatableInterface] )
+	if( useCorrect )
 	{
+		int numberOfRows = 0;
 		CSVParser *parser = [[[CSVParser alloc] init] autorelease];
-		[parser setEncoding:NSUTF8StringEncoding];
+		[parser setEncoding:encoding];
+		[parser setDelimiter:delimiter];
 		parser.string = s;
 		NSMutableArray *tmp = [parser parseFile];
 		
@@ -95,7 +86,11 @@
 					words = [tmp objectAtIndex:i];
 					if( [words count] != numberOfColumns )
 					{
-						_problematicRow = [[NSString stringWithFormat:@"Item %d, content: %@", i+1, words] retain];
+						_problematicRow = [[NSString stringWithFormat:@"Found %d values, expected %d.\nItem %d, content: %@",
+											[words count],
+											numberOfColumns,
+											i+1, 
+											words] retain];
 						[_columnNames removeAllObjects];
 						[_parsedItems removeAllObjects];
 						return FALSE;
@@ -115,96 +110,117 @@
 		}
 		return YES;
 	}
-	
-	while( nextLineStart < length && numberOfRows < maxNumberOfRows )
+	else
 	{
-		[s getLineStart:&lineStart end:&nextLineStart
-			contentsEnd:&lineEnd forRange:NSMakeRange(nextLineStart, 0)];
-		lineRange = NSMakeRange(lineStart, lineEnd - lineStart);
-		line      = [s substringWithRange:lineRange];
-		if( csv_row_parse((const unsigned char *)[line cStringUsingEncoding:encoding], 
-						  65536, buf, 65536, row, maxWords, delimiter, csvParseFlags) != -1 )
+		NSRange lineRange;
+		int numberOfRows = 0;
+		NSUInteger lineStart, lineEnd, nextLineStart;
+		NSString *line;
+		int maxWords = 64;
+		unsigned char buf[1000000];
+		unsigned char *row[maxWords];
+		NSMutableArray *result = [NSMutableArray arrayWithCapacity:(testing ? 2 : 5000)];
+		int maxNumberOfRows = (testing ? 3 : 1000000);
+		NSUInteger length = [s length];
+
+		lineStart = lineEnd = nextLineStart = 0;
+		while( nextLineStart < length && numberOfRows < maxNumberOfRows )
 		{
-			int wordNumber = 0;
-			NSString *word;
-			NSMutableArray *words = [[NSMutableArray alloc] init];
-			while( row[wordNumber] != '\0' && wordNumber < maxWords)
+			[s getLineStart:&lineStart end:&nextLineStart
+				contentsEnd:&lineEnd forRange:NSMakeRange(nextLineStart, 0)];
+			lineRange = NSMakeRange(lineStart, lineEnd - lineStart);
+			line      = [s substringWithRange:lineRange];
+			if( csv_row_parse((const unsigned char *)[line cStringUsingEncoding:encoding], 
+							  65536, buf, 65536, row, maxWords, delimiter, csvParseFlags) != -1 )
 			{
-				if( [result count] < wordNumber+1 )
-					[result addObject:[NSMutableArray array]];
-				word = [[NSString alloc] initWithBytes:row[wordNumber] 
-												length:strlen((const char *)row[wordNumber]) 
-											  encoding:encoding];
-				[words addObject:word];
-				[word release];
-				wordNumber++;
-			}
-			
-			// Check for consistency
-			if( *foundColumns == -1 )
-				*foundColumns = wordNumber;
-			else if( *foundColumns != wordNumber && wordNumber != 0 )
-			{
-				if(!testing &&
-				   ![CSVPreferencesController showDebugInfo] && 
-					wordNumber < *foundColumns )
+				int wordNumber = 0;
+				NSString *word;
+				NSMutableArray *words = [[NSMutableArray alloc] init];
+				while( row[wordNumber] != '\0' && wordNumber < maxWords)
 				{
-					for( int i = 0 ; i < *foundColumns - wordNumber ; i++ )
-						[words addObject:@""];
+					if( [result count] < wordNumber+1 )
+						[result addObject:[NSMutableArray array]];
+					word = [[NSString alloc] initWithBytes:row[wordNumber] 
+													length:strlen((const char *)row[wordNumber]) 
+												  encoding:encoding];
+					[words addObject:word];
+					[word release];
+					wordNumber++;
 				}
-				else
+				
+				// Check for consistency
+				if( *foundColumns == -1 )
+					*foundColumns = wordNumber;
+				else if( *foundColumns != wordNumber && wordNumber != 0 )
 				{
-					[_columnNames removeAllObjects];
-					[_parsedItems removeAllObjects];
-					[words release];
-					if( !testing )
+					if(!testing &&
+					   ![CSVPreferencesController showDebugInfo] && 
+					   wordNumber < *foundColumns )
 					{
-						_problematicRow = [[NSString stringWithFormat:@"Row %d: %@", numberOfRows, line] retain];
+						for( int i = 0 ; i < *foundColumns - wordNumber ; i++ )
+							[words addObject:@""];
 					}
-					return FALSE;
+					else
+					{
+						[_columnNames removeAllObjects];
+						[_parsedItems removeAllObjects];
+						[words release];
+						if( !testing )
+						{
+							_problematicRow = [[NSString stringWithFormat:@"Found %d values, expected %d.\nItem %d:\n%@",
+												wordNumber,
+												*foundColumns,
+												numberOfRows, 
+												line] retain];
+						}
+						return FALSE;
+					}
 				}
-			}
-			
-			// Add data if not testing
-			if( !testing )
-			{
-				if( numberOfRows == 0 )
-					[_columnNames addObjectsFromArray:words];
-				else
+				
+				// Add data if not testing
+				if( !testing )
 				{
-					CSVRow *row = [[CSVRow alloc] init];
-					row.items = words;
-					row.fileParser = self;
-					row.rawDataPosition = numberOfRows;
-					[_parsedItems addObject:row];
-					[row release];
+					if( numberOfRows == 0 )
+						[_columnNames addObjectsFromArray:words];
+					else
+					{
+						CSVRow *row = [[CSVRow alloc] init];
+						row.items = words;
+						row.fileParser = self;
+						row.rawDataPosition = numberOfRows;
+						[_parsedItems addObject:row];
+						[row release];
+					}
 				}
+				
+				[words release];
 			}
-			
-			[words release];
+			else
+			{
+				_droppedRows++;
+				[_problematicRow release];
+				_problematicRow = [[NSString stringWithFormat:@"Row %d: %@", numberOfRows, line] retain];
+			}
+			numberOfRows++;
 		}
-		else
-		{
-			_droppedRows++;
-			[_problematicRow release];
-			_problematicRow = [[NSString stringWithFormat:@"Row %d: %@", numberOfRows, line] retain];
-		}
-		numberOfRows++;
+		return TRUE;
 	}
-	return TRUE;
 }
 
-- (void)parseString:(NSString *)s
-{    
-	int foundColumns;
-
+- (unichar) delimiter
+{
 	if( [CSVPreferencesController smartDelimiter] )
 	{
+		int foundColumns;
 		int bestResult = 0;
 		unichar bestDelimiter = ',';
 		for( NSString *testDelimiter in [CSV_TouchAppDelegate allowedDelimiters] )
 		{
-			if([self parse:s delimiter:[testDelimiter characterAtIndex:0] testing:YES foundColumns:&foundColumns] &&
+			if([self parse:_rawString 
+				 delimiter:[testDelimiter characterAtIndex:0]
+				   testing:YES
+			  foundColumns:&foundColumns
+				useCorrect:NO] &&
 			   foundColumns > 0 &&
 			   foundColumns > bestResult )
 			{
@@ -212,15 +228,26 @@
 				bestDelimiter = [testDelimiter characterAtIndex:0];
 			}
 		}
-		_usedDelimiter = bestDelimiter;
+		return bestDelimiter;
 	}
 	else
 	{
-		_usedDelimiter = [[CSVPreferencesController delimiter] characterAtIndex:0]; 
+		return [[CSVPreferencesController delimiter] characterAtIndex:0]; 
 	}
 	
+}
+
+- (void)parseString:(NSString *)s
+{    
+	int foundColumns;
+	_usedDelimiter = [self delimiter];
+	
 	// Parse file
-	[self parse:s delimiter:_usedDelimiter testing:NO foundColumns:&foundColumns];
+	[self parse:s
+	  delimiter:_usedDelimiter
+		testing:NO
+   foundColumns:&foundColumns
+	 useCorrect:[CSVPreferencesController useCorrectParsing]];
 }
 
 - (void) parseIfNecessary

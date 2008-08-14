@@ -8,6 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
+#define VALUE_KEY @"valueKey"
+#define COLUMN_KEY @"columnKey"
+
 @class CSVFileParser;
 
 @interface CSVRow : NSObject
@@ -25,6 +28,7 @@
 
 - (NSString *) longDescription;
 - (NSMutableArray *) longDescriptionInArray;
+- (NSArray *) columnsAndValues; 
 
 - (NSComparisonResult) compareShort:(CSVRow *)r;
 

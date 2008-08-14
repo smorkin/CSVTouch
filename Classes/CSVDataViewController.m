@@ -212,22 +212,41 @@
 	
 	// Then fancy view
 	NSMutableArray *items = [(CSVRow *)[[itemController objects] objectAtIndex:row] longDescriptionInArray];
-	[items sortUsingSelector:@selector(compareFancyDetails:)];
 	fancyDetailsController.objects = items;
 	fancyDetailsController.removeDisclosure = YES;
+	if( [[currentFile availableColumnNames] count] > [columnIndexes count] )
+	{
+		NSArray *sectionStarts = [NSArray arrayWithObjects:
+								  [NSNumber numberWithInt:0], 
+								  [NSNumber numberWithInt:[columnIndexes count]],
+								  nil];
+		[fancyDetailsController setSectionStarts:sectionStarts];
+	}
+	else
+	{
+		[fancyDetailsController setSectionStarts:nil];
+	}
 	[fancyDetailsController dataLoaded];
 	
 	// Then html view
 	NSMutableString *s = [NSMutableString string];
 	[s appendFormat:@"<html><head><title>Details</title></head><body>"];
-	
-	[s appendFormat:@"<p><font size=\"+5\">Hej</font>på dig!</p>"];
-	[s appendFormat:@"<p><font size=\"+5\">Hej</font>på dig!</p>"];
-	[s appendFormat:@"<p><font size=\"+5\">Hej</font>på dig!</p>"];
-	[s appendFormat:@"<p><a href=\"http://www.ozymandias.se\">http://www.ozymandias.se</a></p>"];
-	[s appendFormat:@"<p><a href=\"mailto:simon@ozymandas.se\">mailto:simon@ozymandas.se</a></p>"];
-	[s appendFormat:@"<p>070-5760925</p>"];
+	[s appendFormat:@"<p><font size=\"+5\">"];
+	NSArray *columnsAndValues = [(CSVRow *)[[itemController objects] objectAtIndex:row] columnsAndValues];
+	for( NSDictionary *d in columnsAndValues )
+	{
+		[s appendFormat:@"<b>%@</b>: ", [d objectForKey:COLUMN_KEY]];
+		if( [[d objectForKey:VALUE_KEY] containsURL] )
+			[s appendFormat:@"<a href=\"http://www.ozymandias.se\">%@</a><br>", [d objectForKey:VALUE_KEY]];
+		else
+			[s appendFormat:@"%@<br>", [d objectForKey:VALUE_KEY]];
+	}
+	[s appendFormat:@"</p>"];
 	[s appendFormat:@"</body></html>"];
+	[s replaceOccurrencesOfString:@"\n" 
+								withString:@"<br>" 
+								   options:0
+									 range:NSMakeRange(0, [s length])];
 	[(UIWebView *)[htmlDetailsController view] loadHTMLString:s baseURL:nil];
 }
 
@@ -271,7 +290,14 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
 	else if( [controllerId isEqualToString:OBJECTS_ID] )
 		return itemController;
 	else if( [controllerId isEqualToString:DETAILS_ID] )
-		return fancyDetailsController;
+	{
+		if( selectedDetailsView == 0 )
+			return fancyDetailsController;
+		else if( selectedDetailsView == 1 )
+			return htmlDetailsController;
+		else
+			return detailsController;
+	}
 	else
 		return nil;	
 }
@@ -282,6 +308,8 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
 #define DEFS_INDEX_PATH @"indexPath"
 #define DEFS_ITEM_POSITIONS_FOR_FILES @"itemPositionsForFiles"
 #define DEFS_SEARCH_STRINGS_FOR_FILES @"searchStringsForFiles"
+#define DEFS_SELECTED_DETAILS_VIEW @"selectedDetailsView"
+
 
 - (void) applicationWillTerminate
 {
@@ -348,6 +376,8 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
 	{
 		[defaults removeObjectForKey:DEFS_INDEX_PATH];
 	}
+	
+	[defaults setInteger:selectedDetailsView forKey:DEFS_SELECTED_DETAILS_VIEW];
 		
 	[defaults synchronize];
 }
@@ -358,7 +388,7 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
 	[[editController tableView] setEditing:YES animated:NO];
 	editController.editable = YES;
 	editController.size = OZY_NORMAL;
-	editController.titleForSingleSection = @"Select & Arrange Columns";
+	[editController setSectionTitles:[NSArray arrayWithObject:@"Select & Arrange Columns"]];
 	fileController.editable = YES;
 	fileController.size = OZY_NORMAL;
 	itemController.editable = NO;
@@ -376,6 +406,9 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
 	
 	// Read last state to be able to get back to where we were before quitting last time
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+	
+	// 0. Extra settings
+	selectedDetailsView = [defaults integerForKey:DEFS_SELECTED_DETAILS_VIEW];
 
 	// 1. Read in the saved columns & order of them for each file; similarly for search strings & positions
 	NSDictionary *defaultNames = [defaults objectForKey:DEFS_COLUMN_NAMES];
@@ -428,7 +461,9 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
 	if( [indexPathDictionary isKindOfClass:[NSDictionary class]] )
 	{
 		NSIndexPath *indexPath = [NSIndexPath indexPathWithDictionary:indexPathDictionary];
-		if( [self topViewController] == fancyDetailsController )
+		if([self topViewController] == fancyDetailsController ||
+		   [self topViewController] == htmlDetailsController ||
+			[self topViewController] == detailsController)
 		{
 			if( [itemController itemExistsAtIndexPath:indexPath] )
 			{
@@ -681,6 +716,19 @@ static CSVDataViewController *sharedInstance = nil;
 			[self performSelector:@selector(delayedPushItemController:)
 					   withObject:selectedFile
 					   afterDelay:0];
+		}
+	}
+	else if( tableView == [fancyDetailsController tableView] )
+	{
+		NSArray *words = [[fancyDetailsController.objects objectAtIndex:
+						   [fancyDetailsController indexForObjectAtIndexPath:indexPath]]
+						  componentsSeparatedByString:@" "];
+		for(NSString *word in words)
+		{
+			if( [word containsURL] )
+			{
+				[self delayedHtmlClick:[NSURL URLWithString:word]];
+			}
 		}
 	}
 }

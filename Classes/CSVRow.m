@@ -212,7 +212,7 @@
 	}
 }
 
-- (NSMutableArray *) longDescriptionInArray
+- (NSArray *) columnsAndValues
 {
 	NSMutableArray *array = [NSMutableArray array];
 	
@@ -221,10 +221,10 @@
 	NSArray *availableColumnNames = [self.fileParser availableColumnNames];
 	for( NSNumber *index in columnIndexes )
 	{
-		NSString *s = [NSString stringWithFormat:@"%@: %@", 
-					   [availableColumnNames objectAtIndex:[index intValue]], 
-					   [self.items objectAtIndex:[index intValue]]];
-		[array addObject:s];
+		[array addObject:[NSDictionary dictionaryWithObjectsAndKeys:
+						  [self.items objectAtIndex:[index intValue]], VALUE_KEY,
+						  [availableColumnNames objectAtIndex:[index intValue]], COLUMN_KEY,
+						  nil]];
 	}
 	
 	// Then add other data
@@ -234,12 +234,56 @@
 		{
 			if( ![columnIndexes containsObject:[NSNumber numberWithInt:i]] )
 			{
-				NSString *s = [NSString stringWithFormat:@"%@: %@",
-							   [availableColumnNames objectAtIndex:i],
-							   [self.items objectAtIndex:i]];
-				[array addObject:s];
+				[array addObject:[NSDictionary dictionaryWithObjectsAndKeys:
+								  [self.items objectAtIndex:i], VALUE_KEY,
+								  [availableColumnNames objectAtIndex:i], COLUMN_KEY,
+								  nil]];
 			}				
 		}
+	}
+	
+	return array;
+}
+
+- (NSMutableArray *) longDescriptionInArray
+{
+	NSMutableArray *array = [NSMutableArray array];
+	
+	// First add sorted column data
+	NSArray *columnIndexes = [[CSVDataViewController sharedInstance] columnIndexes];
+	NSArray *availableColumnNames = [self.fileParser availableColumnNames];
+	for( NSNumber *index in columnIndexes )
+	{
+		NSMutableString *s = [NSMutableString stringWithFormat:@"%@: %@", 
+					   [availableColumnNames objectAtIndex:[index intValue]], 
+					   [self.items objectAtIndex:[index intValue]]];
+		[s replaceOccurrencesOfString:@"\n" 
+						   withString:@" " 
+							  options:0
+								range:NSMakeRange(0, [s length])];				
+		[array addObject:s];
+	}
+	
+	// Then add other data
+	if( [columnIndexes count] < [availableColumnNames count] )
+	{
+		NSMutableArray *otherColumns = [NSMutableArray array];
+		for( NSUInteger i = 0 ; i < [self.items count] ; i++ )
+		{
+			if( ![columnIndexes containsObject:[NSNumber numberWithInt:i]] )
+			{
+				NSMutableString *s = [NSMutableString stringWithFormat:@"%@: %@",
+							   [availableColumnNames objectAtIndex:i],
+							   [self.items objectAtIndex:i]];
+				[s replaceOccurrencesOfString:@"\n" 
+								   withString:@" " 
+									  options:0
+										range:NSMakeRange(0, [s length])];				
+				[otherColumns addObject:s];
+			}				
+		}
+		[otherColumns sortUsingSelector:@selector(compare:)];
+		[array addObjectsFromArray:otherColumns];
 	}
 	
 	return array;

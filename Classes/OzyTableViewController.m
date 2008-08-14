@@ -26,7 +26,7 @@
 @synthesize useIndexes = _useIndexes;
 @synthesize size = _size;
 @synthesize removeDisclosure = _removeDisclosure;
-@synthesize titleForSingleSection = _titleForSingleSection;
+@synthesize sectionTitles = _sectionTitles;
 
 - (NSString *) comparisonCharacterForCharacter:(NSString *)character
 {
@@ -46,6 +46,15 @@
 		return character;
 	else
 		return [character uppercaseString];
+}
+
+- (void) setSectionStarts:(NSArray *)starts
+{
+	if( !_sectionStarts )
+		_sectionStarts = [[NSMutableArray alloc] init];
+	else
+		[_sectionStarts removeAllObjects];
+	[_sectionStarts addObjectsFromArray:starts];
 }
 
 - (void) refreshIndexes
@@ -217,7 +226,7 @@
 	}
 	else
 	{
-		return (self.titleForSingleSection ? self.titleForSingleSection : @"");
+		return ([_sectionTitles count] > section ? [_sectionTitles objectAtIndex:section] : @"");
 	}
 	
 }
@@ -341,6 +350,7 @@
 	self.objects = nil;
 	[_sectionStarts release];
 	[_sectionIndexes release];
+	[_sectionTitles release];
 	[super dealloc];
 }
 
