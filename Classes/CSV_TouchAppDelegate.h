@@ -26,7 +26,6 @@ OzymandiasApplicationDelegate> {
 	// Downloading a new file
 	IBOutlet UIViewController *downloadNewFileController;
 	IBOutlet UITextField *newFileURL;
-	IBOutlet UIActivityIndicatorView *downloadActivityView;
 	IBOutlet UIToolbar *downloadToolbar;
 
 	// For better GUI when things are slow...

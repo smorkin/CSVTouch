@@ -28,6 +28,7 @@
 @synthesize hasBeenParsed = _hasBeenParsed;
 @synthesize problematicRow = _problematicRow;
 @synthesize droppedRows = _droppedRows;
+@synthesize hasBeenDownloaded = _hasBeenDownloaded;
 
 - (NSArray *) availableColumnNames
 {
@@ -322,7 +323,7 @@
 
 @implementation CSVFileParser (OzyTableViewProtocol)
 
-- (NSString *) tableViewDescription
+- (NSString *) defaultTableViewDescription
 {
 	NSString *s = [[self filePath] lastPathComponent];
 	if( [[[s pathExtension] lowercaseString] isEqualToString:@"csv"] )
@@ -331,9 +332,22 @@
 		return s;
 }
 
+- (NSString *) tableViewDescription
+{
+	if( self.hasBeenDownloaded )
+		return [NSString stringWithFormat:@"✓ %@", [self defaultTableViewDescription]];
+	else
+		return [self defaultTableViewDescription];
+}
+
 - (NSComparisonResult) compareFileName:(CSVFileParser *)fp
 {
-	return [[self tableViewDescription] compare:[fp tableViewDescription] options:NSNumericSearch];
+	return [[self defaultTableViewDescription] compare:[fp defaultTableViewDescription] options:NSNumericSearch];
+}
+
+- (BOOL) showImage
+{
+	return NO;
 }
 
 @end

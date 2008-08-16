@@ -110,7 +110,7 @@ static CSVPreferencesController *sharedInstance = nil;
 	if( section == 0 )
 		return 1;
 	else
-		return 4;
+		return 3;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -137,15 +137,12 @@ static CSVPreferencesController *sharedInstance = nil;
 			cell.text = @"Sorting";
 		else if( indexPath.row == 2 )
 			cell.text = @"Appearance";
-		else if( indexPath.row == 3 )
-			cell.text = @"Debug";
 	}
 	return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	[[UIApplication sharedApplication] setStatusBarHidden:YES animated:NO];
 	if( indexPath.section == 0 )
 	{
 		if( indexPath.row == 0 )
@@ -159,8 +156,6 @@ static CSVPreferencesController *sharedInstance = nil;
 			[self pushViewController:sortingPrefsController animated:YES];
 		else if( indexPath.row == 2 )
 			[self pushViewController:appearancePrefsController animated:YES];
-		else if( indexPath.row == 3 )
-			[self pushViewController:debugPrefsController animated:YES];
 	}
 }
 	
@@ -248,7 +243,6 @@ static CSVPreferencesController *sharedInstance = nil;
 	allowRotatableInterface.on = [CSVPreferencesController allowRotatableInterface];
 	useGroupingForItems.on = [CSVPreferencesController useGroupingForItems];
 	keepQuotes.on = [CSVPreferencesController keepQuotes];
-	showDebugInfo.on = [CSVPreferencesController showDebugInfo];
 }
 
 #define ABOUT_ID @"aboutID"
@@ -469,15 +463,6 @@ static BOOL useGroupingForItemsHasChangedSinceStart = NO;
 	return [[NSUserDefaults standardUserDefaults] boolForKey:PREFS_SHOW_DEBUG_INFO];
 }
 
-+ (void) setShowDebugInfo:(BOOL)showDebugInfo
-{
-	if( [self showDebugInfo] != showDebugInfo )
-	{
-		[[NSUserDefaults standardUserDefaults] setBool:showDebugInfo
-												forKey:PREFS_SHOW_DEBUG_INFO];
-	}
-}
-
 + (BOOL) useBlackTheme
 {
 	return [[NSUserDefaults standardUserDefaults] boolForKey:PREFS_USE_BLACK_THEME];
@@ -630,14 +615,6 @@ NSUInteger sortingMask;
 	
 	[CSVPreferencesController setKeepQuotes:keepQuotes.on];
 	[self showAlertAboutChangedPrefs:@"Files you have looked at won't update until after restarting"];
-}
-
-- (IBAction) showDebugInfoChanged:(id)sender
-{
-	if( startupInProgress )
-		return;
-	
-	[CSVPreferencesController setShowDebugInfo:showDebugInfo.on];
 }
 
 @end

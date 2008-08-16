@@ -23,7 +23,7 @@
 // mode while statusbar not showing...
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
-	if( ![CSVPreferencesController showStatusBar ] )
+	if( ![CSVPreferencesController showStatusBar ] && [[UIApplication sharedApplication] isStatusBarHidden] )
 		[[UIApplication sharedApplication] setStatusBarHidden:NO animated:NO];
 }
 

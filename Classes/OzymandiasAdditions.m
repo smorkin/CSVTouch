@@ -23,9 +23,13 @@
 
 - (BOOL) containsURL
 {
-	return [self hasSubstring:@"://"] || [self hasSubstring:@"mailto:"];
+	return [self hasSubstring:@"://"] || [self hasSubstring:@"mailto:"] || [self hasSubstring:@"tel:"];
 }
 
+- (BOOL) containsMailAddress
+{
+	return [self hasSubstring:@"@"];
+}
 
 - (NSComparisonResult) numericSensitiveCompare:(NSString *)s
 {

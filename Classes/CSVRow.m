@@ -366,5 +366,10 @@
 	return [self shortDescription];
 }
 
+- (BOOL) showImage
+{
+	return NO;
+}
+
 @end
 

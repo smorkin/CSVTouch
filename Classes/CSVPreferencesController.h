@@ -16,7 +16,6 @@
 	IBOutlet OzyRotatableViewController *dataPrefsController;
 	IBOutlet OzyRotatableViewController *sortingPrefsController;
 	IBOutlet OzyRotatableViewController *appearancePrefsController;
-	IBOutlet OzyRotatableViewController *debugPrefsController;
 	IBOutlet OzyRotatableViewController *aboutController;
 	
 	// Data
@@ -32,8 +31,6 @@
 	IBOutlet UISwitch *numericCompareSwitch;
 	IBOutlet UISwitch *caseSensitiveCompareSwitch;
 	IBOutlet UITextField *maxNumberOfObjectsToSort;
-	// Debug
-	IBOutlet UISwitch *showDebugInfo;
 }
 
 + (CSVPreferencesController *) sharedInstance;
@@ -53,7 +50,6 @@
 - (IBAction) rotationChanged:(id)sender;
 - (IBAction) groupingChanged:(id)sender;
 - (IBAction) keepQuotesChanged:(id)sender;
-- (IBAction) showDebugInfoChanged:(id)sender;
 
 + (NSString *) delimiter;
 + (NSInteger) tableViewSize;

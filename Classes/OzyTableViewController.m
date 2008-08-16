@@ -27,6 +27,7 @@
 @synthesize size = _size;
 @synthesize removeDisclosure = _removeDisclosure;
 @synthesize sectionTitles = _sectionTitles;
+@synthesize imageName = _imageName;
 
 - (NSString *) comparisonCharacterForCharacter:(NSString *)character
 {
@@ -285,6 +286,7 @@
 	if (cell == nil)
 	{
 		cell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:cellIdentifier] autorelease];
+		cell.image = [UIImage imageNamed:@"checkmark.png"];
 	}
 	
 	[cell setFont:[[cell font] fontWithSize:fontSize]];
@@ -311,6 +313,16 @@
 	else
 	{
 		cell.accessoryType = (self.useIndexes ? UITableViewCellAccessoryNone : UITableViewCellAccessoryDisclosureIndicator);
+	}
+	if( self.imageName &&
+		[item conformsToProtocol:@protocol(OzyTableViewObject)] &&
+		[(<OzyTableViewObject>)item showImage] )
+	{
+		cell.image = [UIImage imageNamed:self.imageName];
+	}
+	else
+	{
+		cell.image = nil;
 	}
 	return cell;
 }
@@ -351,6 +363,7 @@
 	[_sectionStarts release];
 	[_sectionIndexes release];
 	[_sectionTitles release];
+	[_imageName release];
 	[super dealloc];
 }
 

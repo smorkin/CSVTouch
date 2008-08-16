@@ -140,6 +140,7 @@ static CSV_TouchAppDelegate *sharedInstance = nil;
 - (void)applicationDidFinishLaunching:(UIApplication *)application
 {
 	[[UIApplication sharedApplication] setStatusBarHidden:![CSVPreferencesController showStatusBar] animated:YES];
+	startupController.view.frame = [[UIScreen mainScreen] applicationFrame];
 	[window addSubview:startupController.view];
 	[startupActivityView startAnimating];
 	
@@ -173,9 +174,7 @@ static CSV_TouchAppDelegate *sharedInstance = nil;
 {
 	[connection release];
 	connection = nil;
-	[downloadActivityView stopAnimating];
 	[self slowActivityCompleted];
-	[newFileURL endEditing:YES];
 	[[self viewController] dismissModalViewControllerAnimated:YES];
 }
 
@@ -234,7 +233,8 @@ static CSV_TouchAppDelegate *sharedInstance = nil;
 // This is when the user presses the "Download" button (the icon with the map) or presses "Enter" on keyboard
 - (IBAction) doDownloadNewFile:(id)sender
 {
-	[downloadActivityView startAnimating];
+	[newFileURL endEditing:YES];
+	[self slowActivityStartedInViewController:downloadNewFileController];
 	[self startDownloadUsingURL:[NSURL URLWithString:[[newFileURL text] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
 }
 

@@ -21,6 +21,7 @@
 	unichar _usedDelimiter;
 	BOOL _hasBeenParsed;
 	BOOL _hasBeenSorted;
+	BOOL _hasBeenDownloaded;
 }
 
 @property (nonatomic, copy) NSString *filePath;
@@ -31,6 +32,7 @@
 @property (nonatomic, readonly) int droppedRows;
 @property (nonatomic, assign) BOOL hasBeenSorted;
 @property (nonatomic, assign) BOOL hasBeenParsed;
+@property (nonatomic, assign) BOOL hasBeenDownloaded;
 
 + (CSVFileParser *) parserWithFile:(NSString *)path;
 - (void) saveToFile;
@@ -51,5 +53,6 @@
 @end
 
 @interface CSVFileParser (OzyTableViewProtocol) <OzyTableViewObject>
+- (NSString *) defaultTableViewDescription;
 @end
 

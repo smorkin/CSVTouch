@@ -151,7 +151,7 @@
 	else
 		searchBar.text = @"";
 	[self updateColumnNames];
-	[itemController setTitle:[file tableViewDescription]];
+	[itemController setTitle:[file defaultTableViewDescription]];
 	[self refreshObjectsWithResorting:!currentFile.hasBeenSorted];
 	
 	// Reset last known position of items
@@ -237,7 +237,9 @@
 	{
 		[s appendFormat:@"<b>%@</b>: ", [d objectForKey:COLUMN_KEY]];
 		if( [[d objectForKey:VALUE_KEY] containsURL] )
-			[s appendFormat:@"<a href=\"http://www.ozymandias.se\">%@</a><br>", [d objectForKey:VALUE_KEY]];
+			[s appendFormat:@"<a href=\"%@\">%@</a><br>", [d objectForKey:VALUE_KEY], [d objectForKey:VALUE_KEY]];
+		else if( [[d objectForKey:VALUE_KEY] containsMailAddress] )
+			[s appendFormat:@"<a href=\"mailto:%@\">%@</a><br>", [d objectForKey:VALUE_KEY], [d objectForKey:VALUE_KEY]];
 		else
 			[s appendFormat:@"%@<br>", [d objectForKey:VALUE_KEY]];
 	}
@@ -722,12 +724,16 @@ static CSVDataViewController *sharedInstance = nil;
 	{
 		NSArray *words = [[fancyDetailsController.objects objectAtIndex:
 						   [fancyDetailsController indexForObjectAtIndexPath:indexPath]]
-						  componentsSeparatedByString:@" "];
+						  componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
 		for(NSString *word in words)
 		{
 			if( [word containsURL] )
 			{
 				[self delayedHtmlClick:[NSURL URLWithString:word]];
+			}
+			else if( [word containsMailAddress] )
+			{
+				[self delayedHtmlClick:[NSURL URLWithString:[NSString stringWithFormat:@"mailto:%@", word]]];
 			}
 		}
 	}
@@ -741,7 +747,6 @@ static CSVDataViewController *sharedInstance = nil;
 		editNavigationBar.barStyle = UIBarStyleBlackOpaque;
 	}
 	
-	[editController setTitle:[currentFile tableViewDescription]];
 	[self presentModalViewController:editController animated:YES];
 }
 
@@ -808,6 +813,7 @@ static CSVDataViewController *sharedInstance = nil;
 			break;
 		}
 	}
+	newFile.hasBeenDownloaded = TRUE;
 	[[fileController objects] addObject:newFile];
 	[[fileController objects] sortUsingSelector:@selector(compareFileName:)];
 	[fileController dataLoaded];
