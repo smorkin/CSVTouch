@@ -1,3 +1,0 @@
-1. Clickable links
-2. Customized fonts (bold + normal in same cell)
-3. Editable data
