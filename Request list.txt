@@ -1,11 +1,18 @@
-Requests
+Requests & Bugs
 
-- Fixa html-view el.dyl. för details
+- No sorting for file
 - Navigation i details view (acceleration?)
 - Search inuti items view
-- Horisontell scroll i items view
+- Horisontell scroll i items view (?)
 - Tabbad text i items view
 - Editerbart data
+- Bug: Sortering av "MiB 2*Scifi*..." vs "MiB*Scifi*..."
+
+
+Fixed
+
+- Fixa html-view el.dyl. för details
+
 
 Kind of fixed...
 
