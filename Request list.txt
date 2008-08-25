@@ -7,6 +7,13 @@ Requests & Bugs
 - Tabbad text i items view
 - Editerbart data
 - Bug: Sortering av "MiB 2*Scifi*..." vs "MiB*Scifi*..."
+- Importera filer via Bonjour + lokalt nätverk
+- Ha settings för Bold column, Links, Aligna kolumnnamn höger men data vänster:
+       Field Name 1 | Data
+            Field 2 | Data 2
+                 F3 | Data three
+- Active ftp
+
 
 
 Fixed
