@@ -51,6 +51,7 @@ typedef enum OzyTableViewSize {
 + (UIView *) headerViewForSize:(OzyTableViewSize)size;
 
 - (NSUInteger) indexForObjectAtIndexPath:(NSIndexPath *)indexPath;
+- (NSIndexPath *) indexPathForObjectAtIndex:(NSUInteger)index;
 - (BOOL) itemExistsAtIndexPath:(NSIndexPath *)indexPath;
 
 // Note that setObjects does this automatically, so only call if you have manipulated objects

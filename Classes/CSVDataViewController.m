@@ -202,6 +202,41 @@
 		self.tabBarItem.badgeValue = nil;
 }
 
+- (UIViewController *) currentDetailsController
+{
+	switch(selectedDetailsView)
+	{
+		case 0:
+			return fancyDetailsController;
+		case 1:
+			return htmlDetailsController;
+		case 2:
+		default:
+			return detailsController;
+	}
+}
+
+- (void) addNavigationButtonsToView:(UIViewController *)controller
+{
+	float xNext, y;
+	float yCorrection = [[UIApplication sharedApplication] isStatusBarHidden] ? 0.0 : -20.0;
+	if( UIInterfaceOrientationIsLandscape([[UIDevice currentDevice] orientation]) )
+	{
+		xNext = 439;
+		y = 193;
+	}
+	else
+	{
+		xNext = 439-160;
+		y = 193+160;
+	}
+	
+	nextDetails.frame = CGRectMake(xNext, y+yCorrection, nextDetails.frame.size.width,  nextDetails.frame.size.height);
+	previousDetails.frame = CGRectMake(0, y+yCorrection, previousDetails.frame.size.width,  previousDetails.frame.size.height);
+	[controller.view addSubview:nextDetails];
+	[controller.view addSubview:previousDetails];
+}
+
 - (void) selectDetailsForRow:(NSUInteger)row
 {
 	// First simple details view
@@ -250,6 +285,8 @@
 								   options:0
 									 range:NSMakeRange(0, [s length])];
 	[(UIWebView *)[htmlDetailsController view] loadHTMLString:s baseURL:nil];
+
+	[self addNavigationButtonsToView:[self currentDetailsController]];
 }
 
 - (void) delayedHtmlClick:(NSURL *)URL
@@ -453,7 +490,11 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
 	{
 		UIViewController *controller = [self controllerForId:controllerId];
 		if( controller )
+		{
+			if( [controllerId isEqualToString:DETAILS_ID] )
+				[self addNavigationButtonsToView:controller];
 			[self pushViewController:controller animated:NO];
+		}
 	}
 	[self updateBadgeValueUsingItem:[self topViewController].navigationItem push:YES];
 
@@ -661,35 +702,24 @@ static CSVDataViewController *sharedInstance = nil;
 	}
 }
 
-- (UIViewController *) currentDetailsController
-{
-	switch(selectedDetailsView)
-	{
-		case 0:
-			return fancyDetailsController;
-		case 1:
-			return htmlDetailsController;
-		case 2:
-		default:
-			return detailsController;
-	}
-}
-
 - (IBAction) toggleDetailsView:(id)sender
 {
 	if( [self currentDetailsController] == fancyDetailsController )
 	{
 		[self popViewControllerAnimated:NO];
+		[self addNavigationButtonsToView:htmlDetailsController];
 		[self pushViewController:htmlDetailsController animated:NO];
 	}
 	else if( [self currentDetailsController] == htmlDetailsController )
 	{
 		[self popViewControllerAnimated:NO];
+		[self addNavigationButtonsToView:detailsController];
 		[self pushViewController:detailsController animated:NO];
 	}	
 	else if( [self currentDetailsController] == detailsController )
 	{
 		[self popViewControllerAnimated:NO];
+		[self addNavigationButtonsToView:fancyDetailsController];
 		[self pushViewController:fancyDetailsController animated:NO];
 	}	
 	selectedDetailsView = (selectedDetailsView+1) % 3;
@@ -860,6 +890,46 @@ static CSVDataViewController *sharedInstance = nil;
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
 {
 	[self performSelector:@selector(editDone:) withObject:self afterDelay:0];
+}
+
+- (IBAction) nextDetailsClicked:(id)sender
+{
+	NSIndexPath *selectedRow = [[itemController tableView] indexPathForSelectedRow];                                              // return nil or index path representing section and row of selection.
+	if( selectedRow  )
+	{
+		NSUInteger newIndex;
+		if( [[itemController objects] count] > [itemController indexForObjectAtIndexPath:selectedRow]+1 )
+			newIndex = [itemController indexForObjectAtIndexPath:selectedRow] + 1;
+		else if( [[itemController objects] count] == [itemController indexForObjectAtIndexPath:selectedRow]+1 )
+			newIndex = 0;
+		else
+			return;
+		NSIndexPath *newIndexPath = [itemController indexPathForObjectAtIndex:newIndex];
+		[[itemController tableView] selectRowAtIndexPath:newIndexPath
+												animated:NO
+										  scrollPosition:UITableViewScrollPositionMiddle];
+		[self selectDetailsForRow:newIndex];
+	}
+}
+
+- (IBAction) previousDetailsClicked:(id)sender
+{
+	NSIndexPath *selectedRow = [[itemController tableView] indexPathForSelectedRow];                                              // return nil or index path representing section and row of selection.
+	if( selectedRow  )
+	{
+		NSUInteger newIndex;
+		if( [itemController indexForObjectAtIndexPath:selectedRow] > 0 )
+			newIndex = [itemController indexForObjectAtIndexPath:selectedRow] - 1;
+		else if( [itemController indexForObjectAtIndexPath:selectedRow] == 0 )
+			newIndex = [[itemController objects] count] - 1;
+		else
+			return;
+		NSIndexPath *newIndexPath = [itemController indexPathForObjectAtIndex:newIndex];
+		[[itemController tableView] selectRowAtIndexPath:newIndexPath
+												animated:NO
+										  scrollPosition:UITableViewScrollPositionMiddle];
+		[self selectDetailsForRow:newIndex];
+	}
 }
 
 @end

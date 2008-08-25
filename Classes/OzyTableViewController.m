@@ -155,6 +155,27 @@
 	}
 }
 
+- (NSIndexPath *) indexPathForObjectAtIndex:(NSUInteger)index
+{
+	if( index >= [self.objects count] || index < 0 )
+		return [NSIndexPath indexPathForRow:0 inSection:0];
+	
+	if( [_sectionStarts count] > 0 )
+	{
+		NSUInteger section;
+		for( section = 1 ; section < [_sectionStarts count] ; section++ )
+		{
+			if( index < [[_sectionStarts objectAtIndex:section] intValue] )
+				return [NSIndexPath indexPathForRow:(index - [[_sectionStarts objectAtIndex:section-1] intValue] ) inSection:section-1];
+		}
+		return [NSIndexPath indexPathForRow:(index - [[_sectionStarts objectAtIndex:section-1] intValue] ) inSection:section-1];
+	}
+	else
+	{
+		return [NSIndexPath indexPathForRow:index inSection:0];
+	}
+}
+
 - (NSUInteger) indexForObjectAtIndexPath:(NSIndexPath *)indexPath
 {
 	if( [_sectionStarts count] > 0 )

@@ -23,6 +23,8 @@ OzyRotatableViewController;
 	IBOutlet OzyTextViewController *parseErrorController;
 	
 	int selectedDetailsView; // 0 = fancy, 1 = web, 2 = simple
+	IBOutlet UIButton *nextDetails;
+	IBOutlet UIButton *previousDetails;
 	
 	CSVFileParser *currentFile;
 	BOOL itemsNeedResorting;
@@ -54,6 +56,8 @@ OzyRotatableViewController;
 - (IBAction) toggleRefreshFiles:(id)sender;
 - (IBAction) toggleShowingRawString:(id)sender;
 - (IBAction) toggleDetailsView:(id)sender;
+- (IBAction) nextDetailsClicked:(id)sender;
+- (IBAction) previousDetailsClicked:(id)sender;
 
 - (void) setFiles:(NSArray *) files;
 
