@@ -326,7 +326,9 @@
 - (NSString *) defaultTableViewDescription
 {
 	NSString *s = [[self filePath] lastPathComponent];
-	if( [[[s pathExtension] lowercaseString] isEqualToString:@"csv"] )
+	if( [[[s pathExtension] lowercaseString] isEqualToString:@"csv"] ||
+		[[[s pathExtension] lowercaseString] isEqualToString:@"tsv"] ||
+		[[[s pathExtension] lowercaseString] isEqualToString:@"txt"] )
 		return [s stringByDeletingPathExtension];
 	else
 		return s;
