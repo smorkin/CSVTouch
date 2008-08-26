@@ -32,6 +32,20 @@
 			<key>Type</key>
 			<string>PSToggleSwitchSpecifier</string>
 			<key>Title</key>
+			<string>Details Navigation</string>
+			<key>Key</key>
+			<string>useDetailsNavigation</string>
+			<key>DefaultValue</key>
+			<true/>
+			<key>TrueValue</key>
+			<true/>
+			<key>FalseValue</key>
+			<false/>
+		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSToggleSwitchSpecifier</string>
+			<key>Title</key>
 			<string>Status Bar</string>
 			<key>Key</key>
 			<string>showStatusBar</string>

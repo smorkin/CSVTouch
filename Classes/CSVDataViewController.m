@@ -216,27 +216,6 @@
 	}
 }
 
-- (void) addNavigationButtonsToView:(UIViewController *)controller
-{
-	float xNext, y;
-	float yCorrection = [[UIApplication sharedApplication] isStatusBarHidden] ? 0.0 : -20.0;
-	if( UIInterfaceOrientationIsLandscape([[UIDevice currentDevice] orientation]) )
-	{
-		xNext = 439;
-		y = 193;
-	}
-	else
-	{
-		xNext = 439-160;
-		y = 193+160;
-	}
-	
-	nextDetails.frame = CGRectMake(xNext, y+yCorrection, nextDetails.frame.size.width,  nextDetails.frame.size.height);
-	previousDetails.frame = CGRectMake(0, y+yCorrection, previousDetails.frame.size.width,  previousDetails.frame.size.height);
-	[controller.view addSubview:nextDetails];
-	[controller.view addSubview:previousDetails];
-}
-
 - (void) selectDetailsForRow:(NSUInteger)row
 {
 	// First simple details view
@@ -285,8 +264,6 @@
 								   options:0
 									 range:NSMakeRange(0, [s length])];
 	[(UIWebView *)[htmlDetailsController view] loadHTMLString:s baseURL:nil];
-
-	[self addNavigationButtonsToView:[self currentDetailsController]];
 }
 
 - (void) delayedHtmlClick:(NSURL *)URL
@@ -434,6 +411,9 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
 	itemController.size = [CSVPreferencesController tableViewSize];
 	itemController.useIndexes = [CSVPreferencesController useGroupingForItems];
 	fancyDetailsController.size = [CSVPreferencesController tableViewSize];
+	detailsController.viewDelegate = self;
+	fancyDetailsController.viewDelegate = self;
+	htmlDetailsController.viewDelegate = self;
 		
 	// Autocorrection of searching should be off
 	searchBar.autocorrectionType = UITextAutocorrectionTypeNo;
@@ -491,8 +471,6 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
 		UIViewController *controller = [self controllerForId:controllerId];
 		if( controller )
 		{
-			if( [controllerId isEqualToString:DETAILS_ID] )
-				[self addNavigationButtonsToView:controller];
 			[self pushViewController:controller animated:NO];
 		}
 	}
@@ -664,7 +642,7 @@ static CSVDataViewController *sharedInstance = nil;
 	}
 	
 	// Check if there seems to be a problem with the file preventing us from reading it
-	if( [[currentFile itemsWithResetShortdescriptions:NO] count] < 2 ||
+	if( [[currentFile itemsWithResetShortdescriptions:NO] count] < 1 ||
 		[[currentFile availableColumnNames] count] == 0 ||
 	   ([[currentFile availableColumnNames] count] == 1 && [CSVPreferencesController showDebugInfo]) )
 	{
@@ -707,19 +685,16 @@ static CSVDataViewController *sharedInstance = nil;
 	if( [self currentDetailsController] == fancyDetailsController )
 	{
 		[self popViewControllerAnimated:NO];
-		[self addNavigationButtonsToView:htmlDetailsController];
 		[self pushViewController:htmlDetailsController animated:NO];
 	}
 	else if( [self currentDetailsController] == htmlDetailsController )
 	{
 		[self popViewControllerAnimated:NO];
-		[self addNavigationButtonsToView:detailsController];
 		[self pushViewController:detailsController animated:NO];
 	}	
 	else if( [self currentDetailsController] == detailsController )
 	{
 		[self popViewControllerAnimated:NO];
-		[self addNavigationButtonsToView:fancyDetailsController];
 		[self pushViewController:fancyDetailsController animated:NO];
 	}	
 	selectedDetailsView = (selectedDetailsView+1) % 3;
@@ -931,6 +906,64 @@ static CSVDataViewController *sharedInstance = nil;
 		[self selectDetailsForRow:newIndex];
 	}
 }
+
+@end
+
+@interface CSVDataViewController (OzymandiasViewControllerViewDelegate) <OzymandiasViewControllerViewDelegate>
+@end
+
+@implementation CSVDataViewController (OzymandiasViewControllerViewDelegate)
+
+- (void) addNavigationButtonsToView:(UIViewController *)controller
+{
+	CGSize viewSize = controller.view.frame.size;
+	CGSize buttonSize = nextDetails.frame.size; // We assume both buttons have the same size already
+	previousDetails.frame = CGRectMake(0, viewSize.height-buttonSize.height-16, buttonSize.width, buttonSize.height);
+	nextDetails.frame = CGRectMake(viewSize.width-buttonSize.width, viewSize.height-buttonSize.height-16, buttonSize.width, buttonSize.height);
+	[controller.view addSubview:nextDetails];
+	[controller.view addSubview:previousDetails];
+}
+
+// A little bit hacky, this one...
+- (void) removeNavigationButtonsFromView:(UIViewController *)controller
+{
+	for( UIView *view in [controller.view subviews] )
+	{
+		if( [view isKindOfClass:[UIButton class]] &&
+		   ([[(UIButton *)view titleForState:UIControlStateNormal] isEqualToString:@"⇛"] ||
+		   [[(UIButton *)view titleForState:UIControlStateNormal] isEqualToString:@"⇚"]))
+		{
+			[view removeFromSuperview];
+		}
+	}
+}
+
+- (void) viewDidAppear:(UIView *)view controller:(UIViewController *)controller
+{
+	if( [CSVPreferencesController useDetailsNavigation] )
+	{
+		if( controller == detailsController ||
+		   controller == fancyDetailsController ||
+		   controller == htmlDetailsController )
+		{
+			[self addNavigationButtonsToView:controller];
+		}
+	}
+}
+
+- (void) viewDidDisappear:(UIView *)view controller:(UIViewController *)controller
+{
+	if( [CSVPreferencesController useDetailsNavigation] )
+	{	
+		if( controller == detailsController ||
+		   controller == fancyDetailsController ||
+		   controller == htmlDetailsController )
+		{
+			[self removeNavigationButtonsFromView:controller];
+		}
+	}
+}
+
 
 @end
 

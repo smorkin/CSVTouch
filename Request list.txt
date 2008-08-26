@@ -1,7 +1,5 @@
 Requests & Bugs
 
-- No sorting for file
-- Navigation i details view (acceleration?)
 - Search inuti items view
 - Horisontell scroll i items view (?)
 - Tabbad text i items view
@@ -13,12 +11,16 @@ Requests & Bugs
             Field 2 | Data 2
                  F3 | Data three
 - Active ftp
-
+- Ignorera "The" när sorterar, osv
+- CSV i mail attachment: Öppna
+- Möjligt göra fonten mindre men raderna lika höga
 
 
 Fixed
 
 - Fixa html-view el.dyl. för details
+- Navigation i details view (acceleration?)
+- No sorting for items: Solved; use Max Items To Sort = 1
 
 
 Kind of fixed...

@@ -53,10 +53,8 @@
 		F41233A10DE4AD64005E355F /* msgno.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = msgno.c; sourceTree = "<group>"; };
 		F41233A20DE4AD64005E355F /* msgno.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = msgno.h; sourceTree = "<group>"; };
 		F41233A30DE4AD64005E355F /* text.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = text.h; sourceTree = "<group>"; };
+		F413FF810E648C93006C7348 /* Description.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = Description.rtf; sourceTree = "<group>"; };
 		F4174D140E40A4A200351EE4 /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.png; sourceTree = "<group>"; };
-		F4174D3F0E40F9BD00351EE4 /* PkgInfo */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = PkgInfo; sourceTree = "<group>"; };
-		F4174D400E40F9BD00351EE4 /* index.xml.gz */ = {isa = PBXFileReference; lastKnownFileType = archive.gzip; path = index.xml.gz; sourceTree = "<group>"; };
-		F4174D420E40F9BD00351EE4 /* Thumbnail.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Thumbnail.jpg; sourceTree = "<group>"; };
 		F4174D430E40F9D400351EE4 /* Large comma.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Large comma.png"; sourceTree = "<group>"; };
 		F4174D440E40F9D400351EE4 /* Large comma.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = "Large comma.tif"; sourceTree = "<group>"; };
 		F419D10E0E4D233000111CBE /* Legal.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Legal.plist; path = Settings.bundle/Legal.plist; sourceTree = "<group>"; };
@@ -170,6 +168,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				F413FF810E648C93006C7348 /* Description.rtf */,
 				F4E928750E4EE808006165B0 /* Default.png */,
 				F4174D140E40A4A200351EE4 /* icon.png */,
 				28AD735F0D9D9599002E5188 /* MainWindow.xib */,
@@ -196,35 +195,8 @@
 			children = (
 				F4174D430E40F9D400351EE4 /* Large comma.png */,
 				F4174D440E40F9D400351EE4 /* Large comma.tif */,
-				F4174D3D0E40F9BD00351EE4 /* CSV Touch description.pages */,
 			);
 			name = "iTunes Connect";
-			sourceTree = "<group>";
-		};
-		F4174D3D0E40F9BD00351EE4 /* CSV Touch description.pages */ = {
-			isa = PBXGroup;
-			children = (
-				F4174D3E0E40F9BD00351EE4 /* Contents */,
-				F4174D400E40F9BD00351EE4 /* index.xml.gz */,
-				F4174D410E40F9BD00351EE4 /* QuickLook */,
-			);
-			path = "CSV Touch description.pages";
-			sourceTree = "<group>";
-		};
-		F4174D3E0E40F9BD00351EE4 /* Contents */ = {
-			isa = PBXGroup;
-			children = (
-				F4174D3F0E40F9BD00351EE4 /* PkgInfo */,
-			);
-			path = Contents;
-			sourceTree = "<group>";
-		};
-		F4174D410E40F9BD00351EE4 /* QuickLook */ = {
-			isa = PBXGroup;
-			children = (
-				F4174D420E40F9BD00351EE4 /* Thumbnail.jpg */,
-			);
-			path = QuickLook;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -412,8 +384,8 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "\"$SRCROOT\"/**";
 				PREBINDING = NO;
-				PROVISIONING_PROFILE = "EB8194CF-2E16-4AE8-B847-E0C02A7DAF12";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "EB8194CF-2E16-4AE8-B847-E0C02A7DAF12";
+				PROVISIONING_PROFILE = "FD903CDE-BF61-4E6F-BBA6-3F38E0CC93B7";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "FD903CDE-BF61-4E6F-BBA6-3F38E0CC93B7";
 				SDKROOT = iphoneos2.0;
 			};
 			name = Privatdistribution;
@@ -429,8 +401,8 @@
 				GCC_PREFIX_HEADER = CSV_Touch_Prefix.pch;
 				INFOPLIST_FILE = Info.plist;
 				PRODUCT_NAME = "CSV Touch";
-				PROVISIONING_PROFILE = "EB8194CF-2E16-4AE8-B847-E0C02A7DAF12";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "EB8194CF-2E16-4AE8-B847-E0C02A7DAF12";
+				PROVISIONING_PROFILE = "FD903CDE-BF61-4E6F-BBA6-3F38E0CC93B7";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "FD903CDE-BF61-4E6F-BBA6-3F38E0CC93B7";
 			};
 			name = Privatdistribution;
 		};

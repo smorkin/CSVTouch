@@ -12,6 +12,8 @@
 
 @implementation OzyRotatableTabBarController
 
+@synthesize viewDelegate = _viewDelegate;
+
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
 	if( [[[UIApplication sharedApplication] delegate] respondsToSelector:@selector(allowRotation)] )
 		return [(id <OzymandiasApplicationDelegate>)[[UIApplication sharedApplication] delegate] allowRotation];
@@ -25,6 +27,18 @@
 {
 	if( ![CSVPreferencesController showStatusBar ] && [[UIApplication sharedApplication] isStatusBarHidden] )
 		[[UIApplication sharedApplication] setStatusBarHidden:NO animated:NO];
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+	[self.viewDelegate viewDidAppear:self.view controller:self];
+	[super viewDidAppear:animated];
+}
+
+- (void)viewDidDisappear:(BOOL)animated
+{
+	[self.viewDelegate viewDidDisappear:self.view controller:self];
+	[super viewDidDisappear:animated];
 }
 
 @end

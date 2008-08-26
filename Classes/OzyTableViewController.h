@@ -31,6 +31,7 @@ typedef enum OzyTableViewSize {
 	NSMutableArray *_sectionStarts;
 	NSArray *_sectionTitles;
 	NSString *_imageName;
+	id _viewDelegate;
 }
 
 @property (nonatomic, readonly) UITableView *tableView;
@@ -41,6 +42,7 @@ typedef enum OzyTableViewSize {
 @property (nonatomic, assign) BOOL removeDisclosure;
 @property (nonatomic, retain) NSArray *sectionTitles;
 @property (nonatomic, retain) NSString *imageName;
+@property (nonatomic, assign) id viewDelegate;
 
 // Only use this when not using indexes but you still want sections.
 // Content should be NSNumbers, starting at "0".

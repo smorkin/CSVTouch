@@ -10,7 +10,8 @@
 
 
 @interface OzyRotatableViewController : UIViewController {
-
+	id _viewDelegate;
 }
 
+@property (nonatomic, assign) id viewDelegate;
 @end

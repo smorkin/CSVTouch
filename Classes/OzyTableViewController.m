@@ -28,6 +28,7 @@
 @synthesize removeDisclosure = _removeDisclosure;
 @synthesize sectionTitles = _sectionTitles;
 @synthesize imageName = _imageName;
+@synthesize viewDelegate = _viewDelegate;
 
 - (NSString *) comparisonCharacterForCharacter:(NSString *)character
 {
@@ -430,6 +431,18 @@
 		default:
 			return normalView;
 	}
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+	[self.viewDelegate viewDidAppear:self.view controller:self];
+	[super viewDidAppear:animated];
+}
+
+- (void)viewDidDisappear:(BOOL)animated
+{
+	[self.viewDelegate viewDidDisappear:self.view controller:self];
+	[super viewDidDisappear:animated];
 }
 
 @end
