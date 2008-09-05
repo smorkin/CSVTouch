@@ -30,6 +30,5 @@
 - (NSMutableArray *) longDescriptionInArray;
 - (NSArray *) columnsAndValues; 
 
-- (NSComparisonResult) compareShort:(CSVRow *)r;
-
++ (SEL) compareSelector;
 @end

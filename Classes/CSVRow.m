@@ -24,6 +24,32 @@
 	return [self.shortDescription compare:row.shortDescription options:sortingMask];
 }
 
+- (NSComparisonResult) compareItems:(CSVRow *)row
+{
+	if( [self.items count] != [row.items count] )
+		return [self compareShort:row];
+	
+	NSUInteger i;
+	NSComparisonResult r;
+	NSUInteger count = [self.items count];
+	for( i = 0 ; i < count ; i++ )
+	{
+		r = [[self.items objectAtIndex:i] compare:[row.items objectAtIndex:i] options:sortingMask];
+		if( r != NSOrderedSame )
+			return r;
+	}
+	return NSOrderedSame;
+}
+
++ (SEL) compareSelector
+{
+	if( [CSVPreferencesController useCorrectSorting] )
+		return @selector(compareItems:);
+	else
+		return @selector(compareShort:);
+}
+
+
 + (NSString *) concatenateWords:(NSArray *)words
 				   usingIndexes:(int *)indexes
 						  count:(int)indexCount

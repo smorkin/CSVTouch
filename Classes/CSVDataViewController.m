@@ -49,7 +49,7 @@
 	   ([CSVPreferencesController maxNumberOfObjectsToSort] == 0 ||
 		[allObjects count] <= [CSVPreferencesController maxNumberOfObjectsToSort]) )
 	{
-		[allObjects sortUsingSelector:@selector(compareShort:)];
+		[allObjects sortUsingSelector:[CSVRow compareSelector]];
 		currentFile.hasBeenSorted = YES;
 	}
 	
@@ -802,7 +802,7 @@ static CSVDataViewController *sharedInstance = nil;
 
 - (void) resortObjects
 {
-	[[itemController objects] sortUsingSelector:@selector(compareShort:)];
+	[[itemController objects] sortUsingSelector:[CSVRow compareSelector]];
 	[itemController refreshIndexes];
 	[itemController dataLoaded];
 }

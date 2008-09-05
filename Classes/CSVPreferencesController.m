@@ -187,6 +187,7 @@ static CSVPreferencesController *sharedInstance = nil;
 #define PREFS_SHOW_DEBUG_INFO @"showDebugInfo"
 #define PREFS_USE_BLACK_THEME @"useBlackTheme"
 #define PREFS_USE_CORRECT_PARSING @"useCorrectParsing"
+#define PREFS_USE_CORRECT_SORTING @"useCorrectSorting"
 #define PREFS_REMOVE_DETAILS_NAVIGATION @"useDetailsNavigation"
 
 - (void) loadPreferences
@@ -477,6 +478,11 @@ static BOOL useGroupingForItemsHasChangedSinceStart = NO;
 + (BOOL) useCorrectParsing
 {
 	return [[NSUserDefaults standardUserDefaults] boolForKey:PREFS_USE_CORRECT_PARSING];
+}
+
++ (BOOL) useCorrectSorting
+{
+	return [[NSUserDefaults standardUserDefaults] boolForKey:PREFS_USE_CORRECT_SORTING];
 }
 
 + (BOOL) useDetailsNavigation

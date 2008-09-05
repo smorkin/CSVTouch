@@ -4,13 +4,11 @@ Requests & Bugs
 - Horisontell scroll i items view (?)
 - Tabbad text i items view
 - Editerbart data
-- Bug: Sortering av "MiB 2*Scifi*..." vs "MiB*Scifi*..."
 - Importera filer via Bonjour + lokalt nätverk
-- Ha settings för Bold column, Links, Aligna kolumnnamn höger men data vänster:
+- Ha settings för Bold column, Links, Aligna kolumnnamn höger men data vänster (kanske via html-kod <table>):
        Field Name 1 | Data
             Field 2 | Data 2
                  F3 | Data three
-- Active ftp
 - Ignorera "The" när sorterar, osv
 - CSV i mail attachment: Öppna
 - Möjligt göra fonten mindre men raderna lika höga
@@ -21,6 +19,7 @@ Fixed
 - Fixa html-view el.dyl. för details
 - Navigation i details view (acceleration?)
 - No sorting for items: Solved; use Max Items To Sort = 1
+- Bug: Sortering av "MiB 2*Scifi*..." vs "MiB*Scifi*..."
 
 
 Kind of fixed...
