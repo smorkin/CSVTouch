@@ -13,6 +13,7 @@
 - (BOOL) containsDigit;
 - (BOOL) hasSubstring:(NSString *)s;
 - (BOOL) containsURL;
+- (BOOL) containsImageURL;
 - (BOOL) containsMailAddress;
 - (NSComparisonResult) numericSensitiveCompare:(NSString *)s;
 @end

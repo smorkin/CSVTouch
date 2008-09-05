@@ -31,6 +31,15 @@
 	return [self hasSubstring:@"@"];
 }
 
+- (BOOL) containsImageURL
+{
+	return ([self hasSubstring:@"http://"] || [self hasSubstring:@"https://"]) &&
+	([self hasSuffix:@".jpg"] || [self hasSuffix:@".JPG"] ||
+	 [self hasSuffix:@".jpeg"] || [self hasSuffix:@".JPEG"] ||
+	 [self hasSuffix:@".png"] || [self hasSuffix:@".PNG"] ||
+	 [self hasSuffix:@".gif"] || [self hasSuffix:@".GIF"]);
+}
+
 - (NSComparisonResult) numericSensitiveCompare:(NSString *)s
 {
 	return [self compare:s options:NSNumericSearch];

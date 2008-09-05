@@ -66,6 +66,7 @@
 + (BOOL) useCorrectParsing;
 + (BOOL) useCorrectSorting;
 + (BOOL) useDetailsNavigation;
++ (BOOL) showInlineImages;
 + (NSUInteger) sortingMask;
 extern NSUInteger sortingMask; // This is available for performance-critical operations
 

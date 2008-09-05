@@ -216,16 +216,17 @@
 	}
 }
 
-- (void) selectDetailsForRow:(NSUInteger)row
+- (void) updateSimpleViewWithItem:(CSVRow *)item
 {
-	// First simple details view
-	if( [[itemController objects] count] > row )
-		[[detailsController textView] setText:[(CSVRow *)[[itemController objects] objectAtIndex:row] longDescription]];
+	if( item )
+		[[detailsController textView] setText:[item longDescription]];
 	else
 		[[detailsController textView] setText:@"No data found!"];
-	
-	// Then fancy view
-	NSMutableArray *items = [(CSVRow *)[[itemController objects] objectAtIndex:row] longDescriptionInArray];
+}
+
+- (void) updateEnhancedViewWithItem:(CSVRow *)item
+{
+	NSMutableArray *items = [item longDescriptionInArray];
 	fancyDetailsController.objects = items;
 	fancyDetailsController.removeDisclosure = YES;
 	if( [[currentFile availableColumnNames] count] > [columnIndexes count] )
@@ -241,16 +242,20 @@
 		[fancyDetailsController setSectionStarts:nil];
 	}
 	[fancyDetailsController dataLoaded];
-	
-	// Then html view
+}
+
+- (void) updateHtmlViewWithItem:(CSVRow *)item
+{
 	NSMutableString *s = [NSMutableString string];
 	[s appendFormat:@"<html><head><title>Details</title></head><body>"];
 	[s appendFormat:@"<p><font size=\"+5\">"];
-	NSArray *columnsAndValues = [(CSVRow *)[[itemController objects] objectAtIndex:row] columnsAndValues];
+	NSArray *columnsAndValues = [item columnsAndValues];
 	for( NSDictionary *d in columnsAndValues )
 	{
 		[s appendFormat:@"<b>%@</b>: ", [d objectForKey:COLUMN_KEY]];
-		if( [[d objectForKey:VALUE_KEY] containsURL] )
+		if( [[d objectForKey:VALUE_KEY] containsImageURL] && [CSVPreferencesController showInlineImages] )
+			[s appendFormat:@"<br><img src=\"%@\"><br>", [d objectForKey:VALUE_KEY]];
+		else if( [[d objectForKey:VALUE_KEY] containsURL] )
 			[s appendFormat:@"<a href=\"%@\">%@</a><br>", [d objectForKey:VALUE_KEY], [d objectForKey:VALUE_KEY]];
 		else if( [[d objectForKey:VALUE_KEY] containsMailAddress] )
 			[s appendFormat:@"<a href=\"mailto:%@\">%@</a><br>", [d objectForKey:VALUE_KEY], [d objectForKey:VALUE_KEY]];
@@ -260,10 +265,27 @@
 	[s appendFormat:@"</p>"];
 	[s appendFormat:@"</body></html>"];
 	[s replaceOccurrencesOfString:@"\n" 
-								withString:@"<br>" 
-								   options:0
-									 range:NSMakeRange(0, [s length])];
+					   withString:@"<br>" 
+						  options:0
+							range:NSMakeRange(0, [s length])];
 	[(UIWebView *)[htmlDetailsController view] loadHTMLString:s baseURL:nil];
+}
+
+- (void) selectDetailsForRow:(NSUInteger)row
+{
+	CSVRow *item;
+	
+	if( [[itemController objects] count] > row )
+		item = [[itemController objects] objectAtIndex:row];
+	else
+		item = nil;
+	
+	[self updateSimpleViewWithItem:item];
+	[self updateEnhancedViewWithItem:item];
+	[self updateHtmlViewWithItem:item];
+	
+	// Then fancy view
+	// Then html view
 }
 
 - (void) delayedHtmlClick:(NSURL *)URL

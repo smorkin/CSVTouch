@@ -189,6 +189,7 @@ static CSVPreferencesController *sharedInstance = nil;
 #define PREFS_USE_CORRECT_PARSING @"useCorrectParsing"
 #define PREFS_USE_CORRECT_SORTING @"useCorrectSorting"
 #define PREFS_REMOVE_DETAILS_NAVIGATION @"useDetailsNavigation"
+#define PREFS_SHOW_INLINE_IMAGES @"showInlineImages"
 
 - (void) loadPreferences
 {
@@ -490,6 +491,14 @@ static BOOL useGroupingForItemsHasChangedSinceStart = NO;
 	id obj = [[NSUserDefaults standardUserDefaults] objectForKey:PREFS_REMOVE_DETAILS_NAVIGATION];
 	if( obj )
 		return [[NSUserDefaults standardUserDefaults] boolForKey:PREFS_REMOVE_DETAILS_NAVIGATION];
+	else
+		return YES;
+}
+
++ (BOOL) showInlineImages
+{
+	if( [[NSUserDefaults standardUserDefaults] objectForKey:PREFS_SHOW_INLINE_IMAGES] )
+		return [[NSUserDefaults standardUserDefaults] boolForKey:PREFS_SHOW_INLINE_IMAGES];
 	else
 		return YES;
 }
