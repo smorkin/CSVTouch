@@ -26,15 +26,14 @@
 
 - (NSComparisonResult) compareItems:(CSVRow *)row
 {
-	if( [self.items count] != [row.items count] )
-		return [self compareShort:row];
+	NSUInteger columnsShown = [[[CSVDataViewController sharedInstance] columnIndexes] count];
+	int *columnIndexes = [[CSVDataViewController sharedInstance] rawColumnIndexes];
 	
 	NSUInteger i;
 	NSComparisonResult r;
-	NSUInteger count = [self.items count];
-	for( i = 0 ; i < count ; i++ )
+	for( i = 0 ; i < columnsShown ; i++ )
 	{
-		r = [[self.items objectAtIndex:i] compare:[row.items objectAtIndex:i] options:sortingMask];
+		r = [[self.items objectAtIndex:columnIndexes[i]] compare:[row.items objectAtIndex:columnIndexes[i]] options:sortingMask];
 		if( r != NSOrderedSame )
 			return r;
 	}
