@@ -235,7 +235,7 @@ static CSV_TouchAppDelegate *sharedInstance = nil;
 {
 	[newFileURL endEditing:YES];
 	[self slowActivityStartedInViewController:downloadNewFileController];
-	[self startDownloadUsingURL:[NSURL URLWithString:[[newFileURL text] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
+	[self startDownloadUsingURL:[NSURL URLWithString:[newFileURL text]]];
 }
 
 - (IBAction) cancelDownloadNewFile:(id)sender
