@@ -97,7 +97,6 @@
 }
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
-	NSLog(@"Began: %@", [event description]);
 	[super touchesBegan:touches withEvent:event];
 
 	UITouch *touch = [touches anyObject];
@@ -114,7 +113,6 @@
 
 - (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event
 {
-	NSLog(@"Cancel: %@", [event description]);
 	[super touchesCancelled:touches withEvent:event];
 	if( !CGPointEqualToPoint(beginSwipePoint, CGPointZero) )
 		[self dispatchSwipe:[touches anyObject]];
@@ -122,7 +120,6 @@
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 {
-	NSLog(@"Ended: %@", [event description]);
 	[super touchesEnded:touches withEvent:event];
 	if( !CGPointEqualToPoint(beginSwipePoint, CGPointZero) )
 		[self dispatchSwipe:[touches anyObject]];
