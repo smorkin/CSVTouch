@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@class CSVDataViewController, OzyTableViewController;
+@class CSVDataViewController;
 
 // Notice posted when something is changed in an OzyTableViewcontroller's tableview.
 // If an object is removed, it can be found in userInfo using the key below.

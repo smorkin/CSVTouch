@@ -77,3 +77,158 @@
 }
 
 @end
+
+#define PIXELS_TO_COUNT_AS_SWIPE 5.0
+#define PIXELS_TO_COUNT_AS_NONSWIPE 32.0
+
+@implementation OzyTableView
+
+- (void) dispatchSwipe:(UITouch *)finalTouch
+{
+	CGPoint endSwipePoint = [finalTouch locationInView:self];
+	if( beginSwipePoint.x - endSwipePoint.x > PIXELS_TO_COUNT_AS_SWIPE &&
+	   fabs(beginSwipePoint.y - endSwipePoint.y) < PIXELS_TO_COUNT_AS_NONSWIPE &&
+	   [self.delegate respondsToSelector:@selector(rightSwipe:)] )
+		[(id <OzyViewDelegate>)self.delegate rightSwipe:self];
+	else if( endSwipePoint.x - beginSwipePoint.x > PIXELS_TO_COUNT_AS_SWIPE &&
+			fabs(beginSwipePoint.y - endSwipePoint.y) < PIXELS_TO_COUNT_AS_NONSWIPE &&
+			[self.delegate respondsToSelector:@selector(leftSwipe:)] )
+		[(id <OzyViewDelegate>)self.delegate leftSwipe:self];
+}
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+	NSLog(@"Began: %@", [event description]);
+	[super touchesBegan:touches withEvent:event];
+
+	UITouch *touch = [touches anyObject];
+    NSUInteger numTaps = [touch tapCount];
+	if( numTaps == 1 )
+	{
+		beginSwipePoint = [touch locationInView:self];
+	}
+	else
+	{
+		beginSwipePoint = CGPointZero;
+	}	
+}
+
+- (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event
+{
+	NSLog(@"Cancel: %@", [event description]);
+	[super touchesCancelled:touches withEvent:event];
+	if( !CGPointEqualToPoint(beginSwipePoint, CGPointZero) )
+		[self dispatchSwipe:[touches anyObject]];
+}
+
+- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
+{
+	NSLog(@"Ended: %@", [event description]);
+	[super touchesEnded:touches withEvent:event];
+	if( !CGPointEqualToPoint(beginSwipePoint, CGPointZero) )
+		[self dispatchSwipe:[touches anyObject]];
+}
+
+- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
+{
+	[super touchesMoved:touches withEvent:event];
+}
+
+@end
+
+@implementation OzyTextView
+
+- (void) dispatchSwipe:(UITouch *)finalTouch
+{
+	CGPoint endSwipePoint = [finalTouch locationInView:self];
+	if( beginSwipePoint.x - endSwipePoint.x > PIXELS_TO_COUNT_AS_SWIPE &&
+	   [self.delegate respondsToSelector:@selector(rightSwipe:)] )
+		[(id <OzyViewDelegate>)self.delegate rightSwipe:self];
+	else if( endSwipePoint.x - beginSwipePoint.x > PIXELS_TO_COUNT_AS_SWIPE &&
+			[self.delegate respondsToSelector:@selector(leftSwipe:)] )
+		[(id <OzyViewDelegate>)self.delegate leftSwipe:self];
+}
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+	[super touchesBegan:touches withEvent:event];
+	
+	UITouch *touch = [touches anyObject];
+    NSUInteger numTaps = [touch tapCount];
+	if( numTaps == 1 )
+	{
+		beginSwipePoint = [touch locationInView:self];
+	}
+	else
+	{
+		beginSwipePoint = CGPointZero;
+	}	
+}
+
+- (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event
+{
+	[super touchesCancelled:touches withEvent:event];
+	if( !CGPointEqualToPoint(beginSwipePoint, CGPointZero) )
+		[self dispatchSwipe:[touches anyObject]];
+}
+
+- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
+{
+	[super touchesEnded:touches withEvent:event];
+	if( !CGPointEqualToPoint(beginSwipePoint, CGPointZero) )
+		[self dispatchSwipe:[touches anyObject]];
+}
+
+- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
+{
+	[super touchesMoved:touches withEvent:event];
+}
+
+@end
+
+@implementation OzyWebView
+
+- (void) dispatchSwipe:(UITouch *)finalTouch
+{
+	CGPoint endSwipePoint = [finalTouch locationInView:self];
+	if( beginSwipePoint.x - endSwipePoint.x > PIXELS_TO_COUNT_AS_SWIPE &&
+	   [self.delegate respondsToSelector:@selector(rightSwipe:)] )
+		[(id <OzyViewDelegate>)self.delegate rightSwipe:self];
+	else if( endSwipePoint.x - beginSwipePoint.x > PIXELS_TO_COUNT_AS_SWIPE &&
+			[self.delegate respondsToSelector:@selector(leftSwipe:)] )
+		[(id <OzyViewDelegate>)self.delegate leftSwipe:self];
+}
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+	[super touchesBegan:touches withEvent:event];
+	
+	UITouch *touch = [touches anyObject];
+    NSUInteger numTaps = [touch tapCount];
+	if( numTaps == 1 )
+	{
+		beginSwipePoint = [touch locationInView:self];
+	}
+	else
+	{
+		beginSwipePoint = CGPointZero;
+	}	
+}
+
+- (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event
+{
+	[super touchesCancelled:touches withEvent:event];
+	if( !CGPointEqualToPoint(beginSwipePoint, CGPointZero) )
+		[self dispatchSwipe:[touches anyObject]];
+}
+
+- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
+{
+	[super touchesEnded:touches withEvent:event];
+	if( !CGPointEqualToPoint(beginSwipePoint, CGPointZero) )
+		[self dispatchSwipe:[touches anyObject]];
+}
+
+- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
+{
+	[super touchesMoved:touches withEvent:event];
+}
+
+@end

@@ -30,6 +30,7 @@
 	// Sorting
 	IBOutlet UISwitch *numericCompareSwitch;
 	IBOutlet UISwitch *caseSensitiveCompareSwitch;
+	IBOutlet UISwitch *literalSearchSwitch;
 	IBOutlet UITextField *maxNumberOfObjectsToSort;
 }
 

@@ -283,9 +283,6 @@
 	[self updateSimpleViewWithItem:item];
 	[self updateEnhancedViewWithItem:item];
 	[self updateHtmlViewWithItem:item];
-	
-	// Then fancy view
-	// Then html view
 }
 
 - (void) delayedHtmlClick:(NSURL *)URL
@@ -929,6 +926,16 @@ static CSVDataViewController *sharedInstance = nil;
 	}
 }
 
+- (void) rightSwipe:(UIView *) swipeView
+{
+	[self nextDetailsClicked:nil];
+}
+
+- (void) leftSwipe:(UIView *) swipeView
+{
+	[self previousDetailsClicked:nil];
+}
+
 @end
 
 @interface CSVDataViewController (OzymandiasViewControllerViewDelegate) <OzymandiasViewControllerViewDelegate>
@@ -964,9 +971,7 @@ static CSVDataViewController *sharedInstance = nil;
 {
 	if( [CSVPreferencesController useDetailsNavigation] )
 	{
-		if( controller == detailsController ||
-		   controller == fancyDetailsController ||
-		   controller == htmlDetailsController )
+		if( controller == htmlDetailsController )
 		{
 			[self addNavigationButtonsToView:controller];
 		}
@@ -977,9 +982,7 @@ static CSVDataViewController *sharedInstance = nil;
 {
 	if( [CSVPreferencesController useDetailsNavigation] )
 	{	
-		if( controller == detailsController ||
-		   controller == fancyDetailsController ||
-		   controller == htmlDetailsController )
+		if( controller == htmlDetailsController )
 		{
 			[self removeNavigationButtonsFromView:controller];
 		}

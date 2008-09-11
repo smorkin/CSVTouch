@@ -42,4 +42,27 @@
 - (void) viewDidDisappear:(UIView *)view controller:(UIViewController *)controller;
 @end
 
+@interface OzyTableView : UITableView
+{
+	CGPoint beginSwipePoint;
+}
+@end
+
+@interface OzyWebView : UIWebView
+{
+	CGPoint beginSwipePoint;
+}
+@end
+
+@interface OzyTextView : UITextView
+{
+	CGPoint beginSwipePoint;
+}
+@end
+
+@protocol OzyViewDelegate
+@optional
+- (void) rightSwipe:(UIView *) swipeView;
+- (void) leftSwipe:(UIView *) swipeView;
+@end
 

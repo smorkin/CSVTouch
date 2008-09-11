@@ -239,9 +239,11 @@ static CSVPreferencesController *sharedInstance = nil;
 			encodingControl.selectedSegmentIndex = i;
 	}
 	
+	// Note that this row actually sets the global variable sortingMask as well!
 	[numericCompareSwitch setOn:(([CSVPreferencesController sortingMask] & NSNumericSearch) != 0) animated:NO];
 	[caseSensitiveCompareSwitch setOn:(([CSVPreferencesController sortingMask] & NSCaseInsensitiveSearch) == 0) animated:NO];
-	
+	[literalSearchSwitch setOn:(([CSVPreferencesController sortingMask] & NSLiteralSearch) != 0) animated:NO];
+
 	maxNumberOfObjectsToSort.text = [NSString stringWithFormat:@"%d", [CSVPreferencesController maxNumberOfObjectsToSort]];	
 	allowRotatableInterface.on = [CSVPreferencesController allowRotatableInterface];
 	useGroupingForItems.on = [CSVPreferencesController useGroupingForItems];
@@ -612,6 +614,8 @@ NSUInteger sortingMask;
 		sortingMask ^= NSNumericSearch;
 	if( !caseSensitiveCompareSwitch.on )
 		sortingMask ^= NSCaseInsensitiveSearch;
+	if( literalSearchSwitch.on )
+		sortingMask ^= NSLiteralSearch;
 	[CSVPreferencesController setSortingMask:sortingMask];
 	[[CSVDataViewController sharedInstance] resortObjects];
 }	
