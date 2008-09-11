@@ -1,3 +1,7 @@
+Nya appar
+- Pokerpatiens
+- Auto-plotter
+
 Requests & Bugs
 
 - Search inuti items view
@@ -12,7 +16,9 @@ Requests & Bugs
 - Ignorera "The" när sorterar, osv
 - CSV i mail attachment: Öppna
 - Möjligt göra fonten mindre men raderna lika höga
-
+- Lägg till html-länk till hjälpsidan
+- Tillåt "lazy" parsing, dvs extra-separatorer ignoreras, och om för få så lägger man till diton
+- När klickar på Items/Files i tab bar i details view, så åker vi tillbaka  till root controller, men notifieringen fel i badgen
 
 Fixed
 
@@ -20,6 +26,8 @@ Fixed
 - Navigation i details view (acceleration?)
 - No sorting for items: Solved; use Max Items To Sort = 1
 - Bug: Sortering av "MiB 2*Scifi*..." vs "MiB*Scifi*..."
+- Fixa spaces i URLar
+- I details view, skriv ut item nr / totalantal
 
 
 Kind of fixed...
