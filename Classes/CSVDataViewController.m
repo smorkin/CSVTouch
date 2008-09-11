@@ -176,11 +176,30 @@
 	NSUInteger count = 0;
 	NSString *addString = @"";
 	
-	// Row or details controller will be visible
-	if((push && item == itemController.navigationItem) || 
-	   (item == detailsController.navigationItem) ||
-	   (item == fancyDetailsController.navigationItem) ||
-	   (item == htmlDetailsController.navigationItem))
+	// Details controller will be visible
+	if(push &
+	   (item == detailsController.navigationItem ||
+		item == fancyDetailsController.navigationItem ||
+		item == htmlDetailsController.navigationItem))
+	{
+		NSIndexPath *selectedRow = [[itemController tableView] indexPathForSelectedRow];                                              // return nil or index path representing section and row of selection.
+		if( selectedRow &&
+		   [itemController indexForObjectAtIndexPath:selectedRow] >= 0 )
+		{
+			count = [itemController indexForObjectAtIndexPath:selectedRow] + 1;
+		}
+		else
+		{
+			count = 0;
+		}
+		addString = [NSString stringWithFormat:@"/%d", [[itemController objects] count]];
+		self.tabBarItem.title = @"Item";
+	}
+	// Item controller will be visible
+	else if((push && item == itemController.navigationItem) || 
+			(!push && item == detailsController.navigationItem) ||
+			(!push && item == fancyDetailsController.navigationItem) ||
+			(!push && item == htmlDetailsController.navigationItem))
 	{
 		count = [[itemController objects] count];
 		if( count != [[currentFile itemsWithResetShortdescriptions:NO] count] )
@@ -283,6 +302,7 @@
 	[self updateSimpleViewWithItem:item];
 	[self updateEnhancedViewWithItem:item];
 	[self updateHtmlViewWithItem:item];
+	[self updateBadgeValueUsingItem:[[self currentDetailsController] navigationItem] push:YES];
 }
 
 - (void) delayedHtmlClick:(NSURL *)URL
