@@ -691,27 +691,37 @@ static CSVDataViewController *sharedInstance = nil;
 	}
 	else
 	{
-		// We could read the file and will display it, but we should also check if we have dropped any other problems
-		if( [CSVPreferencesController showDebugInfo] )
+		// We could read the file and will display it, but we should also check if we have any other problems
+		// Check if something seems screwy...
+		if( [columnIndexes count] == 0 && [itemController.objects count] > 1 )
+		{
+			UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"No columns to show!"
+															 message:@"Probably reason: File refreshed but column names have changed. Please click Edit -> Reset Columns"
+															delegate:[[UIApplication sharedApplication] delegate]
+												   cancelButtonTitle:@"OK"
+												   otherButtonTitles:nil] autorelease];
+			[alert show];		
+		}
+		else if( [CSVPreferencesController showDebugInfo] )
 		{
 			if( currentFile.droppedRows > 0 )
 			{
-				UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Dropped Rows!"
+				UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Dropped Rows!"
 																message:[NSString stringWithFormat:@"%d rows dropped due to problems reading them. Last dropped row:\n%@",
 																		 currentFile.droppedRows, currentFile.problematicRow]
 															   delegate:[[UIApplication sharedApplication] delegate]
 													  cancelButtonTitle:@"OK"
-													  otherButtonTitles:nil];
+													  otherButtonTitles:nil] autorelease];
 				[alert show];
 			}
 			else if([[currentFile availableColumnNames] count] != 
 					[[NSSet setWithArray:[currentFile availableColumnNames]] count] )
 			{
-				UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Identical Column Titles!"
+				UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Identical Column Titles!"
 																message:@"Some of the columns have the same title; this makes some functionality involving columns behave weird"
 															   delegate:[[UIApplication sharedApplication] delegate]
 													  cancelButtonTitle:@"OK"
-													  otherButtonTitles:nil];
+													  otherButtonTitles:nil] autorelease];
 				[alert show];
 			}
 		}
