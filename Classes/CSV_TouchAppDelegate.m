@@ -180,11 +180,11 @@ static CSV_TouchAppDelegate *sharedInstance = nil;
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
 {
-	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Download Failure"
+	UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Download Failure"
 													message:[error localizedDescription]
 												   delegate:self
 										  cancelButtonTitle:@"OK"
-										  otherButtonTitles:nil];
+										  otherButtonTitles:nil] autorelease];
 	[alert show];
 	[self downloadDone];
 }
@@ -202,6 +202,8 @@ static CSV_TouchAppDelegate *sharedInstance = nil;
 	[fp saveToFile];
 	[[self dataController] newFileDownloaded:fp];
 	[fp release];
+	[rawData release];
+	rawData = nil;
 	[self downloadDone];
 }
 

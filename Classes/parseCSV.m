@@ -90,7 +90,7 @@ static char *cstrstr(const char *haystack, const char needle) {
 	const char *allData = [_string cStringUsingEncoding:encoding];
 	int length = strlen(allData);
 	[self setBufferSize:length+1];
-	char *textp, *laststop, *lineBeginning, *lastLineBuffer = NULL;
+	char *textp, *laststop, *lineBeginning;
 	
 	textp = (char*)allData;
 	
@@ -144,7 +144,6 @@ static char *cstrstr(const char *haystack, const char needle) {
 				csvLine = [NSMutableArray array];
 			} 
 			if ((*textp == '\0' || (quoteCount % 2) != 0) && lineBeginning != textp) {
-				lastLineBuffer = lineBeginning;
 				csvLine = [NSMutableArray array];
 			}
 		}

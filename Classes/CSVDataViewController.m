@@ -140,11 +140,11 @@
 		
 	[currentFile release];
 	currentFile = [file retain];
+	[currentFile parseIfNecessary];
 	if( !currentFile.rawString )
 	{
 		return FALSE;
 	}
-	[currentFile parseIfNecessary];
 	NSString *cachedSearchString = [searchStringForFileName objectForKey:[currentFile fileName]];
 	if( cachedSearchString )
 		searchBar.text = cachedSearchString;
@@ -765,7 +765,7 @@ static CSVDataViewController *sharedInstance = nil;
 		else
 		{
 			CSVFileParser *selectedFile = [[fileController objects] objectAtIndex:indexPath.row];
-			if( [selectedFile stringLength] > 75000 && selectedFile != currentFile && !selectedFile.hasBeenSorted )
+			if( selectedFile != currentFile && !selectedFile.hasBeenSorted )
 			{
 				[[CSV_TouchAppDelegate sharedInstance] slowActivityStartedInViewController:self];
 			}

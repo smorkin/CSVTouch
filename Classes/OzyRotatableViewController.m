@@ -32,4 +32,10 @@
 	[super viewDidDisappear:animated];
 }
 
+- (void) dealloc
+{
+	self.viewDelegate = nil;
+	[super dealloc];
+}
+
 @end

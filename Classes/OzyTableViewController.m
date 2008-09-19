@@ -360,8 +360,8 @@
 
 - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
 {	
-	NSInteger fromIndex = fromIndexPath.row;
-	NSInteger toIndex = toIndexPath.row;
+	NSInteger fromIndex;
+	NSInteger toIndex;
 	if( [_sectionStarts count] > 0 )
 	{
 		fromIndex = [[_sectionStarts objectAtIndex:fromIndexPath.section] intValue] + fromIndexPath.row;

@@ -307,7 +307,7 @@
 				[otherColumns addObject:s];
 			}				
 		}
-		[otherColumns sortUsingSelector:@selector(compare:)];
+//		[otherColumns sortUsingSelector:@selector(compare:)];
 		[array addObjectsFromArray:otherColumns];
 	}
 	

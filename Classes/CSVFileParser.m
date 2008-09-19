@@ -30,6 +30,23 @@
 @synthesize droppedRows = _droppedRows;
 @synthesize hasBeenDownloaded = _hasBeenDownloaded;
 
+- (void) loadFile
+{
+	NSDictionary *d = [NSDictionary dictionaryWithContentsOfFile:self.filePath];
+	self.URL = [d objectForKey:FILEPARSER_URL];
+	_rawData = [[d objectForKey:FILEPARSER_RAW_DATA] retain];
+	if( _rawData )
+		_rawString = [[NSString alloc] initWithData:_rawData 
+										   encoding:[CSVPreferencesController encoding]];
+}
+
+- (NSString *) URL
+{
+	if( !_URL )
+		[self loadFile];
+	return _URL;
+}
+
 - (NSArray *) availableColumnNames
 {
 	return _columnNames;
@@ -238,13 +255,16 @@
 	
 }
 
-- (void)parseString:(NSString *)s
+- (void)parseString
 {    
+	if( !_rawData )
+		[self loadFile];
+		
 	int foundColumns;
 	_usedDelimiter = [self delimiter];
 	
 	// Parse file
-	[self parse:s
+	[self parse:_rawString
 	  delimiter:_usedDelimiter
 		testing:NO
    foundColumns:&foundColumns
@@ -254,8 +274,8 @@
 - (void) parseIfNecessary
 {
 	if( !_hasBeenParsed )
-	{
-		[self parseString:_rawString];	
+	{		
+		[self parseString];	
 		_hasBeenParsed = YES;
 	}
 }
@@ -264,7 +284,7 @@
 {
 	if( _hasBeenParsed )
 	{
-		[self parseString:_rawString];	
+		[self parseString];	
 	}
 }
 
@@ -274,8 +294,9 @@
 	_parsedItems = [[NSMutableArray alloc] init];
 	_columnNames = [[NSMutableArray alloc] init];
 	_rawData = [d retain];
-	_rawString = [[NSString alloc] initWithData:_rawData 
-									   encoding:[CSVPreferencesController encoding]];
+	if( _rawData )
+		_rawString = [[NSString alloc] initWithData:_rawData 
+										   encoding:[CSVPreferencesController encoding]];
 	_hasBeenParsed = NO;
 	return self;
 }
@@ -304,10 +325,8 @@
 
 + (CSVFileParser *) parserWithFile:(NSString *)path
 {
-	NSDictionary *d = [NSDictionary dictionaryWithContentsOfFile:path];
-	CSVFileParser *fp = [[[self alloc] initWithRawData:[d objectForKey:FILEPARSER_RAW_DATA]] autorelease];
+	CSVFileParser *fp = [[[self alloc] initWithRawData:nil] autorelease];
 	fp.filePath = path;
-	fp.URL = [d objectForKey:FILEPARSER_URL];
 	return fp;
 }
 

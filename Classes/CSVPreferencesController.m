@@ -41,6 +41,12 @@
 	return self;
 }
 
+- (void) dealloc
+{
+	self.userDescription = nil;
+	[super dealloc];
+}
+
 + (NSArray *) availableEncodings
 {
 	static NSMutableArray *items = nil;
@@ -525,11 +531,11 @@ NSUInteger sortingMask;
 
 - (void) showAlertAboutChangedPrefs:(NSString *) msg
 {
-	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Restart required"
+	UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Restart required"
 													message:msg
 												   delegate:self
 										  cancelButtonTitle:@"OK"
-										  otherButtonTitles:nil];
+										  otherButtonTitles:nil] autorelease];
 	[alert show];	
 }
 

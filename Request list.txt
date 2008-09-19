@@ -20,7 +20,7 @@ Requests & Bugs
 - Tillåt "lazy" parsing, dvs extra-separatorer ignoreras, och om för få så lägger man till diton
 - När klickar på Items/Files i tab bar i details view, så åker vi tillbaka  till root controller, men notifieringen fel i badgen
 - SMS linking
-- Tom lista när kolumner bytt namn
+- Timeout när laddar ner: Konfigurerbar
 
 Fixed
 
@@ -35,3 +35,4 @@ Fixed
 Kind of fixed...
 
 - Fixa landscape->portrait-bugg
+- Tom lista när kolumner bytt namn
