@@ -46,8 +46,8 @@
 	
 	// We should always resort all objects, no matter which are actually shown
 	if( needsResorting &&
-	   ([CSVPreferencesController maxNumberOfObjectsToSort] == 0 ||
-		[allObjects count] <= [CSVPreferencesController maxNumberOfObjectsToSort]) )
+	   ([CSVPreferencesController maxNumberOfItemsToSort] == 0 ||
+		[allObjects count] <= [CSVPreferencesController maxNumberOfItemsToSort]) )
 	{
 		[allObjects sortUsingSelector:[CSVRow compareSelector]];
 		currentFile.hasBeenSorted = YES;

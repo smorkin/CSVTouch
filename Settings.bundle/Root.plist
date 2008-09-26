@@ -106,6 +106,152 @@
 		</dict>
 		<dict>
 			<key>Type</key>
+			<string>PSMultiValueSpecifier</string>
+			<key>Title</key>
+			<string>Encoding</string>
+			<key>Key</key>
+			<string>encoding</string>
+			<key>Titles</key>
+			<array>
+				<string>UTF8</string>
+				<string>Unicode</string>
+				<string>Latin1</string>
+				<string>Mac</string>
+			</array>
+			<key>Values</key>
+			<array>
+				<string>4</string>
+				<string>10</string>
+				<string>5</string>
+				<string>30</string>
+			</array>
+			<key>DefaultValue</key>
+			<string>5</string>
+		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSToggleSwitchSpecifier</string>
+			<key>Title</key>
+			<string>Keep Quotes</string>
+			<key>Key</key>
+			<string>keepQuotes</string>
+			<key>DefaultValue</key>
+			<false/>
+			<key>TrueValue</key>
+			<true/>
+			<key>FalseValue</key>
+			<false/>
+		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSToggleSwitchSpecifier</string>
+			<key>Title</key>
+			<string>Smart Separator</string>
+			<key>Key</key>
+			<string>smartDelimiter</string>
+			<key>DefaultValue</key>
+			<true/>
+			<key>TrueValue</key>
+			<true/>
+			<key>FalseValue</key>
+			<false/>
+		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSMultiValueSpecifier</string>
+			<key>Title</key>
+			<string>Manual Separator</string>
+			<key>Key</key>
+			<string>delimiter</string>
+			<key>Titles</key>
+			<array>
+				<string>,</string>
+				<string>;</string>
+				<string>.</string>
+				<string>|</string>
+				<string>&lt;space&gt;</string>
+				<string>&lt;tab&gt;</string>
+			</array>
+			<key>Values</key>
+			<array>
+				<string>,</string>
+				<string>;</string>
+				<string>.</string>
+				<string>|</string>
+				<string> </string>
+				<string>	</string>
+			</array>
+			<key>DefaultValue</key>
+			<string>;</string>
+		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSGroupSpecifier</string>
+			<key>Title</key>
+			<string>Sorting</string>
+		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSToggleSwitchSpecifier</string>
+			<key>Title</key>
+			<string>Number Sensitive</string>
+			<key>Key</key>
+			<string>numberSensitiveSorting</string>
+			<key>DefaultValue</key>
+			<true/>
+			<key>TrueValue</key>
+			<true/>
+			<key>FalseValue</key>
+			<false/>
+		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSToggleSwitchSpecifier</string>
+			<key>Title</key>
+			<string>Case Sensitive</string>
+			<key>Key</key>
+			<string>caseSensitiveSorting</string>
+			<key>DefaultValue</key>
+			<false/>
+			<key>TrueValue</key>
+			<true/>
+			<key>FalseValue</key>
+			<false/>
+		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSToggleSwitchSpecifier</string>
+			<key>Title</key>
+			<string>Literal Sort</string>
+			<key>Key</key>
+			<string>literalSorting</string>
+			<key>DefaultValue</key>
+			<false/>
+			<key>TrueValue</key>
+			<true/>
+			<key>FalseValue</key>
+			<false/>
+		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSTextFieldSpecifier</string>
+			<key>Title</key>
+			<string>Max Items To Sort</string>
+			<key>Key</key>
+			<string>maxNumberOfItemsToSort</string>
+			<key>DefaultValue</key>
+			<string>0</string>
+			<key>IsSecure</key>
+			<false/>
+			<key>KeyboardType</key>
+			<string>NumberPad</string>
+			<key>AutocapitalizationType</key>
+			<string>None</string>
+			<key>AutocorrectionType</key>
+			<string>No</string>
+		</dict>
+		<dict>
+			<key>Type</key>
 			<string>PSGroupSpecifier</string>
 			<key>Title</key>
 			<string>Troubleshooting</string>
