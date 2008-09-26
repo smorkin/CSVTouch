@@ -283,7 +283,7 @@
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
-									<integer>26</integer>
+									<integer>33</integer>
 									<integer>25</integer>
 									<integer>0</integer>
 								</array>
@@ -310,7 +310,7 @@
 							<real>250</real>
 						</array>
 						<key>RubberWindowFrame</key>
-						<string>96 104 1180 647 0 0 1280 778 </string>
+						<string>68 103 1180 647 0 0 1280 778 </string>
 					</dict>
 					<key>Module</key>
 					<string>PBXSmartGroupTreeModule</string>
@@ -328,7 +328,7 @@
 								<key>PBXProjectModuleGUID</key>
 								<string>F41233E20DE4AEE4005E355F</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>Description.rtf</string>
+								<string>Request list.txt</string>
 								<key>PBXSplitModuleInNavigatorKey</key>
 								<dict>
 									<key>Split0</key>
@@ -336,17 +336,16 @@
 										<key>PBXProjectModuleGUID</key>
 										<string>F41233E30DE4AEE4005E355F</string>
 										<key>PBXProjectModuleLabel</key>
-										<string>Description.rtf</string>
+										<string>Request list.txt</string>
 										<key>_historyCapacity</key>
 										<integer>20</integer>
 										<key>bookmark</key>
-										<string>F4FB79800E83BE550083F818</string>
+										<string>F40E1BE00E8D1591000DB3F0</string>
 										<key>history</key>
 										<array>
 											<string>F43F52E20E7D6440006A7D86</string>
 											<string>F43F55430E7D8DF6006A7D86</string>
 											<string>F43F55450E7D8DF6006A7D86</string>
-											<string>F43F55470E7D8DF6006A7D86</string>
 											<string>F43F554F0E7D8DF6006A7D86</string>
 											<string>F44E3AEE0E7E229900DA8490</string>
 											<string>F44E3B3F0E7E250000DA8490</string>
@@ -362,7 +361,8 @@
 											<string>F4FB79580E83B9F60083F818</string>
 											<string>F4FB795A0E83B9F60083F818</string>
 											<string>F4FB79730E83BC0A0083F818</string>
-											<string>F4FB797E0E83BD5D0083F818</string>
+											<string>F497DFDD0E86DDF0004D2433</string>
+											<string>F497DFE00E86DDF0004D2433</string>
 										</array>
 										<key>prevStack</key>
 										<array>
@@ -385,11 +385,6 @@
 											<string>F40903B30E805020002B903A</string>
 											<string>F40903B50E805020002B903A</string>
 											<string>F4FB794C0E83B94D0083F818</string>
-											<string>F4FB795C0E83B9F60083F818</string>
-											<string>F4FB795D0E83B9F60083F818</string>
-											<string>F4FB795E0E83B9F60083F818</string>
-											<string>F4FB795F0E83B9F60083F818</string>
-											<string>F4FB79750E83BC0A0083F818</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -405,7 +400,7 @@
 								<key>Frame</key>
 								<string>{{0, 0}, {864, 308}}</string>
 								<key>RubberWindowFrame</key>
-								<string>96 104 1180 647 0 0 1280 778 </string>
+								<string>68 103 1180 647 0 0 1280 778 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXNavigatorGroup</string>
@@ -430,7 +425,7 @@
 										<key>Frame</key>
 										<string>{{10, 27}, {864, 266}}</string>
 										<key>RubberWindowFrame</key>
-										<string>96 104 1180 647 0 0 1280 778 </string>
+										<string>68 103 1180 647 0 0 1280 778 </string>
 									</dict>
 									<key>Module</key>
 									<string>XCDetailModule</string>
@@ -533,11 +528,11 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>F4FB794E0E83B94D0083F818</string>
+				<string>F40E1BE10E8D1591000DB3F0</string>
 				<string>1CA23ED40692098700951B8B</string>
-				<string>F4FB794F0E83B94D0083F818</string>
+				<string>F40E1BE20E8D1591000DB3F0</string>
 				<string>F41233E20DE4AEE4005E355F</string>
-				<string>F4FB79500E83B94D0083F818</string>
+				<string>F40E1BE30E8D1591000DB3F0</string>
 				<string>1CA23EDF0692099D00951B8B</string>
 				<string>1CA23EE00692099D00951B8B</string>
 				<string>1CA23EE10692099D00951B8B</string>
@@ -721,12 +716,10 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
-		<string>F4FB79700E83BABB0083F818</string>
-		<string>F4FB79710E83BABB0083F818</string>
 		<string>/Users/simon/Utveckling/CSVReader/CSV Touch.xcodeproj</string>
 	</array>
 	<key>WindowString</key>
-	<string>96 104 1180 647 0 0 1280 778 </string>
+	<string>68 103 1180 647 0 0 1280 778 </string>
 	<key>WindowToolsV3</key>
 	<array>
 		<dict>

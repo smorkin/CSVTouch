@@ -21,6 +21,8 @@ Requests & Bugs
 - När klickar på Items/Files i tab bar i details view, så åker vi tillbaka  till root controller, men notifieringen fel i badgen
 - SMS linking
 - Timeout när laddar ner: Konfigurerbar
+- Spara senaste adress när quittar
+- Parsa efter 404-meddelande
 
 Fixed
 
