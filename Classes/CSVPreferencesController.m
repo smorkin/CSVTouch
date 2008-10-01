@@ -32,7 +32,7 @@ static CSVPreferencesController *sharedInstance = nil;
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-	return 2;
+	return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)table numberOfRowsInSection:(NSInteger)section
@@ -59,10 +59,6 @@ static CSVPreferencesController *sharedInstance = nil;
 		if( indexPath.row == 0 )
 			cell.text = @"About";
 	}
-	else
-	{
-		cell.text = @"Appearance";
-	}
 	return cell;
 }
 
@@ -72,11 +68,6 @@ static CSVPreferencesController *sharedInstance = nil;
 	{
 		if( indexPath.row == 0 )
 			[self pushViewController:aboutController animated:YES];
-	}
-	else
-	{
-		if( indexPath.row == 0 )
-			[self pushViewController:appearancePrefsController animated:YES];
 	}
 }
 	
@@ -118,13 +109,10 @@ static CSVPreferencesController *sharedInstance = nil;
 
 - (void) loadPreferences
 {
-	[sizeControl setTitle:@"Normal" forSegmentAtIndex:0];
-	[sizeControl insertSegmentWithTitle:@"Small" atIndex:1 animated:NO];
-	[sizeControl insertSegmentWithTitle:@"Mini" atIndex:2 animated:NO];
-	sizeControl.selectedSegmentIndex = [CSVPreferencesController tableViewSize];
-	
-	allowRotatableInterface.on = [CSVPreferencesController allowRotatableInterface];
-	useGroupingForItems.on = [CSVPreferencesController useGroupingForItems];
+//	[sizeControl setTitle:@"Normal" forSegmentAtIndex:0];
+//	[sizeControl insertSegmentWithTitle:@"Small" atIndex:1 animated:NO];
+//	[sizeControl insertSegmentWithTitle:@"Mini" atIndex:2 animated:NO];
+//	sizeControl.selectedSegmentIndex = [CSVPreferencesController tableViewSize];
 }
 
 #define ABOUT_ID @"aboutID"
@@ -138,8 +126,6 @@ static CSVPreferencesController *sharedInstance = nil;
 {
 	if( controller == aboutController )
 		return ABOUT_ID;
-	else if( controller == appearancePrefsController )
-		return APPEARANCE_ID;
 	else
 		return @"";
 }
@@ -148,8 +134,6 @@ static CSVPreferencesController *sharedInstance = nil;
 {
 	if( [controllerId isEqualToString:ABOUT_ID] )
 		return aboutController;
-	else if( [controllerId isEqualToString:APPEARANCE_ID] )
-		return appearancePrefsController;
 	else
 		return nil;	
 }
@@ -230,14 +214,12 @@ static BOOL startupInProgress = NO;
 		return s;
 }
 
-// Note that we use setObject here instead of setInteger.
-// Reason: We might want a different default value than 0.
-+ (void) setTableViewSize:(int)size
-{
-	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-	[defaults setObject:[NSNumber numberWithInt:size]
-				 forKey:PREFS_TABLEVIEW_SIZE];
-}
+//+ (void) setTableViewSize:(int)size
+//{
+//	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+//	[defaults setInteger:size
+//				 forKey:PREFS_TABLEVIEW_SIZE];
+//}
 
 + (NSUInteger) maxNumberOfItemsToSort
 {
@@ -279,18 +261,6 @@ static BOOL startupInProgress = NO;
 		return YES;
 }
 
-+ (void) setAllowRotatableInterface:(BOOL)allowRotation
-{
-	[[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithBool:allowRotation] forKey:PREFS_ALLOW_ROTATION];
-}
-
-static BOOL useGroupingForItemsHasChangedSinceStart = NO;
-
-+ (BOOL) useGroupingForItemsHasChangedSinceStart
-{
-	return useGroupingForItemsHasChangedSinceStart;
-}
-
 + (BOOL) useGroupingForItems
 {
 	id obj = [[NSUserDefaults standardUserDefaults] objectForKey:PREFS_USE_GROUPING_FOR_ITEMS];
@@ -298,18 +268,6 @@ static BOOL useGroupingForItemsHasChangedSinceStart = NO;
 		return [obj boolValue];
 	else
 		return YES;
-}
-
-+ (void) setUseGroupingForItems:(BOOL)useGrouping
-{
-	if( [self useGroupingForItems] != useGrouping )
-	{
-		[[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithBool:useGrouping]
-												  forKey:PREFS_USE_GROUPING_FOR_ITEMS];
-		useGroupingForItemsHasChangedSinceStart = !useGroupingForItemsHasChangedSinceStart;
-		// Note that the toggling above makes sure that if the user changes the value twice,
-		// we don't consider the value to have been changed. This is correct since
-	}
 }
 
 + (BOOL) showStatusBar
@@ -406,30 +364,14 @@ NSUInteger sortingMask;
 }
 
 
-- (IBAction) sizeControlChanged:(id)sender
-{
-	if( startupInProgress )
-		return;
-	
-	[CSVPreferencesController setTableViewSize:[sizeControl selectedSegmentIndex]];
-	[[CSVDataViewController sharedInstance] setSize:[sizeControl selectedSegmentIndex]];
-}
-
-- (IBAction) rotationChanged:(id)sender
-{
-	if( startupInProgress )
-		return;
-	
-	[CSVPreferencesController setAllowRotatableInterface:allowRotatableInterface.on];
-}
-
-- (IBAction) groupingChanged:(id)sender
-{
-	if( startupInProgress )
-		return;
-	
-	[CSVPreferencesController setUseGroupingForItems:useGroupingForItems.on];
-	[self showAlertAboutChangedPrefs:@"This change won't take effect until you restart"];
-}
+//- (IBAction) sizeControlChanged:(id)sender
+//{
+//	if( startupInProgress )
+//		return;
+//	
+//	[CSVPreferencesController setTableViewSize:[sizeControl selectedSegmentIndex]];
+//	[[CSVDataViewController sharedInstance] setSize:[sizeControl selectedSegmentIndex]];
+//}
+//
 
 @end

@@ -13,13 +13,7 @@
 @interface CSVPreferencesController : UINavigationController <UITableViewDelegate>
 {
 	IBOutlet OzyRotatableViewController *prefsSelectionController;
-	IBOutlet OzyRotatableViewController *appearancePrefsController;
 	IBOutlet OzyRotatableViewController *aboutController;
-	
-	// Appearance
-	IBOutlet UISegmentedControl *sizeControl;
-	IBOutlet UISwitch *allowRotatableInterface;
-	IBOutlet UISwitch *useGroupingForItems;
 }
 
 + (CSVPreferencesController *) sharedInstance;
@@ -31,10 +25,6 @@
 
 - (void) applicationDidFinishLaunchingInEmergencyMode:(BOOL) emergencyMode;
 - (void) applicationWillTerminate;
-
-- (IBAction) sizeControlChanged:(id)sender;
-- (IBAction) rotationChanged:(id)sender;
-- (IBAction) groupingChanged:(id)sender;
 
 + (NSString *) delimiter;
 + (NSInteger) tableViewSize;
@@ -56,7 +46,5 @@
 + (void) updateSortingMask; // Needs to be called as part of initialization
 + (NSUInteger) sortingMask;
 extern NSUInteger sortingMask; // This is available for performance-critical operations
-
-+ (BOOL) useGroupingForItemsHasChangedSinceStart;
 
 @end

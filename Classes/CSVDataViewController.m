@@ -377,7 +377,7 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
 		[defaults setObject:columnNamesForFileName forKey:DEFS_COLUMN_NAMES];
 	}
 	
-	if( indexPathForFileName && ![CSVPreferencesController useGroupingForItemsHasChangedSinceStart] )
+	if( indexPathForFileName )
 	{
 		[defaults setObject:indexPathForFileName forKey:DEFS_ITEM_POSITIONS_FOR_FILES];
 	}
@@ -405,16 +405,13 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
 	   [self topViewController] == fancyDetailsController ||
 	   [self topViewController] == htmlDetailsController )
 	{
-		if( ![CSVPreferencesController useGroupingForItemsHasChangedSinceStart] )
-			[defaults setObject:[[[itemController tableView] indexPathForSelectedRow] dictionaryRepresentation]
-						 forKey:DEFS_INDEX_PATH];
-		else
-			[defaults removeObjectForKey:DEFS_INDEX_PATH];
+		[defaults setObject:[[[itemController tableView] indexPathForSelectedRow] dictionaryRepresentation]
+					 forKey:DEFS_INDEX_PATH];
 	}
 	else if( [self topViewController] == itemController )
 	{
 		NSArray *a = [[itemController tableView] indexPathsForVisibleRows];
-		if( [a count] > 0 && ![CSVPreferencesController useGroupingForItemsHasChangedSinceStart] )
+		if( [a count] > 0 )
 			[defaults setObject:[[a objectAtIndex:0] dictionaryRepresentation] forKey:DEFS_INDEX_PATH];
 		else
 			[defaults removeObjectForKey:DEFS_INDEX_PATH];
