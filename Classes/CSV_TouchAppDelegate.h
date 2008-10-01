@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "OzymandiasAdditions.h"
 
-@class OzyRotatableViewController, OzyRotatableTabBarController, CSVFileParser;
+@class OzyRotatableViewController, CSVFileParser, CSVDataViewController;
 
 @interface CSV_TouchAppDelegate : NSObject <UIApplicationDelegate,
 UITabBarControllerDelegate,
@@ -17,7 +17,7 @@ OzymandiasApplicationDelegate> {
 	
 	// Main view
 	IBOutlet UIWindow *window;
-	IBOutlet OzyRotatableTabBarController *tabBarController;
+	IBOutlet CSVDataViewController *dataController;
 	
 	// Startup
 	IBOutlet OzyRotatableViewController *startupController;
@@ -40,7 +40,6 @@ OzymandiasApplicationDelegate> {
 + (NSArray *) allowedDelimiters;
 
 @property (nonatomic, retain) UIWindow *window;
-@property (nonatomic, retain) UITabBarController *tabBarController;
 
 //- (IBAction) prefsDone:(id)sender;
 

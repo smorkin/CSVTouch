@@ -9,336 +9,36 @@
 	<key>PreferenceSpecifiers</key>
 	<array>
 		<dict>
-			<key>Type</key>
-			<string>PSGroupSpecifier</string>
+			<key>File</key>
+			<string>Appearance</string>
 			<key>Title</key>
 			<string>Appearance</string>
+			<key>Type</key>
+			<string>PSChildPaneSpecifier</string>
 		</dict>
 		<dict>
-			<key>Type</key>
-			<string>PSToggleSwitchSpecifier</string>
-			<key>Title</key>
-			<string>Black Theme</string>
-			<key>Key</key>
-			<string>useBlackTheme</string>
-			<key>DefaultValue</key>
-			<false/>
-			<key>TrueValue</key>
-			<true/>
-			<key>FalseValue</key>
-			<false/>
-		</dict>
-		<dict>
-			<key>Type</key>
-			<string>PSToggleSwitchSpecifier</string>
-			<key>Title</key>
-			<string>Details Navigation</string>
-			<key>Key</key>
-			<string>useDetailsNavigation</string>
-			<key>DefaultValue</key>
-			<true/>
-			<key>TrueValue</key>
-			<true/>
-			<key>FalseValue</key>
-			<false/>
-		</dict>
-		<dict>
-			<key>Type</key>
-			<string>PSToggleSwitchSpecifier</string>
-			<key>Title</key>
-			<string>Status Bar</string>
-			<key>Key</key>
-			<string>showStatusBar</string>
-			<key>DefaultValue</key>
-			<true/>
-			<key>TrueValue</key>
-			<true/>
-			<key>FalseValue</key>
-			<false/>
-		</dict>
-		<dict>
-			<key>Type</key>
-			<string>PSToggleSwitchSpecifier</string>
-			<key>Title</key>
-			<string>Show Images</string>
-			<key>Key</key>
-			<string>showInlineImages</string>
-			<key>DefaultValue</key>
-			<true/>
-			<key>TrueValue</key>
-			<true/>
-			<key>FalseValue</key>
-			<false/>
-		</dict>
-		<dict>
-			<key>Type</key>
-			<string>PSToggleSwitchSpecifier</string>
-			<key>Title</key>
-			<string>Allow Rotation</string>
-			<key>Key</key>
-			<string>allowRotation</string>
-			<key>DefaultValue</key>
-			<true/>
-			<key>TrueValue</key>
-			<true/>
-			<key>FalseValue</key>
-			<false/>
-		</dict>
-		<dict>
-			<key>Type</key>
-			<string>PSToggleSwitchSpecifier</string>
-			<key>Title</key>
-			<string>Group Items</string>
-			<key>Key</key>
-			<string>useGroupingForItems</string>
-			<key>DefaultValue</key>
-			<true/>
-			<key>TrueValue</key>
-			<true/>
-			<key>FalseValue</key>
-			<false/>
-		</dict>
-		<dict>
-			<key>Type</key>
-			<string>PSMultiValueSpecifier</string>
-			<key>Title</key>
-			<string>Items size</string>
-			<key>Key</key>
-			<string>tableViewSize</string>
-			<key>Titles</key>
-			<array>
-				<string>Normal</string>
-				<string>Small</string>
-				<string>Mini</string>
-			</array>
-			<key>Values</key>
-			<array>
-				<integer>0</integer>
-				<integer>1</integer>
-				<integer>2</integer>
-			</array>
-			<key>DefaultValue</key>
-			<string>2</string>
-		</dict>
-		<dict>
-			<key>Type</key>
-			<string>PSGroupSpecifier</string>
+			<key>File</key>
+			<string>Data</string>
 			<key>Title</key>
 			<string>Data</string>
+			<key>Type</key>
+			<string>PSChildPaneSpecifier</string>
 		</dict>
 		<dict>
-			<key>Type</key>
-			<string>PSToggleSwitchSpecifier</string>
-			<key>Title</key>
-			<string>Alternative Parsing</string>
-			<key>Key</key>
-			<string>useCorrectParsing</string>
-			<key>DefaultValue</key>
-			<false/>
-			<key>TrueValue</key>
-			<true/>
-			<key>FalseValue</key>
-			<false/>
-		</dict>
-		<dict>
-			<key>Type</key>
-			<string>PSToggleSwitchSpecifier</string>
-			<key>Title</key>
-			<string>Correct (Slow) Sorting</string>
-			<key>Key</key>
-			<string>useCorrectSorting</string>
-			<key>DefaultValue</key>
-			<false/>
-			<key>TrueValue</key>
-			<true/>
-			<key>FalseValue</key>
-			<false/>
-		</dict>
-		<dict>
-			<key>Type</key>
-			<string>PSMultiValueSpecifier</string>
-			<key>Title</key>
-			<string>Encoding</string>
-			<key>Key</key>
-			<string>encoding</string>
-			<key>Titles</key>
-			<array>
-				<string>UTF8</string>
-				<string>Unicode</string>
-				<string>Latin1</string>
-				<string>Mac</string>
-			</array>
-			<key>Values</key>
-			<array>
-				<string>4</string>
-				<string>10</string>
-				<string>5</string>
-				<string>30</string>
-			</array>
-			<key>DefaultValue</key>
-			<string>5</string>
-		</dict>
-		<dict>
-			<key>Type</key>
-			<string>PSToggleSwitchSpecifier</string>
-			<key>Title</key>
-			<string>Keep Quotes</string>
-			<key>Key</key>
-			<string>keepQuotes</string>
-			<key>DefaultValue</key>
-			<false/>
-			<key>TrueValue</key>
-			<true/>
-			<key>FalseValue</key>
-			<false/>
-		</dict>
-		<dict>
-			<key>Type</key>
-			<string>PSToggleSwitchSpecifier</string>
-			<key>Title</key>
-			<string>Smart Separator</string>
-			<key>Key</key>
-			<string>smartDelimiter</string>
-			<key>DefaultValue</key>
-			<true/>
-			<key>TrueValue</key>
-			<true/>
-			<key>FalseValue</key>
-			<false/>
-		</dict>
-		<dict>
-			<key>Type</key>
-			<string>PSMultiValueSpecifier</string>
-			<key>Title</key>
-			<string>Manual Separator</string>
-			<key>Key</key>
-			<string>delimiter</string>
-			<key>Titles</key>
-			<array>
-				<string>,</string>
-				<string>;</string>
-				<string>.</string>
-				<string>|</string>
-				<string>&lt;space&gt;</string>
-				<string>&lt;tab&gt;</string>
-			</array>
-			<key>Values</key>
-			<array>
-				<string>,</string>
-				<string>;</string>
-				<string>.</string>
-				<string>|</string>
-				<string> </string>
-				<string>	</string>
-			</array>
-			<key>DefaultValue</key>
-			<string>;</string>
-		</dict>
-		<dict>
-			<key>Type</key>
-			<string>PSGroupSpecifier</string>
+			<key>File</key>
+			<string>Sorting</string>
 			<key>Title</key>
 			<string>Sorting</string>
+			<key>Type</key>
+			<string>PSChildPaneSpecifier</string>
 		</dict>
 		<dict>
-			<key>Type</key>
-			<string>PSToggleSwitchSpecifier</string>
-			<key>Title</key>
-			<string>Number Sensitive</string>
-			<key>Key</key>
-			<string>numberSensitiveSorting</string>
-			<key>DefaultValue</key>
-			<true/>
-			<key>TrueValue</key>
-			<true/>
-			<key>FalseValue</key>
-			<false/>
-		</dict>
-		<dict>
-			<key>Type</key>
-			<string>PSToggleSwitchSpecifier</string>
-			<key>Title</key>
-			<string>Case Sensitive</string>
-			<key>Key</key>
-			<string>caseSensitiveSorting</string>
-			<key>DefaultValue</key>
-			<false/>
-			<key>TrueValue</key>
-			<true/>
-			<key>FalseValue</key>
-			<false/>
-		</dict>
-		<dict>
-			<key>Type</key>
-			<string>PSToggleSwitchSpecifier</string>
-			<key>Title</key>
-			<string>Literal Sort</string>
-			<key>Key</key>
-			<string>literalSorting</string>
-			<key>DefaultValue</key>
-			<false/>
-			<key>TrueValue</key>
-			<true/>
-			<key>FalseValue</key>
-			<false/>
-		</dict>
-		<dict>
-			<key>Type</key>
-			<string>PSTextFieldSpecifier</string>
-			<key>Title</key>
-			<string>Max Items To Sort</string>
-			<key>Key</key>
-			<string>maxNumberOfItemsToSort</string>
-			<key>DefaultValue</key>
-			<string>0</string>
-			<key>IsSecure</key>
-			<false/>
-			<key>KeyboardType</key>
-			<string>NumberPad</string>
-			<key>AutocapitalizationType</key>
-			<string>None</string>
-			<key>AutocorrectionType</key>
-			<string>No</string>
-		</dict>
-		<dict>
-			<key>Type</key>
-			<string>PSGroupSpecifier</string>
+			<key>File</key>
+			<string>Troubleshooting</string>
 			<key>Title</key>
 			<string>Troubleshooting</string>
-		</dict>
-		<dict>
 			<key>Type</key>
-			<string>PSToggleSwitchSpecifier</string>
-			<key>Title</key>
-			<string>Show Debug Info</string>
-			<key>Key</key>
-			<string>showDebugInfo</string>
-			<key>DefaultValue</key>
-			<false/>
-			<key>TrueValue</key>
-			<true/>
-			<key>FalseValue</key>
-			<false/>
-		</dict>
-		<dict>
-			<key>Type</key>
-			<string>PSToggleSwitchSpecifier</string>
-			<key>Title</key>
-			<string>Safe Start</string>
-			<key>Key</key>
-			<string>safeStart</string>
-			<key>DefaultValue</key>
-			<false/>
-			<key>TrueValue</key>
-			<true/>
-			<key>FalseValue</key>
-			<false/>
-		</dict>
-		<dict>
-			<key>Type</key>
-			<string>PSGroupSpecifier</string>
-			<key>Title</key>
-			<string>General</string>
+			<string>PSChildPaneSpecifier</string>
 		</dict>
 		<dict>
 			<key>File</key>

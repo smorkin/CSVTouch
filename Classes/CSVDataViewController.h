@@ -40,6 +40,9 @@ OzyRotatableViewController;
 	IBOutlet UINavigationBar *editNavigationBar;
 	IBOutlet UISearchBar *searchBar;
 	
+	// Toolbars
+	IBOutlet UIToolbar *itemsToolbar;
+	
 	// An array with the current indexes to use for the items
 	NSMutableArray *columnIndexes;
 	int *rawColumnIndexes;
@@ -48,9 +51,11 @@ OzyRotatableViewController;
 	BOOL showingRawString;
 }
 
+@property (nonatomic, readonly) UIToolbar *itemsToolbar;
+
 + (CSVDataViewController *) sharedInstance;
 
-- (IBAction) edit:(id)sender;
+- (IBAction) editColumns:(id)sender;
 - (IBAction) editDone:(id)sender;
 - (IBAction) resetColumnNames:(id)sender;
 - (IBAction) toggleRefreshFiles:(id)sender;

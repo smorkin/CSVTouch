@@ -17,12 +17,10 @@
 #import "csv.h"
 
 #define SELECTED_TAB_BAR_INDEX @"selectedTabBarIndex"
-#define PREFS_SHOW_INLINE_PREFERENCES @"showInlinePreferences"
 
 @implementation CSV_TouchAppDelegate
 
 @synthesize window;
-@synthesize tabBarController;
 
 static CSV_TouchAppDelegate *sharedInstance = nil;
 
@@ -41,11 +39,6 @@ static CSV_TouchAppDelegate *sharedInstance = nil;
 	return delimiters;
 }
 
-+ (BOOL) showInlinePreferences
-{
-	return TRUE;
-}
-
 + (CSV_TouchAppDelegate *) sharedInstance
 {
 	return sharedInstance;
@@ -53,20 +46,7 @@ static CSV_TouchAppDelegate *sharedInstance = nil;
 
 - (CSVDataViewController *) dataController
 {
-	return [[tabBarController viewControllers] objectAtIndex:0];
-}
-
-- (CSVPreferencesController *) prefsController
-{
-	return [[tabBarController viewControllers] objectAtIndex:1];
-}
-
-- (UIViewController *) viewController
-{
-	if( [CSV_TouchAppDelegate showInlinePreferences] )
-		return tabBarController;
-	else
-		return [self dataController];
+	return dataController;
 }
 
 + (NSString *) documentsPath
@@ -104,7 +84,7 @@ static CSV_TouchAppDelegate *sharedInstance = nil;
 - (void) delayedStartup
 {
 	[self loadLocalFiles];
-	[[self prefsController] applicationDidFinishLaunchingInEmergencyMode:[CSVPreferencesController safeStart]];
+	[CSVPreferencesController applicationDidFinishLaunching];
 	[[self dataController] applicationDidFinishLaunchingInEmergencyMode:[CSVPreferencesController safeStart]];
 	
 	newFileURL.clearButtonMode = UITextFieldViewModeWhileEditing;
@@ -112,7 +92,7 @@ static CSV_TouchAppDelegate *sharedInstance = nil;
 	if( [CSVPreferencesController useBlackTheme] )
 	{
 		[self dataController].navigationBar.barStyle = UIBarStyleBlackOpaque;
-		[self prefsController].navigationBar.barStyle = UIBarStyleBlackOpaque;
+		[self dataController].itemsToolbar.barStyle = UIBarStyleBlackOpaque;
 		downloadToolbar.barStyle = UIBarStyleBlackOpaque;
 		[[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackOpaque animated:YES];
 	}		
@@ -122,18 +102,7 @@ static CSV_TouchAppDelegate *sharedInstance = nil;
 	[startupActivityView stopAnimating];
 	[startupController.view removeFromSuperview];
 	
-	if( [CSV_TouchAppDelegate showInlinePreferences] )
-	{
-		tabBarController.view.contentMode = UIViewContentModeScaleToFill;
-		tabBarController.selectedIndex = [[NSUserDefaults standardUserDefaults] integerForKey:SELECTED_TAB_BAR_INDEX];
-		[window addSubview:tabBarController.view];
-	}
-	else
-	{
-		UIView *view = [[self dataController] view];
-		view.frame = [[UIScreen mainScreen] applicationFrame];
-		[window addSubview:view];
-	}
+	[window addSubview:[[self dataController] view]];
 	[window makeKeyAndVisible];
 }
 
@@ -158,13 +127,9 @@ static CSV_TouchAppDelegate *sharedInstance = nil;
 - (void)applicationWillTerminate:(UIApplication *)application 
 {
 	[[self dataController] applicationWillTerminate];
-	[[self prefsController] applicationWillTerminate];
-	[[NSUserDefaults standardUserDefaults] setInteger:tabBarController.selectedIndex
-											   forKey:SELECTED_TAB_BAR_INDEX];
 }
 
 - (void)dealloc {
-	[tabBarController release];
 	[window release];
 	[rawData release];
 	[super dealloc];
@@ -175,7 +140,7 @@ static CSV_TouchAppDelegate *sharedInstance = nil;
 	[connection release];
 	connection = nil;
 	[self slowActivityCompleted];
-	[[self viewController] dismissModalViewControllerAnimated:YES];
+	[[self dataController] dismissModalViewControllerAnimated:YES];
 }
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
@@ -209,7 +174,7 @@ static CSV_TouchAppDelegate *sharedInstance = nil;
 
 - (IBAction) downloadNewFile:(id)sender
 {
-	[[self viewController] presentModalViewController:downloadNewFileController animated:YES];
+	[[self dataController] presentModalViewController:downloadNewFileController animated:YES];
 }
 
 - (void) startDownloadUsingURL:(NSURL *)url
@@ -266,7 +231,6 @@ static CSV_TouchAppDelegate *sharedInstance = nil;
 - (void) delayedURLOpen:(NSString *)s
 {
 	[self downloadFileWithString:s];
-	tabBarController.selectedIndex = 0;
 	[[self dataController] popToRootViewControllerAnimated:NO];
 }
 

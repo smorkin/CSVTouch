@@ -47,7 +47,6 @@
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F4074E880E52242B004BCDB7 /* Request list.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "Request list.txt"; sourceTree = "<group>"; };
-		F40E1BFE0E8D1676000DB3F0 /* Settingstest.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settingstest.bundle; sourceTree = "<group>"; };
 		F412339E0DE4AD64005E355F /* allocator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = allocator.h; sourceTree = "<group>"; };
 		F412339F0DE4AD64005E355F /* csv.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = csv.c; sourceTree = "<group>"; };
 		F41233A00DE4AD64005E355F /* csv.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = csv.h; sourceTree = "<group>"; };
@@ -58,7 +57,6 @@
 		F4174D140E40A4A200351EE4 /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.png; sourceTree = "<group>"; };
 		F4174D430E40F9D400351EE4 /* Large comma.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Large comma.png"; sourceTree = "<group>"; };
 		F4174D440E40F9D400351EE4 /* Large comma.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = "Large comma.tif"; sourceTree = "<group>"; };
-		F419D10E0E4D233000111CBE /* Legal.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Legal.plist; path = Settings.bundle/Legal.plist; sourceTree = "<group>"; };
 		F42D908C0DE95538001A2E5C /* CSVDataViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSVDataViewController.h; sourceTree = "<group>"; };
 		F42D908D0DE95538001A2E5C /* CSVDataViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSVDataViewController.m; sourceTree = "<group>"; };
 		F473432C0E2A90B20072F3DE /* col.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = col.png; sourceTree = "<group>"; };
@@ -145,7 +143,6 @@
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
 				F4990C160E4276C500D64667 /* Settings.bundle */,
-				F419D10E0E4D233000111CBE /* Legal.plist */,
 				F4BE8AB00E4503AC00F2A27B /* dist.plist */,
 			);
 			name = CustomTemplate;
@@ -177,7 +174,6 @@
 				F473432D0E2A90B20072F3DE /* row.png */,
 				8D1107310486CEB800E47090 /* Info.plist */,
 				F4074E880E52242B004BCDB7 /* Request list.txt */,
-				F40E1BFE0E8D1676000DB3F0 /* Settingstest.bundle */,
 			);
 			name = Resources;
 			sourceTree = "<group>";

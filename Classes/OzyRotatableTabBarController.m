@@ -21,14 +21,6 @@
 		return YES;
 }
 
-// Ugly fix for problem where navigation bar "slips down" when rotating to landscape
-// mode while statusbar not showing...
-- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
-{
-	if( ![CSVPreferencesController showStatusBar ] && [[UIApplication sharedApplication] isStatusBarHidden] )
-		[[UIApplication sharedApplication] setStatusBarHidden:NO animated:NO];
-}
-
 - (void)viewDidAppear:(BOOL)animated
 {
 	[self.viewDelegate viewDidAppear:self.view controller:self];

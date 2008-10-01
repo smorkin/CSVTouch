@@ -7,83 +7,12 @@
 //
 
 #import "CSVPreferencesController.h"
-#import "CSVDataViewController.h"
-#import "OzyRotatableViewController.h"
-#import "OzyTableViewController.h"
 #import "OzymandiasAdditions.h"
+#import "OzyTableViewController.h"
 
-
-static CSVPreferencesController *sharedInstance = nil;
 
 @implementation CSVPreferencesController
 
-+ (CSVPreferencesController *) sharedInstance
-{
-	return sharedInstance;
-}
-
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-	if( [[[UIApplication sharedApplication] delegate] respondsToSelector:@selector(allowRotation)] )
-		return [(id <OzymandiasApplicationDelegate>)[[UIApplication sharedApplication] delegate] allowRotation];
-	else
-		return YES;
-}
-
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
-	return 1;
-}
-
-- (NSInteger)tableView:(UITableView *)table numberOfRowsInSection:(NSInteger)section
-{
-	if( section == 0 )
-		return 1;
-	else
-		return 1;
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-	static NSString *cellIdentifier = @"preferenceControllerCellIdentifier";
-	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
-	
-	if (cell == nil)
-	{
-		cell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:cellIdentifier] autorelease];
-		cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-	}
-	
-	if( indexPath.section == 0 )
-	{
-		if( indexPath.row == 0 )
-			cell.text = @"About";
-	}
-	return cell;
-}
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-	if( indexPath.section == 0 )
-	{
-		if( indexPath.row == 0 )
-			[self pushViewController:aboutController animated:YES];
-	}
-}
-	
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
-{
-	if( section == 0 )
-		return @"Documentation";
-	else if( section == 1 )
-		return @"Preferences";
-	else
-		return @"";
-}
-
-@end
-
-@implementation CSVPreferencesController (PreferenceData)
 
 #define PREFS_ENCODING @"encoding"
 #define PREFS_SMART_DELIMITER @"smartDelimiter"
@@ -107,72 +36,43 @@ static CSVPreferencesController *sharedInstance = nil;
 #define PREFS_LITERAL_SORTING @"literalSorting"
 
 
-- (void) loadPreferences
-{
+NSUInteger sortingMask;
+
+//- (void) loadPreferences
+//{
 //	[sizeControl setTitle:@"Normal" forSegmentAtIndex:0];
 //	[sizeControl insertSegmentWithTitle:@"Small" atIndex:1 animated:NO];
 //	[sizeControl insertSegmentWithTitle:@"Mini" atIndex:2 animated:NO];
 //	sizeControl.selectedSegmentIndex = [CSVPreferencesController tableViewSize];
-}
+//}
 
-#define ABOUT_ID @"aboutID"
-#define DATA_ID @"dataID"
-#define SORTING_ID @"sortingID"
-#define APPEARANCE_ID @"appearanceID"
 
-#define DEFS_CURRENT_PREFS_CONTROLLER_STACK @"currentPrefsControllerStack"
 
-- (NSString *) idForController:(UIViewController *)controller
++ (void) applicationDidFinishLaunching
 {
-	if( controller == aboutController )
-		return ABOUT_ID;
-	else
-		return @"";
+	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+
+	// Clean out old settings
+	[defaults removeObjectForKey:@"aboutID"];
+	[defaults removeObjectForKey:@"dataID"];
+	[defaults removeObjectForKey:@"sortingID"];
+	[defaults removeObjectForKey:@"appearanceID"];
+	[defaults removeObjectForKey:@"currentPrefsControllerStack"];
+
+	// Setup sortingMask
+	sortingMask = NSNumericSearch ^ NSCaseInsensitiveSearch ^ NSLiteralSearch;
+	id obj;
+	obj = [defaults objectForKey:PREFS_NUMBER_SENSITIVE_SORTING];
+	if( obj && [obj boolValue] == FALSE )
+		sortingMask ^= NSNumericSearch;
+	obj = [defaults objectForKey:PREFS_CASE_SENSITIVE_SORTING];
+	if( obj && [obj boolValue] == TRUE )
+		sortingMask ^= NSCaseInsensitiveSearch;
+	obj = [defaults objectForKey:PREFS_LITERAL_SORTING];
+	if( obj && [obj boolValue] == FALSE )
+		sortingMask ^= NSLiteralSearch;
 }
 
-- (UIViewController *) controllerForId:(NSString *) controllerId
-{
-	if( [controllerId isEqualToString:ABOUT_ID] )
-		return aboutController;
-	else
-		return nil;	
-}
-
-static BOOL startupInProgress = NO;
-
-- (void) applicationDidFinishLaunchingInEmergencyMode:(BOOL)emergencyMode
-{
-	startupInProgress = TRUE;
-	[self pushViewController:prefsSelectionController animated:NO];
-
-	[CSVPreferencesController updateSortingMask];
-	
-	NSArray *controllerStack = [[NSUserDefaults standardUserDefaults] objectForKey:DEFS_CURRENT_PREFS_CONTROLLER_STACK];
-	for( NSString *controllerId in controllerStack )
-	{
-		UIViewController *controller = [self controllerForId:controllerId];
-		if( controller )
-			[self pushViewController:controller animated:NO];
-	}
-	
-	[self loadPreferences];
-	startupInProgress = FALSE;
-}
-
-- (void) applicationWillTerminate
-{
-	NSMutableArray *controllerStack = [NSMutableArray array];
-	for( UIViewController *controller in [self viewControllers] )
-		[controllerStack addObject:[self idForController:controller]];
-	[[NSUserDefaults standardUserDefaults] setObject:controllerStack forKey:DEFS_CURRENT_PREFS_CONTROLLER_STACK];	
-}
-
-- (id) initWithCoder:(NSCoder *)aDecoder
-{
-	self = [super initWithCoder:aDecoder];
-	sharedInstance = self;
-	return self;
-}
 
 + (NSString *) delimiter
 {
@@ -226,18 +126,6 @@ static BOOL startupInProgress = NO;
 	return [[NSUserDefaults standardUserDefaults] integerForKey:PREFS_MAX_NUMBER_TO_SORT];
 }	
 
-+ (void) setMaxNumberOfItemsToSort:(int) newValue
-{
-	NSUInteger oldValue = [CSVPreferencesController maxNumberOfItemsToSort];
-	if( oldValue != newValue && newValue >= 0 )
-	{
-		NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-		[defaults setInteger:newValue forKey:PREFS_MAX_NUMBER_TO_SORT];
-		if( newValue == 0 || newValue > oldValue )
-			[[CSVDataViewController sharedInstance] resortObjects];
-	}	
-}
-
 + (NSStringEncoding) encoding
 {
 	id obj = [[NSUserDefaults standardUserDefaults] objectForKey:PREFS_ENCODING];
@@ -245,11 +133,6 @@ static BOOL startupInProgress = NO;
 		return [obj intValue];
 	else
 		return NSISOLatin1StringEncoding;
-}
-
-+ (void) setEncoding:(NSStringEncoding)encoding
-{
-	[[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithFormat:@"%d", encoding] forKey:PREFS_ENCODING];
 }
 
 + (BOOL) allowRotatableInterface
@@ -326,7 +209,6 @@ static BOOL startupInProgress = NO;
 }
 
 
-NSUInteger sortingMask;
 
 + (void) updateSortingMask
 {
@@ -352,17 +234,6 @@ NSUInteger sortingMask;
 		sortingMask = NSNumericSearch ^ NSCaseInsensitiveSearch;
 	return sortingMask;
 }
-
-- (void) showAlertAboutChangedPrefs:(NSString *) msg
-{
-	UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Restart required"
-													message:msg
-												   delegate:self
-										  cancelButtonTitle:@"OK"
-										  otherButtonTitles:nil] autorelease];
-	[alert show];	
-}
-
 
 //- (IBAction) sizeControlChanged:(id)sender
 //{

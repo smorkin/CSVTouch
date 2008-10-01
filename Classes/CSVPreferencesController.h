@@ -8,23 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
-@class OzyRotatableViewController;
 
-@interface CSVPreferencesController : UINavigationController <UITableViewDelegate>
-{
-	IBOutlet OzyRotatableViewController *prefsSelectionController;
-	IBOutlet OzyRotatableViewController *aboutController;
-}
+@interface CSVPreferencesController : NSObject
 
-+ (CSVPreferencesController *) sharedInstance;
-
-@end
-
-
-@interface CSVPreferencesController (PreferenceData)
-
-- (void) applicationDidFinishLaunchingInEmergencyMode:(BOOL) emergencyMode;
-- (void) applicationWillTerminate;
++ (void) applicationDidFinishLaunching;
 
 + (NSString *) delimiter;
 + (NSInteger) tableViewSize;

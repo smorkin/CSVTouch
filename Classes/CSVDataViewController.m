@@ -32,6 +32,8 @@
 
 @implementation CSVDataViewController
 
+@synthesize itemsToolbar;
+
 - (CSVFileParser *) currentFile
 {
 	return currentFile;
@@ -790,7 +792,7 @@ static CSVDataViewController *sharedInstance = nil;
 	}
 }
 
-- (IBAction) edit:(id)sender
+- (IBAction) editColumns:(id)sender
 {
 	if( [CSVPreferencesController useBlackTheme] )
 	{
@@ -962,6 +964,13 @@ static CSVDataViewController *sharedInstance = nil;
 {
 	[self previousDetailsClicked:nil];
 }
+
+- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+	if( ![CSVPreferencesController showStatusBar ] && [[UIApplication sharedApplication] isStatusBarHidden] )
+		[[UIApplication sharedApplication] setStatusBarHidden:NO animated:NO];
+}
+
 
 @end
 
