@@ -33,6 +33,8 @@
 @implementation CSVDataViewController
 
 @synthesize itemsToolbar;
+@synthesize filesToolbar;
+@synthesize searchBar;
 
 - (CSVFileParser *) currentFile
 {
@@ -173,56 +175,6 @@
 	return TRUE;
 }
 
-- (void) updateBadgeValueUsingItem:(UINavigationItem *)item push:(BOOL)push
-{
-	NSUInteger count = 0;
-	NSString *addString = @"";
-	
-	// Details controller will be visible
-	if(push &
-	   (item == detailsController.navigationItem ||
-		item == fancyDetailsController.navigationItem ||
-		item == htmlDetailsController.navigationItem))
-	{
-		NSIndexPath *selectedRow = [[itemController tableView] indexPathForSelectedRow];                                              // return nil or index path representing section and row of selection.
-		if( selectedRow &&
-		   [itemController indexForObjectAtIndexPath:selectedRow] >= 0 )
-		{
-			count = [itemController indexForObjectAtIndexPath:selectedRow] + 1;
-		}
-		else
-		{
-			count = 0;
-		}
-		addString = [NSString stringWithFormat:@"/%d", [[itemController objects] count]];
-		self.tabBarItem.title = @"Item";
-	}
-	// Item controller will be visible
-	else if((push && item == itemController.navigationItem) || 
-			(!push && item == detailsController.navigationItem) ||
-			(!push && item == fancyDetailsController.navigationItem) ||
-			(!push && item == htmlDetailsController.navigationItem))
-	{
-		count = [[itemController objects] count];
-		if( count != [[currentFile itemsWithResetShortdescriptions:NO] count] )
-			addString = [NSString stringWithFormat:@"/%d", [[currentFile itemsWithResetShortdescriptions:NO] count]];
-		self.tabBarItem.title = @"Items";
-	}
-	// File controller will be visible (or parseErrorController involved, in which case always use Files data)
-	else if((!push && item == itemController.navigationItem) ||
-			(push && item == fileController.navigationItem) ||
-			(item == parseErrorController.navigationItem))
-	{
-		count = [[fileController objects] count];
-		self.tabBarItem.title = @"Files";
-	}
-
-	if( count != 0 )
-		self.tabBarItem.badgeValue = [NSString stringWithFormat:@"%d%@", count, addString];
-	else
-		self.tabBarItem.badgeValue = nil;
-}
-
 - (UIViewController *) currentDetailsController
 {
 	switch(selectedDetailsView)
@@ -234,6 +186,53 @@
 		case 2:
 		default:
 			return detailsController;
+	}
+}
+
+- (void) updateBadgeValueUsingItem:(UINavigationItem *)item push:(BOOL)push
+{
+	NSUInteger count = 0;
+	
+	// Details controller will be visible
+	if(push &
+	   (item == detailsController.navigationItem ||
+		item == fancyDetailsController.navigationItem ||
+		item == htmlDetailsController.navigationItem))
+	{
+		NSIndexPath *selectedRow = [[itemController tableView] indexPathForSelectedRow];
+		if( selectedRow &&
+		   [itemController indexForObjectAtIndexPath:selectedRow] >= 0 )
+		{
+			count = [itemController indexForObjectAtIndexPath:selectedRow] + 1;
+		}
+		else
+		{
+			count = 0;
+		}
+		NSString *s = [NSString stringWithFormat:@"%d/%d", count, [[itemController objects] count]];
+		detailsController.title = s;
+		fancyDetailsController.title = s;
+		htmlDetailsController.title = s;
+	}
+	// Item controller will be visible
+	else if((push && item == itemController.navigationItem) || 
+			(!push && item == detailsController.navigationItem) ||
+			(!push && item == fancyDetailsController.navigationItem) ||
+			(!push && item == htmlDetailsController.navigationItem))
+	{
+		NSString *addString = @"";
+		count = [[itemController objects] count];
+		if( count != [[currentFile itemsWithResetShortdescriptions:NO] count] )
+			addString = [NSString stringWithFormat:@"/%d", [[currentFile itemsWithResetShortdescriptions:NO] count]];
+		itemsCountButton.title = [NSString stringWithFormat:@"%d%@", count, addString];
+	}
+	// File controller will be visible (or parseErrorController involved, in which case always use Files data)
+	else if((!push && item == itemController.navigationItem) ||
+			(push && item == fileController.navigationItem) ||
+			(item == parseErrorController.navigationItem))
+	{
+		count = [[fileController objects] count];
+		filesCountButton.title = [NSString stringWithFormat:@"%d", count];
 	}
 }
 
@@ -441,6 +440,7 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
 	// Setup stuff for controllers which can't be configured using InterfaceBuilder
 	[[editController tableView] setEditing:YES animated:NO];
 	editController.editable = YES;
+	editController.reorderable = YES;
 	editController.size = OZY_NORMAL;
 	[editController setSectionTitles:[NSArray arrayWithObject:@"Select & Arrange Columns"]];
 	fileController.editable = YES;
@@ -761,6 +761,10 @@ static CSVDataViewController *sharedInstance = nil;
 		{
 			[[CSV_TouchAppDelegate sharedInstance] downloadFileWithString:[(CSVFileParser *)[[fileController objects] objectAtIndex:indexPath.row] URL]];
 		}
+		else if( showingFileInfoInProgress )
+		{
+			[[CSV_TouchAppDelegate sharedInstance] showFileInfo:(CSVFileParser *)[[fileController objects] objectAtIndex:indexPath.row]];
+		}
 		else
 		{
 			CSVFileParser *selectedFile = [[fileController objects] objectAtIndex:indexPath.row];
@@ -796,7 +800,6 @@ static CSVDataViewController *sharedInstance = nil;
 {
 	if( [CSVPreferencesController useBlackTheme] )
 	{
-		searchBar.barStyle = UIBarStyleBlackOpaque;
 		editNavigationBar.barStyle = UIBarStyleBlackOpaque;
 	}
 	
@@ -806,6 +809,10 @@ static CSVDataViewController *sharedInstance = nil;
 - (IBAction) editDone:(id)sender
 {
 	[searchBar endEditing:YES];
+	if( searchBar.text && ![searchBar.text isEqualToString:@""] )
+		searchButton.style = UIBarButtonItemStyleDone;
+	else
+		searchButton.style = UIBarButtonItemStylePlain;
 	if( itemsNeedResorting || itemsNeedFiltering )
 	{
 		[self refreshObjectsWithResorting:itemsNeedResorting];
@@ -876,32 +883,102 @@ static CSVDataViewController *sharedInstance = nil;
 			
 - (UIBarButtonItem *) refreshFilesItem
 {
-	return [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh 
-														  target:self 
-														  action:@selector(toggleRefreshFiles:)] autorelease];
+	UIBarButtonItem *button = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh 
+																			 target:self 
+																			 action:@selector(toggleRefreshFiles:)] autorelease];
+	button.style = UIBarButtonItemStyleBordered;
+	return button;
 }
 
-- (UIBarButtonItem *) stopRefreshingFilesItem
+- (UIBarButtonItem *) showFileInfoItem
+{
+	return [[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"info.png"]
+											 style:UIBarButtonItemStyleBordered
+											target:self 
+											action:@selector(toggleShowFileInfo:)] autorelease];
+}
+
+- (UIBarButtonItem *) editFilesItem
+{
+	return [[[UIBarButtonItem alloc] initWithTitle:@"Edit"
+											 style:UIBarButtonItemStyleBordered
+											target:self 
+											action:@selector(toggleEditFiles)] autorelease];
+}
+
+- (UIBarButtonItem *) doneItemWithSelector:(SEL)selector
 {
 	return [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone 
 														  target:self 
-														  action:@selector(toggleRefreshFiles:)] autorelease];
+														  action:selector] autorelease];
 }
 
 - (IBAction) toggleRefreshFiles:(id)sender
 {
+	if( showingFileInfoInProgress || editFilesInProgress )
+		return;
+	
 	refreshingFilesInProgress = !refreshingFilesInProgress;
 	if( refreshingFilesInProgress )
 	{
 		fileController.removeDisclosure = YES;
-		[fileController.navigationItem setRightBarButtonItem:[self stopRefreshingFilesItem] animated:YES];
+		NSMutableArray *items = [NSMutableArray arrayWithArray:[self.filesToolbar items]];
+		[items replaceObjectAtIndex:4 withObject:[self doneItemWithSelector:@selector(toggleRefreshFiles:)]];
+		self.filesToolbar.items = items;
 	}
 	else
 	{
 		fileController.removeDisclosure = NO;
-		[fileController.navigationItem setRightBarButtonItem:[self refreshFilesItem] animated:YES];
+		NSMutableArray *items = [NSMutableArray arrayWithArray:[self.filesToolbar items]];
+		[items replaceObjectAtIndex:4 withObject:[self refreshFilesItem]];
+		self.filesToolbar.items = items;
 	}
 	[fileController dataLoaded];
+}
+
+- (IBAction) toggleShowFileInfo:(id)sender
+{
+	if( editFilesInProgress || refreshingFilesInProgress )
+		return;
+	
+	showingFileInfoInProgress = !showingFileInfoInProgress;
+	if( showingFileInfoInProgress )
+	{
+		fileController.removeDisclosure = YES;
+		NSMutableArray *items = [NSMutableArray arrayWithArray:[self.filesToolbar items]];
+		[items replaceObjectAtIndex:3 withObject:[self doneItemWithSelector:@selector(toggleShowFileInfo:)]];
+		self.filesToolbar.items = items;
+	}
+	else
+	{
+		fileController.removeDisclosure = NO;
+		NSMutableArray *items = [NSMutableArray arrayWithArray:[self.filesToolbar items]];
+		[items replaceObjectAtIndex:3 withObject:[self showFileInfoItem]];
+		self.filesToolbar.items = items;
+	}
+	[fileController dataLoaded];
+}
+
+- (IBAction) toggleEditFiles
+{
+	if( showingFileInfoInProgress || refreshingFilesInProgress )
+		return;
+	
+	editFilesInProgress = !editFilesInProgress;
+	if( editFilesInProgress )
+	{
+		NSMutableArray *items = [NSMutableArray arrayWithArray:[self.filesToolbar items]];
+		[items replaceObjectAtIndex:0 withObject:[self doneItemWithSelector:@selector(toggleEditFiles)]];
+		self.filesToolbar.items = items;
+		[[fileController tableView] setEditing:YES animated:YES];
+	}
+	else
+	{
+		NSMutableArray *items = [NSMutableArray arrayWithArray:[self.filesToolbar items]];
+		[items replaceObjectAtIndex:0 withObject:[self editFilesItem]];
+		self.filesToolbar.items = items;
+		[[fileController tableView] setEditing:NO animated:YES];
+	}
 }
 
 - (void)searchBar:(UISearchBar *)modifiedSearchBar textDidChange:(NSString *)searchText
@@ -912,7 +989,17 @@ static CSVDataViewController *sharedInstance = nil;
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
 {
+	[self.searchBar removeFromSuperview];
 	[self performSelector:@selector(editDone:) withObject:self afterDelay:0];
+}
+
+- (IBAction) searchItems:(id)sender
+{
+	CGRect searchFrame = self.searchBar.frame;
+	CGRect navigationFrame = self.navigationBar.frame;
+	searchFrame.origin.y = navigationFrame.size.height;
+	self.searchBar.frame = searchFrame;
+	[self.view addSubview:self.searchBar];
 }
 
 - (IBAction) nextDetailsClicked:(id)sender

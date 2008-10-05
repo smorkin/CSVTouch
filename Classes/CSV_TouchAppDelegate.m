@@ -93,6 +93,8 @@ static CSV_TouchAppDelegate *sharedInstance = nil;
 	{
 		[self dataController].navigationBar.barStyle = UIBarStyleBlackOpaque;
 		[self dataController].itemsToolbar.barStyle = UIBarStyleBlackOpaque;
+		[self dataController].filesToolbar.barStyle = UIBarStyleBlackOpaque;
+		[self dataController].searchBar.barStyle = UIBarStyleBlackOpaque;
 		downloadToolbar.barStyle = UIBarStyleBlackOpaque;
 		[[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackOpaque animated:YES];
 	}		
@@ -174,9 +176,39 @@ static CSV_TouchAppDelegate *sharedInstance = nil;
 
 - (IBAction) downloadNewFile:(id)sender
 {
+	NSMutableString *s = [NSMutableString string];
+	[s appendString:@"1. For FTP download, remove \"http://\" and use\n\n"];
+	[s appendString:@"ftp://username:password@ftpserver.com/file.csv\n\n"];
+	[s appendString:@"2. An example file to test CSV Touch is available at\n\n"];
+	[s appendString:@"http://idisk.mac.com/simon_wigzell-Public/Games.csv"];
+	fileInfo.text = s;
 	[[self dataController] presentModalViewController:downloadNewFileController animated:YES];
 }
 
+- (void) showFileInfo:(CSVFileParser *)fp
+{
+	NSError *error;
+	NSDictionary *fileAttributes = [[NSFileManager defaultManager] attributesOfItemAtPath:[fp filePath] error:&error];
+	
+	if( fileAttributes )
+	{
+		NSMutableString *s = [NSMutableString string];
+		NSDateFormatter *dateFormatter = [[[NSDateFormatter alloc] init]  autorelease];
+		[dateFormatter setDateStyle:NSDateFormatterShortStyle];
+		[dateFormatter setTimeStyle:NSDateFormatterShortStyle];
+		[s appendFormat:@"Size: %.2f KB\n", ((double)[[fileAttributes objectForKey:NSFileSize] longLongValue]) / 1024.0];
+		[s appendFormat:@"Downloaded: %@\n", [dateFormatter stringFromDate:[fileAttributes objectForKey:NSFileCreationDate]]];
+		fileInfo.text = s;
+	}
+	else
+	{
+		fileInfo.text = [error localizedDescription];
+	}
+	newFileURL.text = [fp URL];
+	[[self dataController] presentModalViewController:downloadNewFileController animated:YES];
+}
+	
+	
 - (void) startDownloadUsingURL:(NSURL *)url
 {
 	[rawData release];

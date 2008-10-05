@@ -23,6 +23,7 @@
 @synthesize tableView = _tableView;
 @synthesize objects = _objects;
 @synthesize editable = _editable;
+@synthesize reorderable = _reorderable;
 @synthesize useIndexes = _useIndexes;
 @synthesize size = _size;
 @synthesize removeDisclosure = _removeDisclosure;
@@ -350,7 +351,7 @@
 }
 
 - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
-	return self.editable;
+	return self.reorderable;
 }
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath

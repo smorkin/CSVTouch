@@ -24,6 +24,7 @@ typedef enum OzyTableViewSize {
 	IBOutlet UITableView *_tableView;
 	NSMutableArray *_objects;
 	BOOL _editable;
+	BOOL _reorderable;
 	BOOL _useIndexes;
 	BOOL _removeDisclosure;
 	OzyTableViewSize _size;
@@ -37,6 +38,7 @@ typedef enum OzyTableViewSize {
 @property (nonatomic, readonly) UITableView *tableView;
 @property (nonatomic, retain) NSMutableArray *objects;
 @property (nonatomic, assign, getter=isEditable) BOOL editable;
+@property (nonatomic, assign) BOOL reorderable;
 @property (nonatomic, assign) BOOL useIndexes;
 @property (nonatomic, assign) OzyTableViewSize size;
 @property (nonatomic, assign) BOOL removeDisclosure;

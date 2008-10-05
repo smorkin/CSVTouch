@@ -18,6 +18,7 @@
 		F41233A50DE4AD64005E355F /* msgno.c in Sources */ = {isa = PBXBuildFile; fileRef = F41233A10DE4AD64005E355F /* msgno.c */; };
 		F4174D150E40A4A200351EE4 /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = F4174D140E40A4A200351EE4 /* icon.png */; };
 		F42D908E0DE95538001A2E5C /* CSVDataViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F42D908D0DE95538001A2E5C /* CSVDataViewController.m */; };
+		F451F1810E99146300F22ED9 /* info.png in Resources */ = {isa = PBXBuildFile; fileRef = F451F1800E99146300F22ED9 /* info.png */; };
 		F473432E0E2A90B20072F3DE /* col.png in Resources */ = {isa = PBXBuildFile; fileRef = F473432C0E2A90B20072F3DE /* col.png */; };
 		F473432F0E2A90B20072F3DE /* row.png in Resources */ = {isa = PBXBuildFile; fileRef = F473432D0E2A90B20072F3DE /* row.png */; };
 		F47819850E2BDE7A00B44E78 /* CSVPreferencesController.m in Sources */ = {isa = PBXBuildFile; fileRef = F47819840E2BDE7A00B44E78 /* CSVPreferencesController.m */; };
@@ -59,6 +60,7 @@
 		F4174D440E40F9D400351EE4 /* Large comma.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = "Large comma.tif"; sourceTree = "<group>"; };
 		F42D908C0DE95538001A2E5C /* CSVDataViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSVDataViewController.h; sourceTree = "<group>"; };
 		F42D908D0DE95538001A2E5C /* CSVDataViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSVDataViewController.m; sourceTree = "<group>"; };
+		F451F1800E99146300F22ED9 /* info.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = info.png; sourceTree = "<group>"; };
 		F473432C0E2A90B20072F3DE /* col.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = col.png; sourceTree = "<group>"; };
 		F473432D0E2A90B20072F3DE /* row.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = row.png; sourceTree = "<group>"; };
 		F47819830E2BDE7A00B44E78 /* CSVPreferencesController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSVPreferencesController.h; sourceTree = "<group>"; };
@@ -169,6 +171,7 @@
 				F413FF810E648C93006C7348 /* Description.rtf */,
 				F4E928750E4EE808006165B0 /* Default.png */,
 				F4174D140E40A4A200351EE4 /* icon.png */,
+				F451F1800E99146300F22ED9 /* info.png */,
 				28AD735F0D9D9599002E5188 /* MainWindow.xib */,
 				F473432C0E2A90B20072F3DE /* col.png */,
 				F473432D0E2A90B20072F3DE /* row.png */,
@@ -253,6 +256,7 @@
 				F4990C170E4276C500D64667 /* Settings.bundle in Resources */,
 				F4BE8AB10E4503AC00F2A27B /* dist.plist in Resources */,
 				F4E928760E4EE808006165B0 /* Default.png in Resources */,
+				F451F1810E99146300F22ED9 /* info.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

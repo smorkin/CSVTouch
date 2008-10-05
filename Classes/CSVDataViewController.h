@@ -38,27 +38,40 @@ OzyRotatableViewController;
 	// Edit view
 	IBOutlet OzyTableViewController *editController;
 	IBOutlet UINavigationBar *editNavigationBar;
-	IBOutlet UISearchBar *searchBar;
 	
+	// Search view
+	IBOutlet UISearchBar *searchBar;
+	IBOutlet UIBarButtonItem *searchButton;
+
 	// Toolbars
 	IBOutlet UIToolbar *itemsToolbar;
+	IBOutlet UIBarButtonItem *itemsCountButton;
+	IBOutlet UIBarButtonItem *filesCountButton;
+	IBOutlet UIToolbar *filesToolbar;
 	
 	// An array with the current indexes to use for the items
 	NSMutableArray *columnIndexes;
 	int *rawColumnIndexes;
 	
 	BOOL refreshingFilesInProgress;
+	BOOL showingFileInfoInProgress;
+	BOOL editFilesInProgress;
 	BOOL showingRawString;
 }
 
 @property (nonatomic, readonly) UIToolbar *itemsToolbar;
+@property (nonatomic, readonly) UIToolbar *filesToolbar;
+@property (nonatomic, readonly) UISearchBar *searchBar;
 
 + (CSVDataViewController *) sharedInstance;
 
 - (IBAction) editColumns:(id)sender;
 - (IBAction) editDone:(id)sender;
 - (IBAction) resetColumnNames:(id)sender;
+- (IBAction) toggleEditFiles;
+- (IBAction) searchItems:(id)sender;
 - (IBAction) toggleRefreshFiles:(id)sender;
+- (IBAction) toggleShowFileInfo:(id)sender;
 - (IBAction) toggleShowingRawString:(id)sender;
 - (IBAction) toggleDetailsView:(id)sender;
 - (IBAction) nextDetailsClicked:(id)sender;

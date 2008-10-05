@@ -26,6 +26,7 @@ OzymandiasApplicationDelegate> {
 	// Downloading a new file
 	IBOutlet UIViewController *downloadNewFileController;
 	IBOutlet UITextField *newFileURL;
+	IBOutlet UITextView *fileInfo;
 	IBOutlet UIToolbar *downloadToolbar;
 
 	// For better GUI when things are slow...
@@ -41,13 +42,12 @@ OzymandiasApplicationDelegate> {
 
 @property (nonatomic, retain) UIWindow *window;
 
-//- (IBAction) prefsDone:(id)sender;
-
 - (IBAction) downloadNewFile:(id)sender;
 - (IBAction) doDownloadNewFile:(id)sender;
 - (IBAction) cancelDownloadNewFile:(id)sender;
 
 - (void) downloadFileWithString:(NSString *)URL;
+- (void) showFileInfo:(CSVFileParser *)fp;
 
 - (void) slowActivityStartedInViewController:(UIViewController *)viewController;
 - (void) slowActivityCompleted;

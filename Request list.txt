@@ -23,6 +23,9 @@ Requests & Bugs
 - Timeout när laddar ner: Konfigurerbar
 - Spara senaste adress när quittar
 - Parsa efter 404-meddelande
+- Diacritic search
+- Bugg med när inte Literal search på så hamnar a,å,ä huller om buller
+- Confirmation för mil/web/osv...
 
 Fixed
 
