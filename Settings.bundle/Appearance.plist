@@ -40,6 +40,34 @@
 			<key>Type</key>
 			<string>PSToggleSwitchSpecifier</string>
 			<key>Title</key>
+			<string>Details Swiping</string>
+			<key>Key</key>
+			<string>useDetailsSwipe</string>
+			<key>DefaultValue</key>
+			<true/>
+			<key>TrueValue</key>
+			<true/>
+			<key>FalseValue</key>
+			<false/>
+		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSToggleSwitchSpecifier</string>
+			<key>Title</key>
+			<string>Swipe Animation</string>
+			<key>Key</key>
+			<string>useSwipeAnimation</string>
+			<key>DefaultValue</key>
+			<true/>
+			<key>TrueValue</key>
+			<true/>
+			<key>FalseValue</key>
+			<false/>
+		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSToggleSwitchSpecifier</string>
+			<key>Title</key>
 			<string>Status Bar</string>
 			<key>Key</key>
 			<string>showStatusBar</string>

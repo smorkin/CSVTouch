@@ -30,6 +30,8 @@
 #define PREFS_USE_CORRECT_PARSING @"useCorrectParsing"
 #define PREFS_USE_CORRECT_SORTING @"useCorrectSorting"
 #define PREFS_REMOVE_DETAILS_NAVIGATION @"useDetailsNavigation"
+#define PREFS_USE_DETAILS_SWIPE @"useDetailsSwipe"
+#define PREFS_USE_SWIPE_ANIMATION @"useSwipeAnimation"
 #define PREFS_SHOW_INLINE_IMAGES @"showInlineImages"
 #define PREFS_NUMBER_SENSITIVE_SORTING @"numberSensitiveSorting"
 #define PREFS_CASE_SENSITIVE_SORTING @"caseSensitiveSorting"
@@ -201,6 +203,24 @@ NSUInteger sortingMask;
 	id obj = [[NSUserDefaults standardUserDefaults] objectForKey:PREFS_REMOVE_DETAILS_NAVIGATION];
 	if( obj )
 		return [[NSUserDefaults standardUserDefaults] boolForKey:PREFS_REMOVE_DETAILS_NAVIGATION];
+	else
+		return YES;
+}
+
++ (BOOL) useDetailsSwipe
+{
+	id obj = [[NSUserDefaults standardUserDefaults] objectForKey:PREFS_USE_DETAILS_SWIPE];
+	if( obj )
+		return [[NSUserDefaults standardUserDefaults] boolForKey:PREFS_USE_DETAILS_SWIPE];
+	else
+		return YES;
+}
+
++ (BOOL) useSwipeAnimation
+{
+	id obj = [[NSUserDefaults standardUserDefaults] objectForKey:PREFS_USE_SWIPE_ANIMATION];
+	if( obj )
+		return [[NSUserDefaults standardUserDefaults] boolForKey:PREFS_USE_SWIPE_ANIMATION];
 	else
 		return YES;
 }

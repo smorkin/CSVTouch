@@ -1126,28 +1126,42 @@ static CSVDataViewController *sharedInstance = nil;
 
 - (void) rightSwipe:(UIView *) swipeView
 {
-	[UIView beginAnimations:nil context:NULL];
-	[UIView setAnimationDuration:0.25];
-	[[[self currentDetailsController] view] setAlpha:0];
-	[UIView commitAnimations];
-	[UIView beginAnimations:nil context:NULL];
-	[UIView setAnimationDuration:0.25];
-	[[[self currentDetailsController] view] setAlpha:1];
-	[self nextDetailsClicked:nil];
-	[UIView commitAnimations];
+	if( [CSVPreferencesController useDetailsNavigation] && [CSVPreferencesController useDetailsSwipe] )
+	{
+		if( [CSVPreferencesController useSwipeAnimation] )
+		{
+			[UIView beginAnimations:nil context:NULL];
+			[UIView setAnimationDuration:0.25];
+			[[[self currentDetailsController] view] setAlpha:0];
+			[UIView commitAnimations];
+			[UIView beginAnimations:nil context:NULL];
+			[UIView setAnimationDuration:0.25];
+			[[[self currentDetailsController] view] setAlpha:1];
+		}
+		[self nextDetailsClicked:nil];
+		if( [CSVPreferencesController useSwipeAnimation] )
+			[UIView commitAnimations];
+	}
 }
 
 - (void) leftSwipe:(UIView *) swipeView
 {
-	[UIView beginAnimations:nil context:NULL];
-	[UIView setAnimationDuration:0.25];
-	[[[self currentDetailsController] view] setAlpha:0];
-	[UIView commitAnimations];
-	[UIView beginAnimations:nil context:NULL];
-	[UIView setAnimationDuration:0.25];
-	[[[self currentDetailsController] view] setAlpha:1];
-	[self previousDetailsClicked:nil];
-	[UIView commitAnimations];
+	if( [CSVPreferencesController useDetailsNavigation] && [CSVPreferencesController useDetailsSwipe] )
+	{
+		if( [CSVPreferencesController useSwipeAnimation] )
+		{
+			[UIView beginAnimations:nil context:NULL];
+			[UIView setAnimationDuration:0.25];
+			[[[self currentDetailsController] view] setAlpha:0];
+			[UIView commitAnimations];
+			[UIView beginAnimations:nil context:NULL];
+			[UIView setAnimationDuration:0.25];
+			[[[self currentDetailsController] view] setAlpha:1];
+		}
+		[self previousDetailsClicked:nil];
+		if( [CSVPreferencesController useSwipeAnimation] )
+			[UIView commitAnimations];
+	}
 }
 
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
@@ -1192,7 +1206,7 @@ static CSVDataViewController *sharedInstance = nil;
 {
 	if( [CSVPreferencesController useDetailsNavigation] )
 	{
-		if( controller == htmlDetailsController )
+		if( controller == htmlDetailsController || ![CSVPreferencesController useDetailsSwipe] )
 		{
 			[self addNavigationButtonsToView:controller];
 		}
@@ -1203,7 +1217,7 @@ static CSVDataViewController *sharedInstance = nil;
 {
 	if( [CSVPreferencesController useDetailsNavigation] )
 	{	
-		if( controller == htmlDetailsController )
+		if( controller == htmlDetailsController || ![CSVPreferencesController useDetailsSwipe] )
 		{
 			[self removeNavigationButtonsFromView:controller];
 		}

@@ -28,6 +28,8 @@
 + (BOOL) useCorrectParsing;
 + (BOOL) useCorrectSorting;
 + (BOOL) useDetailsNavigation;
++ (BOOL) useDetailsSwipe;
++ (BOOL) useSwipeAnimation;
 + (BOOL) showInlineImages;
 
 + (void) updateSortingMask; // Needs to be called as part of initialization
