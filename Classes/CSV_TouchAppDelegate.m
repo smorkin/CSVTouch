@@ -81,12 +81,19 @@ static CSV_TouchAppDelegate *sharedInstance = nil;
 	return self;
 }
 
+#define NEW_FILE_URL @"newFileURL"
+
 - (void) delayedStartup
 {
 	[self loadLocalFiles];
 	[CSVPreferencesController applicationDidFinishLaunching];
 	[[self dataController] applicationDidFinishLaunchingInEmergencyMode:[CSVPreferencesController safeStart]];
 	
+	NSString *savedNewFileURL = [[NSUserDefaults standardUserDefaults] objectForKey:NEW_FILE_URL];
+	if( savedNewFileURL && ![savedNewFileURL isEqualToString:@""] )
+		newFileURL.text = savedNewFileURL;
+	else
+		newFileURL.text = @"http//";
 	newFileURL.clearButtonMode = UITextFieldViewModeWhileEditing;
 	
 	if( [CSVPreferencesController useBlackTheme] )
@@ -99,14 +106,14 @@ static CSV_TouchAppDelegate *sharedInstance = nil;
 		[[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackOpaque animated:YES];
 	}		
 
-
 	// Configure and show the window
 	[startupActivityView stopAnimating];
 	[startupController.view removeFromSuperview];
-	
+		
 	[window addSubview:[[self dataController] view]];
 	[window makeKeyAndVisible];
 }
+
 
 - (void)applicationDidFinishLaunching:(UIApplication *)application
 {
@@ -128,6 +135,9 @@ static CSV_TouchAppDelegate *sharedInstance = nil;
 
 - (void)applicationWillTerminate:(UIApplication *)application 
 {
+	if( newFileURL.text )
+		[[NSUserDefaults standardUserDefaults] setObject:newFileURL.text
+												  forKey:NEW_FILE_URL];
 	[[self dataController] applicationWillTerminate];
 }
 
@@ -166,6 +176,7 @@ static CSV_TouchAppDelegate *sharedInstance = nil;
 	CSVFileParser *fp = [[CSVFileParser alloc] initWithRawData:rawData];
 	fp.filePath = [[CSV_TouchAppDelegate documentsPath] stringByAppendingPathComponent:[[newFileURL text] lastPathComponent]];
 	fp.URL = [newFileURL text]; 
+	fp.downloadDate = [NSDate date];
 	[fp saveToFile];
 	[[self dataController] newFileDownloaded:fp];
 	[fp release];
@@ -197,7 +208,8 @@ static CSV_TouchAppDelegate *sharedInstance = nil;
 		[dateFormatter setDateStyle:NSDateFormatterShortStyle];
 		[dateFormatter setTimeStyle:NSDateFormatterShortStyle];
 		[s appendFormat:@"Size: %.2f KB\n", ((double)[[fileAttributes objectForKey:NSFileSize] longLongValue]) / 1024.0];
-		[s appendFormat:@"Downloaded: %@\n", [dateFormatter stringFromDate:[fileAttributes objectForKey:NSFileCreationDate]]];
+		[s appendFormat:@"Downloaded: %@\n", 
+		 (fp.downloadDate ? [dateFormatter stringFromDate:fp.downloadDate] : @"Not available")];
 		fileInfo.text = s;
 	}
 	else

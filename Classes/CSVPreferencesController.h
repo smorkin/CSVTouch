@@ -34,4 +34,6 @@
 + (NSUInteger) sortingMask;
 extern NSUInteger sortingMask; // This is available for performance-critical operations
 
++ (BOOL) modifyTableViewSize:(BOOL)increase;
+
 @end

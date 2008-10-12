@@ -76,6 +76,8 @@ OzyRotatableViewController;
 - (IBAction) toggleDetailsView:(id)sender;
 - (IBAction) nextDetailsClicked:(id)sender;
 - (IBAction) previousDetailsClicked:(id)sender;
+- (IBAction) increaseTableViewSize;
+- (IBAction) decreaseTableViewSize;
 
 - (void) setFiles:(NSArray *) files;
 

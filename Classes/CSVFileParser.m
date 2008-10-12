@@ -16,12 +16,14 @@
 
 #define FILEPARSER_RAW_DATA @"rawData"
 #define FILEPARSER_URL @"URL"
+#define FILEPARSER_DOWNLOAD_DATE @"downloadDate"
 
 
 @implementation CSVFileParser
 
 @synthesize filePath = _filePath;
 @synthesize URL = _URL;
+@synthesize downloadDate = _downLoadDate;
 @synthesize rawString = _rawString;
 @synthesize usedDelimiter = _usedDelimiter;
 @synthesize hasBeenSorted = _hasBeenSorted;
@@ -34,6 +36,7 @@
 {
 	NSDictionary *d = [NSDictionary dictionaryWithContentsOfFile:self.filePath];
 	self.URL = [d objectForKey:FILEPARSER_URL];
+	self.downloadDate = [d objectForKey:FILEPARSER_DOWNLOAD_DATE];
 	_rawData = [[d objectForKey:FILEPARSER_RAW_DATA] retain];
 	if( _rawData )
 		_rawString = [[NSString alloc] initWithData:_rawData 
@@ -45,6 +48,13 @@
 	if( !_URL )
 		[self loadFile];
 	return _URL;
+}
+
+- (NSDate *) downloadDate
+{
+	if( !_URL )
+		[self loadFile];
+	return _downLoadDate;
 }
 
 - (NSArray *) availableColumnNames
@@ -309,6 +319,7 @@
 	[_rawData release];
 	[_problematicRow release];
 	self.URL = nil;
+	self.downloadDate = nil;
 	self.filePath = nil;
 	[super dealloc];
 }
@@ -334,6 +345,7 @@
 {
 	NSDictionary *d = [NSDictionary dictionaryWithObjectsAndKeys:_rawData, FILEPARSER_RAW_DATA,
 					   self.URL, FILEPARSER_URL,
+					   self.downloadDate, FILEPARSER_DOWNLOAD_DATE,
 					   nil];
 	[d writeToFile:self.filePath atomically:YES];
 }

@@ -98,28 +98,33 @@ NSUInteger sortingMask;
 		return YES;
 }
 
-//+ (void) setSmartDelimiter:(BOOL)useSmart
-//{
-//	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-//	[defaults setBool:useSmart forKey:PREFS_SMART_DELIMITER];
-//}
-//
 + (NSInteger) tableViewSize
 {
-	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-	NSInteger s = [defaults integerForKey:PREFS_TABLEVIEW_SIZE];
+	NSInteger s = [[NSUserDefaults standardUserDefaults] integerForKey:PREFS_TABLEVIEW_SIZE];
 	if( s < 0 || s > OZY_MINI )
-		return OZY_MINI;
+		return OZY_SMALL;
 	else
 		return s;
 }
 
-//+ (void) setTableViewSize:(int)size
-//{
-//	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-//	[defaults setInteger:size
-//				 forKey:PREFS_TABLEVIEW_SIZE];
-//}
++ (BOOL) modifyTableViewSize:(BOOL)increase
+{
+	int newSize = [self tableViewSize];
+	
+	// Stupidly enough the sizes go backwards...
+	if( increase) 
+		newSize--;
+	else
+		newSize++;
+	if( newSize >= OZY_NORMAL && newSize <= OZY_MINI )
+	{
+		[[NSUserDefaults standardUserDefaults] setInteger:newSize
+												   forKey:PREFS_TABLEVIEW_SIZE];
+		return YES;
+	}
+	else
+		return NO;
+}
 
 + (NSUInteger) maxNumberOfItemsToSort
 {

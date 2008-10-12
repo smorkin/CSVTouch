@@ -16,6 +16,7 @@
 	NSString *_rawString;
 	NSString *_filePath;
 	NSString *_URL;
+	NSDate *_downLoadDate;
 	NSString *_problematicRow;
 	int _droppedRows;
 	unichar _usedDelimiter;
@@ -26,6 +27,7 @@
 
 @property (nonatomic, copy) NSString *filePath;
 @property (nonatomic, copy) NSString *URL;
+@property (nonatomic, copy) NSDate *downloadDate;
 @property (nonatomic, readonly) NSString *rawString;
 @property (nonatomic, readonly) unichar usedDelimiter;
 @property (nonatomic, readonly) NSString *problematicRow;
