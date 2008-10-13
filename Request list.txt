@@ -18,14 +18,12 @@ Requests & Bugs
 - Möjligt göra fonten mindre men raderna lika höga
 - Lägg till html-länk till hjälpsidan
 - Tillåt "lazy" parsing, dvs extra-separatorer ignoreras, och om för få så lägger man till diton
-- När klickar på Items/Files i tab bar i details view, så åker vi tillbaka  till root controller, men notifieringen fel i badgen
 - SMS linking
 - Timeout när laddar ner: Konfigurerbar
 - Parsa efter 404-meddelande
 - Diacritic search
 - Bugg med när inte Literal search på så hamnar a,å,ä huller om buller
 - Confirmation för mail/web/osv...
-- Mindre känslig swipe / Prefs?
 
 Fixed
 
@@ -36,6 +34,8 @@ Fixed
 - Fixa spaces i URLar
 - I details view, skriv ut item nr / totalantal
 - Spara senaste adress när quittar
+- Mindre känslig swipe / Prefs?
+- När klickar på Items/Files i tab bar i details view, så åker vi tillbaka  till root controller, men notifieringen fel i badgen
 
 
 Kind of fixed...

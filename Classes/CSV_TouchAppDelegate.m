@@ -188,10 +188,11 @@ static CSV_TouchAppDelegate *sharedInstance = nil;
 - (IBAction) downloadNewFile:(id)sender
 {
 	NSMutableString *s = [NSMutableString string];
-	[s appendString:@"1. For FTP download, remove \"http://\" and use\n\n"];
-	[s appendString:@"ftp://username:password@ftpserver.com/file.csv\n\n"];
+	[s appendString:@"1. For FTP download, use\n\n"];
+	[s appendString:@"ftp://user:password@server.com/file.csv\n\n"];
 	[s appendString:@"2. An example file to test CSV Touch is available at\n\n"];
-	[s appendString:@"http://idisk.mac.com/simon_wigzell-Public/Games.csv"];
+	[s appendString:@"http://idisk.mac.com/simon_wigzell-Public/Games.csv\n\n"];
+	[s appendString:@"Note the capital \"P\" and \"G\", and the \"-\"."];
 	fileInfo.text = s;
 	[[self dataController] presentModalViewController:downloadNewFileController animated:YES];
 }
@@ -207,9 +208,10 @@ static CSV_TouchAppDelegate *sharedInstance = nil;
 		NSDateFormatter *dateFormatter = [[[NSDateFormatter alloc] init]  autorelease];
 		[dateFormatter setDateStyle:NSDateFormatterShortStyle];
 		[dateFormatter setTimeStyle:NSDateFormatterShortStyle];
-		[s appendFormat:@"Size: %.2f KB\n", ((double)[[fileAttributes objectForKey:NSFileSize] longLongValue]) / 1024.0];
-		[s appendFormat:@"Downloaded: %@\n", 
+		[s appendFormat:@"Size: %.2f KB\n\n", ((double)[[fileAttributes objectForKey:NSFileSize] longLongValue]) / 1024.0];
+		[s appendFormat:@"Downloaded: %@\n\n", 
 		 (fp.downloadDate ? [dateFormatter stringFromDate:fp.downloadDate] : @"Not available")];
+		[s appendFormat:@"File: %@\n\n", fp.filePath];
 		fileInfo.text = s;
 	}
 	else

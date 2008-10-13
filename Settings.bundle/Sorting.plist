@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>Title</key>
-	<string>Sorting</string>
+	<string>Sorting &amp; Searching</string>
 	<key>StringsTable</key>
 	<string>Root</string>
 	<key>PreferenceSpecifiers</key>
@@ -73,6 +73,24 @@
 			<string>maxNumberOfItemsToSort</string>
 			<key>DefaultValue</key>
 			<string>0</string>
+			<key>IsSecure</key>
+			<false/>
+			<key>KeyboardType</key>
+			<string>NumberPad</string>
+			<key>AutocapitalizationType</key>
+			<string>None</string>
+			<key>AutocorrectionType</key>
+			<string>No</string>
+		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSTextFieldSpecifier</string>
+			<key>Title</key>
+			<string>Max Items For Live Search</string>
+			<key>Key</key>
+			<string>maxNumberLiveFilter</string>
+			<key>DefaultValue</key>
+			<string>1000</string>
 			<key>IsSecure</key>
 			<false/>
 			<key>KeyboardType</key>

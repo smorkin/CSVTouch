@@ -18,7 +18,8 @@
 #define PREFS_SMART_DELIMITER @"smartDelimiter"
 #define PREFS_DELIMITER @"delimiter"
 #define PREFS_SORTING_MASK @"sortingMask"
-#define PREFS_TABLEVIEW_SIZE @"tableViewSize"
+#define PREFS_ITEMS_TABLEVIEW_SIZE @"tableViewSize"
+#define PREFS_DETAILS_TABLEVIEW_SIZE @"detailsTableViewSize"
 #define PREFS_MAX_NUMBER_TO_SORT @"maxNumberOfItemsToSort"
 #define PREFS_ALLOW_ROTATION @"allowRotation"
 #define PREFS_USE_GROUPING_FOR_ITEMS @"useGroupingForItems"
@@ -36,6 +37,7 @@
 #define PREFS_NUMBER_SENSITIVE_SORTING @"numberSensitiveSorting"
 #define PREFS_CASE_SENSITIVE_SORTING @"caseSensitiveSorting"
 #define PREFS_LITERAL_SORTING @"literalSorting"
+#define PREFS_MAX_NUMBER_LIVE_FILTER @"maxNumberLiveFilter"
 
 
 NSUInteger sortingMask;
@@ -100,18 +102,28 @@ NSUInteger sortingMask;
 		return YES;
 }
 
-+ (NSInteger) tableViewSize
++ (NSInteger) itemsTableViewSize
 {
-	NSInteger s = [[NSUserDefaults standardUserDefaults] integerForKey:PREFS_TABLEVIEW_SIZE];
+	NSInteger s = [[NSUserDefaults standardUserDefaults] integerForKey:PREFS_ITEMS_TABLEVIEW_SIZE];
 	if( s < 0 || s > OZY_MINI )
 		return OZY_SMALL;
 	else
 		return s;
 }
 
-+ (BOOL) modifyTableViewSize:(BOOL)increase
++ (NSInteger) detailsTableViewSize
 {
-	int newSize = [self tableViewSize];
+	id obj = [[NSUserDefaults standardUserDefaults] objectForKey:PREFS_DETAILS_TABLEVIEW_SIZE];
+	NSInteger s = [[NSUserDefaults standardUserDefaults] integerForKey:PREFS_DETAILS_TABLEVIEW_SIZE];
+	if( !obj || s < 0 || s > OZY_MINI )
+		return OZY_NORMAL;
+	else
+		return s;
+}
+
++ (BOOL) modifyItemsTableViewSize:(BOOL)increase
+{
+	int newSize = [self itemsTableViewSize];
 	
 	// Stupidly enough the sizes go backwards...
 	if( increase) 
@@ -121,7 +133,7 @@ NSUInteger sortingMask;
 	if( newSize >= OZY_NORMAL && newSize <= OZY_MINI )
 	{
 		[[NSUserDefaults standardUserDefaults] setInteger:newSize
-												   forKey:PREFS_TABLEVIEW_SIZE];
+												   forKey:PREFS_ITEMS_TABLEVIEW_SIZE];
 		return YES;
 	}
 	else
@@ -233,11 +245,21 @@ NSUInteger sortingMask;
 		return YES;
 }
 
++ (NSUInteger) maxNumberOfItemsToLiveFilter
+{
+	id obj = [[NSUserDefaults standardUserDefaults] objectForKey:PREFS_MAX_NUMBER_LIVE_FILTER];
+	if( obj )
+		return [[NSUserDefaults standardUserDefaults] integerForKey:PREFS_MAX_NUMBER_LIVE_FILTER];
+	else
+		return 1000;
+}
+
+
 
 
 + (void) updateSortingMask
 {
-	sortingMask = NSNumericSearch ^ NSCaseInsensitiveSearch;
+	sortingMask = NSNumericSearch ^ NSCaseInsensitiveSearch ^ NSLiteralSearch;
 	id obj;
 	obj = [[NSUserDefaults standardUserDefaults] objectForKey:PREFS_NUMBER_SENSITIVE_SORTING];
 	if( obj && [obj boolValue] == FALSE )

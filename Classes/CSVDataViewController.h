@@ -45,9 +45,11 @@ OzyRotatableViewController;
 
 	// Toolbars
 	IBOutlet UIToolbar *itemsToolbar;
+	IBOutlet UIBarButtonItem *enlargeItemsButton;
+	IBOutlet UIBarButtonItem *shrinkItemsButton;
 	IBOutlet UIBarButtonItem *itemsCountButton;
-	IBOutlet UIBarButtonItem *filesCountButton;
 	IBOutlet UIToolbar *filesToolbar;
+	IBOutlet UIBarButtonItem *filesCountButton;
 	
 	// An array with the current indexes to use for the items
 	NSMutableArray *columnIndexes;
@@ -88,8 +90,6 @@ OzyRotatableViewController;
 
 - (NSArray *) columnIndexes;
 - (int *) rawColumnIndexes;
-
-- (void) setSize:(NSInteger)size;
 
 - (void) applicationWillTerminate;
 - (void) applicationDidFinishLaunchingInEmergencyMode:(BOOL) emergencyMode;

@@ -28,7 +28,7 @@
 			<key>File</key>
 			<string>Sorting</string>
 			<key>Title</key>
-			<string>Sorting</string>
+			<string>Sorting &amp; Searching</string>
 			<key>Type</key>
 			<string>PSChildPaneSpecifier</string>
 		</dict>

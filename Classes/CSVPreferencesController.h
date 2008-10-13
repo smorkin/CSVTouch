@@ -14,7 +14,8 @@
 + (void) applicationDidFinishLaunching;
 
 + (NSString *) delimiter;
-+ (NSInteger) tableViewSize;
++ (NSInteger) itemsTableViewSize;
++ (NSInteger) detailsTableViewSize;
 + (NSStringEncoding) encoding;
 + (BOOL) smartDelimiter;
 + (NSUInteger) maxNumberOfItemsToSort;
@@ -31,11 +32,12 @@
 + (BOOL) useDetailsSwipe;
 + (BOOL) useSwipeAnimation;
 + (BOOL) showInlineImages;
++ (NSUInteger) maxNumberOfItemsToLiveFilter;
 
 + (void) updateSortingMask; // Needs to be called as part of initialization
 + (NSUInteger) sortingMask;
 extern NSUInteger sortingMask; // This is available for performance-critical operations
 
-+ (BOOL) modifyTableViewSize:(BOOL)increase;
++ (BOOL) modifyItemsTableViewSize:(BOOL)increase;
 
 @end

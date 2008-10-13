@@ -8,8 +8,7 @@
 		<string key="IBDocument.HIToolboxVersion">352.00</string>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="515"/>
-			<integer value="499"/>
+			<integer value="226"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -86,7 +85,7 @@
 			<object class="IBUIViewController" id="1067888901"/>
 			<object class="IBUIViewController" id="64250082">
 				<object class="IBUIView" key="IBUIView" id="946984282">
-					<nil key="NSNextResponder"/>
+					<reference key="NSNextResponder"/>
 					<int key="NSvFlags">274</int>
 					<object class="NSMutableArray" key="NSSubviews">
 						<bool key="EncodedWithXMLCoder">YES</bool>
@@ -95,6 +94,7 @@
 							<int key="NSvFlags">290</int>
 							<string key="NSFrameSize">{320, 44}</string>
 							<reference key="NSSuperview" ref="946984282"/>
+							<reference key="NSWindow"/>
 							<bool key="IBUIOpaque">NO</bool>
 							<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
 							<object class="NSMutableArray" key="IBUIItems">
@@ -115,6 +115,7 @@
 							<int key="NSvFlags">288</int>
 							<string key="NSFrame">{{20, 55}, {280, 31}}</string>
 							<reference key="NSSuperview" ref="946984282"/>
+							<reference key="NSWindow"/>
 							<bool key="IBUIOpaque">NO</bool>
 							<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
 							<int key="IBUIContentVerticalAlignment">0</int>
@@ -142,6 +143,7 @@
 							<int key="NSvFlags">274</int>
 							<string key="NSFrame">{{20, 124}, {280, 316}}</string>
 							<reference key="NSSuperview" ref="946984282"/>
+							<reference key="NSWindow"/>
 							<bool key="IBUIOpaque">NO</bool>
 							<bool key="IBUIClipsSubviews">YES</bool>
 							<bool key="IBUIMultipleTouchEnabled">YES</bool>
@@ -152,16 +154,18 @@
 							<float key="IBUIMaximumZoomScale">0.000000e+00</float>
 							<bool key="IBUIBouncesZoom">NO</bool>
 							<bool key="IBUIEditable">NO</bool>
-							<string key="IBUIText"/>
+							<string key="IBUIText">Test</string>
 							<object class="NSFont" key="IBUIFont">
 								<string key="NSName">Helvetica</string>
-								<double key="NSSize">1.100000e+01</double>
+								<double key="NSSize">1.400000e+01</double>
 								<int key="NSfFlags">16</int>
 							</object>
 							<int key="IBUIMarginTop">0</int>
 						</object>
 					</object>
 					<string key="NSFrameSize">{320, 460}</string>
+					<reference key="NSSuperview"/>
+					<reference key="NSWindow"/>
 					<object class="NSColor" key="IBUIBackgroundColor">
 						<int key="NSColorSpace">3</int>
 						<bytes key="NSWhite">MQA</bytes>
@@ -267,12 +271,18 @@
 									<reference key="IBUIToolbar" ref="1032066217"/>
 								</object>
 								<object class="IBUIBarButtonItem" id="183136072">
-									<string key="IBUITitle">-</string>
+									<object class="NSCustomResource" key="IBUIImage">
+										<string key="NSClassName">NSImage</string>
+										<string key="NSResourceName">Small items.png</string>
+									</object>
 									<int key="IBUIStyle">1</int>
 									<reference key="IBUIToolbar" ref="1032066217"/>
 								</object>
 								<object class="IBUIBarButtonItem" id="780618819">
-									<string key="IBUITitle">+</string>
+									<object class="NSCustomResource" key="IBUIImage">
+										<string key="NSClassName">NSImage</string>
+										<string key="NSResourceName">Large items.png</string>
+									</object>
 									<int key="IBUIStyle">1</int>
 									<reference key="IBUIToolbar" ref="1032066217"/>
 								</object>
@@ -318,6 +328,7 @@
 							<int key="NSvFlags">274</int>
 							<string key="NSFrameSize">{320, 416}</string>
 							<reference key="NSSuperview" ref="851060703"/>
+							<reference key="NSWindow"/>
 							<bool key="IBUIOpaque">NO</bool>
 							<bool key="IBUIClipsSubviews">YES</bool>
 							<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
@@ -334,6 +345,7 @@
 							<int key="NSvFlags">266</int>
 							<string key="NSFrame">{{0, 372}, {320, 44}}</string>
 							<reference key="NSSuperview" ref="851060703"/>
+							<reference key="NSWindow"/>
 							<bool key="IBUIOpaque">NO</bool>
 							<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
 							<object class="NSMutableArray" key="IBUIItems">
@@ -374,6 +386,7 @@
 					</object>
 					<string key="NSFrameSize">{320, 416}</string>
 					<reference key="NSSuperview"/>
+					<reference key="NSWindow"/>
 					<object class="NSColor" key="IBUIBackgroundColor">
 						<int key="NSColorSpace">3</int>
 						<bytes key="NSWhite">MQA</bytes>
@@ -382,7 +395,6 @@
 					<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
 				</object>
 				<object class="IBUINavigationItem" key="IBUINavigationItem" id="940789840">
-					<reference key="IBUINavigationBar"/>
 					<string key="IBUITitle">Files</string>
 				</object>
 				<object class="IBUISimulatedStatusBarMetrics" key="IBUISimulatedStatusBarMetrics"/>
@@ -1138,6 +1150,22 @@ A</string>
 					</object>
 					<int key="connectionID">534</int>
 				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">shrinkItemsButton</string>
+						<reference key="source" ref="1067888901"/>
+						<reference key="destination" ref="183136072"/>
+					</object>
+					<int key="connectionID">537</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">enlargeItemsButton</string>
+						<reference key="source" ref="1067888901"/>
+						<reference key="destination" ref="780618819"/>
+					</object>
+					<int key="connectionID">538</int>
+				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<object class="NSArray" key="orderedObjects">
@@ -1796,10 +1824,10 @@ A</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>OzyTableViewController</string>
-					<string>{{170, 263}, {320, 480}}</string>
+					<string>{{583, 262}, {320, 480}}</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>OzyTableViewController</string>
-					<string>{{493, 263}, {320, 480}}</string>
+					<string>{{614, 271}, {320, 480}}</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -1900,7 +1928,7 @@ A</string>
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">534</int>
+			<int key="maxID">538</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -1950,6 +1978,7 @@ A</string>
 							<string>detailsController</string>
 							<string>editController</string>
 							<string>editNavigationBar</string>
+							<string>enlargeItemsButton</string>
 							<string>fancyDetailsController</string>
 							<string>fileController</string>
 							<string>filesCountButton</string>
@@ -1963,12 +1992,14 @@ A</string>
 							<string>previousDetails</string>
 							<string>searchBar</string>
 							<string>searchButton</string>
+							<string>shrinkItemsButton</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>OzyTextViewController</string>
 							<string>OzyTableViewController</string>
 							<string>UINavigationBar</string>
+							<string>UIBarButtonItem</string>
 							<string>OzyTableViewController</string>
 							<string>OzyTableViewController</string>
 							<string>UIBarButtonItem</string>
@@ -1981,6 +2012,7 @@ A</string>
 							<string>OzyTextViewController</string>
 							<string>UIButton</string>
 							<string>UISearchBar</string>
+							<string>UIBarButtonItem</string>
 							<string>UIBarButtonItem</string>
 						</object>
 					</object>

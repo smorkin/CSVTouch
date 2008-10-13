@@ -79,7 +79,7 @@
 @end
 
 #define PIXELS_TO_COUNT_AS_SWIPE 5.0
-#define PIXELS_TO_COUNT_AS_NONSWIPE 32.0
+#define PIXELS_TO_COUNT_AS_NONSWIPE 20.0
 
 @implementation OzyTableView
 

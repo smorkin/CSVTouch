@@ -124,9 +124,9 @@
 			<key>Type</key>
 			<string>PSMultiValueSpecifier</string>
 			<key>Title</key>
-			<string>Items size</string>
+			<string>Enhanced details size</string>
 			<key>Key</key>
-			<string>tableViewSize</string>
+			<string>detailsTableViewSize</string>
 			<key>Titles</key>
 			<array>
 				<string>Normal</string>
@@ -140,7 +140,7 @@
 				<integer>2</integer>
 			</array>
 			<key>DefaultValue</key>
-			<string>2</string>
+			<string>0</string>
 		</dict>
 	</array>
 </dict>

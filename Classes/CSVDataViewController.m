@@ -325,6 +325,14 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
 	return YES;
 }
 
+- (void) validateItemSizeButtons
+{
+	OzyTableViewSize s = [CSVPreferencesController itemsTableViewSize];
+	shrinkItemsButton.enabled = (s == OZY_MINI ? NO : YES);
+	enlargeItemsButton.enabled = (s == OZY_NORMAL? NO : YES);
+}
+
+
 - (NSString *) idForController:(UIViewController *)controller
 {
 	if( controller == fileController )
@@ -446,9 +454,9 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
 	fileController.editable = YES;
 	fileController.size = OZY_NORMAL;
 	itemController.editable = NO;
-	itemController.size = [CSVPreferencesController tableViewSize];
+	itemController.size = [CSVPreferencesController itemsTableViewSize];
 	itemController.useIndexes = [CSVPreferencesController useGroupingForItems];
-	fancyDetailsController.size = [CSVPreferencesController tableViewSize];
+	fancyDetailsController.size = [CSVPreferencesController detailsTableViewSize];
 	detailsController.viewDelegate = self;
 	fancyDetailsController.viewDelegate = self;
 	htmlDetailsController.viewDelegate = self;
@@ -539,24 +547,21 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
 																				  atScrollPosition:UITableViewScrollPositionTop
 																						  animated:NO];
 		}
-	}	
+	}
+	
+	// Enable/Disable item size buttons
+	[self validateItemSizeButtons];
 }
 
-- (void) setSize:(NSInteger)size
+- (void) modifyItemsTableViewSize:(BOOL)increase
 {
-	itemController.size = size;
-	fancyDetailsController.size = size;
-}
-
-- (void) modifyTableViewSize:(BOOL)increase
-{
-	if( [CSVPreferencesController modifyTableViewSize:increase] )
+	if( [CSVPreferencesController modifyItemsTableViewSize:increase] )
 	{
 		NSArray *a = [[itemController tableView] indexPathsForVisibleRows];
 		NSIndexPath *oldIndexPath = nil;	
 		if( [a count] > 0 )
 			oldIndexPath = [a objectAtIndex:0];
-		[self setSize:[CSVPreferencesController tableViewSize]];
+		itemController.size = [CSVPreferencesController itemsTableViewSize];
 		if( oldIndexPath )
 			[itemController.tableView scrollToRowAtIndexPath:oldIndexPath
 			 atScrollPosition:UITableViewScrollPositionTop
@@ -566,12 +571,14 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
 
 - (IBAction) increaseTableViewSize
 {
-	[self modifyTableViewSize:YES];
+	[self modifyItemsTableViewSize:YES];
+	[self validateItemSizeButtons];
 }
 
 - (IBAction) decreaseTableViewSize
 {
-	[self modifyTableViewSize:NO];
+	[self modifyItemsTableViewSize:NO];
+	[self validateItemSizeButtons];
 }
 
 static CSVDataViewController *sharedInstance = nil;
@@ -964,14 +971,14 @@ static CSVDataViewController *sharedInstance = nil;
 	{
 		fileController.removeDisclosure = YES;
 		NSMutableArray *items = [NSMutableArray arrayWithArray:[self.filesToolbar items]];
-		[items replaceObjectAtIndex:4 withObject:[self doneItemWithSelector:@selector(toggleRefreshFiles:)]];
+		[items replaceObjectAtIndex:2 withObject:[self doneItemWithSelector:@selector(toggleRefreshFiles:)]];
 		self.filesToolbar.items = items;
 	}
 	else
 	{
 		fileController.removeDisclosure = NO;
 		NSMutableArray *items = [NSMutableArray arrayWithArray:[self.filesToolbar items]];
-		[items replaceObjectAtIndex:4 withObject:[self refreshFilesItem]];
+		[items replaceObjectAtIndex:2 withObject:[self refreshFilesItem]];
 		self.filesToolbar.items = items;
 	}
 	[fileController dataLoaded];
@@ -1024,9 +1031,6 @@ static CSVDataViewController *sharedInstance = nil;
 
 - (void) searchStart
 {
-	[itemController.navigationItem setRightBarButtonItem:[self doneItemWithSelector:@selector(searchItems:)] animated:YES];
-	[itemController.navigationItem setHidesBackButton:YES animated:YES];
-
 	[UIView beginAnimations:nil context:NULL];
 	[UIView setAnimationDuration:0.5];
 	CGRect searchFrame = self.searchBar.frame;
@@ -1040,6 +1044,9 @@ static CSVDataViewController *sharedInstance = nil;
 	[itemController.view addSubview:self.searchBar];	
 	[UIView commitAnimations];
 
+	[itemController.navigationItem setRightBarButtonItem:[self doneItemWithSelector:@selector(searchItems:)] animated:YES];
+	[itemController.navigationItem setHidesBackButton:YES animated:YES];
+	
 	[self.searchBar becomeFirstResponder];
 }
 
@@ -1061,7 +1068,7 @@ static CSVDataViewController *sharedInstance = nil;
 
 - (void)searchBar:(UISearchBar *)modifiedSearchBar textDidChange:(NSString *)searchText
 {
-	if( [[itemController objects] count] < 1000 )
+	if( [[currentFile itemsWithResetShortdescriptions:NO] count] < [CSVPreferencesController maxNumberOfItemsToLiveFilter] )
 		[self refreshObjectsWithResorting:NO];
 	else
 		itemsNeedFiltering = YES;
@@ -1132,7 +1139,7 @@ static CSVDataViewController *sharedInstance = nil;
 		{
 			[UIView beginAnimations:nil context:NULL];
 			[UIView setAnimationDuration:0.25];
-			[[[self currentDetailsController] view] setAlpha:0];
+			[[[self currentDetailsController] view] setAlpha:0.5];
 			[UIView commitAnimations];
 			[UIView beginAnimations:nil context:NULL];
 			[UIView setAnimationDuration:0.25];
@@ -1152,7 +1159,7 @@ static CSVDataViewController *sharedInstance = nil;
 		{
 			[UIView beginAnimations:nil context:NULL];
 			[UIView setAnimationDuration:0.25];
-			[[[self currentDetailsController] view] setAlpha:0];
+			[[[self currentDetailsController] view] setAlpha:0.5];
 			[UIView commitAnimations];
 			[UIView beginAnimations:nil context:NULL];
 			[UIView setAnimationDuration:0.25];
