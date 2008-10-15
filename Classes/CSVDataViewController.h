@@ -95,4 +95,6 @@ OzyRotatableViewController;
 - (void) applicationDidFinishLaunchingInEmergencyMode:(BOOL) emergencyMode;
 
 - (CSVFileParser *) currentFile;
+
+- (int) numberOfFiles;
 @end

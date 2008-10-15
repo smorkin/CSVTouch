@@ -93,7 +93,7 @@ static CSV_TouchAppDelegate *sharedInstance = nil;
 	if( savedNewFileURL && ![savedNewFileURL isEqualToString:@""] )
 		newFileURL.text = savedNewFileURL;
 	else
-		newFileURL.text = @"http//";
+		newFileURL.text = @"http://";
 	newFileURL.clearButtonMode = UITextFieldViewModeWhileEditing;
 	
 	if( [CSVPreferencesController useBlackTheme] )
@@ -112,6 +112,21 @@ static CSV_TouchAppDelegate *sharedInstance = nil;
 		
 	[window addSubview:[[self dataController] view]];
 	[window makeKeyAndVisible];
+	
+	// Show the Add file window in case no files are present
+	if( [[self dataController] numberOfFiles] == 0 )
+		[self downloadNewFile:self];
+	else if( ![[NSUserDefaults standardUserDefaults] boolForKey:@"hasShown2.0Info"] )
+	{
+		[[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"hasShown2.0Info"];
+		UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Version 2.0"
+														 message:@"Lots of things have changed in version 2.0. All major settings have been migrated from earlier version, but a few minor ones can't be migrated. Please check CSV Touch settings if something seems strange to you (description for all settings can be found at http://www.ozymandias.se).\nAll feedback is appreciated. Many of the changes are to ensure new features can be added in the future in a good way. Other changes are to make things easier to work with, e.g. searching for items." 
+														delegate:self
+											   cancelButtonTitle:@"OK"
+											   otherButtonTitles:nil] autorelease];
+		[alert show];
+		
+	}
 }
 
 
@@ -152,6 +167,7 @@ static CSV_TouchAppDelegate *sharedInstance = nil;
 	[connection release];
 	connection = nil;
 	[self slowActivityCompleted];
+	[newFileURL resignFirstResponder];
 	[[self dataController] dismissModalViewControllerAnimated:YES];
 }
 
@@ -247,7 +263,7 @@ static CSV_TouchAppDelegate *sharedInstance = nil;
 - (IBAction) doDownloadNewFile:(id)sender
 {
 	[newFileURL endEditing:YES];
-	[self slowActivityStartedInViewController:downloadNewFileController];
+	[self slowActivityStarted];
 	[self startDownloadUsingURL:[NSURL URLWithString:[newFileURL text]]];
 }
 
@@ -258,7 +274,7 @@ static CSV_TouchAppDelegate *sharedInstance = nil;
 
 - (void) downloadFileWithString:(NSString *)URL
 {
-	[self slowActivityStartedInViewController:[self dataController]];
+	[self slowActivityStarted];
 	[self startDownloadUsingURL:[NSURL URLWithString:[URL stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
 
 	// Update this if you want to download a file from a similar URL later on
@@ -292,10 +308,10 @@ static CSV_TouchAppDelegate *sharedInstance = nil;
 	return NO;
 }
 
-- (void) slowActivityStartedInViewController:(UIViewController *)viewController
+- (void) slowActivityStarted
 {
-	activityView.frame = viewController.view.frame;
-	[viewController.view addSubview:activityView];
+	activityView.frame = [[UIScreen mainScreen] applicationFrame];
+	[window addSubview:activityView];
 	[fileParsingActivityView startAnimating];
 }
 

@@ -38,6 +38,7 @@
 #define PREFS_CASE_SENSITIVE_SORTING @"caseSensitiveSorting"
 #define PREFS_LITERAL_SORTING @"literalSorting"
 #define PREFS_MAX_NUMBER_LIVE_FILTER @"maxNumberLiveFilter"
+#define PREFS_CLEAR_SEARCH_WHEN_QUICK_SELECTING @"clearSearchWhenQuickSelecting"
 
 
 NSUInteger sortingMask;
@@ -87,12 +88,6 @@ NSUInteger sortingMask;
 	return s;
 }
 
-//+ (void) setDelimiter:(NSString *)s
-//{
-//	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-//	[defaults setObject:s forKey:PREFS_DELIMITER];
-//}
-//
 + (BOOL) smartDelimiter
 {
 	id obj = [[NSUserDefaults standardUserDefaults] objectForKey:PREFS_SMART_DELIMITER];
@@ -251,10 +246,17 @@ NSUInteger sortingMask;
 	if( obj )
 		return [[NSUserDefaults standardUserDefaults] integerForKey:PREFS_MAX_NUMBER_LIVE_FILTER];
 	else
-		return 1000;
+		return 1500;
 }
 
-
++ (BOOL) clearSearchWhenQuickSelecting
+{
+	id obj = [[NSUserDefaults standardUserDefaults] objectForKey:PREFS_CLEAR_SEARCH_WHEN_QUICK_SELECTING];
+	if( obj )
+		return [[NSUserDefaults standardUserDefaults] boolForKey:PREFS_CLEAR_SEARCH_WHEN_QUICK_SELECTING];
+	else
+		return YES;
+}
 
 
 + (void) updateSortingMask

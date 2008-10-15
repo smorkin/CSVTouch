@@ -49,7 +49,7 @@ OzymandiasApplicationDelegate> {
 - (void) downloadFileWithString:(NSString *)URL;
 - (void) showFileInfo:(CSVFileParser *)fp;
 
-- (void) slowActivityStartedInViewController:(UIViewController *)viewController;
+- (void) slowActivityStarted;
 - (void) slowActivityCompleted;
 
 @end

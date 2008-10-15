@@ -68,7 +68,7 @@
 			<key>Type</key>
 			<string>PSToggleSwitchSpecifier</string>
 			<key>Title</key>
-			<string>Status Bar</string>
+			<string>Top Status Bar</string>
 			<key>Key</key>
 			<string>showStatusBar</string>
 			<key>DefaultValue</key>

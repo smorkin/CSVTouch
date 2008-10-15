@@ -33,6 +33,7 @@
 + (BOOL) useSwipeAnimation;
 + (BOOL) showInlineImages;
 + (NSUInteger) maxNumberOfItemsToLiveFilter;
++ (BOOL) clearSearchWhenQuickSelecting;
 
 + (void) updateSortingMask; // Needs to be called as part of initialization
 + (NSUInteger) sortingMask;
