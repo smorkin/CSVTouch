@@ -18,13 +18,13 @@
 		F41233A50DE4AD64005E355F /* msgno.c in Sources */ = {isa = PBXBuildFile; fileRef = F41233A10DE4AD64005E355F /* msgno.c */; };
 		F4174D150E40A4A200351EE4 /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = F4174D140E40A4A200351EE4 /* icon.png */; };
 		F42D908E0DE95538001A2E5C /* CSVDataViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F42D908D0DE95538001A2E5C /* CSVDataViewController.m */; };
-		F450882D0EA3CBDC0097CC3E /* Large items.png in Resources */ = {isa = PBXBuildFile; fileRef = F450882B0EA3CBDC0097CC3E /* Large items.png */; };
-		F450882E0EA3CBDC0097CC3E /* Small items.png in Resources */ = {isa = PBXBuildFile; fileRef = F450882C0EA3CBDC0097CC3E /* Small items.png */; };
 		F451F1810E99146300F22ED9 /* info.png in Resources */ = {isa = PBXBuildFile; fileRef = F451F1800E99146300F22ED9 /* info.png */; };
 		F473432E0E2A90B20072F3DE /* col.png in Resources */ = {isa = PBXBuildFile; fileRef = F473432C0E2A90B20072F3DE /* col.png */; };
 		F473432F0E2A90B20072F3DE /* row.png in Resources */ = {isa = PBXBuildFile; fileRef = F473432D0E2A90B20072F3DE /* row.png */; };
 		F47819850E2BDE7A00B44E78 /* CSVPreferencesController.m in Sources */ = {isa = PBXBuildFile; fileRef = F47819840E2BDE7A00B44E78 /* CSVPreferencesController.m */; };
 		F48836580DF53E2C0063EF75 /* CSVFileParser.m in Sources */ = {isa = PBXBuildFile; fileRef = F48836570DF53E2C0063EF75 /* CSVFileParser.m */; };
+		F49218550EA7AC7400E74493 /* 2lines.png in Resources */ = {isa = PBXBuildFile; fileRef = F49218530EA7AC7400E74493 /* 2lines.png */; };
+		F49218560EA7AC7400E74493 /* 4lines.png in Resources */ = {isa = PBXBuildFile; fileRef = F49218540EA7AC7400E74493 /* 4lines.png */; };
 		F4990C170E4276C500D64667 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = F4990C160E4276C500D64667 /* Settings.bundle */; };
 		F4A73D1B0E2EB49200E1DF27 /* OzymandiasAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F4A73D1A0E2EB49200E1DF27 /* OzymandiasAdditions.m */; };
 		F4AE44870DF469BF001197AB /* CSVRow.m in Sources */ = {isa = PBXBuildFile; fileRef = F4AE44860DF469BF001197AB /* CSVRow.m */; };
@@ -62,8 +62,6 @@
 		F4174D440E40F9D400351EE4 /* Large comma.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = "Large comma.tif"; sourceTree = "<group>"; };
 		F42D908C0DE95538001A2E5C /* CSVDataViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSVDataViewController.h; sourceTree = "<group>"; };
 		F42D908D0DE95538001A2E5C /* CSVDataViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSVDataViewController.m; sourceTree = "<group>"; };
-		F450882B0EA3CBDC0097CC3E /* Large items.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Large items.png"; sourceTree = "<group>"; };
-		F450882C0EA3CBDC0097CC3E /* Small items.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Small items.png"; sourceTree = "<group>"; };
 		F451F1800E99146300F22ED9 /* info.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = info.png; sourceTree = "<group>"; };
 		F473432C0E2A90B20072F3DE /* col.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = col.png; sourceTree = "<group>"; };
 		F473432D0E2A90B20072F3DE /* row.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = row.png; sourceTree = "<group>"; };
@@ -71,6 +69,8 @@
 		F47819840E2BDE7A00B44E78 /* CSVPreferencesController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSVPreferencesController.m; sourceTree = "<group>"; };
 		F48836560DF53E2C0063EF75 /* CSVFileParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSVFileParser.h; sourceTree = "<group>"; };
 		F48836570DF53E2C0063EF75 /* CSVFileParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSVFileParser.m; sourceTree = "<group>"; };
+		F49218530EA7AC7400E74493 /* 2lines.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 2lines.png; sourceTree = "<group>"; };
+		F49218540EA7AC7400E74493 /* 4lines.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 4lines.png; sourceTree = "<group>"; };
 		F4990C160E4276C500D64667 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		F4A73D190E2EB49200E1DF27 /* OzymandiasAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OzymandiasAdditions.h; sourceTree = "<group>"; };
 		F4A73D1A0E2EB49200E1DF27 /* OzymandiasAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OzymandiasAdditions.m; sourceTree = "<group>"; };
@@ -172,8 +172,8 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				F450882B0EA3CBDC0097CC3E /* Large items.png */,
-				F450882C0EA3CBDC0097CC3E /* Small items.png */,
+				F49218530EA7AC7400E74493 /* 2lines.png */,
+				F49218540EA7AC7400E74493 /* 4lines.png */,
 				F413FF810E648C93006C7348 /* Description.rtf */,
 				F4E928750E4EE808006165B0 /* Default.png */,
 				F4174D140E40A4A200351EE4 /* icon.png */,
@@ -263,8 +263,8 @@
 				F4BE8AB10E4503AC00F2A27B /* dist.plist in Resources */,
 				F4E928760E4EE808006165B0 /* Default.png in Resources */,
 				F451F1810E99146300F22ED9 /* info.png in Resources */,
-				F450882D0EA3CBDC0097CC3E /* Large items.png in Resources */,
-				F450882E0EA3CBDC0097CC3E /* Small items.png in Resources */,
+				F49218550EA7AC7400E74493 /* 2lines.png in Resources */,
+				F49218560EA7AC7400E74493 /* 4lines.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

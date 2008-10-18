@@ -78,20 +78,17 @@
 
 @end
 
-#define PIXELS_TO_COUNT_AS_SWIPE 5.0
-#define PIXELS_TO_COUNT_AS_NONSWIPE 20.0
-
 @implementation OzyTableView
 
 - (void) dispatchSwipe:(UITouch *)finalTouch
 {
 	CGPoint endSwipePoint = [finalTouch locationInView:self];
-	if( beginSwipePoint.x - endSwipePoint.x > PIXELS_TO_COUNT_AS_SWIPE &&
-	   fabs(beginSwipePoint.y - endSwipePoint.y) < PIXELS_TO_COUNT_AS_NONSWIPE &&
+	if( beginSwipePoint.x - endSwipePoint.x > 5 &&
+	   fabs(beginSwipePoint.y - endSwipePoint.y) < 20 &&
 	   [self.delegate respondsToSelector:@selector(rightSwipe:)] )
 		[(id <OzyViewDelegate>)self.delegate rightSwipe:self];
-	else if( endSwipePoint.x - beginSwipePoint.x > PIXELS_TO_COUNT_AS_SWIPE &&
-			fabs(beginSwipePoint.y - endSwipePoint.y) < PIXELS_TO_COUNT_AS_NONSWIPE &&
+	else if( endSwipePoint.x - beginSwipePoint.x > 5 &&
+			fabs(beginSwipePoint.y - endSwipePoint.y) < 20 &&
 			[self.delegate respondsToSelector:@selector(leftSwipe:)] )
 		[(id <OzyViewDelegate>)self.delegate leftSwipe:self];
 }
@@ -137,10 +134,12 @@
 - (void) dispatchSwipe:(UITouch *)finalTouch
 {
 	CGPoint endSwipePoint = [finalTouch locationInView:self];
-	if( beginSwipePoint.x - endSwipePoint.x > PIXELS_TO_COUNT_AS_SWIPE &&
+	if( beginSwipePoint.x - endSwipePoint.x > 80 &&
+	   fabs(beginSwipePoint.y - endSwipePoint.y) < 50 &&
 	   [self.delegate respondsToSelector:@selector(rightSwipe:)] )
 		[(id <OzyViewDelegate>)self.delegate rightSwipe:self];
-	else if( endSwipePoint.x - beginSwipePoint.x > PIXELS_TO_COUNT_AS_SWIPE &&
+	else if( endSwipePoint.x - beginSwipePoint.x > 80 &&
+			fabs(beginSwipePoint.y - endSwipePoint.y) < 50 &&
 			[self.delegate respondsToSelector:@selector(leftSwipe:)] )
 		[(id <OzyViewDelegate>)self.delegate leftSwipe:self];
 }
@@ -186,13 +185,16 @@
 - (void) dispatchSwipe:(UITouch *)finalTouch
 {
 	CGPoint endSwipePoint = [finalTouch locationInView:self];
-	if( beginSwipePoint.x - endSwipePoint.x > PIXELS_TO_COUNT_AS_SWIPE &&
+	if( beginSwipePoint.x - endSwipePoint.x > 80 &&
+	   fabs(beginSwipePoint.y - endSwipePoint.y) < 50 &&
 	   [self.delegate respondsToSelector:@selector(rightSwipe:)] )
 		[(id <OzyViewDelegate>)self.delegate rightSwipe:self];
-	else if( endSwipePoint.x - beginSwipePoint.x > PIXELS_TO_COUNT_AS_SWIPE &&
+	else if( endSwipePoint.x - beginSwipePoint.x > 80 &&
+			fabs(beginSwipePoint.y - endSwipePoint.y) < 50 &&
 			[self.delegate respondsToSelector:@selector(leftSwipe:)] )
 		[(id <OzyViewDelegate>)self.delegate leftSwipe:self];
 }
+
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
 	[super touchesBegan:touches withEvent:event];

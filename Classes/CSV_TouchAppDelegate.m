@@ -115,10 +115,11 @@ static CSV_TouchAppDelegate *sharedInstance = nil;
 	
 	// Show the Add file window in case no files are present
 	if( [[self dataController] numberOfFiles] == 0 )
+	{
 		[self downloadNewFile:self];
+	}
 	else if( ![[NSUserDefaults standardUserDefaults] boolForKey:@"hasShown2.0Info"] )
 	{
-		[[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"hasShown2.0Info"];
 		UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Version 2.0"
 														 message:@"Lots of things have changed in version 2.0. All major settings have been migrated from earlier version, but a few minor ones can't be migrated. Please check CSV Touch settings if something seems strange to you (description for all settings can be found at http://www.ozymandias.se).\nAll feedback is appreciated. Many of the changes are to ensure new features can be added in the future in a good way. Other changes are to make things easier to work with, e.g. searching for items." 
 														delegate:self
@@ -127,6 +128,7 @@ static CSV_TouchAppDelegate *sharedInstance = nil;
 		[alert show];
 		
 	}
+	[[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"hasShown2.0Info"];
 }
 
 
@@ -226,7 +228,7 @@ static CSV_TouchAppDelegate *sharedInstance = nil;
 		[dateFormatter setTimeStyle:NSDateFormatterShortStyle];
 		[s appendFormat:@"Size: %.2f KB\n\n", ((double)[[fileAttributes objectForKey:NSFileSize] longLongValue]) / 1024.0];
 		[s appendFormat:@"Downloaded: %@\n\n", 
-		 (fp.downloadDate ? [dateFormatter stringFromDate:fp.downloadDate] : @"Not available")];
+		 (fp.downloadDate ? [dateFormatter stringFromDate:fp.downloadDate] : @"Available after next download")];
 		[s appendFormat:@"File: %@\n\n", fp.filePath];
 		fileInfo.text = s;
 	}
