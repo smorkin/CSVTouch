@@ -305,54 +305,29 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = CSV_Touch_Prefix.pch;
 				INFOPLIST_FILE = Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 2.1;
 				PRODUCT_NAME = "CSV Touch";
+				PROVISIONING_PROFILE = DefaultProfileUuid;
 			};
 			name = Debug;
-		};
-		1D6058950D05DD3E006BFB54 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				COPY_PHASE_STRIP = YES;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = CSV_Touch_Prefix.pch;
-				INFOPLIST_FILE = Info.plist;
-				PRODUCT_NAME = "CSV Touch";
-			};
-			name = Release;
 		};
 		C01FCF4F08A954540054247B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Simon Wigzell";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "\"$SRCROOT\"/**";
+				IPHONEOS_DEPLOYMENT_TARGET = 2.1;
 				ONLY_ACTIVE_ARCH = YES;
 				PREBINDING = NO;
-				PROVISIONING_PROFILE = "911D6304-ECE4-4D13-94C9-5788FD1C6D9D";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "911D6304-ECE4-4D13-94C9-5788FD1C6D9D";
-				SDKROOT = iphoneos2.0;
+				PROVISIONING_PROFILE = DefaultProfileUuid;
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = DefaultProfileUuid;
+				SDKROOT = iphonesimulator2.1;
 			};
 			name = Debug;
-		};
-		C01FCF5008A954540054247B /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Simon Wigzell";
-				GCC_C_LANGUAGE_STANDARD = c99;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = "\"$SRCROOT\"/**";
-				PREBINDING = NO;
-				PROVISIONING_PROFILE = "911D6304-ECE4-4D13-94C9-5788FD1C6D9D";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "911D6304-ECE4-4D13-94C9-5788FD1C6D9D";
-				SDKROOT = iphoneos2.0;
-			};
-			name = Release;
 		};
 		F40C24330E3259B500C3B20E /* Distribution */ = {
 			isa = XCBuildConfiguration;
@@ -363,10 +338,11 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "\"$SRCROOT\"/**";
+				IPHONEOS_DEPLOYMENT_TARGET = 2.1;
 				PREBINDING = NO;
 				PROVISIONING_PROFILE = "FEF5E015-E029-430B-87A0-DB6A4AB7508B";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "FEF5E015-E029-430B-87A0-DB6A4AB7508B";
-				SDKROOT = iphoneos2.0;
+				SDKROOT = iphoneos2.1;
 			};
 			name = Distribution;
 		};
@@ -379,6 +355,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = CSV_Touch_Prefix.pch;
 				INFOPLIST_FILE = Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 2.1;
 				PRODUCT_NAME = "CSV Touch";
 			};
 			name = Distribution;
@@ -393,10 +370,11 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "\"$SRCROOT\"/**";
+				IPHONEOS_DEPLOYMENT_TARGET = 2.1;
 				PREBINDING = NO;
 				PROVISIONING_PROFILE = "FD903CDE-BF61-4E6F-BBA6-3F38E0CC93B7";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "FD903CDE-BF61-4E6F-BBA6-3F38E0CC93B7";
-				SDKROOT = iphoneos2.0;
+				SDKROOT = iphoneos2.1;
 			};
 			name = Privatdistribution;
 		};
@@ -410,6 +388,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = CSV_Touch_Prefix.pch;
 				INFOPLIST_FILE = Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 2.1;
 				PRODUCT_NAME = "CSV Touch";
 				PROVISIONING_PROFILE = "FD903CDE-BF61-4E6F-BBA6-3F38E0CC93B7";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "FD903CDE-BF61-4E6F-BBA6-3F38E0CC93B7";
@@ -423,23 +402,21 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1D6058940D05DD3E006BFB54 /* Debug */,
-				1D6058950D05DD3E006BFB54 /* Release */,
 				F40C24340E3259B500C3B20E /* Distribution */,
 				F4BE8A990E44FF1100F2A27B /* Privatdistribution */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 		C01FCF4E08A954540054247B /* Build configuration list for PBXProject "CSV Touch" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C01FCF4F08A954540054247B /* Debug */,
-				C01FCF5008A954540054247B /* Release */,
 				F40C24330E3259B500C3B20E /* Distribution */,
 				F4BE8A980E44FF1100F2A27B /* Privatdistribution */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
 	};

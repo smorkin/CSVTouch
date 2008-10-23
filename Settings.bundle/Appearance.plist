@@ -124,7 +124,7 @@
 			<key>Type</key>
 			<string>PSMultiValueSpecifier</string>
 			<key>Title</key>
-			<string>Enhanced details size</string>
+			<string>Enhanced Details Size</string>
 			<key>Key</key>
 			<string>detailsTableViewSize</string>
 			<key>Titles</key>
