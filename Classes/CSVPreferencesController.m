@@ -258,6 +258,15 @@ NSUInteger sortingMask;
 		return YES;
 }
 
++ (BOOL) liteVersionRunning
+{
+#ifdef CSV_LITE
+	return YES;
+#else
+	return NO;
+#endif
+}
+
 
 + (void) updateSortingMask
 {

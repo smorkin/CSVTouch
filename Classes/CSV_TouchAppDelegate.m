@@ -195,8 +195,23 @@ static CSV_TouchAppDelegate *sharedInstance = nil;
 	fp.filePath = [[CSV_TouchAppDelegate documentsPath] stringByAppendingPathComponent:[[newFileURL text] lastPathComponent]];
 	fp.URL = [newFileURL text]; 
 	fp.downloadDate = [NSDate date];
-	[fp saveToFile];
-	[[self dataController] newFileDownloaded:fp];
+	
+	if( [[self dataController] numberOfFiles] > 0 &&
+	   ![[self dataController] fileExistsWithURL:fp.URL] &&
+	   [CSVPreferencesController liteVersionRunning] )
+	{
+		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Only 1 file allowed"
+														message:@"CSV Lite only allows 1 file; please delete the old one before downloading a new. Or buy CSV Touch :-)"
+													   delegate:self
+											  cancelButtonTitle:@"OK"
+											  otherButtonTitles:nil];
+		[alert show];
+	}
+	else
+	{
+		[fp saveToFile];
+		[[self dataController] newFileDownloaded:fp];
+	}
 	[fp release];
 	[rawData release];
 	rawData = nil;

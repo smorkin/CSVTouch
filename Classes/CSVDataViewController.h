@@ -96,5 +96,7 @@ OzyRotatableViewController;
 
 - (CSVFileParser *) currentFile;
 
+// For CSV_TouchAppDelegate
 - (int) numberOfFiles;
+- (BOOL) fileExistsWithURL:(NSString *)URL;
 @end

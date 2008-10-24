@@ -19,6 +19,8 @@
 #define OBJECTS_ID @"objectsID"
 #define DETAILS_ID @"detailsID"
 
+#define MAX_ITEMS_IN_LITE_VERSION 75
+
 @interface NSString (FancyDetailsComparison)
 - (NSComparisonResult) compareFancyDetails:(NSString *)s;
 @end
@@ -46,6 +48,15 @@
 	return [[fileController objects] count];
 }
 
+- (BOOL) fileExistsWithURL:(NSString *)URL
+{
+	for( CSVFileParser *fp in [fileController objects] )
+	{
+		if( [fp.URL isEqualToString:URL] )
+			return YES;
+	}
+	return NO;
+}
 
 - (void) refreshObjectsWithResorting:(BOOL)needsResorting
 {
@@ -85,6 +96,9 @@
 		workObjects = allObjects;
 	}
 	
+	if( [CSVPreferencesController liteVersionRunning] && [workObjects count] > MAX_ITEMS_IN_LITE_VERSION )
+		[workObjects removeObjectsInRange:NSMakeRange(MAX_ITEMS_IN_LITE_VERSION, [workObjects count] - MAX_ITEMS_IN_LITE_VERSION)];
+
 	[itemController setObjects:workObjects];
 	[itemController dataLoaded];
 }

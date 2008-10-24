@@ -34,6 +34,7 @@
 + (BOOL) showInlineImages;
 + (NSUInteger) maxNumberOfItemsToLiveFilter;
 + (BOOL) clearSearchWhenQuickSelecting;
++ (BOOL) liteVersionRunning;
 
 + (void) updateSortingMask; // Needs to be called as part of initialization
 + (NSUInteger) sortingMask;
