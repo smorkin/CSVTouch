@@ -51,6 +51,10 @@ OzyRotatableViewController;
 	IBOutlet UIToolbar *filesToolbar;
 	IBOutlet UIBarButtonItem *filesCountButton;
 	
+	// Need to remember this when "Leave CSV Touch"-sheet returns
+	UIAlertView *leaveAppView;
+	NSURL *leaveAppURL;
+	
 	// An array with the current indexes to use for the items
 	NSMutableArray *columnIndexes;
 	int *rawColumnIndexes;
@@ -64,6 +68,7 @@ OzyRotatableViewController;
 @property (nonatomic, readonly) UIToolbar *itemsToolbar;
 @property (nonatomic, readonly) UIToolbar *filesToolbar;
 @property (nonatomic, readonly) UISearchBar *searchBar;
+@property (nonatomic, copy) NSURL *leaveAppURL;
 
 + (CSVDataViewController *) sharedInstance;
 

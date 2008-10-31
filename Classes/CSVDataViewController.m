@@ -37,6 +37,7 @@
 @synthesize itemsToolbar;
 @synthesize filesToolbar;
 @synthesize searchBar;
+@synthesize leaveAppURL;
 
 - (CSVFileParser *) currentFile
 {
@@ -326,9 +327,34 @@
 	[self updateBadgeValueUsingItem:[[self currentDetailsController] navigationItem] push:YES];
 }
 
+- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
+{
+	if( [alertView isEqual:leaveAppView] )
+	{
+		if( buttonIndex == 1 && leaveAppURL )
+			[[UIApplication sharedApplication] openURL:leaveAppURL];
+		[leaveAppView release];
+		leaveAppView = nil;
+		self.leaveAppURL = nil;
+	}
+}	
+
 - (void) delayedHtmlClick:(NSURL *)URL
 {
-	[[UIApplication sharedApplication] openURL:URL];
+	if( [CSVPreferencesController confirmLink] )
+	{
+		self.leaveAppURL = URL;
+		leaveAppView = [[UIAlertView alloc] initWithTitle:@"Leave CSV Touch?"
+														message:[NSString stringWithFormat:@"Continue opening %@", [self.leaveAppURL absoluteString]]
+													   delegate:self
+											  cancelButtonTitle:@"Cancel"
+											  otherButtonTitles:@"Leave", nil];
+		[leaveAppView show];
+	}
+	else
+	{
+		[[UIApplication sharedApplication] openURL:URL];
+	}
 }
 
 - (BOOL)webView:(UIWebView *)webView

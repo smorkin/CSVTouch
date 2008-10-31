@@ -23,10 +23,10 @@ Requests & Bugs
 - Parsa efter 404-meddelande
 - Diacritic search
 - Bugg med när inte Literal search på så hamnar a,å,ä huller om buller
-- Confirmation för mail/web/osv...
 
 Fixed
 
+- Confirmation för mail/web/osv...
 - Fixa html-view el.dyl. för details
 - Navigation i details view (acceleration?)
 - No sorting for items: Solved; use Max Items To Sort = 1
