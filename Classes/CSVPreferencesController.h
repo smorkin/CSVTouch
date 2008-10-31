@@ -35,6 +35,8 @@
 + (NSUInteger) maxNumberOfItemsToLiveFilter;
 + (BOOL) clearSearchWhenQuickSelecting;
 + (BOOL) confirmLink;
++ (BOOL) alignHtml;
+
 + (BOOL) liteVersionRunning;
 
 + (void) updateSortingMask; // Needs to be called as part of initialization

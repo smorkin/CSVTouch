@@ -9,10 +9,6 @@ Requests & Bugs
 - Tabbad text i items view
 - Editerbart data
 - Importera filer via Bonjour + lokalt nätverk
-- Ha settings för Bold column, Links, Aligna kolumnnamn höger men data vänster (kanske via html-kod <table>):
-       Field Name 1 | Data
-            Field 2 | Data 2
-                 F3 | Data three
 - Ignorera "The" när sorterar, osv
 - CSV i mail attachment: Öppna
 - Möjligt göra fonten mindre men raderna lika höga
@@ -36,6 +32,10 @@ Fixed
 - Spara senaste adress när quittar
 - Mindre känslig swipe / Prefs?
 - När klickar på Items/Files i tab bar i details view, så åker vi tillbaka  till root controller, men notifieringen fel i badgen
+- Ha settings för Bold column, Links, Aligna kolumnnamn höger men data vänster (kanske via html-kod <table>):
+       Field Name 1 | Data
+            Field 2 | Data 2
+                 F3 | Data three
 
 
 Kind of fixed...

@@ -287,23 +287,47 @@
 
 - (void) updateHtmlViewWithItem:(CSVRow *)item
 {
+	BOOL useTable = [CSVPreferencesController alignHtml];
+	
 	NSMutableString *s = [NSMutableString string];
-	[s appendFormat:@"<html><head><title>Details</title></head><body>"];
-	[s appendFormat:@"<p><font size=\"+5\">"];
+		[s appendFormat:@"<html><head><title>Details</title></head><body font size=\"+5\">"];
+	if( useTable )
+		[s appendString:@"<table border=\"0\" width=\"100%\">"];
+	else
+		[s appendFormat:@"<p><font size=\"+5\">"];
 	NSArray *columnsAndValues = [item columnsAndValues];
 	for( NSDictionary *d in columnsAndValues )
 	{
-		[s appendFormat:@"<b>%@</b>: ", [d objectForKey:COLUMN_KEY]];
-		if( [[d objectForKey:VALUE_KEY] containsImageURL] && [CSVPreferencesController showInlineImages] )
-			[s appendFormat:@"<br><img src=\"%@\"><br>", [d objectForKey:VALUE_KEY]];
-		else if( [[d objectForKey:VALUE_KEY] containsURL] )
-			[s appendFormat:@"<a href=\"%@\">%@</a><br>", [d objectForKey:VALUE_KEY], [d objectForKey:VALUE_KEY]];
-		else if( [[d objectForKey:VALUE_KEY] containsMailAddress] )
-			[s appendFormat:@"<a href=\"mailto:%@\">%@</a><br>", [d objectForKey:VALUE_KEY], [d objectForKey:VALUE_KEY]];
+		if( useTable )
+		{
+			[s appendFormat:@"<tr><td valign=\"top\"><font size=\"+5\"><b>%@:</b>", [d objectForKey:COLUMN_KEY]];
+			if( [[d objectForKey:VALUE_KEY] containsImageURL] && [CSVPreferencesController showInlineImages] )
+				[s appendFormat:@"<td><font size=\"+5\"><img src=\"%@\">", [d objectForKey:VALUE_KEY]];
+			else if( [[d objectForKey:VALUE_KEY] containsURL] )
+				[s appendFormat:@"<td><font size=\"+5\"><a href=\"%@\">%@</a>", [d objectForKey:VALUE_KEY], [d objectForKey:VALUE_KEY]];
+			else if( [[d objectForKey:VALUE_KEY] containsMailAddress] )
+			[s appendFormat:@"<td><font size=\"+5\"><a href=\"mailto:%@\">%@</a>", [d objectForKey:VALUE_KEY], [d objectForKey:VALUE_KEY]];
+			else
+				[s appendFormat:@"<td><font size=\"+5\">%@", [d objectForKey:VALUE_KEY]];
+			[s appendString:@"</font>"];
+		}
 		else
-			[s appendFormat:@"%@<br>", [d objectForKey:VALUE_KEY]];
+		{
+			[s appendFormat:@"<b>%@</b>: ", [d objectForKey:COLUMN_KEY]];
+			if( [[d objectForKey:VALUE_KEY] containsImageURL] && [CSVPreferencesController showInlineImages] )
+				[s appendFormat:@"<br><img src=\"%@\"><br>", [d objectForKey:VALUE_KEY]];
+			else if( [[d objectForKey:VALUE_KEY] containsURL] )
+				[s appendFormat:@"<a href=\"%@\">%@</a><br>", [d objectForKey:VALUE_KEY], [d objectForKey:VALUE_KEY]];
+			else if( [[d objectForKey:VALUE_KEY] containsMailAddress] )
+				[s appendFormat:@"<a href=\"mailto:%@\">%@</a><br>", [d objectForKey:VALUE_KEY], [d objectForKey:VALUE_KEY]];
+			else
+				[s appendFormat:@"%@<br>", [d objectForKey:VALUE_KEY]];
+		}
 	}
-	[s appendFormat:@"</p>"];
+	if( useTable )
+		[s appendFormat:@"</table>"];
+	else
+		[s appendFormat:@"</p>"];
 	[s appendFormat:@"</body></html>"];
 	[s replaceOccurrencesOfString:@"\n" 
 					   withString:@"<br>" 
@@ -344,11 +368,12 @@
 	if( [CSVPreferencesController confirmLink] )
 	{
 		self.leaveAppURL = URL;
-		leaveAppView = [[UIAlertView alloc] initWithTitle:@"Leave CSV Touch?"
-														message:[NSString stringWithFormat:@"Continue opening %@", [self.leaveAppURL absoluteString]]
-													   delegate:self
-											  cancelButtonTitle:@"Cancel"
-											  otherButtonTitles:@"Leave", nil];
+		leaveAppView = [[UIAlertView alloc] initWithTitle:[NSString stringWithFormat:@"Leave %@", 
+														   ([CSVPreferencesController liteVersionRunning] ? @"CSV Lite" : @"CSV Touch")]
+												  message:[NSString stringWithFormat:@"Continue opening %@", [self.leaveAppURL absoluteString]]
+												 delegate:self
+										cancelButtonTitle:@"Cancel"
+										otherButtonTitles:@"Leave", nil];
 		[leaveAppView show];
 	}
 	else

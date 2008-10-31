@@ -40,6 +40,7 @@
 #define PREFS_MAX_NUMBER_LIVE_FILTER @"maxNumberLiveFilter"
 #define PREFS_CLEAR_SEARCH_WHEN_QUICK_SELECTING @"clearSearchWhenQuickSelecting"
 #define PREFS_CONFIRM_LINK @"confirmLink"
+#define PREFS_ALIGN_HTML @"alignHtml"
 
 
 NSUInteger sortingMask;
@@ -266,6 +267,15 @@ NSUInteger sortingMask;
 		return [[NSUserDefaults standardUserDefaults] boolForKey:PREFS_CONFIRM_LINK];
 	else
 		return NO;
+}
+
++ (BOOL) alignHtml
+{
+	id obj = [[NSUserDefaults standardUserDefaults] objectForKey:PREFS_ALIGN_HTML];
+	if( obj )
+		return [[NSUserDefaults standardUserDefaults] boolForKey:PREFS_ALIGN_HTML];
+	else
+		return YES;
 }
 
 + (BOOL) liteVersionRunning
