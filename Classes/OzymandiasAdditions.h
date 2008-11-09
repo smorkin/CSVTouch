@@ -10,6 +10,7 @@
 
 
 @interface NSString (OzymandiasExtension)
++ (NSString *) httpStatusDescription:(NSInteger)status;
 - (BOOL) containsDigit;
 - (BOOL) hasSubstring:(NSString *)s;
 - (BOOL) containsURL;

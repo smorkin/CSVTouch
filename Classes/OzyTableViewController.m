@@ -117,7 +117,7 @@
 
 - (void) setSize:(OzyTableViewSize)size
 {
-	if( size != self.size )
+//	if( size != self.size )
 	{
 		_size = size;
 		switch (size )

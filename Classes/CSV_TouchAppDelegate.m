@@ -21,6 +21,7 @@
 @implementation CSV_TouchAppDelegate
 
 @synthesize window;
+@synthesize httpStatusCode = _httpStatusCode;
 
 static CSV_TouchAppDelegate *sharedInstance = nil;
 
@@ -189,6 +190,12 @@ static CSV_TouchAppDelegate *sharedInstance = nil;
     [rawData appendData:newData];
 }
 
+- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
+{
+	if( [response isKindOfClass:[NSHTTPURLResponse class]] )
+		self.httpStatusCode = [(NSHTTPURLResponse *)response statusCode];
+}
+
 - (void)connectionDidFinishLoading:(NSURLConnection *)conn
 {
 	CSVFileParser *fp = [[CSVFileParser alloc] initWithRawData:rawData];
@@ -205,6 +212,15 @@ static CSV_TouchAppDelegate *sharedInstance = nil;
 													   delegate:self
 											  cancelButtonTitle:@"OK"
 											  otherButtonTitles:nil];
+		[alert show];
+	}
+	else if( self.httpStatusCode >= 400 )
+	{
+		UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Download Failure"
+														 message:[NSString httpStatusDescription:self.httpStatusCode]
+														delegate:self
+											   cancelButtonTitle:@"OK"
+											   otherButtonTitles:nil] autorelease];	
 		[alert show];
 	}
 	else
@@ -260,6 +276,7 @@ static CSV_TouchAppDelegate *sharedInstance = nil;
 {
 	[rawData release];
 	rawData = [[NSMutableData alloc] init];
+	self.httpStatusCode = 0;
 	NSURLRequest *theRequest=[NSURLRequest requestWithURL:url
                                               cachePolicy:NSURLRequestReloadIgnoringLocalCacheData
                                           timeoutInterval:10.0];

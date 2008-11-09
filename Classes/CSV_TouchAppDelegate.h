@@ -35,12 +35,15 @@ OzymandiasApplicationDelegate> {
 	
 	NSURLConnection *connection;
     NSMutableData *rawData;
+	
+	NSInteger _httpStatusCode;
 }
 
 + (CSV_TouchAppDelegate *) sharedInstance;
 + (NSArray *) allowedDelimiters;
 
 @property (nonatomic, retain) UIWindow *window;
+@property (nonatomic, assign) NSInteger httpStatusCode;
 
 - (IBAction) downloadNewFile:(id)sender;
 - (IBAction) doDownloadNewFile:(id)sender;

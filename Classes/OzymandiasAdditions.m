@@ -10,6 +10,16 @@
 
 
 @implementation NSString (OzymandiasExtension)
++ (NSString *) httpStatusDescription:(NSInteger)status
+{
+	if( status == 401 )
+		return @"Not authorized (for MobileMe, check that the address was correctly entered)";
+	else if( status == 404 )
+		return @"File not found on server";
+	else
+		return [NSString stringWithFormat:@"Other error (http status code %d)", status];
+}
+
 - (BOOL) containsDigit
 {
 	return [self rangeOfCharacterFromSet:[NSCharacterSet decimalDigitCharacterSet]].length > 0;

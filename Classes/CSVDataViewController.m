@@ -265,6 +265,25 @@
 		[[detailsController textView] setText:@"No data found!"];
 }
 
+//- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+//{
+//	if( tableView == fancyDetailsController.tableView )
+//	{
+//		UITableViewCell *cell = [fancyDetailsController tableView:tableView cellForRowAtIndexPath:indexPath];
+//		CGSize cellSize = [cell frame].size;
+//		cellSize.width -= 60;
+//		cellSize.height = 400;
+//		CGSize newSize = [cell.text sizeWithFont:cell.font 
+//						  constrainedToSize:cellSize
+//						  lineBreakMode:UILineBreakModeWordWrap];
+//		return newSize.height + 2;
+//	}
+//	else
+//	{
+//		return tableView.rowHeight;
+//	}
+//}
+
 - (void) updateEnhancedViewWithItem:(CSVRow *)item
 {
 	NSMutableArray *items = [item longDescriptionInArray];
@@ -370,7 +389,7 @@
 		self.leaveAppURL = URL;
 		leaveAppView = [[UIAlertView alloc] initWithTitle:[NSString stringWithFormat:@"Leave %@", 
 														   ([CSVPreferencesController liteVersionRunning] ? @"CSV Lite" : @"CSV Touch")]
-												  message:[NSString stringWithFormat:@"Continue opening %@", [self.leaveAppURL absoluteString]]
+												  message:[NSString stringWithFormat:@"Continue opening %@?", [self.leaveAppURL absoluteString]]
 												 delegate:self
 										cancelButtonTitle:@"Cancel"
 										otherButtonTitles:@"Leave", nil];
@@ -821,7 +840,7 @@ static CSVDataViewController *sharedInstance = nil;
 					[[NSSet setWithArray:[currentFile availableColumnNames]] count] )
 			{
 				UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Identical Column Titles!"
-																message:@"Some of the columns have the same title; this makes some functionality involving columns behave weird"
+																message:@"Some of the columns have the same title; this should be changed for correct functionality. Please make sure the first line in the file consists of the column titles."
 															   delegate:[[UIApplication sharedApplication] delegate]
 													  cancelButtonTitle:@"OK"
 													  otherButtonTitles:nil] autorelease];

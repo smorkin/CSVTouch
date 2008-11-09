@@ -305,8 +305,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				F452CA8A0EB24A0D002F7697 /* CSV Lite */,
 				1D6058900D05DD3D006BFB54 /* CSV Touch */,
+				F452CA8A0EB24A0D002F7697 /* CSV Lite */,
 			);
 		};
 /* End PBXProject section */
