@@ -14,14 +14,17 @@
 #import "CSVPreferencesController.h"
 #import "CSVRow.h"
 #import "CSVFileParser.h"
+#import "TextAlertView.h"
 #import "csv.h"
 
 #define SELECTED_TAB_BAR_INDEX @"selectedTabBarIndex"
+#define FILE_PASSWORD @"filePassword"
 
 @implementation CSV_TouchAppDelegate
 
 @synthesize window;
 @synthesize httpStatusCode = _httpStatusCode;
+@synthesize fileInspected = _fileInspected;
 
 static CSV_TouchAppDelegate *sharedInstance = nil;
 
@@ -40,14 +43,99 @@ static CSV_TouchAppDelegate *sharedInstance = nil;
 	return delimiters;
 }
 
-+ (CSV_TouchAppDelegate *) sharedInstance
-{
-	return sharedInstance;
-}
-
 - (CSVDataViewController *) dataController
 {
 	return dataController;
+}
+
+- (NSString *) currentPasswordHash
+{
+	return [[NSUserDefaults standardUserDefaults] objectForKey:FILE_PASSWORD];
+}
+
+static BOOL passwordChecked = NO;
+
+static UIViewController *newPasswordModalController = nil;
+
+- (void) checkPassword
+{	
+	if( !passwordChecked )
+	{
+		TextAlertView *alert = [[TextAlertView alloc] initWithTitle:@"Input Current Password" 
+															message:@"" 
+														   delegate:self cancelButtonTitle:@"Cancel"
+												  otherButtonTitles:@"OK", nil];
+		alert.textField.keyboardType = UIKeyboardTypeDefault;
+		alert.textField.secureTextEntry = YES;
+		alert.tag = 1;
+		[alert show];
+		[alert release];
+	}
+}
+
+- (void) setPasswordFromController:(UIViewController *)controller
+{
+	newPassword1.text = @"";
+	newPassword2.text = @"";
+	newPassword1.secureTextEntry = YES;
+	newPassword2.secureTextEntry = YES;
+	newPasswordModalController = controller;
+	[newPasswordModalController presentModalViewController:passwordController animated:YES];
+}
+
+- (IBAction) newPasswordDone
+{
+	static BOOL emptyPasswordWarned = FALSE;
+	
+	if( ![newPassword1.text isEqualToString:newPassword2.text] )
+	{
+		newPassword1.text = @"";	
+		newPassword2.text = @"";	
+		UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Password mismatch!"
+														 message:@"Please re-enter the password" 
+														delegate:self
+											   cancelButtonTitle:@"OK"
+											   otherButtonTitles:nil] autorelease];
+		[alert show];
+	}
+	else if( [newPassword1.text length] == 0 && !emptyPasswordWarned )
+	{
+		UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Empty Password!"
+														 message:@"This is probably not a good idea, but if you are certain, go ahead!" 
+														delegate:self
+											   cancelButtonTitle:@"OK"
+											   otherButtonTitles:nil] autorelease];
+		[alert show];
+		emptyPasswordWarned = TRUE;
+	}
+	else
+	{
+		[[NSUserDefaults standardUserDefaults] setObject:[newPassword1.text ozyHash]
+												  forKey:FILE_PASSWORD];
+		[newPasswordModalController dismissModalViewControllerAnimated:YES];
+	}
+}
+
+- (IBAction) changePassword
+{
+	if( ![self hasCheckedPassword] )
+	{
+		[self checkPassword];
+	}
+	else
+	{
+		[self setPasswordFromController:[[self dataController] topViewController]];
+	}
+}
+
+- (BOOL) hasCheckedPassword
+{
+	return passwordChecked;
+}
+
++ (CSV_TouchAppDelegate *) sharedInstance
+{
+	return sharedInstance;
 }
 
 + (NSString *) documentsPath
@@ -104,6 +192,7 @@ static CSV_TouchAppDelegate *sharedInstance = nil;
 		[self dataController].filesToolbar.barStyle = UIBarStyleBlackOpaque;
 		[self dataController].searchBar.barStyle = UIBarStyleBlackOpaque;
 		downloadToolbar.barStyle = UIBarStyleBlackOpaque;
+		newPasswordNavigationBar.barStyle = UIBarStyleBlackOpaque;
 		[[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackOpaque animated:YES];
 	}		
 
@@ -165,12 +254,30 @@ static CSV_TouchAppDelegate *sharedInstance = nil;
 	[super dealloc];
 }
 
+- (IBAction) fileProtectionChanged
+{
+	// Before giving the password, no change is allowed
+	if( ![[CSV_TouchAppDelegate sharedInstance] hasCheckedPassword] )
+	{
+		fileProtection.on = self.fileInspected.protected;
+		if( [[self currentPasswordHash] length] == 0 )
+			[self setPasswordFromController:fileViewController];
+		else
+			[[CSV_TouchAppDelegate sharedInstance] checkPassword];
+		return;
+	}
+		
+	self.fileInspected.protected = fileProtection.on;
+	[self.fileInspected saveToFile];
+}
+
 - (void) downloadDone
 {
 	[connection release];
 	connection = nil;
 	[self slowActivityCompleted];
 	[newFileURL resignFirstResponder];
+	self.fileInspected = nil;
 	[[self dataController] dismissModalViewControllerAnimated:YES];
 }
 
@@ -243,11 +350,16 @@ static CSV_TouchAppDelegate *sharedInstance = nil;
 	[s appendString:@"http://idisk.mac.com/simon_wigzell-Public/Games.csv\n\n"];
 	[s appendString:@"Note the capital \"P\" and \"G\", and the \"-\"."];
 	fileInfo.text = s;
-	[[self dataController] presentModalViewController:downloadNewFileController animated:YES];
+	fileProtection.on = NO;
+	fileProtection.hidden = YES;
+	fileProtectionLabel.hidden = YES;
+	[[self dataController] presentModalViewController:fileViewController animated:YES];
 }
 
 - (void) showFileInfo:(CSVFileParser *)fp
 {
+	self.fileInspected = fp;
+	
 	NSError *error;
 	NSDictionary *fileAttributes = [[NSFileManager defaultManager] attributesOfItemAtPath:[fp filePath] error:&error];
 	
@@ -268,7 +380,10 @@ static CSV_TouchAppDelegate *sharedInstance = nil;
 		fileInfo.text = [error localizedDescription];
 	}
 	newFileURL.text = [fp URL];
-	[[self dataController] presentModalViewController:downloadNewFileController animated:YES];
+	fileProtectionLabel.hidden = NO;
+	fileProtection.hidden = NO;
+	fileProtection.on = [fp protected];
+	[[self dataController] presentModalViewController:fileViewController animated:YES];
 }
 	
 	
@@ -298,7 +413,7 @@ static CSV_TouchAppDelegate *sharedInstance = nil;
 {
 	[newFileURL endEditing:YES];
 	[self slowActivityStarted];
-	[self startDownloadUsingURL:[NSURL URLWithString:[newFileURL text]]];
+	[self startDownloadUsingURL:[NSURL URLWithString:[[newFileURL text] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
 }
 
 - (IBAction) cancelDownloadNewFile:(id)sender
@@ -311,7 +426,7 @@ static CSV_TouchAppDelegate *sharedInstance = nil;
 	[self slowActivityStarted];
 	[self startDownloadUsingURL:[NSURL URLWithString:[URL stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
 
-	// Update this if you want to download a file from a similar URL later on
+	// Update this in case you want to download a file from a similar URL later on
 	newFileURL.text = URL;
 }
 
@@ -358,5 +473,25 @@ static CSV_TouchAppDelegate *sharedInstance = nil;
 	}
 }	
 	
+
+- (void)alertView:(UIAlertView *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+	TextAlertView *alertView = (TextAlertView*) actionSheet;
+	if(buttonIndex > 0)
+	{
+		if(alertView.tag == 1)
+		{
+			if( [[alertView.textField.text ozyHash] isEqual:[[NSUserDefaults standardUserDefaults] dataForKey:FILE_PASSWORD]] )
+			{
+				passwordChecked = TRUE;
+				[[self dataController] passwordWasChecked];
+			}
+			else
+			{
+				[self performSelector:@selector(checkPassword) withObject:nil afterDelay:0.3];
+			}
+		}
+	}
+}
 
 @end

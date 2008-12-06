@@ -101,6 +101,8 @@ OzyRotatableViewController;
 
 - (CSVFileParser *) currentFile;
 
+- (void) passwordWasChecked;
+
 // For CSV_TouchAppDelegate
 - (int) numberOfFiles;
 - (BOOL) fileExistsWithURL:(NSString *)URL;

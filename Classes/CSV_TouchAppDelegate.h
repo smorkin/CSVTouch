@@ -23,11 +23,19 @@ OzymandiasApplicationDelegate> {
 	IBOutlet OzyRotatableViewController *startupController;
 	IBOutlet UIActivityIndicatorView *startupActivityView;
 	
-	// Downloading a new file
-	IBOutlet UIViewController *downloadNewFileController;
+	// File information / Downloading new file
+	IBOutlet OzyRotatableViewController *fileViewController;
 	IBOutlet UITextField *newFileURL;
 	IBOutlet UITextView *fileInfo;
 	IBOutlet UIToolbar *downloadToolbar;
+	IBOutlet UISwitch *fileProtection;
+	IBOutlet UILabel *fileProtectionLabel;
+	
+	// "Advanced" password interaction
+	IBOutlet OzyRotatableViewController *passwordController;
+	IBOutlet UINavigationBar *newPasswordNavigationBar;
+	IBOutlet UITextField *newPassword1;
+	IBOutlet UITextField *newPassword2;
 
 	// For better GUI when things are slow...
 	IBOutlet UIView *activityView;
@@ -37,6 +45,8 @@ OzymandiasApplicationDelegate> {
     NSMutableData *rawData;
 	
 	NSInteger _httpStatusCode;
+	
+	CSVFileParser *_fileInspected;
 }
 
 + (CSV_TouchAppDelegate *) sharedInstance;
@@ -44,10 +54,18 @@ OzymandiasApplicationDelegate> {
 
 @property (nonatomic, retain) UIWindow *window;
 @property (nonatomic, assign) NSInteger httpStatusCode;
+@property (nonatomic, retain) CSVFileParser *fileInspected;
 
 - (IBAction) downloadNewFile:(id)sender;
 - (IBAction) doDownloadNewFile:(id)sender;
 - (IBAction) cancelDownloadNewFile:(id)sender;
+- (IBAction) fileProtectionChanged;
+- (IBAction) newPasswordDone;
+- (IBAction) changePassword;
+
+- (void) checkPassword;
+- (BOOL) hasCheckedPassword;
+
 
 - (void) downloadFileWithString:(NSString *)URL;
 - (void) showFileInfo:(CSVFileParser *)fp;

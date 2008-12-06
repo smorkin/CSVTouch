@@ -102,6 +102,11 @@
 				latestFirstLetter = currentFirstLetter;
 			}
 		}
+//		if( [_sectionIndexes count] > 75 )
+//		{
+//			[_sectionStarts removeAllObjects];
+//			[_sectionIndexes removeAllObjects];
+//		}
 	}
 }
 
@@ -275,7 +280,7 @@
 	}
 	else
 	{
-	return 0;
+		return 0;
 	}
 }
 

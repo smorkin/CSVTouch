@@ -17,6 +17,7 @@
 - (BOOL) containsImageURL;
 - (BOOL) containsMailAddress;
 - (NSComparisonResult) numericSensitiveCompare:(NSString *)s;
+- (NSData *) ozyHash;
 @end
 
 @interface NSIndexPath (OzymandiasExtension)

@@ -7,7 +7,7 @@
 //
 
 #import "OzymandiasAdditions.h"
-
+#import <CommonCrypto/CommonDigest.h>
 
 @implementation NSString (OzymandiasExtension)
 + (NSString *) httpStatusDescription:(NSInteger)status
@@ -53,6 +53,14 @@
 - (NSComparisonResult) numericSensitiveCompare:(NSString *)s
 {
 	return [self compare:s options:NSNumericSearch];
+}
+
+- (NSData *) ozyHash
+{
+	const char *representation = [self UTF8String];
+	unsigned char hash[CC_MD5_DIGEST_LENGTH];
+	CC_MD5((const void *)representation,strlen(representation), hash);
+	return [NSData dataWithBytes:hash length:CC_MD5_DIGEST_LENGTH];
 }
 
 @end
