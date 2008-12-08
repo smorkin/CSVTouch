@@ -73,12 +73,18 @@ static UIViewController *newPasswordModalController = nil;
 	}
 }
 
+- (IBAction) cancelNewPassword
+{
+	[newPasswordModalController dismissModalViewControllerAnimated:YES];
+}
+
 - (void) setPasswordFromController:(UIViewController *)controller
 {
 	newPassword1.text = @"";
 	newPassword2.text = @"";
 	newPassword1.secureTextEntry = YES;
 	newPassword2.secureTextEntry = YES;
+	[newPassword1 becomeFirstResponder];
 	newPasswordModalController = controller;
 	[newPasswordModalController presentModalViewController:passwordController animated:YES];
 }
@@ -91,6 +97,7 @@ static UIViewController *newPasswordModalController = nil;
 	{
 		newPassword1.text = @"";	
 		newPassword2.text = @"";	
+		[newPassword1 becomeFirstResponder];
 		UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Password mismatch!"
 														 message:@"Please re-enter the password" 
 														delegate:self
@@ -100,6 +107,7 @@ static UIViewController *newPasswordModalController = nil;
 	}
 	else if( [newPassword1.text length] == 0 && !emptyPasswordWarned )
 	{
+		[newPassword1 becomeFirstResponder];
 		UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Empty Password!"
 														 message:@"This is probably not a good idea, but if you are certain, go ahead!" 
 														delegate:self
@@ -116,10 +124,17 @@ static UIViewController *newPasswordModalController = nil;
 	}
 }
 
+static NSInvocation *changePasswordInvocation = nil;
+
 - (IBAction) changePassword
 {
 	if( ![self hasCheckedPassword] )
 	{
+		[changePasswordInvocation release];
+		
+		changePasswordInvocation = [[NSInvocation invocationWithMethodSignature:[self methodSignatureForSelector:@selector(changePassword)]] retain];
+		[changePasswordInvocation setTarget:self];
+		[changePasswordInvocation setSelector:@selector(changePassword)];
 		[self checkPassword];
 	}
 	else
@@ -172,6 +187,16 @@ static UIViewController *newPasswordModalController = nil;
 
 #define NEW_FILE_URL @"newFileURL"
 
+- (void) insertChangePasswordButtonIfSuitable
+{
+	if( [self currentPasswordHash] != nil )
+	{
+		NSMutableArray *items = [NSMutableArray arrayWithArray:[self dataController].filesToolbar.items];
+		[items insertObject:setPasswordButton atIndex:4];
+		[self dataController].filesToolbar.items = items;
+	}	
+}
+
 - (void) delayedStartup
 {
 	[self loadLocalFiles];
@@ -199,6 +224,8 @@ static UIViewController *newPasswordModalController = nil;
 	// Configure and show the window
 	[startupActivityView stopAnimating];
 	[startupController.view removeFromSuperview];
+	
+	[self insertChangePasswordButtonIfSuitable];
 		
 	[window addSubview:[[self dataController] view]];
 	[window makeKeyAndVisible];
@@ -223,7 +250,7 @@ static UIViewController *newPasswordModalController = nil;
 
 
 - (void)applicationDidFinishLaunching:(UIApplication *)application
-{
+{	
 	[[UIApplication sharedApplication] setStatusBarHidden:![CSVPreferencesController showStatusBar] animated:YES];
 	startupController.view.frame = [[UIScreen mainScreen] applicationFrame];
 	[window addSubview:startupController.view];
@@ -261,7 +288,10 @@ static UIViewController *newPasswordModalController = nil;
 	{
 		fileProtection.on = self.fileInspected.protected;
 		if( [[self currentPasswordHash] length] == 0 )
+		{
+			[self insertChangePasswordButtonIfSuitable];
 			[self setPasswordFromController:fileViewController];
+		}
 		else
 			[[CSV_TouchAppDelegate sharedInstance] checkPassword];
 		return;
@@ -485,6 +515,12 @@ static UIViewController *newPasswordModalController = nil;
 			{
 				passwordChecked = TRUE;
 				[[self dataController] passwordWasChecked];
+				if( changePasswordInvocation != nil )
+				{
+					[changePasswordInvocation invoke];
+					[changePasswordInvocation release];
+					changePasswordInvocation = nil;
+				}
 			}
 			else
 			{

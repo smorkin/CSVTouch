@@ -8,7 +8,7 @@
 		<string key="IBDocument.HIToolboxVersion">352.00</string>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="551"/>
+			<integer value="515"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -340,7 +340,7 @@
 			<object class="IBUIViewController" id="665533006">
 				<string key="IBUITitle">Files</string>
 				<object class="IBUIView" key="IBUIView" id="851060703">
-					<nil key="NSNextResponder"/>
+					<reference key="NSNextResponder"/>
 					<int key="NSvFlags">279</int>
 					<object class="NSMutableArray" key="NSSubviews">
 						<bool key="EncodedWithXMLCoder">YES</bool>
@@ -392,14 +392,6 @@
 									<int key="IBUIStyle">1</int>
 									<reference key="IBUIToolbar" ref="340951580"/>
 								</object>
-								<object class="IBUIBarButtonItem" id="888997167">
-									<object class="NSCustomResource" key="IBUIImage">
-										<string key="NSClassName">NSImage</string>
-										<string key="NSResourceName">lock.png</string>
-									</object>
-									<int key="IBUIStyle">1</int>
-									<reference key="IBUIToolbar" ref="340951580"/>
-								</object>
 								<object class="IBUIBarButtonItem" id="984656570">
 									<int key="IBUISystemItemIdentifier">5</int>
 									<reference key="IBUIToolbar" ref="340951580"/>
@@ -413,6 +405,7 @@
 						</object>
 					</object>
 					<string key="NSFrameSize">{320, 416}</string>
+					<reference key="NSSuperview"/>
 					<object class="NSColor" key="IBUIBackgroundColor">
 						<int key="NSColorSpace">3</int>
 						<bytes key="NSWhite">MQA</bytes>
@@ -421,6 +414,7 @@
 					<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
 				</object>
 				<object class="IBUINavigationItem" key="IBUINavigationItem" id="940789840">
+					<reference key="IBUINavigationBar"/>
 					<string key="IBUITitle">Files</string>
 				</object>
 				<object class="IBUISimulatedStatusBarMetrics" key="IBUISimulatedStatusBarMetrics"/>
@@ -582,6 +576,7 @@ A</string>
 							<int key="NSvFlags">290</int>
 							<string key="NSFrame">{{119, 58}, {181, 31}}</string>
 							<reference key="NSSuperview" ref="588738017"/>
+							<reference key="NSWindow"/>
 							<bool key="IBUIOpaque">NO</bool>
 							<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
 							<int key="IBUIContentVerticalAlignment">0</int>
@@ -607,6 +602,7 @@ A</string>
 							<int key="NSvFlags">290</int>
 							<string key="NSFrame">{{119, 97}, {181, 31}}</string>
 							<reference key="NSSuperview" ref="588738017"/>
+							<reference key="NSWindow"/>
 							<bool key="IBUIOpaque">NO</bool>
 							<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
 							<int key="IBUIContentVerticalAlignment">0</int>
@@ -628,6 +624,7 @@ A</string>
 							<int key="NSvFlags">292</int>
 							<string key="NSFrame">{{20, 61}, {91, 21}}</string>
 							<reference key="NSSuperview" ref="588738017"/>
+							<reference key="NSWindow"/>
 							<bool key="IBUIOpaque">NO</bool>
 							<bool key="IBUIClipsSubviews">YES</bool>
 							<bool key="IBUIUserInteractionEnabled">NO</bool>
@@ -642,6 +639,7 @@ A</string>
 							<int key="NSvFlags">292</int>
 							<string key="NSFrame">{{20, 100}, {91, 21}}</string>
 							<reference key="NSSuperview" ref="588738017"/>
+							<reference key="NSWindow"/>
 							<bool key="IBUIOpaque">NO</bool>
 							<bool key="IBUIClipsSubviews">YES</bool>
 							<bool key="IBUIUserInteractionEnabled">NO</bool>
@@ -656,6 +654,7 @@ A</string>
 							<int key="NSvFlags">290</int>
 							<string key="NSFrameSize">{320, 44}</string>
 							<reference key="NSSuperview" ref="588738017"/>
+							<reference key="NSWindow"/>
 							<bool key="IBUIOpaque">NO</bool>
 							<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
 							<object class="NSArray" key="IBUIItems">
@@ -667,12 +666,17 @@ A</string>
 										<int key="IBUIStyle">1</int>
 										<int key="IBUISystemItemIdentifier">0</int>
 									</object>
+									<object class="IBUIBarButtonItem" key="IBUIRightBarButtonItem" id="475114144">
+										<int key="IBUIStyle">1</int>
+										<int key="IBUISystemItemIdentifier">1</int>
+									</object>
 								</object>
 							</object>
 						</object>
 					</object>
 					<string key="NSFrameSize">{320, 460}</string>
 					<reference key="NSSuperview"/>
+					<reference key="NSWindow"/>
 					<object class="NSColor" key="IBUIBackgroundColor">
 						<int key="NSColorSpace">3</int>
 						<bytes key="NSWhite">MQA</bytes>
@@ -774,6 +778,13 @@ A</string>
 				<reference key="IBUIDisabledTitleColor" ref="937587526"/>
 				<reference key="IBUISelectedTitleColor" ref="937587526"/>
 				<reference key="IBUINormalTitleColor" ref="937587526"/>
+			</object>
+			<object class="IBUIBarButtonItem" id="807767946">
+				<object class="NSCustomResource" key="IBUIImage">
+					<string key="NSClassName">NSImage</string>
+					<string key="NSResourceName">lock.png</string>
+				</object>
+				<int key="IBUIStyle">1</int>
 			</object>
 		</object>
 		<object class="IBObjectContainer" key="IBDocument.Objects">
@@ -1351,20 +1362,36 @@ A</string>
 					<int key="connectionID">564</int>
 				</object>
 				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchEventConnection" key="connection">
-						<string key="label">changePassword</string>
-						<reference key="source" ref="888997167"/>
-						<reference key="destination" ref="664661524"/>
-					</object>
-					<int key="connectionID">566</int>
-				</object>
-				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
 						<string key="label">newPasswordNavigationBar</string>
 						<reference key="source" ref="664661524"/>
 						<reference key="destination" ref="1020693201"/>
 					</object>
 					<int key="connectionID">567</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchEventConnection" key="connection">
+						<string key="label">cancelNewPassword</string>
+						<reference key="source" ref="475114144"/>
+						<reference key="destination" ref="664661524"/>
+					</object>
+					<int key="connectionID">569</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchEventConnection" key="connection">
+						<string key="label">changePassword</string>
+						<reference key="source" ref="807767946"/>
+						<reference key="destination" ref="664661524"/>
+					</object>
+					<int key="connectionID">572</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">setPasswordButton</string>
+						<reference key="source" ref="664661524"/>
+						<reference key="destination" ref="807767946"/>
+					</object>
+					<int key="connectionID">573</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -1831,7 +1858,6 @@ A</string>
 							<reference ref="984656570"/>
 							<reference ref="450331319"/>
 							<reference ref="864703851"/>
-							<reference ref="888997167"/>
 						</object>
 						<reference key="parent" ref="851060703"/>
 					</object>
@@ -1958,6 +1984,7 @@ A</string>
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<reference ref="881248681"/>
+							<reference ref="475114144"/>
 						</object>
 						<reference key="parent" ref="1020693201"/>
 					</object>
@@ -1967,9 +1994,14 @@ A</string>
 						<reference key="parent" ref="172926872"/>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">565</int>
-						<reference key="object" ref="888997167"/>
-						<reference key="parent" ref="340951580"/>
+						<int key="objectID">568</int>
+						<reference key="object" ref="475114144"/>
+						<reference key="parent" ref="172926872"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">571</int>
+						<reference key="object" ref="807767946"/>
+						<reference key="parent" ref="957960031"/>
 					</object>
 				</object>
 			</object>
@@ -2083,7 +2115,8 @@ A</string>
 					<string>556.IBPluginDependency</string>
 					<string>558.IBPluginDependency</string>
 					<string>559.IBPluginDependency</string>
-					<string>565.IBPluginDependency</string>
+					<string>568.IBPluginDependency</string>
+					<string>571.IBPluginDependency</string>
 					<string>76.CustomClassName</string>
 					<string>76.IBEditorWindowLastContentRect</string>
 					<string>76.IBPluginDependency</string>
@@ -2199,7 +2232,8 @@ A</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>OzyRotatableViewController</string>
-					<string>{{297, 243}, {320, 480}}</string>
+					<string>{{403, 247}, {320, 480}}</string>
+					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -2240,7 +2274,7 @@ A</string>
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">567</int>
+			<int key="maxID">573</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -2341,6 +2375,7 @@ A</string>
 						<object class="NSMutableArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>cancelDownloadNewFile:</string>
+							<string>cancelNewPassword</string>
 							<string>changePassword</string>
 							<string>doDownloadNewFile:</string>
 							<string>downloadNewFile:</string>
@@ -2349,6 +2384,7 @@ A</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>id</string>
 							<string>id</string>
 							<string>id</string>
 							<string>id</string>
@@ -2374,6 +2410,7 @@ A</string>
 							<string>newPassword2</string>
 							<string>newPasswordNavigationBar</string>
 							<string>passwordController</string>
+							<string>setPasswordButton</string>
 							<string>startupActivityView</string>
 							<string>startupController</string>
 							<string>window</string>
@@ -2393,6 +2430,7 @@ A</string>
 							<string>UITextField</string>
 							<string>UINavigationBar</string>
 							<string>OzyRotatableViewController</string>
+							<string>UIBarButtonItem</string>
 							<string>UIActivityIndicatorView</string>
 							<string>OzyRotatableViewController</string>
 							<string>UIWindow</string>

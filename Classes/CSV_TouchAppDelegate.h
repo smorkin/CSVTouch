@@ -32,6 +32,7 @@ OzymandiasApplicationDelegate> {
 	IBOutlet UILabel *fileProtectionLabel;
 	
 	// "Advanced" password interaction
+	IBOutlet UIBarButtonItem *setPasswordButton;
 	IBOutlet OzyRotatableViewController *passwordController;
 	IBOutlet UINavigationBar *newPasswordNavigationBar;
 	IBOutlet UITextField *newPassword1;
@@ -62,6 +63,7 @@ OzymandiasApplicationDelegate> {
 - (IBAction) fileProtectionChanged;
 - (IBAction) newPasswordDone;
 - (IBAction) changePassword;
+- (IBAction) cancelNewPassword;
 
 - (void) checkPassword;
 - (BOOL) hasCheckedPassword;
