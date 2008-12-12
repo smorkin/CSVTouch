@@ -28,16 +28,7 @@ OzymandiasApplicationDelegate> {
 	IBOutlet UITextField *newFileURL;
 	IBOutlet UITextView *fileInfo;
 	IBOutlet UIToolbar *downloadToolbar;
-	IBOutlet UISwitch *fileProtection;
-	IBOutlet UILabel *fileProtectionLabel;
 	
-	// "Advanced" password interaction
-	IBOutlet UIBarButtonItem *setPasswordButton;
-	IBOutlet OzyRotatableViewController *passwordController;
-	IBOutlet UINavigationBar *newPasswordNavigationBar;
-	IBOutlet UITextField *newPassword1;
-	IBOutlet UITextField *newPassword2;
-
 	// For better GUI when things are slow...
 	IBOutlet UIView *activityView;
 	IBOutlet UIActivityIndicatorView *fileParsingActivityView;
@@ -60,14 +51,6 @@ OzymandiasApplicationDelegate> {
 - (IBAction) downloadNewFile:(id)sender;
 - (IBAction) doDownloadNewFile:(id)sender;
 - (IBAction) cancelDownloadNewFile:(id)sender;
-- (IBAction) fileProtectionChanged;
-- (IBAction) newPasswordDone;
-- (IBAction) changePassword;
-- (IBAction) cancelNewPassword;
-
-- (void) checkPassword;
-- (BOOL) hasCheckedPassword;
-
 
 - (void) downloadFileWithString:(NSString *)URL;
 - (void) showFileInfo:(CSVFileParser *)fp;

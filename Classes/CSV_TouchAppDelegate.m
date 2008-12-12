@@ -48,105 +48,77 @@ static CSV_TouchAppDelegate *sharedInstance = nil;
 	return dataController;
 }
 
+enum{PASSWORD_CHECK = 1, PASSWORD_SET};
+
+static NSString *newPassword = nil;
+
 - (NSString *) currentPasswordHash
 {
 	return [[NSUserDefaults standardUserDefaults] objectForKey:FILE_PASSWORD];
 }
 
-static BOOL passwordChecked = NO;
-
-static UIViewController *newPasswordModalController = nil;
-
 - (void) checkPassword
-{	
-	if( !passwordChecked )
-	{
-		TextAlertView *alert = [[TextAlertView alloc] initWithTitle:@"Input Current Password" 
-															message:@"" 
-														   delegate:self cancelButtonTitle:@"Cancel"
-												  otherButtonTitles:@"OK", nil];
-		alert.textField.keyboardType = UIKeyboardTypeDefault;
-		alert.textField.secureTextEntry = YES;
-		alert.tag = 1;
-		[alert show];
-		[alert release];
-	}
-}
-
-- (IBAction) cancelNewPassword
 {
-	[newPasswordModalController dismissModalViewControllerAnimated:YES];
+	TextAlertView *alert = [[TextAlertView alloc] initWithTitle:@"Input Password" 
+														message:@"" 
+													   delegate:self
+											  cancelButtonTitle:@"Quit"
+											  otherButtonTitles:@"OK", nil];
+	alert.textField.keyboardType = UIKeyboardTypeDefault;
+	alert.textField.secureTextEntry = YES;
+	alert.tag = PASSWORD_CHECK;
+	[alert show];
+	[alert release];
 }
 
-- (void) setPasswordFromController:(UIViewController *)controller
+- (void) setPassword:(NSString *)title
 {
-	newPassword1.text = @"";
-	newPassword2.text = @"";
-	newPassword1.secureTextEntry = YES;
-	newPassword2.secureTextEntry = YES;
-	[newPassword1 becomeFirstResponder];
-	newPasswordModalController = controller;
-	[newPasswordModalController presentModalViewController:passwordController animated:YES];
+	TextAlertView *alert = [[TextAlertView alloc] initWithTitle:title 
+														message:@"" 
+													   delegate:self
+											  cancelButtonTitle:@"Cancel"
+											  otherButtonTitles:@"OK", nil];
+	alert.textField.keyboardType = UIKeyboardTypeDefault;
+	alert.textField.secureTextEntry = YES;
+	alert.tag = PASSWORD_SET;
+	[alert show];
+	[alert release];
 }
 
-- (IBAction) newPasswordDone
-{
-	static BOOL emptyPasswordWarned = FALSE;
-	
-	if( ![newPassword1.text isEqualToString:newPassword2.text] )
-	{
-		newPassword1.text = @"";	
-		newPassword2.text = @"";	
-		[newPassword1 becomeFirstResponder];
-		UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Password mismatch!"
-														 message:@"Please re-enter the password" 
-														delegate:self
-											   cancelButtonTitle:@"OK"
-											   otherButtonTitles:nil] autorelease];
-		[alert show];
-	}
-	else if( [newPassword1.text length] == 0 && !emptyPasswordWarned )
-	{
-		[newPassword1 becomeFirstResponder];
-		UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Empty Password!"
-														 message:@"This is probably not a good idea, but if you are certain, go ahead!" 
-														delegate:self
-											   cancelButtonTitle:@"OK"
-											   otherButtonTitles:nil] autorelease];
-		[alert show];
-		emptyPasswordWarned = TRUE;
-	}
-	else
-	{
-		[[NSUserDefaults standardUserDefaults] setObject:[newPassword1.text ozyHash]
-												  forKey:FILE_PASSWORD];
-		[newPasswordModalController dismissModalViewControllerAnimated:YES];
-	}
-}
-
-static NSInvocation *changePasswordInvocation = nil;
-
-- (IBAction) changePassword
-{
-	if( ![self hasCheckedPassword] )
-	{
-		[changePasswordInvocation release];
-		
-		changePasswordInvocation = [[NSInvocation invocationWithMethodSignature:[self methodSignatureForSelector:@selector(changePassword)]] retain];
-		[changePasswordInvocation setTarget:self];
-		[changePasswordInvocation setSelector:@selector(changePassword)];
-		[self checkPassword];
-	}
-	else
-	{
-		[self setPasswordFromController:[[self dataController] topViewController]];
-	}
-}
-
-- (BOOL) hasCheckedPassword
-{
-	return passwordChecked;
-}
+//- (IBAction) newPasswordDone
+//{
+//	static BOOL emptyPasswordWarned = FALSE;
+//	
+//	if( ![newPassword1.text isEqualToString:newPassword2.text] )
+//	{
+//		newPassword1.text = @"";	
+//		newPassword2.text = @"";	
+//		[newPassword1 becomeFirstResponder];
+//		UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Password mismatch!"
+//														 message:@"Please re-enter the password" 
+//														delegate:self
+//											   cancelButtonTitle:@"OK"
+//											   otherButtonTitles:nil] autorelease];
+//		[alert show];
+//	}
+//	else if( [newPassword1.text length] == 0 && !emptyPasswordWarned )
+//	{
+//		[newPassword1 becomeFirstResponder];
+//		UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Empty Password!"
+//														 message:@"This is probably not a good idea, but if you are certain, go ahead!" 
+//														delegate:self
+//											   cancelButtonTitle:@"OK"
+//											   otherButtonTitles:nil] autorelease];
+//		[alert show];
+//		emptyPasswordWarned = TRUE;
+//	}
+//	else
+//	{
+//		[[NSUserDefaults standardUserDefaults] setObject:[newPassword1.text ozyHash]
+//												  forKey:FILE_PASSWORD];
+//		[newPasswordModalController dismissModalViewControllerAnimated:YES];
+//	}
+//}
 
 + (CSV_TouchAppDelegate *) sharedInstance
 {
@@ -187,16 +159,6 @@ static NSInvocation *changePasswordInvocation = nil;
 
 #define NEW_FILE_URL @"newFileURL"
 
-- (void) insertChangePasswordButtonIfSuitable
-{
-	if( [self currentPasswordHash] != nil )
-	{
-		NSMutableArray *items = [NSMutableArray arrayWithArray:[self dataController].filesToolbar.items];
-		[items insertObject:setPasswordButton atIndex:4];
-		[self dataController].filesToolbar.items = items;
-	}	
-}
-
 - (void) delayedStartup
 {
 	[self loadLocalFiles];
@@ -217,16 +179,13 @@ static NSInvocation *changePasswordInvocation = nil;
 		[self dataController].filesToolbar.barStyle = UIBarStyleBlackOpaque;
 		[self dataController].searchBar.barStyle = UIBarStyleBlackOpaque;
 		downloadToolbar.barStyle = UIBarStyleBlackOpaque;
-		newPasswordNavigationBar.barStyle = UIBarStyleBlackOpaque;
 		[[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackOpaque animated:YES];
 	}		
 
 	// Configure and show the window
 	[startupActivityView stopAnimating];
 	[startupController.view removeFromSuperview];
-	
-	[self insertChangePasswordButtonIfSuitable];
-		
+			
 	[window addSubview:[[self dataController] view]];
 	[window makeKeyAndVisible];
 	
@@ -263,9 +222,19 @@ static NSInvocation *changePasswordInvocation = nil;
 	{
 		[window makeKeyAndVisible];
 	}
-	[self performSelector:@selector(delayedStartup) withObject:nil afterDelay:0];
+	if( [self currentPasswordHash] != nil )
+	{
+		[self performSelector:@selector(checkPassword) withObject:nil afterDelay:0];
+	}
+	else if( [CSVPreferencesController usePassword] )
+	{
+		[self performSelector:@selector(setPassword:) withObject:@"New Password" afterDelay:0];
+	}	
+	else
+	{
+		[self performSelector:@selector(delayedStartup) withObject:nil afterDelay:0];
+	}
 }
-
 
 - (void)applicationWillTerminate:(UIApplication *)application 
 {
@@ -281,25 +250,6 @@ static NSInvocation *changePasswordInvocation = nil;
 	[super dealloc];
 }
 
-- (IBAction) fileProtectionChanged
-{
-	// Before giving the password, no change is allowed
-	if( ![[CSV_TouchAppDelegate sharedInstance] hasCheckedPassword] )
-	{
-		fileProtection.on = self.fileInspected.protected;
-		if( [[self currentPasswordHash] length] == 0 )
-		{
-			[self insertChangePasswordButtonIfSuitable];
-			[self setPasswordFromController:fileViewController];
-		}
-		else
-			[[CSV_TouchAppDelegate sharedInstance] checkPassword];
-		return;
-	}
-		
-	self.fileInspected.protected = fileProtection.on;
-	[self.fileInspected saveToFile];
-}
 
 - (void) downloadDone
 {
@@ -380,9 +330,6 @@ static NSInvocation *changePasswordInvocation = nil;
 	[s appendString:@"http://idisk.mac.com/simon_wigzell-Public/Games.csv\n\n"];
 	[s appendString:@"Note the capital \"P\" and \"G\", and the \"-\"."];
 	fileInfo.text = s;
-	fileProtection.on = NO;
-	fileProtection.hidden = YES;
-	fileProtectionLabel.hidden = YES;
 	[[self dataController] presentModalViewController:fileViewController animated:YES];
 }
 
@@ -410,9 +357,6 @@ static NSInvocation *changePasswordInvocation = nil;
 		fileInfo.text = [error localizedDescription];
 	}
 	newFileURL.text = [fp URL];
-	fileProtectionLabel.hidden = NO;
-	fileProtection.hidden = NO;
-	fileProtection.on = [fp protected];
 	[[self dataController] presentModalViewController:fileViewController animated:YES];
 }
 	
@@ -507,25 +451,57 @@ static NSInvocation *changePasswordInvocation = nil;
 - (void)alertView:(UIAlertView *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
 	TextAlertView *alertView = (TextAlertView*) actionSheet;
-	if(buttonIndex > 0)
+	if(alertView.tag == PASSWORD_CHECK)
 	{
-		if(alertView.tag == 1)
+		if(buttonIndex > 0)
 		{
 			if( [[alertView.textField.text ozyHash] isEqual:[[NSUserDefaults standardUserDefaults] dataForKey:FILE_PASSWORD]] )
 			{
-				passwordChecked = TRUE;
-				[[self dataController] passwordWasChecked];
-				if( changePasswordInvocation != nil )
-				{
-					[changePasswordInvocation invoke];
-					[changePasswordInvocation release];
-					changePasswordInvocation = nil;
-				}
+				if( [CSVPreferencesController usePassword] == NO )
+					[[NSUserDefaults standardUserDefaults] removeObjectForKey:FILE_PASSWORD];
+				[self performSelector:@selector(delayedStartup) withObject:nil afterDelay:0.3];
 			}
 			else
 			{
 				[self performSelector:@selector(checkPassword) withObject:nil afterDelay:0.3];
 			}
+		}
+		else // Cancel button pressed
+		{
+			exit(1);
+		}
+	}
+	else if(alertView.tag == PASSWORD_SET)
+	{
+		if(buttonIndex > 0)
+		{
+			if( newPassword == nil )
+			{
+				newPassword = [alertView.textField.text copy];
+				[self performSelector:@selector(setPassword:)
+						   withObject:@"Confirm Password"
+						   afterDelay:0.3];
+			}
+			else if( [alertView.textField.text isEqual:newPassword] )
+			{
+				[[NSUserDefaults standardUserDefaults] setObject:[newPassword ozyHash] forKey:FILE_PASSWORD];
+				[newPassword release];
+				newPassword = nil;
+				[self performSelector:@selector(delayedStartup) withObject:nil afterDelay:0];
+			}
+			else
+			{
+				[newPassword release];
+				newPassword = nil;
+				[self performSelector:@selector(setPassword:)
+						   withObject:@"Passwords Don't Match!\nSet Password"
+						   afterDelay:0.3];
+			}
+		}
+		else // Cancel button pressed
+		{
+			[CSVPreferencesController clearSetPassword];
+			[self performSelector:@selector(delayedStartup) withObject:nil afterDelay:0];
 		}
 	}
 }

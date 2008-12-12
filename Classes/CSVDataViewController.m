@@ -589,67 +589,54 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
 	// If starting up in emergency mode, we should not do anything more here
 	if( emergencyMode )
 		return;
-	
-
-	BOOL passwordProtectedFile = FALSE;
-	
+		
 	// 2. Read in the saved current file
 	NSString *fileName = [defaults objectForKey:DEFS_CURRENT_FILE];
 	for( CSVFileParser *file in [fileController objects] )
 	{
 		if( [fileName isEqualToString:[file fileName]] )
 		{
-			if( file.protected && ![[CSV_TouchAppDelegate sharedInstance] hasCheckedPassword] )
-			{
-				passwordProtectedFile = YES;
-			}
-			else
-			{
-				[self selectFile:file];
-			}
+			[self selectFile:file];
 			break;
 		}
 	}
 	
-	if( !passwordProtectedFile )
+	// 3. Read in & setup navigation stack
+	NSArray *controllerStack = [defaults objectForKey:DEFS_CURRENT_CONTROLLER_STACK];
+	for( NSString *controllerId in controllerStack )
 	{
-		// 3. Read in & setup navigation stack
-		NSArray *controllerStack = [defaults objectForKey:DEFS_CURRENT_CONTROLLER_STACK];
-		for( NSString *controllerId in controllerStack )
+		UIViewController *controller = [self controllerForId:controllerId];
+		if( controller )
 		{
-			UIViewController *controller = [self controllerForId:controllerId];
-			if( controller )
+			[self pushViewController:controller animated:NO];
+		}
+	}
+	[self updateBadgeValueUsingItem:[self topViewController].navigationItem push:YES];
+	
+	// 4. Scroll the table view to the last position, and if we were watching item details,
+	// show those as well.
+	NSDictionary *indexPathDictionary = [defaults objectForKey:DEFS_INDEX_PATH];
+	if( [indexPathDictionary isKindOfClass:[NSDictionary class]] )
+	{
+		NSIndexPath *indexPath = [NSIndexPath indexPathWithDictionary:indexPathDictionary];
+		if([self topViewController] == fancyDetailsController ||
+		   [self topViewController] == htmlDetailsController ||
+		   [self topViewController] == detailsController)
+		{
+			if( [itemController itemExistsAtIndexPath:indexPath] )
 			{
-				[self pushViewController:controller animated:NO];
+				[[itemController tableView] selectRowAtIndexPath:indexPath
+														animated:NO
+												  scrollPosition:UITableViewScrollPositionMiddle];
+				[self selectDetailsForRow:[itemController indexForObjectAtIndexPath:indexPath]];
 			}
 		}
-		[self updateBadgeValueUsingItem:[self topViewController].navigationItem push:YES];
-		
-		// 4. Scroll the table view to the last position, and if we were watching item details,
-		// show those as well.
-		NSDictionary *indexPathDictionary = [defaults objectForKey:DEFS_INDEX_PATH];
-		if( [indexPathDictionary isKindOfClass:[NSDictionary class]] )
+		else if([[self topViewController] isKindOfClass:[OzyTableViewController class]] &&
+				[(OzyTableViewController *)[self topViewController] itemExistsAtIndexPath:indexPath])
 		{
-			NSIndexPath *indexPath = [NSIndexPath indexPathWithDictionary:indexPathDictionary];
-			if([self topViewController] == fancyDetailsController ||
-			   [self topViewController] == htmlDetailsController ||
-			   [self topViewController] == detailsController)
-			{
-				if( [itemController itemExistsAtIndexPath:indexPath] )
-				{
-					[[itemController tableView] selectRowAtIndexPath:indexPath
-															animated:NO
-													  scrollPosition:UITableViewScrollPositionMiddle];
-					[self selectDetailsForRow:[itemController indexForObjectAtIndexPath:indexPath]];
-				}
-			}
-			else if([[self topViewController] isKindOfClass:[OzyTableViewController class]] &&
-					[(OzyTableViewController *)[self topViewController] itemExistsAtIndexPath:indexPath])
-			{
-				[[(OzyTableViewController *)[self topViewController] tableView] scrollToRowAtIndexPath:indexPath
-																					  atScrollPosition:UITableViewScrollPositionTop
-																							  animated:NO];
-			}
+			[[(OzyTableViewController *)[self topViewController] tableView] scrollToRowAtIndexPath:indexPath
+																				  atScrollPosition:UITableViewScrollPositionTop
+																						  animated:NO];
 		}
 	}
 	
@@ -805,11 +792,6 @@ static CSVDataViewController *sharedInstance = nil;
 	if( currentFile != selectedFile )
 	{
 		BOOL parsedOK = [self selectFile:selectedFile];
-		if( selectedFile.protected && ![[CSV_TouchAppDelegate sharedInstance] hasCheckedPassword] )
-		{
-			[[CSV_TouchAppDelegate sharedInstance] checkPassword];
-			return;
-		}
 				
 		if( !parsedOK )
 		{
@@ -1027,11 +1009,6 @@ static CSVDataViewController *sharedInstance = nil;
 		{
 			CSVFileParser *selectedFile = [[fileController objects] objectAtIndex:indexPath.row];
 			
-			if( selectedFile.protected && ![[CSV_TouchAppDelegate sharedInstance] hasCheckedPassword] )
-			{
-				[[CSV_TouchAppDelegate sharedInstance] checkPassword];
-				return;
-			}
 			if( selectedFile != currentFile && !selectedFile.hasBeenSorted )
 			{
 				[[CSV_TouchAppDelegate sharedInstance] slowActivityStarted];
@@ -1184,14 +1161,14 @@ didSelectRowAtIndexPath:[fileController.tableView indexPathForSelectedRow]];
 	{
 		fileController.removeDisclosure = YES;
 		NSMutableArray *items = [NSMutableArray arrayWithArray:[self.filesToolbar items]];
-		[items replaceObjectAtIndex:2 withObject:[self doneItemWithSelector:@selector(toggleRefreshFiles:)]];
+		[items replaceObjectAtIndex:1 withObject:[self doneItemWithSelector:@selector(toggleRefreshFiles:)]];
 		self.filesToolbar.items = items;
 	}
 	else
 	{
 		fileController.removeDisclosure = NO;
 		NSMutableArray *items = [NSMutableArray arrayWithArray:[self.filesToolbar items]];
-		[items replaceObjectAtIndex:2 withObject:[self refreshFilesItem]];
+		[items replaceObjectAtIndex:1 withObject:[self refreshFilesItem]];
 		self.filesToolbar.items = items;
 	}
 	[fileController dataLoaded];
@@ -1207,7 +1184,7 @@ didSelectRowAtIndexPath:[fileController.tableView indexPathForSelectedRow]];
 	{
 		fileController.removeDisclosure = YES;
 		NSMutableArray *items = [NSMutableArray arrayWithArray:[self.filesToolbar items]];
-		[items replaceObjectAtIndex:3 withObject:[self doneItemWithSelector:@selector(toggleShowFileInfo:)]];
+		[items replaceObjectAtIndex:2 withObject:[self doneItemWithSelector:@selector(toggleShowFileInfo:)]];
 		self.filesToolbar.items = items;
 		if( [fileController.tableView indexPathForSelectedRow] != nil )
 			[self tableView:fileController.tableView
@@ -1217,7 +1194,7 @@ didSelectRowAtIndexPath:[fileController.tableView indexPathForSelectedRow]];
 	{
 		fileController.removeDisclosure = NO;
 		NSMutableArray *items = [NSMutableArray arrayWithArray:[self.filesToolbar items]];
-		[items replaceObjectAtIndex:3 withObject:[self showFileInfoItem]];
+		[items replaceObjectAtIndex:2 withObject:[self showFileInfoItem]];
 		self.filesToolbar.items = items;
 	}
 	[fileController dataLoaded];

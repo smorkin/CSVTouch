@@ -36,6 +36,8 @@
 + (BOOL) clearSearchWhenQuickSelecting;
 + (BOOL) confirmLink;
 + (BOOL) alignHtml;
++ (BOOL) usePassword;
++ (void) clearSetPassword;
 
 + (BOOL) liteVersionRunning;
 

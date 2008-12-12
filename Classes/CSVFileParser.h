@@ -23,7 +23,6 @@
 	BOOL _hasBeenParsed;
 	BOOL _hasBeenSorted;
 	BOOL _hasBeenDownloaded;
-	BOOL _protected;
 }
 
 @property (nonatomic, copy) NSString *filePath;
@@ -36,7 +35,6 @@
 @property (nonatomic, assign) BOOL hasBeenSorted;
 @property (nonatomic, assign) BOOL hasBeenParsed;
 @property (nonatomic, assign) BOOL hasBeenDownloaded;
-@property (nonatomic, assign) BOOL protected;
 
 + (CSVFileParser *) parserWithFile:(NSString *)path;
 - (void) saveToFile;

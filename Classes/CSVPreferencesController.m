@@ -41,19 +41,10 @@
 #define PREFS_CLEAR_SEARCH_WHEN_QUICK_SELECTING @"clearSearchWhenQuickSelecting"
 #define PREFS_CONFIRM_LINK @"confirmLink"
 #define PREFS_ALIGN_HTML @"alignHtml"
+#define PREFS_USE_PASSWORD @"usePassword"
 
 
 NSUInteger sortingMask;
-
-//- (void) loadPreferences
-//{
-//	[sizeControl setTitle:@"Normal" forSegmentAtIndex:0];
-//	[sizeControl insertSegmentWithTitle:@"Small" atIndex:1 animated:NO];
-//	[sizeControl insertSegmentWithTitle:@"Mini" atIndex:2 animated:NO];
-//	sizeControl.selectedSegmentIndex = [CSVPreferencesController tableViewSize];
-//}
-
-
 
 + (void) applicationDidFinishLaunching
 {
@@ -276,6 +267,20 @@ NSUInteger sortingMask;
 		return [[NSUserDefaults standardUserDefaults] boolForKey:PREFS_ALIGN_HTML];
 	else
 		return YES;
+}
+
++ (BOOL) usePassword
+{
+	id obj = [[NSUserDefaults standardUserDefaults] objectForKey:PREFS_USE_PASSWORD];
+	if( obj )
+		return [[NSUserDefaults standardUserDefaults] boolForKey:PREFS_USE_PASSWORD];
+	else
+		return NO;
+}
+
++ (void) clearSetPassword
+{
+	[[NSUserDefaults standardUserDefaults] removeObjectForKey:PREFS_USE_PASSWORD];
 }
 
 + (BOOL) liteVersionRunning

@@ -12,7 +12,9 @@
 			<key>Type</key>
 			<string>PSGroupSpecifier</string>
 			<key>Title</key>
-			<string>This software uses code from Michael B. Allen:
+			<string>CSV Touch 2.2
+
+This software uses code from Michael B. Allen:
 
 csv - read write comma separated value format
 Copyright (c) 2003 Michael B. Allen &lt;mba2000 ioplex.com&gt;
