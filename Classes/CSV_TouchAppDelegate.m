@@ -131,18 +131,83 @@ static NSString *newPassword = nil;
 	return [paths objectAtIndex:0];
 }
 
+#define RAW_CSV_FILES_FOLDER @"My Files"
+
+- (void) readRawFileData:(NSData *)data
+				fileName:(NSString *)fileName
+		 isLocalDownload:(BOOL)isLocalDownload
+{
+	CSVFileParser *fp = [[CSVFileParser alloc] initWithRawData:data];
+	fp.filePath = [[CSV_TouchAppDelegate documentsPath] stringByAppendingPathComponent:fileName];
+	if( !isLocalDownload )
+	{
+		fp.URL = [newFileURL text]; 
+	}
+	else
+	{
+		fp.URL = @"<local download>";
+	}
+	fp.downloadDate = [NSDate date];
+	
+	if( [[self dataController] numberOfFiles] > 0 &&
+	   ![[self dataController] fileExistsWithURL:fp.URL] &&
+	   [CSVPreferencesController liteVersionRunning] )
+	{
+		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Only 1 file allowed"
+														message:@"CSV Lite only allows 1 file; please delete the old one before downloading a new. Or buy CSV Touch :-)"
+													   delegate:self
+											  cancelButtonTitle:@"OK"
+											  otherButtonTitles:nil];
+		[alert show];
+	}
+	else if( self.httpStatusCode >= 400 )
+	{
+		UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Download Failure"
+														 message:[NSString httpStatusDescription:self.httpStatusCode]
+														delegate:self
+											   cancelButtonTitle:@"OK"
+											   otherButtonTitles:nil] autorelease];	
+		[alert show];
+	}
+	else
+	{
+		[fp saveToFile];
+		[[self dataController] newFileDownloaded:fp];
+	}
+	[fp release];
+}
+
 - (void) loadLocalFiles
 {
 	NSMutableArray *files = [NSMutableArray array];
-	NSString *documentsPath;
-	if( (documentsPath = [CSV_TouchAppDelegate documentsPath]) )
+	NSString *documentsPath = [CSV_TouchAppDelegate documentsPath];
+	if( documentsPath )
 	{
-		NSArray *documents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:documentsPath
-																				 error:NULL];
-		for( NSString *file in documents )
+		NSArray *documents;
+		
+		// First import all the potentially manually added files
+		NSString *rawDocumentsPath = [documentsPath stringByAppendingPathComponent:RAW_CSV_FILES_FOLDER];
+		documents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:rawDocumentsPath
+																		error:NULL];
+		for( NSString *fileName in documents )
 		{
-			CSVFileParser *fp = [CSVFileParser parserWithFile:[documentsPath stringByAppendingPathComponent:file]];
-			[files addObject:fp];
+			if( ![fileName hasPrefix:@"."] )
+				[self readRawFileData:[NSData dataWithContentsOfFile:[rawDocumentsPath stringByAppendingPathComponent:fileName]]
+							 fileName:fileName
+					  isLocalDownload:YES];
+			[[NSFileManager defaultManager] removeItemAtPath:[rawDocumentsPath stringByAppendingPathComponent:fileName] error:NULL];
+		}
+		
+		// Then read all the files
+		documents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:documentsPath
+																				 error:NULL];
+		for( NSString *fileName in documents )
+		{
+			if( ![fileName isEqualToString:RAW_CSV_FILES_FOLDER] )
+			{
+				CSVFileParser *fp = [CSVFileParser parserWithFile:[documentsPath stringByAppendingPathComponent:fileName]];
+				[files addObject:fp];
+			}
 		}
 	}
 	[[self dataController] setFiles:files];
@@ -251,6 +316,7 @@ static NSString *newPassword = nil;
 }
 
 
+
 - (void) downloadDone
 {
 	[connection release];
@@ -285,37 +351,9 @@ static NSString *newPassword = nil;
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)conn
 {
-	CSVFileParser *fp = [[CSVFileParser alloc] initWithRawData:rawData];
-	fp.filePath = [[CSV_TouchAppDelegate documentsPath] stringByAppendingPathComponent:[[newFileURL text] lastPathComponent]];
-	fp.URL = [newFileURL text]; 
-	fp.downloadDate = [NSDate date];
-	
-	if( [[self dataController] numberOfFiles] > 0 &&
-	   ![[self dataController] fileExistsWithURL:fp.URL] &&
-	   [CSVPreferencesController liteVersionRunning] )
-	{
-		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Only 1 file allowed"
-														message:@"CSV Lite only allows 1 file; please delete the old one before downloading a new. Or buy CSV Touch :-)"
-													   delegate:self
-											  cancelButtonTitle:@"OK"
-											  otherButtonTitles:nil];
-		[alert show];
-	}
-	else if( self.httpStatusCode >= 400 )
-	{
-		UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Download Failure"
-														 message:[NSString httpStatusDescription:self.httpStatusCode]
-														delegate:self
-											   cancelButtonTitle:@"OK"
-											   otherButtonTitles:nil] autorelease];	
-		[alert show];
-	}
-	else
-	{
-		[fp saveToFile];
-		[[self dataController] newFileDownloaded:fp];
-	}
-	[fp release];
+	[self readRawFileData:rawData
+				 fileName:[[newFileURL text] lastPathComponent]
+		  isLocalDownload:NO];
 	[rawData release];
 	rawData = nil;
 	[self downloadDone];
@@ -356,7 +394,7 @@ static NSString *newPassword = nil;
 	{
 		fileInfo.text = [error localizedDescription];
 	}
-	newFileURL.text = [fp URL];
+	newFileURL.text = fp.URL;
 	[[self dataController] presentModalViewController:fileViewController animated:YES];
 }
 	
@@ -368,7 +406,7 @@ static NSString *newPassword = nil;
 	self.httpStatusCode = 0;
 	NSURLRequest *theRequest=[NSURLRequest requestWithURL:url
                                               cachePolicy:NSURLRequestReloadIgnoringLocalCacheData
-                                          timeoutInterval:10.0];
+                                          timeoutInterval:300.0];
     connection = [[NSURLConnection alloc] initWithRequest:theRequest delegate:self];
     if (!connection)
 	{
@@ -397,6 +435,9 @@ static NSString *newPassword = nil;
 
 - (void) downloadFileWithString:(NSString *)URL
 {
+	if( !URL )
+		return;
+	
 	[self slowActivityStarted];
 	[self startDownloadUsingURL:[NSURL URLWithString:[URL stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
 

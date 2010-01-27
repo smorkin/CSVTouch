@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 45;
+	objectVersion = 46;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -114,6 +114,7 @@
 		F4AE44850DF469BF001197AB /* CSVRow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSVRow.h; sourceTree = "<group>"; };
 		F4AE44860DF469BF001197AB /* CSVRow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSVRow.m; sourceTree = "<group>"; };
 		F4BE8AB00E4503AC00F2A27B /* dist.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = dist.plist; sourceTree = "<group>"; };
+		F4CCB53F1026D6D800FD684A /* Priv dist-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Priv dist-Info.plist"; sourceTree = "<group>"; };
 		F4E5EA930E08843D002EB091 /* OzyRotatableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OzyRotatableViewController.h; sourceTree = "<group>"; };
 		F4E5EA940E08843D002EB091 /* OzyRotatableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OzyRotatableViewController.m; sourceTree = "<group>"; };
 		F4E5EAA80E0884D8002EB091 /* OzyRotatableTabBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OzyRotatableTabBarController.h; sourceTree = "<group>"; };
@@ -201,6 +202,7 @@
 				F4990C160E4276C500D64667 /* Settings.bundle */,
 				F4BE8AB00E4503AC00F2A27B /* dist.plist */,
 				F452CA8D0EB24A0D002F7697 /* CSV Lite-Info.plist */,
+				F4CCB53F1026D6D800FD684A /* Priv dist-Info.plist */,
 			);
 			name = CustomTemplate;
 			sourceTree = "<group>";
@@ -302,7 +304,7 @@
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "CSV Touch" */;
-			compatibilityVersion = "Xcode 3.1";
+			compatibilityVersion = "Xcode 3.2";
 			hasScannedForEncodings = 1;
 			knownRegions = (
 				English,
@@ -420,7 +422,6 @@
 				INFOPLIST_FILE = Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 2.1;
 				PRODUCT_NAME = "CSV Touch";
-				PROVISIONING_PROFILE = DefaultProfileUuid;
 			};
 			name = Debug;
 		};
@@ -436,7 +437,6 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 2.1;
 				ONLY_ACTIVE_ARCH = YES;
 				PREBINDING = NO;
-				PROVISIONING_PROFILE = DefaultProfileUuid;
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = DefaultProfileUuid;
 				SDKROOT = iphonesimulator2.1;
 			};
@@ -453,8 +453,7 @@
 				HEADER_SEARCH_PATHS = "\"$SRCROOT\"/**";
 				IPHONEOS_DEPLOYMENT_TARGET = 2.1;
 				PREBINDING = NO;
-				PROVISIONING_PROFILE = "FEF5E015-E029-430B-87A0-DB6A4AB7508B";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "FEF5E015-E029-430B-87A0-DB6A4AB7508B";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "4721226F-AC70-45DB-ABB7-A99EBBAAC038";
 				SDKROOT = iphoneos2.1;
 			};
 			name = Distribution;
@@ -538,11 +537,10 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "\"$SRCROOT\"/**";
-				IPHONEOS_DEPLOYMENT_TARGET = 2.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
 				PREBINDING = NO;
-				PROVISIONING_PROFILE = "FD903CDE-BF61-4E6F-BBA6-3F38E0CC93B7";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "FD903CDE-BF61-4E6F-BBA6-3F38E0CC93B7";
-				SDKROOT = iphoneos2.1;
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "47757B33-0E1E-4284-9D37-11382CF58316";
+				SDKROOT = iphoneos3.0;
 			};
 			name = Privatdistribution;
 		};
@@ -558,10 +556,58 @@
 				INFOPLIST_FILE = Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 2.1;
 				PRODUCT_NAME = "CSV Touch";
-				PROVISIONING_PROFILE = "FD903CDE-BF61-4E6F-BBA6-3F38E0CC93B7";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "FD903CDE-BF61-4E6F-BBA6-3F38E0CC93B7";
 			};
 			name = Privatdistribution;
+		};
+		F4CCB5441026D71600FD684A /* Priv dist */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CODE_SIGN_ENTITLEMENTS = dist.plist;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Simon Wigzell";
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "\"$SRCROOT\"/**";
+				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
+				PREBINDING = NO;
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "47757B33-0E1E-4284-9D37-11382CF58316";
+				SDKROOT = iphoneos3.0;
+			};
+			name = "Priv dist";
+		};
+		F4CCB5451026D71600FD684A /* Priv dist */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Simon Wigzell";
+				COPY_PHASE_STRIP = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = CSV_Touch_Prefix.pch;
+				INFOPLIST_FILE = Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 2.1;
+				PRODUCT_NAME = "CSV Touch";
+			};
+			name = "Priv dist";
+		};
+		F4CCB5461026D71600FD684A /* Priv dist */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Simon Wigzell";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = CSV_Lite_Prefix.pch;
+				INFOPLIST_FILE = "CSV Lite-Info.plist";
+				INSTALL_PATH = "$(HOME)/Applications";
+				OTHER_CFLAGS = "-DCSV_LITE";
+				OTHER_LDFLAGS = "";
+				PREBINDING = NO;
+				PRODUCT_NAME = "CSV Lite";
+				SDKROOT = iphoneos2.1;
+				SKIP_INSTALL = YES;
+			};
+			name = "Priv dist";
 		};
 /* End XCBuildConfiguration section */
 
@@ -571,6 +617,7 @@
 			buildConfigurations = (
 				1D6058940D05DD3E006BFB54 /* Debug */,
 				F40C24340E3259B500C3B20E /* Distribution */,
+				F4CCB5451026D71600FD684A /* Priv dist */,
 				F4BE8A990E44FF1100F2A27B /* Privatdistribution */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -581,6 +628,7 @@
 			buildConfigurations = (
 				C01FCF4F08A954540054247B /* Debug */,
 				F40C24330E3259B500C3B20E /* Distribution */,
+				F4CCB5441026D71600FD684A /* Priv dist */,
 				F4BE8A980E44FF1100F2A27B /* Privatdistribution */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -591,6 +639,7 @@
 			buildConfigurations = (
 				F452CA8E0EB24A0E002F7697 /* Debug */,
 				F452CA8F0EB24A0E002F7697 /* Distribution */,
+				F4CCB5461026D71600FD684A /* Priv dist */,
 				F452CA900EB24A0E002F7697 /* Privatdistribution */,
 			);
 			defaultConfigurationIsVisible = 0;

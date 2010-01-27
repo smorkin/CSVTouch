@@ -230,7 +230,7 @@
 		default:
 		{
 			NSMutableString *s = [[[NSMutableString alloc] initWithCapacity:200] autorelease];
-			for( NSUInteger i = 0 ; i < [words count] ; i++ )
+			for( NSUInteger i = 0 ; i < indexCount ; i++ )
 				[s appendFormat:@"%@‧", [words objectAtIndex:indexes[i]]];
 			return s;
 		}

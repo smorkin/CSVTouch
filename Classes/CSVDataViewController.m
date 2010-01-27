@@ -270,15 +270,19 @@
 //{
 //	if( tableView == fancyDetailsController.tableView )
 //	{
-//		UITableViewCell *cell = [fancyDetailsController tableView:tableView cellForRowAtIndexPath:indexPath];
-//		CGSize cellSize = [cell frame].size;
-//		cellSize.width -= 60;
-//		cellSize.height = 400;
-//		CGSize newSize = [cell.text sizeWithFont:cell.font 
-//						  constrainedToSize:cellSize
-//						  lineBreakMode:UILineBreakModeWordWrap];
-//		return newSize.height + 2;
+//		return 44;
 //	}
+//////	if( tableView == fancyDetailsController.tableView )
+//////	{
+//////		UITableViewCell *cell = [fancyDetailsController tableView:tableView cellForRowAtIndexPath:indexPath];
+//////		CGSize cellSize = [cell frame].size;
+//////		cellSize.width -= 60;
+//////		cellSize.height = 400;
+//////		CGSize newSize = [cell.text sizeWithFont:cell.font 
+//////						  constrainedToSize:cellSize
+//////						  lineBreakMode:UILineBreakModeWordWrap];
+//////		return newSize.height + 2;
+//////	}
 //	else
 //	{
 //		return tableView.rowHeight;
@@ -606,7 +610,7 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
 	for( NSString *controllerId in controllerStack )
 	{
 		UIViewController *controller = [self controllerForId:controllerId];
-		if( controller )
+		if( controller && controller != fileController )
 		{
 			[self pushViewController:controller animated:NO];
 		}
@@ -1304,8 +1308,8 @@ didSelectRowAtIndexPath:[fileController.tableView indexPathForSelectedRow]];
 
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
-	if( ![CSVPreferencesController showStatusBar ] && [[UIApplication sharedApplication] isStatusBarHidden] )
-		[[UIApplication sharedApplication] setStatusBarHidden:NO animated:NO];
+//	if( ![CSVPreferencesController showStatusBar ] && [[UIApplication sharedApplication] isStatusBarHidden] )
+//		[[UIApplication sharedApplication] setStatusBarHidden:NO animated:NO];
 }
 
 
