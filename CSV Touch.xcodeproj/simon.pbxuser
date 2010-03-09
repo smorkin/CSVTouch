@@ -9,9 +9,9 @@
 	};
 	1D3623250D0F684500981E51 /* CSV_TouchAppDelegate.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {840, 7560}}";
-			sepNavSelRange = "{13568, 0}";
-			sepNavVisRange = "{12768, 1434}";
+			sepNavIntBoundsRect = "{{0, 0}, {840, 7728}}";
+			sepNavSelRange = "{13628, 0}";
+			sepNavVisRange = "{13165, 1129}";
 			sepNavWindowFrame = "{{142, 108}, {750, 558}}";
 		};
 	};
@@ -30,28 +30,30 @@
 	};
 	28C286DF0D94DF7D0034E888 /* OzyTableViewController.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {725, 1008}}";
-			sepNavSelRange = "{1997, 0}";
-			sepNavVisRange = "{1637, 759}";
+			sepNavIntBoundsRect = "{{0, 0}, {808, 1008}}";
+			sepNavSelRange = "{1686, 0}";
+			sepNavVisRange = "{568, 1372}";
 			sepNavWindowFrame = "{{82, 194}, {750, 558}}";
 		};
 	};
 	28C286E00D94DF7D0034E888 /* OzyTableViewController.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {796, 6496}}";
-			sepNavSelRange = "{10987, 11}";
-			sepNavVisRange = "{10876, 395}";
+			sepNavIntBoundsRect = "{{0, 0}, {808, 6538}}";
+			sepNavSelRange = "{3508, 0}";
+			sepNavVisRange = "{3321, 765}";
 			sepNavWindowFrame = "{{81, 89}, {1022, 663}}";
 		};
 	};
 	29B97313FDCFA39411CA2CEA /* Project object */ = {
-		activeBuildConfigurationName = "Priv dist";
+		activeBuildConfigurationName = Debug;
 		activeExecutable = F41233730DE4ABFC005E355F /* CSV Touch */;
-		activeSDKPreference = iphoneos3.0;
+		activeSDKPreference = iphonesimulator3.1.3;
 		activeTarget = 1D6058900D05DD3D006BFB54 /* CSV Touch */;
 		addToTargets = (
 			1D6058900D05DD3D006BFB54 /* CSV Touch */,
 			F452CA8A0EB24A0D002F7697 /* CSV Lite */,
+			F47DC7E71111004C00E8DD8B /* CSV Touch-iPad */,
+			F47DC8141111005400E8DD8B /* CSV Lite-iPad */,
 		);
 		breakpoints = (
 			F419D74F0DE7438200C833EF /* -[NSException raise] */,
@@ -61,6 +63,8 @@
 		executables = (
 			F41233730DE4ABFC005E355F /* CSV Touch */,
 			F452CA8C0EB24A0D002F7697 /* CSV Lite */,
+			F47DC80E1111004C00E8DD8B /* CSV Touch-iPad */,
+			F47DC83B1111005400E8DD8B /* CSV Lite-iPad */,
 		);
 		perUserDictionary = {
 			"PBXConfiguration.PBXBreakpointsDataSource.v1:1CA1AED706398EBD00589147" = {
@@ -93,11 +97,11 @@
 				PBXFileTableDataSourceColumnWidthsKey = (
 					20,
 					20,
-					252,
+					10,
 					20,
-					151,
-					152,
-					126,
+					10,
+					10,
+					10,
 					20,
 				);
 				PBXFileTableDataSourceColumnsKey = (
@@ -207,31 +211,31 @@
 					PBXFileDataSource_Warnings_ColumnID,
 				);
 			};
-			PBXPerProjectTemplateStateSaveDate = 284852699;
-			PBXWorkspaceStateSaveDate = 284852699;
+			PBXPerProjectTemplateStateSaveDate = 289826544;
+			PBXWorkspaceStateSaveDate = 289826544;
 		};
 		perUserProjectItems = {
-			F4167F060F71BC54004775D8 /* PBXTextBookmark */ = F4167F060F71BC54004775D8 /* PBXTextBookmark */;
-			F42F4DA1108363A1009572BE /* PBXTextBookmark */ = F42F4DA1108363A1009572BE /* PBXTextBookmark */;
-			F43A3D3F10FA81FB0010DAF4 /* PlistBookmark */ = F43A3D3F10FA81FB0010DAF4 /* PlistBookmark */;
-			F43A3D4010FA81FB0010DAF4 /* PBXTextBookmark */ = F43A3D4010FA81FB0010DAF4 /* PBXTextBookmark */;
-			F43A3D4110FA81FB0010DAF4 /* PBXTextBookmark */ = F43A3D4110FA81FB0010DAF4 /* PBXTextBookmark */;
-			F43A3D4210FA81FB0010DAF4 /* PBXTextBookmark */ = F43A3D4210FA81FB0010DAF4 /* PBXTextBookmark */;
-			F43A3D5010FA84310010DAF4 /* PBXTextBookmark */ = F43A3D5010FA84310010DAF4 /* PBXTextBookmark */;
-			F45CC1960FEC04370072AC26 /* PBXTextBookmark */ = F45CC1960FEC04370072AC26 /* PBXTextBookmark */;
-			F45CC1970FEC04370072AC26 /* PBXTextBookmark */ = F45CC1970FEC04370072AC26 /* PBXTextBookmark */;
-			F45CC3520FEC379F0072AC26 /* PBXTextBookmark */ = F45CC3520FEC379F0072AC26 /* PBXTextBookmark */;
-			F45CC3530FEC379F0072AC26 /* PBXTextBookmark */ = F45CC3530FEC379F0072AC26 /* PBXTextBookmark */;
-			F45CC3540FEC379F0072AC26 /* PBXTextBookmark */ = F45CC3540FEC379F0072AC26 /* PBXTextBookmark */;
-			F45CC3550FEC379F0072AC26 /* PBXTextBookmark */ = F45CC3550FEC379F0072AC26 /* PBXTextBookmark */;
-			F45CC3570FEC379F0072AC26 /* PBXTextBookmark */ = F45CC3570FEC379F0072AC26 /* PBXTextBookmark */;
-			F45CC3590FEC379F0072AC26 /* PBXTextBookmark */ = F45CC3590FEC379F0072AC26 /* PBXTextBookmark */;
-			F45CC35A0FEC379F0072AC26 /* PBXTextBookmark */ = F45CC35A0FEC379F0072AC26 /* PBXTextBookmark */;
-			F4CB2BD40FF8230400454185 /* PBXTextBookmark */ = F4CB2BD40FF8230400454185 /* PBXTextBookmark */;
-			F4D59678100E376D0097EF5B /* PBXTextBookmark */ = F4D59678100E376D0097EF5B /* PBXTextBookmark */;
-			F4D5967A100E376D0097EF5B /* PBXTextBookmark */ = F4D5967A100E376D0097EF5B /* PBXTextBookmark */;
-			F4D5967B100E376D0097EF5B /* PBXTextBookmark */ = F4D5967B100E376D0097EF5B /* PBXTextBookmark */;
-			F4D5967D100E376D0097EF5B /* PBXTextBookmark */ = F4D5967D100E376D0097EF5B /* PBXTextBookmark */;
+			F42CF75B1145C1EC00668241 /* PBXTextBookmark */ = F42CF75B1145C1EC00668241 /* PBXTextBookmark */;
+			F42CF75C1145C1EC00668241 /* PBXTextBookmark */ = F42CF75C1145C1EC00668241 /* PBXTextBookmark */;
+			F42CF7721145C51800668241 /* PBXTextBookmark */ = F42CF7721145C51800668241 /* PBXTextBookmark */;
+			F42CF7731145C51800668241 /* PBXTextBookmark */ = F42CF7731145C51800668241 /* PBXTextBookmark */;
+			F42CF7F11145CC6700668241 /* PBXTextBookmark */ = F42CF7F11145CC6700668241 /* PBXTextBookmark */;
+			F42CF83E1145D29D00668241 /* PBXTextBookmark */ = F42CF83E1145D29D00668241 /* PBXTextBookmark */;
+			F42CF8401145D29D00668241 /* PBXTextBookmark */ = F42CF8401145D29D00668241 /* PBXTextBookmark */;
+			F42CF8811145D74300668241 /* PBXTextBookmark */ = F42CF8811145D74300668241 /* PBXTextBookmark */;
+			F42CF8821145D74300668241 /* PBXTextBookmark */ = F42CF8821145D74300668241 /* PBXTextBookmark */;
+			F42CF8831145D74300668241 /* PBXTextBookmark */ = F42CF8831145D74300668241 /* PBXTextBookmark */;
+			F42CF8E31145DD2E00668241 /* PBXTextBookmark */ = F42CF8E31145DD2E00668241 /* PBXTextBookmark */;
+			F42CF8E51145DD2E00668241 /* PBXTextBookmark */ = F42CF8E51145DD2E00668241 /* PBXTextBookmark */;
+			F45807C9114669AA00A4C4E1 /* PBXTextBookmark */ = F45807C9114669AA00A4C4E1 /* PBXTextBookmark */;
+			F45807D111466A0200A4C4E1 /* PBXTextBookmark */ = F45807D111466A0200A4C4E1 /* PBXTextBookmark */;
+			F458080411466EAE00A4C4E1 /* PBXTextBookmark */ = F458080411466EAE00A4C4E1 /* PBXTextBookmark */;
+			F458089D114678B300A4C4E1 /* PBXTextBookmark */ = F458089D114678B300A4C4E1 /* PBXTextBookmark */;
+			F45808A71146799B00A4C4E1 /* PBXTextBookmark */ = F45808A71146799B00A4C4E1 /* PBXTextBookmark */;
+			F45808A81146799B00A4C4E1 /* PBXTextBookmark */ = F45808A81146799B00A4C4E1 /* PBXTextBookmark */;
+			F45808CD11467B1100A4C4E1 /* PBXTextBookmark */ = F45808CD11467B1100A4C4E1 /* PBXTextBookmark */;
+			F488D82711465FA300583920 /* PBXTextBookmark */ = F488D82711465FA300583920 /* PBXTextBookmark */;
+			F488D8451146613C00583920 /* PBXTextBookmark */ = F488D8451146613C00583920 /* PBXTextBookmark */;
 		};
 		sourceControlManager = F41233890DE4AC09005E355F /* Source Control */;
 		userBuildSettings = {
@@ -246,9 +250,9 @@
 	};
 	F4074E880E52242B004BCDB7 /* Request list.txt */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {796, 644}}";
+			sepNavIntBoundsRect = "{{0, 0}, {808, 630}}";
 			sepNavSelRange = "{520, 29}";
-			sepNavVisRange = "{0, 763}";
+			sepNavVisRange = "{40, 1390}";
 		};
 	};
 	F41233730DE4ABFC005E355F /* CSV Touch */ = {
@@ -307,9 +311,9 @@
 	};
 	F41233A00DE4AD64005E355F /* csv.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {648, 728}}";
+			sepNavIntBoundsRect = "{{0, 0}, {808, 742}}";
 			sepNavSelRange = "{520, 17}";
-			sepNavVisRange = "{348, 583}";
+			sepNavVisRange = "{139, 977}";
 		};
 	};
 	F41233A30DE4AD64005E355F /* text.h */ = {
@@ -327,23 +331,6 @@
 			sepNavWindowFrame = "{{56, 110}, {1022, 663}}";
 		};
 	};
-	F4167F060F71BC54004775D8 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = F4167F070F71BC54004775D8 /* UIEvent.h */;
-		name = "UIEvent.h: 26";
-		rLen = 49;
-		rLoc = 493;
-		rType = 0;
-		vrLen = 958;
-		vrLoc = 0;
-	};
-	F4167F070F71BC54004775D8 /* UIEvent.h */ = {
-		isa = PBXFileReference;
-		lastKnownFileType = sourcecode.c.h;
-		name = UIEvent.h;
-		path = /Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.0.sdk/System/Library/Frameworks/UIKit.framework/Headers/UIEvent.h;
-		sourceTree = "<absolute>";
-	};
 	F4174D140E40A4A200351EE4 /* icon.png */ = {
 		uiCtxt = {
 			sepNavWindowFrame = "{{57, 89}, {1201, 684}}";
@@ -360,8 +347,8 @@
 		hitCount = 0;
 		ignoreCount = 0;
 		location = CoreFoundation;
-		modificationTime = 270982345.469206;
-		originalNumberOfMultipleMatches = 0;
+		modificationTime = 289831684.357598;
+		originalNumberOfMultipleMatches = 1;
 		state = 1;
 		symbolName = "-[NSException raise]";
 	};
@@ -379,82 +366,183 @@
 			sepNavVisRange = "{1276, 1029}";
 		};
 	};
+	F42CF75B1145C1EC00668241 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = F4E5EA930E08843D002EB091 /* OzyRotatableViewController.h */;
+		name = "OzyRotatableViewController.h: 16";
+		rLen = 12;
+		rLoc = 293;
+		rType = 0;
+		vrLen = 312;
+		vrLoc = 0;
+	};
+	F42CF75C1145C1EC00668241 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = F4E5EA940E08843D002EB091 /* OzyRotatableViewController.m */;
+		name = "OzyRotatableViewController.m: 14";
+		rLen = 12;
+		rLoc = 281;
+		rType = 0;
+		vrLen = 598;
+		vrLoc = 36;
+	};
+	F42CF7721145C51800668241 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = F4E5EE2F0E09B591002EB091 /* OzyTextViewController.m */;
+		name = "OzyTextViewController.m: 29";
+		rLen = 0;
+		rLoc = 577;
+		rType = 0;
+		vrLen = 577;
+		vrLoc = 0;
+	};
+	F42CF7731145C51800668241 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = F4A73D1A0E2EB49200E1DF27 /* OzymandiasAdditions.m */;
+		name = "OzymandiasAdditions.m: 130";
+		rLen = 0;
+		rLoc = 3550;
+		rType = 0;
+		vrLen = 1070;
+		vrLoc = 178;
+	};
+	F42CF7751145C51800668241 /* UITableView.h */ = {
+		isa = PBXFileReference;
+		lastKnownFileType = sourcecode.c.h;
+		name = UITableView.h;
+		path = /Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.1.3.sdk/System/Library/Frameworks/UIKit.framework/Headers/UITableView.h;
+		sourceTree = "<absolute>";
+	};
+	F42CF7F11145CC6700668241 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 28C286DF0D94DF7D0034E888 /* OzyTableViewController.h */;
+		name = "OzyTableViewController.h: 51";
+		rLen = 0;
+		rLoc = 1686;
+		rType = 0;
+		vrLen = 1372;
+		vrLoc = 568;
+	};
+	F42CF8201145CFA100668241 /* UISearchBar.h */ = {
+		isa = PBXFileReference;
+		lastKnownFileType = sourcecode.c.h;
+		name = UISearchBar.h;
+		path = /Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.1.3.sdk/System/Library/Frameworks/UIKit.framework/Headers/UISearchBar.h;
+		sourceTree = "<absolute>";
+	};
+	F42CF83E1145D29D00668241 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = F42CF83F1145D29D00668241 /* UISearchDisplayController.h */;
+		name = "UISearchDisplayController.h: 48";
+		rLen = 11;
+		rLoc = 1827;
+		rType = 0;
+		vrLen = 2260;
+		vrLoc = 1029;
+	};
+	F42CF83F1145D29D00668241 /* UISearchDisplayController.h */ = {
+		isa = PBXFileReference;
+		lastKnownFileType = sourcecode.c.h;
+		name = UISearchDisplayController.h;
+		path = /Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.1.3.sdk/System/Library/Frameworks/UIKit.framework/Headers/UISearchDisplayController.h;
+		sourceTree = "<absolute>";
+	};
+	F42CF8401145D29D00668241 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = F42CF8411145D29D00668241 /* UIView.h */;
+		name = "UIView.h: 57";
+		rLen = 63;
+		rLoc = 1919;
+		rType = 0;
+		vrLen = 1454;
+		vrLoc = 7484;
+	};
+	F42CF8411145D29D00668241 /* UIView.h */ = {
+		isa = PBXFileReference;
+		lastKnownFileType = sourcecode.c.h;
+		name = UIView.h;
+		path = /Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.1.3.sdk/System/Library/Frameworks/UIKit.framework/Headers/UIView.h;
+		sourceTree = "<absolute>";
+	};
+	F42CF8811145D74300668241 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = F42CF8201145CFA100668241 /* UISearchBar.h */;
+		name = "UISearchBar.h: 76";
+		rLen = 116;
+		rLoc = 3860;
+		rType = 0;
+		vrLen = 3235;
+		vrLoc = 1594;
+	};
+	F42CF8821145D74300668241 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = F42D908C0DE95538001A2E5C /* CSVDataViewController.h */;
+		name = "CSVDataViewController.h: 77";
+		rLen = 34;
+		rLoc = 2215;
+		rType = 0;
+		vrLen = 1254;
+		vrLoc = 1648;
+	};
+	F42CF8831145D74300668241 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = F42CF8841145D74300668241 /* UITextField.h */;
+		name = "UITextField.h: 165";
+		rLen = 128;
+		rLoc = 6912;
+		rType = 0;
+		vrLen = 2143;
+		vrLoc = 6045;
+	};
+	F42CF8841145D74300668241 /* UITextField.h */ = {
+		isa = PBXFileReference;
+		lastKnownFileType = sourcecode.c.h;
+		name = UITextField.h;
+		path = /Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.1.3.sdk/System/Library/Frameworks/UIKit.framework/Headers/UITextField.h;
+		sourceTree = "<absolute>";
+	};
+	F42CF8E31145DD2E00668241 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = F42CF8E41145DD2E00668241 /* UITableViewController.h */;
+		name = "UITableViewController.h: 25";
+		rLen = 11;
+		rLoc = 905;
+		rType = 0;
+		vrLen = 935;
+		vrLoc = 0;
+	};
+	F42CF8E41145DD2E00668241 /* UITableViewController.h */ = {
+		isa = PBXFileReference;
+		lastKnownFileType = sourcecode.c.h;
+		name = UITableViewController.h;
+		path = /Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.1.3.sdk/System/Library/Frameworks/UIKit.framework/Headers/UITableViewController.h;
+		sourceTree = "<absolute>";
+	};
+	F42CF8E51145DD2E00668241 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = F42CF7751145C51800668241 /* UITableView.h */;
+		name = "UITableView.h: 42";
+		rLen = 0;
+		rLoc = 1542;
+		rType = 0;
+		vrLen = 1849;
+		vrLoc = 491;
+	};
 	F42D908C0DE95538001A2E5C /* CSVDataViewController.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {796, 1512}}";
-			sepNavSelRange = "{3015, 0}";
-			sepNavVisRange = "{271, 788}";
+			sepNavIntBoundsRect = "{{0, 0}, {661, 1526}}";
+			sepNavSelRange = "{1224, 0}";
+			sepNavVisRange = "{775, 822}";
 			sepNavWindowFrame = "{{57, 10}, {560, 763}}";
 		};
 	};
 	F42D908D0DE95538001A2E5C /* CSVDataViewController.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1212, 19154}}";
-			sepNavSelRange = "{42949, 121}";
-			sepNavVisRange = "{42678, 1731}";
+			sepNavIntBoundsRect = "{{0, 0}, {780, 18984}}";
+			sepNavSelRange = "{9452, 0}";
+			sepNavVisRange = "{10164, 924}";
 			sepNavWindowFrame = "{{59, 215}, {750, 558}}";
 		};
-	};
-	F42F4DA1108363A1009572BE /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = 1D3623250D0F684500981E51 /* CSV_TouchAppDelegate.m */;
-		name = "CSV_TouchAppDelegate.m: 424";
-		rLen = 0;
-		rLoc = 13568;
-		rType = 0;
-		vrLen = 1434;
-		vrLoc = 12768;
-	};
-	F43A3D3F10FA81FB0010DAF4 /* PlistBookmark */ = {
-		isa = PlistBookmark;
-		fRef = F4BE8AB00E4503AC00F2A27B /* dist.plist */;
-		fallbackIsa = PBXBookmark;
-		isK = 0;
-		kPath = (
-		);
-		name = /Users/simon/Utveckling/AppStore/CSVReader/dist.plist;
-		rLen = 0;
-		rLoc = 9223372036854775807;
-	};
-	F43A3D4010FA81FB0010DAF4 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = 29B97316FDCFA39411CA2CEA /* main.m */;
-		name = "main.m: 1";
-		rLen = 0;
-		rLoc = 0;
-		rType = 0;
-		vrLen = 345;
-		vrLoc = 0;
-	};
-	F43A3D4110FA81FB0010DAF4 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = F47819830E2BDE7A00B44E78 /* CSVPreferencesController.h */;
-		name = "CSVPreferencesController.h: 18";
-		rLen = 20;
-		rLoc = 340;
-		rType = 0;
-		vrLen = 1008;
-		vrLoc = 0;
-	};
-	F43A3D4210FA81FB0010DAF4 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = F42D908D0DE95538001A2E5C /* CSVDataViewController.m */;
-		name = "CSVDataViewController.m: 1276";
-		rLen = 0;
-		rLoc = 41918;
-		rType = 0;
-		vrLen = 1457;
-		vrLoc = 41802;
-	};
-	F43A3D5010FA84310010DAF4 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = F42D908D0DE95538001A2E5C /* CSVDataViewController.m */;
-		name = "CSVDataViewController.m: 1309";
-		rLen = 121;
-		rLoc = 42949;
-		rType = 0;
-		vrLen = 1731;
-		vrLoc = 42678;
 	};
 	F452CA8A0EB24A0D002F7697 /* CSV Lite */ = {
 		activeExec = 0;
@@ -492,109 +580,113 @@
 		sourceDirectories = (
 		);
 	};
-	F45CC1960FEC04370072AC26 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = 28C286E00D94DF7D0034E888 /* OzyTableViewController.m */;
-		name = "OzyTableViewController.m: 403";
-		rLen = 11;
-		rLoc = 10987;
-		rType = 0;
-		vrLen = 395;
-		vrLoc = 10876;
-	};
-	F45CC1970FEC04370072AC26 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = F4E5EAA90E0884D8002EB091 /* OzyRotatableTabBarController.m */;
-		name = "OzyRotatableTabBarController.m: 17";
-		rLen = 11;
-		rLoc = 390;
-		rType = 0;
-		vrLen = 518;
-		vrLoc = 196;
-	};
-	F45CC1A20FEC04370072AC26 /* UIViewController.h */ = {
+	F4580799114667D300A4C4E1 /* NSString.h */ = {
 		isa = PBXFileReference;
 		lastKnownFileType = sourcecode.c.h;
-		name = UIViewController.h;
-		path = /Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.0.sdk/System/Library/Frameworks/UIKit.framework/Headers/UIViewController.h;
+		name = NSString.h;
+		path = /Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.1.3.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSString.h;
 		sourceTree = "<absolute>";
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {3126, 5432}}";
+			sepNavSelRange = "{17201, 110}";
+			sepNavVisRange = "{15425, 2424}";
+		};
 	};
-	F45CC3520FEC379F0072AC26 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = F45CC1A20FEC04370072AC26 /* UIViewController.h */;
-		name = "UIViewController.h: 121";
-		rLen = 93;
-		rLoc = 6336;
-		rType = 0;
-		vrLen = 1010;
-		vrLoc = 6084;
-	};
-	F45CC3530FEC379F0072AC26 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = F4E929090E4F5D4C006165B0 /* parseCSV.h */;
-		name = "parseCSV.h: 25";
-		rLen = 8;
-		rLoc = 425;
-		rType = 0;
-		vrLen = 304;
-		vrLoc = 174;
-	};
-	F45CC3540FEC379F0072AC26 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = F4E5EA930E08843D002EB091 /* OzyRotatableViewController.h */;
-		name = "OzyRotatableViewController.h: 16";
-		rLen = 12;
-		rLoc = 293;
-		rType = 0;
-		vrLen = 312;
-		vrLoc = 0;
-	};
-	F45CC3550FEC379F0072AC26 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = F4E5EA940E08843D002EB091 /* OzyRotatableViewController.m */;
-		name = "OzyRotatableViewController.m: 16";
-		rLen = 38;
-		rLoc = 320;
-		rType = 0;
-		vrLen = 988;
-		vrLoc = 0;
-	};
-	F45CC3570FEC379F0072AC26 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = F45CC3580FEC379F0072AC26 /* UIResponder.h */;
-		name = "UIResponder.h: 32";
-		rLen = 66;
-		rLoc = 945;
-		rType = 0;
-		vrLen = 1790;
-		vrLoc = 0;
-	};
-	F45CC3580FEC379F0072AC26 /* UIResponder.h */ = {
+	F45807A91146685900A4C4E1 /* NSBundle.h */ = {
 		isa = PBXFileReference;
 		lastKnownFileType = sourcecode.c.h;
-		name = UIResponder.h;
-		path = /Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.0.sdk/System/Library/Frameworks/UIKit.framework/Headers/UIResponder.h;
+		name = NSBundle.h;
+		path = /Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.1.3.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSBundle.h;
 		sourceTree = "<absolute>";
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1674, 1638}}";
+			sepNavSelRange = "{2022, 71}";
+			sepNavVisRange = "{1266, 1975}";
+		};
 	};
-	F45CC3590FEC379F0072AC26 /* PBXTextBookmark */ = {
+	F45807C9114669AA00A4C4E1 /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
-		fRef = F4E5EE2F0E09B591002EB091 /* OzyTextViewController.m */;
-		name = "OzyTextViewController.m: 10";
+		fRef = F45807A91146685900A4C4E1 /* NSBundle.h */;
+		name = "NSBundle.h: 62";
+		rLen = 71;
+		rLoc = 2022;
+		rType = 0;
+		vrLen = 1975;
+		vrLoc = 1266;
+	};
+	F45807D111466A0200A4C4E1 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = F4580799114667D300A4C4E1 /* NSString.h */;
+		name = "NSString.h: 288";
+		rLen = 110;
+		rLoc = 17201;
+		rType = 0;
+		vrLen = 2424;
+		vrLoc = 15425;
+	};
+	F45807FC11466E9400A4C4E1 /* nksTablegallery.css */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {808, 2380}}";
+			sepNavSelRange = "{327, 0}";
+			sepNavVisRange = "{0, 611}";
+		};
+	};
+	F458080411466EAE00A4C4E1 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = F45807FC11466E9400A4C4E1 /* nksTablegallery.css */;
+		name = "nksTablegallery.css: 20";
 		rLen = 0;
-		rLoc = 213;
+		rLoc = 327;
 		rType = 0;
-		vrLen = 577;
+		vrLen = 611;
 		vrLoc = 0;
 	};
-	F45CC35A0FEC379F0072AC26 /* PBXTextBookmark */ = {
+	F458080911466F1600A4C4E1 /* seaglass.css */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {836, 560}}";
+			sepNavSelRange = "{774, 0}";
+			sepNavVisRange = "{0, 774}";
+		};
+	};
+	F458089D114678B300A4C4E1 /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
-		fRef = F4A73D1A0E2EB49200E1DF27 /* OzymandiasAdditions.m */;
-		name = "OzymandiasAdditions.m: 164";
-		rLen = 885;
-		rLoc = 4635;
+		fRef = F42D908D0DE95538001A2E5C /* CSVDataViewController.m */;
+		name = "CSVDataViewController.m: 352";
+		rLen = 0;
+		rLoc = 10933;
 		rType = 0;
-		vrLen = 1063;
-		vrLoc = 4700;
+		vrLen = 1802;
+		vrLoc = 9893;
+	};
+	F45808A71146799B00A4C4E1 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = F488D83D1146606300583920 /* bluedream.css */;
+		name = "bluedream.css: 5";
+		rLen = 57;
+		rLoc = 92;
+		rType = 0;
+		vrLen = 897;
+		vrLoc = 244;
+	};
+	F45808A81146799B00A4C4E1 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = F458080911466F1600A4C4E1 /* seaglass.css */;
+		name = "seaglass.css: 11";
+		rLen = 0;
+		rLoc = 534;
+		rType = 0;
+		vrLen = 776;
+		vrLoc = 0;
+	};
+	F45808CD11467B1100A4C4E1 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = F458080911466F1600A4C4E1 /* seaglass.css */;
+		name = "seaglass.css: 18";
+		rLen = 0;
+		rLoc = 774;
+		rType = 0;
+		vrLen = 774;
+		vrLoc = 0;
 	};
 	F47819830E2BDE7A00B44E78 /* CSVPreferencesController.h */ = {
 		uiCtxt = {
@@ -611,6 +703,73 @@
 			sepNavWindowFrame = "{{59, 102}, {868, 671}}";
 		};
 	};
+	F47DC7E71111004C00E8DD8B /* CSV Touch-iPad */ = {
+		activeExec = 0;
+		executables = (
+			F47DC80E1111004C00E8DD8B /* CSV Touch-iPad */,
+		);
+	};
+	F47DC80E1111004C00E8DD8B /* CSV Touch-iPad */ = {
+		isa = PBXExecutable;
+		activeArgIndices = (
+		);
+		argumentStrings = (
+		);
+		autoAttachOnCrash = 1;
+		breakpointsEnabled = 0;
+		configStateDict = {
+		};
+		customDataFormattersEnabled = 1;
+		dataTipCustomDataFormattersEnabled = 1;
+		dataTipShowTypeColumn = 1;
+		dataTipSortType = 0;
+		debuggerPlugin = GDBDebugging;
+		disassemblyDisplayState = 0;
+		dylibVariantSuffix = "";
+		enableDebugStr = 1;
+		environmentEntries = (
+		);
+		executableSystemSymbolLevel = 0;
+		executableUserSymbolLevel = 0;
+		libgmallocEnabled = 0;
+		name = "CSV Touch-iPad";
+		showTypeColumn = 0;
+		sourceDirectories = (
+		);
+	};
+	F47DC8141111005400E8DD8B /* CSV Lite-iPad */ = {
+		activeExec = 0;
+		executables = (
+			F47DC83B1111005400E8DD8B /* CSV Lite-iPad */,
+		);
+	};
+	F47DC83B1111005400E8DD8B /* CSV Lite-iPad */ = {
+		isa = PBXExecutable;
+		activeArgIndices = (
+		);
+		argumentStrings = (
+		);
+		autoAttachOnCrash = 1;
+		breakpointsEnabled = 0;
+		configStateDict = {
+		};
+		customDataFormattersEnabled = 1;
+		dataTipCustomDataFormattersEnabled = 1;
+		dataTipShowTypeColumn = 1;
+		dataTipSortType = 0;
+		debuggerPlugin = GDBDebugging;
+		disassemblyDisplayState = 0;
+		enableDebugStr = 1;
+		environmentEntries = (
+		);
+		executableSystemSymbolLevel = 0;
+		executableUserSymbolLevel = 0;
+		libgmallocEnabled = 0;
+		name = "CSV Lite-iPad";
+		showTypeColumn = 0;
+		sourceDirectories = (
+		);
+	};
 	F48836560DF53E2C0063EF75 /* CSVFileParser.h */ = {
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {888, 854}}";
@@ -626,6 +785,40 @@
 			sepNavWindowFrame = "{{57, 113}, {578, 660}}";
 		};
 	};
+	F488D82711465FA300583920 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 28C286E00D94DF7D0034E888 /* OzyTableViewController.m */;
+		name = "OzyTableViewController.m: 114";
+		rLen = 0;
+		rLoc = 3508;
+		rType = 0;
+		vrLen = 765;
+		vrLoc = 3321;
+	};
+	F488D83D1146606300583920 /* bluedream.css */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {836, 854}}";
+			sepNavSelRange = "{92, 57}";
+			sepNavVisRange = "{244, 897}";
+		};
+	};
+	F488D8451146613C00583920 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = F488D8461146613C00583920 /* NSBundle.h */;
+		name = "NSBundle.h: 42";
+		rLen = 0;
+		rLoc = 1204;
+		rType = 0;
+		vrLen = 1864;
+		vrLoc = 788;
+	};
+	F488D8461146613C00583920 /* NSBundle.h */ = {
+		isa = PBXFileReference;
+		lastKnownFileType = sourcecode.c.h;
+		name = NSBundle.h;
+		path = /Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.0.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSBundle.h;
+		sourceTree = "<absolute>";
+	};
 	F4A73D190E2EB49200E1DF27 /* OzymandiasAdditions.h */ = {
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {796, 980}}";
@@ -635,9 +828,9 @@
 	};
 	F4A73D1A0E2EB49200E1DF27 /* OzymandiasAdditions.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {796, 3528}}";
-			sepNavSelRange = "{4635, 885}";
-			sepNavVisRange = "{4700, 1063}";
+			sepNavIntBoundsRect = "{{0, 0}, {808, 3598}}";
+			sepNavSelRange = "{3550, 0}";
+			sepNavVisRange = "{178, 1070}";
 			sepNavWindowFrame = "{{42, 111}, {1022, 663}}";
 		};
 	};
@@ -667,80 +860,23 @@
 		hitCount = 0;
 		ignoreCount = 0;
 		location = libobjc.A.dylib;
-		modificationTime = 270982345.469743;
-		originalNumberOfMultipleMatches = 0;
+		modificationTime = 289831684.358252;
+		originalNumberOfMultipleMatches = 1;
 		state = 1;
 		symbolName = objc_exception_throw;
 	};
-	F4CB2BD40FF8230400454185 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = F4E5EE2E0E09B591002EB091 /* OzyTextViewController.h */;
-		name = "OzyTextViewController.h: 17";
-		rLen = 54;
-		rLoc = 289;
-		rType = 0;
-		vrLen = 349;
-		vrLoc = 0;
-	};
-	F4D59678100E376D0097EF5B /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = F47819840E2BDE7A00B44E78 /* CSVPreferencesController.m */;
-		name = "CSVPreferencesController.m: 274";
-		rLen = 193;
-		rLoc = 7483;
-		rType = 0;
-		vrLen = 606;
-		vrLoc = 7230;
-	};
-	F4D5967A100E376D0097EF5B /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = F42D908C0DE95538001A2E5C /* CSVDataViewController.h */;
-		name = "CSVDataViewController.h: 103";
-		rLen = 0;
-		rLoc = 3015;
-		rType = 0;
-		vrLen = 788;
-		vrLoc = 271;
-	};
-	F4D5967B100E376D0097EF5B /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = F4D5967C100E376D0097EF5B /* UITextField.h */;
-		name = "UITextField.h: 165";
-		rLen = 128;
-		rLoc = 6912;
-		rType = 0;
-		vrLen = 2305;
-		vrLoc = 5954;
-	};
-	F4D5967C100E376D0097EF5B /* UITextField.h */ = {
-		isa = PBXFileReference;
-		lastKnownFileType = sourcecode.c.h;
-		name = UITextField.h;
-		path = /Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.0.sdk/System/Library/Frameworks/UIKit.framework/Headers/UITextField.h;
-		sourceTree = "<absolute>";
-	};
-	F4D5967D100E376D0097EF5B /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = 1D3623240D0F684500981E51 /* CSV_TouchAppDelegate.h */;
-		name = "CSV_TouchAppDelegate.h: 32";
-		rLen = 0;
-		rLoc = 837;
-		rType = 0;
-		vrLen = 1245;
-		vrLoc = 277;
-	};
 	F4E5EA930E08843D002EB091 /* OzyRotatableViewController.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {796, 585}}";
+			sepNavIntBoundsRect = "{{0, 0}, {808, 560}}";
 			sepNavSelRange = "{293, 12}";
 			sepNavVisRange = "{0, 312}";
 		};
 	};
 	F4E5EA940E08843D002EB091 /* OzyRotatableViewController.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {796, 588}}";
-			sepNavSelRange = "{320, 38}";
-			sepNavVisRange = "{0, 988}";
+			sepNavIntBoundsRect = "{{0, 0}, {808, 588}}";
+			sepNavSelRange = "{281, 12}";
+			sepNavVisRange = "{36, 598}";
 			sepNavWindowFrame = "{{127, 47}, {1022, 663}}";
 		};
 	};
@@ -753,22 +889,22 @@
 	};
 	F4E5EAA90E0884D8002EB091 /* OzyRotatableTabBarController.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {796, 602}}";
+			sepNavIntBoundsRect = "{{0, 0}, {808, 602}}";
 			sepNavSelRange = "{390, 11}";
-			sepNavVisRange = "{196, 518}";
+			sepNavVisRange = "{0, 1025}";
 		};
 	};
 	F4E5EE2E0E09B591002EB091 /* OzyTextViewController.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {796, 400}}";
+			sepNavIntBoundsRect = "{{0, 0}, {808, 537}}";
 			sepNavSelRange = "{289, 54}";
 			sepNavVisRange = "{0, 349}";
 		};
 	};
 	F4E5EE2F0E09B591002EB091 /* OzyTextViewController.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {796, 585}}";
-			sepNavSelRange = "{213, 0}";
+			sepNavIntBoundsRect = "{{0, 0}, {661, 325}}";
+			sepNavSelRange = "{577, 0}";
 			sepNavVisRange = "{0, 577}";
 		};
 	};

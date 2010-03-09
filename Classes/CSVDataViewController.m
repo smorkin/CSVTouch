@@ -87,8 +87,8 @@
 			for( wordNr = 0 ;
 				wordNr < wordCount && [objectDescription hasSubstring:[words objectAtIndex:wordNr]]; 
 				wordNr++ );
-				if( wordNr == wordCount )
-					[filteredObjects addObject:row];
+			if( wordNr == wordCount )
+				[filteredObjects addObject:row];
 		}
 		workObjects = filteredObjects;
 	}
@@ -99,7 +99,7 @@
 	
 	if( [CSVPreferencesController liteVersionRunning] && [workObjects count] > MAX_ITEMS_IN_LITE_VERSION )
 		[workObjects removeObjectsInRange:NSMakeRange(MAX_ITEMS_IN_LITE_VERSION, [workObjects count] - MAX_ITEMS_IN_LITE_VERSION)];
-
+	
 	[itemController setObjects:workObjects];
 	[itemController dataLoaded];
 }
@@ -156,13 +156,13 @@
 			[searchStringForFileName removeObjectForKey:[currentFile fileName]];
 	}
 }	
-	
+
 
 - (BOOL) selectFile:(CSVFileParser *)file
 {		
 	// Store current position of itemController and search string
 	[self cacheCurrentFileData];
-		
+	
 	[currentFile release];
 	currentFile = [file retain];
 	[currentFile parseIfNecessary];
@@ -188,11 +188,11 @@
 	{
 		NSIndexPath *indexPath = [NSIndexPath indexPathWithDictionary:indexPathDictionary];
 		if( [itemController itemExistsAtIndexPath:indexPath] )
-	   {
-		   [[itemController tableView] scrollToRowAtIndexPath:indexPath
-											 atScrollPosition:UITableViewScrollPositionTop
-													 animated:NO];
-	   }
+		{
+			[[itemController tableView] scrollToRowAtIndexPath:indexPath
+											  atScrollPosition:UITableViewScrollPositionTop
+													  animated:NO];
+		}
 	}
 	return TRUE;
 }
@@ -312,51 +312,64 @@
 - (void) updateHtmlViewWithItem:(CSVRow *)item
 {
 	BOOL useTable = [CSVPreferencesController alignHtml];
-	
+	NSError *error;
+	NSString *cssString = [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"seaglass" ofType:@"css"]
+												usedEncoding:nil
+													   error:&error];
+
 	NSMutableString *s = [NSMutableString string];
-		[s appendFormat:@"<html><head><title>Details</title></head><body font size=\"+5\">"];
+	[s appendString:@"<html><head><title>Details</title>"];
+	[s appendString:@"<STYLE type=\"text/css\">"];
+	[s appendString:cssString];
+	[s appendString:@"</STYLE>"];
+	 [s appendString:@"</head><body>"];
 	if( useTable )
-		[s appendString:@"<table border=\"0\" width=\"100%\">"];
+		[s appendString:@"<table width=\"100%\">"];
 	else
 		[s appendFormat:@"<p><font size=\"+5\">"];
+	NSMutableString *data = [NSMutableString string];
 	NSArray *columnsAndValues = [item columnsAndValues];
+	NSInteger row = 1;
 	for( NSDictionary *d in columnsAndValues )
 	{
 		if( useTable )
 		{
-			[s appendFormat:@"<tr><td valign=\"top\"><font size=\"+5\"><b>%@:</b>", [d objectForKey:COLUMN_KEY]];
+			[data appendFormat:@"<tr%@><th valign=\"top\"><b>%@</b>", 
+			 ((row % 2) == 1 ? @" class=\"odd\"" : @""),
+			 [d objectForKey:COLUMN_KEY]];
 			if( [[d objectForKey:VALUE_KEY] containsImageURL] && [CSVPreferencesController showInlineImages] )
-				[s appendFormat:@"<td><font size=\"+5\"><img src=\"%@\">", [d objectForKey:VALUE_KEY]];
+				[data appendFormat:@"<td><img src=\"%@\">", [d objectForKey:VALUE_KEY]];
 			else if( [[d objectForKey:VALUE_KEY] containsURL] )
-				[s appendFormat:@"<td><font size=\"+5\"><a href=\"%@\">%@</a>", [d objectForKey:VALUE_KEY], [d objectForKey:VALUE_KEY]];
+				[data appendFormat:@"<td><a href=\"%@\">%@</a>", [d objectForKey:VALUE_KEY], [d objectForKey:VALUE_KEY]];
 			else if( [[d objectForKey:VALUE_KEY] containsMailAddress] )
-			[s appendFormat:@"<td><font size=\"+5\"><a href=\"mailto:%@\">%@</a>", [d objectForKey:VALUE_KEY], [d objectForKey:VALUE_KEY]];
+				[data appendFormat:@"<td><a href=\"mailto:%@\">%@</a>", [d objectForKey:VALUE_KEY], [d objectForKey:VALUE_KEY]];
 			else
-				[s appendFormat:@"<td><font size=\"+5\">%@", [d objectForKey:VALUE_KEY]];
-			[s appendString:@"</font>"];
+				[data appendFormat:@"<td>%@", [d objectForKey:VALUE_KEY]];
 		}
 		else
 		{
-			[s appendFormat:@"<b>%@</b>: ", [d objectForKey:COLUMN_KEY]];
+			[data appendFormat:@"<b>%@</b>: ", [d objectForKey:COLUMN_KEY]];
 			if( [[d objectForKey:VALUE_KEY] containsImageURL] && [CSVPreferencesController showInlineImages] )
-				[s appendFormat:@"<br><img src=\"%@\"><br>", [d objectForKey:VALUE_KEY]];
+				[data appendFormat:@"<br><img src=\"%@\"><br>", [d objectForKey:VALUE_KEY]];
 			else if( [[d objectForKey:VALUE_KEY] containsURL] )
-				[s appendFormat:@"<a href=\"%@\">%@</a><br>", [d objectForKey:VALUE_KEY], [d objectForKey:VALUE_KEY]];
+				[data appendFormat:@"<a href=\"%@\">%@</a><br>", [d objectForKey:VALUE_KEY], [d objectForKey:VALUE_KEY]];
 			else if( [[d objectForKey:VALUE_KEY] containsMailAddress] )
-				[s appendFormat:@"<a href=\"mailto:%@\">%@</a><br>", [d objectForKey:VALUE_KEY], [d objectForKey:VALUE_KEY]];
+				[data appendFormat:@"<a href=\"mailto:%@\">%@</a><br>", [d objectForKey:VALUE_KEY], [d objectForKey:VALUE_KEY]];
 			else
-				[s appendFormat:@"%@<br>", [d objectForKey:VALUE_KEY]];
+				[data appendFormat:@"%@<br>", [d objectForKey:VALUE_KEY]];
 		}
+		row++;
 	}
+	[data replaceOccurrencesOfString:@"\n" 
+					   withString:@"<br>" 
+						  options:0
+							range:NSMakeRange(0, [data length])];
+	[s appendString:data];
 	if( useTable )
 		[s appendFormat:@"</table>"];
 	else
 		[s appendFormat:@"</p>"];
 	[s appendFormat:@"</body></html>"];
-	[s replaceOccurrencesOfString:@"\n" 
-					   withString:@"<br>" 
-						  options:0
-							range:NSMakeRange(0, [s length])];
 	[(UIWebView *)[htmlDetailsController view] loadHTMLString:s baseURL:nil];
 }
 
@@ -534,7 +547,7 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
 	}
 	
 	[defaults setInteger:selectedDetailsView forKey:DEFS_SELECTED_DETAILS_VIEW];
-		
+	
 	[defaults synchronize];
 }
 
@@ -555,11 +568,11 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
 	detailsController.viewDelegate = self;
 	fancyDetailsController.viewDelegate = self;
 	htmlDetailsController.viewDelegate = self;
-		
+	
 	// Autocorrection of searching should be off
 	searchBar.autocorrectionType = UITextAutocorrectionTypeNo;
 	itemController.tableView.tableHeaderView = searchBar;
-
+	
 	// Push the fileController to the root of the navigation;
 	// we must do this in case we have no saved navigationstack
 	[self pushViewController:fileController animated:NO];
@@ -570,7 +583,7 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
 	
 	// 0. Extra settings
 	selectedDetailsView = [defaults integerForKey:DEFS_SELECTED_DETAILS_VIEW];
-
+	
 	// 1. Read in the saved columns & order of them for each file; similarly for search strings & positions
 	NSDictionary *defaultNames = [defaults objectForKey:DEFS_COLUMN_NAMES];
 	if( defaultNames && [defaultNames isKindOfClass:[NSDictionary class]] )
@@ -594,7 +607,7 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
 	// If starting up in emergency mode, we should not do anything more here
 	if( emergencyMode )
 		return;
-		
+	
 	// 2. Read in the saved current file
 	NSString *fileName = [defaults objectForKey:DEFS_CURRENT_FILE];
 	for( CSVFileParser *file in [fileController objects] )
@@ -660,8 +673,8 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
 		itemController.size = [CSVPreferencesController itemsTableViewSize];
 		if( oldIndexPath )
 			[itemController.tableView scrollToRowAtIndexPath:oldIndexPath
-			 atScrollPosition:UITableViewScrollPositionTop
-			 animated:NO];
+											atScrollPosition:UITableViewScrollPositionTop
+													animated:NO];
 	}
 }
 
@@ -793,11 +806,11 @@ static CSVDataViewController *sharedInstance = nil;
 - (void) delayedPushItemController:(CSVFileParser *)selectedFile
 {
 	[[CSV_TouchAppDelegate sharedInstance] slowActivityCompleted];
-
+	
 	if( currentFile != selectedFile )
 	{
 		BOOL parsedOK = [self selectFile:selectedFile];
-				
+		
 		if( !parsedOK )
 		{
 			showingRawString = NO;
@@ -806,13 +819,13 @@ static CSVDataViewController *sharedInstance = nil;
 			return;			
 		}
 		[[itemController tableView] deselectRowAtIndexPath:[[itemController tableView] indexPathForSelectedRow]
-												 animated:NO];
+												  animated:NO];
 		[itemController dataLoaded];
 	}
 	
 	// Check if there seems to be a problem with the file preventing us from reading it
 	if( [[currentFile itemsWithResetShortdescriptions:NO] count] < 1 ||
-		[[currentFile availableColumnNames] count] == 0 ||
+	   [[currentFile availableColumnNames] count] == 0 ||
 	   ([[currentFile availableColumnNames] count] == 1 && [CSVPreferencesController showDebugInfo]) )
 	{
 		showingRawString = NO;
@@ -837,21 +850,21 @@ static CSVDataViewController *sharedInstance = nil;
 			if( currentFile.droppedRows > 0 )
 			{
 				UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Dropped Rows!"
-																message:[NSString stringWithFormat:@"%d rows dropped due to problems reading them. Last dropped row:\n%@",
-																		 currentFile.droppedRows, currentFile.problematicRow]
-															   delegate:[[UIApplication sharedApplication] delegate]
-													  cancelButtonTitle:@"OK"
-													  otherButtonTitles:nil] autorelease];
+																 message:[NSString stringWithFormat:@"%d rows dropped due to problems reading them. Last dropped row:\n%@",
+																		  currentFile.droppedRows, currentFile.problematicRow]
+																delegate:[[UIApplication sharedApplication] delegate]
+													   cancelButtonTitle:@"OK"
+													   otherButtonTitles:nil] autorelease];
 				[alert show];
 			}
 			else if([[currentFile availableColumnNames] count] != 
 					[[NSSet setWithArray:[currentFile availableColumnNames]] count] )
 			{
 				UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Identical Column Titles!"
-																message:@"Some of the columns have the same title; this should be changed for correct functionality. Please make sure the first line in the file consists of the column titles."
-															   delegate:[[UIApplication sharedApplication] delegate]
-													  cancelButtonTitle:@"OK"
-													  otherButtonTitles:nil] autorelease];
+																 message:@"Some of the columns have the same title; this should be changed for correct functionality. Please make sure the first line in the file consists of the column titles."
+																delegate:[[UIApplication sharedApplication] delegate]
+													   cancelButtonTitle:@"OK"
+													   otherButtonTitles:nil] autorelease];
 				[alert show];
 			}
 		}
@@ -917,12 +930,12 @@ static CSVDataViewController *sharedInstance = nil;
 	itemController.useIndexes = FALSE;
 	[itemController refreshIndexes];
 	[itemController dataLoaded];
-//	[UIView beginAnimations:nil context:NULL];
-//	[UIView setAnimationDuration:0.5];
-//	itemController.tableView.alpha = 0.5;
-//	[UIView commitAnimations];
+	//	[UIView beginAnimations:nil context:NULL];
+	//	[UIView setAnimationDuration:0.5];
+	//	itemController.tableView.alpha = 0.5;
+	//	[UIView commitAnimations];
 	
-//	[itemController.navigationItem setRightBarButtonItem:[self doneItemWithSelector:@selector(searchItems:)] animated:YES];
+	//	[itemController.navigationItem setRightBarButtonItem:[self doneItemWithSelector:@selector(searchItems:)] animated:YES];
 	[itemController.navigationItem setHidesBackButton:YES animated:YES];
 	
 	[self.searchBar becomeFirstResponder];
@@ -931,14 +944,14 @@ static CSVDataViewController *sharedInstance = nil;
 - (void) searchFinish
 {
 	searchInputInProgress = FALSE;
-//	[UIView beginAnimations:nil context:NULL];
-//	[UIView setAnimationDuration:0.5];
-//	[self.searchBar removeFromSuperview];
-//	itemController.tableView.alpha = 1;
-//	CGRect tableViewFrame = itemController.tableView.frame;
-//	tableViewFrame.origin.y = 0;
-//	itemController.tableView.frame = tableViewFrame;
-//	[UIView commitAnimations];
+	//	[UIView beginAnimations:nil context:NULL];
+	//	[UIView setAnimationDuration:0.5];
+	//	[self.searchBar removeFromSuperview];
+	//	itemController.tableView.alpha = 1;
+	//	CGRect tableViewFrame = itemController.tableView.frame;
+	//	tableViewFrame.origin.y = 0;
+	//	itemController.tableView.frame = tableViewFrame;
+	//	[UIView commitAnimations];
 	
 	[itemController.navigationItem setHidesBackButton:NO animated:YES];
 	if( [CSVPreferencesController useGroupingForItems] )
@@ -947,7 +960,7 @@ static CSVDataViewController *sharedInstance = nil;
 		[itemController refreshIndexes];
 		[itemController dataLoaded];
 	}
-
+	
 	[self editDone:self];
 }
 
@@ -1047,14 +1060,14 @@ static CSVDataViewController *sharedInstance = nil;
 			if( newPath )
 			{
 				[itemController.tableView selectRowAtIndexPath:newPath
-				 animated:NO
-				 scrollPosition:UITableViewScrollPositionTop];
-		[self updateBadgeValueUsingItem:[[self currentDetailsController] navigationItem]
-								   push:YES];
+													  animated:NO
+												scrollPosition:UITableViewScrollPositionTop];
+				[self updateBadgeValueUsingItem:[[self currentDetailsController] navigationItem]
+										   push:YES];
 			}
 		}
 	}
-		
+	
 }
 
 - (IBAction) editColumns:(id)sender
@@ -1070,10 +1083,10 @@ static CSVDataViewController *sharedInstance = nil;
 - (IBAction) editDone:(id)sender
 {
 	[searchBar endEditing:YES];
-//	if( searchBar.text && ![searchBar.text isEqualToString:@""] )
-//		searchButton.style = UIBarButtonItemStyleDone;
-//	else
-//		searchButton.style = UIBarButtonItemStylePlain;
+	//	if( searchBar.text && ![searchBar.text isEqualToString:@""] )
+	//		searchButton.style = UIBarButtonItemStyleDone;
+	//	else
+	//		searchButton.style = UIBarButtonItemStylePlain;
 	if( itemsNeedResorting || itemsNeedFiltering )
 	{
 		[self refreshObjectsWithResorting:itemsNeedResorting];
@@ -1091,7 +1104,7 @@ static CSVDataViewController *sharedInstance = nil;
 }
 
 - (BOOL)navigationBar:(UINavigationBar *)navigationBar 
-		shouldPushItem:(UINavigationItem *)item
+	   shouldPushItem:(UINavigationItem *)item
 {
 	[self updateBadgeValueUsingItem:item push:YES];
 	return YES;
@@ -1149,7 +1162,7 @@ didSelectRowAtIndexPath:[fileController.tableView indexPathForSelectedRow]];
 	if( [self topViewController] == fileController )
 		[self updateBadgeValueUsingItem:fileController.navigationItem push:YES];
 }
-			
+
 - (IBAction) toggleRefreshFiles:(id)sender
 {
 	if( showingFileInfoInProgress || editFilesInProgress )
@@ -1303,8 +1316,8 @@ didSelectRowAtIndexPath:[fileController.tableView indexPathForSelectedRow]];
 
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
-//	if( ![CSVPreferencesController showStatusBar ] && [[UIApplication sharedApplication] isStatusBarHidden] )
-//		[[UIApplication sharedApplication] setStatusBarHidden:NO animated:NO];
+	//	if( ![CSVPreferencesController showStatusBar ] && [[UIApplication sharedApplication] isStatusBarHidden] )
+	//		[[UIApplication sharedApplication] setStatusBarHidden:NO animated:NO];
 }
 
 
@@ -1332,7 +1345,7 @@ didSelectRowAtIndexPath:[fileController.tableView indexPathForSelectedRow]];
 	{
 		if( [view isKindOfClass:[UIButton class]] &&
 		   ([[(UIButton *)view titleForState:UIControlStateNormal] isEqualToString:@"⇛"] ||
-		   [[(UIButton *)view titleForState:UIControlStateNormal] isEqualToString:@"⇚"]))
+			[[(UIButton *)view titleForState:UIControlStateNormal] isEqualToString:@"⇚"]))
 		{
 			[view removeFromSuperview];
 		}

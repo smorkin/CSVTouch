@@ -50,10 +50,79 @@
 		F452CAB30EB24B4E002F7697 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
 		F452CAB40EB24B4E002F7697 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		F452CAB90EB24C48002F7697 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
+		F45807FD11466E9400A4C4E1 /* nksTablegallery.css in Resources */ = {isa = PBXBuildFile; fileRef = F45807FC11466E9400A4C4E1 /* nksTablegallery.css */; };
+		F45807FE11466E9400A4C4E1 /* nksTablegallery.css in Resources */ = {isa = PBXBuildFile; fileRef = F45807FC11466E9400A4C4E1 /* nksTablegallery.css */; };
+		F45807FF11466E9400A4C4E1 /* nksTablegallery.css in Resources */ = {isa = PBXBuildFile; fileRef = F45807FC11466E9400A4C4E1 /* nksTablegallery.css */; };
+		F458080011466E9400A4C4E1 /* nksTablegallery.css in Resources */ = {isa = PBXBuildFile; fileRef = F45807FC11466E9400A4C4E1 /* nksTablegallery.css */; };
+		F458080A11466F1600A4C4E1 /* seaglass.css in Resources */ = {isa = PBXBuildFile; fileRef = F458080911466F1600A4C4E1 /* seaglass.css */; };
+		F458080B11466F1600A4C4E1 /* seaglass.css in Resources */ = {isa = PBXBuildFile; fileRef = F458080911466F1600A4C4E1 /* seaglass.css */; };
+		F458080C11466F1600A4C4E1 /* seaglass.css in Resources */ = {isa = PBXBuildFile; fileRef = F458080911466F1600A4C4E1 /* seaglass.css */; };
+		F458080D11466F1600A4C4E1 /* seaglass.css in Resources */ = {isa = PBXBuildFile; fileRef = F458080911466F1600A4C4E1 /* seaglass.css */; };
 		F473432E0E2A90B20072F3DE /* col.png in Resources */ = {isa = PBXBuildFile; fileRef = F473432C0E2A90B20072F3DE /* col.png */; };
 		F473432F0E2A90B20072F3DE /* row.png in Resources */ = {isa = PBXBuildFile; fileRef = F473432D0E2A90B20072F3DE /* row.png */; };
 		F47819850E2BDE7A00B44E78 /* CSVPreferencesController.m in Sources */ = {isa = PBXBuildFile; fileRef = F47819840E2BDE7A00B44E78 /* CSVPreferencesController.m */; };
+		F47DC7EA1111004C00E8DD8B /* col.png in Resources */ = {isa = PBXBuildFile; fileRef = F473432C0E2A90B20072F3DE /* col.png */; };
+		F47DC7EB1111004C00E8DD8B /* row.png in Resources */ = {isa = PBXBuildFile; fileRef = F473432D0E2A90B20072F3DE /* row.png */; };
+		F47DC7EC1111004C00E8DD8B /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = F4174D140E40A4A200351EE4 /* icon.png */; };
+		F47DC7ED1111004C00E8DD8B /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = F4990C160E4276C500D64667 /* Settings.bundle */; };
+		F47DC7EE1111004C00E8DD8B /* dist.plist in Resources */ = {isa = PBXBuildFile; fileRef = F4BE8AB00E4503AC00F2A27B /* dist.plist */; };
+		F47DC7EF1111004C00E8DD8B /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = F4E928750E4EE808006165B0 /* Default.png */; };
+		F47DC7F01111004C00E8DD8B /* info.png in Resources */ = {isa = PBXBuildFile; fileRef = F451F1800E99146300F22ED9 /* info.png */; };
+		F47DC7F11111004C00E8DD8B /* 2lines.png in Resources */ = {isa = PBXBuildFile; fileRef = F49218530EA7AC7400E74493 /* 2lines.png */; };
+		F47DC7F21111004C00E8DD8B /* 4lines.png in Resources */ = {isa = PBXBuildFile; fileRef = F49218540EA7AC7400E74493 /* 4lines.png */; };
+		F47DC7F31111004C00E8DD8B /* lock.png in Resources */ = {isa = PBXBuildFile; fileRef = F41BB7470EE9F65A00BEFDED /* lock.png */; };
+		F47DC7F51111004C00E8DD8B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
+		F47DC7F61111004C00E8DD8B /* CSV_TouchAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* CSV_TouchAppDelegate.m */; };
+		F47DC7F71111004C00E8DD8B /* OzyTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 28C286E00D94DF7D0034E888 /* OzyTableViewController.m */; };
+		F47DC7F81111004C00E8DD8B /* csv.c in Sources */ = {isa = PBXBuildFile; fileRef = F412339F0DE4AD64005E355F /* csv.c */; };
+		F47DC7F91111004C00E8DD8B /* msgno.c in Sources */ = {isa = PBXBuildFile; fileRef = F41233A10DE4AD64005E355F /* msgno.c */; };
+		F47DC7FA1111004C00E8DD8B /* CSVDataViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F42D908D0DE95538001A2E5C /* CSVDataViewController.m */; };
+		F47DC7FB1111004C00E8DD8B /* CSVRow.m in Sources */ = {isa = PBXBuildFile; fileRef = F4AE44860DF469BF001197AB /* CSVRow.m */; };
+		F47DC7FC1111004C00E8DD8B /* CSVFileParser.m in Sources */ = {isa = PBXBuildFile; fileRef = F48836570DF53E2C0063EF75 /* CSVFileParser.m */; };
+		F47DC7FD1111004C00E8DD8B /* OzyRotatableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4E5EA940E08843D002EB091 /* OzyRotatableViewController.m */; };
+		F47DC7FE1111004C00E8DD8B /* OzyRotatableTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4E5EAA90E0884D8002EB091 /* OzyRotatableTabBarController.m */; };
+		F47DC7FF1111004C00E8DD8B /* OzyTextViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4E5EE2F0E09B591002EB091 /* OzyTextViewController.m */; };
+		F47DC8001111004C00E8DD8B /* CSVPreferencesController.m in Sources */ = {isa = PBXBuildFile; fileRef = F47819840E2BDE7A00B44E78 /* CSVPreferencesController.m */; };
+		F47DC8011111004C00E8DD8B /* OzymandiasAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F4A73D1A0E2EB49200E1DF27 /* OzymandiasAdditions.m */; };
+		F47DC8021111004C00E8DD8B /* parseCSV.m in Sources */ = {isa = PBXBuildFile; fileRef = F4E9290A0E4F5D4C006165B0 /* parseCSV.m */; };
+		F47DC8031111004C00E8DD8B /* TextAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = F41BB60F0EE9D86F00BEFDED /* TextAlertView.m */; };
+		F47DC8051111004C00E8DD8B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
+		F47DC8061111004C00E8DD8B /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
+		F47DC8071111004C00E8DD8B /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D3623EB0D0F72F000981E51 /* CoreGraphics.framework */; };
+		F47DC8111111004D00E8DD8B /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = F47DC8101111004D00E8DD8B /* MainWindow.xib */; };
+		F47DC8161111005400E8DD8B /* 2lines.png in Resources */ = {isa = PBXBuildFile; fileRef = F49218530EA7AC7400E74493 /* 2lines.png */; };
+		F47DC8171111005400E8DD8B /* 4lines.png in Resources */ = {isa = PBXBuildFile; fileRef = F49218540EA7AC7400E74493 /* 4lines.png */; };
+		F47DC8181111005400E8DD8B /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = F4E928750E4EE808006165B0 /* Default.png */; };
+		F47DC8191111005400E8DD8B /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = F4174D140E40A4A200351EE4 /* icon.png */; };
+		F47DC81A1111005400E8DD8B /* info.png in Resources */ = {isa = PBXBuildFile; fileRef = F451F1800E99146300F22ED9 /* info.png */; };
+		F47DC81C1111005400E8DD8B /* col.png in Resources */ = {isa = PBXBuildFile; fileRef = F473432C0E2A90B20072F3DE /* col.png */; };
+		F47DC81D1111005400E8DD8B /* row.png in Resources */ = {isa = PBXBuildFile; fileRef = F473432D0E2A90B20072F3DE /* row.png */; };
+		F47DC81E1111005400E8DD8B /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = F4990C160E4276C500D64667 /* Settings.bundle */; };
+		F47DC81F1111005400E8DD8B /* dist.plist in Resources */ = {isa = PBXBuildFile; fileRef = F4BE8AB00E4503AC00F2A27B /* dist.plist */; };
+		F47DC8201111005400E8DD8B /* lock.png in Resources */ = {isa = PBXBuildFile; fileRef = F41BB7470EE9F65A00BEFDED /* lock.png */; };
+		F47DC8221111005400E8DD8B /* CSV_TouchAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* CSV_TouchAppDelegate.m */; };
+		F47DC8231111005400E8DD8B /* CSVDataViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F42D908D0DE95538001A2E5C /* CSVDataViewController.m */; };
+		F47DC8241111005400E8DD8B /* CSVPreferencesController.m in Sources */ = {isa = PBXBuildFile; fileRef = F47819840E2BDE7A00B44E78 /* CSVPreferencesController.m */; };
+		F47DC8251111005400E8DD8B /* CSVRow.m in Sources */ = {isa = PBXBuildFile; fileRef = F4AE44860DF469BF001197AB /* CSVRow.m */; };
+		F47DC8261111005400E8DD8B /* CSVFileParser.m in Sources */ = {isa = PBXBuildFile; fileRef = F48836570DF53E2C0063EF75 /* CSVFileParser.m */; };
+		F47DC8271111005400E8DD8B /* OzyTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 28C286E00D94DF7D0034E888 /* OzyTableViewController.m */; };
+		F47DC8281111005400E8DD8B /* OzyRotatableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4E5EA940E08843D002EB091 /* OzyRotatableViewController.m */; };
+		F47DC8291111005400E8DD8B /* OzyRotatableTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4E5EAA90E0884D8002EB091 /* OzyRotatableTabBarController.m */; };
+		F47DC82A1111005400E8DD8B /* OzyTextViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4E5EE2F0E09B591002EB091 /* OzyTextViewController.m */; };
+		F47DC82B1111005400E8DD8B /* OzymandiasAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F4A73D1A0E2EB49200E1DF27 /* OzymandiasAdditions.m */; };
+		F47DC82C1111005400E8DD8B /* parseCSV.m in Sources */ = {isa = PBXBuildFile; fileRef = F4E9290A0E4F5D4C006165B0 /* parseCSV.m */; };
+		F47DC82D1111005400E8DD8B /* csv.c in Sources */ = {isa = PBXBuildFile; fileRef = F412339F0DE4AD64005E355F /* csv.c */; };
+		F47DC82E1111005400E8DD8B /* msgno.c in Sources */ = {isa = PBXBuildFile; fileRef = F41233A10DE4AD64005E355F /* msgno.c */; };
+		F47DC82F1111005400E8DD8B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
+		F47DC8301111005400E8DD8B /* TextAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = F41BB60F0EE9D86F00BEFDED /* TextAlertView.m */; };
+		F47DC8321111005400E8DD8B /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D3623EB0D0F72F000981E51 /* CoreGraphics.framework */; };
+		F47DC8331111005400E8DD8B /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
+		F47DC8341111005400E8DD8B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		F48836580DF53E2C0063EF75 /* CSVFileParser.m in Sources */ = {isa = PBXBuildFile; fileRef = F48836570DF53E2C0063EF75 /* CSVFileParser.m */; };
+		F488D83E1146606300583920 /* bluedream.css in Resources */ = {isa = PBXBuildFile; fileRef = F488D83D1146606300583920 /* bluedream.css */; };
+		F488D83F1146606300583920 /* bluedream.css in Resources */ = {isa = PBXBuildFile; fileRef = F488D83D1146606300583920 /* bluedream.css */; };
+		F488D8401146607400583920 /* bluedream.css in Resources */ = {isa = PBXBuildFile; fileRef = F488D83D1146606300583920 /* bluedream.css */; };
+		F488D8411146607A00583920 /* bluedream.css in Resources */ = {isa = PBXBuildFile; fileRef = F488D83D1146606300583920 /* bluedream.css */; };
 		F49218550EA7AC7400E74493 /* 2lines.png in Resources */ = {isa = PBXBuildFile; fileRef = F49218530EA7AC7400E74493 /* 2lines.png */; };
 		F49218560EA7AC7400E74493 /* 4lines.png in Resources */ = {isa = PBXBuildFile; fileRef = F49218540EA7AC7400E74493 /* 4lines.png */; };
 		F4990C170E4276C500D64667 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = F4990C160E4276C500D64667 /* Settings.bundle */; };
@@ -99,12 +168,18 @@
 		F451F1800E99146300F22ED9 /* info.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = info.png; sourceTree = "<group>"; };
 		F452CA8B0EB24A0D002F7697 /* CSV Lite.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "CSV Lite.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F452CA8D0EB24A0D002F7697 /* CSV Lite-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "CSV Lite-Info.plist"; sourceTree = "<group>"; };
+		F45807FC11466E9400A4C4E1 /* nksTablegallery.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = nksTablegallery.css; sourceTree = "<group>"; };
+		F458080911466F1600A4C4E1 /* seaglass.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = seaglass.css; sourceTree = "<group>"; };
 		F473432C0E2A90B20072F3DE /* col.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = col.png; sourceTree = "<group>"; };
 		F473432D0E2A90B20072F3DE /* row.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = row.png; sourceTree = "<group>"; };
 		F47819830E2BDE7A00B44E78 /* CSVPreferencesController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSVPreferencesController.h; sourceTree = "<group>"; };
 		F47819840E2BDE7A00B44E78 /* CSVPreferencesController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSVPreferencesController.m; sourceTree = "<group>"; };
+		F47DC80D1111004C00E8DD8B /* CSV Touch-iPad.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "CSV Touch-iPad.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		F47DC8101111004D00E8DD8B /* MainWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = MainWindow.xib; path = "Resources-iPad/MainWindow.xib"; sourceTree = "<group>"; };
+		F47DC83A1111005400E8DD8B /* CSV Lite-iPad.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "CSV Lite-iPad.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F48836560DF53E2C0063EF75 /* CSVFileParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSVFileParser.h; sourceTree = "<group>"; };
 		F48836570DF53E2C0063EF75 /* CSVFileParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSVFileParser.m; sourceTree = "<group>"; };
+		F488D83D1146606300583920 /* bluedream.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = bluedream.css; sourceTree = "<group>"; };
 		F49218530EA7AC7400E74493 /* 2lines.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 2lines.png; sourceTree = "<group>"; };
 		F49218540EA7AC7400E74493 /* 4lines.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 4lines.png; sourceTree = "<group>"; };
 		F4988BB70EB239120067EB8F /* Info copy.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Info copy.plist"; sourceTree = "<group>"; };
@@ -147,6 +222,26 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		F47DC8041111004C00E8DD8B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F47DC8051111004C00E8DD8B /* Foundation.framework in Frameworks */,
+				F47DC8061111004C00E8DD8B /* UIKit.framework in Frameworks */,
+				F47DC8071111004C00E8DD8B /* CoreGraphics.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F47DC8311111005400E8DD8B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F47DC8321111005400E8DD8B /* CoreGraphics.framework in Frameworks */,
+				F47DC8331111005400E8DD8B /* UIKit.framework in Frameworks */,
+				F47DC8341111005400E8DD8B /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -186,6 +281,8 @@
 			children = (
 				1D6058910D05DD3D006BFB54 /* CSV Touch.app */,
 				F452CA8B0EB24A0D002F7697 /* CSV Lite.app */,
+				F47DC80D1111004C00E8DD8B /* CSV Touch-iPad.app */,
+				F47DC83A1111005400E8DD8B /* CSV Lite-iPad.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -196,6 +293,7 @@
 				080E96DDFE201D6D7F000001 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
+				F47DC80F1111004C00E8DD8B /* Resources-iPad */,
 				F4174D3C0E40F99C00351EE4 /* iTunes Connect */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
@@ -225,6 +323,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				F488D83C1146604800583920 /* css */,
 				F41BB7470EE9F65A00BEFDED /* lock.png */,
 				F49218530EA7AC7400E74493 /* 2lines.png */,
 				F49218540EA7AC7400E74493 /* 4lines.png */,
@@ -259,6 +358,24 @@
 				F4174D440E40F9D400351EE4 /* Large comma.tif */,
 			);
 			name = "iTunes Connect";
+			sourceTree = "<group>";
+		};
+		F47DC80F1111004C00E8DD8B /* Resources-iPad */ = {
+			isa = PBXGroup;
+			children = (
+				F47DC8101111004D00E8DD8B /* MainWindow.xib */,
+			);
+			name = "Resources-iPad";
+			sourceTree = "<group>";
+		};
+		F488D83C1146604800583920 /* css */ = {
+			isa = PBXGroup;
+			children = (
+				F458080911466F1600A4C4E1 /* seaglass.css */,
+				F45807FC11466E9400A4C4E1 /* nksTablegallery.css */,
+				F488D83D1146606300583920 /* bluedream.css */,
+			);
+			path = css;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -298,6 +415,40 @@
 			productReference = F452CA8B0EB24A0D002F7697 /* CSV Lite.app */;
 			productType = "com.apple.product-type.application";
 		};
+		F47DC7E71111004C00E8DD8B /* CSV Touch-iPad */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F47DC8081111004C00E8DD8B /* Build configuration list for PBXNativeTarget "CSV Touch-iPad" */;
+			buildPhases = (
+				F47DC7E81111004C00E8DD8B /* Resources */,
+				F47DC7F41111004C00E8DD8B /* Sources */,
+				F47DC8041111004C00E8DD8B /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "CSV Touch-iPad";
+			productName = "CSV Touch";
+			productReference = F47DC80D1111004C00E8DD8B /* CSV Touch-iPad.app */;
+			productType = "com.apple.product-type.application";
+		};
+		F47DC8141111005400E8DD8B /* CSV Lite-iPad */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F47DC8351111005400E8DD8B /* Build configuration list for PBXNativeTarget "CSV Lite-iPad" */;
+			buildPhases = (
+				F47DC8151111005400E8DD8B /* Resources */,
+				F47DC8211111005400E8DD8B /* Sources */,
+				F47DC8311111005400E8DD8B /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "CSV Lite-iPad";
+			productName = "CSV Lite";
+			productReference = F47DC83A1111005400E8DD8B /* CSV Lite-iPad.app */;
+			productType = "com.apple.product-type.application";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -319,6 +470,8 @@
 			targets = (
 				1D6058900D05DD3D006BFB54 /* CSV Touch */,
 				F452CA8A0EB24A0D002F7697 /* CSV Lite */,
+				F47DC7E71111004C00E8DD8B /* CSV Touch-iPad */,
+				F47DC8141111005400E8DD8B /* CSV Lite-iPad */,
 			);
 		};
 /* End PBXProject section */
@@ -339,6 +492,9 @@
 				F49218550EA7AC7400E74493 /* 2lines.png in Resources */,
 				F49218560EA7AC7400E74493 /* 4lines.png in Resources */,
 				F41BB7480EE9F65A00BEFDED /* lock.png in Resources */,
+				F488D83E1146606300583920 /* bluedream.css in Resources */,
+				F45807FD11466E9400A4C4E1 /* nksTablegallery.css in Resources */,
+				F458080A11466F1600A4C4E1 /* seaglass.css in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -357,6 +513,50 @@
 				F452CAAC0EB24B04002F7697 /* Settings.bundle in Resources */,
 				F452CAAD0EB24B05002F7697 /* dist.plist in Resources */,
 				F41BB7490EE9F65A00BEFDED /* lock.png in Resources */,
+				F488D83F1146606300583920 /* bluedream.css in Resources */,
+				F45807FE11466E9400A4C4E1 /* nksTablegallery.css in Resources */,
+				F458080B11466F1600A4C4E1 /* seaglass.css in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F47DC7E81111004C00E8DD8B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F47DC7EA1111004C00E8DD8B /* col.png in Resources */,
+				F47DC7EB1111004C00E8DD8B /* row.png in Resources */,
+				F47DC7EC1111004C00E8DD8B /* icon.png in Resources */,
+				F47DC7ED1111004C00E8DD8B /* Settings.bundle in Resources */,
+				F47DC7EE1111004C00E8DD8B /* dist.plist in Resources */,
+				F47DC7EF1111004C00E8DD8B /* Default.png in Resources */,
+				F47DC7F01111004C00E8DD8B /* info.png in Resources */,
+				F47DC7F11111004C00E8DD8B /* 2lines.png in Resources */,
+				F47DC7F21111004C00E8DD8B /* 4lines.png in Resources */,
+				F47DC7F31111004C00E8DD8B /* lock.png in Resources */,
+				F47DC8111111004D00E8DD8B /* MainWindow.xib in Resources */,
+				F488D8401146607400583920 /* bluedream.css in Resources */,
+				F45807FF11466E9400A4C4E1 /* nksTablegallery.css in Resources */,
+				F458080C11466F1600A4C4E1 /* seaglass.css in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F47DC8151111005400E8DD8B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F47DC8161111005400E8DD8B /* 2lines.png in Resources */,
+				F47DC8171111005400E8DD8B /* 4lines.png in Resources */,
+				F47DC8181111005400E8DD8B /* Default.png in Resources */,
+				F47DC8191111005400E8DD8B /* icon.png in Resources */,
+				F47DC81A1111005400E8DD8B /* info.png in Resources */,
+				F47DC81C1111005400E8DD8B /* col.png in Resources */,
+				F47DC81D1111005400E8DD8B /* row.png in Resources */,
+				F47DC81E1111005400E8DD8B /* Settings.bundle in Resources */,
+				F47DC81F1111005400E8DD8B /* dist.plist in Resources */,
+				F47DC8201111005400E8DD8B /* lock.png in Resources */,
+				F488D8411146607A00583920 /* bluedream.css in Resources */,
+				F458080011466E9400A4C4E1 /* nksTablegallery.css in Resources */,
+				F458080D11466F1600A4C4E1 /* seaglass.css in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -407,6 +607,50 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		F47DC7F41111004C00E8DD8B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F47DC7F51111004C00E8DD8B /* main.m in Sources */,
+				F47DC7F61111004C00E8DD8B /* CSV_TouchAppDelegate.m in Sources */,
+				F47DC7F71111004C00E8DD8B /* OzyTableViewController.m in Sources */,
+				F47DC7F81111004C00E8DD8B /* csv.c in Sources */,
+				F47DC7F91111004C00E8DD8B /* msgno.c in Sources */,
+				F47DC7FA1111004C00E8DD8B /* CSVDataViewController.m in Sources */,
+				F47DC7FB1111004C00E8DD8B /* CSVRow.m in Sources */,
+				F47DC7FC1111004C00E8DD8B /* CSVFileParser.m in Sources */,
+				F47DC7FD1111004C00E8DD8B /* OzyRotatableViewController.m in Sources */,
+				F47DC7FE1111004C00E8DD8B /* OzyRotatableTabBarController.m in Sources */,
+				F47DC7FF1111004C00E8DD8B /* OzyTextViewController.m in Sources */,
+				F47DC8001111004C00E8DD8B /* CSVPreferencesController.m in Sources */,
+				F47DC8011111004C00E8DD8B /* OzymandiasAdditions.m in Sources */,
+				F47DC8021111004C00E8DD8B /* parseCSV.m in Sources */,
+				F47DC8031111004C00E8DD8B /* TextAlertView.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F47DC8211111005400E8DD8B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F47DC8221111005400E8DD8B /* CSV_TouchAppDelegate.m in Sources */,
+				F47DC8231111005400E8DD8B /* CSVDataViewController.m in Sources */,
+				F47DC8241111005400E8DD8B /* CSVPreferencesController.m in Sources */,
+				F47DC8251111005400E8DD8B /* CSVRow.m in Sources */,
+				F47DC8261111005400E8DD8B /* CSVFileParser.m in Sources */,
+				F47DC8271111005400E8DD8B /* OzyTableViewController.m in Sources */,
+				F47DC8281111005400E8DD8B /* OzyRotatableViewController.m in Sources */,
+				F47DC8291111005400E8DD8B /* OzyRotatableTabBarController.m in Sources */,
+				F47DC82A1111005400E8DD8B /* OzyTextViewController.m in Sources */,
+				F47DC82B1111005400E8DD8B /* OzymandiasAdditions.m in Sources */,
+				F47DC82C1111005400E8DD8B /* parseCSV.m in Sources */,
+				F47DC82D1111005400E8DD8B /* csv.c in Sources */,
+				F47DC82E1111005400E8DD8B /* msgno.c in Sources */,
+				F47DC82F1111005400E8DD8B /* main.m in Sources */,
+				F47DC8301111005400E8DD8B /* TextAlertView.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
@@ -422,6 +666,7 @@
 				INFOPLIST_FILE = Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 2.1;
 				PRODUCT_NAME = "CSV Touch";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -469,6 +714,7 @@
 				INFOPLIST_FILE = Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 2.1;
 				PRODUCT_NAME = "CSV Touch";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Distribution;
 		};
@@ -489,6 +735,7 @@
 				PREBINDING = NO;
 				PRODUCT_NAME = "CSV Lite";
 				SDKROOT = iphoneos2.1;
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -507,6 +754,7 @@
 				PRODUCT_NAME = "CSV Lite";
 				SDKROOT = iphoneos2.1;
 				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Distribution;
 		};
@@ -524,6 +772,151 @@
 				PREBINDING = NO;
 				PRODUCT_NAME = "CSV Lite";
 				SDKROOT = iphoneos2.1;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Privatdistribution;
+		};
+		F47DC8091111004C00E8DD8B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = CSV_Touch_Prefix.pch;
+				INFOPLIST_FILE = Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 2.1;
+				PRODUCT_NAME = "CSV Touch-iPad";
+				SDKROOT = iphoneos3.2;
+				TARGETED_DEVICE_FAMILY = 2;
+			};
+			name = Debug;
+		};
+		F47DC80A1111004C00E8DD8B /* Distribution */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Simon Wigzell";
+				COPY_PHASE_STRIP = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = CSV_Touch_Prefix.pch;
+				INFOPLIST_FILE = Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 2.1;
+				PRODUCT_NAME = "CSV Touch-iPad";
+				SDKROOT = iphoneos3.2;
+				TARGETED_DEVICE_FAMILY = 2;
+			};
+			name = Distribution;
+		};
+		F47DC80B1111004C00E8DD8B /* Priv dist */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Simon Wigzell";
+				COPY_PHASE_STRIP = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = CSV_Touch_Prefix.pch;
+				INFOPLIST_FILE = Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 2.1;
+				PRODUCT_NAME = "CSV Touch-iPad";
+				SDKROOT = iphoneos3.2;
+				TARGETED_DEVICE_FAMILY = 2;
+			};
+			name = "Priv dist";
+		};
+		F47DC80C1111004C00E8DD8B /* Privatdistribution */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CODE_SIGN_ENTITLEMENTS = dist.plist;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Simon Wigzell";
+				COPY_PHASE_STRIP = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = CSV_Touch_Prefix.pch;
+				INFOPLIST_FILE = Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 2.1;
+				PRODUCT_NAME = "CSV Touch-iPad";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "FD903CDE-BF61-4E6F-BBA6-3F38E0CC93B7";
+				SDKROOT = iphoneos3.2;
+				TARGETED_DEVICE_FAMILY = 2;
+			};
+			name = Privatdistribution;
+		};
+		F47DC8361111005400E8DD8B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = CSV_Lite_Prefix.pch;
+				INFOPLIST_FILE = "CSV Lite-Info.plist";
+				INSTALL_PATH = "$(HOME)/Applications";
+				OTHER_CFLAGS = "-DCSV_LITE";
+				OTHER_LDFLAGS = "";
+				PREBINDING = NO;
+				PRODUCT_NAME = "CSV Lite-iPad";
+				SDKROOT = iphoneos3.2;
+				TARGETED_DEVICE_FAMILY = 2;
+			};
+			name = Debug;
+		};
+		F47DC8371111005400E8DD8B /* Distribution */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Simon Wigzell";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = CSV_Lite_Prefix.pch;
+				INFOPLIST_FILE = "CSV Lite-Info.plist";
+				INSTALL_PATH = "$(HOME)/Applications";
+				OTHER_CFLAGS = "-DCSV_LITE";
+				OTHER_LDFLAGS = "";
+				PREBINDING = NO;
+				PRODUCT_NAME = "CSV Lite-iPad";
+				SDKROOT = iphoneos3.2;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 2;
+			};
+			name = Distribution;
+		};
+		F47DC8381111005400E8DD8B /* Priv dist */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Simon Wigzell";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = CSV_Lite_Prefix.pch;
+				INFOPLIST_FILE = "CSV Lite-Info.plist";
+				INSTALL_PATH = "$(HOME)/Applications";
+				OTHER_CFLAGS = "-DCSV_LITE";
+				OTHER_LDFLAGS = "";
+				PREBINDING = NO;
+				PRODUCT_NAME = "CSV Lite-iPad";
+				SDKROOT = iphoneos3.2;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 2;
+			};
+			name = "Priv dist";
+		};
+		F47DC8391111005400E8DD8B /* Privatdistribution */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Simon Wigzell";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = CSV_Lite_Prefix.pch;
+				INFOPLIST_FILE = "CSV Lite-Info.plist";
+				INSTALL_PATH = "$(HOME)/Applications";
+				OTHER_CFLAGS = "-DCSV_LITE";
+				OTHER_LDFLAGS = "";
+				PREBINDING = NO;
+				PRODUCT_NAME = "CSV Lite-iPad";
+				SDKROOT = iphoneos3.2;
+				TARGETED_DEVICE_FAMILY = 2;
 			};
 			name = Privatdistribution;
 		};
@@ -557,6 +950,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 2.1;
 				PRODUCT_NAME = "CSV Touch";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "FD903CDE-BF61-4E6F-BBA6-3F38E0CC93B7";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Privatdistribution;
 		};
@@ -588,6 +982,7 @@
 				INFOPLIST_FILE = Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 2.1;
 				PRODUCT_NAME = "CSV Touch";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = "Priv dist";
 		};
@@ -606,6 +1001,7 @@
 				PRODUCT_NAME = "CSV Lite";
 				SDKROOT = iphoneos2.1;
 				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = "Priv dist";
 		};
@@ -641,6 +1037,28 @@
 				F452CA8F0EB24A0E002F7697 /* Distribution */,
 				F4CCB5461026D71600FD684A /* Priv dist */,
 				F452CA900EB24A0E002F7697 /* Privatdistribution */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		F47DC8081111004C00E8DD8B /* Build configuration list for PBXNativeTarget "CSV Touch-iPad" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F47DC8091111004C00E8DD8B /* Debug */,
+				F47DC80A1111004C00E8DD8B /* Distribution */,
+				F47DC80B1111004C00E8DD8B /* Priv dist */,
+				F47DC80C1111004C00E8DD8B /* Privatdistribution */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		F47DC8351111005400E8DD8B /* Build configuration list for PBXNativeTarget "CSV Lite-iPad" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F47DC8361111005400E8DD8B /* Debug */,
+				F47DC8371111005400E8DD8B /* Distribution */,
+				F47DC8381111005400E8DD8B /* Priv dist */,
+				F47DC8391111005400E8DD8B /* Privatdistribution */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
