@@ -72,6 +72,10 @@
 			_sectionStarts = [[NSMutableArray alloc] init];
 		else
 			[_sectionStarts removeAllObjects];
+
+		[_sectionStarts addObject:[NSNumber numberWithInt:0]];
+		[_sectionIndexes addObject:UITableViewIndexSearch];
+			
 		NSUInteger objectCount = [self.objects count];
 		NSString *latestFirstLetter = nil;
 		NSString *currentFirstLetter;
@@ -108,6 +112,14 @@
 //			[_sectionIndexes removeAllObjects];
 //		}
 	}
+	else
+	{
+		if( _sectionIndexes )
+			[_sectionIndexes removeAllObjects];
+		if( _sectionStarts )
+			[_sectionStarts removeAllObjects];
+	}
+
 }
 
 - (void) setObjects:(NSMutableArray *)objects
@@ -251,6 +263,8 @@
 {
 	if( [_sectionIndexes count] > 0 )
 	{
+		if ( section == 0 )
+			return nil;
 		return [_sectionIndexes objectAtIndex:section];
 	}
 	else

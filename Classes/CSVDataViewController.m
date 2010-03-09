@@ -558,6 +558,7 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
 		
 	// Autocorrection of searching should be off
 	searchBar.autocorrectionType = UITextAutocorrectionTypeNo;
+	itemController.tableView.tableHeaderView = searchBar;
 
 	// Push the fileController to the root of the navigation;
 	// we must do this in case we have no saved navigationstack
@@ -903,13 +904,6 @@ static CSVDataViewController *sharedInstance = nil;
 											action:@selector(toggleEditFiles)] autorelease];
 }
 
-- (UIBarButtonItem *) searchItemsItem
-{
-	return [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSearch
-														  target:self
-														  action:@selector(searchItems:)] autorelease];
-}
-
 - (UIBarButtonItem *) doneItemWithSelector:(SEL)selector
 {
 	return [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone 
@@ -917,27 +911,18 @@ static CSVDataViewController *sharedInstance = nil;
 														  action:selector] autorelease];
 }
 
-- (BOOL) searchInProgress
-{
-	return [self.searchBar superview] != nil;
-}
-
 - (void) searchStart
 {
-	[UIView beginAnimations:nil context:NULL];
-	[UIView setAnimationDuration:0.5];
-	CGRect searchFrame = self.searchBar.frame;
-	CGRect navigationFrame = self.navigationBar.frame;
-	CGRect tableViewFrame = itemController.tableView.frame;
-	searchFrame.size.width = navigationFrame.size.width;
-	self.searchBar.frame = searchFrame;
-	tableViewFrame.origin.y += searchFrame.size.height;
-	itemController.tableView.frame = tableViewFrame;
-	itemController.tableView.alpha = 0.5;
-	[itemController.view addSubview:self.searchBar];	
-	[UIView commitAnimations];
+	searchInputInProgress = TRUE;
+	itemController.useIndexes = FALSE;
+	[itemController refreshIndexes];
+	[itemController dataLoaded];
+//	[UIView beginAnimations:nil context:NULL];
+//	[UIView setAnimationDuration:0.5];
+//	itemController.tableView.alpha = 0.5;
+//	[UIView commitAnimations];
 	
-	[itemController.navigationItem setRightBarButtonItem:[self doneItemWithSelector:@selector(searchItems:)] animated:YES];
+//	[itemController.navigationItem setRightBarButtonItem:[self doneItemWithSelector:@selector(searchItems:)] animated:YES];
 	[itemController.navigationItem setHidesBackButton:YES animated:YES];
 	
 	[self.searchBar becomeFirstResponder];
@@ -945,18 +930,30 @@ static CSVDataViewController *sharedInstance = nil;
 
 - (void) searchFinish
 {
-	[UIView beginAnimations:nil context:NULL];
-	[UIView setAnimationDuration:0.5];
-	[self.searchBar removeFromSuperview];
-	itemController.tableView.alpha = 1;
-	CGRect tableViewFrame = itemController.tableView.frame;
-	tableViewFrame.origin.y = 0;
-	itemController.tableView.frame = tableViewFrame;
-	[UIView commitAnimations];
+	searchInputInProgress = FALSE;
+//	[UIView beginAnimations:nil context:NULL];
+//	[UIView setAnimationDuration:0.5];
+//	[self.searchBar removeFromSuperview];
+//	itemController.tableView.alpha = 1;
+//	CGRect tableViewFrame = itemController.tableView.frame;
+//	tableViewFrame.origin.y = 0;
+//	itemController.tableView.frame = tableViewFrame;
+//	[UIView commitAnimations];
 	
-	[itemController.navigationItem setRightBarButtonItem:[self searchItemsItem] animated:YES];
 	[itemController.navigationItem setHidesBackButton:NO animated:YES];
+	if( [CSVPreferencesController useGroupingForItems] )
+	{
+		itemController.useIndexes = TRUE;
+		[itemController refreshIndexes];
+		[itemController dataLoaded];
+	}
+
 	[self editDone:self];
+}
+
+- (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar
+{
+	[self searchStart];	
 }
 
 - (void)searchBar:(UISearchBar *)modifiedSearchBar textDidChange:(NSString *)searchText
@@ -972,22 +969,20 @@ static CSVDataViewController *sharedInstance = nil;
 	[self searchFinish];
 }
 
-- (IBAction) searchItems:(id)sender
+- (void)searchBarTextDidEndEditing:(UISearchBar *)searchBar
 {
-	if( ![self searchInProgress] )
-	{
-		[self searchStart];
-	}
-	else
-	{
-		[self searchFinish];
-	}	
+	[self searchFinish];
+}
+
+- (void)searchBarCancelButtonClicked:(UISearchBar *) searchBar
+{
+	[self searchFinish];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	BOOL resetSearch = NO;
-	if( [self searchInProgress] )
+	if( searchInputInProgress )
 	{
 		[self searchFinish];
 		if( [CSVPreferencesController clearSearchWhenQuickSelecting] )
@@ -1075,10 +1070,10 @@ static CSVDataViewController *sharedInstance = nil;
 - (IBAction) editDone:(id)sender
 {
 	[searchBar endEditing:YES];
-	if( searchBar.text && ![searchBar.text isEqualToString:@""] )
-		searchButton.style = UIBarButtonItemStyleDone;
-	else
-		searchButton.style = UIBarButtonItemStylePlain;
+//	if( searchBar.text && ![searchBar.text isEqualToString:@""] )
+//		searchButton.style = UIBarButtonItemStyleDone;
+//	else
+//		searchButton.style = UIBarButtonItemStylePlain;
 	if( itemsNeedResorting || itemsNeedFiltering )
 	{
 		[self refreshObjectsWithResorting:itemsNeedResorting];

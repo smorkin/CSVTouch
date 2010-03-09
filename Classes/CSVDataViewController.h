@@ -41,7 +41,7 @@ OzyRotatableViewController;
 	
 	// Search view
 	IBOutlet UISearchBar *searchBar;
-	IBOutlet UIBarButtonItem *searchButton;
+//	IBOutlet UIBarButtonItem *searchButton;
 
 	// Toolbars
 	IBOutlet UIToolbar *itemsToolbar;
@@ -63,6 +63,7 @@ OzyRotatableViewController;
 	BOOL showingFileInfoInProgress;
 	BOOL editFilesInProgress;
 	BOOL showingRawString;
+	BOOL searchInputInProgress;
 }
 
 @property (nonatomic, readonly) UIToolbar *itemsToolbar;
@@ -76,7 +77,7 @@ OzyRotatableViewController;
 - (IBAction) editDone:(id)sender;
 - (IBAction) resetColumnNames:(id)sender;
 - (IBAction) toggleEditFiles;
-- (IBAction) searchItems:(id)sender;
+//- (IBAction) searchItems:(id)sender;
 - (IBAction) toggleRefreshFiles:(id)sender;
 - (IBAction) toggleShowFileInfo:(id)sender;
 - (IBAction) toggleShowingRawString:(id)sender;
