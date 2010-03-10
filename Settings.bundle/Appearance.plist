@@ -34,7 +34,7 @@
 			<key>TrueValue</key>
 			<true/>
 			<key>FalseValue</key>
-			<false/>
+			<true/>
 		</dict>
 		<dict>
 			<key>Type</key>

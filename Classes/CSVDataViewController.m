@@ -935,7 +935,7 @@ static CSVDataViewController *sharedInstance = nil;
 	//	itemController.tableView.alpha = 0.5;
 	//	[UIView commitAnimations];
 	
-	//	[itemController.navigationItem setRightBarButtonItem:[self doneItemWithSelector:@selector(searchItems:)] animated:YES];
+	[itemController.navigationItem setRightBarButtonItem:[self doneItemWithSelector:@selector(searchItems:)] animated:YES];
 	[itemController.navigationItem setHidesBackButton:YES animated:YES];
 	
 	[self.searchBar becomeFirstResponder];
@@ -943,7 +943,9 @@ static CSVDataViewController *sharedInstance = nil;
 
 - (void) searchFinish
 {
-	searchInputInProgress = FALSE;
+	if( searchInputInProgress )
+	{
+		searchInputInProgress = FALSE;
 	//	[UIView beginAnimations:nil context:NULL];
 	//	[UIView setAnimationDuration:0.5];
 	//	[self.searchBar removeFromSuperview];
@@ -953,15 +955,32 @@ static CSVDataViewController *sharedInstance = nil;
 	//	itemController.tableView.frame = tableViewFrame;
 	//	[UIView commitAnimations];
 	
-	[itemController.navigationItem setHidesBackButton:NO animated:YES];
-	if( [CSVPreferencesController useGroupingForItems] )
-	{
-		itemController.useIndexes = TRUE;
-		[itemController refreshIndexes];
-		[itemController dataLoaded];
+		[itemController.navigationItem setHidesBackButton:NO animated:YES];
+		[itemController.navigationItem setRightBarButtonItem:nil animated:YES];
+		if( [CSVPreferencesController useGroupingForItems] )
+		{
+			itemController.useIndexes = TRUE;
+			[itemController refreshIndexes];
+			[itemController dataLoaded];
+		}
+		NSUInteger path[2];
+		if( itemController.useIndexes )
+			path[0] = 1;
+		else 
+			path[0] = 0;
+		path[1] = 0;
+		if( [itemController itemExistsAtIndexPath:[NSIndexPath indexPathWithIndexes:path length:2]] )
+			[itemController.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathWithIndexes:path length:2]
+											atScrollPosition:UITableViewScrollPositionTop
+													animated:YES];
+		
+		[self editDone:self];
 	}
-	
-	[self editDone:self];
+}
+
+- (IBAction) searchItems:(id)sender
+{
+	[self searchFinish];
 }
 
 - (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar

@@ -658,6 +658,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Simon Wigzell";
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -666,6 +667,8 @@
 				INFOPLIST_FILE = Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 2.1;
 				PRODUCT_NAME = "CSV Touch";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "0EC4B11E-72AD-4F55-8C55-137A5302045B";
+				SDKROOT = iphoneos3.1.3;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
@@ -707,6 +710,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Simon Wigzell";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Simon Wigzell";
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -714,6 +718,9 @@
 				INFOPLIST_FILE = Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 2.1;
 				PRODUCT_NAME = "CSV Touch";
+				PROVISIONING_PROFILE = "E8CDB3AF-AC0F-464A-8C97-43AA77BD13C8";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "E8CDB3AF-AC0F-464A-8C97-43AA77BD13C8";
+				SDKROOT = iphoneos3.1.3;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Distribution;
@@ -752,7 +759,9 @@
 				OTHER_LDFLAGS = "";
 				PREBINDING = NO;
 				PRODUCT_NAME = "CSV Lite";
-				SDKROOT = iphoneos2.1;
+				PROVISIONING_PROFILE = "E8CDB3AF-AC0F-464A-8C97-43AA77BD13C8";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "E8CDB3AF-AC0F-464A-8C97-43AA77BD13C8";
+				SDKROOT = iphoneos3.1.3;
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -942,6 +951,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CODE_SIGN_ENTITLEMENTS = dist.plist;
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Simon Wigzell";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Simon Wigzell";
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -949,7 +959,8 @@
 				INFOPLIST_FILE = Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 2.1;
 				PRODUCT_NAME = "CSV Touch";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "FD903CDE-BF61-4E6F-BBA6-3F38E0CC93B7";
+				PROVISIONING_PROFILE = "6B85097A-4966-4FB1-A398-C1423DD24BDC";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "6B85097A-4966-4FB1-A398-C1423DD24BDC";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Privatdistribution;
@@ -975,6 +986,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Simon Wigzell";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Simon Wigzell";
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -982,6 +994,7 @@
 				INFOPLIST_FILE = Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 2.1;
 				PRODUCT_NAME = "CSV Touch";
+				PROVISIONING_PROFILE = "6B85097A-4966-4FB1-A398-C1423DD24BDC";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = "Priv dist";
