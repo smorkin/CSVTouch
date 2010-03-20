@@ -150,7 +150,7 @@
 		NSMutableArray *result = [NSMutableArray arrayWithCapacity:(testing ? 2 : 5000)];
 		int maxNumberOfRows = (testing ? 3 : 1000000);
 		NSUInteger length = [s length];
-
+		
 		lineStart = lineEnd = nextLineStart = 0;
 		while( nextLineStart < length && numberOfRows < maxNumberOfRows )
 		{
@@ -269,7 +269,7 @@
 {    
 	if( !_rawData )
 		[self loadFile];
-		
+	
 	int foundColumns;
 	_usedDelimiter = [self delimiter];
 	
@@ -357,9 +357,16 @@
 - (NSString *) defaultTableViewDescription
 {
 	NSString *s = [[self filePath] lastPathComponent];
+	
+	// First remove the .csvtouch extension. Should always be there, but we need to be careful about
+	// backwards compatibility
+	if( [[[s pathExtension] lowercaseString] isEqualToString:@"csvtouch"] )
+		s = [s stringByDeletingPathExtension];
+	
+	// Then we remove standard csv file extensions
 	if( [[[s pathExtension] lowercaseString] isEqualToString:@"csv"] ||
-		[[[s pathExtension] lowercaseString] isEqualToString:@"tsv"] ||
-		[[[s pathExtension] lowercaseString] isEqualToString:@"txt"] )
+	   [[[s pathExtension] lowercaseString] isEqualToString:@"tsv"] ||
+	   [[[s pathExtension] lowercaseString] isEqualToString:@"txt"] )
 		return [s stringByDeletingPathExtension];
 	else
 		return s;

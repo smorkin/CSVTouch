@@ -327,11 +327,11 @@
 	// Setup the cell if not already setup
 	if (cell == nil)
 	{
-		cell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:cellIdentifier] autorelease];
-		cell.image = [UIImage imageNamed:@"checkmark.png"];
+		cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:cellIdentifier] autorelease];
 	}
 	
-	[cell setFont:[[cell font] fontWithSize:fontSize]];
+	[cell.textLabel setFont:[[cell.textLabel font] fontWithSize:fontSize]];
+
 	return cell;
 }
 
@@ -345,9 +345,13 @@
 	else
 		item = [self.objects objectAtIndex:indexPath.row];
 	if( [item conformsToProtocol:@protocol(OzyTableViewObject)] )
-		cell.text = [(<OzyTableViewObject>)item tableViewDescription];
+	{
+		cell.textLabel.text = [(<OzyTableViewObject>)item tableViewDescription];
+	}
 	else
-		cell.text = [item description];
+	{
+		cell.textLabel.text = [item description];
+	}
 	if( self.removeDisclosure )
 	{
 		cell.accessoryType = UITableViewCellAccessoryNone;
@@ -360,11 +364,11 @@
 		[item conformsToProtocol:@protocol(OzyTableViewObject)] &&
 		[(<OzyTableViewObject>)item showImage] )
 	{
-		cell.image = [UIImage imageNamed:self.imageName];
+		cell.imageView.image = [UIImage imageNamed:self.imageName];
 	}
 	else
 	{
-		cell.image = nil;
+		cell.imageView.image = nil;
 	}
 	return cell;
 }
@@ -418,8 +422,13 @@
 {
 	if( [[[UIApplication sharedApplication] delegate] respondsToSelector:@selector(allowRotation)] )
 		return [(id <OzymandiasApplicationDelegate>)[[UIApplication sharedApplication] delegate] allowRotation];
-	else
-		return YES;
+
+	return YES;
+}
+
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
+{
+	[self.tableView reloadData];
 }
 
 // Not used right now

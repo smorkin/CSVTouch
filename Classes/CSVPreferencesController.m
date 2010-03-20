@@ -42,6 +42,7 @@
 #define PREFS_CONFIRM_LINK @"confirmLink"
 #define PREFS_ALIGN_HTML @"alignHtml"
 #define PREFS_USE_PASSWORD @"usePassword"
+#define PREFS_HAS_BEEN_UPGRADED_TO_CUSTOM_EXTENSION @"hasBeenUpgradedToCustomExtension"
 
 
 NSUInteger sortingMask;
@@ -292,6 +293,20 @@ NSUInteger sortingMask;
 #endif
 }
 
+
++ (BOOL) hasBeenUpgradedToCustomExtension
+{
+	id obj = [[NSUserDefaults standardUserDefaults] objectForKey:PREFS_HAS_BEEN_UPGRADED_TO_CUSTOM_EXTENSION];
+	if( obj )
+		return [[NSUserDefaults standardUserDefaults] boolForKey:PREFS_HAS_BEEN_UPGRADED_TO_CUSTOM_EXTENSION];
+	else
+		return NO;
+}
+
++ (void) setHasBeenUpgradedToCustomExtension
+{
+	[[NSUserDefaults standardUserDefaults] setBool:YES forKey:PREFS_HAS_BEEN_UPGRADED_TO_CUSTOM_EXTENSION];
+}
 
 + (void) updateSortingMask
 {

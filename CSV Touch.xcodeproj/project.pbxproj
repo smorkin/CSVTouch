@@ -295,7 +295,7 @@
 				29B97317FDCFA39411CA2CEA /* Resources */,
 				F47DC80F1111004C00E8DD8B /* Resources-iPad */,
 				F4174D3C0E40F99C00351EE4 /* iTunes Connect */,
-				29B97323FDCFA39411CA2CEA /* Frameworks */,
+				29B97323FDCFA39411CA2CEA /* SDKs */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
 				F4990C160E4276C500D64667 /* Settings.bundle */,
 				F4BE8AB00E4503AC00F2A27B /* dist.plist */,
@@ -341,15 +341,16 @@
 			name = Resources;
 			sourceTree = "<group>";
 		};
-		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
+		29B97323FDCFA39411CA2CEA /* SDKs */ = {
 			isa = PBXGroup;
 			children = (
 				1D3623EB0D0F72F000981E51 /* CoreGraphics.framework */,
 				1DF5F4DF0D08C38300B7A737 /* UIKit.framework */,
 				1D30AB110D05D00D00671497 /* Foundation.framework */,
 			);
-			name = Frameworks;
-			sourceTree = "<group>";
+			name = SDKs;
+			path = ../../../../iPhoneOS.platform/Developer/SDKs;
+			sourceTree = SDKROOT;
 		};
 		F4174D3C0E40F99C00351EE4 /* iTunes Connect */ = {
 			isa = PBXGroup;
@@ -686,7 +687,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				PREBINDING = NO;
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = DefaultProfileUuid;
-				SDKROOT = iphonesimulator2.1;
+				SDKROOT = iphonesimulator3.1.3;
 			};
 			name = Debug;
 		};
@@ -702,7 +703,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 2.1;
 				PREBINDING = NO;
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "4721226F-AC70-45DB-ABB7-A99EBBAAC038";
-				SDKROOT = iphoneos2.1;
+				SDKROOT = iphoneos3.1.3;
 			};
 			name = Distribution;
 		};
@@ -760,7 +761,6 @@
 				PREBINDING = NO;
 				PRODUCT_NAME = "CSV Lite";
 				PROVISIONING_PROFILE = "E8CDB3AF-AC0F-464A-8C97-43AA77BD13C8";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "E8CDB3AF-AC0F-464A-8C97-43AA77BD13C8";
 				SDKROOT = iphoneos3.1.3;
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -942,7 +942,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
 				PREBINDING = NO;
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "47757B33-0E1E-4284-9D37-11382CF58316";
-				SDKROOT = iphoneos3.0;
+				SDKROOT = iphoneos3.1.3;
 			};
 			name = Privatdistribution;
 		};
@@ -978,7 +978,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
 				PREBINDING = NO;
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "47757B33-0E1E-4284-9D37-11382CF58316";
-				SDKROOT = iphoneos3.0;
+				SDKROOT = iphoneos3.1.3;
 			};
 			name = "Priv dist";
 		};

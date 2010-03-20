@@ -104,9 +104,9 @@
 	[itemController dataLoaded];
 }
 
-- (NSArray *) columnIndexes
+- (NSArray *) importantColumnIndexes
 {
-	return columnIndexes;
+	return importantColumnIndexes;
 }
 
 - (int *) rawColumnIndexes
@@ -117,18 +117,18 @@
 - (void) updateColumnIndexes
 {
 	NSArray *availableColumns = [currentFile availableColumnNames];
-	[columnIndexes removeAllObjects];
+	[importantColumnIndexes removeAllObjects];
 	if( rawColumnIndexes )
 		free(rawColumnIndexes);
 	for( NSString *usedColumn in [editController objects] )
 	{
 		for( NSUInteger i = 0 ; i < [availableColumns count] ; i++ )
 			if( [usedColumn isEqualToString:[availableColumns objectAtIndex:i]] )
-				[columnIndexes addObject:[NSNumber numberWithInt:i]];
+				[importantColumnIndexes addObject:[NSNumber numberWithInt:i]];
 	}
-	rawColumnIndexes = malloc(sizeof(int) * [columnIndexes count]);
-	for( int i = 0 ; i < [columnIndexes count] ; i++ )
-		rawColumnIndexes[i] = [[columnIndexes objectAtIndex:i] intValue];
+	rawColumnIndexes = malloc(sizeof(int) * [importantColumnIndexes count]);
+	for( int i = 0 ; i < [importantColumnIndexes count] ; i++ )
+		rawColumnIndexes[i] = [[importantColumnIndexes objectAtIndex:i] intValue];
 }
 
 - (void) updateColumnNames
@@ -294,11 +294,11 @@
 	NSMutableArray *items = [item longDescriptionInArray];
 	fancyDetailsController.objects = items;
 	fancyDetailsController.removeDisclosure = YES;
-	if( [[currentFile availableColumnNames] count] > [columnIndexes count] )
+	if( [[currentFile availableColumnNames] count] > [importantColumnIndexes count] )
 	{
 		NSArray *sectionStarts = [NSArray arrayWithObjects:
 								  [NSNumber numberWithInt:0], 
-								  [NSNumber numberWithInt:[columnIndexes count]],
+								  [NSNumber numberWithInt:[importantColumnIndexes count]],
 								  nil];
 		[fancyDetailsController setSectionStarts:sectionStarts];
 	}
@@ -311,18 +311,28 @@
 
 - (void) updateHtmlViewWithItem:(CSVRow *)item
 {
+	[(UIWebView *)[htmlDetailsController view] stopLoading];
+	
 	BOOL useTable = [CSVPreferencesController alignHtml];
 	NSError *error;
 	NSString *cssString = [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"seaglass" ofType:@"css"]
 												usedEncoding:nil
 													   error:&error];
-
+	
 	NSMutableString *s = [NSMutableString string];
 	[s appendString:@"<html><head><title>Details</title>"];
 	[s appendString:@"<STYLE type=\"text/css\">"];
 	[s appendString:cssString];
 	[s appendString:@"</STYLE>"];
-	 [s appendString:@"</head><body>"];
+	if(htmlDetailsController.interfaceOrientation == UIInterfaceOrientationLandscapeLeft ||
+	   htmlDetailsController.interfaceOrientation == UIInterfaceOrientationLandscapeRight)
+	{
+		[s replaceOccurrencesOfString:@"normal 36px verdana" 
+						   withString:@"normal 24px verdana" 
+							  options:0
+								range:NSMakeRange(0, [s length])];		
+	}
+	[s appendString:@"</head><body>"];
 	if( useTable )
 		[s appendString:@"<table width=\"100%\">"];
 	else
@@ -358,12 +368,19 @@
 			else
 				[data appendFormat:@"%@<br>", [d objectForKey:VALUE_KEY]];
 		}
+		if(useTable &&
+		   row == [[self importantColumnIndexes] count] &&
+		   [[self importantColumnIndexes] count] != [columnsAndValues count] )
+		{
+			[data appendString:@"<tr class=\"rowstep\"><th><b>-</b><td>"]; 
+			[data appendString:@"<tr class=\"rowstep\"><th><b>-</b><td>"]; 
+		}
 		row++;
 	}
 	[data replaceOccurrencesOfString:@"\n" 
-					   withString:@"<br>" 
-						  options:0
-							range:NSMakeRange(0, [data length])];
+						  withString:@"<br>" 
+							 options:0
+							   range:NSMakeRange(0, [data length])];
 	[s appendString:data];
 	if( useTable )
 		[s appendFormat:@"</table>"];
@@ -374,17 +391,15 @@
 }
 
 - (void) selectDetailsForRow:(NSUInteger)row
-{
-	CSVRow *item;
-	
+{	
 	if( [[itemController objects] count] > row )
-		item = [[itemController objects] objectAtIndex:row];
+		_latestShownItem = [[itemController objects] objectAtIndex:row];
 	else
-		item = nil;
+		_latestShownItem = nil;
 	
-	[self updateSimpleViewWithItem:item];
-	[self updateEnhancedViewWithItem:item];
-	[self updateHtmlViewWithItem:item];
+	[self updateSimpleViewWithItem:_latestShownItem];
+	[self updateEnhancedViewWithItem:_latestShownItem];
+	[self updateHtmlViewWithItem:_latestShownItem];
 	[self updateBadgeValueUsingItem:[[self currentDetailsController] navigationItem] push:YES];
 }
 
@@ -431,6 +446,22 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
 		return NO;
 	}
 	return YES;
+}
+
+// UIWebViewDelegate protocol
+- (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
+{
+	if( [CSVPreferencesController showDebugInfo] )
+	{
+		UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Load error!"
+														 message:[NSString stringWithFormat:@"Error when loading view. Description: %@\nCode: %d",
+																  [error localizedDescription], [error code]]
+														delegate:[[UIApplication sharedApplication] delegate]
+											   cancelButtonTitle:@"OK"
+											   otherButtonTitles:nil] autorelease];
+		[alert show];
+		
+	}
 }
 
 - (void) validateItemSizeButtons
@@ -704,7 +735,7 @@ static CSVDataViewController *sharedInstance = nil;
 	columnNamesForFileName = [[NSMutableDictionary alloc] init];
 	indexPathForFileName = [[NSMutableDictionary alloc] init];
 	searchStringForFileName = [[NSMutableDictionary alloc] init];
-	columnIndexes = [[NSMutableArray alloc] init];
+	importantColumnIndexes = [[NSMutableArray alloc] init];
 	
 	[[NSNotificationCenter defaultCenter] addObserver:self 
 											 selector:@selector(tableViewContentChanged:)
@@ -726,7 +757,7 @@ static CSVDataViewController *sharedInstance = nil;
 	[columnNamesForFileName release];
 	[indexPathForFileName release];
 	[searchStringForFileName release];
-	[columnIndexes release];
+	[importantColumnIndexes release];
 	if( rawColumnIndexes )
 		free(rawColumnIndexes);
 	[super dealloc];
@@ -836,7 +867,7 @@ static CSVDataViewController *sharedInstance = nil;
 	{
 		// We could read the file and will display it, but we should also check if we have any other problems
 		// Check if something seems screwy...
-		if( [columnIndexes count] == 0 && [itemController.objects count] > 1 )
+		if( [importantColumnIndexes count] == 0 && [itemController.objects count] > 1 )
 		{
 			UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"No columns to show!"
 															 message:@"Probably reason: File refreshed but column names have changed. Please click Edit -> Reset Columns"
@@ -946,15 +977,15 @@ static CSVDataViewController *sharedInstance = nil;
 	if( searchInputInProgress )
 	{
 		searchInputInProgress = FALSE;
-	//	[UIView beginAnimations:nil context:NULL];
-	//	[UIView setAnimationDuration:0.5];
-	//	[self.searchBar removeFromSuperview];
-	//	itemController.tableView.alpha = 1;
-	//	CGRect tableViewFrame = itemController.tableView.frame;
-	//	tableViewFrame.origin.y = 0;
-	//	itemController.tableView.frame = tableViewFrame;
-	//	[UIView commitAnimations];
-	
+		//	[UIView beginAnimations:nil context:NULL];
+		//	[UIView setAnimationDuration:0.5];
+		//	[self.searchBar removeFromSuperview];
+		//	itemController.tableView.alpha = 1;
+		//	CGRect tableViewFrame = itemController.tableView.frame;
+		//	tableViewFrame.origin.y = 0;
+		//	itemController.tableView.frame = tableViewFrame;
+		//	[UIView commitAnimations];
+		
 		[itemController.navigationItem setHidesBackButton:NO animated:YES];
 		[itemController.navigationItem setRightBarButtonItem:nil animated:YES];
 		if( [CSVPreferencesController useGroupingForItems] )
@@ -1333,10 +1364,14 @@ didSelectRowAtIndexPath:[fileController.tableView indexPathForSelectedRow]];
 	}
 }
 
-- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
 {
-	//	if( ![CSVPreferencesController showStatusBar ] && [[UIApplication sharedApplication] isStatusBarHidden] )
-	//		[[UIApplication sharedApplication] setStatusBarHidden:NO animated:NO];
+	if(self.visibleViewController == htmlDetailsController ||
+	   self.visibleViewController == fancyDetailsController ||
+	   self.visibleViewController == detailsController)
+	{
+		[self updateHtmlViewWithItem:_latestShownItem];
+	}
 }
 
 
@@ -1363,8 +1398,7 @@ didSelectRowAtIndexPath:[fileController.tableView indexPathForSelectedRow]];
 	for( UIView *view in [controller.view subviews] )
 	{
 		if( [view isKindOfClass:[UIButton class]] &&
-		   ([[(UIButton *)view titleForState:UIControlStateNormal] isEqualToString:@"⇛"] ||
-			[[(UIButton *)view titleForState:UIControlStateNormal] isEqualToString:@"⇚"]))
+		   ([view isEqual:previousDetails] || [view isEqual:nextDetails]) )
 		{
 			[view removeFromSuperview];
 		}

@@ -10,6 +10,7 @@
 
 @class OzyTableViewController,
 CSVFileParser, 
+CSVRow,
 OzyTextViewController,
 OzyRotatableViewController;
 
@@ -56,8 +57,11 @@ OzyRotatableViewController;
 	NSURL *leaveAppURL;
 	
 	// An array with the current indexes to use for the items
-	NSMutableArray *columnIndexes;
+	NSMutableArray *importantColumnIndexes;
 	int *rawColumnIndexes;
+	
+	// Weak reference to the latest shown item
+	CSVRow *_latestShownItem;
 	
 	BOOL refreshingFilesInProgress;
 	BOOL showingFileInfoInProgress;
@@ -94,7 +98,7 @@ OzyRotatableViewController;
 
 - (void) newFileDownloaded:(CSVFileParser *)file;
 
-- (NSArray *) columnIndexes;
+- (NSArray *) importantColumnIndexes;
 - (int *) rawColumnIndexes;
 
 - (void) applicationWillTerminate;

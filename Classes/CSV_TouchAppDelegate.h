@@ -11,6 +11,10 @@
 
 @class OzyRotatableViewController, CSVFileParser, CSVDataViewController;
 
+// Enum for alert view tags
+enum{PASSWORD_CHECK = 1, PASSWORD_SET, UPGRADE_FAILED};
+
+
 @interface CSV_TouchAppDelegate : NSObject <UIApplicationDelegate,
 UITabBarControllerDelegate,
 OzymandiasApplicationDelegate> {

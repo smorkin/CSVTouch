@@ -26,14 +26,14 @@
 
 - (NSComparisonResult) compareItems:(CSVRow *)row
 {
-	NSUInteger columnsShown = [[[CSVDataViewController sharedInstance] columnIndexes] count];
-	int *columnIndexes = [[CSVDataViewController sharedInstance] rawColumnIndexes];
+	NSUInteger columnsShown = [[[CSVDataViewController sharedInstance] importantColumnIndexes] count];
+	int *importantColumnIndexes = [[CSVDataViewController sharedInstance] rawColumnIndexes];
 	
 	NSUInteger i;
 	NSComparisonResult r;
 	for( i = 0 ; i < columnsShown ; i++ )
 	{
-		r = [[self.items objectAtIndex:columnIndexes[i]] compare:[row.items objectAtIndex:columnIndexes[i]] options:sortingMask];
+		r = [[self.items objectAtIndex:importantColumnIndexes[i]] compare:[row.items objectAtIndex:importantColumnIndexes[i]] options:sortingMask];
 		if( r != NSOrderedSame )
 			return r;
 	}
@@ -242,9 +242,9 @@
 	NSMutableArray *array = [NSMutableArray array];
 	
 	// First add sorted column data
-	NSArray *columnIndexes = [[CSVDataViewController sharedInstance] columnIndexes];
+	NSArray *importantColumnIndexes = [[CSVDataViewController sharedInstance] importantColumnIndexes];
 	NSArray *availableColumnNames = [self.fileParser availableColumnNames];
-	for( NSNumber *index in columnIndexes )
+	for( NSNumber *index in importantColumnIndexes )
 	{
 		[array addObject:[NSDictionary dictionaryWithObjectsAndKeys:
 						  [self.items objectAtIndex:[index intValue]], VALUE_KEY,
@@ -253,11 +253,11 @@
 	}
 	
 	// Then add other data
-	if( [columnIndexes count] < [availableColumnNames count] )
+	if( [importantColumnIndexes count] < [availableColumnNames count] )
 	{
 		for( NSUInteger i = 0 ; i < [self.items count] ; i++ )
 		{
-			if( ![columnIndexes containsObject:[NSNumber numberWithInt:i]] )
+			if( ![importantColumnIndexes containsObject:[NSNumber numberWithInt:i]] )
 			{
 				[array addObject:[NSDictionary dictionaryWithObjectsAndKeys:
 								  [self.items objectAtIndex:i], VALUE_KEY,
@@ -275,9 +275,9 @@
 	NSMutableArray *array = [NSMutableArray array];
 	
 	// First add sorted column data
-	NSArray *columnIndexes = [[CSVDataViewController sharedInstance] columnIndexes];
+	NSArray *importantColumnIndexes = [[CSVDataViewController sharedInstance] importantColumnIndexes];
 	NSArray *availableColumnNames = [self.fileParser availableColumnNames];
-	for( NSNumber *index in columnIndexes )
+	for( NSNumber *index in importantColumnIndexes )
 	{
 		NSMutableString *s = [NSMutableString stringWithFormat:@"%@: %@", 
 					   [availableColumnNames objectAtIndex:[index intValue]], 
@@ -290,12 +290,12 @@
 	}
 	
 	// Then add other data
-	if( [columnIndexes count] < [availableColumnNames count] )
+	if( [importantColumnIndexes count] < [availableColumnNames count] )
 	{
 		NSMutableArray *otherColumns = [NSMutableArray array];
 		for( NSUInteger i = 0 ; i < [self.items count] ; i++ )
 		{
-			if( ![columnIndexes containsObject:[NSNumber numberWithInt:i]] )
+			if( ![importantColumnIndexes containsObject:[NSNumber numberWithInt:i]] )
 			{
 				NSMutableString *s = [NSMutableString stringWithFormat:@"%@: %@",
 							   [availableColumnNames objectAtIndex:i],
@@ -320,7 +320,7 @@
 	{
 		self.shortDescription = [CSVRow concatenateWords:self.items 
 											usingIndexes:[[CSVDataViewController sharedInstance] rawColumnIndexes]
-												   count:[[[CSVDataViewController sharedInstance] columnIndexes] count]];
+												   count:[[[CSVDataViewController sharedInstance] importantColumnIndexes] count]];
 	}
 	return _shortDescription;
 }
@@ -329,9 +329,9 @@
 {
 	// First add sorted column data
 	NSMutableString *s = [NSMutableString stringWithCapacity:200];
-	NSArray *columnIndexes = [[CSVDataViewController sharedInstance] columnIndexes];
+	NSArray *importantColumnIndexes = [[CSVDataViewController sharedInstance] importantColumnIndexes];
 	NSArray *availableColumnNames = [self.fileParser availableColumnNames];
-	for( NSNumber *index in columnIndexes )
+	for( NSNumber *index in importantColumnIndexes )
 	{
 		[s appendFormat:@"%@: %@\n", 
 		 [availableColumnNames objectAtIndex:[index intValue]], 
@@ -339,12 +339,12 @@
 	}
 	
 	// Then add other data
-	if( [columnIndexes count] < [availableColumnNames count] )
+	if( [importantColumnIndexes count] < [availableColumnNames count] )
 	{
 		[s appendString:@"____________________\n"];
 		for( NSUInteger i = 0 ; i < [self.items count] ; i++ )
 		{
-			if( ![columnIndexes containsObject:[NSNumber numberWithInt:i]] )
+			if( ![importantColumnIndexes containsObject:[NSNumber numberWithInt:i]] )
 				[s appendFormat:@"%@: %@\n",
 				[availableColumnNames objectAtIndex:i],
 				[self.items objectAtIndex:i]];

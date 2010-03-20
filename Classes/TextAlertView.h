@@ -3,7 +3,6 @@
 //  CSV Touch
 //
 //  Created by Simon Wigzell on 2008-12-05.
-//  Copyright 2008 Ozymandias. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>

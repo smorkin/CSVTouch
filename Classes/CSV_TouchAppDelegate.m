@@ -39,7 +39,7 @@ static CSV_TouchAppDelegate *sharedInstance = nil;
 	
 	if( !delimiters )
 		delimiters = [[NSArray arrayWithObjects:@",", @";", @".", @"|", @" ", @"\t", nil] retain];
-
+	
 	return delimiters;
 }
 
@@ -47,8 +47,6 @@ static CSV_TouchAppDelegate *sharedInstance = nil;
 {
 	return dataController;
 }
-
-enum{PASSWORD_CHECK = 1, PASSWORD_SET};
 
 static NSString *newPassword = nil;
 
@@ -139,6 +137,7 @@ static NSString *newPassword = nil;
 {
 	CSVFileParser *fp = [[CSVFileParser alloc] initWithRawData:data];
 	fp.filePath = [[CSV_TouchAppDelegate documentsPath] stringByAppendingPathComponent:fileName];
+	fp.filePath = [NSString stringWithFormat:@"%@.csvtouch", fp.filePath];
 	if( !isLocalDownload )
 	{
 		fp.URL = [newFileURL text]; 
@@ -185,6 +184,42 @@ static NSString *newPassword = nil;
 	{
 		NSArray *documents;
 		
+		// Upgrading to new version using .csvtouch as extension (iPad preparation)
+		documents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:documentsPath
+																		error:NULL];
+		if( ![CSVPreferencesController hasBeenUpgradedToCustomExtension] )
+		{
+			BOOL failure = FALSE;
+			for( NSString *fileName in documents )
+			{
+				if( ![fileName isEqualToString:RAW_CSV_FILES_FOLDER] &&
+				   ![fileName hasPrefix:@"."] &&
+				   ![fileName hasSuffix:@".csvtouch"])
+				{
+					if( [[NSFileManager defaultManager] moveItemAtPath:[documentsPath stringByAppendingPathComponent:fileName]
+																toPath:[[documentsPath stringByAppendingPathComponent:fileName] stringByAppendingString:@".csvtouch"]
+																 error:NULL] == FALSE )
+						failure = TRUE;
+				}
+			}
+			if( failure )
+			{
+				UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Upgrade failed"
+																 message:@"Can't rename files when upgrading!" 
+																delegate:self
+													   cancelButtonTitle:@"Quit"
+													   otherButtonTitles:nil] autorelease];
+				alert.tag = UPGRADE_FAILED;
+				[alert show];
+				return;
+			}
+			else
+			{
+				[CSVPreferencesController setHasBeenUpgradedToCustomExtension];
+			}
+
+		}
+		
 		// First import all the potentially manually added files
 		NSString *rawDocumentsPath = [documentsPath stringByAppendingPathComponent:RAW_CSV_FILES_FOLDER];
 		documents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:rawDocumentsPath
@@ -195,15 +230,16 @@ static NSString *newPassword = nil;
 				[self readRawFileData:[NSData dataWithContentsOfFile:[rawDocumentsPath stringByAppendingPathComponent:fileName]]
 							 fileName:fileName
 					  isLocalDownload:YES];
-			[[NSFileManager defaultManager] removeItemAtPath:[rawDocumentsPath stringByAppendingPathComponent:fileName] error:NULL];
+			//			[[NSFileManager defaultManager] removeItemAtPath:[rawDocumentsPath stringByAppendingPathComponent:fileName] error:NULL];
 		}
 		
 		// Then read all the files
 		documents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:documentsPath
-																				 error:NULL];
+																		error:NULL];
 		for( NSString *fileName in documents )
 		{
-			if( ![fileName isEqualToString:RAW_CSV_FILES_FOLDER] )
+			if( ![fileName isEqualToString:RAW_CSV_FILES_FOLDER] &&
+			   ![fileName hasPrefix:@"."])
 			{
 				CSVFileParser *fp = [CSVFileParser parserWithFile:[documentsPath stringByAppendingPathComponent:fileName]];
 				[files addObject:fp];
@@ -246,11 +282,11 @@ static NSString *newPassword = nil;
 		downloadToolbar.barStyle = UIBarStyleBlackOpaque;
 		[[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackOpaque animated:YES];
 	}		
-
+	
 	// Configure and show the window
 	[startupActivityView stopAnimating];
 	[startupController.view removeFromSuperview];
-			
+	
 	[window addSubview:[[self dataController] view]];
 	[window makeKeyAndVisible];
 	
@@ -266,8 +302,7 @@ static NSString *newPassword = nil;
 														delegate:self
 											   cancelButtonTitle:@"OK"
 											   otherButtonTitles:nil] autorelease];
-		[alert show];
-		
+		[alert show];		
 	}
 	[[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"hasShown2.0Info"];
 }
@@ -330,10 +365,10 @@ static NSString *newPassword = nil;
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
 {
 	UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Download Failure"
-													message:[error localizedDescription]
-												   delegate:self
-										  cancelButtonTitle:@"OK"
-										  otherButtonTitles:nil] autorelease];
+													 message:[error localizedDescription]
+													delegate:self
+										   cancelButtonTitle:@"OK"
+										   otherButtonTitles:nil] autorelease];
 	[alert show];
 	[self downloadDone];
 }
@@ -397,8 +432,8 @@ static NSString *newPassword = nil;
 	newFileURL.text = fp.URL;
 	[[self dataController] presentModalViewController:fileViewController animated:YES];
 }
-	
-	
+
+
 - (void) startDownloadUsingURL:(NSURL *)url
 {
 	[rawData release];
@@ -440,7 +475,7 @@ static NSString *newPassword = nil;
 	
 	[self slowActivityStarted];
 	[self startDownloadUsingURL:[NSURL URLWithString:[URL stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
-
+	
 	// Update this in case you want to download a file from a similar URL later on
 	newFileURL.text = URL;
 }
@@ -487,7 +522,7 @@ static NSString *newPassword = nil;
 		[activityView removeFromSuperview];
 	}
 }	
-	
+
 
 - (void)alertView:(UIAlertView *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
@@ -544,6 +579,10 @@ static NSString *newPassword = nil;
 			[CSVPreferencesController clearSetPassword];
 			[self performSelector:@selector(delayedStartup) withObject:nil afterDelay:0];
 		}
+	}
+	else if( alertView.tag == UPGRADE_FAILED )
+	{
+		exit(1);
 	}
 }
 

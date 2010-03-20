@@ -9,6 +9,11 @@ th { background: #A5B9CA; color: #fff; font-weight: bold; text-align: left; padd
 thead th { background: #2C5755; text-align: center; }
 .odd td { background: #CCCCCC; }
 .odd th { background: #4A6C9B; }
+/* We want the rowsteps to have the same background color as the font;
+   this way we can add some dummy text in the empty row to make sure the row is drawn
+   without any text ebing visible */
+.rowstep td { background: #FFF; }
+.rowstep th { background: #FFF; }
 td a, td a:link { color: #325C91; }
 td a:visited { color: #466C8E; }
 td a:hover, td a:focus { color: #1E4C94; }

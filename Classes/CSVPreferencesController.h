@@ -39,6 +39,9 @@
 + (BOOL) usePassword;
 + (void) clearSetPassword;
 
++ (BOOL) hasBeenUpgradedToCustomExtension;
++ (void) setHasBeenUpgradedToCustomExtension;
+
 + (BOOL) liteVersionRunning;
 
 + (void) updateSortingMask; // Needs to be called as part of initialization
