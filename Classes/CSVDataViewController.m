@@ -44,6 +44,11 @@
 	return currentFile;
 }
 
+- (NSArray *) files
+{
+	return [fileController objects];
+}
+
 - (int) numberOfFiles
 {
 	return [[fileController objects] count];
@@ -1234,6 +1239,11 @@ didSelectRowAtIndexPath:[fileController.tableView indexPathForSelectedRow]];
 		self.filesToolbar.items = items;
 	}
 	[fileController dataLoaded];
+}
+
+- (IBAction) refreshAllFiles:(id)sender
+{
+	[[CSV_TouchAppDelegate sharedInstance] reloadAllFiles];
 }
 
 - (IBAction) toggleShowFileInfo:(id)sender

@@ -16,6 +16,15 @@
 		28C286E10D94DF7D0034E888 /* OzyTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 28C286E00D94DF7D0034E888 /* OzyTableViewController.m */; };
 		F41233A40DE4AD64005E355F /* csv.c in Sources */ = {isa = PBXBuildFile; fileRef = F412339F0DE4AD64005E355F /* csv.c */; };
 		F41233A50DE4AD64005E355F /* msgno.c in Sources */ = {isa = PBXBuildFile; fileRef = F41233A10DE4AD64005E355F /* msgno.c */; };
+		F412B2D0115567C5000C7596 /* iPhoneMainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = F412B2CF115567C5000C7596 /* iPhoneMainWindow.xib */; };
+		F412B2D1115567C5000C7596 /* iPhoneMainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = F412B2CF115567C5000C7596 /* iPhoneMainWindow.xib */; };
+		F412B2D2115567D0000C7596 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28AD735F0D9D9599002E5188 /* MainWindow.xib */; };
+		F412B2D3115567DB000C7596 /* iPadMainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = F47DC8101111004D00E8DD8B /* iPadMainWindow.xib */; };
+		F412B2D4115567DE000C7596 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28AD735F0D9D9599002E5188 /* MainWindow.xib */; };
+		F412B34E11557060000C7596 /* iPadMainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = F47DC8101111004D00E8DD8B /* iPadMainWindow.xib */; };
+		F412B34F11557063000C7596 /* iPhoneMainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = F412B2CF115567C5000C7596 /* iPhoneMainWindow.xib */; };
+		F412B35011557070000C7596 /* iPadMainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = F47DC8101111004D00E8DD8B /* iPadMainWindow.xib */; };
+		F412B35111557071000C7596 /* iPhoneMainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = F412B2CF115567C5000C7596 /* iPhoneMainWindow.xib */; };
 		F4174D150E40A4A200351EE4 /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = F4174D140E40A4A200351EE4 /* icon.png */; };
 		F41BB6100EE9D86F00BEFDED /* TextAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = F41BB60F0EE9D86F00BEFDED /* TextAlertView.m */; };
 		F41BB6110EE9D86F00BEFDED /* TextAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = F41BB60F0EE9D86F00BEFDED /* TextAlertView.m */; };
@@ -89,7 +98,7 @@
 		F47DC8051111004C00E8DD8B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		F47DC8061111004C00E8DD8B /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
 		F47DC8071111004C00E8DD8B /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D3623EB0D0F72F000981E51 /* CoreGraphics.framework */; };
-		F47DC8111111004D00E8DD8B /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = F47DC8101111004D00E8DD8B /* MainWindow.xib */; };
+		F47DC8111111004D00E8DD8B /* iPadMainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = F47DC8101111004D00E8DD8B /* iPadMainWindow.xib */; };
 		F47DC8161111005400E8DD8B /* 2lines.png in Resources */ = {isa = PBXBuildFile; fileRef = F49218530EA7AC7400E74493 /* 2lines.png */; };
 		F47DC8171111005400E8DD8B /* 4lines.png in Resources */ = {isa = PBXBuildFile; fileRef = F49218540EA7AC7400E74493 /* 4lines.png */; };
 		F47DC8181111005400E8DD8B /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = F4E928750E4EE808006165B0 /* Default.png */; };
@@ -156,6 +165,7 @@
 		F41233A10DE4AD64005E355F /* msgno.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = msgno.c; sourceTree = "<group>"; };
 		F41233A20DE4AD64005E355F /* msgno.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = msgno.h; sourceTree = "<group>"; };
 		F41233A30DE4AD64005E355F /* text.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = text.h; sourceTree = "<group>"; };
+		F412B2CF115567C5000C7596 /* iPhoneMainWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = iPhoneMainWindow.xib; sourceTree = "<group>"; };
 		F413FF810E648C93006C7348 /* Description.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = Description.rtf; sourceTree = "<group>"; };
 		F4174D140E40A4A200351EE4 /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.png; sourceTree = "<group>"; };
 		F4174D430E40F9D400351EE4 /* Large comma.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Large comma.png"; sourceTree = "<group>"; };
@@ -175,7 +185,7 @@
 		F47819830E2BDE7A00B44E78 /* CSVPreferencesController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSVPreferencesController.h; sourceTree = "<group>"; };
 		F47819840E2BDE7A00B44E78 /* CSVPreferencesController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSVPreferencesController.m; sourceTree = "<group>"; };
 		F47DC80D1111004C00E8DD8B /* CSV Touch-iPad.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "CSV Touch-iPad.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		F47DC8101111004D00E8DD8B /* MainWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = MainWindow.xib; path = "Resources-iPad/MainWindow.xib"; sourceTree = "<group>"; };
+		F47DC8101111004D00E8DD8B /* iPadMainWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = iPadMainWindow.xib; path = "Resources-iPad/iPadMainWindow.xib"; sourceTree = "<group>"; };
 		F47DC83A1111005400E8DD8B /* CSV Lite-iPad.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "CSV Lite-iPad.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F48836560DF53E2C0063EF75 /* CSVFileParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSVFileParser.h; sourceTree = "<group>"; };
 		F48836570DF53E2C0063EF75 /* CSVFileParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSVFileParser.m; sourceTree = "<group>"; };
@@ -294,6 +304,7 @@
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
 				F47DC80F1111004C00E8DD8B /* Resources-iPad */,
+				F412B2CE11556792000C7596 /* Resources-iPhone */,
 				F4174D3C0E40F99C00351EE4 /* iTunes Connect */,
 				29B97323FDCFA39411CA2CEA /* SDKs */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
@@ -352,6 +363,14 @@
 			path = ../../../../iPhoneOS.platform/Developer/SDKs;
 			sourceTree = SDKROOT;
 		};
+		F412B2CE11556792000C7596 /* Resources-iPhone */ = {
+			isa = PBXGroup;
+			children = (
+				F412B2CF115567C5000C7596 /* iPhoneMainWindow.xib */,
+			);
+			name = "Resources-iPhone";
+			sourceTree = "<group>";
+		};
 		F4174D3C0E40F99C00351EE4 /* iTunes Connect */ = {
 			isa = PBXGroup;
 			children = (
@@ -364,7 +383,7 @@
 		F47DC80F1111004C00E8DD8B /* Resources-iPad */ = {
 			isa = PBXGroup;
 			children = (
-				F47DC8101111004D00E8DD8B /* MainWindow.xib */,
+				F47DC8101111004D00E8DD8B /* iPadMainWindow.xib */,
 			);
 			name = "Resources-iPad";
 			sourceTree = "<group>";
@@ -496,6 +515,8 @@
 				F488D83E1146606300583920 /* bluedream.css in Resources */,
 				F45807FD11466E9400A4C4E1 /* nksTablegallery.css in Resources */,
 				F458080A11466F1600A4C4E1 /* seaglass.css in Resources */,
+				F412B34E11557060000C7596 /* iPadMainWindow.xib in Resources */,
+				F412B34F11557063000C7596 /* iPhoneMainWindow.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -517,6 +538,8 @@
 				F488D83F1146606300583920 /* bluedream.css in Resources */,
 				F45807FE11466E9400A4C4E1 /* nksTablegallery.css in Resources */,
 				F458080B11466F1600A4C4E1 /* seaglass.css in Resources */,
+				F412B35011557070000C7596 /* iPadMainWindow.xib in Resources */,
+				F412B35111557071000C7596 /* iPhoneMainWindow.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -534,10 +557,12 @@
 				F47DC7F11111004C00E8DD8B /* 2lines.png in Resources */,
 				F47DC7F21111004C00E8DD8B /* 4lines.png in Resources */,
 				F47DC7F31111004C00E8DD8B /* lock.png in Resources */,
-				F47DC8111111004D00E8DD8B /* MainWindow.xib in Resources */,
+				F47DC8111111004D00E8DD8B /* iPadMainWindow.xib in Resources */,
 				F488D8401146607400583920 /* bluedream.css in Resources */,
 				F45807FF11466E9400A4C4E1 /* nksTablegallery.css in Resources */,
 				F458080C11466F1600A4C4E1 /* seaglass.css in Resources */,
+				F412B2D0115567C5000C7596 /* iPhoneMainWindow.xib in Resources */,
+				F412B2D2115567D0000C7596 /* MainWindow.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -558,6 +583,9 @@
 				F488D8411146607A00583920 /* bluedream.css in Resources */,
 				F458080011466E9400A4C4E1 /* nksTablegallery.css in Resources */,
 				F458080D11466F1600A4C4E1 /* seaglass.css in Resources */,
+				F412B2D1115567C5000C7596 /* iPhoneMainWindow.xib in Resources */,
+				F412B2D3115567DB000C7596 /* iPadMainWindow.xib in Resources */,
+				F412B2D4115567DE000C7596 /* MainWindow.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -848,7 +876,7 @@
 				PRODUCT_NAME = "CSV Touch-iPad";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "FD903CDE-BF61-4E6F-BBA6-3F38E0CC93B7";
 				SDKROOT = iphoneos3.2;
-				TARGETED_DEVICE_FAMILY = 2;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Privatdistribution;
 		};

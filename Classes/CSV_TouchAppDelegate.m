@@ -144,7 +144,7 @@ static NSString *newPassword = nil;
 	}
 	else
 	{
-		fp.URL = @"<local download>";
+		fp.URL = @"";
 	}
 	fp.downloadDate = [NSDate date];
 	
@@ -307,6 +307,13 @@ static NSString *newPassword = nil;
 	[[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"hasShown2.0Info"];
 }
 
+- (void) awakeFromNib
+{
+	if( [[[UIDevice currentDevice] name] hasSubstring:@"iPad"] )
+		[[NSBundle mainBundle] loadNibNamed:@"iPadMainWindow" owner:self options:nil];
+	else 
+		[[NSBundle mainBundle] loadNibNamed:@"iPhoneMainWindow" owner:self options:nil];
+}
 
 - (void)applicationDidFinishLaunching:(UIApplication *)application
 {	
@@ -357,9 +364,33 @@ static NSString *newPassword = nil;
 	[connection release];
 	connection = nil;
 	[self slowActivityCompleted];
-	[newFileURL resignFirstResponder];
-	self.fileInspected = nil;
-	[[self dataController] dismissModalViewControllerAnimated:YES];
+	// Are we in single file reload mode or all file reload mode?
+	if( _nextFileToReload > 0 )
+	{
+		if( [[[CSVDataViewController sharedInstance] files] count] > _nextFileToReload )
+		{
+			// Have to check if the file is a "local" one, i.e. without URL
+			CSVFileParser *fp = [[[CSVDataViewController sharedInstance] files] objectAtIndex:_nextFileToReload];
+			if( ![fp URL] || [[fp URL] isEqualToString:@""] )
+			{
+				_nextFileToReload++;
+				[self downloadDone];
+				return;
+			}
+			[self downloadFileWithString:[fp URL]];
+			_nextFileToReload++;
+		}
+		else 
+		{
+			_nextFileToReload = 0;
+		}
+	}
+	else 
+	{
+		[newFileURL resignFirstResponder];
+		self.fileInspected = nil;
+		[[self dataController] dismissModalViewControllerAnimated:YES];
+	}
 }
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
@@ -466,6 +497,17 @@ static NSString *newPassword = nil;
 - (IBAction) cancelDownloadNewFile:(id)sender
 {
 	[self downloadDone];
+}
+
+- (void) reloadAllFiles
+{
+	_nextFileToReload = 0;
+	if( [[[CSVDataViewController sharedInstance] files] count] > 0 )
+	{
+		CSVFileParser *fp = [[[CSVDataViewController sharedInstance] files] objectAtIndex:_nextFileToReload];
+		[self downloadFileWithString:[fp URL]];
+		_nextFileToReload++;
+	}
 }
 
 - (void) downloadFileWithString:(NSString *)URL

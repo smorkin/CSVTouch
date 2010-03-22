@@ -83,6 +83,7 @@ OzyRotatableViewController;
 - (IBAction) toggleEditFiles;
 //- (IBAction) searchItems:(id)sender;
 - (IBAction) toggleRefreshFiles:(id)sender;
+- (IBAction) refreshAllFiles:(id)sender;
 - (IBAction) toggleShowFileInfo:(id)sender;
 - (IBAction) toggleShowingRawString:(id)sender;
 - (IBAction) toggleDetailsView:(id)sender;
@@ -92,6 +93,7 @@ OzyRotatableViewController;
 - (IBAction) decreaseTableViewSize;
 
 - (void) setFiles:(NSArray *) files;
+- (NSArray *) files;
 
 - (void) markFilesAsDirty;
 - (void) resortObjects;

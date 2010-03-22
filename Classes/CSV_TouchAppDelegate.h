@@ -43,6 +43,8 @@ OzymandiasApplicationDelegate> {
 	NSInteger _httpStatusCode;
 	
 	CSVFileParser *_fileInspected;
+	
+	NSInteger _nextFileToReload;
 }
 
 + (CSV_TouchAppDelegate *) sharedInstance;
@@ -57,6 +59,7 @@ OzymandiasApplicationDelegate> {
 - (IBAction) cancelDownloadNewFile:(id)sender;
 
 - (void) downloadFileWithString:(NSString *)URL;
+- (void) reloadAllFiles;
 - (void) showFileInfo:(CSVFileParser *)fp;
 
 - (void) slowActivityStarted;
