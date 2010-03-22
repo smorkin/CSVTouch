@@ -21,6 +21,7 @@
 + (NSUInteger) maxNumberOfItemsToSort;
 + (BOOL) allowRotatableInterface;
 + (BOOL) useGroupingForItems;
++ (BOOL) groupNumbers;
 + (BOOL) showStatusBar;
 + (BOOL) keepQuotes;
 + (BOOL) showDebugInfo;

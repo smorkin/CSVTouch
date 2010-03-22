@@ -600,6 +600,7 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
 	itemController.editable = NO;
 	itemController.size = [CSVPreferencesController itemsTableViewSize];
 	itemController.useIndexes = [CSVPreferencesController useGroupingForItems];
+	itemController.groupNumbers = [CSVPreferencesController groupNumbers];
 	fancyDetailsController.size = [CSVPreferencesController detailsTableViewSize];
 	detailsController.viewDelegate = self;
 	fancyDetailsController.viewDelegate = self;

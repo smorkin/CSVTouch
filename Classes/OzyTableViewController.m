@@ -25,6 +25,7 @@
 @synthesize editable = _editable;
 @synthesize reorderable = _reorderable;
 @synthesize useIndexes = _useIndexes;
+@synthesize groupNumbers = _groupNumbers;
 @synthesize size = _size;
 @synthesize removeDisclosure = _removeDisclosure;
 @synthesize sectionTitles = _sectionTitles;
@@ -33,7 +34,7 @@
 
 - (NSString *) comparisonCharacterForCharacter:(NSString *)character
 {
-	if( [character containsDigit] )
+	if( self.groupNumbers && [character containsDigit] )
 		return @"0";
 	else if( (sortingMask & NSCaseInsensitiveSearch) == 0 )
 		return character;
@@ -43,7 +44,7 @@
 
 - (NSString *) sectionTitleForCharacter:(NSString *)character
 {
-	if( [character containsDigit] )
+	if( self.groupNumbers && [character containsDigit] )
 		return DIGIT_SECTION_INDEX;
 	else if( (sortingMask & NSCaseInsensitiveSearch) == 0 )
 		return character;

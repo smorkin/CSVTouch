@@ -23,6 +23,7 @@
 #define PREFS_MAX_NUMBER_TO_SORT @"maxNumberOfItemsToSort"
 #define PREFS_ALLOW_ROTATION @"allowRotation"
 #define PREFS_USE_GROUPING_FOR_ITEMS @"useGroupingForItems"
+#define PREFS_GROUP_NUMBERS @"groupNumbers"
 #define PREFS_SHOW_STATUS_BAR @"showStatusBar"
 #define PREFS_SAFE_START @"safeStart"
 #define PREFS_KEEP_QUOTES @"keepQuotes"
@@ -161,6 +162,14 @@ NSUInteger sortingMask;
 		return YES;
 }
 
++ (BOOL) groupNumbers
+{
+	id obj = [[NSUserDefaults standardUserDefaults] objectForKey:PREFS_GROUP_NUMBERS];
+	if( obj )
+		return [obj boolValue];
+	else
+		return YES;
+}
 + (BOOL) showStatusBar
 {
 	if( [[NSUserDefaults standardUserDefaults] objectForKey:PREFS_SHOW_STATUS_BAR] )
