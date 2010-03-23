@@ -22,6 +22,7 @@
 + (BOOL) allowRotatableInterface;
 + (BOOL) useGroupingForItems;
 + (BOOL) groupNumbers;
++ (BOOL) enablePhoneLinks;
 + (BOOL) showStatusBar;
 + (BOOL) keepQuotes;
 + (BOOL) showDebugInfo;

@@ -606,6 +606,10 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
 	fancyDetailsController.viewDelegate = self;
 	htmlDetailsController.viewDelegate = self;
 	
+	// Disable phone links, if desired
+	if( [CSVPreferencesController enablePhoneLinks] == FALSE )
+		[(OzyWebView *)[htmlDetailsController view] setDataDetectorTypes:UIDataDetectorTypeLink];
+	
 	// Autocorrection of searching should be off
 	searchBar.autocorrectionType = UITextAutocorrectionTypeNo;
 	itemController.tableView.tableHeaderView = searchBar;
