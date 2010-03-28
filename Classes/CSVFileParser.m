@@ -18,6 +18,8 @@
 #define FILEPARSER_URL @"URL"
 #define FILEPARSER_DOWNLOAD_DATE @"downloadDate"
 
+#define ITEM_ICON_COLUMN_NAME @"CSV Touch icon"
+
 
 @implementation CSVFileParser
 
@@ -31,6 +33,7 @@
 @synthesize problematicRow = _problematicRow;
 @synthesize droppedRows = _droppedRows;
 @synthesize hasBeenDownloaded = _hasBeenDownloaded;
+@synthesize iconIndex = _iconIndex;
 
 - (void) loadFile
 {
@@ -59,7 +62,7 @@
 
 - (NSArray *) availableColumnNames
 {
-	return _columnNames;
+	return _columnNames; 
 }
 
 - (void) invalidateShortDescriptions
@@ -90,6 +93,7 @@
 	[_problematicRow autorelease];
 	_problematicRow = nil;
 	_droppedRows = 0;
+	self.iconIndex = NSNotFound;
 	
 	if( useCorrect )
 	{
@@ -106,9 +110,11 @@
 			{
 				[_columnNames addObjectsFromArray:[tmp objectAtIndex:0]];
 				int numberOfColumns = [_columnNames count];
+				if( (self.iconIndex = [_columnNames indexOfObject:ITEM_ICON_COLUMN_NAME]) != NSNotFound )
+					[_columnNames removeObjectAtIndex:self.iconIndex];
 				[tmp removeObjectAtIndex:0];
 				numberOfRows = [tmp count];
-				NSArray *words;
+				NSMutableArray *words;
 				for( NSUInteger i = 0 ; i < numberOfRows ; i++ )
 				{
 					words = [tmp objectAtIndex:i];
@@ -126,6 +132,11 @@
 					else
 					{
 						CSVRow *row = [[CSVRow alloc] init];
+						if( self.iconIndex != NSNotFound )
+						{
+							row.imageName = [words objectAtIndex:self.iconIndex];
+							[words removeObjectAtIndex:self.iconIndex];
+						}
 						row.items = words;
 						row.fileParser = self;
 						row.rawDataPosition = numberOfRows;
@@ -150,7 +161,7 @@
 		NSMutableArray *result = [NSMutableArray arrayWithCapacity:(testing ? 2 : 5000)];
 		int maxNumberOfRows = (testing ? 3 : 1000000);
 		NSUInteger length = [s length];
-		
+
 		lineStart = lineEnd = nextLineStart = 0;
 		while( nextLineStart < length && numberOfRows < maxNumberOfRows )
 		{
@@ -209,10 +220,21 @@
 				if( !testing )
 				{
 					if( numberOfRows == 0 )
+					{
 						[_columnNames addObjectsFromArray:words];
+						if( (self.iconIndex = [_columnNames indexOfObject:ITEM_ICON_COLUMN_NAME]) != NSNotFound )
+						{
+							[_columnNames removeObjectAtIndex:self.iconIndex];
+						}
+					}
 					else
 					{
 						CSVRow *row = [[CSVRow alloc] init];
+						if( self.iconIndex != NSNotFound )
+						{
+							row.imageName = [words objectAtIndex:self.iconIndex];
+							[words removeObjectAtIndex:self.iconIndex];
+						}
 						row.items = words;
 						row.fileParser = self;
 						row.rawDataPosition = numberOfRows;
@@ -385,9 +407,14 @@
 	return [[self defaultTableViewDescription] compare:[fp defaultTableViewDescription] options:NSNumericSearch];
 }
 
-- (BOOL) showImage
+- (NSString *) imageName
 {
-	return NO;
+	return nil;
+}
+
+- (NSString *) emptyImageName
+{
+	return nil;
 }
 
 @end

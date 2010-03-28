@@ -18,6 +18,7 @@
 @synthesize items = _items;
 @synthesize fileParser = _fileParser;
 @synthesize rawDataPosition = _rawDataPosition;
+@synthesize imageName = _imageName;
 
 - (NSComparisonResult) compareShort:(CSVRow *)row
 {
@@ -346,12 +347,31 @@
 		{
 			if( ![importantColumnIndexes containsObject:[NSNumber numberWithInt:i]] )
 				[s appendFormat:@"%@: %@\n",
-				[availableColumnNames objectAtIndex:i],
-				[self.items objectAtIndex:i]];
+				 [availableColumnNames objectAtIndex:i],
+				 [self.items objectAtIndex:i]];
 		}
 	}
 			
 	return s;
+}
+
+// OzyTableViewObject protocol
+- (NSString *) tableViewDescription
+{
+	return [self shortDescription];
+}
+
+- (NSString *) imageName
+{
+	return [NSString stringWithFormat:@"%@.png", _imageName];
+}
+
+- (NSString *) emptyImageName
+{
+	if( self.fileParser.iconIndex != NSNotFound )
+		return @"empty.png";
+	else
+		return nil;
 }
 
 - (void) dealloc
@@ -359,6 +379,7 @@
 	self.items = nil;
 	self.shortDescription = nil;
 	self.fileParser = nil;
+	self.imageName = nil;
 	[super dealloc];
 }
 
@@ -378,23 +399,6 @@
 //	if( _items )
 //		[coder encodeObject:_items forKey:@"items"];
 //}
-
-@end
-
-@interface CSVRow (OzyTableViewProtocol) <OzyTableViewObject>
-@end
-
-@implementation CSVRow (OzyTableViewProtocol)
-
-- (NSString *) tableViewDescription
-{
-	return [self shortDescription];
-}
-
-- (BOOL) showImage
-{
-	return NO;
-}
 
 @end
 

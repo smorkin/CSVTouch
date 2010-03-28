@@ -29,7 +29,7 @@
 @synthesize size = _size;
 @synthesize removeDisclosure = _removeDisclosure;
 @synthesize sectionTitles = _sectionTitles;
-@synthesize imageName = _imageName;
+//@synthesize imageName = _imageName;
 @synthesize viewDelegate = _viewDelegate;
 
 - (NSString *) comparisonCharacterForCharacter:(NSString *)character
@@ -328,7 +328,7 @@
 	// Setup the cell if not already setup
 	if (cell == nil)
 	{
-		cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:cellIdentifier] autorelease];
+		cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier] autorelease];
 	}
 	
 	[cell.textLabel setFont:[[cell.textLabel font] fontWithSize:fontSize]];
@@ -361,11 +361,12 @@
 	{
 		cell.accessoryType = (self.useIndexes ? UITableViewCellAccessoryNone : UITableViewCellAccessoryDisclosureIndicator);
 	}
-	if( self.imageName &&
-		[item conformsToProtocol:@protocol(OzyTableViewObject)] &&
-		[(<OzyTableViewObject>)item showImage] )
+	if( [item conformsToProtocol:@protocol(OzyTableViewObject)] )
 	{
-		cell.imageView.image = [UIImage imageNamed:self.imageName];
+		UIImage *image = [UIImage imageNamed:[(<OzyTableViewObject>)item imageName]];
+		if( !image )
+			image = [UIImage imageNamed:[(<OzyTableViewObject>)item emptyImageName]];
+		cell.imageView.image = image;
 	}
 	else
 	{
@@ -410,7 +411,7 @@
 	[_sectionStarts release];
 	[_sectionIndexes release];
 	[_sectionTitles release];
-	[_imageName release];
+//	[_imageName release];
 	[super dealloc];
 }
 

@@ -45,7 +45,7 @@ typedef enum OzyTableViewSize {
 @property (nonatomic, assign) OzyTableViewSize size;
 @property (nonatomic, assign) BOOL removeDisclosure;
 @property (nonatomic, retain) NSArray *sectionTitles;
-@property (nonatomic, retain) NSString *imageName;
+//@property (nonatomic, retain) NSString *imageName;
 @property (nonatomic, assign) id viewDelegate;
 
 // Only use this when not using indexes but you still want sections.
@@ -70,5 +70,6 @@ typedef enum OzyTableViewSize {
 // different from [obj description]
 @protocol OzyTableViewObject
 - (NSString *) tableViewDescription;
-- (BOOL) showImage;
+- (NSString *) imageName;
+- (NSString *) emptyImageName; // In case no image name has been set but you want a default image
 @end

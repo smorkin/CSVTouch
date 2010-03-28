@@ -1386,7 +1386,12 @@ didSelectRowAtIndexPath:[fileController.tableView indexPathForSelectedRow]];
 	   self.visibleViewController == detailsController)
 	{
 		[self updateHtmlViewWithItem:_latestShownItem];
+		[fancyDetailsController.tableView reloadData];
 	}
+	else if( self.visibleViewController == itemController )
+		[itemController.tableView reloadData];
+	else if( self.visibleViewController == fileController )
+		[fileController.tableView reloadData];
 }
 
 
