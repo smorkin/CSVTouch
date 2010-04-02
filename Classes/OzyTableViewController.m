@@ -28,6 +28,7 @@
 @synthesize groupNumbers = _groupNumbers;
 @synthesize size = _size;
 @synthesize removeDisclosure = _removeDisclosure;
+@synthesize useFixedWidth = _useFixedWidth;
 @synthesize sectionTitles = _sectionTitles;
 //@synthesize imageName = _imageName;
 @synthesize viewDelegate = _viewDelegate;
@@ -331,7 +332,10 @@
 		cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier] autorelease];
 	}
 	
-	[cell.textLabel setFont:[[cell.textLabel font] fontWithSize:fontSize]];
+	if( self.useFixedWidth )
+		[cell.textLabel setFont:[UIFont fontWithName:@"Courier-Bold" size:fontSize]];
+	else 
+		[cell.textLabel setFont:[[cell.textLabel font] fontWithSize:fontSize]];
 
 	return cell;
 }

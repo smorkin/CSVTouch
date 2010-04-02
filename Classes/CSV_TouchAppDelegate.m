@@ -25,6 +25,8 @@
 @synthesize window;
 @synthesize httpStatusCode = _httpStatusCode;
 @synthesize fileInspected = _fileInspected;
+@synthesize URLsToDownload = _URLsToDownload;
+@synthesize readingFileList = _readingFileList;
 
 static CSV_TouchAppDelegate *sharedInstance = nil;
 
@@ -135,21 +137,8 @@ static NSString *newPassword = nil;
 				fileName:(NSString *)fileName
 		 isLocalDownload:(BOOL)isLocalDownload
 {
-	CSVFileParser *fp = [[CSVFileParser alloc] initWithRawData:data];
-	fp.filePath = [[CSV_TouchAppDelegate documentsPath] stringByAppendingPathComponent:fileName];
-	fp.filePath = [NSString stringWithFormat:@"%@.csvtouch", fp.filePath];
-	if( !isLocalDownload )
-	{
-		fp.URL = [newFileURL text]; 
-	}
-	else
-	{
-		fp.URL = @"";
-	}
-	fp.downloadDate = [NSDate date];
-	
 	if( [[self dataController] numberOfFiles] > 0 &&
-	   ![[self dataController] fileExistsWithURL:fp.URL] &&
+	   ![[self dataController] fileExistsWithURL:[newFileURL text]] &&
 	   [CSVPreferencesController liteVersionRunning] )
 	{
 		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Only 1 file allowed"
@@ -161,19 +150,35 @@ static NSString *newPassword = nil;
 	}
 	else if( self.httpStatusCode >= 400 )
 	{
-		UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Download Failure"
-														 message:[NSString httpStatusDescription:self.httpStatusCode]
-														delegate:self
-											   cancelButtonTitle:@"OK"
-											   otherButtonTitles:nil] autorelease];	
-		[alert show];
+		// Only show alert if we are not downloading multiple files
+		if( [self.URLsToDownload count] == 0 )
+		{
+			UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Download Failure"
+															 message:[NSString httpStatusDescription:self.httpStatusCode]
+															delegate:self
+												   cancelButtonTitle:@"OK"
+												   otherButtonTitles:nil] autorelease];	
+			[alert show];
+		}
 	}
 	else
 	{
+		CSVFileParser *fp = [[CSVFileParser alloc] initWithRawData:data];
+		fp.filePath = [[CSV_TouchAppDelegate documentsPath] stringByAppendingPathComponent:fileName];
+		fp.filePath = [NSString stringWithFormat:@"%@.csvtouch", fp.filePath];
+		if( !isLocalDownload )
+		{
+			fp.URL = [newFileURL text]; 
+		}
+		else
+		{
+			fp.URL = @"";
+		}
+		fp.downloadDate = [NSDate date];
 		[fp saveToFile];
 		[[self dataController] newFileDownloaded:fp];
+		[fp release];
 	}
-	[fp release];
 }
 
 - (void) loadLocalFiles
@@ -254,6 +259,7 @@ static NSString *newPassword = nil;
 	if (self = [super init])
 	{
 		sharedInstance = self;
+		_URLsToDownload = [[NSMutableArray alloc] init];
 	}
 	return self;
 }
@@ -354,6 +360,7 @@ static NSString *newPassword = nil;
 - (void)dealloc {
 	[window release];
 	[rawData release];
+	[self.URLsToDownload release];
 	[super dealloc];
 }
 
@@ -365,25 +372,18 @@ static NSString *newPassword = nil;
 	connection = nil;
 	[self slowActivityCompleted];
 	// Are we in single file reload mode or all file reload mode?
-	if( _nextFileToReload > 0 )
+	if( [self.URLsToDownload count] > 0 )
 	{
-		if( [[[CSVDataViewController sharedInstance] files] count] > _nextFileToReload )
+		// Have to check if the file is a "local" one, i.e. without URL
+		NSString *URL = [self.URLsToDownload objectAtIndex:0];
+		if( [URL isEqualToString:@""] )
 		{
-			// Have to check if the file is a "local" one, i.e. without URL
-			CSVFileParser *fp = [[[CSVDataViewController sharedInstance] files] objectAtIndex:_nextFileToReload];
-			if( ![fp URL] || [[fp URL] isEqualToString:@""] )
-			{
-				_nextFileToReload++;
-				[self downloadDone];
-				return;
-			}
-			[self downloadFileWithString:[fp URL]];
-			_nextFileToReload++;
+			[self.URLsToDownload removeObjectAtIndex:0];
+			[self downloadDone];
+			return;
 		}
-		else 
-		{
-			_nextFileToReload = 0;
-		}
+		[self downloadFileWithString:URL];
+		[self.URLsToDownload removeObjectAtIndex:0];
 	}
 	else 
 	{
@@ -395,7 +395,20 @@ static NSString *newPassword = nil;
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
 {
-	UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Download Failure"
+	NSString *alertTitle;
+	
+	if( self.readingFileList )
+		self.readingFileList = FALSE;
+
+	if( [self.URLsToDownload count] > 0 )
+	{
+		alertTitle = @"Download failure; no more files will be downloaded";
+		[self.URLsToDownload removeAllObjects];
+	}
+	else 
+		alertTitle = @"Download Failure";
+	
+	UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:alertTitle
 													 message:[error localizedDescription]
 													delegate:self
 										   cancelButtonTitle:@"OK"
@@ -417,9 +430,35 @@ static NSString *newPassword = nil;
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)conn
 {
-	[self readRawFileData:rawData
-				 fileName:[[newFileURL text] lastPathComponent]
-		  isLocalDownload:NO];
+	// Are we downloading a file list?
+	if( self.readingFileList )
+	{
+		self.readingFileList = FALSE;
+		[self.URLsToDownload removeAllObjects];
+		NSString *s = [[NSString alloc] initWithData:rawData 
+											encoding:[CSVPreferencesController encoding]];
+		NSUInteger length = [s length];
+		NSUInteger lineStart, lineEnd, nextLineStart;
+		NSRange lineRange;
+		NSString *line;
+		
+		lineStart = lineEnd = nextLineStart = 0;
+		while( nextLineStart < length )
+		{
+			[s getLineStart:&lineStart end:&nextLineStart
+				contentsEnd:&lineEnd forRange:NSMakeRange(nextLineStart, 0)];
+			lineRange = NSMakeRange(lineStart, lineEnd - lineStart);
+			line = [s substringWithRange:lineRange];
+			if( line && ![line isEqualToString:@""] )
+				[self.URLsToDownload addObject:line];
+		}
+	}
+	else
+	{
+		[self readRawFileData:rawData
+					 fileName:[[newFileURL text] lastPathComponent]
+			  isLocalDownload:NO];
+	}
 	[rawData release];
 	rawData = nil;
 	[self downloadDone];
@@ -501,13 +540,39 @@ static NSString *newPassword = nil;
 
 - (void) reloadAllFiles
 {
-	_nextFileToReload = 0;
-	if( [[[CSVDataViewController sharedInstance] files] count] > 0 )
+	[self.URLsToDownload removeAllObjects];
+	for( CSVFileParser *fp in [[CSVDataViewController sharedInstance] files] )
+		[self.URLsToDownload addObject:[fp URL]];
+	if( [self.URLsToDownload count] > 0 )
 	{
-		CSVFileParser *fp = [[[CSVDataViewController sharedInstance] files] objectAtIndex:_nextFileToReload];
-		[self downloadFileWithString:[fp URL]];
-		_nextFileToReload++;
+		NSString *URL = [self.URLsToDownload objectAtIndex:0];
+		[self downloadFileWithString:URL];
+		[self.URLsToDownload removeObjectAtIndex:0];
 	}
+}
+
+- (void) loadFileList
+{
+	TextAlertView *alert = [[TextAlertView alloc] initWithTitle:@"File list address:" 
+														message:@"" 
+													   delegate:self
+											  cancelButtonTitle:nil
+											  otherButtonTitles:@"OK", nil];
+	alert.textField.keyboardType = UIKeyboardTypeURL;
+	alert.textField.secureTextEntry = NO;
+	alert.tag = CSV_FILE_LIST_SETUP;
+	[alert show];
+	[alert release];	
+}
+
+- (void) readFileListFromURL:(NSString *)URL
+{
+	if( !URL || [URL isEqualToString:@""] )
+		return;
+	
+	self.readingFileList = TRUE;
+	[self slowActivityStarted];
+	[self startDownloadUsingURL:[NSURL URLWithString:[URL stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
 }
 
 - (void) downloadFileWithString:(NSString *)URL
@@ -621,6 +686,10 @@ static NSString *newPassword = nil;
 			[CSVPreferencesController clearSetPassword];
 			[self performSelector:@selector(delayedStartup) withObject:nil afterDelay:0];
 		}
+	}
+	else if( alertView.tag == CSV_FILE_LIST_SETUP )
+	{
+		[self readFileListFromURL:alertView.textField.text];
 	}
 	else if( alertView.tag == UPGRADE_FAILED )
 	{

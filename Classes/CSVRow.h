@@ -18,6 +18,7 @@
 {
 	NSString *_shortDescription;
 	NSArray *_items;
+	NSMutableArray *_fixedWidthItems;
 	CSVFileParser *_fileParser;
 	NSUInteger _rawDataPosition;
 	NSString *_imageName;
@@ -25,12 +26,15 @@
 
 @property (nonatomic, retain) NSString *shortDescription;
 @property (nonatomic, retain) NSArray *items;
+@property (nonatomic, retain) NSMutableArray *fixedWidthItems;
 @property (nonatomic, assign) CSVFileParser *fileParser;
 @property (nonatomic, assign) NSUInteger rawDataPosition;
 @property (nonatomic, retain) NSString *imageName;
 
-- (NSString *) longDescription;
-- (NSMutableArray *) longDescriptionInArray;
+- initWithItemCapacity:(NSUInteger)itemCapacity;
+
+- (NSString *) longDescriptionWithHiddenValues:(BOOL)includeHiddenValues;
+- (NSMutableArray *) longDescriptionInArrayWithHiddenValues:(BOOL)includeHiddenValues;
 - (NSArray *) columnsAndValues; 
 
 + (SEL) compareSelector;

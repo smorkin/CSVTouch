@@ -266,7 +266,7 @@
 - (void) updateSimpleViewWithItem:(CSVRow *)item
 {
 	if( item )
-		[[detailsController textView] setText:[item longDescription]];
+		[[detailsController textView] setText:[item longDescriptionWithHiddenValues:[CSVPreferencesController showDeletedColumns]]];
 	else
 		[[detailsController textView] setText:@"No data found!"];
 }
@@ -296,7 +296,7 @@
 
 - (void) updateEnhancedViewWithItem:(CSVRow *)item
 {
-	NSMutableArray *items = [item longDescriptionInArray];
+	NSMutableArray *items = [item longDescriptionInArrayWithHiddenValues:[CSVPreferencesController showDeletedColumns]];
 	fancyDetailsController.objects = items;
 	fancyDetailsController.removeDisclosure = YES;
 	if( [[currentFile availableColumnNames] count] > [importantColumnIndexes count] )
@@ -347,8 +347,21 @@
 	NSInteger row = 1;
 	for( NSDictionary *d in columnsAndValues )
 	{
+		// Are we done already?
+		if(row == [[self importantColumnIndexes] count] &&
+		   ![CSVPreferencesController showDeletedColumns])
+			break;
+		
 		if( useTable )
 		{
+			if(row != 1 && // In case someone has a file where no column is important...
+			   row-1 == [[self importantColumnIndexes] count] &&
+			   [[self importantColumnIndexes] count] != [columnsAndValues count] )
+			{
+				[data appendString:@"<tr class=\"rowstep\"><th><b>-</b><td>"]; 
+				[data appendString:@"<tr class=\"rowstep\"><th><b>-</b><td>"]; 
+			}
+			
 			[data appendFormat:@"<tr%@><th valign=\"top\"><b>%@</b>", 
 			 ((row % 2) == 1 ? @" class=\"odd\"" : @""),
 			 [d objectForKey:COLUMN_KEY]];
@@ -372,13 +385,6 @@
 				[data appendFormat:@"<a href=\"mailto:%@\">%@</a><br>", [d objectForKey:VALUE_KEY], [d objectForKey:VALUE_KEY]];
 			else
 				[data appendFormat:@"%@<br>", [d objectForKey:VALUE_KEY]];
-		}
-		if(useTable &&
-		   row == [[self importantColumnIndexes] count] &&
-		   [[self importantColumnIndexes] count] != [columnsAndValues count] )
-		{
-			[data appendString:@"<tr class=\"rowstep\"><th><b>-</b><td>"]; 
-			[data appendString:@"<tr class=\"rowstep\"><th><b>-</b><td>"]; 
 		}
 		row++;
 	}
@@ -601,6 +607,7 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
 	itemController.size = [CSVPreferencesController itemsTableViewSize];
 	itemController.useIndexes = [CSVPreferencesController useGroupingForItems];
 	itemController.groupNumbers = [CSVPreferencesController groupNumbers];
+	itemController.useFixedWidth = [CSVPreferencesController useFixedWidth];
 	fancyDetailsController.size = [CSVPreferencesController detailsTableViewSize];
 	detailsController.viewDelegate = self;
 	fancyDetailsController.viewDelegate = self;
@@ -1249,6 +1256,11 @@ didSelectRowAtIndexPath:[fileController.tableView indexPathForSelectedRow]];
 - (IBAction) refreshAllFiles:(id)sender
 {
 	[[CSV_TouchAppDelegate sharedInstance] reloadAllFiles];
+}
+
+- (IBAction) loadFileList
+{
+	[[CSV_TouchAppDelegate sharedInstance] loadFileList];
 }
 
 - (IBAction) toggleShowFileInfo:(id)sender

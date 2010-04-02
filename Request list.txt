@@ -1,8 +1,6 @@
 Dsidsi to do
 
 - Deleted fields: One button / field (temporary switching show / don't show), and one for showing / hiding all (not temporarily)
-- Possible to read a file with csv-touch addresses, from a configurable file
-- List view with fixed widths for columns (row 2 used for specifying widths in characters)
 
 Dsidsi completed
 
@@ -11,6 +9,8 @@ Dsidsi completed
 - Expand 0-9 as separate headers
 - Pref to turn off phone number links
 - Icon column
+- List view with fixed widths for columns (row 2 used for specifying widths in characters)
+- Possible to read a file with csv-touch addresses, from a configurable file
 
 
 Nya appar

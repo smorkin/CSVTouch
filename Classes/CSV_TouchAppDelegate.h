@@ -12,7 +12,7 @@
 @class OzyRotatableViewController, CSVFileParser, CSVDataViewController;
 
 // Enum for alert view tags
-enum{PASSWORD_CHECK = 1, PASSWORD_SET, UPGRADE_FAILED};
+enum{PASSWORD_CHECK = 1, PASSWORD_SET, UPGRADE_FAILED, CSV_FILE_LIST_SETUP};
 
 
 @interface CSV_TouchAppDelegate : NSObject <UIApplicationDelegate,
@@ -43,8 +43,9 @@ OzymandiasApplicationDelegate> {
 	NSInteger _httpStatusCode;
 	
 	CSVFileParser *_fileInspected;
-	
-	NSInteger _nextFileToReload;
+
+	NSMutableArray *_URLsToDownload;
+	BOOL _readingFileList;
 }
 
 + (CSV_TouchAppDelegate *) sharedInstance;
@@ -53,6 +54,9 @@ OzymandiasApplicationDelegate> {
 @property (nonatomic, retain) UIWindow *window;
 @property (nonatomic, assign) NSInteger httpStatusCode;
 @property (nonatomic, retain) CSVFileParser *fileInspected;
+@property (nonatomic, readonly) NSMutableArray *URLsToDownload;
+@property (nonatomic, assign) BOOL readingFileList;
+
 
 - (IBAction) downloadNewFile:(id)sender;
 - (IBAction) doDownloadNewFile:(id)sender;
@@ -61,6 +65,7 @@ OzymandiasApplicationDelegate> {
 - (void) downloadFileWithString:(NSString *)URL;
 - (void) reloadAllFiles;
 - (void) showFileInfo:(CSVFileParser *)fp;
+- (void) loadFileList;
 
 - (void) slowActivityStarted;
 - (void) slowActivityCompleted;

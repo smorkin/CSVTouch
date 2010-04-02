@@ -25,7 +25,10 @@
 #define PREFS_USE_GROUPING_FOR_ITEMS @"useGroupingForItems"
 #define PREFS_GROUP_NUMBERS @"groupNumbers"
 #define PREFS_ENABLE_PHONE_LINKS @"enablePhoneLinks"
+#define PREFS_USE_FIXED_WIDTH @"useFixedWidth"
+#define PREFS_DEFINED_FIXED_WIDTHS @"definedFixedWidths"
 #define PREFS_SHOW_STATUS_BAR @"showStatusBar"
+#define PREFS_SHOW_DELETED_COLUMNS @"showDeletedColumns"
 #define PREFS_SAFE_START @"safeStart"
 #define PREFS_KEEP_QUOTES @"keepQuotes"
 #define PREFS_SHOW_DEBUG_INFO @"showDebugInfo"
@@ -176,6 +179,33 @@ NSUInteger sortingMask;
 + (BOOL) enablePhoneLinks
 {
 	id obj = [[NSUserDefaults standardUserDefaults] objectForKey:PREFS_ENABLE_PHONE_LINKS];
+	if( obj )
+		return [obj boolValue];
+	else
+		return YES;
+}
+
++ (BOOL) useFixedWidth
+{
+	id obj = [[NSUserDefaults standardUserDefaults] objectForKey:PREFS_USE_FIXED_WIDTH];
+	if( obj )
+		return [obj boolValue];
+	else
+		return NO;
+}
+
++ (BOOL) definedFixedWidths
+{
+	id obj = [[NSUserDefaults standardUserDefaults] objectForKey:PREFS_DEFINED_FIXED_WIDTHS];
+	if( obj )
+		return [obj boolValue];
+	else
+		return NO;
+}
+
++ (BOOL) showDeletedColumns
+{
+	id obj = [[NSUserDefaults standardUserDefaults] objectForKey:PREFS_SHOW_DELETED_COLUMNS];
 	if( obj )
 		return [obj boolValue];
 	else

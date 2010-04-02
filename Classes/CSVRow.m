@@ -12,10 +12,13 @@
 #import "CSVDataViewController.h"
 #import "CSVFileParser.h"
 
+#define ITEM_SEPARATOR "‧"
+
 @implementation CSVRow
 
 @synthesize shortDescription = _shortDescription;
 @synthesize items = _items;
+@synthesize fixedWidthItems = _fixedWidthItems;
 @synthesize fileParser = _fileParser;
 @synthesize rawDataPosition = _rawDataPosition;
 @synthesize imageName = _imageName;
@@ -228,6 +231,88 @@
 					[words objectAtIndex:indexes[13]],			
 					[words objectAtIndex:indexes[14]],			
 					[words objectAtIndex:indexes[15]]];			
+		case 17:
+			return [NSString stringWithFormat:@"%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@", 
+					[words objectAtIndex:indexes[0]], 
+					[words objectAtIndex:indexes[1]], 
+					[words objectAtIndex:indexes[2]], 
+					[words objectAtIndex:indexes[3]], 
+					[words objectAtIndex:indexes[4]],			
+					[words objectAtIndex:indexes[5]],			
+					[words objectAtIndex:indexes[6]],			
+					[words objectAtIndex:indexes[7]],		
+					[words objectAtIndex:indexes[8]],			
+					[words objectAtIndex:indexes[9]],			
+					[words objectAtIndex:indexes[10]],			
+					[words objectAtIndex:indexes[11]],			
+					[words objectAtIndex:indexes[12]],			
+					[words objectAtIndex:indexes[13]],			
+					[words objectAtIndex:indexes[14]],			
+					[words objectAtIndex:indexes[15]],			
+					[words objectAtIndex:indexes[16]]];			
+		case 18:
+			return [NSString stringWithFormat:@"%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@", 
+					[words objectAtIndex:indexes[0]], 
+					[words objectAtIndex:indexes[1]], 
+					[words objectAtIndex:indexes[2]], 
+					[words objectAtIndex:indexes[3]], 
+					[words objectAtIndex:indexes[4]],			
+					[words objectAtIndex:indexes[5]],			
+					[words objectAtIndex:indexes[6]],			
+					[words objectAtIndex:indexes[7]],		
+					[words objectAtIndex:indexes[8]],			
+					[words objectAtIndex:indexes[9]],			
+					[words objectAtIndex:indexes[10]],			
+					[words objectAtIndex:indexes[11]],			
+					[words objectAtIndex:indexes[12]],			
+					[words objectAtIndex:indexes[13]],			
+					[words objectAtIndex:indexes[14]],			
+					[words objectAtIndex:indexes[15]],			
+					[words objectAtIndex:indexes[16]],			
+					[words objectAtIndex:indexes[17]]];			
+		case 19:
+			return [NSString stringWithFormat:@"%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@", 
+					[words objectAtIndex:indexes[0]], 
+					[words objectAtIndex:indexes[1]], 
+					[words objectAtIndex:indexes[2]], 
+					[words objectAtIndex:indexes[3]], 
+					[words objectAtIndex:indexes[4]],			
+					[words objectAtIndex:indexes[5]],			
+					[words objectAtIndex:indexes[6]],			
+					[words objectAtIndex:indexes[7]],		
+					[words objectAtIndex:indexes[8]],			
+					[words objectAtIndex:indexes[9]],			
+					[words objectAtIndex:indexes[10]],			
+					[words objectAtIndex:indexes[11]],			
+					[words objectAtIndex:indexes[12]],			
+					[words objectAtIndex:indexes[13]],			
+					[words objectAtIndex:indexes[14]],			
+					[words objectAtIndex:indexes[15]],			
+					[words objectAtIndex:indexes[16]],			
+					[words objectAtIndex:indexes[17]],			
+					[words objectAtIndex:indexes[18]]];			
+		case 20:
+			return [NSString stringWithFormat:@"%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@", 
+					[words objectAtIndex:indexes[0]], 
+					[words objectAtIndex:indexes[1]], 
+					[words objectAtIndex:indexes[2]], 
+					[words objectAtIndex:indexes[3]], 
+					[words objectAtIndex:indexes[4]],			
+					[words objectAtIndex:indexes[5]],			
+					[words objectAtIndex:indexes[6]],			
+					[words objectAtIndex:indexes[7]],		
+					[words objectAtIndex:indexes[8]],			
+					[words objectAtIndex:indexes[9]],			
+					[words objectAtIndex:indexes[10]],			
+					[words objectAtIndex:indexes[11]],			
+					[words objectAtIndex:indexes[12]],			
+					[words objectAtIndex:indexes[13]],			
+					[words objectAtIndex:indexes[14]],			
+					[words objectAtIndex:indexes[15]],			
+					[words objectAtIndex:indexes[16]],			
+					[words objectAtIndex:indexes[17]],			
+					[words objectAtIndex:indexes[18]],			
+					[words objectAtIndex:indexes[19]]];			
 		default:
 		{
 			NSMutableString *s = [[[NSMutableString alloc] initWithCapacity:200] autorelease];
@@ -271,7 +356,7 @@
 	return array;
 }
 
-- (NSMutableArray *) longDescriptionInArray
+- (NSMutableArray *) longDescriptionInArrayWithHiddenValues:(BOOL)includeHiddenValues
 {
 	NSMutableArray *array = [NSMutableArray array];
 	
@@ -291,27 +376,29 @@
 	}
 	
 	// Then add other data
-	if( [importantColumnIndexes count] < [availableColumnNames count] )
+	if( includeHiddenValues )
 	{
-		NSMutableArray *otherColumns = [NSMutableArray array];
-		for( NSUInteger i = 0 ; i < [self.items count] ; i++ )
+		if( [importantColumnIndexes count] < [availableColumnNames count] )
 		{
-			if( ![importantColumnIndexes containsObject:[NSNumber numberWithInt:i]] )
+			NSMutableArray *otherColumns = [NSMutableArray array];
+			for( NSUInteger i = 0 ; i < [self.items count] ; i++ )
 			{
-				NSMutableString *s = [NSMutableString stringWithFormat:@"%@: %@",
-							   [availableColumnNames objectAtIndex:i],
-							   [self.items objectAtIndex:i]];
-				[s replaceOccurrencesOfString:@"\n" 
-								   withString:@" " 
-									  options:0
-										range:NSMakeRange(0, [s length])];				
-				[otherColumns addObject:s];
-			}				
+				if( ![importantColumnIndexes containsObject:[NSNumber numberWithInt:i]] )
+				{
+					NSMutableString *s = [NSMutableString stringWithFormat:@"%@: %@",
+										  [availableColumnNames objectAtIndex:i],
+										  [self.items objectAtIndex:i]];
+					[s replaceOccurrencesOfString:@"\n" 
+									   withString:@" " 
+										  options:0
+											range:NSMakeRange(0, [s length])];				
+					[otherColumns addObject:s];
+				}				
+			}
+			//		[otherColumns sortUsingSelector:@selector(compare:)];
+			[array addObjectsFromArray:otherColumns];
 		}
-//		[otherColumns sortUsingSelector:@selector(compare:)];
-		[array addObjectsFromArray:otherColumns];
 	}
-	
 	return array;
 }
 
@@ -319,14 +406,19 @@
 {
 	if( !_shortDescription )
 	{
-		self.shortDescription = [CSVRow concatenateWords:self.items 
-											usingIndexes:[[CSVDataViewController sharedInstance] rawColumnIndexes]
-												   count:[[[CSVDataViewController sharedInstance] importantColumnIndexes] count]];
+		if( [CSVPreferencesController definedFixedWidths] )
+			self.shortDescription = [CSVRow concatenateWords:self.fixedWidthItems 
+												usingIndexes:[[CSVDataViewController sharedInstance] rawColumnIndexes]
+													   count:[[[CSVDataViewController sharedInstance] importantColumnIndexes] count]];
+		else 
+			self.shortDescription = [CSVRow concatenateWords:self.items 
+												usingIndexes:[[CSVDataViewController sharedInstance] rawColumnIndexes]
+													   count:[[[CSVDataViewController sharedInstance] importantColumnIndexes] count]];
 	}
 	return _shortDescription;
 }
 
-- (NSString *) longDescription
+- (NSString *) longDescriptionWithHiddenValues:(BOOL)includeHiddenValues
 {
 	// First add sorted column data
 	NSMutableString *s = [NSMutableString stringWithCapacity:200];
@@ -340,15 +432,18 @@
 	}
 	
 	// Then add other data
-	if( [importantColumnIndexes count] < [availableColumnNames count] )
+	if( includeHiddenValues )
 	{
-		[s appendString:@"____________________\n"];
-		for( NSUInteger i = 0 ; i < [self.items count] ; i++ )
+		if( [importantColumnIndexes count] < [availableColumnNames count] )
 		{
-			if( ![importantColumnIndexes containsObject:[NSNumber numberWithInt:i]] )
-				[s appendFormat:@"%@: %@\n",
-				 [availableColumnNames objectAtIndex:i],
-				 [self.items objectAtIndex:i]];
+			[s appendString:@"____________________\n"];
+			for( NSUInteger i = 0 ; i < [self.items count] ; i++ )
+			{
+				if( ![importantColumnIndexes containsObject:[NSNumber numberWithInt:i]] )
+					[s appendFormat:@"%@: %@\n",
+					 [availableColumnNames objectAtIndex:i],
+					 [self.items objectAtIndex:i]];
+			}
 		}
 	}
 			
@@ -374,12 +469,20 @@
 		return nil;
 }
 
+- initWithItemCapacity:(NSUInteger)itemCapacity
+{
+	self = [super init];
+	_fixedWidthItems = [[NSMutableArray alloc] initWithCapacity:itemCapacity];
+	return self;
+}
+
 - (void) dealloc
 {
 	self.items = nil;
 	self.shortDescription = nil;
 	self.fileParser = nil;
 	self.imageName = nil;
+	[_fixedWidthItems release];
 	[super dealloc];
 }
 

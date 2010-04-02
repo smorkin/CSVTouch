@@ -93,7 +93,7 @@
 				CGRect viewFrame = CGRectMake(
 											  kUITextFieldXPadding, 
 											  labelMaxY + kUITextFieldYPadding, 
-											  alertWidth - 2.0*kUITextFieldXPadding, 
+											  alertWidth - 4.0*kUITextFieldXPadding, 
 											  kUITextFieldHeight);
 				[view setFrame:viewFrame];
 		    } else if(![view isKindOfClass:[UILabel class]]) {
@@ -113,7 +113,7 @@
 		    if([view isKindOfClass:[UITextField class]]){
 				CGRect viewFrame = [view frame];
 				viewFrame.origin.x = kUITextFieldXPadding;
-				viewFrame.size.width = alertWidth - 2.0*kUITextFieldXPadding;
+				viewFrame.size.width = alertWidth - 4.0*kUITextFieldXPadding;
 				[view setFrame:viewFrame];
 		    }
 		}

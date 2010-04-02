@@ -23,7 +23,10 @@
 + (BOOL) useGroupingForItems;
 + (BOOL) groupNumbers;
 + (BOOL) enablePhoneLinks;
++ (BOOL) useFixedWidth;
++ (BOOL) definedFixedWidths;
 + (BOOL) showStatusBar;
++ (BOOL) showDeletedColumns;
 + (BOOL) keepQuotes;
 + (BOOL) showDebugInfo;
 + (BOOL) safeStart;

@@ -2,10 +2,10 @@
 <archive type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="7.10">
 	<data>
 		<int key="IBDocument.SystemTarget">784</int>
-		<string key="IBDocument.SystemVersion">10C540</string>
+		<string key="IBDocument.SystemVersion">10D573</string>
 		<string key="IBDocument.InterfaceBuilderVersion">762</string>
-		<string key="IBDocument.AppKitVersion">1038.25</string>
-		<string key="IBDocument.HIToolboxVersion">458.00</string>
+		<string key="IBDocument.AppKitVersion">1038.29</string>
+		<string key="IBDocument.HIToolboxVersion">460.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 			<string key="NS.object.0">87</string>
@@ -114,7 +114,7 @@
 			</object>
 			<object class="IBUIViewController" id="64250082">
 				<object class="IBUIView" key="IBUIView" id="946984282">
-					<nil key="NSNextResponder"/>
+					<reference key="NSNextResponder"/>
 					<int key="NSvFlags">274</int>
 					<object class="NSMutableArray" key="NSSubviews">
 						<bool key="EncodedWithXMLCoder">YES</bool>
@@ -123,6 +123,7 @@
 							<int key="NSvFlags">290</int>
 							<string key="NSFrameSize">{320, 44}</string>
 							<reference key="NSSuperview" ref="946984282"/>
+							<reference key="NSWindow"/>
 							<bool key="IBUIOpaque">NO</bool>
 							<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
 							<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -146,6 +147,7 @@
 							<int key="NSvFlags">290</int>
 							<string key="NSFrame">{{20, 55}, {280, 31}}</string>
 							<reference key="NSSuperview" ref="946984282"/>
+							<reference key="NSWindow"/>
 							<bool key="IBUIOpaque">NO</bool>
 							<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
 							<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -175,6 +177,7 @@
 							<int key="NSvFlags">274</int>
 							<string key="NSFrame">{{5, 124}, {310, 268}}</string>
 							<reference key="NSSuperview" ref="946984282"/>
+							<reference key="NSWindow"/>
 							<bool key="IBUIOpaque">NO</bool>
 							<bool key="IBUIClipsSubviews">YES</bool>
 							<bool key="IBUIMultipleTouchEnabled">YES</bool>
@@ -196,6 +199,8 @@
 						</object>
 					</object>
 					<string key="NSFrameSize">{320, 460}</string>
+					<reference key="NSSuperview"/>
+					<reference key="NSWindow"/>
 					<object class="NSColor" key="IBUIBackgroundColor">
 						<int key="NSColorSpace">3</int>
 						<bytes key="NSWhite">MQA</bytes>
@@ -436,6 +441,12 @@
 									<int key="IBUIStyle">1</int>
 									<reference key="IBUIToolbar" ref="340951580"/>
 								</object>
+								<object class="IBUIBarButtonItem" id="155576842">
+									<string key="IBUITitle">List</string>
+									<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
+									<int key="IBUIStyle">1</int>
+									<reference key="IBUIToolbar" ref="340951580"/>
+								</object>
 								<object class="IBUIBarButtonItem" id="984656570">
 									<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 									<reference key="IBUIToolbar" ref="340951580"/>
@@ -484,7 +495,7 @@
 			<object class="IBUIViewController" id="749880378">
 				<string key="IBUITitle">Items</string>
 				<object class="IBUIView" key="IBUIView" id="99336636">
-					<nil key="NSNextResponder"/>
+					<reference key="NSNextResponder"/>
 					<int key="NSvFlags">274</int>
 					<object class="NSMutableArray" key="NSSubviews">
 						<bool key="EncodedWithXMLCoder">YES</bool>
@@ -493,6 +504,7 @@
 							<int key="NSvFlags">274</int>
 							<string key="NSFrameSize">{320, 416}</string>
 							<reference key="NSSuperview" ref="99336636"/>
+							<reference key="NSWindow"/>
 							<bool key="IBUIOpaque">NO</bool>
 							<bool key="IBUIClipsSubviews">YES</bool>
 							<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
@@ -507,6 +519,8 @@
 						</object>
 					</object>
 					<string key="NSFrameSize">{320, 416}</string>
+					<reference key="NSSuperview"/>
+					<reference key="NSWindow"/>
 					<object class="NSColor" key="IBUIBackgroundColor">
 						<int key="NSColorSpace">3</int>
 						<bytes key="NSWhite">MQA</bytes>
@@ -1293,6 +1307,14 @@
 					</object>
 					<int key="connectionID">590</int>
 				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchEventConnection" key="connection">
+						<string key="label">loadFileList</string>
+						<reference key="source" ref="155576842"/>
+						<reference key="destination" ref="1067888901"/>
+					</object>
+					<int key="connectionID">595</int>
+				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<object class="NSArray" key="orderedObjects">
@@ -1650,11 +1672,6 @@
 						<reference key="parent" ref="438767619"/>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">459</int>
-						<reference key="object" ref="411791826"/>
-						<reference key="parent" ref="683814877"/>
-					</object>
-					<object class="IBObjectRecord">
 						<int key="objectID">467</int>
 						<reference key="object" ref="106426283"/>
 						<reference key="parent" ref="946984282"/>
@@ -1744,6 +1761,7 @@
 							<reference ref="450331319"/>
 							<reference ref="864703851"/>
 							<reference ref="197645293"/>
+							<reference ref="155576842"/>
 						</object>
 						<reference key="parent" ref="851060703"/>
 					</object>
@@ -1805,6 +1823,16 @@
 					<object class="IBObjectRecord">
 						<int key="objectID">589</int>
 						<reference key="object" ref="197645293"/>
+						<reference key="parent" ref="340951580"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">459</int>
+						<reference key="object" ref="411791826"/>
+						<reference key="parent" ref="683814877"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">594</int>
+						<reference key="object" ref="155576842"/>
 						<reference key="parent" ref="340951580"/>
 					</object>
 				</object>
@@ -1905,6 +1933,7 @@
 					<string>540.IBPluginDependency</string>
 					<string>574.IBPluginDependency</string>
 					<string>589.IBPluginDependency</string>
+					<string>594.IBPluginDependency</string>
 					<string>76.CustomClassName</string>
 					<string>76.IBEditorWindowLastContentRect</string>
 					<string>76.IBPluginDependency</string>
@@ -1943,7 +1972,7 @@
 					<string>{{335, 75}, {320, 480}}</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>OzyTableViewController</string>
-					<string>{{556, 250}, {320, 480}}</string>
+					<string>{{550, 76}, {320, 480}}</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -2014,6 +2043,7 @@
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>OzyRotatableViewController</string>
 					<string>{{91, 19}, {320, 480}}</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -2040,7 +2070,7 @@
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">590</int>
+			<int key="maxID">595</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -2056,6 +2086,7 @@
 							<string>editColumns:</string>
 							<string>editDone:</string>
 							<string>increaseTableViewSize</string>
+							<string>loadFileList</string>
 							<string>nextDetailsClicked:</string>
 							<string>previousDetailsClicked:</string>
 							<string>refreshAllFiles:</string>
@@ -2068,6 +2099,7 @@
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>id</string>
 							<string>id</string>
 							<string>id</string>
 							<string>id</string>

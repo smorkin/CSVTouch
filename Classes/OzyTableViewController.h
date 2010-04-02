@@ -28,6 +28,7 @@ typedef enum OzyTableViewSize {
 	BOOL _useIndexes;
 	BOOL _groupNumbers;
 	BOOL _removeDisclosure;
+	BOOL _useFixedWidth;
 	OzyTableViewSize _size;
 	NSMutableArray *_sectionIndexes;
 	NSMutableArray *_sectionStarts;
@@ -44,6 +45,7 @@ typedef enum OzyTableViewSize {
 @property (nonatomic, assign) BOOL groupNumbers;
 @property (nonatomic, assign) OzyTableViewSize size;
 @property (nonatomic, assign) BOOL removeDisclosure;
+@property (nonatomic, assign) BOOL useFixedWidth;
 @property (nonatomic, retain) NSArray *sectionTitles;
 //@property (nonatomic, retain) NSString *imageName;
 @property (nonatomic, assign) id viewDelegate;
