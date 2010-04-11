@@ -8,6 +8,7 @@
 
 #import "CSVDataViewController.h"
 #import "OzyTableViewController.h"
+#import "OzyWebViewController.h"
 #import "CSV_TouchAppDelegate.h"
 #import "CSVPreferencesController.h"
 #import "CSVFileParser.h"
@@ -38,6 +39,7 @@
 @synthesize filesToolbar;
 @synthesize searchBar;
 @synthesize leaveAppURL;
+@synthesize showDeletedColumns = _showDeletedColumns;
 
 - (CSVFileParser *) currentFile
 {
@@ -266,7 +268,7 @@
 - (void) updateSimpleViewWithItem:(CSVRow *)item
 {
 	if( item )
-		[[detailsController textView] setText:[item longDescriptionWithHiddenValues:[CSVPreferencesController showDeletedColumns]]];
+		[[detailsController textView] setText:[item longDescriptionWithHiddenValues:self.showDeletedColumns]];
 	else
 		[[detailsController textView] setText:@"No data found!"];
 }
@@ -296,7 +298,7 @@
 
 - (void) updateEnhancedViewWithItem:(CSVRow *)item
 {
-	NSMutableArray *items = [item longDescriptionInArrayWithHiddenValues:[CSVPreferencesController showDeletedColumns]];
+	NSMutableArray *items = [item longDescriptionInArrayWithHiddenValues:self.showDeletedColumns];
 	fancyDetailsController.objects = items;
 	fancyDetailsController.removeDisclosure = YES;
 	if( [[currentFile availableColumnNames] count] > [importantColumnIndexes count] )
@@ -316,7 +318,7 @@
 
 - (void) updateHtmlViewWithItem:(CSVRow *)item
 {
-	[(UIWebView *)[htmlDetailsController view] stopLoading];
+	[htmlDetailsController.webView stopLoading];
 	
 	BOOL useTable = [CSVPreferencesController alignHtml];
 	NSError *error;
@@ -349,7 +351,7 @@
 	{
 		// Are we done already?
 		if(row == [[self importantColumnIndexes] count] &&
-		   ![CSVPreferencesController showDeletedColumns])
+		   !self.showDeletedColumns)
 			break;
 		
 		if( useTable )
@@ -398,7 +400,7 @@
 	else
 		[s appendFormat:@"</p>"];
 	[s appendFormat:@"</body></html>"];
-	[(UIWebView *)[htmlDetailsController view] loadHTMLString:s baseURL:nil];
+	[htmlDetailsController.webView loadHTMLString:s baseURL:nil];
 }
 
 - (void) selectDetailsForRow:(NSUInteger)row
@@ -482,6 +484,13 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
 	enlargeItemsButton.enabled = (s == OZY_NORMAL? NO : YES);
 }
 
+- (void) updateShowHideDeletedColumnsButtons
+{
+	NSString *title = (self.showDeletedColumns ? @"Hide" : @"Show");
+	[[[detailsViewToolbar items] objectAtIndex:0] setTitle:title];
+	[[[fancyDetailsViewToolbar items] objectAtIndex:0] setTitle:title];
+	[[[htmlDetailsViewToolbar items] objectAtIndex:0] setTitle:title];
+}
 
 - (NSString *) idForController:(UIViewController *)controller
 {
@@ -595,6 +604,55 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
 
 - (void) applicationDidFinishLaunchingInEmergencyMode:(BOOL)emergencyMode
 {	
+	// If someone wants to have this button, it is likely they don't want to see the columns as default
+	if( [CSVPreferencesController showDetailsToolbar] )
+	{
+//		[fancyDetailsController.view insertSubview:itemViewToolbar aboveSubview:detailsController.textView];
+//		[fancyDetailsController.tableView addSubview:itemViewToolbar];
+		self.showDeletedColumns = FALSE;
+	}
+	else
+	{
+		for( UIView *subview in [[fancyDetailsController view] subviews] )
+		{
+			if( [subview isKindOfClass:[UIToolbar class]] )
+			{
+				CGFloat height = [subview frame].size.height;
+				CGRect frame = [fancyDetailsController.tableView frame];
+				frame.size.height += height;
+				[subview removeFromSuperview];
+				[fancyDetailsController.tableView setFrame:frame];
+				break;
+			}
+		}
+		for( UIView *subview in [[detailsController view] subviews] )
+		{
+			if( [subview isKindOfClass:[UIToolbar class]] )
+			{
+				CGFloat height = [subview frame].size.height;
+				CGRect frame = [detailsController.textView frame];
+				frame.size.height += height;
+				[subview removeFromSuperview];
+				[detailsController.textView setFrame:frame];
+				break;
+			}
+		}
+		for( UIView *subview in [[htmlDetailsController view] subviews] )
+		{
+			if( [subview isKindOfClass:[UIToolbar class]] )
+			{
+				CGFloat height = [subview frame].size.height;
+				CGRect frame = [htmlDetailsController.webView frame];
+				frame.size.height += height;
+				[subview removeFromSuperview];
+				[htmlDetailsController.webView setFrame:frame];
+				break;
+			}
+		}
+		self.showDeletedColumns = TRUE;
+	}
+	[self updateShowHideDeletedColumnsButtons];
+	
 	// Setup stuff for controllers which can't be configured using InterfaceBuilder
 	[[editController tableView] setEditing:YES animated:NO];
 	editController.editable = YES;
@@ -615,7 +673,7 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
 	
 	// Disable phone links, if desired
 	if( [CSVPreferencesController enablePhoneLinks] == FALSE )
-		[(OzyWebView *)[htmlDetailsController view] setDataDetectorTypes:UIDataDetectorTypeLink];
+		[htmlDetailsController.webView setDataDetectorTypes:UIDataDetectorTypeLink];
 	
 	// Autocorrection of searching should be off
 	searchBar.autocorrectionType = UITextAutocorrectionTypeNo;
@@ -736,6 +794,15 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
 {
 	[self modifyItemsTableViewSize:NO];
 	[self validateItemSizeButtons];
+}
+
+- (IBAction) toggleShowHideDeletedColumns
+{
+	self.showDeletedColumns = !self.showDeletedColumns;
+	[self updateShowHideDeletedColumnsButtons];
+	[self updateSimpleViewWithItem:_latestShownItem];
+	[self updateEnhancedViewWithItem:_latestShownItem];
+	[self updateHtmlViewWithItem:_latestShownItem];
 }
 
 static CSVDataViewController *sharedInstance = nil;
@@ -1418,8 +1485,9 @@ didSelectRowAtIndexPath:[fileController.tableView indexPathForSelectedRow]];
 {
 	CGSize viewSize = controller.view.frame.size;
 	CGSize buttonSize = nextDetails.frame.size; // We assume both buttons have the same size already
-	previousDetails.frame = CGRectMake(0, viewSize.height-buttonSize.height-16, buttonSize.width, buttonSize.height);
-	nextDetails.frame = CGRectMake(viewSize.width-buttonSize.width, viewSize.height-buttonSize.height-16, buttonSize.width, buttonSize.height);
+	CGFloat toolbarOffset = ([CSVPreferencesController showDetailsToolbar] ? 44 : 0);
+	previousDetails.frame = CGRectMake(0, viewSize.height-buttonSize.height-16-toolbarOffset, buttonSize.width, buttonSize.height);
+	nextDetails.frame = CGRectMake(viewSize.width-buttonSize.width, viewSize.height-buttonSize.height-16-toolbarOffset, buttonSize.width, buttonSize.height);
 	[controller.view addSubview:nextDetails];
 	[controller.view addSubview:previousDetails];
 }

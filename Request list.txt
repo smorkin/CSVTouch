@@ -10,7 +10,7 @@ Dsidsi completed
 - Pref to turn off phone number links
 - Icon column
 - List view with fixed widths for columns (row 2 used for specifying widths in characters)
-- Possible to read a file with csv-touch addresses, from a configurable file
+- Possible to read a file with csv-touch addresses, from a configurable file, including settings
 
 
 Nya appar

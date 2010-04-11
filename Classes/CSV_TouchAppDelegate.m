@@ -441,6 +441,8 @@ static NSString *newPassword = nil;
 		NSUInteger lineStart, lineEnd, nextLineStart;
 		NSRange lineRange;
 		NSString *line;
+		NSMutableArray *settings = [NSMutableArray array];
+		BOOL readingSettings = FALSE;
 		
 		lineStart = lineEnd = nextLineStart = 0;
 		while( nextLineStart < length )
@@ -449,9 +451,17 @@ static NSString *newPassword = nil;
 				contentsEnd:&lineEnd forRange:NSMakeRange(nextLineStart, 0)];
 			lineRange = NSMakeRange(lineStart, lineEnd - lineStart);
 			line = [s substringWithRange:lineRange];
-			if( line && ![line isEqualToString:@""] )
+			if( !readingSettings && line && ![line isEqualToString:@""] )
 				[self.URLsToDownload addObject:line];
+			else if( !readingSettings && line && [line isEqualToString:@""] )
+				readingSettings = TRUE;
+			else if( readingSettings && line && ![line isEqualToString:@""] )
+				[settings addObject:line];
 		}
+		// We are doing the settings immediately, instead of later in [self downloadDone]
+		// to avoid having to store the values somewhere locally
+		if( [settings count] > 0 )
+			[CSVPreferencesController applySettings:settings]; 
 	}
 	else
 	{

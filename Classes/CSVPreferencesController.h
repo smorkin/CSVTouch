@@ -26,7 +26,7 @@
 + (BOOL) useFixedWidth;
 + (BOOL) definedFixedWidths;
 + (BOOL) showStatusBar;
-+ (BOOL) showDeletedColumns;
++ (BOOL) showDetailsToolbar;
 + (BOOL) keepQuotes;
 + (BOOL) showDebugInfo;
 + (BOOL) safeStart;
@@ -46,6 +46,8 @@
 
 + (BOOL) hasBeenUpgradedToCustomExtension;
 + (void) setHasBeenUpgradedToCustomExtension;
+
++ (void) applySettings:(NSArray *)settings;
 
 + (BOOL) liteVersionRunning;
 

@@ -28,7 +28,7 @@
 #define PREFS_USE_FIXED_WIDTH @"useFixedWidth"
 #define PREFS_DEFINED_FIXED_WIDTHS @"definedFixedWidths"
 #define PREFS_SHOW_STATUS_BAR @"showStatusBar"
-#define PREFS_SHOW_DELETED_COLUMNS @"showDeletedColumns"
+#define PREFS_SHOW_DETAILS_TOOLBAR @"showDetailsToolbar"
 #define PREFS_SAFE_START @"safeStart"
 #define PREFS_KEEP_QUOTES @"keepQuotes"
 #define PREFS_SHOW_DEBUG_INFO @"showDebugInfo"
@@ -203,13 +203,13 @@ NSUInteger sortingMask;
 		return NO;
 }
 
-+ (BOOL) showDeletedColumns
++ (BOOL) showDetailsToolbar
 {
-	id obj = [[NSUserDefaults standardUserDefaults] objectForKey:PREFS_SHOW_DELETED_COLUMNS];
+	id obj = [[NSUserDefaults standardUserDefaults] objectForKey:PREFS_SHOW_DETAILS_TOOLBAR];
 	if( obj )
 		return [obj boolValue];
 	else
-		return YES;
+		return NO;
 }
 
 + (BOOL) showStatusBar
@@ -334,6 +334,149 @@ NSUInteger sortingMask;
 {
 	[[NSUserDefaults standardUserDefaults] removeObjectForKey:PREFS_USE_PASSWORD];
 }
+
++ (void) applySettings:(NSArray *)settings
+{
+	for( NSString *s in settings )
+	{
+		NSArray *words = [s componentsSeparatedByString:@" "];
+		if( [words count] == 2 )
+		{
+			if( [[words objectAtIndex:0] isEqualToString:PREFS_ENCODING] )
+				[[NSUserDefaults standardUserDefaults] setInteger:[[words objectAtIndex:1] intValue]
+														   forKey:PREFS_ENCODING];
+			
+			else if( [[words objectAtIndex:0] isEqualToString:PREFS_SMART_DELIMITER] )
+				[[NSUserDefaults standardUserDefaults] setBool:[[words objectAtIndex:1] boolValue]
+														   forKey:PREFS_SMART_DELIMITER];
+
+			else if( [[words objectAtIndex:0] isEqualToString:PREFS_DELIMITER] )
+				[[NSUserDefaults standardUserDefaults] setObject:[words objectAtIndex:1]
+														   forKey:PREFS_DELIMITER];
+			
+			else if( [[words objectAtIndex:0] isEqualToString:PREFS_SORTING_MASK] )
+				[[NSUserDefaults standardUserDefaults] setInteger:[[words objectAtIndex:1] intValue]
+														   forKey:PREFS_SORTING_MASK];
+			
+			else if( [[words objectAtIndex:0] isEqualToString:PREFS_ITEMS_TABLEVIEW_SIZE] )
+				[[NSUserDefaults standardUserDefaults] setInteger:[[words objectAtIndex:1] intValue]
+														   forKey:PREFS_ITEMS_TABLEVIEW_SIZE];
+			
+			else if( [[words objectAtIndex:0] isEqualToString:PREFS_DETAILS_TABLEVIEW_SIZE] )
+				[[NSUserDefaults standardUserDefaults] setInteger:[[words objectAtIndex:1] intValue]
+														   forKey:PREFS_DETAILS_TABLEVIEW_SIZE];
+			
+			else if( [[words objectAtIndex:0] isEqualToString:PREFS_MAX_NUMBER_TO_SORT] )
+				[[NSUserDefaults standardUserDefaults] setInteger:[[words objectAtIndex:1] intValue]
+														   forKey:PREFS_MAX_NUMBER_TO_SORT];
+			
+			else if( [[words objectAtIndex:0] isEqualToString:PREFS_ALLOW_ROTATION] )
+				[[NSUserDefaults standardUserDefaults] setBool:[[words objectAtIndex:1] boolValue]
+														   forKey:PREFS_ALLOW_ROTATION];
+			
+			else if( [[words objectAtIndex:0] isEqualToString:PREFS_USE_GROUPING_FOR_ITEMS] )
+				[[NSUserDefaults standardUserDefaults] setBool:[[words objectAtIndex:1] boolValue]
+														forKey:PREFS_USE_GROUPING_FOR_ITEMS];
+			
+			else if( [[words objectAtIndex:0] isEqualToString:PREFS_GROUP_NUMBERS] )
+				[[NSUserDefaults standardUserDefaults] setBool:[[words objectAtIndex:1] boolValue]
+														forKey:PREFS_GROUP_NUMBERS];
+			
+			else if( [[words objectAtIndex:0] isEqualToString:PREFS_ENABLE_PHONE_LINKS] )
+				[[NSUserDefaults standardUserDefaults] setBool:[[words objectAtIndex:1] boolValue]
+														forKey:PREFS_ENABLE_PHONE_LINKS];
+			
+			else if( [[words objectAtIndex:0] isEqualToString:PREFS_USE_FIXED_WIDTH] )
+				[[NSUserDefaults standardUserDefaults] setBool:[[words objectAtIndex:1] boolValue]
+														forKey:PREFS_USE_FIXED_WIDTH];
+			
+			else if( [[words objectAtIndex:0] isEqualToString:PREFS_DEFINED_FIXED_WIDTHS] )
+				[[NSUserDefaults standardUserDefaults] setBool:[[words objectAtIndex:1] boolValue]
+														forKey:PREFS_DEFINED_FIXED_WIDTHS];
+			
+			else if( [[words objectAtIndex:0] isEqualToString:PREFS_SHOW_STATUS_BAR] )
+				[[NSUserDefaults standardUserDefaults] setBool:[[words objectAtIndex:1] boolValue]
+														forKey:PREFS_SHOW_STATUS_BAR];
+			
+			else if( [[words objectAtIndex:0] isEqualToString:PREFS_SHOW_DETAILS_TOOLBAR] )
+				[[NSUserDefaults standardUserDefaults] setBool:[[words objectAtIndex:1] boolValue]
+														forKey:PREFS_SHOW_DETAILS_TOOLBAR];
+			
+			else if( [[words objectAtIndex:0] isEqualToString:PREFS_SAFE_START] )
+				[[NSUserDefaults standardUserDefaults] setBool:[[words objectAtIndex:1] boolValue]
+														forKey:PREFS_SAFE_START];
+			
+			else if( [[words objectAtIndex:0] isEqualToString:PREFS_KEEP_QUOTES] )
+				[[NSUserDefaults standardUserDefaults] setBool:[[words objectAtIndex:1] boolValue]
+														forKey:PREFS_KEEP_QUOTES];
+			
+			else if( [[words objectAtIndex:0] isEqualToString:PREFS_SHOW_DEBUG_INFO] )
+				[[NSUserDefaults standardUserDefaults] setBool:[[words objectAtIndex:1] boolValue]
+														forKey:PREFS_SHOW_DEBUG_INFO];
+			
+			else if( [[words objectAtIndex:0] isEqualToString:PREFS_USE_BLACK_THEME] )
+				[[NSUserDefaults standardUserDefaults] setBool:[[words objectAtIndex:1] boolValue]
+														forKey:PREFS_USE_BLACK_THEME];
+			
+			else if( [[words objectAtIndex:0] isEqualToString:PREFS_USE_CORRECT_PARSING] )
+				[[NSUserDefaults standardUserDefaults] setBool:[[words objectAtIndex:1] boolValue]
+														forKey:PREFS_USE_CORRECT_PARSING];
+			
+			else if( [[words objectAtIndex:0] isEqualToString:PREFS_USE_CORRECT_SORTING] )
+				[[NSUserDefaults standardUserDefaults] setBool:[[words objectAtIndex:1] boolValue]
+														forKey:PREFS_USE_CORRECT_SORTING];
+			
+			else if( [[words objectAtIndex:0] isEqualToString:PREFS_REMOVE_DETAILS_NAVIGATION] )
+				[[NSUserDefaults standardUserDefaults] setBool:[[words objectAtIndex:1] boolValue]
+														forKey:PREFS_REMOVE_DETAILS_NAVIGATION];
+			
+			else if( [[words objectAtIndex:0] isEqualToString:PREFS_USE_DETAILS_SWIPE] )
+				[[NSUserDefaults standardUserDefaults] setBool:[[words objectAtIndex:1] boolValue]
+														forKey:PREFS_USE_DETAILS_SWIPE];
+			
+			else if( [[words objectAtIndex:0] isEqualToString:PREFS_USE_SWIPE_ANIMATION] )
+				[[NSUserDefaults standardUserDefaults] setBool:[[words objectAtIndex:1] boolValue]
+														forKey:PREFS_USE_SWIPE_ANIMATION];
+			
+			else if( [[words objectAtIndex:0] isEqualToString:PREFS_SHOW_INLINE_IMAGES] )
+				[[NSUserDefaults standardUserDefaults] setBool:[[words objectAtIndex:1] boolValue]
+														forKey:PREFS_SHOW_INLINE_IMAGES];
+			
+			else if( [[words objectAtIndex:0] isEqualToString:PREFS_NUMBER_SENSITIVE_SORTING] )
+				[[NSUserDefaults standardUserDefaults] setBool:[[words objectAtIndex:1] boolValue]
+														forKey:PREFS_NUMBER_SENSITIVE_SORTING];
+			
+			else if( [[words objectAtIndex:0] isEqualToString:PREFS_CASE_SENSITIVE_SORTING] )
+				[[NSUserDefaults standardUserDefaults] setBool:[[words objectAtIndex:1] boolValue]
+														forKey:PREFS_CASE_SENSITIVE_SORTING];
+			
+			else if( [[words objectAtIndex:0] isEqualToString:PREFS_LITERAL_SORTING] )
+				[[NSUserDefaults standardUserDefaults] setBool:[[words objectAtIndex:1] boolValue]
+														forKey:PREFS_LITERAL_SORTING];
+			
+			else if( [[words objectAtIndex:0] isEqualToString:PREFS_MAX_NUMBER_LIVE_FILTER] )
+				[[NSUserDefaults standardUserDefaults] setInteger:[[words objectAtIndex:1] intValue]
+														forKey:PREFS_MAX_NUMBER_LIVE_FILTER];
+			
+			else if( [[words objectAtIndex:0] isEqualToString:PREFS_CLEAR_SEARCH_WHEN_QUICK_SELECTING] )
+				[[NSUserDefaults standardUserDefaults] setBool:[[words objectAtIndex:1] boolValue]
+														forKey:PREFS_CLEAR_SEARCH_WHEN_QUICK_SELECTING];
+			
+			else if( [[words objectAtIndex:0] isEqualToString:PREFS_CONFIRM_LINK] )
+				[[NSUserDefaults standardUserDefaults] setBool:[[words objectAtIndex:1] boolValue]
+														forKey:PREFS_CONFIRM_LINK];
+			
+			else if( [[words objectAtIndex:0] isEqualToString:PREFS_ALIGN_HTML] )
+				[[NSUserDefaults standardUserDefaults] setBool:[[words objectAtIndex:1] boolValue]
+														forKey:PREFS_ALIGN_HTML];
+			
+			else if( [[words objectAtIndex:0] isEqualToString:PREFS_USE_PASSWORD] )
+				[[NSUserDefaults standardUserDefaults] setBool:[[words objectAtIndex:1] boolValue]
+														forKey:PREFS_USE_PASSWORD];						
+		}
+	}
+}
+				 
 
 + (BOOL) liteVersionRunning
 {

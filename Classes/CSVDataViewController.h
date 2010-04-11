@@ -12,13 +12,13 @@
 CSVFileParser, 
 CSVRow,
 OzyTextViewController,
-OzyRotatableViewController;
+OzyWebViewController;
 
 @interface CSVDataViewController : UINavigationController <UITableViewDelegate>
 {
 	IBOutlet OzyTextViewController *detailsController;
 	IBOutlet OzyTableViewController *fancyDetailsController;
-	IBOutlet OzyRotatableViewController *htmlDetailsController;
+	IBOutlet OzyWebViewController *htmlDetailsController;
 	IBOutlet OzyTableViewController *itemController;
 	IBOutlet OzyTableViewController *fileController;
 	IBOutlet OzyTextViewController *parseErrorController;
@@ -51,6 +51,9 @@ OzyRotatableViewController;
 	IBOutlet UIBarButtonItem *itemsCountButton;
 	IBOutlet UIToolbar *filesToolbar;
 	IBOutlet UIBarButtonItem *filesCountButton;
+	IBOutlet UIToolbar *detailsViewToolbar;
+	IBOutlet UIToolbar *fancyDetailsViewToolbar;
+	IBOutlet UIToolbar *htmlDetailsViewToolbar;
 	
 	// Need to remember this when "Leave CSV Touch"-sheet returns
 	UIAlertView *leaveAppView;
@@ -68,12 +71,15 @@ OzyRotatableViewController;
 	BOOL editFilesInProgress;
 	BOOL showingRawString;
 	BOOL searchInputInProgress;
+	
+	BOOL _showDeletedColumns;
 }
 
 @property (nonatomic, readonly) UIToolbar *itemsToolbar;
 @property (nonatomic, readonly) UIToolbar *filesToolbar;
 @property (nonatomic, readonly) UISearchBar *searchBar;
 @property (nonatomic, copy) NSURL *leaveAppURL;
+@property (nonatomic, assign) BOOL showDeletedColumns;
 
 + (CSVDataViewController *) sharedInstance;
 
@@ -92,6 +98,7 @@ OzyRotatableViewController;
 - (IBAction) previousDetailsClicked:(id)sender;
 - (IBAction) increaseTableViewSize;
 - (IBAction) decreaseTableViewSize;
+- (IBAction) toggleShowHideDeletedColumns;
 
 - (void) setFiles:(NSArray *) files;
 - (NSArray *) files;

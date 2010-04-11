@@ -208,11 +208,11 @@
 			<key>Type</key>
 			<string>PSToggleSwitchSpecifier</string>
 			<key>Title</key>
-			<string>Show deleted columns</string>
+			<string>Show details toolbar</string>
 			<key>Key</key>
-			<string>showDeletedColumns</string>
+			<string>showDetailsToolbar</string>
 			<key>DefaultValue</key>
-			<true/>
+			<false/>
 			<key>TrueValue</key>
 			<true/>
 			<key>FalseValue</key>
