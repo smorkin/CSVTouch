@@ -1,6 +1,5 @@
 Dsidsi to do
 
-- Deleted fields: One button / field (temporary switching show / don't show), and one for showing / hiding all (not temporarily)
 
 Dsidsi completed
 
@@ -11,6 +10,7 @@ Dsidsi completed
 - Icon column
 - List view with fixed widths for columns (row 2 used for specifying widths in characters)
 - Possible to read a file with csv-touch addresses, from a configurable file, including settings
+- Deleted fields: One button / field (temporary switching show / don't show), and one for showing / hiding all (not temporarily)
 
 
 Nya appar

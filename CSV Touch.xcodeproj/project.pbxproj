@@ -77,7 +77,6 @@
 		F47DC7EC1111004C00E8DD8B /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = F4174D140E40A4A200351EE4 /* icon.png */; };
 		F47DC7ED1111004C00E8DD8B /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = F4990C160E4276C500D64667 /* Settings.bundle */; };
 		F47DC7EE1111004C00E8DD8B /* dist.plist in Resources */ = {isa = PBXBuildFile; fileRef = F4BE8AB00E4503AC00F2A27B /* dist.plist */; };
-		F47DC7EF1111004C00E8DD8B /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = F4E928750E4EE808006165B0 /* Default.png */; };
 		F47DC7F01111004C00E8DD8B /* info.png in Resources */ = {isa = PBXBuildFile; fileRef = F451F1800E99146300F22ED9 /* info.png */; };
 		F47DC7F11111004C00E8DD8B /* 2lines.png in Resources */ = {isa = PBXBuildFile; fileRef = F49218530EA7AC7400E74493 /* 2lines.png */; };
 		F47DC7F21111004C00E8DD8B /* 4lines.png in Resources */ = {isa = PBXBuildFile; fileRef = F49218540EA7AC7400E74493 /* 4lines.png */; };
@@ -324,6 +323,15 @@
 		F4ADD911115E692D0095F061 /* empty.png in Resources */ = {isa = PBXBuildFile; fileRef = F4ADD90D115E692D0095F061 /* empty.png */; };
 		F4AE44870DF469BF001197AB /* CSVRow.m in Sources */ = {isa = PBXBuildFile; fileRef = F4AE44860DF469BF001197AB /* CSVRow.m */; };
 		F4BE8AB10E4503AC00F2A27B /* dist.plist in Resources */ = {isa = PBXBuildFile; fileRef = F4BE8AB00E4503AC00F2A27B /* dist.plist */; };
+		F4C40000117A62E30049C630 /* Default-Portrait.png in Resources */ = {isa = PBXBuildFile; fileRef = F4C4FFFA117A62E30049C630 /* Default-Portrait.png */; };
+		F4C40001117A62E30049C630 /* Default-Landscape.png in Resources */ = {isa = PBXBuildFile; fileRef = F4C4FFF9117A62E30049C630 /* Default-Landscape.png */; };
+		F4C40002117A62E30049C630 /* Default-Portrait.png in Resources */ = {isa = PBXBuildFile; fileRef = F4C4FFFA117A62E30049C630 /* Default-Portrait.png */; };
+		F4C4000E117A63080049C630 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = F4E928750E4EE808006165B0 /* Default.png */; };
+		F4C4FFFB117A62E30049C630 /* Default-Landscape.png in Resources */ = {isa = PBXBuildFile; fileRef = F4C4FFF9117A62E30049C630 /* Default-Landscape.png */; };
+		F4C4FFFC117A62E30049C630 /* Default-Portrait.png in Resources */ = {isa = PBXBuildFile; fileRef = F4C4FFFA117A62E30049C630 /* Default-Portrait.png */; };
+		F4C4FFFD117A62E30049C630 /* Default-Landscape.png in Resources */ = {isa = PBXBuildFile; fileRef = F4C4FFF9117A62E30049C630 /* Default-Landscape.png */; };
+		F4C4FFFE117A62E30049C630 /* Default-Portrait.png in Resources */ = {isa = PBXBuildFile; fileRef = F4C4FFFA117A62E30049C630 /* Default-Portrait.png */; };
+		F4C4FFFF117A62E30049C630 /* Default-Landscape.png in Resources */ = {isa = PBXBuildFile; fileRef = F4C4FFF9117A62E30049C630 /* Default-Landscape.png */; };
 		F4CB51391168A49B00CFCBBC /* large_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = F4CB51381168A49B00CFCBBC /* large_icon.png */; };
 		F4CB513A1168A49B00CFCBBC /* large_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = F4CB51381168A49B00CFCBBC /* large_icon.png */; };
 		F4D6864B11675900001511F4 /* iPhoneMainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = F412B2CF115567C5000C7596 /* iPhoneMainWindow.xib */; };
@@ -332,6 +340,10 @@
 		F4E5EE300E09B591002EB091 /* OzyTextViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4E5EE2F0E09B591002EB091 /* OzyTextViewController.m */; };
 		F4E928760E4EE808006165B0 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = F4E928750E4EE808006165B0 /* Default.png */; };
 		F4E9290B0E4F5D4C006165B0 /* parseCSV.m in Sources */ = {isa = PBXBuildFile; fileRef = F4E9290A0E4F5D4C006165B0 /* parseCSV.m */; };
+		F4F0DD69117A5C120043C377 /* RefreshAll.png in Resources */ = {isa = PBXBuildFile; fileRef = F4F0DD68117A5C120043C377 /* RefreshAll.png */; };
+		F4F0DD6A117A5C120043C377 /* RefreshAll.png in Resources */ = {isa = PBXBuildFile; fileRef = F4F0DD68117A5C120043C377 /* RefreshAll.png */; };
+		F4F0DD6B117A5C120043C377 /* RefreshAll.png in Resources */ = {isa = PBXBuildFile; fileRef = F4F0DD68117A5C120043C377 /* RefreshAll.png */; };
+		F4F0DD6C117A5C120043C377 /* RefreshAll.png in Resources */ = {isa = PBXBuildFile; fileRef = F4F0DD68117A5C120043C377 /* RefreshAll.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -375,9 +387,9 @@
 		F473432D0E2A90B20072F3DE /* row.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = row.png; sourceTree = "<group>"; };
 		F47819830E2BDE7A00B44E78 /* CSVPreferencesController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSVPreferencesController.h; sourceTree = "<group>"; };
 		F47819840E2BDE7A00B44E78 /* CSVPreferencesController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSVPreferencesController.m; sourceTree = "<group>"; };
-		F47DC80D1111004C00E8DD8B /* CSV Touch-iPad.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "CSV Touch-iPad.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		F47DC80D1111004C00E8DD8B /* CSV Touch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "CSV Touch.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F47DC8101111004D00E8DD8B /* iPadMainWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = iPadMainWindow.xib; path = "Resources-iPad/iPadMainWindow.xib"; sourceTree = "<group>"; };
-		F47DC83A1111005400E8DD8B /* CSV Lite-iPad.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "CSV Lite-iPad.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		F47DC83A1111005400E8DD8B /* CSV Lite.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "CSV Lite.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F48836560DF53E2C0063EF75 /* CSVFileParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSVFileParser.h; sourceTree = "<group>"; };
 		F48836570DF53E2C0063EF75 /* CSVFileParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSVFileParser.m; sourceTree = "<group>"; };
 		F488D83D1146606300583920 /* bluedream.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = bluedream.css; sourceTree = "<group>"; };
@@ -435,6 +447,8 @@
 		F4AE44850DF469BF001197AB /* CSVRow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSVRow.h; sourceTree = "<group>"; };
 		F4AE44860DF469BF001197AB /* CSVRow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSVRow.m; sourceTree = "<group>"; };
 		F4BE8AB00E4503AC00F2A27B /* dist.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = dist.plist; sourceTree = "<group>"; };
+		F4C4FFF9117A62E30049C630 /* Default-Landscape.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Landscape.png"; sourceTree = "<group>"; };
+		F4C4FFFA117A62E30049C630 /* Default-Portrait.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Portrait.png"; sourceTree = "<group>"; };
 		F4CB510A11689FD300CFCBBC /* CSV Lite-Info-iPad.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "CSV Lite-Info-iPad.plist"; sourceTree = "<group>"; };
 		F4CB510B11689FD300CFCBBC /* Info-iPad.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Info-iPad.plist"; sourceTree = "<group>"; };
 		F4CB51381168A49B00CFCBBC /* large_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = large_icon.png; sourceTree = "<group>"; };
@@ -448,6 +462,7 @@
 		F4E928750E4EE808006165B0 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		F4E929090E4F5D4C006165B0 /* parseCSV.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = parseCSV.h; sourceTree = "<group>"; };
 		F4E9290A0E4F5D4C006165B0 /* parseCSV.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = parseCSV.m; sourceTree = "<group>"; };
+		F4F0DD68117A5C120043C377 /* RefreshAll.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = RefreshAll.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -532,8 +547,8 @@
 			children = (
 				1D6058910D05DD3D006BFB54 /* CSV Touch.app */,
 				F452CA8B0EB24A0D002F7697 /* CSV Lite.app */,
-				F47DC80D1111004C00E8DD8B /* CSV Touch-iPad.app */,
-				F47DC83A1111005400E8DD8B /* CSV Lite-iPad.app */,
+				F47DC80D1111004C00E8DD8B /* CSV Touch.app */,
+				F47DC83A1111005400E8DD8B /* CSV Lite.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -580,9 +595,12 @@
 				F4174D140E40A4A200351EE4 /* icon.png */,
 				F4CB51381168A49B00CFCBBC /* large_icon.png */,
 				F41BB7470EE9F65A00BEFDED /* lock.png */,
+				F4F0DD68117A5C120043C377 /* RefreshAll.png */,
 				F49218530EA7AC7400E74493 /* 2lines.png */,
 				F49218540EA7AC7400E74493 /* 4lines.png */,
 				F4E928750E4EE808006165B0 /* Default.png */,
+				F4C4FFF9117A62E30049C630 /* Default-Landscape.png */,
+				F4C4FFFA117A62E30049C630 /* Default-Portrait.png */,
 				F451F1800E99146300F22ED9 /* info.png */,
 				28AD735F0D9D9599002E5188 /* MainWindow.xib */,
 				F473432C0E2A90B20072F3DE /* col.png */,
@@ -698,9 +716,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		1D6058900D05DD3D006BFB54 /* CSV Touch */ = {
+		1D6058900D05DD3D006BFB54 /* CSV Touch old */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "CSV Touch" */;
+			buildConfigurationList = 1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "CSV Touch old" */;
 			buildPhases = (
 				1D60588D0D05DD3D006BFB54 /* Resources */,
 				1D60588E0D05DD3D006BFB54 /* Sources */,
@@ -710,14 +728,14 @@
 			);
 			dependencies = (
 			);
-			name = "CSV Touch";
+			name = "CSV Touch old";
 			productName = "CSV Touch";
 			productReference = 1D6058910D05DD3D006BFB54 /* CSV Touch.app */;
 			productType = "com.apple.product-type.application";
 		};
-		F452CA8A0EB24A0D002F7697 /* CSV Lite */ = {
+		F452CA8A0EB24A0D002F7697 /* CSV Lite old */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = F452CA910EB24A0E002F7697 /* Build configuration list for PBXNativeTarget "CSV Lite" */;
+			buildConfigurationList = F452CA910EB24A0E002F7697 /* Build configuration list for PBXNativeTarget "CSV Lite old" */;
 			buildPhases = (
 				F452CA870EB24A0D002F7697 /* Resources */,
 				F452CA880EB24A0D002F7697 /* Sources */,
@@ -727,14 +745,14 @@
 			);
 			dependencies = (
 			);
-			name = "CSV Lite";
+			name = "CSV Lite old";
 			productName = "CSV Lite";
 			productReference = F452CA8B0EB24A0D002F7697 /* CSV Lite.app */;
 			productType = "com.apple.product-type.application";
 		};
-		F47DC7E71111004C00E8DD8B /* CSV Touch-iPad */ = {
+		F47DC7E71111004C00E8DD8B /* CSV Touch */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = F47DC8081111004C00E8DD8B /* Build configuration list for PBXNativeTarget "CSV Touch-iPad" */;
+			buildConfigurationList = F47DC8081111004C00E8DD8B /* Build configuration list for PBXNativeTarget "CSV Touch" */;
 			buildPhases = (
 				F47DC7E81111004C00E8DD8B /* Resources */,
 				F47DC7F41111004C00E8DD8B /* Sources */,
@@ -744,14 +762,14 @@
 			);
 			dependencies = (
 			);
-			name = "CSV Touch-iPad";
+			name = "CSV Touch";
 			productName = "CSV Touch";
-			productReference = F47DC80D1111004C00E8DD8B /* CSV Touch-iPad.app */;
+			productReference = F47DC80D1111004C00E8DD8B /* CSV Touch.app */;
 			productType = "com.apple.product-type.application";
 		};
-		F47DC8141111005400E8DD8B /* CSV Lite-iPad */ = {
+		F47DC8141111005400E8DD8B /* CSV Lite */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = F47DC8351111005400E8DD8B /* Build configuration list for PBXNativeTarget "CSV Lite-iPad" */;
+			buildConfigurationList = F47DC8351111005400E8DD8B /* Build configuration list for PBXNativeTarget "CSV Lite" */;
 			buildPhases = (
 				F47DC8151111005400E8DD8B /* Resources */,
 				F47DC8211111005400E8DD8B /* Sources */,
@@ -761,9 +779,9 @@
 			);
 			dependencies = (
 			);
-			name = "CSV Lite-iPad";
+			name = "CSV Lite";
 			productName = "CSV Lite";
-			productReference = F47DC83A1111005400E8DD8B /* CSV Lite-iPad.app */;
+			productReference = F47DC83A1111005400E8DD8B /* CSV Lite.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -785,10 +803,10 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				1D6058900D05DD3D006BFB54 /* CSV Touch */,
-				F452CA8A0EB24A0D002F7697 /* CSV Lite */,
-				F47DC7E71111004C00E8DD8B /* CSV Touch-iPad */,
-				F47DC8141111005400E8DD8B /* CSV Lite-iPad */,
+				1D6058900D05DD3D006BFB54 /* CSV Touch old */,
+				F452CA8A0EB24A0D002F7697 /* CSV Lite old */,
+				F47DC7E71111004C00E8DD8B /* CSV Touch */,
+				F47DC8141111005400E8DD8B /* CSV Lite */,
 			);
 		};
 /* End PBXProject section */
@@ -859,6 +877,9 @@
 				F4ADD87D115E573C0095F061 /* warning.png in Resources */,
 				F4ADD87E115E573C0095F061 /* yes.png in Resources */,
 				F4ADD911115E692D0095F061 /* empty.png in Resources */,
+				F4F0DD6B117A5C120043C377 /* RefreshAll.png in Resources */,
+				F4C4FFFF117A62E30049C630 /* Default-Landscape.png in Resources */,
+				F4C40000117A62E30049C630 /* Default-Portrait.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -928,6 +949,9 @@
 				F4ADD850115E573C0095F061 /* warning.png in Resources */,
 				F4ADD851115E573C0095F061 /* yes.png in Resources */,
 				F4ADD910115E692D0095F061 /* empty.png in Resources */,
+				F4F0DD6C117A5C120043C377 /* RefreshAll.png in Resources */,
+				F4C40001117A62E30049C630 /* Default-Landscape.png in Resources */,
+				F4C40002117A62E30049C630 /* Default-Portrait.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -940,7 +964,6 @@
 				F47DC7EC1111004C00E8DD8B /* icon.png in Resources */,
 				F47DC7ED1111004C00E8DD8B /* Settings.bundle in Resources */,
 				F47DC7EE1111004C00E8DD8B /* dist.plist in Resources */,
-				F47DC7EF1111004C00E8DD8B /* Default.png in Resources */,
 				F47DC7F01111004C00E8DD8B /* info.png in Resources */,
 				F47DC7F11111004C00E8DD8B /* 2lines.png in Resources */,
 				F47DC7F21111004C00E8DD8B /* 4lines.png in Resources */,
@@ -998,6 +1021,10 @@
 				F4ADD90E115E692D0095F061 /* empty.png in Resources */,
 				F4D6864B11675900001511F4 /* iPhoneMainWindow.xib in Resources */,
 				F4CB51391168A49B00CFCBBC /* large_icon.png in Resources */,
+				F4F0DD69117A5C120043C377 /* RefreshAll.png in Resources */,
+				F4C4FFFB117A62E30049C630 /* Default-Landscape.png in Resources */,
+				F4C4FFFC117A62E30049C630 /* Default-Portrait.png in Resources */,
+				F4C4000E117A63080049C630 /* Default.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1068,6 +1095,9 @@
 				F4ADD824115E573C0095F061 /* yes.png in Resources */,
 				F4ADD90F115E692D0095F061 /* empty.png in Resources */,
 				F4CB513A1168A49B00CFCBBC /* large_icon.png in Resources */,
+				F4F0DD6A117A5C120043C377 /* RefreshAll.png in Resources */,
+				F4C4FFFD117A62E30049C630 /* Default-Landscape.png in Resources */,
+				F4C4FFFE117A62E30049C630 /* Default-Portrait.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1260,7 +1290,7 @@
 				OTHER_LDFLAGS = "";
 				PREBINDING = NO;
 				PRODUCT_NAME = "CSV Lite";
-				SDKROOT = iphoneos2.1;
+				SDKROOT = iphoneos3.1.3;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
@@ -1308,6 +1338,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -1315,10 +1346,11 @@
 				GCC_PREFIX_HEADER = CSV_Touch_Prefix.pch;
 				INFOPLIST_FILE = "Info-iPad.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 2.1;
-				PRODUCT_NAME = "CSV Touch-iPad";
+				PRODUCT_NAME = "CSV Touch";
 				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos3.2;
-				TARGETED_DEVICE_FAMILY = 2;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -1333,12 +1365,12 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = CSV_Touch_Prefix.pch;
 				INFOPLIST_FILE = "Info-iPad.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 2.1;
-				PRODUCT_NAME = "CSV Touch-iPad";
+				IPHONEOS_DEPLOYMENT_TARGET = 3.1.3;
+				PRODUCT_NAME = "CSV Touch";
 				PROVISIONING_PROFILE = "0F08F786-84FC-4EE6-BF4A-126B7EE45245";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "0F08F786-84FC-4EE6-BF4A-126B7EE45245";
-				SDKROOT = iphoneos3.2;
-				TARGETED_DEVICE_FAMILY = 2;
+				SDKROOT = iphonesimulator3.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = AppStore;
 		};
@@ -1355,7 +1387,7 @@
 				GCC_PREFIX_HEADER = CSV_Touch_Prefix.pch;
 				INFOPLIST_FILE = "Info-iPad.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
-				PRODUCT_NAME = "CSV Touch-iPad";
+				PRODUCT_NAME = "CSV Touch";
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos3.2;
@@ -1381,10 +1413,10 @@
 				OTHER_CFLAGS = "-DCSV_LITE";
 				OTHER_LDFLAGS = "";
 				PREBINDING = NO;
-				PRODUCT_NAME = "CSV Lite-iPad";
+				PRODUCT_NAME = "CSV Lite";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos3.2;
-				TARGETED_DEVICE_FAMILY = 2;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -1398,14 +1430,15 @@
 				GCC_PREFIX_HEADER = CSV_Lite_Prefix.pch;
 				INFOPLIST_FILE = "CSV Lite-Info-iPad.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
+				IPHONEOS_DEPLOYMENT_TARGET = 3.1.3;
 				OTHER_CFLAGS = "-DCSV_LITE";
 				OTHER_LDFLAGS = "";
 				PREBINDING = NO;
-				PRODUCT_NAME = "CSV Lite-iPad";
+				PRODUCT_NAME = "CSV Lite";
 				PROVISIONING_PROFILE = "0F08F786-84FC-4EE6-BF4A-126B7EE45245";
 				SDKROOT = iphoneos3.2;
 				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = 2;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = AppStore;
 		};
@@ -1423,11 +1456,11 @@
 				OTHER_CFLAGS = "-DCSV_LITE";
 				OTHER_LDFLAGS = "";
 				PREBINDING = NO;
-				PRODUCT_NAME = "CSV Lite-iPad";
+				PRODUCT_NAME = "CSV Lite";
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos3.2;
-				TARGETED_DEVICE_FAMILY = 2;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Privatdistribution;
 		};
@@ -1436,16 +1469,16 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CODE_SIGN_ENTITLEMENTS = dist.plist;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Simon Wigzell";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Simon Wigzell";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "\"$SRCROOT\"/**";
 				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
 				PREBINDING = NO;
-				PROVISIONING_PROFILE = "1F125DA0-20B4-4DDA-99B9-7201C4547DE4";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "1F125DA0-20B4-4DDA-99B9-7201C4547DE4";
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos3.1.3;
 			};
 			name = Privatdistribution;
@@ -1473,7 +1506,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "CSV Touch" */ = {
+		1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "CSV Touch old" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1D6058940D05DD3E006BFB54 /* Debug */,
@@ -1493,7 +1526,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
 		};
-		F452CA910EB24A0E002F7697 /* Build configuration list for PBXNativeTarget "CSV Lite" */ = {
+		F452CA910EB24A0E002F7697 /* Build configuration list for PBXNativeTarget "CSV Lite old" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				F452CA8E0EB24A0E002F7697 /* Debug */,
@@ -1503,7 +1536,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
 		};
-		F47DC8081111004C00E8DD8B /* Build configuration list for PBXNativeTarget "CSV Touch-iPad" */ = {
+		F47DC8081111004C00E8DD8B /* Build configuration list for PBXNativeTarget "CSV Touch" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				F47DC8091111004C00E8DD8B /* Debug */,
@@ -1513,7 +1546,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
 		};
-		F47DC8351111005400E8DD8B /* Build configuration list for PBXNativeTarget "CSV Lite-iPad" */ = {
+		F47DC8351111005400E8DD8B /* Build configuration list for PBXNativeTarget "CSV Lite" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				F47DC8361111005400E8DD8B /* Debug */,

@@ -331,7 +331,26 @@
 	[s appendString:@"<STYLE type=\"text/css\">"];
 	[s appendString:cssString];
 	[s appendString:@"</STYLE>"];
-	if(htmlDetailsController.interfaceOrientation == UIInterfaceOrientationLandscapeLeft ||
+	
+	if( [[[UIDevice currentDevice] name] hasSubstring:@"iPad"] )
+	{
+		if(htmlDetailsController.interfaceOrientation == UIInterfaceOrientationLandscapeLeft ||
+		   htmlDetailsController.interfaceOrientation == UIInterfaceOrientationLandscapeRight)
+		{
+			[s replaceOccurrencesOfString:@"normal 36px verdana" 
+							   withString:@"normal 18px verdana" 
+								  options:0
+									range:NSMakeRange(0, [s length])];		
+		}
+		else 
+		{
+			[s replaceOccurrencesOfString:@"normal 36px verdana" 
+							   withString:@"normal 24px verdana" 
+								  options:0
+									range:NSMakeRange(0, [s length])];					
+		}
+	}
+	else if(htmlDetailsController.interfaceOrientation == UIInterfaceOrientationLandscapeLeft ||
 	   htmlDetailsController.interfaceOrientation == UIInterfaceOrientationLandscapeRight)
 	{
 		[s replaceOccurrencesOfString:@"normal 36px verdana" 
@@ -350,7 +369,7 @@
 	for( NSDictionary *d in columnsAndValues )
 	{
 		// Are we done already?
-		if(row == [[self importantColumnIndexes] count] &&
+		if(row > [[self importantColumnIndexes] count] &&
 		   !self.showDeletedColumns)
 			break;
 		
@@ -1297,24 +1316,43 @@ didSelectRowAtIndexPath:[fileController.tableView indexPathForSelectedRow]];
 		[self updateBadgeValueUsingItem:fileController.navigationItem push:YES];
 }
 
+- (NSUInteger) indexOfFilesToolbarItemWithSelector:(SEL)selector
+{
+	NSUInteger index = 0;
+	for( UIBarButtonItem *item in [self.filesToolbar items] )
+	{
+		if( item.action == selector )
+			return index;
+		index++;
+	}
+	
+	return NSNotFound;
+}
+
 - (IBAction) toggleRefreshFiles:(id)sender
 {
 	if( showingFileInfoInProgress || editFilesInProgress )
 		return;
 	
 	refreshingFilesInProgress = !refreshingFilesInProgress;
+	NSUInteger index = [self indexOfFilesToolbarItemWithSelector:@selector(toggleRefreshFiles:)];
+	
+	if( index == NSNotFound )
+		return;
+	
 	if( refreshingFilesInProgress )
 	{
 		fileController.removeDisclosure = YES;
 		NSMutableArray *items = [NSMutableArray arrayWithArray:[self.filesToolbar items]];
-		[items replaceObjectAtIndex:1 withObject:[self doneItemWithSelector:@selector(toggleRefreshFiles:)]];
+		[items replaceObjectAtIndex:index
+						 withObject:[self doneItemWithSelector:@selector(toggleRefreshFiles:)]];
 		self.filesToolbar.items = items;
 	}
 	else
 	{
 		fileController.removeDisclosure = NO;
 		NSMutableArray *items = [NSMutableArray arrayWithArray:[self.filesToolbar items]];
-		[items replaceObjectAtIndex:1 withObject:[self refreshFilesItem]];
+		[items replaceObjectAtIndex:index withObject:[self refreshFilesItem]];
 		self.filesToolbar.items = items;
 	}
 	[fileController dataLoaded];
@@ -1336,21 +1374,26 @@ didSelectRowAtIndexPath:[fileController.tableView indexPathForSelectedRow]];
 		return;
 	
 	showingFileInfoInProgress = !showingFileInfoInProgress;
+	NSUInteger index = [self indexOfFilesToolbarItemWithSelector:@selector(toggleShowFileInfo:)];
+
+	if( index == NSNotFound )
+		return;
+
 	if( showingFileInfoInProgress )
 	{
 		fileController.removeDisclosure = YES;
 		NSMutableArray *items = [NSMutableArray arrayWithArray:[self.filesToolbar items]];
-		[items replaceObjectAtIndex:2 withObject:[self doneItemWithSelector:@selector(toggleShowFileInfo:)]];
+		[items replaceObjectAtIndex:index withObject:[self doneItemWithSelector:@selector(toggleShowFileInfo:)]];
 		self.filesToolbar.items = items;
 		if( [fileController.tableView indexPathForSelectedRow] != nil )
-			[self tableView:fileController.tableView
-	didSelectRowAtIndexPath:[fileController.tableView indexPathForSelectedRow]];
+			[self tableView:fileController.tableView didSelectRowAtIndexPath:
+			 [fileController.tableView indexPathForSelectedRow]];
 	}
 	else
 	{
 		fileController.removeDisclosure = NO;
 		NSMutableArray *items = [NSMutableArray arrayWithArray:[self.filesToolbar items]];
-		[items replaceObjectAtIndex:2 withObject:[self showFileInfoItem]];
+		[items replaceObjectAtIndex:index withObject:[self showFileInfoItem]];
 		self.filesToolbar.items = items;
 	}
 	[fileController dataLoaded];
