@@ -128,6 +128,18 @@
 		F47DC8321111005400E8DD8B /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D3623EB0D0F72F000981E51 /* CoreGraphics.framework */; };
 		F47DC8331111005400E8DD8B /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
 		F47DC8341111005400E8DD8B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
+		F48584F811EE4F34001CFC28 /* dvd.png in Resources */ = {isa = PBXBuildFile; fileRef = F48584F511EE4F34001CFC28 /* dvd.png */; };
+		F48584F911EE4F34001CFC28 /* hd.png in Resources */ = {isa = PBXBuildFile; fileRef = F48584F611EE4F34001CFC28 /* hd.png */; };
+		F48584FA11EE4F34001CFC28 /* qt.png in Resources */ = {isa = PBXBuildFile; fileRef = F48584F711EE4F34001CFC28 /* qt.png */; };
+		F48584FB11EE4F34001CFC28 /* dvd.png in Resources */ = {isa = PBXBuildFile; fileRef = F48584F511EE4F34001CFC28 /* dvd.png */; };
+		F48584FC11EE4F34001CFC28 /* hd.png in Resources */ = {isa = PBXBuildFile; fileRef = F48584F611EE4F34001CFC28 /* hd.png */; };
+		F48584FD11EE4F34001CFC28 /* qt.png in Resources */ = {isa = PBXBuildFile; fileRef = F48584F711EE4F34001CFC28 /* qt.png */; };
+		F48584FE11EE4F34001CFC28 /* dvd.png in Resources */ = {isa = PBXBuildFile; fileRef = F48584F511EE4F34001CFC28 /* dvd.png */; };
+		F48584FF11EE4F34001CFC28 /* hd.png in Resources */ = {isa = PBXBuildFile; fileRef = F48584F611EE4F34001CFC28 /* hd.png */; };
+		F485850011EE4F34001CFC28 /* qt.png in Resources */ = {isa = PBXBuildFile; fileRef = F48584F711EE4F34001CFC28 /* qt.png */; };
+		F485850111EE4F34001CFC28 /* dvd.png in Resources */ = {isa = PBXBuildFile; fileRef = F48584F511EE4F34001CFC28 /* dvd.png */; };
+		F485850211EE4F34001CFC28 /* hd.png in Resources */ = {isa = PBXBuildFile; fileRef = F48584F611EE4F34001CFC28 /* hd.png */; };
+		F485850311EE4F34001CFC28 /* qt.png in Resources */ = {isa = PBXBuildFile; fileRef = F48584F711EE4F34001CFC28 /* qt.png */; };
 		F48836580DF53E2C0063EF75 /* CSVFileParser.m in Sources */ = {isa = PBXBuildFile; fileRef = F48836570DF53E2C0063EF75 /* CSVFileParser.m */; };
 		F488D83E1146606300583920 /* bluedream.css in Resources */ = {isa = PBXBuildFile; fileRef = F488D83D1146606300583920 /* bluedream.css */; };
 		F488D83F1146606300583920 /* bluedream.css in Resources */ = {isa = PBXBuildFile; fileRef = F488D83D1146606300583920 /* bluedream.css */; };
@@ -390,6 +402,9 @@
 		F47DC80D1111004C00E8DD8B /* CSV Touch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "CSV Touch.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F47DC8101111004D00E8DD8B /* iPadMainWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = iPadMainWindow.xib; path = "Resources-iPad/iPadMainWindow.xib"; sourceTree = "<group>"; };
 		F47DC83A1111005400E8DD8B /* CSV Lite.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "CSV Lite.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		F48584F511EE4F34001CFC28 /* dvd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dvd.png; sourceTree = "<group>"; };
+		F48584F611EE4F34001CFC28 /* hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hd.png; sourceTree = "<group>"; };
+		F48584F711EE4F34001CFC28 /* qt.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = qt.png; sourceTree = "<group>"; };
 		F48836560DF53E2C0063EF75 /* CSVFileParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSVFileParser.h; sourceTree = "<group>"; };
 		F48836570DF53E2C0063EF75 /* CSVFileParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSVFileParser.m; sourceTree = "<group>"; };
 		F488D83D1146606300583920 /* bluedream.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = bluedream.css; sourceTree = "<group>"; };
@@ -663,6 +678,9 @@
 		F4ADD79D115E57110095F061 /* Item icons */ = {
 			isa = PBXGroup;
 			children = (
+				F48584F511EE4F34001CFC28 /* dvd.png */,
+				F48584F611EE4F34001CFC28 /* hd.png */,
+				F48584F711EE4F34001CFC28 /* qt.png */,
 				F4ADD90D115E692D0095F061 /* empty.png */,
 				F4ADD79E115E573B0095F061 /* alert.png */,
 				F4ADD79F115E573B0095F061 /* ball_blue.png */,
@@ -880,6 +898,9 @@
 				F4F0DD6B117A5C120043C377 /* RefreshAll.png in Resources */,
 				F4C4FFFF117A62E30049C630 /* Default-Landscape.png in Resources */,
 				F4C40000117A62E30049C630 /* Default-Portrait.png in Resources */,
+				F48584FE11EE4F34001CFC28 /* dvd.png in Resources */,
+				F48584FF11EE4F34001CFC28 /* hd.png in Resources */,
+				F485850011EE4F34001CFC28 /* qt.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -952,6 +973,9 @@
 				F4F0DD6C117A5C120043C377 /* RefreshAll.png in Resources */,
 				F4C40001117A62E30049C630 /* Default-Landscape.png in Resources */,
 				F4C40002117A62E30049C630 /* Default-Portrait.png in Resources */,
+				F485850111EE4F34001CFC28 /* dvd.png in Resources */,
+				F485850211EE4F34001CFC28 /* hd.png in Resources */,
+				F485850311EE4F34001CFC28 /* qt.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1025,6 +1049,9 @@
 				F4C4FFFB117A62E30049C630 /* Default-Landscape.png in Resources */,
 				F4C4FFFC117A62E30049C630 /* Default-Portrait.png in Resources */,
 				F4C4000E117A63080049C630 /* Default.png in Resources */,
+				F48584F811EE4F34001CFC28 /* dvd.png in Resources */,
+				F48584F911EE4F34001CFC28 /* hd.png in Resources */,
+				F48584FA11EE4F34001CFC28 /* qt.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1098,6 +1125,9 @@
 				F4F0DD6A117A5C120043C377 /* RefreshAll.png in Resources */,
 				F4C4FFFD117A62E30049C630 /* Default-Landscape.png in Resources */,
 				F4C4FFFE117A62E30049C630 /* Default-Portrait.png in Resources */,
+				F48584FB11EE4F34001CFC28 /* dvd.png in Resources */,
+				F48584FC11EE4F34001CFC28 /* hd.png in Resources */,
+				F48584FD11EE4F34001CFC28 /* qt.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1337,6 +1367,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
@@ -1345,11 +1376,12 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = CSV_Touch_Prefix.pch;
 				INFOPLIST_FILE = "Info-iPad.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 2.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 3.1.3;
+				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "CSV Touch";
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
-				SDKROOT = iphoneos3.2;
+				SDKROOT = iphoneos4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -1358,7 +1390,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_UNIVERSAL_IPHONE_OS)";
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Simon Wigzell";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Simon Wigzell";
 				COPY_PHASE_STRIP = YES;
@@ -1369,8 +1401,9 @@
 				PRODUCT_NAME = "CSV Touch";
 				PROVISIONING_PROFILE = "0F08F786-84FC-4EE6-BF4A-126B7EE45245";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "0F08F786-84FC-4EE6-BF4A-126B7EE45245";
-				SDKROOT = iphonesimulator3.2;
+				SDKROOT = iphoneos4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
 			};
 			name = AppStore;
 		};
@@ -1378,7 +1411,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_UNIVERSAL_IPHONE_OS)";
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CODE_SIGN_ENTITLEMENTS = dist.plist;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
@@ -1386,11 +1419,12 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = CSV_Touch_Prefix.pch;
 				INFOPLIST_FILE = "Info-iPad.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 3.1.3;
+				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "CSV Touch";
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
-				SDKROOT = iphoneos3.2;
+				SDKROOT = iphoneos4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 				VALID_ARCHS = "armv6 armv7";
@@ -1401,6 +1435,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
@@ -1410,12 +1445,13 @@
 				GCC_PREFIX_HEADER = CSV_Lite_Prefix.pch;
 				INFOPLIST_FILE = "CSV Lite-Info-iPad.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
+				IPHONEOS_DEPLOYMENT_TARGET = 3.1.3;
 				OTHER_CFLAGS = "-DCSV_LITE";
 				OTHER_LDFLAGS = "";
 				PREBINDING = NO;
 				PRODUCT_NAME = "CSV Lite";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
-				SDKROOT = iphoneos3.2;
+				SDKROOT = iphoneos4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -1424,8 +1460,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_UNIVERSAL_IPHONE_OS)";
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Simon Wigzell";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Simon Wigzell";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = CSV_Lite_Prefix.pch;
 				INFOPLIST_FILE = "CSV Lite-Info-iPad.plist";
@@ -1436,9 +1473,11 @@
 				PREBINDING = NO;
 				PRODUCT_NAME = "CSV Lite";
 				PROVISIONING_PROFILE = "0F08F786-84FC-4EE6-BF4A-126B7EE45245";
-				SDKROOT = iphoneos3.2;
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "0F08F786-84FC-4EE6-BF4A-126B7EE45245";
+				SDKROOT = iphoneos4.0;
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
 			};
 			name = AppStore;
 		};
@@ -1446,20 +1485,21 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_UNIVERSAL_IPHONE_OS)";
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = CSV_Lite_Prefix.pch;
 				INFOPLIST_FILE = "CSV Lite-Info-iPad.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
+				IPHONEOS_DEPLOYMENT_TARGET = 3.1.3;
 				OTHER_CFLAGS = "-DCSV_LITE";
 				OTHER_LDFLAGS = "";
 				PREBINDING = NO;
 				PRODUCT_NAME = "CSV Lite";
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
-				SDKROOT = iphoneos3.2;
+				SDKROOT = iphoneos4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Privatdistribution;

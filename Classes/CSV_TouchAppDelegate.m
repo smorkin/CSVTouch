@@ -19,6 +19,7 @@
 
 #define SELECTED_TAB_BAR_INDEX @"selectedTabBarIndex"
 #define FILE_PASSWORD @"filePassword"
+#define MANUALLY_ADDED_URL_VALUE @""
 
 @implementation CSV_TouchAppDelegate
 
@@ -125,13 +126,35 @@ static NSString *newPassword = nil;
 	return sharedInstance;
 }
 
-+ (NSString *) documentsPath
++ (NSString *) manuallyAddedDocumentsPath
 {
 	NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
 	return [paths objectAtIndex:0];
 }
 
-#define RAW_CSV_FILES_FOLDER @"My Files"
+#define IMPORTED_CSV_FILES_FOLDER @"Imported files"
+
++ (NSString *) importedDocumentsPath
+{
+	NSString *path = [[self manuallyAddedDocumentsPath] stringByAppendingPathComponent:IMPORTED_CSV_FILES_FOLDER];
+	BOOL isDirectory;
+	if(![[NSFileManager defaultManager] fileExistsAtPath:path isDirectory:&isDirectory])
+	{
+		[[NSFileManager defaultManager] createDirectoryAtPath:path
+								  withIntermediateDirectories:NO
+												   attributes:nil
+														error:NULL];
+	}
+	return path;
+}
+
+#define OTHER_APPS_IMPORTED_CSV_FILES_FOLDER @"Inbox"
+
++ (NSString *) otherAppsImportedDocumentsPath
+{
+	return [[self manuallyAddedDocumentsPath] stringByAppendingPathComponent:OTHER_APPS_IMPORTED_CSV_FILES_FOLDER];
+}
+
 
 - (void) readRawFileData:(NSData *)data
 				fileName:(NSString *)fileName
@@ -148,7 +171,7 @@ static NSString *newPassword = nil;
 											  otherButtonTitles:nil];
 		[alert show];
 	}
-	else if( self.httpStatusCode >= 400 )
+	else if( self.httpStatusCode >= 400&& !isLocalDownload )
 	{
 		// Only show alert if we are not downloading multiple files
 		if( [self.URLsToDownload count] == 0 )
@@ -164,7 +187,7 @@ static NSString *newPassword = nil;
 	else
 	{
 		CSVFileParser *fp = [[CSVFileParser alloc] initWithRawData:data];
-		fp.filePath = [[CSV_TouchAppDelegate documentsPath] stringByAppendingPathComponent:fileName];
+		fp.filePath = [[CSV_TouchAppDelegate importedDocumentsPath] stringByAppendingPathComponent:fileName];
 		fp.filePath = [NSString stringWithFormat:@"%@.csvtouch", fp.filePath];
 		if( !isLocalDownload )
 		{
@@ -172,7 +195,7 @@ static NSString *newPassword = nil;
 		}
 		else
 		{
-			fp.URL = @"";
+			fp.URL = MANUALLY_ADDED_URL_VALUE;
 		}
 		fp.downloadDate = [NSDate date];
 		[fp saveToFile];
@@ -183,75 +206,85 @@ static NSString *newPassword = nil;
 
 - (void) loadLocalFiles
 {
-	NSMutableArray *files = [NSMutableArray array];
-	NSString *documentsPath = [CSV_TouchAppDelegate documentsPath];
-	if( documentsPath )
+	NSString *importedDocumentsPath = [CSV_TouchAppDelegate importedDocumentsPath];
+	NSString *manuallyAddedDocumentsPath = [CSV_TouchAppDelegate manuallyAddedDocumentsPath];
+	NSString *otherAppsImportedDocumentsPath = [CSV_TouchAppDelegate otherAppsImportedDocumentsPath];
+	
+	NSArray *documents;
+	
+	// Upgrading to new version where imported files are stored in a special directory, i.e.
+	// move all old files into the imported directory
+	documents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:manuallyAddedDocumentsPath
+																	error:NULL];
+	BOOL failure = FALSE;
+	for( NSString *fileName in documents )
 	{
-		NSArray *documents;
-		
-		// Upgrading to new version using .csvtouch as extension (iPad preparation)
-		documents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:documentsPath
-																		error:NULL];
-		if( ![CSVPreferencesController hasBeenUpgradedToCustomExtension] )
+		if(![fileName hasPrefix:@"."] &&
+		   [fileName hasSuffix:@".csvtouch"])
 		{
-			BOOL failure = FALSE;
-			for( NSString *fileName in documents )
-			{
-				if( ![fileName isEqualToString:RAW_CSV_FILES_FOLDER] &&
-				   ![fileName hasPrefix:@"."] &&
-				   ![fileName hasSuffix:@".csvtouch"])
-				{
-					if( [[NSFileManager defaultManager] moveItemAtPath:[documentsPath stringByAppendingPathComponent:fileName]
-																toPath:[[documentsPath stringByAppendingPathComponent:fileName] stringByAppendingString:@".csvtouch"]
-																 error:NULL] == FALSE )
-						failure = TRUE;
-				}
-			}
-			if( failure )
-			{
-				UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Upgrade failed"
-																 message:@"Can't rename files when upgrading!" 
-																delegate:self
-													   cancelButtonTitle:@"Quit"
-													   otherButtonTitles:nil] autorelease];
-				alert.tag = UPGRADE_FAILED;
-				[alert show];
-				return;
-			}
-			else
-			{
-				[CSVPreferencesController setHasBeenUpgradedToCustomExtension];
-			}
-
+			if( [[NSFileManager defaultManager] moveItemAtPath:[manuallyAddedDocumentsPath stringByAppendingPathComponent:fileName]
+														toPath:[importedDocumentsPath stringByAppendingPathComponent:fileName]
+														 error:NULL] == FALSE )
+				failure = TRUE;
 		}
-		
-		// First import all the potentially manually added files
-		NSString *rawDocumentsPath = [documentsPath stringByAppendingPathComponent:RAW_CSV_FILES_FOLDER];
-		documents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:rawDocumentsPath
-																		error:NULL];
-		for( NSString *fileName in documents )
+	}
+	if( failure )
+	{
+		UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Upgrade failed"
+														 message:@"Couldn't move files when upgrading! Please reinstall application and try again." 
+														delegate:self
+											   cancelButtonTitle:@"Quit"
+											   otherButtonTitles:nil] autorelease];
+		alert.tag = UPGRADE_FAILED;
+		[alert show];
+		return;
+	}		
+	
+	// First load all old files
+	NSMutableArray *files = [NSMutableArray array];
+	documents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:importedDocumentsPath
+																	error:NULL];
+	for( NSString *fileName in documents )
+	{
+		if(![fileName hasPrefix:@"."] &&
+		   [fileName hasSuffix:@".csvtouch"])
 		{
-			if( ![fileName hasPrefix:@"."] )
-				[self readRawFileData:[NSData dataWithContentsOfFile:[rawDocumentsPath stringByAppendingPathComponent:fileName]]
-							 fileName:fileName
-					  isLocalDownload:YES];
-			//			[[NSFileManager defaultManager] removeItemAtPath:[rawDocumentsPath stringByAppendingPathComponent:fileName] error:NULL];
-		}
-		
-		// Then read all the files
-		documents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:documentsPath
-																		error:NULL];
-		for( NSString *fileName in documents )
-		{
-			if( ![fileName isEqualToString:RAW_CSV_FILES_FOLDER] &&
-			   ![fileName hasPrefix:@"."])
-			{
-				CSVFileParser *fp = [CSVFileParser parserWithFile:[documentsPath stringByAppendingPathComponent:fileName]];
-				[files addObject:fp];
-			}
+			CSVFileParser *fp = [CSVFileParser parserWithFile:[importedDocumentsPath stringByAppendingPathComponent:fileName]];
+			[files addObject:fp];
 		}
 	}
 	[[self dataController] setFiles:files];
+	
+	// Then import all the potentially manually added files, beginning with iTunes ones
+	documents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:manuallyAddedDocumentsPath
+																	error:NULL];
+	for( NSString *fileName in documents )
+	{
+		if(![fileName hasPrefix:@"."] &&
+		   ![fileName isEqualToString:IMPORTED_CSV_FILES_FOLDER] &&
+		   ![fileName isEqualToString:OTHER_APPS_IMPORTED_CSV_FILES_FOLDER])
+		{
+			[self readRawFileData:[NSData dataWithContentsOfFile:[manuallyAddedDocumentsPath stringByAppendingPathComponent:fileName]]
+						 fileName:fileName
+				  isLocalDownload:YES];
+			[[NSFileManager defaultManager] removeItemAtPath:[manuallyAddedDocumentsPath stringByAppendingPathComponent:fileName] error:NULL];
+		}
+	}
+	// And from other apps (i.e. those that have been "moved" to the Inbox directory,
+	// awaiting import
+	documents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:otherAppsImportedDocumentsPath
+																	error:NULL];
+	for( NSString *fileName in documents )
+	{
+		if(![fileName hasPrefix:@"."])
+		{
+			[self readRawFileData:[NSData dataWithContentsOfFile:[otherAppsImportedDocumentsPath stringByAppendingPathComponent:fileName]]
+						 fileName:fileName
+				  isLocalDownload:YES];
+			[[NSFileManager defaultManager] removeItemAtPath:[otherAppsImportedDocumentsPath stringByAppendingPathComponent:fileName] error:NULL];
+		}
+	}
+	
 }
 
 - (id)init
@@ -301,16 +334,6 @@ static NSString *newPassword = nil;
 	{
 		[self downloadNewFile:self];
 	}
-	else if( ![[NSUserDefaults standardUserDefaults] boolForKey:@"hasShown2.0Info"] )
-	{
-		UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Version 2.0"
-														 message:@"Lots of things have changed in version 2.0. All major settings have been migrated from earlier version, but a few minor ones can't be migrated. Please check CSV Touch settings if something seems strange to you (description for all settings can be found at http://www.ozymandias.se).\nAll feedback is appreciated. Many of the changes are to ensure new features can be added in the future in a good way. Other changes are to make things easier to work with, e.g. searching for items." 
-														delegate:self
-											   cancelButtonTitle:@"OK"
-											   otherButtonTitles:nil] autorelease];
-		[alert show];		
-	}
-	[[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"hasShown2.0Info"];
 }
 
 - (void) awakeFromNib
@@ -321,7 +344,10 @@ static NSString *newPassword = nil;
 		[[NSBundle mainBundle] loadNibNamed:@"iPhoneMainWindow" owner:self options:nil];
 }
 
-- (void)applicationDidFinishLaunching:(UIApplication *)application
+//UIApplicationLaunchOptionsURLKey
+
+- (BOOL)application:(UIApplication *)application
+didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {	
 	[[UIApplication sharedApplication] setStatusBarHidden:![CSVPreferencesController showStatusBar] animated:YES];
 	startupController.view.frame = [[UIScreen mainScreen] applicationFrame];
@@ -329,7 +355,7 @@ static NSString *newPassword = nil;
 	[startupActivityView startAnimating];
 	
 	// Only show startup activity view if there are files cached
-	NSString *documentsPath = [CSV_TouchAppDelegate documentsPath];
+	NSString *documentsPath = [CSV_TouchAppDelegate importedDocumentsPath];
 	if( documentsPath && [[[NSFileManager defaultManager] contentsOfDirectoryAtPath:documentsPath
 																			  error:NULL] count] > 0 )
 	{
@@ -347,6 +373,7 @@ static NSString *newPassword = nil;
 	{
 		[self performSelector:@selector(delayedStartup) withObject:nil afterDelay:0];
 	}
+	return NO;
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application 
@@ -376,7 +403,7 @@ static NSString *newPassword = nil;
 	{
 		// Have to check if the file is a "local" one, i.e. without URL
 		NSString *URL = [self.URLsToDownload objectAtIndex:0];
-		if( [URL isEqualToString:@""] )
+		if( [URL isEqualToString:MANUALLY_ADDED_URL_VALUE] )
 		{
 			[self.URLsToDownload removeObjectAtIndex:0];
 			[self downloadDone];
@@ -399,7 +426,7 @@ static NSString *newPassword = nil;
 	
 	if( self.readingFileList )
 		self.readingFileList = FALSE;
-
+	
 	if( [self.URLsToDownload count] > 0 )
 	{
 		alertTitle = @"Download failure; no more files will be downloaded";
@@ -419,7 +446,7 @@ static NSString *newPassword = nil;
 
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)newData
 {
-    [rawData appendData:newData];
+	[rawData appendData:newData];
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
@@ -500,8 +527,12 @@ static NSString *newPassword = nil;
 		[dateFormatter setDateStyle:NSDateFormatterShortStyle];
 		[dateFormatter setTimeStyle:NSDateFormatterShortStyle];
 		[s appendFormat:@"Size: %.2f KB\n\n", ((double)[[fileAttributes objectForKey:NSFileSize] longLongValue]) / 1024.0];
-		[s appendFormat:@"Downloaded: %@\n\n", 
-		 (fp.downloadDate ? [dateFormatter stringFromDate:fp.downloadDate] : @"Available after next download")];
+		if( [fp URL] && [[fp URL] isEqualToString:MANUALLY_ADDED_URL_VALUE] )
+			[s appendFormat:@"Imported: %@\n\n", 
+			 (fp.downloadDate ? [dateFormatter stringFromDate:fp.downloadDate] : @"n/a")];
+		else
+			[s appendFormat:@"Downloaded: %@\n\n", 
+			 (fp.downloadDate ? [dateFormatter stringFromDate:fp.downloadDate] : @"Available after next download")];
 		[s appendFormat:@"File: %@\n\n", fp.filePath];
 		fileInfo.text = s;
 	}
@@ -520,10 +551,10 @@ static NSString *newPassword = nil;
 	rawData = [[NSMutableData alloc] init];
 	self.httpStatusCode = 0;
 	NSURLRequest *theRequest=[NSURLRequest requestWithURL:url
-                                              cachePolicy:NSURLRequestReloadIgnoringLocalCacheData
-                                          timeoutInterval:300.0];
-    connection = [[NSURLConnection alloc] initWithRequest:theRequest delegate:self];
-    if (!connection)
+											  cachePolicy:NSURLRequestReloadIgnoringLocalCacheData
+										  timeoutInterval:300.0];
+	connection = [[NSURLConnection alloc] initWithRequest:theRequest delegate:self];
+	if (!connection)
 	{
 		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Download Failure"
 														message:@"Couldn't open connection"
@@ -552,7 +583,10 @@ static NSString *newPassword = nil;
 {
 	[self.URLsToDownload removeAllObjects];
 	for( CSVFileParser *fp in [[CSVDataViewController sharedInstance] files] )
-		[self.URLsToDownload addObject:[fp URL]];
+	{
+		if( [fp URL] && ![[fp URL] isEqualToString:MANUALLY_ADDED_URL_VALUE] )
+			[self.URLsToDownload addObject:[fp URL]];
+	}
 	if( [self.URLsToDownload count] > 0 )
 	{
 		NSString *URL = [self.URLsToDownload objectAtIndex:0];
@@ -587,7 +621,7 @@ static NSString *newPassword = nil;
 
 - (void) downloadFileWithString:(NSString *)URL
 {
-	if( !URL )
+	if( !URL || [URL isEqualToString:MANUALLY_ADDED_URL_VALUE] )
 		return;
 	
 	[self slowActivityStarted];
@@ -621,6 +655,17 @@ static NSString *newPassword = nil;
 				   afterDelay:0];
 		return YES;
 	}
+	else if( [url isFileURL] )
+	{		
+		// First "download" the file
+		[self readRawFileData:[NSData dataWithContentsOfFile:[url path]]
+					 fileName:[[url path] lastPathComponent]
+			  isLocalDownload:YES];
+		[[NSFileManager defaultManager] removeItemAtPath:[url path] error:NULL];
+		
+		return YES;
+	}
+	
 	return NO;
 }
 
