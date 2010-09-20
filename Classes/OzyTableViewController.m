@@ -62,22 +62,28 @@
 	[_sectionStarts addObjectsFromArray:starts];
 }
 
-- (void) refreshIndexes
-{
-	if( self.useIndexes )
-	{
-		if( !_sectionIndexes )
-			_sectionIndexes = [[NSMutableArray alloc] init];
-		else
-			[_sectionIndexes removeAllObjects];
-		if( !_sectionStarts )
-			_sectionStarts = [[NSMutableArray alloc] init];
-		else
-			[_sectionStarts removeAllObjects];
 
+- (void) resetIndexes
+{ // TODO: gör om till egen datastruktur lgi
+	if( !_sectionIndexes )
+		_sectionIndexes = [[NSMutableArray alloc] init];
+	else
+		[_sectionIndexes removeAllObjects];
+	if( !_sectionStarts )
+		_sectionStarts = [[NSMutableArray alloc] init];
+	else
+		[_sectionStarts removeAllObjects];
+}
+
+- (void) refreshIndexes
+// varning: enbart side-effects
+{
+	if( self.useIndexes ) // TODO: gör guard clause här
+	{
+		[self resetIndexes];
 		[_sectionStarts addObject:[NSNumber numberWithInt:0]];
 		[_sectionIndexes addObject:UITableViewIndexSearch];
-			
+		
 		NSUInteger objectCount = [self.objects count];
 		NSString *latestFirstLetter = nil;
 		NSString *currentFirstLetter;
@@ -108,11 +114,11 @@
 				latestFirstLetter = currentFirstLetter;
 			}
 		}
-//		if( [_sectionIndexes count] > 75 )
-//		{
-//			[_sectionStarts removeAllObjects];
-//			[_sectionIndexes removeAllObjects];
-//		}
+		//		if( [_sectionIndexes count] > 75 )
+		//		{
+		//			[_sectionStarts removeAllObjects];
+		//			[_sectionIndexes removeAllObjects];
+		//		}
 	}
 	else
 	{
@@ -121,7 +127,7 @@
 		if( _sectionStarts )
 			[_sectionStarts removeAllObjects];
 	}
-
+	
 }
 
 - (void) setObjects:(NSMutableArray *)objects
@@ -136,7 +142,7 @@
 
 - (void) setSize:(OzyTableViewSize)size
 {
-//	if( size != self.size )
+	//	if( size != self.size )
 	{
 		_size = size;
 		switch (size )
@@ -288,10 +294,22 @@
 	}	
 }
 
-- (NSInteger)tableView:(UITableView *)tableView sectionForSectionIndexTitle:(NSString *)title atIndex:(NSInteger)index
+- (NSInteger)tableView:(UITableView *)tableView
+sectionForSectionIndexTitle:(NSString *)title
+			   atIndex:(NSInteger)index
 {
 	if( [_sectionIndexes count] > 0 )
 	{
+		if (index == 0)
+		{
+			if( [[tableView tableHeaderView] isKindOfClass:[UISearchBar class]] )
+			{
+				[tableView scrollRectToVisible:[[tableView tableHeaderView] bounds] animated:NO];
+				UISearchBar *searchBar = (UISearchBar *)[tableView tableHeaderView];
+				[searchBar becomeFirstResponder];
+				return -1;
+			}
+		}
 		return [_sectionIndexes indexOfObject:title];
 	}
 	else
@@ -336,7 +354,7 @@
 		[cell.textLabel setFont:[UIFont fontWithName:@"Courier-Bold" size:fontSize]];
 	else 
 		[cell.textLabel setFont:[[cell.textLabel font] fontWithSize:fontSize]];
-
+	
 	return cell;
 }
 
@@ -415,7 +433,7 @@
 	[_sectionStarts release];
 	[_sectionIndexes release];
 	[_sectionTitles release];
-//	[_imageName release];
+	//	[_imageName release];
 	[super dealloc];
 }
 
@@ -428,7 +446,7 @@
 {
 	if( [[[UIApplication sharedApplication] delegate] respondsToSelector:@selector(allowRotation)] )
 		return [(id <OzymandiasApplicationDelegate>)[[UIApplication sharedApplication] delegate] allowRotation];
-
+	
 	return YES;
 }
 

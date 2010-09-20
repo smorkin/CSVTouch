@@ -191,7 +191,9 @@ static NSString *newPassword = nil;
 		fp.filePath = [NSString stringWithFormat:@"%@.csvtouch", fp.filePath];
 		if( !isLocalDownload )
 		{
-			fp.URL = [newFileURL text]; 
+			fp.URL = [newFileURL text];
+			if( [CSVPreferencesController hideAddress] )
+				fp.hideAddress = TRUE;
 		}
 		else
 		{
@@ -414,6 +416,8 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 	}
 	else 
 	{
+		[CSVPreferencesController setHideAddress:NO]; // In case we had temporarily set this from
+													  // a URL list file with preference settings
 		[newFileURL resignFirstResponder];
 		self.fileInspected = nil;
 		[[self dataController] dismissModalViewControllerAnimated:YES];
@@ -540,7 +544,10 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 	{
 		fileInfo.text = [error localizedDescription];
 	}
-	newFileURL.text = fp.URL;
+	if( fp.hideAddress )
+		newFileURL.text = @"<address hidden>";
+	else 
+		newFileURL.text = fp.URL;
 	[[self dataController] presentModalViewController:fileViewController animated:YES];
 }
 

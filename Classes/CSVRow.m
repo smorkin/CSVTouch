@@ -52,6 +52,33 @@
 		return @selector(compareShort:);
 }
 
+static NSMutableArray *formatsStrings = nil;
+
++ (NSString *) wordSeparator
+{
+	return ([CSVPreferencesController useFixedWidth] ? @" " : @"‧");
+}
+
++ (void) initialize
+{
+	if( formatsStrings == nil )
+	{
+		NSString *separator = [CSVRow wordSeparator];
+		formatsStrings = [[NSMutableArray alloc] initWithCapacity:20];
+		for( NSInteger numberOfWords = 2 ; numberOfWords <= 20 ; numberOfWords++ )
+		{
+			NSMutableString *s = [NSMutableString string];
+			for( NSInteger i = 0 ; i < numberOfWords ; i++ )
+			{
+				[s appendString:@"%@"];
+				if( i < numberOfWords-1 )
+					[s appendString:separator];
+			}
+			[formatsStrings addObject:s];
+		}
+	}
+}
+
 
 + (NSString *) concatenateWords:(NSArray *)words
 				   usingIndexes:(int *)indexes
@@ -62,34 +89,48 @@
 	else if( indexCount > [words count] )
 		return nil;
 	
+//	if( indexCount  == 1 )
+//		return [words objectAtIndex:indexes[0]];
+//	else if( indexCount <= 19 )
+//		return [NSString stringWithFormat:formatsStrings[indexCount-2]];
+//	else
+//	{
+//		NSMutableString *s = [[[NSMutableString alloc] initWithCapacity:200] autorelease];
+//		for( NSUInteger i = 0 ; i < indexCount ; i++ )
+//			[s appendFormat:@"%@‧", [words objectAtIndex:indexes[i]]];
+//		return s;
+//	}
+	
+	
+		
 	switch(indexCount)
 	{
 		case 1:
 			return [words objectAtIndex:indexes[0]];
 		case 2:
-			return [NSString stringWithFormat:@"%@‧%@", 
+			return [NSString stringWithFormat:[formatsStrings objectAtIndex:indexCount-2], 
 					[words objectAtIndex:indexes[0]], 
 					[words objectAtIndex:indexes[1]]];
 		case 3:
-			return [NSString stringWithFormat:@"%@‧%@‧%@", 
+			return [NSString stringWithFormat:[formatsStrings objectAtIndex:indexCount-2], 
 					[words objectAtIndex:indexes[0]], 
 					[words objectAtIndex:indexes[1]], 
 					[words objectAtIndex:indexes[2]]];			
 		case 4:
-			return [NSString stringWithFormat:@"%@‧%@‧%@‧%@", 
+			return [NSString stringWithFormat:[formatsStrings objectAtIndex:indexCount-2], 
 					[words objectAtIndex:indexes[0]], 
 					[words objectAtIndex:indexes[1]], 
 					[words objectAtIndex:indexes[2]], 
 					[words objectAtIndex:indexes[3]]];			
 		case 5:
-			return [NSString stringWithFormat:@"%@‧%@‧%@‧%@‧%@", 
+			return [NSString stringWithFormat:[formatsStrings objectAtIndex:indexCount-2], 
 					[words objectAtIndex:indexes[0]], 
 					[words objectAtIndex:indexes[1]], 
 					[words objectAtIndex:indexes[2]], 
 					[words objectAtIndex:indexes[3]], 
 					[words objectAtIndex:indexes[4]]];			
 		case 6:
-			return [NSString stringWithFormat:@"%@‧%@‧%@‧%@‧%@‧%@", 
+			return [NSString stringWithFormat:[formatsStrings objectAtIndex:indexCount-2], 
 					[words objectAtIndex:indexes[0]], 
 					[words objectAtIndex:indexes[1]], 
 					[words objectAtIndex:indexes[2]], 
@@ -97,7 +138,7 @@
 					[words objectAtIndex:indexes[4]],			
 					[words objectAtIndex:indexes[5]]];			
 		case 7:
-			return [NSString stringWithFormat:@"%@‧%@‧%@‧%@‧%@‧%@‧%@", 
+			return [NSString stringWithFormat:[formatsStrings objectAtIndex:indexCount-2], 
 					[words objectAtIndex:indexes[0]], 
 					[words objectAtIndex:indexes[1]], 
 					[words objectAtIndex:indexes[2]], 
@@ -106,7 +147,7 @@
 					[words objectAtIndex:indexes[5]],			
 					[words objectAtIndex:indexes[6]]];	
 		case 8:
-			return [NSString stringWithFormat:@"%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@", 
+			return [NSString stringWithFormat:[formatsStrings objectAtIndex:indexCount-2], 
 					[words objectAtIndex:indexes[0]], 
 					[words objectAtIndex:indexes[1]], 
 					[words objectAtIndex:indexes[2]], 
@@ -116,7 +157,7 @@
 					[words objectAtIndex:indexes[6]],			
 					[words objectAtIndex:indexes[7]]];	
 		case 9:
-			return [NSString stringWithFormat:@"%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@", 
+			return [NSString stringWithFormat:[formatsStrings objectAtIndex:indexCount-2], 
 					[words objectAtIndex:indexes[0]], 
 					[words objectAtIndex:indexes[1]], 
 					[words objectAtIndex:indexes[2]], 
@@ -127,7 +168,7 @@
 					[words objectAtIndex:indexes[7]],			
 					[words objectAtIndex:indexes[8]]];	
 		case 10:
-			return [NSString stringWithFormat:@"%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@", 
+			return [NSString stringWithFormat:[formatsStrings objectAtIndex:indexCount-2], 
 					[words objectAtIndex:indexes[0]], 
 					[words objectAtIndex:indexes[1]], 
 					[words objectAtIndex:indexes[2]], 
@@ -139,7 +180,7 @@
 					[words objectAtIndex:indexes[8]],			
 					[words objectAtIndex:indexes[9]]];			
 		case 11:
-			return [NSString stringWithFormat:@"%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@", 
+			return [NSString stringWithFormat:[formatsStrings objectAtIndex:indexCount-2], 
 					[words objectAtIndex:indexes[0]], 
 					[words objectAtIndex:indexes[1]], 
 					[words objectAtIndex:indexes[2]], 
@@ -152,7 +193,7 @@
 					[words objectAtIndex:indexes[9]],
 					[words objectAtIndex:indexes[10]]];			
 		case 12:
-			return [NSString stringWithFormat:@"%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@", 
+			return [NSString stringWithFormat:[formatsStrings objectAtIndex:indexCount-2], 
 					[words objectAtIndex:indexes[0]], 
 					[words objectAtIndex:indexes[1]], 
 					[words objectAtIndex:indexes[2]], 
@@ -166,7 +207,7 @@
 					[words objectAtIndex:indexes[10]],			
 					[words objectAtIndex:indexes[11]]];			
 		case 13:
-			return [NSString stringWithFormat:@"%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@", 
+			return [NSString stringWithFormat:[formatsStrings objectAtIndex:indexCount-2], 
 					[words objectAtIndex:indexes[0]], 
 					[words objectAtIndex:indexes[1]], 
 					[words objectAtIndex:indexes[2]], 
@@ -181,7 +222,7 @@
 					[words objectAtIndex:indexes[11]],			
 					[words objectAtIndex:indexes[12]]];			
 		case 14:
-			return [NSString stringWithFormat:@"%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@", 
+			return [NSString stringWithFormat:[formatsStrings objectAtIndex:indexCount-2], 
 					[words objectAtIndex:indexes[0]], 
 					[words objectAtIndex:indexes[1]], 
 					[words objectAtIndex:indexes[2]], 
@@ -197,7 +238,7 @@
 					[words objectAtIndex:indexes[12]],			
 					[words objectAtIndex:indexes[13]]];			
 		case 15:
-			return [NSString stringWithFormat:@"%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@", 
+			return [NSString stringWithFormat:[formatsStrings objectAtIndex:indexCount-2], 
 					[words objectAtIndex:indexes[0]], 
 					[words objectAtIndex:indexes[1]], 
 					[words objectAtIndex:indexes[2]], 
@@ -214,7 +255,7 @@
 					[words objectAtIndex:indexes[13]],			
 					[words objectAtIndex:indexes[14]]];			
 		case 16:
-			return [NSString stringWithFormat:@"%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@", 
+			return [NSString stringWithFormat:[formatsStrings objectAtIndex:indexCount-2], 
 					[words objectAtIndex:indexes[0]], 
 					[words objectAtIndex:indexes[1]], 
 					[words objectAtIndex:indexes[2]], 
@@ -232,7 +273,7 @@
 					[words objectAtIndex:indexes[14]],			
 					[words objectAtIndex:indexes[15]]];			
 		case 17:
-			return [NSString stringWithFormat:@"%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@", 
+			return [NSString stringWithFormat:[formatsStrings objectAtIndex:indexCount-2], 
 					[words objectAtIndex:indexes[0]], 
 					[words objectAtIndex:indexes[1]], 
 					[words objectAtIndex:indexes[2]], 
@@ -251,7 +292,7 @@
 					[words objectAtIndex:indexes[15]],			
 					[words objectAtIndex:indexes[16]]];			
 		case 18:
-			return [NSString stringWithFormat:@"%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@", 
+			return [NSString stringWithFormat:[formatsStrings objectAtIndex:indexCount-2], 
 					[words objectAtIndex:indexes[0]], 
 					[words objectAtIndex:indexes[1]], 
 					[words objectAtIndex:indexes[2]], 
@@ -271,7 +312,7 @@
 					[words objectAtIndex:indexes[16]],			
 					[words objectAtIndex:indexes[17]]];			
 		case 19:
-			return [NSString stringWithFormat:@"%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@", 
+			return [NSString stringWithFormat:[formatsStrings objectAtIndex:indexCount-2], 
 					[words objectAtIndex:indexes[0]], 
 					[words objectAtIndex:indexes[1]], 
 					[words objectAtIndex:indexes[2]], 
@@ -292,7 +333,7 @@
 					[words objectAtIndex:indexes[17]],			
 					[words objectAtIndex:indexes[18]]];			
 		case 20:
-			return [NSString stringWithFormat:@"%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@‧%@", 
+			return [NSString stringWithFormat:[formatsStrings objectAtIndex:indexCount-2], 
 					[words objectAtIndex:indexes[0]], 
 					[words objectAtIndex:indexes[1]], 
 					[words objectAtIndex:indexes[2]], 
@@ -317,7 +358,8 @@
 		{
 			NSMutableString *s = [[[NSMutableString alloc] initWithCapacity:200] autorelease];
 			for( NSUInteger i = 0 ; i < indexCount ; i++ )
-				[s appendFormat:@"%@‧", [words objectAtIndex:indexes[i]]];
+				[s appendFormat:@"%@%@", [words objectAtIndex:indexes[i]],
+				 [CSVRow wordSeparator]];
 			return s;
 		}
 	}

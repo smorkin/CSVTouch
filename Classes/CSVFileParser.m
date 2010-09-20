@@ -17,6 +17,7 @@
 #define FILEPARSER_RAW_DATA @"rawData"
 #define FILEPARSER_URL @"URL"
 #define FILEPARSER_DOWNLOAD_DATE @"downloadDate"
+#define FILEPARSER_HIDE_ADDRESS @"hideAdress"
 
 #define ITEM_ICON_COLUMN_NAME @"CSV Touch icon"
 
@@ -34,12 +35,17 @@
 @synthesize droppedRows = _droppedRows;
 @synthesize hasBeenDownloaded = _hasBeenDownloaded;
 @synthesize iconIndex = _iconIndex;
+@synthesize hideAddress = _hideAddress;
 
 - (void) loadFile
 {
 	NSDictionary *d = [NSDictionary dictionaryWithContentsOfFile:self.filePath];
 	self.URL = [d objectForKey:FILEPARSER_URL];
 	self.downloadDate = [d objectForKey:FILEPARSER_DOWNLOAD_DATE];
+	if( [d objectForKey:FILEPARSER_HIDE_ADDRESS] )
+		self.hideAddress = [[d objectForKey:FILEPARSER_HIDE_ADDRESS] boolValue];
+	else
+		self.hideAddress = NO;
 	_rawData = [[d objectForKey:FILEPARSER_RAW_DATA] retain];
 	if( _rawData )
 		_rawString = [[NSString alloc] initWithData:_rawData 
@@ -421,6 +427,7 @@
 	NSDictionary *d = [NSDictionary dictionaryWithObjectsAndKeys:_rawData, FILEPARSER_RAW_DATA,
 					   self.URL, FILEPARSER_URL,
 					   self.downloadDate, FILEPARSER_DOWNLOAD_DATE,
+					   [NSNumber numberWithBool:self.hideAddress], FILEPARSER_HIDE_ADDRESS,
 					   nil];
 	[d writeToFile:self.filePath atomically:YES];
 }

@@ -44,6 +44,10 @@
 + (BOOL) usePassword;
 + (void) clearSetPassword;
 
+// This is temporary, while downloading a file with addresses to CSV files
++ (BOOL) hideAddress;
++ (void) setHideAddress:(BOOL)hide;
+
 + (BOOL) hasBeenUpgradedToCustomExtension;
 + (void) setHasBeenUpgradedToCustomExtension;
 

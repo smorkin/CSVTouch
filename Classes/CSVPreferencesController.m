@@ -48,7 +48,7 @@
 #define PREFS_ALIGN_HTML @"alignHtml"
 #define PREFS_USE_PASSWORD @"usePassword"
 #define PREFS_HAS_BEEN_UPGRADED_TO_CUSTOM_EXTENSION @"hasBeenUpgradedToCustomExtension"
-
+#define PREFS_HIDE_ADDRESS @"hideAddress"
 
 NSUInteger sortingMask;
 
@@ -335,6 +335,19 @@ NSUInteger sortingMask;
 	[[NSUserDefaults standardUserDefaults] removeObjectForKey:PREFS_USE_PASSWORD];
 }
 
+static BOOL hideAdress = NO;
+
++ (BOOL) hideAddress
+{
+	return hideAdress;
+}
+
++ (void) setHideAddress:(BOOL)hide
+{
+	hideAdress = hide;
+}
+
+
 + (void) applySettings:(NSArray *)settings
 {
 	for( NSString *s in settings )
@@ -473,6 +486,8 @@ NSUInteger sortingMask;
 			else if( [[words objectAtIndex:0] isEqualToString:PREFS_USE_PASSWORD] )
 				[[NSUserDefaults standardUserDefaults] setBool:[[words objectAtIndex:1] boolValue]
 														forKey:PREFS_USE_PASSWORD];						
+			else if( [[words objectAtIndex:0] isEqualToString:PREFS_HIDE_ADDRESS] )
+				[CSVPreferencesController setHideAddress:[[words objectAtIndex:1] boolValue]];
 		}
 	}
 }

@@ -1072,7 +1072,7 @@ static CSVDataViewController *sharedInstance = nil;
 	[itemController.navigationItem setRightBarButtonItem:[self doneItemWithSelector:@selector(searchItems:)] animated:YES];
 	[itemController.navigationItem setHidesBackButton:YES animated:YES];
 	
-	[self.searchBar becomeFirstResponder];
+//	[self.searchBar becomeFirstResponder];
 }
 
 - (void) searchFinish

@@ -24,6 +24,7 @@
 	BOOL _hasBeenSorted;
 	BOOL _hasBeenDownloaded;
 	NSUInteger _iconIndex;
+	BOOL _hideAddress;
 }
 
 @property (nonatomic, copy) NSString *filePath;
@@ -37,6 +38,7 @@
 @property (nonatomic, assign) BOOL hasBeenParsed;
 @property (nonatomic, assign) BOOL hasBeenDownloaded;
 @property (nonatomic, assign) NSUInteger iconIndex;
+@property (nonatomic, assign) BOOL hideAddress;
 
 + (CSVFileParser *) parserWithFile:(NSString *)path;
 - (void) saveToFile;
