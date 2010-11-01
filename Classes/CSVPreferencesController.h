@@ -53,7 +53,7 @@
 
 + (void) applySettings:(NSArray *)settings;
 
-+ (BOOL) liteVersionRunning;
++ (BOOL) restrictedDataVersionRunning;
 
 + (void) updateSortingMask; // Needs to be called as part of initialization
 + (NSUInteger) sortingMask;

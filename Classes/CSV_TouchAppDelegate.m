@@ -9,7 +9,7 @@
 #import "CSV_TouchAppDelegate.h"
 #import "OzyTableViewController.h"
 #import "OzyRotatableViewController.h"
-#import "OzyRotatableTabBarController.h"
+//#import "OzyRotatableTabBarController.h"
 #import "CSVDataViewController.h"
 #import "CSVPreferencesController.h"
 #import "CSVRow.h"
@@ -162,7 +162,7 @@ static NSString *newPassword = nil;
 {
 	if( [[self dataController] numberOfFiles] > 0 &&
 	   ![[self dataController] fileExistsWithURL:[newFileURL text]] &&
-	   [CSVPreferencesController liteVersionRunning] )
+	   [CSVPreferencesController restrictedDataVersionRunning] )
 	{
 		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Only 1 file allowed"
 														message:@"CSV Lite only allows 1 file; please delete the old one before downloading a new. Or buy CSV Touch :-)"

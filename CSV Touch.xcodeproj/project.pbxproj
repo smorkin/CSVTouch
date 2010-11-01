@@ -15,6 +15,7 @@
 		F458080011466E9400A4C4E1 /* nksTablegallery.css in Resources */ = {isa = PBXBuildFile; fileRef = F45807FC11466E9400A4C4E1 /* nksTablegallery.css */; };
 		F458080C11466F1600A4C4E1 /* seaglass.css in Resources */ = {isa = PBXBuildFile; fileRef = F458080911466F1600A4C4E1 /* seaglass.css */; };
 		F458080D11466F1600A4C4E1 /* seaglass.css in Resources */ = {isa = PBXBuildFile; fileRef = F458080911466F1600A4C4E1 /* seaglass.css */; };
+		F45B64B6127E039A00E02CE3 /* iAd.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F45B64B5127E039A00E02CE3 /* iAd.framework */; };
 		F46D894511725CFA00D45EEA /* OzyWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F46D894411725CFA00D45EEA /* OzyWebViewController.m */; };
 		F46D894611725CFA00D45EEA /* OzyWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F46D894411725CFA00D45EEA /* OzyWebViewController.m */; };
 		F47DC7EA1111004C00E8DD8B /* col.png in Resources */ = {isa = PBXBuildFile; fileRef = F473432C0E2A90B20072F3DE /* col.png */; };
@@ -218,6 +219,7 @@
 		F452CA8D0EB24A0D002F7697 /* CSV Lite-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "CSV Lite-Info.plist"; sourceTree = "<group>"; };
 		F45807FC11466E9400A4C4E1 /* nksTablegallery.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = nksTablegallery.css; sourceTree = "<group>"; };
 		F458080911466F1600A4C4E1 /* seaglass.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = seaglass.css; sourceTree = "<group>"; };
+		F45B64B5127E039A00E02CE3 /* iAd.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iAd.framework; path = System/Library/Frameworks/iAd.framework; sourceTree = SDKROOT; };
 		F46D894311725CFA00D45EEA /* OzyWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OzyWebViewController.h; sourceTree = "<group>"; };
 		F46D894411725CFA00D45EEA /* OzyWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OzyWebViewController.m; sourceTree = "<group>"; };
 		F473432C0E2A90B20072F3DE /* col.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = col.png; sourceTree = "<group>"; };
@@ -323,6 +325,7 @@
 				F47DC8321111005400E8DD8B /* CoreGraphics.framework in Frameworks */,
 				F47DC8331111005400E8DD8B /* UIKit.framework in Frameworks */,
 				F47DC8341111005400E8DD8B /* Foundation.framework in Frameworks */,
+				F45B64B6127E039A00E02CE3 /* iAd.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -440,6 +443,7 @@
 				1D3623EB0D0F72F000981E51 /* CoreGraphics.framework */,
 				1DF5F4DF0D08C38300B7A737 /* UIKit.framework */,
 				1D30AB110D05D00D00671497 /* Foundation.framework */,
+				F45B64B5127E039A00E02CE3 /* iAd.framework */,
 			);
 			name = SDKs;
 			path = Platforms/iPhoneOS.platform/Developer/SDKs;
@@ -815,7 +819,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
 				ONLY_ACTIVE_ARCH = YES;
 				PREBINDING = NO;
-				SDKROOT = iphoneos4.1;
+				SDKROOT = iphoneos4.2;
 			};
 			name = Debug;
 		};
@@ -833,7 +837,7 @@
 				PREBINDING = NO;
 				PROVISIONING_PROFILE = "0F08F786-84FC-4EE6-BF4A-126B7EE45245";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "0F08F786-84FC-4EE6-BF4A-126B7EE45245";
-				SDKROOT = iphoneos4.1;
+				SDKROOT = iphoneos4.2;
 			};
 			name = AppStore;
 		};
@@ -855,7 +859,7 @@
 				PRODUCT_NAME = "CSV Touch";
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
-				SDKROOT = iphoneos4.1;
+				SDKROOT = iphoneos4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -875,7 +879,7 @@
 				PRODUCT_NAME = "CSV Touch";
 				PROVISIONING_PROFILE = "0F08F786-84FC-4EE6-BF4A-126B7EE45245";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "0F08F786-84FC-4EE6-BF4A-126B7EE45245";
-				SDKROOT = iphoneos4.1;
+				SDKROOT = iphoneos4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
@@ -898,7 +902,7 @@
 				PRODUCT_NAME = "CSV Touch";
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
-				SDKROOT = iphoneos4.1;
+				SDKROOT = iphoneos4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 				VALID_ARCHS = "armv6 armv7";
@@ -925,7 +929,7 @@
 				PREBINDING = NO;
 				PRODUCT_NAME = "CSV Lite";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
-				SDKROOT = iphoneos4.1;
+				SDKROOT = iphoneos4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -948,7 +952,7 @@
 				PRODUCT_NAME = "CSV Lite";
 				PROVISIONING_PROFILE = "0F08F786-84FC-4EE6-BF4A-126B7EE45245";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "0F08F786-84FC-4EE6-BF4A-126B7EE45245";
-				SDKROOT = iphoneos4.1;
+				SDKROOT = iphoneos4.2;
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -973,7 +977,7 @@
 				PRODUCT_NAME = "CSV Lite";
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
-				SDKROOT = iphoneos4.1;
+				SDKROOT = iphoneos4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
@@ -994,7 +998,7 @@
 				PREBINDING = NO;
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
-				SDKROOT = iphoneos4.1;
+				SDKROOT = iphoneos4.2;
 			};
 			name = Privatdistribution;
 		};

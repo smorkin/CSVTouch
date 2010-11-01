@@ -493,10 +493,14 @@ static BOOL hideAdress = NO;
 }
 				 
 
-+ (BOOL) liteVersionRunning
++ (BOOL) restrictedDataVersionRunning
 {
 #ifdef CSV_LITE
+  #ifdef __IPHONE_4_0
+	return NO;
+  #else
 	return YES;
+  #endif
 #else
 	return NO;
 #endif

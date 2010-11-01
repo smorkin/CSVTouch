@@ -104,7 +104,7 @@
 		workObjects = allObjects;
 	}
 	
-	if( [CSVPreferencesController liteVersionRunning] && [workObjects count] > MAX_ITEMS_IN_LITE_VERSION )
+	if( [CSVPreferencesController restrictedDataVersionRunning] && [workObjects count] > MAX_ITEMS_IN_LITE_VERSION )
 		[workObjects removeObjectsInRange:NSMakeRange(MAX_ITEMS_IN_LITE_VERSION, [workObjects count] - MAX_ITEMS_IN_LITE_VERSION)];
 	
 	[itemController setObjects:workObjects];
@@ -453,7 +453,7 @@
 	{
 		self.leaveAppURL = URL;
 		leaveAppView = [[UIAlertView alloc] initWithTitle:[NSString stringWithFormat:@"Leave %@", 
-														   ([CSVPreferencesController liteVersionRunning] ? @"CSV Lite" : @"CSV Touch")]
+														   ([CSVPreferencesController restrictedDataVersionRunning] ? @"CSV Lite" : @"CSV Touch")]
 												  message:[NSString stringWithFormat:@"Continue opening %@?", [self.leaveAppURL absoluteString]]
 												 delegate:self
 										cancelButtonTitle:@"Cancel"
@@ -626,7 +626,7 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
 	// If someone wants to have this button, it is likely they don't want to see the columns as default
 	if( [CSVPreferencesController showDetailsToolbar] )
 	{
-//		[fancyDetailsController.view insertSubview:itemViewToolbar aboveSubview:detailsController.textView];
+//		[fancyDetailsController.contentView insertSubview:itemViewToolbar aboveSubview:detailsController.textView];
 //		[fancyDetailsController.tableView addSubview:itemViewToolbar];
 		self.showDeletedColumns = FALSE;
 	}
@@ -1461,7 +1461,7 @@ didSelectRowAtIndexPath:[fileController.tableView indexPathForSelectedRow]];
 	}
 }
 
-- (void) rightSwipe:(UIView *) swipeView
+- (void) swipe:(UIView *) swipeView rightSwipe:(BOOL)rightSwipe
 {
 	if( [CSVPreferencesController useDetailsNavigation] && [CSVPreferencesController useDetailsSwipe] )
 	{
@@ -1469,36 +1469,35 @@ didSelectRowAtIndexPath:[fileController.tableView indexPathForSelectedRow]];
 		{
 			[UIView beginAnimations:nil context:NULL];
 			[UIView setAnimationDuration:0.25];
-			[[[self currentDetailsController] view] setAlpha:0.5];
+			if( [[self currentDetailsController] respondsToSelector:@selector(contentView)] )
+				[[(OzyRotatableViewController *)[self currentDetailsController] contentView] setAlpha:0.5];
+			else
+				[[[self currentDetailsController] view] setAlpha:0.5];
 			[UIView commitAnimations];
 			[UIView beginAnimations:nil context:NULL];
 			[UIView setAnimationDuration:0.25];
-			[[[self currentDetailsController] view] setAlpha:1];
+			if( [[self currentDetailsController] respondsToSelector:@selector(contentView)] )
+				[[(OzyRotatableViewController *)[self currentDetailsController] contentView] setAlpha:1];
+			else
+				[[[self currentDetailsController] view] setAlpha:1];
 		}
-		[self nextDetailsClicked:nil];
+		if( rightSwipe )
+			[self nextDetailsClicked:nil];
+		else
+			[self previousDetailsClicked:nil];
 		if( [CSVPreferencesController useSwipeAnimation] )
 			[UIView commitAnimations];
 	}
 }
+   
+- (void) rightSwipe:(UIView *) swipeView
+{
+	[self swipe:swipeView rightSwipe:YES];
+}
 
 - (void) leftSwipe:(UIView *) swipeView
 {
-	if( [CSVPreferencesController useDetailsNavigation] && [CSVPreferencesController useDetailsSwipe] )
-	{
-		if( [CSVPreferencesController useSwipeAnimation] )
-		{
-			[UIView beginAnimations:nil context:NULL];
-			[UIView setAnimationDuration:0.25];
-			[[[self currentDetailsController] view] setAlpha:0.5];
-			[UIView commitAnimations];
-			[UIView beginAnimations:nil context:NULL];
-			[UIView setAnimationDuration:0.25];
-			[[[self currentDetailsController] view] setAlpha:1];
-		}
-		[self previousDetailsClicked:nil];
-		if( [CSVPreferencesController useSwipeAnimation] )
-			[UIView commitAnimations];
-	}
+	[self swipe:swipeView rightSwipe:NO];
 }
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
@@ -1526,19 +1525,23 @@ didSelectRowAtIndexPath:[fileController.tableView indexPathForSelectedRow]];
 
 - (void) addNavigationButtonsToView:(UIViewController *)controller
 {
-	CGSize viewSize = controller.view.frame.size;
+	UIView *contentView = ([controller respondsToSelector:@selector(contentView)] ?
+					[(OzyRotatableViewController *)controller contentView] : [controller view]);
+	CGSize viewSize = contentView.frame.size;
 	CGSize buttonSize = nextDetails.frame.size; // We assume both buttons have the same size already
 	CGFloat toolbarOffset = ([CSVPreferencesController showDetailsToolbar] ? 44 : 0);
 	previousDetails.frame = CGRectMake(0, viewSize.height-buttonSize.height-16-toolbarOffset, buttonSize.width, buttonSize.height);
 	nextDetails.frame = CGRectMake(viewSize.width-buttonSize.width, viewSize.height-buttonSize.height-16-toolbarOffset, buttonSize.width, buttonSize.height);
-	[controller.view addSubview:nextDetails];
-	[controller.view addSubview:previousDetails];
+	[contentView addSubview:nextDetails];
+	[contentView addSubview:previousDetails];
 }
 
 // A little bit hacky, this one...
 - (void) removeNavigationButtonsFromView:(UIViewController *)controller
 {
-	for( UIView *view in [controller.view subviews] )
+	UIView *contentView = ([controller respondsToSelector:@selector(contentView)] ?
+						   [(OzyRotatableViewController *)controller contentView] : [controller view]);
+	for( UIView *view in [contentView subviews] )
 	{
 		if( [view isKindOfClass:[UIButton class]] &&
 		   ([view isEqual:previousDetails] || [view isEqual:nextDetails]) )
@@ -1570,6 +1573,4 @@ didSelectRowAtIndexPath:[fileController.tableView indexPathForSelectedRow]];
 	}
 }
 
-
 @end
-
