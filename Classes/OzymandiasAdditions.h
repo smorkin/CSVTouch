@@ -7,9 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#if defined(__IPHONE_4_0) && defined(CSV_LITE)
-#import <iAd/iAd.h>
-#endif
 
 
 @interface NSString (OzymandiasExtension)
@@ -46,13 +43,6 @@
 - (void) viewDidAppear:(UIView *)view controller:(UIViewController *)controller;
 - (void) viewDidDisappear:(UIView *)view controller:(UIViewController *)controller;
 @end
-
-#if defined(__IPHONE_4_0) && defined(CSV_LITE)
-@protocol OzymandiasShowingAdBanners
-@required
--(void)layoutForCurrentOrientation:(ADBannerView *)bannerView animated:(BOOL)animated;
-@end
-#endif
 
 @interface OzyTableView : UITableView
 {

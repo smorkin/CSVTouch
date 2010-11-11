@@ -79,6 +79,7 @@ OzyWebViewController;
 	BOOL _showDeletedColumns;
 	
 	// Ads
+	UIView *_contentView;
 #if defined(__IPHONE_4_0) && defined(CSV_LITE)
 	// Ad support
 	ADBannerView *_bannerView;
@@ -92,6 +93,7 @@ OzyWebViewController;
 @property (nonatomic, readonly) UISearchBar *searchBar;
 @property (nonatomic, copy) NSURL *leaveAppURL;
 @property (nonatomic, assign) BOOL showDeletedColumns;
+@property (nonatomic, retain) UIView *contentView;
 #if defined(__IPHONE_4_0) && defined(CSV_LITE)
 @property (nonatomic, retain) ADBannerView *bannerView;
 @property (nonatomic, assign) BOOL bannerIsVisible;

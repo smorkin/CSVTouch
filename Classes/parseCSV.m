@@ -88,6 +88,8 @@ static char *cstrstr(const char *haystack, const char needle) {
 	NSMutableArray *csvContent = [NSMutableArray array];
 	unsigned int quoteCount = 0;
 	const char *allData = [_string cStringUsingEncoding:encoding];
+	if (allData == NULL )
+		return csvContent;
 	int length = strlen(allData);
 	[self setBufferSize:length+1];
 	char *textp, *laststop, *lineBeginning;

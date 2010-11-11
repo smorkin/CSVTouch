@@ -7,6 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#if defined(__IPHONE_4_0) && defined(CSV_LITE)
+#import <iAd/iAd.h>
+#endif
 
 
 @interface CSVPreferencesController : NSObject
@@ -60,5 +63,9 @@
 extern NSUInteger sortingMask; // This is available for performance-critical operations
 
 + (BOOL) modifyItemsTableViewSize:(BOOL)increase;
+
+#if defined(__IPHONE_4_0) && defined(CSV_LITE)
++ (BOOL) canUseAbstractBannerNames;
+#endif
 
 @end

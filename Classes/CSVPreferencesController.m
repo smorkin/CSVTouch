@@ -496,11 +496,7 @@ static BOOL hideAdress = NO;
 + (BOOL) restrictedDataVersionRunning
 {
 #ifdef CSV_LITE
-  #ifdef __IPHONE_4_0
-	return NO;
-  #else
 	return YES;
-  #endif
 #else
 	return NO;
 #endif
@@ -546,14 +542,10 @@ static BOOL hideAdress = NO;
 	return sortingMask;
 }
 
-//- (IBAction) sizeControlChanged:(id)sender
-//{
-//	if( startupInProgress )
-//		return;
-//	
-//	[CSVPreferencesController setTableViewSize:[sizeControl selectedSegmentIndex]];
-//	[[CSVDataViewController sharedInstance] setSize:[sizeControl selectedSegmentIndex]];
-//}
-//
-
+#if defined(__IPHONE_4_0) && defined(CSV_LITE)
++ (BOOL) canUseAbstractBannerNames
+{
+	return (&ADBannerContentSizeIdentifierPortrait != NULL);
+}
+#endif
 @end

@@ -20,7 +20,7 @@
 #define OBJECTS_ID @"objectsID"
 #define DETAILS_ID @"detailsID"
 
-#define MAX_ITEMS_IN_LITE_VERSION 75
+#define MAX_ITEMS_IN_LITE_VERSION 150
 
 @interface NSString (FancyDetailsComparison)
 - (NSComparisonResult) compareFancyDetails:(NSString *)s;
@@ -47,6 +47,7 @@
 @synthesize searchBar;
 @synthesize leaveAppURL;
 @synthesize showDeletedColumns = _showDeletedColumns;
+@synthesize contentView = _contentView;
 #if defined(__IPHONE_4_0) && defined(CSV_LITE)
 @synthesize bannerView = _bannerView;
 @synthesize bannerIsVisible = _bannerIsVisible;
@@ -846,13 +847,32 @@ static CSVDataViewController *sharedInstance = nil;
 {
 	// Ads
 #if defined(__IPHONE_4_0) && defined(CSV_LITE)
-#ifndef __IPHONE_4_2
-	NSString *contentSize = UIInterfaceOrientationIsPortrait(self.interfaceOrientation) ?
-	ADBannerContentSizeIdentifier320x50 : ADBannerContentSizeIdentifier480x32;
-#else
-	NSString *contentSize = UIInterfaceOrientationIsPortrait(self.interfaceOrientation) ?
-	ADBannerContentSizeIdentifierPortrait : ADBannerContentSizeIdentifierLandscape;
-#endif
+	NSString *contentSize;
+	if( UIInterfaceOrientationIsPortrait(self.interfaceOrientation) )
+	{
+		if ([CSVPreferencesController canUseAbstractBannerNames] )
+			contentSize = ADBannerContentSizeIdentifierPortrait;
+		else
+			contentSize = ADBannerContentSizeIdentifier320x50;
+	}
+	else
+	{
+		if ([CSVPreferencesController canUseAbstractBannerNames] )
+			contentSize = ADBannerContentSizeIdentifierLandscape;
+		else
+			contentSize = ADBannerContentSizeIdentifier480x32;
+	}
+	
+	// First, fix views
+	// We need the view to contain our contentview which contains all old views...
+	self.contentView = [[UIView alloc] initWithFrame:self.view.frame];
+    self.contentView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+	// Now move over old subviews to contentview
+	NSArray *oldViews = [self.view subviews];
+	for( UIView *view in oldViews )
+		[self.contentView addSubview:view];
+	// And finally, fix hierarchy
+	[self.view addSubview:self.contentView];
 	
     CGRect frame;
     frame.size = [ADBannerView sizeFromBannerContentSizeIdentifier:contentSize];
@@ -864,16 +884,18 @@ static CSVDataViewController *sharedInstance = nil;
     bannerView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleTopMargin;
 	
 	// On iOS 4.2, default is both portrait and landscape
-#ifndef __IPHONE_4_2
-	self.bannerView.requiredContentSizeIdentifiers = [NSSet setWithObjects: ADBannerContentSizeIdentifier320x50,
-													  ADBannerContentSizeIdentifier480x32,
-													  nil];
-#endif	
+	if (![CSVPreferencesController canUseAbstractBannerNames] )
+		bannerView.requiredContentSizeIdentifiers = [NSSet setWithObjects: ADBannerContentSizeIdentifier320x50,
+														  ADBannerContentSizeIdentifier480x32,
+														  nil];
 	
+	[self.view addSubview:bannerView];
     self.bannerView = bannerView;
+    [bannerView release];	
 	
 #endif	
 }
+
 
 - (id) initWithCoder:(NSCoder *)aDecoder
 {
@@ -1633,20 +1655,68 @@ didSelectRowAtIndexPath:[fileController.tableView indexPathForSelectedRow]];
 #if defined(__IPHONE_4_0) && defined(CSV_LITE)
 @implementation CSVDataViewController (AdBannerViewDelegate)
 
+-(void)layoutForCurrentOrientation:(BOOL)animated
+{
+    CGFloat animationDuration = animated ? 0.2 : 0.0;
+    // by default content consumes the entire view area
+    CGRect contentFrame = self.view.bounds;
+    // the banner still needs to be adjusted further, but this is a reasonable starting point
+    // the y value will need to be adjusted by the banner height to get the final position
+	CGPoint bannerOrigin = CGPointMake(CGRectGetMinX(contentFrame), CGRectGetMaxY(contentFrame));
+    CGFloat bannerHeight = 0.0;
+	NSString *contentSizeIdentifier;
+	
+	if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation))
+	{
+		if ([CSVPreferencesController canUseAbstractBannerNames] )
+			contentSizeIdentifier = ADBannerContentSizeIdentifierLandscape;
+		else
+			contentSizeIdentifier = ADBannerContentSizeIdentifier480x32;
+	}
+    else
+	{
+		if ([CSVPreferencesController canUseAbstractBannerNames] )
+			contentSizeIdentifier = ADBannerContentSizeIdentifierPortrait;
+		else
+			contentSizeIdentifier = ADBannerContentSizeIdentifier320x50;
+	}
+	self.bannerView.currentContentSizeIdentifier = contentSizeIdentifier;
+	bannerHeight = [ADBannerView sizeFromBannerContentSizeIdentifier:contentSizeIdentifier].height;
+	
+    // Depending on if the banner has been loaded, we adjust the content frame and banner location
+    // to accomodate the ad being on or off screen.
+    // This layout is for an ad at the bottom of the view.
+    if(self.bannerView.bannerLoaded)
+    {
+        contentFrame.size.height -= bannerHeight;
+		bannerOrigin.y -= bannerHeight;
+    }
+    else
+    {
+		bannerOrigin.y += bannerHeight;
+    }
+    
+	
+    // And finally animate the changes, running layout for the content view if required.
+    [UIView animateWithDuration:animationDuration
+                     animations:^{
+						 self.contentView.frame = contentFrame;
+						 [self.contentView layoutIfNeeded];
+						 self.bannerView.frame = CGRectMake(bannerOrigin.x,
+															bannerOrigin.y,
+															self.bannerView.frame.size.width,
+															self.bannerView.frame.size.height);
+					 }
+	 ];
+}
+
+
 - (void)bannerViewDidLoadAd:(ADBannerView *)banner
 {
 	if (!self.bannerIsVisible)
     {
-		if( [self.topViewController conformsToProtocol:@protocol(OzymandiasShowingAdBanners)] )
-		{
-//			CGRect frame = self.bannerView.frame;
-//			frame.origin = CGPointMake(0.0, CGRectGetMaxY(self.topViewController.view.bounds));
-//			self.bannerView.frame = frame;
-//
-			[(id<OzymandiasShowingAdBanners>)self.topViewController layoutForCurrentOrientation:self.bannerView
-																					   animated:YES];
-			self.bannerIsVisible = YES;
-		}
+		[self layoutForCurrentOrientation:YES];
+		self.bannerIsVisible = NO;
 	}
 }	
 
@@ -1654,16 +1724,8 @@ didSelectRowAtIndexPath:[fileController.tableView indexPathForSelectedRow]];
 {
 	if (self.bannerIsVisible)
     {
-		if( [self.topViewController conformsToProtocol:@protocol(OzymandiasShowingAdBanners)] )
-		{
-//			CGRect frame = self.bannerView.frame;
-//			frame.origin = CGPointMake(0.0, CGRectGetMaxY(self.topViewController.view.bounds));
-//			self.bannerView.frame = frame;
-//			
-			[(id<OzymandiasShowingAdBanners>)self.topViewController layoutForCurrentOrientation:self.bannerView
-																					   animated:YES];
-			self.bannerIsVisible = NO;
-		}	
+		[self layoutForCurrentOrientation:YES];
+		self.bannerIsVisible = NO;
 	}
 }
 
@@ -1681,52 +1743,7 @@ didSelectRowAtIndexPath:[fileController.tableView indexPathForSelectedRow]];
 -(void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
 										duration:(NSTimeInterval)duration
 {
-	if( [self.topViewController conformsToProtocol:@protocol(OzymandiasShowingAdBanners)] )
-	{
-		[(id<OzymandiasShowingAdBanners>)self.topViewController layoutForCurrentOrientation:self.bannerView
-																				   animated:YES];
-	}
-}
-
-- (void)pushViewController:(UIViewController *)viewController animated:(BOOL)animated
-{
-	if( [viewController conformsToProtocol:@protocol(OzymandiasShowingAdBanners)] )
-	{
-		[(id<OzymandiasShowingAdBanners>)viewController layoutForCurrentOrientation:self.bannerView
-																		   animated:YES];
-	}
-	[super pushViewController:viewController animated:animated];
-}
-
-- (UIViewController *)popViewControllerAnimated:(BOOL)animated
-{
-	UIViewController *uvc = [super popViewControllerAnimated:animated];
-	if( [self.topViewController conformsToProtocol:@protocol(OzymandiasShowingAdBanners)] )
-	{
-		[(id<OzymandiasShowingAdBanners>)self.topViewController layoutForCurrentOrientation:self.bannerView
-																				   animated:YES];
-	}
-	return uvc;
-}
-
-- (NSArray *)popToViewController:(UIViewController *)viewController animated:(BOOL)animated
-{
-	if( [viewController conformsToProtocol:@protocol(OzymandiasShowingAdBanners)] )
-	{
-		[(id<OzymandiasShowingAdBanners>)viewController layoutForCurrentOrientation:self.bannerView
-																				   animated:YES];
-	}
-	return [super popToViewController:viewController animated:animated];
-}
-
-- (NSArray *)popToRootViewControllerAnimated:(BOOL)animated
-{
-	if( [fileController conformsToProtocol:@protocol(OzymandiasShowingAdBanners)] )
-	{
-		[(id<OzymandiasShowingAdBanners>)fileController layoutForCurrentOrientation:self.bannerView
-																		   animated:YES];
-	}
-	return [super popToRootViewControllerAnimated:animated];
+	[self layoutForCurrentOrientation:NO];
 }
 
 @end
