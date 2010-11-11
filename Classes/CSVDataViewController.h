@@ -7,6 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#if defined(__IPHONE_4_0) && defined(CSV_LITE)
+#import <iAd/iAd.h>
+#endif
+
 
 @class OzyTableViewController,
 CSVFileParser, 
@@ -73,6 +77,14 @@ OzyWebViewController;
 	BOOL searchInputInProgress;
 	
 	BOOL _showDeletedColumns;
+	
+	// Ads
+#if defined(__IPHONE_4_0) && defined(CSV_LITE)
+	// Ad support
+	ADBannerView *_bannerView;
+	BOOL _bannerIsVisible;
+#endif
+	
 }
 
 @property (nonatomic, readonly) UIToolbar *itemsToolbar;
@@ -80,6 +92,10 @@ OzyWebViewController;
 @property (nonatomic, readonly) UISearchBar *searchBar;
 @property (nonatomic, copy) NSURL *leaveAppURL;
 @property (nonatomic, assign) BOOL showDeletedColumns;
+#if defined(__IPHONE_4_0) && defined(CSV_LITE)
+@property (nonatomic, retain) ADBannerView *bannerView;
+@property (nonatomic, assign) BOOL bannerIsVisible;
+#endif
 
 + (CSVDataViewController *) sharedInstance;
 
@@ -119,4 +135,5 @@ OzyWebViewController;
 // For CSV_TouchAppDelegate
 - (int) numberOfFiles;
 - (BOOL) fileExistsWithURL:(NSString *)URL;
+
 @end

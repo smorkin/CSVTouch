@@ -13,16 +13,16 @@
 
 @synthesize textView = _textView;
 
-- (void)viewDidAppear:(BOOL)animated
-{
-	[self.viewDelegate viewDidAppear:self.view controller:self];
-	[super viewDidAppear:animated];
-}
-
-- (void)viewDidDisappear:(BOOL)animated
-{
-	[self.viewDelegate viewDidDisappear:self.view controller:self];
-	[super viewDidDisappear:animated];
-}
+//- (void)viewDidAppear:(BOOL)animated
+//{
+//	[self.viewDelegate viewDidAppear:self.view controller:self];
+//	[super viewDidAppear:animated];
+//}
+//
+//- (void)viewDidDisappear:(BOOL)animated
+//{
+//	[self.viewDelegate viewDidDisappear:self.view controller:self];
+//	[super viewDidDisappear:animated];
+//}
 
 @end

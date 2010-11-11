@@ -33,6 +33,13 @@
 }
 @end
 
+
+#if defined(__IPHONE_4_0) && defined(CSV_LITE)
+@interface CSVDataViewController (AdBannerViewDelegate) <ADBannerViewDelegate>
+@end
+#endif
+
+
 @implementation CSVDataViewController
 
 @synthesize itemsToolbar;
@@ -40,6 +47,10 @@
 @synthesize searchBar;
 @synthesize leaveAppURL;
 @synthesize showDeletedColumns = _showDeletedColumns;
+#if defined(__IPHONE_4_0) && defined(CSV_LITE)
+@synthesize bannerView = _bannerView;
+@synthesize bannerIsVisible = _bannerIsVisible;
+#endif
 
 - (CSVFileParser *) currentFile
 {
@@ -831,6 +842,39 @@ static CSVDataViewController *sharedInstance = nil;
 	return sharedInstance;
 }
 
+- (void) setupBannerView
+{
+	// Ads
+#if defined(__IPHONE_4_0) && defined(CSV_LITE)
+#ifndef __IPHONE_4_2
+	NSString *contentSize = UIInterfaceOrientationIsPortrait(self.interfaceOrientation) ?
+	ADBannerContentSizeIdentifier320x50 : ADBannerContentSizeIdentifier480x32;
+#else
+	NSString *contentSize = UIInterfaceOrientationIsPortrait(self.interfaceOrientation) ?
+	ADBannerContentSizeIdentifierPortrait : ADBannerContentSizeIdentifierLandscape;
+#endif
+	
+    CGRect frame;
+    frame.size = [ADBannerView sizeFromBannerContentSizeIdentifier:contentSize];
+    frame.origin = CGPointMake(0.0, CGRectGetMaxY(self.view.bounds));
+	
+	ADBannerView *bannerView = [[ADBannerView alloc] initWithFrame:frame];
+    bannerView.delegate = self;
+    // Set the autoresizing mask so that the banner is pinned to the bottom
+    bannerView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleTopMargin;
+	
+	// On iOS 4.2, default is both portrait and landscape
+#ifndef __IPHONE_4_2
+	self.bannerView.requiredContentSizeIdentifiers = [NSSet setWithObjects: ADBannerContentSizeIdentifier320x50,
+													  ADBannerContentSizeIdentifier480x32,
+													  nil];
+#endif	
+	
+    self.bannerView = bannerView;
+	
+#endif	
+}
+
 - (id) initWithCoder:(NSCoder *)aDecoder
 {
 	self = [super initWithCoder:aDecoder];
@@ -839,6 +883,9 @@ static CSVDataViewController *sharedInstance = nil;
 	indexPathForFileName = [[NSMutableDictionary alloc] init];
 	searchStringForFileName = [[NSMutableDictionary alloc] init];
 	importantColumnIndexes = [[NSMutableArray alloc] init];
+#if defined(__IPHONE_4_0) && defined(CSV_LITE)
+	[self setupBannerView];
+#endif		
 	
 	[[NSNotificationCenter defaultCenter] addObserver:self 
 											 selector:@selector(tableViewContentChanged:)
@@ -863,6 +910,10 @@ static CSVDataViewController *sharedInstance = nil;
 	[importantColumnIndexes release];
 	if( rawColumnIndexes )
 		free(rawColumnIndexes);
+#if defined(__IPHONE_4_0) && defined(CSV_LITE)
+	self.bannerView.delegate = nil;
+#endif	
+	
 	[super dealloc];
 }
 
@@ -1529,9 +1580,13 @@ didSelectRowAtIndexPath:[fileController.tableView indexPathForSelectedRow]];
 					[(OzyRotatableViewController *)controller contentView] : [controller view]);
 	CGSize viewSize = contentView.frame.size;
 	CGSize buttonSize = nextDetails.frame.size; // We assume both buttons have the same size already
-	CGFloat toolbarOffset = ([CSVPreferencesController showDetailsToolbar] ? 44 : 0);
-	previousDetails.frame = CGRectMake(0, viewSize.height-buttonSize.height-16-toolbarOffset, buttonSize.width, buttonSize.height);
-	nextDetails.frame = CGRectMake(viewSize.width-buttonSize.width, viewSize.height-buttonSize.height-16-toolbarOffset, buttonSize.width, buttonSize.height);
+	CGFloat toolbarOffset = 44;//([CSVPreferencesController showDetailsToolbar] ? 44 : 0);
+	previousDetails.frame = CGRectMake(0,
+									   viewSize.height-buttonSize.height-16-toolbarOffset,
+									   buttonSize.width, buttonSize.height);
+	nextDetails.frame = CGRectMake(viewSize.width-buttonSize.width,
+								   viewSize.height-buttonSize.height-16-toolbarOffset,
+								   buttonSize.width, buttonSize.height);
 	[contentView addSubview:nextDetails];
 	[contentView addSubview:previousDetails];
 }
@@ -1574,3 +1629,106 @@ didSelectRowAtIndexPath:[fileController.tableView indexPathForSelectedRow]];
 }
 
 @end
+
+#if defined(__IPHONE_4_0) && defined(CSV_LITE)
+@implementation CSVDataViewController (AdBannerViewDelegate)
+
+- (void)bannerViewDidLoadAd:(ADBannerView *)banner
+{
+	if (!self.bannerIsVisible)
+    {
+		if( [self.topViewController conformsToProtocol:@protocol(OzymandiasShowingAdBanners)] )
+		{
+//			CGRect frame = self.bannerView.frame;
+//			frame.origin = CGPointMake(0.0, CGRectGetMaxY(self.topViewController.view.bounds));
+//			self.bannerView.frame = frame;
+//
+			[(id<OzymandiasShowingAdBanners>)self.topViewController layoutForCurrentOrientation:self.bannerView
+																					   animated:YES];
+			self.bannerIsVisible = YES;
+		}
+	}
+}	
+
+- (void)bannerView:(ADBannerView *)banner didFailToReceiveAdWithError:(NSError *)error
+{
+	if (self.bannerIsVisible)
+    {
+		if( [self.topViewController conformsToProtocol:@protocol(OzymandiasShowingAdBanners)] )
+		{
+//			CGRect frame = self.bannerView.frame;
+//			frame.origin = CGPointMake(0.0, CGRectGetMaxY(self.topViewController.view.bounds));
+//			self.bannerView.frame = frame;
+//			
+			[(id<OzymandiasShowingAdBanners>)self.topViewController layoutForCurrentOrientation:self.bannerView
+																					   animated:YES];
+			self.bannerIsVisible = NO;
+		}	
+	}
+}
+
+- (BOOL)bannerViewActionShouldBegin:(ADBannerView *)banner willLeaveApplication:(BOOL)willLeave
+{
+	// We have no restrictions about when we can leave app or not, and nothing to stop
+	return YES;
+}	
+
+- (void)bannerViewActionDidFinish:(ADBannerView *)banner
+{
+	// Nothing for us to do here
+}
+
+-(void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
+										duration:(NSTimeInterval)duration
+{
+	if( [self.topViewController conformsToProtocol:@protocol(OzymandiasShowingAdBanners)] )
+	{
+		[(id<OzymandiasShowingAdBanners>)self.topViewController layoutForCurrentOrientation:self.bannerView
+																				   animated:YES];
+	}
+}
+
+- (void)pushViewController:(UIViewController *)viewController animated:(BOOL)animated
+{
+	if( [viewController conformsToProtocol:@protocol(OzymandiasShowingAdBanners)] )
+	{
+		[(id<OzymandiasShowingAdBanners>)viewController layoutForCurrentOrientation:self.bannerView
+																		   animated:YES];
+	}
+	[super pushViewController:viewController animated:animated];
+}
+
+- (UIViewController *)popViewControllerAnimated:(BOOL)animated
+{
+	UIViewController *uvc = [super popViewControllerAnimated:animated];
+	if( [self.topViewController conformsToProtocol:@protocol(OzymandiasShowingAdBanners)] )
+	{
+		[(id<OzymandiasShowingAdBanners>)self.topViewController layoutForCurrentOrientation:self.bannerView
+																				   animated:YES];
+	}
+	return uvc;
+}
+
+- (NSArray *)popToViewController:(UIViewController *)viewController animated:(BOOL)animated
+{
+	if( [viewController conformsToProtocol:@protocol(OzymandiasShowingAdBanners)] )
+	{
+		[(id<OzymandiasShowingAdBanners>)viewController layoutForCurrentOrientation:self.bannerView
+																				   animated:YES];
+	}
+	return [super popToViewController:viewController animated:animated];
+}
+
+- (NSArray *)popToRootViewControllerAnimated:(BOOL)animated
+{
+	if( [fileController conformsToProtocol:@protocol(OzymandiasShowingAdBanners)] )
+	{
+		[(id<OzymandiasShowingAdBanners>)fileController layoutForCurrentOrientation:self.bannerView
+																		   animated:YES];
+	}
+	return [super popToRootViewControllerAnimated:animated];
+}
+
+@end
+#endif
+

@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <iAd/iAd.h>
 
 @class CSVDataViewController;
 
@@ -38,13 +37,7 @@ typedef enum OzyTableViewSize {
 	id _viewDelegate;
 	
 	// Ads
-	IBOutlet UIView *_contentView;	
-#if defined(__IPHONE_4_0) && defined(CSV_LITE)
-	// Ad support
-	ADBannerView *_bannerView;
-	BOOL _bannerIsVisible;
-#endif
-	
+	IBOutlet UIView *_contentView;		
 }
 
 @property (nonatomic, readonly) UITableView *tableView;
@@ -60,10 +53,6 @@ typedef enum OzyTableViewSize {
 //@property (nonatomic, retain) NSString *imageName;
 @property (nonatomic, assign) id viewDelegate;
 @property (nonatomic, readonly) UIView *contentView;
-#if defined(__IPHONE_4_0) && defined(CSV_LITE)
-@property (nonatomic, retain) ADBannerView *bannerView;
-@property (nonatomic, assign) BOOL bannerIsVisible;
-#endif
 
 
 // Only use this when not using indexes but you still want sections.
