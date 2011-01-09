@@ -12,39 +12,78 @@
 
 @synthesize textField;
 
-
-/*
- *	Determine maximum y-coordinate of UILabel objects. This method assumes that only
- *	following objects are contained in subview list:
- *	- UILabel
- *	- UITextField
- *	- UIThreePartButton (Private Class)
- */
-- (CGFloat) maxLabelYCoordinate {
-	// Determine maximum y-coordinate of labels
-	CGFloat maxY = 0;
+//
+///*
+// *	Determine the y-coordinate of the alert view's title
+// */
+- (CGFloat) textFieldYOffset {
 	for( UIView *view in self.subviews ){
-		if([view isKindOfClass:[UILabel class]]) {
+		if([view isKindOfClass:[UILabel class]] &&
+		   [[(UILabel *)view text] isEqual:[self title]])
+		{
 			CGRect viewFrame = [view frame];
-			CGFloat lowerY = viewFrame.origin.y + viewFrame.size.height;
-			if(lowerY > maxY)
-				maxY = lowerY;
+			return viewFrame.origin.y + viewFrame.size.height;
 		}
 	}
-	return maxY;
+	return 0;
 }
 /*
  *	Initialize view with maximum of two buttons
  */
-- (id)initWithTitle:(NSString *)title message:(NSString *)message delegate:(id)delegate 
-  cancelButtonTitle:(NSString *)cancelButtonTitle otherButtonTitles:(NSString *)otherButtonTitles, ... {
+- (id)initWithTitle:(NSString *)title
+		   delegate:(id)delegate 
+  cancelButtonTitle:(NSString *)cancelButtonTitle
+  otherButtonTitles:(NSString *)otherButtonTitles, ...
+{
 	self = [super initWithTitle:title
-						message:message 
+						message:@"\n\n" 
 					   delegate:delegate
 			  cancelButtonTitle:cancelButtonTitle
 			  otherButtonTitles:otherButtonTitles, nil];
 	if (self)
 	{
+		
+		
+		
+//		UITextField *textField;
+//		UITextField *textField2;
+//		
+//		UIAlertView *prompt = [[UIAlertView alloc] initWithTitle:@"Username and password" 
+//														 message:@"\n\n\n" // IMPORTANT
+//														delegate:nil 
+//											   cancelButtonTitle:@"Cancel" 
+//											   otherButtonTitles:@"Enter", nil];
+//		
+//		textField = [[UITextField alloc] initWithFrame:CGRectMake(12.0, 50.0, 260.0, 25.0)]; 
+//		[textField setBackgroundColor:[UIColor whiteColor]];
+//		[textField setPlaceholder:@"username"];
+//		[prompt addSubview:textField];
+//		
+//		textField2 = [[UITextField alloc] initWithFrame:CGRectMake(12.0, 85.0, 260.0, 25.0)]; 
+//		[textField2 setBackgroundColor:[UIColor whiteColor]];
+//		[textField2 setPlaceholder:@"password"];
+//		[textField2 setSecureTextEntry:YES];
+//		[prompt addSubview:textField2];
+//		
+//		// set place
+//		[prompt setTransform:CGAffineTransformMakeTranslation(0.0, 110.0)];
+//		[prompt show];
+//		[prompt release];
+//		
+//		// set cursor and show keyboard
+//		[textField becomeFirstResponder];
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		// Create and add UITextField to UIAlertView
 		UITextField *myTextField = [[[UITextField alloc] initWithFrame:CGRectZero] retain];
 		myTextField.autocorrectionType = UITextAutocorrectionTypeNo;
@@ -52,23 +91,7 @@
 		myTextField.borderStyle = UITextBorderStyleRoundedRect;
 		myTextField.delegate = delegate;
 		myTextField.secureTextEntry = YES;
-		[self setTextField:myTextField];
-		
-		// insert UITextField before first button
-//		for( UIView *view in self.subviews ){
-//			if(![view isKindOfClass:[UILabel class]])
-//			{
-//				[self insertSubview:myTextField aboveSubview:view];
-//				break;
-//			}
-//		}
-		
-		// ensure that layout for views is done once
-		layoutDone = NO;
-		
-		// add a transform to move the UIAlertView above the keyboard
-//		CGAffineTransform myTransform = CGAffineTransformMakeTranslation(0.0, kUIAlertOffset);
-//		[self setTransform:myTransform];
+		[self setTextField:myTextField];		
 	}
 	return self;
 }
@@ -78,7 +101,8 @@
  */
 - (void) show {
 	[super show];
-	[[self textField] becomeFirstResponder];
+	[[self textField] performSelector:@selector(becomeFirstResponder) withObject:nil afterDelay:0.6];
+//	[[self textField] becomeFirstResponder];
 }
 
 - (UIView *) buttonsView
@@ -98,37 +122,20 @@
 	if(!layoutDone) {
 		CGRect viewFrame;
 		
-		viewFrame = [[self buttonsView] frame];
-		viewFrame.origin.y += kUITextFieldHeight;
-		[[self buttonsView] setFrame:viewFrame];
+//		viewFrame = [[self buttonsView] frame];
+//		viewFrame.origin.y += kUITextFieldHeight;
+//		[[self buttonsView] setFrame:viewFrame];
 		
 		[self addSubview:self.textField];
 		viewFrame = CGRectMake(kUITextFieldXPadding, 
-							   [self maxLabelYCoordinate] + kUITextFieldYPadding, 
+							   [self textFieldYOffset] + kUITextFieldYPadding, 
 							   self.frame.size.width - 4.0*kUITextFieldXPadding, 
 							   kUITextFieldHeight);
 		[self.textField setFrame:viewFrame];
 		
-		
-		// Insert UITextField below labels and move other fields down accordingly
-//		for(UIView *view in self.subviews){
-//		    if([view isKindOfClass:[UITextField class]]){
-//				CGRect viewFrame = CGRectMake(
-//											  kUITextFieldXPadding, 
-//											  labelMaxY + kUITextFieldYPadding, 
-//											  alertWidth - 4.0*kUITextFieldXPadding, 
-//											  kUITextFieldHeight);
-//				[view setFrame:viewFrame];
-//		    } else if(![view isKindOfClass:[UILabel class]]) { // knappar
-//				CGRect viewFrame = [view frame];
-//				viewFrame.origin.y += kUITextFieldHeight;
-//				[view setFrame:viewFrame];
-//			}
-//		}
-		
 		// size UIAlertView frame by height of UITextField
-		frame.size.height += kUITextFieldHeight + 2.0;
-		[self setFrame:frame];
+//		frame.size.height += kUITextFieldHeight + 2.0;
+//		[self setFrame:frame];
 		layoutDone = YES;
 	}
 	else

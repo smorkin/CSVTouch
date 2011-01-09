@@ -19,7 +19,9 @@
 
 @property (nonatomic, retain) UITextField *textField;
 
-- (id)initWithTitle:(NSString *)title message:(NSString *)message delegate:(id)delegate 
-  cancelButtonTitle:(NSString *)cancelButtonTitle otherButtonTitles:(NSString *)otherButtonTitles, ...;
+- (id)initWithTitle:(NSString *)title
+		   delegate:(id)delegate 
+  cancelButtonTitle:(NSString *)cancelButtonTitle
+  otherButtonTitles:(NSString *)otherButtonTitles, ...;
 
 @end
