@@ -61,7 +61,6 @@ static NSString *newPassword = nil;
 - (void) checkPassword
 {
 	TextAlertView *alert = [[TextAlertView alloc] initWithTitle:@"Input Password" 
-														message:@"" 
 													   delegate:self
 											  cancelButtonTitle:@"Quit"
 											  otherButtonTitles:@"OK", nil];
@@ -75,7 +74,6 @@ static NSString *newPassword = nil;
 - (void) setPassword:(NSString *)title
 {
 	TextAlertView *alert = [[TextAlertView alloc] initWithTitle:title 
-														message:@"" 
 													   delegate:self
 											  cancelButtonTitle:@"Cancel"
 											  otherButtonTitles:@"OK", nil];
@@ -605,7 +603,6 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 - (void) loadFileList
 {
 	TextAlertView *alert = [[TextAlertView alloc] initWithTitle:@"File list address:" 
-														message:@"" 
 													   delegate:self
 											  cancelButtonTitle:nil
 											  otherButtonTitles:@"OK", nil];
