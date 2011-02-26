@@ -46,6 +46,10 @@
 + (BOOL) alignHtml;
 + (BOOL) usePassword;
 + (void) clearSetPassword;
++ (NSDate *) nextDownload; // Returns nil if none set
++ (NSDate *) lastDownload;
++ (void) setLastDownload:(NSDate *)lastDownload;
++ (BOOL) simpleMode;
 
 // This is temporary, while downloading a file with addresses to CSV files
 + (BOOL) hideAddress;

@@ -176,6 +176,22 @@
 	}
 }	
 
+- (void) updateFileModificationDateButton
+{
+	NSString *date;
+	NSString *time;
+	NSDateFormatter *dateFormatter = [[[NSDateFormatter alloc] init]  autorelease];
+
+	[dateFormatter setDateStyle:NSDateFormatterShortStyle];
+	[dateFormatter setTimeStyle:NSDateFormatterNoStyle];
+	date = [dateFormatter stringFromDate:currentFile.downloadDate];
+	[dateFormatter setDateStyle:NSDateFormatterNoStyle];
+	[dateFormatter setTimeStyle:NSDateFormatterShortStyle];
+	time = [dateFormatter stringFromDate:currentFile.downloadDate];
+	
+	[(UILabel *)modificationDateButton.customView setText:[NSString stringWithFormat:@"%@\n%@",
+								   date, time]]; 
+}
 
 - (BOOL) selectFile:(CSVFileParser *)file
 {		
@@ -197,6 +213,7 @@
 		searchBar.text = @"";
 	[self updateColumnNames];
 	[itemController setTitle:[currentFile defaultTableViewDescription]];
+	[self updateFileModificationDateButton];
 	[self refreshObjectsWithResorting:!currentFile.hasBeenSorted];
 	
 	// Reset last known position of items
@@ -285,29 +302,6 @@
 		[[detailsController textView] setText:@"No data found!"];
 }
 
-//- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-//{
-//	if( tableView == fancyDetailsController.tableView )
-//	{
-//		return 44;
-//	}
-//////	if( tableView == fancyDetailsController.tableView )
-//////	{
-//////		UITableViewCell *cell = [fancyDetailsController tableView:tableView cellForRowAtIndexPath:indexPath];
-//////		CGSize cellSize = [cell frame].size;
-//////		cellSize.width -= 60;
-//////		cellSize.height = 400;
-//////		CGSize newSize = [cell.text sizeWithFont:cell.font 
-//////						  constrainedToSize:cellSize
-//////						  lineBreakMode:UILineBreakModeWordWrap];
-//////		return newSize.height + 2;
-//////	}
-//	else
-//	{
-//		return tableView.rowHeight;
-//	}
-//}
-
 - (void) updateEnhancedViewWithItem:(CSVRow *)item
 {
 	NSMutableArray *items = [item longDescriptionInArrayWithHiddenValues:self.showDeletedColumns];
@@ -344,7 +338,7 @@
 	[s appendString:cssString];
 	[s appendString:@"</STYLE>"];
 	
-	if( [[[UIDevice currentDevice] name] hasSubstring:@"iPad"] )
+	if( [CSV_TouchAppDelegate iPadMode] )
 	{
 		if(htmlDetailsController.interfaceOrientation == UIInterfaceOrientationLandscapeLeft ||
 		   htmlDetailsController.interfaceOrientation == UIInterfaceOrientationLandscapeRight)
@@ -638,8 +632,6 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
 	// If someone wants to have this button, it is likely they don't want to see the columns as default
 	if( [CSVPreferencesController showDetailsToolbar] )
 	{
-//		[fancyDetailsController.contentView insertSubview:itemViewToolbar aboveSubview:detailsController.textView];
-//		[fancyDetailsController.tableView addSubview:itemViewToolbar];
 		self.showDeletedColumns = FALSE;
 	}
 	else
@@ -702,6 +694,21 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
 	fancyDetailsController.viewDelegate = self;
 	htmlDetailsController.viewDelegate = self;
 	
+	// Setup modificationdate/time label
+	CGRect frame = CGRectMake(0, 0, 72, 44);
+	UILabel *l = [[[UILabel alloc] initWithFrame:frame] autorelease];
+	l.font = [UIFont fontWithName:l.font.fontName size:10];
+	l.backgroundColor = [UIColor clearColor];
+	if([CSV_TouchAppDelegate iPadMode] &&
+	   ![CSVPreferencesController useBlackTheme])
+		l.textColor = [UIColor darkGrayColor];
+	else
+		l.textColor = [UIColor whiteColor];
+	l.lineBreakMode = UILineBreakModeWordWrap;
+	l.textAlignment = UITextAlignmentCenter;
+	l.numberOfLines = 2;
+	modificationDateButton.customView = l;
+	
 	// Disable phone links, if desired
 	if( [CSVPreferencesController enablePhoneLinks] == FALSE )
 		[htmlDetailsController.webView setDataDetectorTypes:UIDataDetectorTypeLink];
@@ -714,6 +721,32 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
 	// we must do this in case we have no saved navigationstack
 	[self pushViewController:fileController animated:NO];
 	[self updateBadgeValueUsingItem:fileController.navigationItem push:YES];
+
+	// Fix simple mode (note that this must be done AFTER pushing the file controller
+	// onto the navigation stack, to correctly get to the download new file-button)
+	if( [CSVPreferencesController simpleMode] )
+	{
+		NSMutableArray *keptItems = [NSMutableArray array];
+		
+		for( UIBarButtonItem *item in [itemsToolbar items] )
+		{
+			if( [item action] != @selector(editColumns:))
+				[keptItems addObject:item];
+		}
+		[itemsToolbar setItems:keptItems animated:NO];
+		
+		[keptItems removeAllObjects];
+		for( UIBarButtonItem *item in [filesToolbar items] )
+		{
+			if([item action] != @selector(toggleEditFiles) &&
+			   [item action] != @selector(toggleShowFileInfo:))
+				[keptItems addObject:item];
+		}
+		[filesToolbar setItems:keptItems animated:NO];
+		
+		self.navigationBar.topItem.rightBarButtonItem = nil;
+		fileController.editable = NO;
+	}
 	
 	// Read last state to be able to get back to where we were before quitting last time
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];

@@ -240,6 +240,20 @@
 			<key>DefaultValue</key>
 			<string>0</string>
 		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSToggleSwitchSpecifier</string>
+			<key>Title</key>
+			<string>Simple mode</string>
+			<key>Key</key>
+			<string>simpleMode</string>
+			<key>DefaultValue</key>
+			<false/>
+			<key>TrueValue</key>
+			<true/>
+			<key>FalseValue</key>
+			<false/>
+		</dict>
 	</array>
 </dict>
 </plist>

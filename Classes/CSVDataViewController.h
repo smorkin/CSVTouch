@@ -52,6 +52,7 @@ OzyWebViewController;
 	IBOutlet UIToolbar *itemsToolbar;
 	IBOutlet UIBarButtonItem *enlargeItemsButton;
 	IBOutlet UIBarButtonItem *shrinkItemsButton;
+	IBOutlet UIBarButtonItem *modificationDateButton;
 	IBOutlet UIBarButtonItem *itemsCountButton;
 	IBOutlet UIToolbar *filesToolbar;
 	IBOutlet UIBarButtonItem *filesCountButton;

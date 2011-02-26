@@ -116,6 +116,16 @@
 			<key>DefaultValue</key>
 			<string>5</string>
 		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSTextFieldSpecifier</string>
+			<key>Title</key>
+			<string>Reload time</string>
+			<key>Key</key>
+			<string>nextDownloadTime</string>
+			<key>KeyboardType</key>
+			<string>NumbersAndPunctuation</string>
+		</dict>
 	</array>
 </dict>
 </plist>

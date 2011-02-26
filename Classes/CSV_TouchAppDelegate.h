@@ -12,7 +12,11 @@
 @class OzyRotatableViewController, CSVFileParser, CSVDataViewController;
 
 // Enum for alert view tags
-enum{PASSWORD_CHECK = 1, PASSWORD_SET, UPGRADE_FAILED, CSV_FILE_LIST_SETUP};
+enum{PASSWORD_CHECK = 1,
+	PASSWORD_SET,
+	UPGRADE_FAILED,
+	CSV_FILE_LIST_SETUP,
+	RELOAD_FILES};
 
 
 @interface CSV_TouchAppDelegate : NSObject <UIApplicationDelegate,
@@ -46,10 +50,13 @@ OzymandiasApplicationDelegate> {
 
 	NSMutableArray *_URLsToDownload;
 	BOOL _readingFileList;
+	
+	NSTimer *downloadTimer;
 }
 
 + (CSV_TouchAppDelegate *) sharedInstance;
 + (NSArray *) allowedDelimiters;
++ (BOOL) iPadMode;
 
 @property (nonatomic, retain) UIWindow *window;
 @property (nonatomic, assign) NSInteger httpStatusCode;

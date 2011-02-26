@@ -457,7 +457,7 @@
 - (NSString *) tableViewDescription
 {
 	if( self.hasBeenDownloaded )
-		return [NSString stringWithFormat:@"✓ %@", [self defaultTableViewDescription]];
+		return [NSString stringWithFormat:@"✓ %@", [self defaultTableViewDescription]];	
 	else
 		return [self defaultTableViewDescription];
 }
@@ -469,6 +469,11 @@
 
 - (NSString *) imageName
 {
+	NSDate *nextDownload = [CSVPreferencesController nextDownload];
+	if(self.downloadDate && nextDownload &&
+	   [nextDownload timeIntervalSinceDate:self.downloadDate] > 24*60*60 )
+		return @"alert.png";
+		
 	return nil;
 }
 

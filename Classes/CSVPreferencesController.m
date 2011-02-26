@@ -49,6 +49,9 @@
 #define PREFS_USE_PASSWORD @"usePassword"
 #define PREFS_HAS_BEEN_UPGRADED_TO_CUSTOM_EXTENSION @"hasBeenUpgradedToCustomExtension"
 #define PREFS_HIDE_ADDRESS @"hideAddress"
+#define PREFS_NEXT_DOWNLOAD_TIME @"nextDownloadTime"
+#define PREFS_LAST_DOWNLOAD @"lastDownload"
+#define PREFS_SIMPLE_MODE @"simpleMode"
 
 NSUInteger sortingMask;
 
@@ -335,6 +338,60 @@ NSUInteger sortingMask;
 	[[NSUserDefaults standardUserDefaults] removeObjectForKey:PREFS_USE_PASSWORD];
 }
 
++ (NSDate *) nextDownload
+{
+	id obj = [[NSUserDefaults standardUserDefaults] objectForKey:PREFS_NEXT_DOWNLOAD_TIME];
+	if( obj )
+	{
+		NSString *time = [[NSUserDefaults standardUserDefaults] stringForKey:PREFS_NEXT_DOWNLOAD_TIME];
+		NSArray *split = [time componentsSeparatedByString:@":"];
+		if( [split count] == 2 )
+		{
+			NSDate *now = [NSDate date];
+			NSCalendar *current = [NSCalendar currentCalendar];
+			NSDateComponents *components = [current components:NSYearCalendarUnit |
+											NSMonthCalendarUnit |
+											NSDayCalendarUnit
+													  fromDate:now];
+			[components setHour:[[split objectAtIndex:0] intValue]];
+			[components setMinute:[[split objectAtIndex:1] intValue]];
+			NSDate *nextDownload = [current dateFromComponents:components];
+			if( [nextDownload timeIntervalSinceDate:now] < 0 )
+			{
+				[components setDay:[components day]+1];
+				nextDownload = [current dateFromComponents:components];
+			}
+			return nextDownload;
+		}
+	}
+		return nil;
+}
+
++ (NSDate *) lastDownload
+{
+	id obj = [[NSUserDefaults standardUserDefaults] objectForKey:PREFS_LAST_DOWNLOAD];
+	if( [obj isKindOfClass:[NSDate class]] )
+		return obj;
+	else
+		return nil;
+}
+
++ (void) setLastDownload:(NSDate *)lastDownload
+{
+	[[NSUserDefaults standardUserDefaults] setObject:lastDownload forKey:PREFS_LAST_DOWNLOAD];
+}
+
++ (BOOL) simpleMode
+{
+	id obj = [[NSUserDefaults standardUserDefaults] objectForKey:PREFS_SIMPLE_MODE];
+	if( obj )
+		return [[NSUserDefaults standardUserDefaults] boolForKey:PREFS_SIMPLE_MODE];
+	else
+		return NO;
+	
+}
+
+
 static BOOL hideAdress = NO;
 
 + (BOOL) hideAddress
@@ -486,8 +543,17 @@ static BOOL hideAdress = NO;
 			else if( [[words objectAtIndex:0] isEqualToString:PREFS_USE_PASSWORD] )
 				[[NSUserDefaults standardUserDefaults] setBool:[[words objectAtIndex:1] boolValue]
 														forKey:PREFS_USE_PASSWORD];						
+
 			else if( [[words objectAtIndex:0] isEqualToString:PREFS_HIDE_ADDRESS] )
 				[CSVPreferencesController setHideAddress:[[words objectAtIndex:1] boolValue]];
+
+			else if( [[words objectAtIndex:0] isEqualToString:PREFS_NEXT_DOWNLOAD_TIME] )
+				[[NSUserDefaults standardUserDefaults] setObject:[words objectAtIndex:1]
+														  forKey:PREFS_NEXT_DOWNLOAD_TIME];
+
+			else if( [[words objectAtIndex:0] isEqualToString:PREFS_SIMPLE_MODE] )
+				[[NSUserDefaults standardUserDefaults] setBool:[[words objectAtIndex:1] boolValue]
+														  forKey:PREFS_SIMPLE_MODE];
 		}
 	}
 }

@@ -46,6 +46,11 @@ static CSV_TouchAppDelegate *sharedInstance = nil;
 	return delimiters;
 }
 
++ (BOOL) iPadMode
+{
+	return [[[UIDevice currentDevice] name] hasSubstring:@"iPad"];
+}
+
 - (CSVDataViewController *) dataController
 {
 	return dataController;
@@ -329,6 +334,28 @@ static NSString *newPassword = nil;
 	[window addSubview:[[self dataController] view]];
 	[window makeKeyAndVisible];
 	
+	NSDate *nextDownload = [CSVPreferencesController nextDownload];
+	if( nextDownload )
+	{
+		// First let's schedule for next downloads
+		downloadTimer = [[NSTimer alloc] initWithFireDate:nextDownload
+												 interval:24*60*60
+												   target:self
+												 selector:@selector(downloadScheduled)
+												 userInfo:nil
+												  repeats:true];
+		[[NSRunLoop currentRunLoop] addTimer:downloadTimer forMode:NSDefaultRunLoopMode];
+		// Now let's check if we need to do a new download immediately
+		NSDate *lastDownload = [CSVPreferencesController lastDownload];
+		if( !lastDownload ||
+		   ( lastDownload && [nextDownload timeIntervalSinceDate:lastDownload] > 24*60*60 ))
+		{
+			[self performSelector:@selector(downloadScheduled)
+					   withObject:nil
+					   afterDelay:2.0];
+		}
+	}	
+	
 	// Show the Add file window in case no files are present
 	if( [[self dataController] numberOfFiles] == 0 )
 	{
@@ -338,7 +365,7 @@ static NSString *newPassword = nil;
 
 - (void) awakeFromNib
 {
-	if( [[[UIDevice currentDevice] name] hasSubstring:@"iPad"] )
+	if( [CSV_TouchAppDelegate iPadMode] )
 		[[NSBundle mainBundle] loadNibNamed:@"iPadMainWindow" owner:self options:nil];
 	else 
 		[[NSBundle mainBundle] loadNibNamed:@"iPhoneMainWindow" owner:self options:nil];
@@ -598,6 +625,7 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 		[self downloadFileWithString:URL];
 		[self.URLsToDownload removeObjectAtIndex:0];
 	}
+	[CSVPreferencesController setLastDownload:[NSDate date]];
 }
 
 - (void) loadFileList
@@ -633,6 +661,17 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 	
 	// Update this in case you want to download a file from a similar URL later on
 	newFileURL.text = URL;
+}
+
+- (void) downloadScheduled
+{
+	UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Download scheduled"
+													message:@"Time to reload all your files!"
+												   delegate:self
+										  cancelButtonTitle:@"Cancel"
+										  otherButtonTitles:@"Download" ,nil] autorelease];
+	alert.tag = RELOAD_FILES;
+	[alert show];
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
@@ -689,6 +728,7 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 	}
 }	
 
+// TODO: Implement UIApplicationWillEnterForegroundNotification for password after backgrounding
 
 - (void)alertView:(UIAlertView *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
@@ -753,6 +793,10 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 	else if( alertView.tag == UPGRADE_FAILED )
 	{
 		exit(1);
+	}
+	else if( alertView.tag == RELOAD_FILES && buttonIndex > 0)
+	{
+		[self reloadAllFiles];
 	}
 }
 

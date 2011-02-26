@@ -446,8 +446,8 @@
 				F45B64B5127E039A00E02CE3 /* iAd.framework */,
 			);
 			name = SDKs;
-			path = Platforms/iPhoneOS.platform/Developer/SDKs;
-			sourceTree = DEVELOPER_DIR;
+			path = ..;
+			sourceTree = SDKROOT;
 		};
 		F412B2CE11556792000C7596 /* Resources-iPhone */ = {
 			isa = PBXGroup;
