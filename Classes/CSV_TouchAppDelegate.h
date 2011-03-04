@@ -50,19 +50,24 @@ OzymandiasApplicationDelegate> {
 
 	NSMutableArray *_URLsToDownload;
 	BOOL _readingFileList;
-	
+		
 	NSTimer *downloadTimer;
+	
+	NSDate *_enteredBackground;
 }
 
 + (CSV_TouchAppDelegate *) sharedInstance;
 + (NSArray *) allowedDelimiters;
 + (BOOL) iPadMode;
 
++ (NSString *) internalFileNameForOriginalFileName:(NSString *)original;
+
 @property (nonatomic, retain) UIWindow *window;
 @property (nonatomic, assign) NSInteger httpStatusCode;
 @property (nonatomic, retain) CSVFileParser *fileInspected;
 @property (nonatomic, readonly) NSMutableArray *URLsToDownload;
 @property (nonatomic, assign) BOOL readingFileList;
+@property (nonatomic, retain) NSDate *enteredBackground;
 
 
 - (IBAction) downloadNewFile:(id)sender;

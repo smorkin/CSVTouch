@@ -22,7 +22,6 @@
 		F47DC7EB1111004C00E8DD8B /* row.png in Resources */ = {isa = PBXBuildFile; fileRef = F473432D0E2A90B20072F3DE /* row.png */; };
 		F47DC7EC1111004C00E8DD8B /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = F4174D140E40A4A200351EE4 /* icon.png */; };
 		F47DC7ED1111004C00E8DD8B /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = F4990C160E4276C500D64667 /* Settings.bundle */; };
-		F47DC7EE1111004C00E8DD8B /* dist.plist in Resources */ = {isa = PBXBuildFile; fileRef = F4BE8AB00E4503AC00F2A27B /* dist.plist */; };
 		F47DC7F01111004C00E8DD8B /* info.png in Resources */ = {isa = PBXBuildFile; fileRef = F451F1800E99146300F22ED9 /* info.png */; };
 		F47DC7F11111004C00E8DD8B /* 2lines.png in Resources */ = {isa = PBXBuildFile; fileRef = F49218530EA7AC7400E74493 /* 2lines.png */; };
 		F47DC7F21111004C00E8DD8B /* 4lines.png in Resources */ = {isa = PBXBuildFile; fileRef = F49218540EA7AC7400E74493 /* 4lines.png */; };
@@ -54,7 +53,6 @@
 		F47DC81C1111005400E8DD8B /* col.png in Resources */ = {isa = PBXBuildFile; fileRef = F473432C0E2A90B20072F3DE /* col.png */; };
 		F47DC81D1111005400E8DD8B /* row.png in Resources */ = {isa = PBXBuildFile; fileRef = F473432D0E2A90B20072F3DE /* row.png */; };
 		F47DC81E1111005400E8DD8B /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = F4990C160E4276C500D64667 /* Settings.bundle */; };
-		F47DC81F1111005400E8DD8B /* dist.plist in Resources */ = {isa = PBXBuildFile; fileRef = F4BE8AB00E4503AC00F2A27B /* dist.plist */; };
 		F47DC8201111005400E8DD8B /* lock.png in Resources */ = {isa = PBXBuildFile; fileRef = F41BB7470EE9F65A00BEFDED /* lock.png */; };
 		F47DC8221111005400E8DD8B /* CSV_TouchAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* CSV_TouchAppDelegate.m */; };
 		F47DC8231111005400E8DD8B /* CSVDataViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F42D908D0DE95538001A2E5C /* CSVDataViewController.m */; };
@@ -174,6 +172,7 @@
 		F4ADD824115E573C0095F061 /* yes.png in Resources */ = {isa = PBXBuildFile; fileRef = F4ADD7CA115E573C0095F061 /* yes.png */; };
 		F4ADD90E115E692D0095F061 /* empty.png in Resources */ = {isa = PBXBuildFile; fileRef = F4ADD90D115E692D0095F061 /* empty.png */; };
 		F4ADD90F115E692D0095F061 /* empty.png in Resources */ = {isa = PBXBuildFile; fileRef = F4ADD90D115E692D0095F061 /* empty.png */; };
+		F4AE6ED113217AEB00BABD6C /* Entitlements.plist in Resources */ = {isa = PBXBuildFile; fileRef = F4AE6ED013217AD500BABD6C /* Entitlements.plist */; };
 		F4C4000E117A63080049C630 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = F4E928750E4EE808006165B0 /* Default.png */; };
 		F4C4FFFB117A62E30049C630 /* Default-Landscape.png in Resources */ = {isa = PBXBuildFile; fileRef = F4C4FFF9117A62E30049C630 /* Default-Landscape.png */; };
 		F4C4FFFC117A62E30049C630 /* Default-Portrait.png in Resources */ = {isa = PBXBuildFile; fileRef = F4C4FFFA117A62E30049C630 /* Default-Portrait.png */; };
@@ -288,7 +287,7 @@
 		F4ADD90D115E692D0095F061 /* empty.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = empty.png; sourceTree = "<group>"; };
 		F4AE44850DF469BF001197AB /* CSVRow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSVRow.h; sourceTree = "<group>"; };
 		F4AE44860DF469BF001197AB /* CSVRow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSVRow.m; sourceTree = "<group>"; };
-		F4BE8AB00E4503AC00F2A27B /* dist.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = dist.plist; sourceTree = "<group>"; };
+		F4AE6ED013217AD500BABD6C /* Entitlements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Entitlements.plist; sourceTree = "<group>"; };
 		F4C4FFF9117A62E30049C630 /* Default-Landscape.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Landscape.png"; sourceTree = "<group>"; };
 		F4C4FFFA117A62E30049C630 /* Default-Portrait.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Portrait.png"; sourceTree = "<group>"; };
 		F4CB510A11689FD300CFCBBC /* CSV Lite-Info-iPad.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "CSV Lite-Info-iPad.plist"; sourceTree = "<group>"; };
@@ -386,7 +385,7 @@
 				29B97323FDCFA39411CA2CEA /* SDKs */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
 				F4990C160E4276C500D64667 /* Settings.bundle */,
-				F4BE8AB00E4503AC00F2A27B /* dist.plist */,
+				F4AE6ED013217AD500BABD6C /* Entitlements.plist */,
 			);
 			name = CustomTemplate;
 			sourceTree = "<group>";
@@ -610,7 +609,6 @@
 				F47DC7EB1111004C00E8DD8B /* row.png in Resources */,
 				F47DC7EC1111004C00E8DD8B /* icon.png in Resources */,
 				F47DC7ED1111004C00E8DD8B /* Settings.bundle in Resources */,
-				F47DC7EE1111004C00E8DD8B /* dist.plist in Resources */,
 				F47DC7F01111004C00E8DD8B /* info.png in Resources */,
 				F47DC7F11111004C00E8DD8B /* 2lines.png in Resources */,
 				F47DC7F21111004C00E8DD8B /* 4lines.png in Resources */,
@@ -675,6 +673,7 @@
 				F48584F811EE4F34001CFC28 /* dvd.png in Resources */,
 				F48584F911EE4F34001CFC28 /* hd.png in Resources */,
 				F48584FA11EE4F34001CFC28 /* qt.png in Resources */,
+				F4AE6ED113217AEB00BABD6C /* Entitlements.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -690,7 +689,6 @@
 				F47DC81C1111005400E8DD8B /* col.png in Resources */,
 				F47DC81D1111005400E8DD8B /* row.png in Resources */,
 				F47DC81E1111005400E8DD8B /* Settings.bundle in Resources */,
-				F47DC81F1111005400E8DD8B /* dist.plist in Resources */,
 				F47DC8201111005400E8DD8B /* lock.png in Resources */,
 				F488D8411146607A00583920 /* bluedream.css in Resources */,
 				F458080011466E9400A4C4E1 /* nksTablegallery.css in Resources */,
@@ -819,7 +817,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
 				ONLY_ACTIVE_ARCH = YES;
 				PREBINDING = NO;
-				SDKROOT = iphoneos4.2;
+				SDKROOT = iphoneos;
 			};
 			name = Debug;
 		};
@@ -837,7 +835,7 @@
 				PREBINDING = NO;
 				PROVISIONING_PROFILE = "0F08F786-84FC-4EE6-BF4A-126B7EE45245";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "0F08F786-84FC-4EE6-BF4A-126B7EE45245";
-				SDKROOT = iphoneos4.2;
+				SDKROOT = iphoneos;
 			};
 			name = AppStore;
 		};
@@ -846,6 +844,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CODE_SIGN_ENTITLEMENTS = "~/Utveckling/AppStore/CSVReader/Entitlements.plist";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
@@ -859,7 +858,7 @@
 				PRODUCT_NAME = "CSV Touch";
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
-				SDKROOT = iphoneos4.2;
+				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -869,6 +868,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CODE_SIGN_ENTITLEMENTS = "~/Utveckling/AppStore/CSVReader/Entitlements.plist";
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Simon Wigzell";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Simon Wigzell";
 				COPY_PHASE_STRIP = YES;
@@ -879,7 +879,7 @@
 				PRODUCT_NAME = "CSV Touch";
 				PROVISIONING_PROFILE = "0F08F786-84FC-4EE6-BF4A-126B7EE45245";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "0F08F786-84FC-4EE6-BF4A-126B7EE45245";
-				SDKROOT = iphoneos4.2;
+				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
@@ -890,7 +890,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				CODE_SIGN_ENTITLEMENTS = dist.plist;
+				CODE_SIGN_ENTITLEMENTS = "~/Utveckling/AppStore/CSVReader/Entitlements.plist";
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				COPY_PHASE_STRIP = YES;
@@ -902,7 +902,7 @@
 				PRODUCT_NAME = "CSV Touch";
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
-				SDKROOT = iphoneos4.2;
+				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 				VALID_ARCHS = "armv6 armv7";
@@ -914,6 +914,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CODE_SIGN_ENTITLEMENTS = "~/Utveckling/AppStore/CSVReader/Entitlements.plist";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
@@ -929,7 +930,7 @@
 				PREBINDING = NO;
 				PRODUCT_NAME = "CSV Lite";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
-				SDKROOT = iphoneos4.2;
+				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -939,6 +940,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CODE_SIGN_ENTITLEMENTS = "~/Utveckling/AppStore/CSVReader/Entitlements.plist";
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Simon Wigzell";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Simon Wigzell";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -952,7 +954,7 @@
 				PRODUCT_NAME = "CSV Lite";
 				PROVISIONING_PROFILE = "0F08F786-84FC-4EE6-BF4A-126B7EE45245";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "0F08F786-84FC-4EE6-BF4A-126B7EE45245";
-				SDKROOT = iphoneos4.2;
+				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -964,6 +966,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CODE_SIGN_ENTITLEMENTS = "~/Utveckling/AppStore/CSVReader/Entitlements.plist";
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -977,7 +980,7 @@
 				PRODUCT_NAME = "CSV Lite";
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
-				SDKROOT = iphoneos4.2;
+				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
@@ -998,7 +1001,7 @@
 				PREBINDING = NO;
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
-				SDKROOT = iphoneos4.2;
+				SDKROOT = iphoneos;
 			};
 			name = Privatdistribution;
 		};

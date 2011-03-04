@@ -20,6 +20,7 @@
 #define SELECTED_TAB_BAR_INDEX @"selectedTabBarIndex"
 #define FILE_PASSWORD @"filePassword"
 #define MANUALLY_ADDED_URL_VALUE @""
+#define INTERNAL_EXTENSION @".csvtouch"
 
 @implementation CSV_TouchAppDelegate
 
@@ -28,6 +29,7 @@
 @synthesize fileInspected = _fileInspected;
 @synthesize URLsToDownload = _URLsToDownload;
 @synthesize readingFileList = _readingFileList;
+@synthesize enteredBackground = _enteredBackground;
 
 static CSV_TouchAppDelegate *sharedInstance = nil;
 
@@ -50,6 +52,12 @@ static CSV_TouchAppDelegate *sharedInstance = nil;
 {
 	return [[[UIDevice currentDevice] name] hasSubstring:@"iPad"];
 }
+
++ (NSString *) internalFileNameForOriginalFileName:(NSString *)original
+{
+	return [original stringByAppendingString:INTERNAL_EXTENSION];
+}
+	
 
 - (CSVDataViewController *) dataController
 {
@@ -190,8 +198,8 @@ static NSString *newPassword = nil;
 	else
 	{
 		CSVFileParser *fp = [[CSVFileParser alloc] initWithRawData:data];
-		fp.filePath = [[CSV_TouchAppDelegate importedDocumentsPath] stringByAppendingPathComponent:fileName];
-		fp.filePath = [NSString stringWithFormat:@"%@.csvtouch", fp.filePath];
+		fp.filePath = [[CSV_TouchAppDelegate importedDocumentsPath] stringByAppendingPathComponent:
+					   [CSV_TouchAppDelegate internalFileNameForOriginalFileName:fileName]];
 		if( !isLocalDownload )
 		{
 			fp.URL = [newFileURL text];
@@ -225,7 +233,7 @@ static NSString *newPassword = nil;
 	for( NSString *fileName in documents )
 	{
 		if(![fileName hasPrefix:@"."] &&
-		   [fileName hasSuffix:@".csvtouch"])
+		   [fileName hasSuffix:INTERNAL_EXTENSION])
 		{
 			if( [[NSFileManager defaultManager] moveItemAtPath:[manuallyAddedDocumentsPath stringByAppendingPathComponent:fileName]
 														toPath:[importedDocumentsPath stringByAppendingPathComponent:fileName]
@@ -252,7 +260,7 @@ static NSString *newPassword = nil;
 	for( NSString *fileName in documents )
 	{
 		if(![fileName hasPrefix:@"."] &&
-		   [fileName hasSuffix:@".csvtouch"])
+		   [fileName hasSuffix:INTERNAL_EXTENSION])
 		{
 			CSVFileParser *fp = [CSVFileParser parserWithFile:[importedDocumentsPath stringByAppendingPathComponent:fileName]];
 			[files addObject:fp];
@@ -508,7 +516,25 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 			lineRange = NSMakeRange(lineStart, lineEnd - lineStart);
 			line = [s substringWithRange:lineRange];
 			if( !readingSettings && line && ![line isEqualToString:@""] )
-				[self.URLsToDownload addObject:line];
+			{
+				NSArray *split = [line componentsSeparatedByString:@" "];
+				if( [split count] == 2 ) // We have predefined hidden columns
+				{
+					NSString *fileName = [split objectAtIndex:0];
+					[self.URLsToDownload addObject:fileName];
+					split = [[split objectAtIndex:1] componentsSeparatedByString:@","];
+					NSMutableIndexSet *hidden = [NSMutableIndexSet indexSet];
+					for( NSString *s in split )
+						[hidden addIndex:[s intValue]];
+					[[CSVDataViewController sharedInstance] setHiddenColumns:hidden
+																	 forFile:[CSV_TouchAppDelegate internalFileNameForOriginalFileName:
+																			  [fileName lastPathComponent]]];
+				}
+				else
+				{
+					[self.URLsToDownload addObject:line];
+				}
+			}
 			else if( !readingSettings && line && [line isEqualToString:@""] )
 				readingSettings = TRUE;
 			else if( readingSettings && line && ![line isEqualToString:@""] )
@@ -680,6 +706,7 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 	{
 		[self performSelector:@selector(doDownloadNewFile:) withObject:self afterDelay:0];
 	}
+	[textField endEditing:YES];
 	return YES;
 }
 
@@ -728,6 +755,25 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 	}
 }	
 
+- (void)applicationDidEnterBackground:(UIApplication *)application
+{
+	[[NSUserDefaults standardUserDefaults] synchronize];
+	self.enteredBackground = [NSDate date];
+}
+
+- (void)applicationWillEnterForeground:(UIApplication *)application
+{
+	int maxMinutesInBackground = [CSVPreferencesController maxSafeBackgroundMinutes];
+	if(maxMinutesInBackground != NSIntegerMax &&
+	   self.enteredBackground &&
+	   [[NSDate date] timeIntervalSinceDate:self.enteredBackground] > maxMinutesInBackground*60 )
+	{
+		[self performSelector:@selector(checkPassword)
+				   withObject:nil 
+				   afterDelay:0.3];
+	}
+}
+
 // TODO: Implement UIApplicationWillEnterForegroundNotification for password after backgrounding
 
 - (void)alertView:(UIAlertView *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
@@ -741,11 +787,16 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 			{
 				if( [CSVPreferencesController usePassword] == NO )
 					[[NSUserDefaults standardUserDefaults] removeObjectForKey:FILE_PASSWORD];
-				[self performSelector:@selector(delayedStartup) withObject:nil afterDelay:0.3];
+				if( !self.enteredBackground ) // If entered background, the password check is not at startup
+					[self performSelector:@selector(delayedStartup)
+							   withObject:nil
+							   afterDelay:0.3];
 			}
 			else
 			{
-				[self performSelector:@selector(checkPassword) withObject:nil afterDelay:0.3];
+				[self performSelector:@selector(checkPassword)
+						   withObject:nil
+						   afterDelay:0.3];
 			}
 		}
 		else // Cancel button pressed

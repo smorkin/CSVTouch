@@ -68,6 +68,10 @@ OzyWebViewController;
 	NSMutableArray *importantColumnIndexes;
 	int *rawColumnIndexes;
 	
+	// For use when reading a CSV file list which includes
+	// pre-defined columns not to show
+	NSMutableDictionary *_preDefinedHiddenColumns;
+	
 	// Weak reference to the latest shown item
 	CSVRow *_latestShownItem;
 	
@@ -129,6 +133,8 @@ OzyWebViewController;
 
 - (NSArray *) importantColumnIndexes;
 - (int *) rawColumnIndexes;
+
+- (void) setHiddenColumns:(NSIndexSet *)hidden forFile:(NSString *)fileName;
 
 - (void) applicationWillTerminate;
 - (void) applicationDidFinishLaunchingInEmergencyMode:(BOOL) emergencyMode;

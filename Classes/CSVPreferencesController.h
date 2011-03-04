@@ -50,6 +50,8 @@
 + (NSDate *) lastDownload;
 + (void) setLastDownload:(NSDate *)lastDownload;
 + (BOOL) simpleMode;
++ (BOOL) blankWordSeparator;
++ (int) maxSafeBackgroundMinutes;
 
 // This is temporary, while downloading a file with addresses to CSV files
 + (BOOL) hideAddress;

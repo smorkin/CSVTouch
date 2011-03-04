@@ -123,6 +123,11 @@
 	[itemController dataLoaded];
 }
 
+- (void) setHiddenColumns:(NSIndexSet *)hidden forFile:(NSString *)fileName
+{
+	[_preDefinedHiddenColumns setObject:hidden forKey:fileName];
+}
+
 - (NSArray *) importantColumnIndexes
 {
 	return importantColumnIndexes;
@@ -154,7 +159,29 @@
 {
 	NSArray *names = [columnNamesForFileName objectForKey:[currentFile fileName]];
 	if( !names )
-		names = [currentFile availableColumnNames];
+	{
+		NSArray *availableNames = [currentFile availableColumnNames];
+		// Do we have any predefined hidden columns?
+		NSIndexSet *hidden = [_preDefinedHiddenColumns objectForKey:[currentFile fileName]];
+		if(hidden &&
+		   [hidden isKindOfClass:[NSIndexSet class]] &&
+		   [hidden count] > 0)
+		{
+			NSMutableArray *tmpNames = [NSMutableArray array];
+			for( NSUInteger index = 0 ; index < [availableNames count] ; index++)
+			{
+				if( ![hidden containsIndex:index] )
+					[tmpNames addObject:[availableNames objectAtIndex:index]];
+			}
+			names = tmpNames;
+		}
+		else
+		{
+			names = [currentFile availableColumnNames];
+		}
+		[_preDefinedHiddenColumns removeObjectForKey:[currentFile fileName]];
+		[columnNamesForFileName setObject:names forKey:[currentFile fileName]];
+	}
 	[editController setObjects:[NSMutableArray arrayWithArray:names]];
 	[editController dataLoaded];
 	[self updateColumnIndexes];
@@ -557,6 +584,7 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
 #define DEFS_ITEM_POSITIONS_FOR_FILES @"itemPositionsForFiles"
 #define DEFS_SEARCH_STRINGS_FOR_FILES @"searchStringsForFiles"
 #define DEFS_SELECTED_DETAILS_VIEW @"selectedDetailsView"
+#define DEFS_PREDEFINED_HIDDEN_COLUMNS @"predefinedHiddenColumns"
 
 
 - (void) applicationWillTerminate
@@ -582,6 +610,15 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
 	if( searchStringForFileName )
 	{
 		[defaults setObject:searchStringForFileName forKey:DEFS_SEARCH_STRINGS_FOR_FILES];
+	}
+	
+	if( [_preDefinedHiddenColumns count] > 0 )
+	{
+		[defaults setObject:_preDefinedHiddenColumns forKey:DEFS_PREDEFINED_HIDDEN_COLUMNS];
+	}
+	else
+	{
+		[defaults removeObjectForKey:DEFS_PREDEFINED_HIDDEN_COLUMNS];
 	}
 	
 	if( [self topViewController] != fileController )
@@ -774,6 +811,14 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
 		searchStringForFileName = [[NSMutableDictionary alloc] initWithDictionary:searchStrings];
 	}
 	
+	// Also read in any predefined hidden columns
+	NSDictionary *predefinedHiddenColumns = [defaults objectForKey:DEFS_PREDEFINED_HIDDEN_COLUMNS];
+	if( predefinedHiddenColumns && [predefinedHiddenColumns isKindOfClass:[NSDictionary class]] )
+	{
+		[_preDefinedHiddenColumns release];
+		_preDefinedHiddenColumns = [[NSMutableDictionary alloc] initWithDictionary:predefinedHiddenColumns];
+	}
+	
 	// If starting up in emergency mode, we should not do anything more here
 	if( emergencyMode )
 		return;
@@ -938,6 +983,8 @@ static CSVDataViewController *sharedInstance = nil;
 	indexPathForFileName = [[NSMutableDictionary alloc] init];
 	searchStringForFileName = [[NSMutableDictionary alloc] init];
 	importantColumnIndexes = [[NSMutableArray alloc] init];
+	_preDefinedHiddenColumns = [[NSMutableDictionary alloc] init];
+
 #if defined(__IPHONE_4_0) && defined(CSV_LITE)
 	[self setupBannerView];
 #endif		
@@ -963,6 +1010,8 @@ static CSVDataViewController *sharedInstance = nil;
 	[indexPathForFileName release];
 	[searchStringForFileName release];
 	[importantColumnIndexes release];
+	[_preDefinedHiddenColumns release];
+	
 	if( rawColumnIndexes )
 		free(rawColumnIndexes);
 #if defined(__IPHONE_4_0) && defined(CSV_LITE)
@@ -1196,7 +1245,7 @@ static CSVDataViewController *sharedInstance = nil;
 		//	[UIView commitAnimations];
 		
 		[itemController.navigationItem setHidesBackButton:NO animated:YES];
-		[itemController.navigationItem setRightBarButtonItem:nil animated:YES];
+		[itemController.navigationItem setRightBarButtonItem:modificationDateButton animated:YES];
 		if( [CSVPreferencesController useGroupingForItems] )
 		{
 			itemController.useIndexes = TRUE;

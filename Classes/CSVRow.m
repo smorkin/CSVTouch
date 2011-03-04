@@ -56,7 +56,8 @@ static NSMutableArray *formatsStrings = nil;
 
 + (NSString *) wordSeparator
 {
-	return ([CSVPreferencesController useFixedWidth] ? @" " : @"‧");
+	return (([CSVPreferencesController useFixedWidth] || [CSVPreferencesController blankWordSeparator])
+			? @" " : @"‧");
 }
 
 + (void) initialize

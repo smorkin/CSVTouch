@@ -52,6 +52,8 @@
 #define PREFS_NEXT_DOWNLOAD_TIME @"nextDownloadTime"
 #define PREFS_LAST_DOWNLOAD @"lastDownload"
 #define PREFS_SIMPLE_MODE @"simpleMode"
+#define PREFS_BLANK_WORD_SEPARATOR @"blankWordSeparator"
+#define PREFS_MAX_SAFE_BACKGROUND_MINUTES @"maxSafeBackgroundMinutes"
 
 NSUInteger sortingMask;
 
@@ -391,6 +393,24 @@ NSUInteger sortingMask;
 	
 }
 
++ (BOOL) blankWordSeparator
+{
+	id obj = [[NSUserDefaults standardUserDefaults] objectForKey:PREFS_BLANK_WORD_SEPARATOR];
+	if( obj )
+		return [[NSUserDefaults standardUserDefaults] boolForKey:PREFS_BLANK_WORD_SEPARATOR];
+	else
+		return NO;	
+}
+
++ (int) maxSafeBackgroundMinutes
+{
+	id obj = [[NSUserDefaults standardUserDefaults] objectForKey:PREFS_MAX_SAFE_BACKGROUND_MINUTES];
+	if( obj )
+		return [[NSUserDefaults standardUserDefaults] integerForKey:PREFS_MAX_SAFE_BACKGROUND_MINUTES];
+	else
+		return NSIntegerMax;	
+}
+
 
 static BOOL hideAdress = NO;
 
@@ -550,12 +570,22 @@ static BOOL hideAdress = NO;
 			else if( [[words objectAtIndex:0] isEqualToString:PREFS_NEXT_DOWNLOAD_TIME] )
 				[[NSUserDefaults standardUserDefaults] setObject:[words objectAtIndex:1]
 														  forKey:PREFS_NEXT_DOWNLOAD_TIME];
-
+			
 			else if( [[words objectAtIndex:0] isEqualToString:PREFS_SIMPLE_MODE] )
 				[[NSUserDefaults standardUserDefaults] setBool:[[words objectAtIndex:1] boolValue]
-														  forKey:PREFS_SIMPLE_MODE];
+														forKey:PREFS_SIMPLE_MODE];
+			
+			else if( [[words objectAtIndex:0] isEqualToString:PREFS_BLANK_WORD_SEPARATOR] )
+				[[NSUserDefaults standardUserDefaults] setBool:[[words objectAtIndex:1] boolValue]
+														forKey:PREFS_BLANK_WORD_SEPARATOR];
+			
+			else if( [[words objectAtIndex:0] isEqualToString:PREFS_MAX_SAFE_BACKGROUND_MINUTES] )
+				[[NSUserDefaults standardUserDefaults] setBool:[[words objectAtIndex:1] integerValue]
+														forKey:PREFS_MAX_SAFE_BACKGROUND_MINUTES];
+			
 		}
 	}
+	[[NSUserDefaults standardUserDefaults] synchronize];
 }
 				 
 
