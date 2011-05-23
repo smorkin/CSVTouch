@@ -28,6 +28,7 @@
 @synthesize httpStatusCode = _httpStatusCode;
 @synthesize fileInspected = _fileInspected;
 @synthesize URLsToDownload = _URLsToDownload;
+@synthesize newFilesAddedThroughURLList = _newFilesAddedThroughURLList;
 @synthesize readingFileList = _readingFileList;
 @synthesize enteredBackground = _enteredBackground;
 
@@ -269,6 +270,8 @@ static NSString *newPassword = nil;
 	[[self dataController] setFiles:files];
 	
 	// Then import all the potentially manually added files, beginning with iTunes ones
+	
+//TODO: XXX: Do this when application gets in the foreground!
 	documents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:manuallyAddedDocumentsPath
 																	error:NULL];
 	for( NSString *fileName in documents )
@@ -306,6 +309,7 @@ static NSString *newPassword = nil;
 	{
 		sharedInstance = self;
 		_URLsToDownload = [[NSMutableArray alloc] init];
+		_newFilesAddedThroughURLList = [[NSMutableArray alloc] init];
 	}
 	return self;
 }
@@ -423,6 +427,7 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 	[window release];
 	[rawData release];
 	[self.URLsToDownload release];
+	[self.newFilesAddedThroughURLList release];
 	[super dealloc];
 }
 
@@ -449,6 +454,26 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 	}
 	else 
 	{
+		if( [self.newFilesAddedThroughURLList count] > 0 &&
+		   [CSVPreferencesController synchronizeDownloadedFiles] )
+		{
+			// We need to remove any files not included amongst the newly downloaded ones
+			NSMutableSet *newFileNames = [NSMutableSet set];
+			NSMutableSet *oldFileNames = [NSMutableSet set];
+			for( NSString *URLString in self.newFilesAddedThroughURLList )
+			{
+				[newFileNames addObject:[URLString lastPathComponent]];
+			}
+			for( CSVFileParser *file in [dataController files] )
+			{
+				[oldFileNames addObject:[file fileName]];
+			}
+			[oldFileNames minusSet:newFileNames];
+			for( NSString *name in oldFileNames )
+			{
+				[dataController removeFileWithName:name];
+			}
+		}
 		[CSVPreferencesController setHideAddress:NO]; // In case we had temporarily set this from
 													  // a URL list file with preference settings
 		[newFileURL resignFirstResponder];
@@ -499,6 +524,7 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 	{
 		self.readingFileList = FALSE;
 		[self.URLsToDownload removeAllObjects];
+		[self.newFilesAddedThroughURLList removeAllObjects];
 		NSString *s = [[NSString alloc] initWithData:rawData 
 											encoding:[CSVPreferencesController encoding]];
 		NSUInteger length = [s length];
@@ -540,6 +566,11 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 			else if( readingSettings && line && ![line isEqualToString:@""] )
 				[settings addObject:line];
 		}
+		
+		// Take a copy of the files to download,
+		// to use later in case synchronizeDownloadedFiles is used
+		[self.newFilesAddedThroughURLList addObjectsFromArray:self.URLsToDownload];
+		
 		// We are doing the settings immediately, instead of later in [self downloadDone]
 		// to avoid having to store the values somewhere locally
 		if( [settings count] > 0 )
@@ -637,23 +668,6 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 	[self downloadDone];
 }
 
-- (void) reloadAllFiles
-{
-	[self.URLsToDownload removeAllObjects];
-	for( CSVFileParser *fp in [[CSVDataViewController sharedInstance] files] )
-	{
-		if( [fp URL] && ![[fp URL] isEqualToString:MANUALLY_ADDED_URL_VALUE] )
-			[self.URLsToDownload addObject:[fp URL]];
-	}
-	if( [self.URLsToDownload count] > 0 )
-	{
-		NSString *URL = [self.URLsToDownload objectAtIndex:0];
-		[self downloadFileWithString:URL];
-		[self.URLsToDownload removeObjectAtIndex:0];
-	}
-	[CSVPreferencesController setLastDownload:[NSDate date]];
-}
-
 - (void) loadFileList
 {
 	TextAlertView *alert = [[TextAlertView alloc] initWithTitle:@"File list address:" 
@@ -667,14 +681,16 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 	[alert release];	
 }
 
-- (void) readFileListFromURL:(NSString *)URL
+- (void) readFileListFromURL:(NSString *)URLString
 {
-	if( !URL || [URL isEqualToString:@""] )
+	if( !URLString || [URLString isEqualToString:@""] )
 		return;
 	
+	NSURL *URL = [NSURL URLWithString:[URLString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
 	self.readingFileList = TRUE;
 	[self slowActivityStarted];
-	[self startDownloadUsingURL:[NSURL URLWithString:[URL stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
+	[self startDownloadUsingURL:URL];
+	[CSVPreferencesController setLastUsedListURL:URL];
 }
 
 - (void) downloadFileWithString:(NSString *)URL
@@ -698,6 +714,31 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 										  otherButtonTitles:@"Download" ,nil] autorelease];
 	alert.tag = RELOAD_FILES;
 	[alert show];
+}
+
+- (void) reloadAllFiles
+{
+	if( [CSVPreferencesController simpleMode] && [CSVPreferencesController lastUsedListURL] )
+	{
+		NSURL *url = [CSVPreferencesController lastUsedListURL];
+		[self readFileListFromURL:[url absoluteString]];
+	}
+	else
+	{
+		[self.URLsToDownload removeAllObjects];
+		for( CSVFileParser *fp in [[CSVDataViewController sharedInstance] files] )
+		{
+			if( [fp URL] && ![[fp URL] isEqualToString:MANUALLY_ADDED_URL_VALUE] )
+				[self.URLsToDownload addObject:[fp URL]];
+		}
+		if( [self.URLsToDownload count] > 0 )
+		{
+			NSString *URL = [self.URLsToDownload objectAtIndex:0];
+			[self downloadFileWithString:URL];
+			[self.URLsToDownload removeObjectAtIndex:0];
+		}
+	}
+	[CSVPreferencesController setLastDownload:[NSDate date]];
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField

@@ -52,6 +52,9 @@
 + (BOOL) simpleMode;
 + (BOOL) blankWordSeparator;
 + (int) maxSafeBackgroundMinutes;
++ (NSURL *) lastUsedListURL;
++ (void) setLastUsedListURL:(NSURL *)URL;
++ (BOOL) synchronizeDownloadedFiles;
 
 // This is temporary, while downloading a file with addresses to CSV files
 + (BOOL) hideAddress;

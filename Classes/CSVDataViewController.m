@@ -775,9 +775,17 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
 		[keptItems removeAllObjects];
 		for( UIBarButtonItem *item in [filesToolbar items] )
 		{
-			if([item action] != @selector(toggleEditFiles) &&
-			   [item action] != @selector(toggleShowFileInfo:))
-				[keptItems addObject:item];
+			if( [CSVPreferencesController lastUsedListURL] )
+			{
+				if([item action] == @selector(loadFileList))
+					[keptItems addObject:item];
+			}
+			else
+			{
+				if([item action] != @selector(toggleEditFiles) &&
+				   [item action] != @selector(toggleShowFileInfo:))
+					[keptItems addObject:item];				
+			}
 		}
 		[filesToolbar setItems:keptItems animated:NO];
 		
@@ -1094,6 +1102,7 @@ static CSVDataViewController *sharedInstance = nil;
 
 - (void) delayedPushItemController:(CSVFileParser *)selectedFile
 {
+	// Note that the actual animation of the activity view won't stop until this callback is done
 	[[CSV_TouchAppDelegate sharedInstance] slowActivityCompleted];
 	
 	if( currentFile != selectedFile )
@@ -1452,17 +1461,21 @@ didSelectRowAtIndexPath:[fileController.tableView indexPathForSelectedRow]];
 	[itemController dataLoaded];
 }
 
-- (void) newFileDownloaded:(CSVFileParser *)newFile
+- (void) removeFileWithName:(NSString *)name
 {
-	for( NSUInteger i = 0 ; i < [[fileController objects] count] ; i++ )
+	for( CSVFileParser *oldFile in [fileController objects] )
 	{
-		CSVFileParser *oldFile = [[fileController objects] objectAtIndex:i];
-		if( [[newFile fileName] isEqualToString:[oldFile fileName]] )
+		if( [name isEqualToString:[oldFile fileName]] )
 		{
-			[[fileController objects] removeObjectAtIndex:i];
-			break;
+			[[fileController objects] removeObject:oldFile];
+			return;
 		}
 	}
+}
+
+- (void) newFileDownloaded:(CSVFileParser *)newFile
+{
+	[self removeFileWithName:[newFile fileName]];
 	newFile.hasBeenDownloaded = TRUE;
 	[[fileController objects] addObject:newFile];
 	[[fileController objects] sortUsingSelector:@selector(compareFileName:)];

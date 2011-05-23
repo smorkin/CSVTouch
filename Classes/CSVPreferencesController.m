@@ -54,6 +54,8 @@
 #define PREFS_SIMPLE_MODE @"simpleMode"
 #define PREFS_BLANK_WORD_SEPARATOR @"blankWordSeparator"
 #define PREFS_MAX_SAFE_BACKGROUND_MINUTES @"maxSafeBackgroundMinutes"
+#define LAST_USED_LIST_URL @"lastUsedListURL"
+#define PREFS_SYNCHRONIZE_DOWNLOADED_FILES @"synchronizeDownloadedFiles"
 
 NSUInteger sortingMask;
 
@@ -411,6 +413,24 @@ NSUInteger sortingMask;
 		return NSIntegerMax;	
 }
 
++ (NSURL *) lastUsedListURL
+{
+	return [[NSUserDefaults standardUserDefaults] URLForKey:LAST_USED_LIST_URL];
+}
+
++ (void) setLastUsedListURL:(NSURL *)URL
+{
+	[[NSUserDefaults standardUserDefaults] setURL:URL forKey:LAST_USED_LIST_URL];
+}
+
++ (BOOL) synchronizeDownloadedFiles
+{
+	id obj = [[NSUserDefaults standardUserDefaults] objectForKey:PREFS_SYNCHRONIZE_DOWNLOADED_FILES];
+	if( obj )
+		return [[NSUserDefaults standardUserDefaults] boolForKey:PREFS_SYNCHRONIZE_DOWNLOADED_FILES];
+	else
+		return NO;	
+}
 
 static BOOL hideAdress = NO;
 
@@ -582,6 +602,10 @@ static BOOL hideAdress = NO;
 			else if( [[words objectAtIndex:0] isEqualToString:PREFS_MAX_SAFE_BACKGROUND_MINUTES] )
 				[[NSUserDefaults standardUserDefaults] setBool:[[words objectAtIndex:1] integerValue]
 														forKey:PREFS_MAX_SAFE_BACKGROUND_MINUTES];
+			
+			else if( [[words objectAtIndex:0] isEqualToString:PREFS_SYNCHRONIZE_DOWNLOADED_FILES] )
+				[[NSUserDefaults standardUserDefaults] setBool:[[words objectAtIndex:1] boolValue]
+														forKey:PREFS_SYNCHRONIZE_DOWNLOADED_FILES];
 			
 		}
 	}

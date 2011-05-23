@@ -130,6 +130,7 @@ OzyWebViewController;
 - (void) resortObjects;
 
 - (void) newFileDownloaded:(CSVFileParser *)file;
+- (void) removeFileWithName:(NSString *)name;
 
 - (NSArray *) importantColumnIndexes;
 - (int *) rawColumnIndexes;
