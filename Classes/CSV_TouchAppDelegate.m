@@ -167,6 +167,23 @@ static NSString *newPassword = nil;
 	return [[self manuallyAddedDocumentsPath] stringByAppendingPathComponent:OTHER_APPS_IMPORTED_CSV_FILES_FOLDER];
 }
 
+#define LOCAL_MEDIA_DOCUMENTS_FOLDER @"Local media"
+
++ (NSString *) localMediaDocumentsPath
+{
+	NSString *path = [[self manuallyAddedDocumentsPath] stringByAppendingPathComponent:LOCAL_MEDIA_DOCUMENTS_FOLDER];
+	BOOL isDirectory;
+	if(![[NSFileManager defaultManager] fileExistsAtPath:path isDirectory:&isDirectory])
+	{
+		[[NSFileManager defaultManager] createDirectoryAtPath:path
+								  withIntermediateDirectories:NO
+												   attributes:nil
+														error:NULL];
+	}
+	return path;
+}
+
+
 
 - (void) readRawFileData:(NSData *)data
 				fileName:(NSString *)fileName
@@ -218,19 +235,46 @@ static NSString *newPassword = nil;
 	}
 }
 
-- (void) loadLocalFiles
+- (void) importManuallyAddedDocuments
+{
+	NSString *manuallyAddedDocumentsPath = [CSV_TouchAppDelegate manuallyAddedDocumentsPath];
+    NSString *localMediaDocumentsPath = [CSV_TouchAppDelegate localMediaDocumentsPath];
+	NSArray *documents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:manuallyAddedDocumentsPath
+                                                                             error:NULL];
+	for( NSString *fileName in documents )
+	{
+		if(![fileName hasPrefix:@"."] &&
+		   ![fileName isEqualToString:IMPORTED_CSV_FILES_FOLDER] &&
+		   ![fileName isEqualToString:OTHER_APPS_IMPORTED_CSV_FILES_FOLDER] &&
+           ![fileName isEqualToString:LOCAL_MEDIA_DOCUMENTS_FOLDER])
+		{
+            // So either a manually added file which is a media file, or a regular csv file (hopefully)
+            if( [fileName hasImageExtension] || [fileName hasMovieExtension] )
+            {
+                [[NSFileManager defaultManager] moveItemAtPath:[manuallyAddedDocumentsPath stringByAppendingPathComponent:fileName]
+                                                        toPath:[localMediaDocumentsPath stringByAppendingPathComponent:fileName]
+                                                         error:NULL];
+            }
+            else
+            {
+                [self readRawFileData:[NSData dataWithContentsOfFile:[manuallyAddedDocumentsPath stringByAppendingPathComponent:fileName]]
+                             fileName:fileName
+                      isLocalDownload:YES];
+                [[NSFileManager defaultManager] removeItemAtPath:[manuallyAddedDocumentsPath stringByAppendingPathComponent:fileName] error:NULL];
+            }
+        }
+	}
+}
+
+// Upgrading to new version where imported files are stored in a special directory, i.e.
+// move all old files into the imported directory
+- (BOOL) upgradeToStoringFilesInSpecialDirectory
 {
 	NSString *importedDocumentsPath = [CSV_TouchAppDelegate importedDocumentsPath];
 	NSString *manuallyAddedDocumentsPath = [CSV_TouchAppDelegate manuallyAddedDocumentsPath];
-	NSString *otherAppsImportedDocumentsPath = [CSV_TouchAppDelegate otherAppsImportedDocumentsPath];
+    NSArray *documents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:manuallyAddedDocumentsPath
+                                                                             error:NULL];
 	
-	NSArray *documents;
-	
-	// Upgrading to new version where imported files are stored in a special directory, i.e.
-	// move all old files into the imported directory
-	documents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:manuallyAddedDocumentsPath
-																	error:NULL];
-	BOOL failure = FALSE;
 	for( NSString *fileName in documents )
 	{
 		if(![fileName hasPrefix:@"."] &&
@@ -239,25 +283,18 @@ static NSString *newPassword = nil;
 			if( [[NSFileManager defaultManager] moveItemAtPath:[manuallyAddedDocumentsPath stringByAppendingPathComponent:fileName]
 														toPath:[importedDocumentsPath stringByAppendingPathComponent:fileName]
 														 error:NULL] == FALSE )
-				failure = TRUE;
+				return FALSE;
 		}
 	}
-	if( failure )
-	{
-		UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Upgrade failed"
-														 message:@"Couldn't move files when upgrading! Please reinstall application and try again." 
-														delegate:self
-											   cancelButtonTitle:@"Quit"
-											   otherButtonTitles:nil] autorelease];
-		alert.tag = UPGRADE_FAILED;
-		[alert show];
-		return;
-	}		
-	
-	// First load all old files
-	NSMutableArray *files = [NSMutableArray array];
-	documents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:importedDocumentsPath
-																	error:NULL];
+    return TRUE;
+}
+
+- (void) loadOldDocuments
+{
+ 	NSString *importedDocumentsPath = [CSV_TouchAppDelegate importedDocumentsPath];
+    NSMutableArray *files = [NSMutableArray array];
+	NSArray *documents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:importedDocumentsPath
+                                                                             error:NULL];
 	for( NSString *fileName in documents )
 	{
 		if(![fileName hasPrefix:@"."] &&
@@ -268,27 +305,12 @@ static NSString *newPassword = nil;
 		}
 	}
 	[[self dataController] setFiles:files];
-	
-	// Then import all the potentially manually added files, beginning with iTunes ones
-	
-//TODO: XXX: Do this when application gets in the foreground!
-	documents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:manuallyAddedDocumentsPath
-																	error:NULL];
-	for( NSString *fileName in documents )
-	{
-		if(![fileName hasPrefix:@"."] &&
-		   ![fileName isEqualToString:IMPORTED_CSV_FILES_FOLDER] &&
-		   ![fileName isEqualToString:OTHER_APPS_IMPORTED_CSV_FILES_FOLDER])
-		{
-			[self readRawFileData:[NSData dataWithContentsOfFile:[manuallyAddedDocumentsPath stringByAppendingPathComponent:fileName]]
-						 fileName:fileName
-				  isLocalDownload:YES];
-			[[NSFileManager defaultManager] removeItemAtPath:[manuallyAddedDocumentsPath stringByAppendingPathComponent:fileName] error:NULL];
-		}
-	}
-	// And from other apps (i.e. those that have been "moved" to the Inbox directory,
-	// awaiting import
-	documents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:otherAppsImportedDocumentsPath
+}
+
+- (void) importOtherAppsAddedDocuments
+{
+	NSString *otherAppsImportedDocumentsPath = [CSV_TouchAppDelegate otherAppsImportedDocumentsPath];
+   	NSArray *documents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:otherAppsImportedDocumentsPath
 																	error:NULL];
 	for( NSString *fileName in documents )
 	{
@@ -300,7 +322,26 @@ static NSString *newPassword = nil;
 			[[NSFileManager defaultManager] removeItemAtPath:[otherAppsImportedDocumentsPath stringByAppendingPathComponent:fileName] error:NULL];
 		}
 	}
-	
+ 
+}
+
+- (void) loadLocalFiles
+{
+    if( ![self upgradeToStoringFilesInSpecialDirectory] )
+    {
+        UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Upgrade failed"
+														 message:@"Couldn't move files when upgrading! Please reinstall application and try again." 
+														delegate:self
+											   cancelButtonTitle:@"Quit"
+											   otherButtonTitles:nil] autorelease];
+		alert.tag = UPGRADE_FAILED;
+		[alert show];
+		return;  
+    }
+
+    [self loadOldDocuments];    	
+    [self importManuallyAddedDocuments];
+    [self importOtherAppsAddedDocuments];
 }
 
 - (id)init
@@ -813,9 +854,15 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 				   withObject:nil 
 				   afterDelay:0.3];
 	}
+    // Import any new files imported manually (e.g. in iTunes, while this app was in the background)
+    [self importManuallyAddedDocuments];
 }
 
-// TODO: Implement UIApplicationWillEnterForegroundNotification for password after backgrounding
+// Import any new files imported manually (e.g. in iTunes, while this app was running)
+- (void)applicationDidBecomeActive:(UIApplication *)application
+{
+    [self importManuallyAddedDocuments];
+}
 
 - (void)alertView:(UIAlertView *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {

@@ -13,8 +13,12 @@
 + (NSString *) httpStatusDescription:(NSInteger)status;
 - (BOOL) containsDigit;
 - (BOOL) hasSubstring:(NSString *)s;
+- (BOOL) hasImageExtension;
+- (BOOL) hasMovieExtension;
 - (BOOL) containsURL;
 - (BOOL) containsImageURL;
+- (BOOL) containsLocalImageURL;
+- (BOOL) containsLocalMovieURL;
 - (BOOL) containsMailAddress;
 - (NSComparisonResult) numericSensitiveCompare:(NSString *)s;
 - (NSData *) ozyHash;

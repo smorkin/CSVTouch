@@ -274,6 +274,21 @@
 	}
 }
 
++ (NSString *) sandboxedFileURLFromLocalURL:(NSString *) localURL
+{
+    // We assume that the localURL has already been checked for a true local file URL
+    NSArray *tmpArray = [localURL componentsSeparatedByString:@"file://"];
+    if( [tmpArray count] == 2 )
+    {
+        NSMutableString *s = [NSMutableString string];
+        [s appendString:@"file://"];
+        [s appendString:[[CSV_TouchAppDelegate localMediaDocumentsPath] stringByAppendingPathComponent:[tmpArray objectAtIndex:1]]];
+         return s;
+    }
+    else
+        return localURL;
+}
+
 - (void) updateBadgeValueUsingItem:(UINavigationItem *)item push:(BOOL)push
 {
 	NSUInteger count = 0;
@@ -421,6 +436,10 @@
 			 [d objectForKey:COLUMN_KEY]];
 			if( [[d objectForKey:VALUE_KEY] containsImageURL] && [CSVPreferencesController showInlineImages] )
 				[data appendFormat:@"<td><img src=\"%@\">", [d objectForKey:VALUE_KEY]];
+			else if( [[d objectForKey:VALUE_KEY] containsLocalImageURL] && [CSVPreferencesController showInlineImages] )
+				[data appendFormat:@"<td><img src=\"%@\"></img>", [CSVDataViewController sandboxedFileURLFromLocalURL:[d objectForKey:VALUE_KEY]]];
+			else if( [[d objectForKey:VALUE_KEY] containsLocalMovieURL] && [CSVPreferencesController showInlineImages] )
+				[data appendFormat:@"<td><video src=\"%@\" controls x-webkit-airplay=\"allow\"></video>", [CSVDataViewController sandboxedFileURLFromLocalURL:[d objectForKey:VALUE_KEY]]];
 			else if( [[d objectForKey:VALUE_KEY] containsURL] )
 				[data appendFormat:@"<td><a href=\"%@\">%@</a>", [d objectForKey:VALUE_KEY], [d objectForKey:VALUE_KEY]];
 			else if( [[d objectForKey:VALUE_KEY] containsMailAddress] )
@@ -432,7 +451,11 @@
 		{
 			[data appendFormat:@"<b>%@</b>: ", [d objectForKey:COLUMN_KEY]];
 			if( [[d objectForKey:VALUE_KEY] containsImageURL] && [CSVPreferencesController showInlineImages] )
-				[data appendFormat:@"<br><img src=\"%@\"><br>", [d objectForKey:VALUE_KEY]];
+				[data appendFormat:@"<br><img src=\"%@\"></img><br>", [d objectForKey:VALUE_KEY]];
+			else if( [[d objectForKey:VALUE_KEY] containsLocalImageURL] && [CSVPreferencesController showInlineImages] )
+				[data appendFormat:@"<br><img src=\"%@\"></img><br>", [CSVDataViewController sandboxedFileURLFromLocalURL:[d objectForKey:VALUE_KEY]]];
+			else if( [[d objectForKey:VALUE_KEY] containsLocalMovieURL] && [CSVPreferencesController showInlineImages] )
+				[data appendFormat:@"<br><video src=\"%@\" controls x-webkit-airplay=\"allow\"></video><br>", [CSVDataViewController sandboxedFileURLFromLocalURL:[d objectForKey:VALUE_KEY]]];
 			else if( [[d objectForKey:VALUE_KEY] containsURL] )
 				[data appendFormat:@"<a href=\"%@\">%@</a><br>", [d objectForKey:VALUE_KEY], [d objectForKey:VALUE_KEY]];
 			else if( [[d objectForKey:VALUE_KEY] containsMailAddress] )
@@ -1417,7 +1440,7 @@ static CSVDataViewController *sharedInstance = nil;
 		shouldPopItem:(UINavigationItem *)item
 {
 	[self updateBadgeValueUsingItem:item push:NO];
-	return [(<UINavigationBarDelegate>)super navigationBar:navigationBar shouldPopItem:item];
+	return [super navigationBar:navigationBar shouldPopItem:item];
 }
 
 - (BOOL)navigationBar:(UINavigationBar *)navigationBar 

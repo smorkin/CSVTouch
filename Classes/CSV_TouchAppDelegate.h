@@ -62,6 +62,7 @@ OzymandiasApplicationDelegate> {
 + (BOOL) iPadMode;
 
 + (NSString *) internalFileNameForOriginalFileName:(NSString *)original;
++ (NSString *) localMediaDocumentsPath;
 
 @property (nonatomic, retain) UIWindow *window;
 @property (nonatomic, assign) NSInteger httpStatusCode;

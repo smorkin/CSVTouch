@@ -41,13 +41,39 @@
 	return [self hasSubstring:@"@"];
 }
 
+- (BOOL) hasImageExtension
+{
+   	return [self hasSuffix:@".jpg"] || [self hasSuffix:@".JPG"] ||
+    [self hasSuffix:@".jpeg"] || [self hasSuffix:@".JPEG"] ||
+    [self hasSuffix:@".png"] || [self hasSuffix:@".PNG"] ||
+    [self hasSuffix:@".gif"] || [self hasSuffix:@".GIF"];
+ 
+}
+
+- (BOOL) hasMovieExtension
+{
+   	return [self hasSuffix:@".mov"] || [self hasSuffix:@".MOV"] ||
+    [self hasSuffix:@".m4v"] || [self hasSuffix:@".M4V"] ||
+    [self hasSuffix:@".mp4"] || [self hasSuffix:@".MP4"];
+    
+}
+
 - (BOOL) containsImageURL
 {
 	return ([self hasSubstring:@"http://"] || [self hasSubstring:@"https://"]) &&
-	([self hasSuffix:@".jpg"] || [self hasSuffix:@".JPG"] ||
-	 [self hasSuffix:@".jpeg"] || [self hasSuffix:@".JPEG"] ||
-	 [self hasSuffix:@".png"] || [self hasSuffix:@".PNG"] ||
-	 [self hasSuffix:@".gif"] || [self hasSuffix:@".GIF"]);
+	[self hasImageExtension];
+}
+
+- (BOOL) containsLocalImageURL
+{
+  	return [self hasSubstring:@"file://"] && [self hasImageExtension];
+    
+}
+
+- (BOOL) containsLocalMovieURL
+{
+  	return [self hasSubstring:@"file://"] && [self hasMovieExtension];
+    
 }
 
 - (NSComparisonResult) numericSensitiveCompare:(NSString *)s
