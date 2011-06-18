@@ -25,7 +25,19 @@
 
 - (NSComparisonResult) compareShort:(CSVRow *)row
 {
-	return [self.shortDescription compare:row.shortDescription options:sortingMask];
+    NSComparisonResult r = [self.shortDescription compare:row.shortDescription options:sortingMask];
+    
+    if( reverseItemSorting )
+    {
+        if( r == NSOrderedAscending )
+            return NSOrderedDescending;
+        else if( r == NSOrderedDescending )
+            return NSOrderedAscending;
+        else
+            return NSOrderedSame;
+    }
+    else
+        return r;
 }
 
 - (NSComparisonResult) compareItems:(CSVRow *)row
@@ -39,7 +51,17 @@
 	{
 		r = [[self.items objectAtIndex:importantColumnIndexes[i]] compare:[row.items objectAtIndex:importantColumnIndexes[i]] options:sortingMask];
 		if( r != NSOrderedSame )
-			return r;
+        {
+            if( reverseItemSorting )
+            {
+                if( r == NSOrderedAscending )
+                    return NSOrderedDescending;
+                else
+                    return NSOrderedAscending;
+            }
+            else
+                return r;
+        }
 	}
 	return NSOrderedSame;
 }

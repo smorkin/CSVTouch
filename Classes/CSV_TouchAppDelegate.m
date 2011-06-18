@@ -503,7 +503,7 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 			NSMutableSet *oldFileNames = [NSMutableSet set];
 			for( NSString *URLString in self.newFilesAddedThroughURLList )
 			{
-				[newFileNames addObject:[URLString lastPathComponent]];
+				[newFileNames addObject:[CSV_TouchAppDelegate internalFileNameForOriginalFileName:[URLString lastPathComponent]]];
 			}
 			for( CSVFileParser *file in [dataController files] )
 			{
@@ -513,6 +513,7 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 			for( NSString *name in oldFileNames )
 			{
 				[dataController removeFileWithName:name];
+                [[NSFileManager defaultManager] removeItemAtPath:[[CSV_TouchAppDelegate importedDocumentsPath] stringByAppendingPathComponent:name] error:NULL];
 			}
 		}
 		[CSVPreferencesController setHideAddress:NO]; // In case we had temporarily set this from

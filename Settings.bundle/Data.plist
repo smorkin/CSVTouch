@@ -2,93 +2,89 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>Title</key>
-	<string>Data</string>
-	<key>StringsTable</key>
-	<string>Root</string>
 	<key>PreferenceSpecifiers</key>
 	<array>
 		<dict>
-			<key>Type</key>
-			<string>PSToggleSwitchSpecifier</string>
-			<key>Title</key>
-			<string>Alternative Parsing</string>
+			<key>DefaultValue</key>
+			<false/>
+			<key>FalseValue</key>
+			<false/>
 			<key>Key</key>
 			<string>useCorrectParsing</string>
-			<key>DefaultValue</key>
-			<false/>
+			<key>Title</key>
+			<string>Alternative Parsing</string>
 			<key>TrueValue</key>
 			<true/>
-			<key>FalseValue</key>
-			<false/>
-		</dict>
-		<dict>
 			<key>Type</key>
 			<string>PSToggleSwitchSpecifier</string>
-			<key>Title</key>
-			<string>Keep Quotes</string>
+		</dict>
+		<dict>
+			<key>DefaultValue</key>
+			<false/>
+			<key>FalseValue</key>
+			<false/>
 			<key>Key</key>
 			<string>keepQuotes</string>
-			<key>DefaultValue</key>
-			<false/>
+			<key>Title</key>
+			<string>Keep Quotes</string>
 			<key>TrueValue</key>
+			<true/>
+			<key>Type</key>
+			<string>PSToggleSwitchSpecifier</string>
+		</dict>
+		<dict>
+			<key>DefaultValue</key>
 			<true/>
 			<key>FalseValue</key>
 			<false/>
-		</dict>
-		<dict>
-			<key>Type</key>
-			<string>PSToggleSwitchSpecifier</string>
-			<key>Title</key>
-			<string>Smart Separator</string>
 			<key>Key</key>
 			<string>smartDelimiter</string>
-			<key>DefaultValue</key>
-			<true/>
+			<key>Title</key>
+			<string>Smart Separator</string>
 			<key>TrueValue</key>
 			<true/>
-			<key>FalseValue</key>
-			<false/>
-		</dict>
-		<dict>
 			<key>Type</key>
 			<string>PSToggleSwitchSpecifier</string>
-			<key>Title</key>
-			<string>Use Password</string>
-			<key>Key</key>
-			<string>usePassword</string>
-			<key>DefaultValue</key>
-			<false/>
-			<key>TrueValue</key>
-			<true/>
-			<key>FalseValue</key>
-			<false/>
 		</dict>
 		<dict>
-			<key>Type</key>
-			<string>PSTextFieldSpecifier</string>
-			<key>Title</key>
-			<string>Password timeout</string>
-			<key>Key</key>
-			<string>maxSafeBackgroundMinutes</string>
 			<key>DefaultValue</key>
-			<string></string>
-			<key>IsSecure</key>
 			<false/>
-			<key>KeyboardType</key>
-			<string>NumberPad</string>
+			<key>FalseValue</key>
+			<false/>
+			<key>Key</key>
+			<string>usePassword</string>
+			<key>Title</key>
+			<string>Use Password</string>
+			<key>TrueValue</key>
+			<true/>
+			<key>Type</key>
+			<string>PSToggleSwitchSpecifier</string>
+		</dict>
+		<dict>
 			<key>AutocapitalizationType</key>
 			<string>None</string>
 			<key>AutocorrectionType</key>
 			<string>No</string>
+			<key>DefaultValue</key>
+			<string></string>
+			<key>IsSecure</key>
+			<false/>
+			<key>Key</key>
+			<string>maxSafeBackgroundMinutes</string>
+			<key>KeyboardType</key>
+			<string>NumberPad</string>
+			<key>Title</key>
+			<string>Password timeout</string>
+			<key>Type</key>
+			<string>PSTextFieldSpecifier</string>
 		</dict>
 		<dict>
-			<key>Type</key>
-			<string>PSMultiValueSpecifier</string>
-			<key>Title</key>
-			<string>Manual Separator</string>
+			<key>DefaultValue</key>
+			<string>;</string>
 			<key>Key</key>
 			<string>delimiter</string>
+			<key>Title</key>
+			<string>Manual Separator</string>
 			<key>Titles</key>
 			<array>
 				<string>,</string>
@@ -98,6 +94,8 @@
 				<string>&lt;space&gt;</string>
 				<string>&lt;tab&gt;</string>
 			</array>
+			<key>Type</key>
+			<string>PSMultiValueSpecifier</string>
 			<key>Values</key>
 			<array>
 				<string>,</string>
@@ -107,16 +105,14 @@
 				<string> </string>
 				<string>	</string>
 			</array>
-			<key>DefaultValue</key>
-			<string>;</string>
 		</dict>
 		<dict>
-			<key>Type</key>
-			<string>PSMultiValueSpecifier</string>
-			<key>Title</key>
-			<string>Encoding</string>
+			<key>DefaultValue</key>
+			<string>5</string>
 			<key>Key</key>
 			<string>encoding</string>
+			<key>Title</key>
+			<string>Encoding</string>
 			<key>Titles</key>
 			<array>
 				<string>UTF8</string>
@@ -124,6 +120,8 @@
 				<string>Latin1</string>
 				<string>Mac</string>
 			</array>
+			<key>Type</key>
+			<string>PSMultiValueSpecifier</string>
 			<key>Values</key>
 			<array>
 				<string>4</string>
@@ -131,19 +129,35 @@
 				<string>5</string>
 				<string>30</string>
 			</array>
-			<key>DefaultValue</key>
-			<string>5</string>
 		</dict>
 		<dict>
-			<key>Type</key>
-			<string>PSTextFieldSpecifier</string>
-			<key>Title</key>
-			<string>Reload time</string>
 			<key>Key</key>
 			<string>nextDownloadTime</string>
 			<key>KeyboardType</key>
 			<string>NumbersAndPunctuation</string>
+			<key>Title</key>
+			<string>Reload time</string>
+			<key>Type</key>
+			<string>PSTextFieldSpecifier</string>
+		</dict>
+		<dict>
+			<key>DefaultValue</key>
+			<false/>
+			<key>FalseValue</key>
+			<false/>
+			<key>Key</key>
+			<string>synchronizeDownloadedFiles</string>
+			<key>Title</key>
+			<string>Synchronize files</string>
+			<key>TrueValue</key>
+			<true/>
+			<key>Type</key>
+			<string>PSToggleSwitchSpecifier</string>
 		</dict>
 	</array>
+	<key>StringsTable</key>
+	<string>Root</string>
+	<key>Title</key>
+	<string>Data</string>
 </dict>
 </plist>

@@ -19,6 +19,9 @@
 #define FILES_ID @"filesID"
 #define OBJECTS_ID @"objectsID"
 #define DETAILS_ID @"detailsID"
+#define NORMAL_SORT_ORDER @"▼"
+#define REVERSE_SORT_ORDER @"▲"
+
 
 #define MAX_ITEMS_IN_LITE_VERSION 150
 
@@ -755,19 +758,31 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
 	htmlDetailsController.viewDelegate = self;
 	
 	// Setup modificationdate/time label
-	CGRect frame = CGRectMake(0, 0, 72, 44);
-	UILabel *l = [[[UILabel alloc] initWithFrame:frame] autorelease];
-	l.font = [UIFont fontWithName:l.font.fontName size:10];
-	l.backgroundColor = [UIColor clearColor];
-	if([CSV_TouchAppDelegate iPadMode] &&
-	   ![CSVPreferencesController useBlackTheme])
-		l.textColor = [UIColor darkGrayColor];
-	else
-		l.textColor = [UIColor whiteColor];
-	l.lineBreakMode = UILineBreakModeWordWrap;
-	l.textAlignment = UITextAlignmentCenter;
-	l.numberOfLines = 2;
-	modificationDateButton.customView = l;
+    {
+        CGRect frame = CGRectMake(0, 0, 72, 44);
+        UILabel *l = [[[UILabel alloc] initWithFrame:frame] autorelease];
+        l.font = [UIFont fontWithName:l.font.fontName size:10];
+        l.backgroundColor = [UIColor clearColor];
+        if([CSV_TouchAppDelegate iPadMode] &&
+           ![CSVPreferencesController useBlackTheme])
+            l.textColor = [UIColor darkGrayColor];
+        else
+            l.textColor = [UIColor whiteColor];
+        l.lineBreakMode = UILineBreakModeWordWrap;
+        l.textAlignment = UITextAlignmentCenter;
+        l.numberOfLines = 2;
+        modificationDateButton.customView = l;
+    }
+    
+    // Setup item sort order button
+    for( UIBarButtonItem *item in [itemsToolbar items] )
+    {
+        if( [item action] == @selector(toggleItemSortOrder:))
+        {            
+            item.title = NORMAL_SORT_ORDER;
+            break;
+        }
+    }
 	
 	// Disable phone links, if desired
 	if( [CSVPreferencesController enablePhoneLinks] == FALSE )
@@ -800,7 +815,7 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
 		{
 			if( [CSVPreferencesController lastUsedListURL] )
 			{
-				if([item action] == @selector(loadFileList))
+				if([item action] == @selector(refreshAllFiles:))
 					[keptItems addObject:item];
 			}
 			else
@@ -943,6 +958,23 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
 	[self updateSimpleViewWithItem:_latestShownItem];
 	[self updateEnhancedViewWithItem:_latestShownItem];
 	[self updateHtmlViewWithItem:_latestShownItem];
+}
+
+- (IBAction) toggleItemSortOrder:(id)sender
+{
+    [CSVPreferencesController toggleReverseItemSorting];
+    if( ((UIBarButtonItem*)sender).title == NORMAL_SORT_ORDER )
+    {
+        ((UIBarButtonItem*)sender).title = REVERSE_SORT_ORDER;
+    }
+    else
+    {
+        ((UIBarButtonItem*)sender).title = NORMAL_SORT_ORDER;
+    }
+    NSMutableArray *objects = [itemController objects];
+    [objects sortUsingSelector:[CSVRow compareSelector]];
+    [itemController setObjects:objects];
+	[itemController dataLoaded];
 }
 
 static CSVDataViewController *sharedInstance = nil;
@@ -1491,6 +1523,7 @@ didSelectRowAtIndexPath:[fileController.tableView indexPathForSelectedRow]];
 		if( [name isEqualToString:[oldFile fileName]] )
 		{
 			[[fileController objects] removeObject:oldFile];
+            [fileController.tableView reloadData];
 			return;
 		}
 	}

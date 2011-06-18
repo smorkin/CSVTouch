@@ -122,6 +122,7 @@ OzyWebViewController;
 - (IBAction) increaseTableViewSize;
 - (IBAction) decreaseTableViewSize;
 - (IBAction) toggleShowHideDeletedColumns;
+- (IBAction) toggleItemSortOrder:(id)sender;
 
 - (void) setFiles:(NSArray *) files;
 - (NSArray *) files;

@@ -58,6 +58,7 @@
 #define PREFS_SYNCHRONIZE_DOWNLOADED_FILES @"synchronizeDownloadedFiles"
 
 NSUInteger sortingMask;
+BOOL reverseItemSorting = FALSE;
 
 + (void) applicationDidFinishLaunching
 {
@@ -415,12 +416,18 @@ NSUInteger sortingMask;
 
 + (NSURL *) lastUsedListURL
 {
-	return [[NSUserDefaults standardUserDefaults] URLForKey:LAST_USED_LIST_URL];
+    if( [[NSUserDefaults class] respondsToSelector:@selector(URLForKey:)] )
+        return [[NSUserDefaults standardUserDefaults] URLForKey:LAST_USED_LIST_URL];
+    else
+        return [NSURL URLWithString:[[NSUserDefaults standardUserDefaults] stringForKey:LAST_USED_LIST_URL]];
 }
 
 + (void) setLastUsedListURL:(NSURL *)URL
 {
-	[[NSUserDefaults standardUserDefaults] setURL:URL forKey:LAST_USED_LIST_URL];
+    if( [[NSUserDefaults class] respondsToSelector:@selector(setURL:forKey:)] )
+        [[NSUserDefaults standardUserDefaults] setURL:URL forKey:LAST_USED_LIST_URL];
+    else
+        [[NSUserDefaults standardUserDefaults] setObject:[URL absoluteString] forKey:LAST_USED_LIST_URL];
 }
 
 + (BOOL) synchronizeDownloadedFiles
@@ -660,6 +667,11 @@ static BOOL hideAdress = NO;
 	else
 		sortingMask = NSNumericSearch ^ NSCaseInsensitiveSearch;
 	return sortingMask;
+}
+
++ (void) toggleReverseItemSorting
+{
+    reverseItemSorting = !reverseItemSorting;
 }
 
 #if defined(__IPHONE_4_0) && defined(CSV_LITE)

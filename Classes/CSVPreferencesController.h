@@ -67,6 +67,9 @@
 
 + (BOOL) restrictedDataVersionRunning;
 
++ (void) toggleReverseItemSorting;
+extern BOOL reverseItemSorting;
+
 + (void) updateSortingMask; // Needs to be called as part of initialization
 + (NSUInteger) sortingMask;
 extern NSUInteger sortingMask; // This is available for performance-critical operations
