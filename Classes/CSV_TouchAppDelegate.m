@@ -495,8 +495,7 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 	}
 	else 
 	{
-		if( [self.newFilesAddedThroughURLList count] > 0 &&
-		   [CSVPreferencesController synchronizeDownloadedFiles] )
+		if([CSVPreferencesController synchronizeDownloadedFiles])
 		{
 			// We need to remove any files not included amongst the newly downloaded ones
 			NSMutableSet *newFileNames = [NSMutableSet set];
