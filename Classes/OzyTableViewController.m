@@ -188,7 +188,7 @@
 
 - (NSIndexPath *) indexPathForObjectAtIndex:(NSUInteger)index
 {
-	if( index >= [self.objects count] || index < 0 )
+	if( index >= [self.objects count] || index == NSNotFound )
 		return [NSIndexPath indexPathForRow:0 inSection:0];
 	
 	if( [_sectionStarts count] > 0 )
@@ -373,7 +373,7 @@ sectionForSectionIndexTitle:(NSString *)title
 		item = [self.objects objectAtIndex:indexPath.row];
 	if( [item conformsToProtocol:@protocol(OzyTableViewObject)] )
 	{
-		cell.textLabel.text = [(<OzyTableViewObject>)item tableViewDescription];
+		cell.textLabel.text = [(id<OzyTableViewObject>)item tableViewDescription];
 	}
 	else
 	{
@@ -389,9 +389,9 @@ sectionForSectionIndexTitle:(NSString *)title
 	}
 	if( [item conformsToProtocol:@protocol(OzyTableViewObject)] )
 	{
-		UIImage *image = [UIImage imageNamed:[(<OzyTableViewObject>)item imageName]];
+		UIImage *image = [UIImage imageNamed:[(id<OzyTableViewObject>)item imageName]];
 		if( !image )
-			image = [UIImage imageNamed:[(<OzyTableViewObject>)item emptyImageName]];
+			image = [UIImage imageNamed:[(id<OzyTableViewObject>)item emptyImageName]];
 		cell.imageView.image = image;
 	}
 	else

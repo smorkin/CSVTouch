@@ -49,8 +49,10 @@ OzymandiasApplicationDelegate> {
 	CSVFileParser *_fileInspected;
 
 	NSMutableArray *_URLsToDownload;
-	NSMutableArray *_newFilesAddedThroughURLList;
+	NSMutableArray *_filesAddedThroughURLList;
 	BOOL _readingFileList;
+    
+    BOOL _downloadFailed;
 		
 	NSTimer *downloadTimer;
 	
@@ -68,8 +70,9 @@ OzymandiasApplicationDelegate> {
 @property (nonatomic, assign) NSInteger httpStatusCode;
 @property (nonatomic, retain) CSVFileParser *fileInspected;
 @property (nonatomic, readonly) NSMutableArray *URLsToDownload;
-@property (nonatomic, retain) NSMutableArray *newFilesAddedThroughURLList;
+@property (nonatomic, retain) NSMutableArray *filesAddedThroughURLList;
 @property (nonatomic, assign) BOOL readingFileList;
+@property (nonatomic, assign) BOOL downloadFailed;
 @property (nonatomic, retain) NSDate *enteredBackground;
 
 

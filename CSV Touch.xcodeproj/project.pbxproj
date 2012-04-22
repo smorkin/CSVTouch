@@ -295,7 +295,7 @@
 		F4AE6ED013217AD500BABD6C /* Entitlements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Entitlements.plist; sourceTree = "<group>"; };
 		F4CB510A11689FD300CFCBBC /* CSV Lite-Info-iPad.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "CSV Lite-Info-iPad.plist"; sourceTree = "<group>"; };
 		F4CB510B11689FD300CFCBBC /* Info-iPad.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Info-iPad.plist"; sourceTree = "<group>"; };
-		F4CB51381168A49B00CFCBBC /* large_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = large_icon.png; sourceTree = "<group>"; };
+		F4CB51381168A49B00CFCBBC /* large_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = large_icon.png; path = ../large_icon.png; sourceTree = "<group>"; };
 		F4CCB53F1026D6D800FD684A /* Priv dist-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Priv dist-Info.plist"; sourceTree = "<group>"; };
 		F4E5EA930E08843D002EB091 /* OzyRotatableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OzyRotatableViewController.h; sourceTree = "<group>"; };
 		F4E5EA940E08843D002EB091 /* OzyRotatableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OzyRotatableViewController.m; sourceTree = "<group>"; };
@@ -356,6 +356,7 @@
 				F4E5EE2E0E09B591002EB091 /* OzyTextViewController.h */,
 				F4E5EE2F0E09B591002EB091 /* OzyTextViewController.m */,
 				F46D894311725CFA00D45EEA /* OzyWebViewController.h */,
+				F4CB51381168A49B00CFCBBC /* large_icon.png */,
 				F46D894411725CFA00D45EEA /* OzyWebViewController.m */,
 				F4A73D190E2EB49200E1DF27 /* OzymandiasAdditions.h */,
 				F4A73D1A0E2EB49200E1DF27 /* OzymandiasAdditions.m */,
@@ -417,7 +418,6 @@
 				F4174D440E40F9D400351EE4 /* Large comma.tif */,
 				F487C5DB13ACBDA800769144 /* icon_retina.png */,
 				F4174D140E40A4A200351EE4 /* icon.png */,
-				F4CB51381168A49B00CFCBBC /* large_icon.png */,
 				F41BB7470EE9F65A00BEFDED /* lock.png */,
 				F4F0DD68117A5C120043C377 /* RefreshAll.png */,
 				F49218530EA7AC7400E74493 /* 2lines.png */,
@@ -583,6 +583,9 @@
 /* Begin PBXProject section */
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0430;
+			};
 			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "CSV Touch" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
@@ -822,8 +825,8 @@
 				HEADER_SEARCH_PATHS = "\"$SRCROOT\"/**";
 				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
 				ONLY_ACTIVE_ARCH = YES;
-				PREBINDING = NO;
 				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -831,17 +834,17 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Simon Wigzell";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Simon Wigzell";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "\"$SRCROOT\"/**";
 				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
-				PREBINDING = NO;
-				PROVISIONING_PROFILE = "0F08F786-84FC-4EE6-BF4A-126B7EE45245";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "0F08F786-84FC-4EE6-BF4A-126B7EE45245";
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = AppStore;
 		};
@@ -859,7 +862,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = CSV_Touch_Prefix.pch;
 				INFOPLIST_FILE = "Info-iPad.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 3.1.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 3.2;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "CSV Touch";
 				PROVISIONING_PROFILE = "";
@@ -873,18 +876,19 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				ARCHS = (
+					"$(ARCHS_STANDARD_32_BIT)",
+					armv6,
+				);
 				CODE_SIGN_ENTITLEMENTS = "~/Utveckling/AppStore/CSVReader/Entitlements.plist";
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Simon Wigzell";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Simon Wigzell";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = CSV_Touch_Prefix.pch;
 				INFOPLIST_FILE = "Info-iPad.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 3.1.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 3.2;
 				PRODUCT_NAME = "CSV Touch";
-				PROVISIONING_PROFILE = "3531C7DF-A0B1-4132-AD6E-274C513BCB91";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "3531C7DF-A0B1-4132-AD6E-274C513BCB91";
+				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -895,19 +899,22 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				ARCHS = (
+					"$(ARCHS_STANDARD_32_BIT)",
+					armv6,
+				);
 				CODE_SIGN_ENTITLEMENTS = "~/Utveckling/AppStore/CSVReader/Entitlements.plist";
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Simon Wigzell";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Simon Wigzell";
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = CSV_Touch_Prefix.pch;
 				INFOPLIST_FILE = "Info-iPad.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 3.1.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 3.2;
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "CSV Touch";
-				PROVISIONING_PROFILE = "";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				PROVISIONING_PROFILE = "41E4B329-E642-4CF8-AD32-BA40F5D62779";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "41E4B329-E642-4CF8-AD32-BA40F5D62779";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -930,10 +937,9 @@
 				GCC_PREFIX_HEADER = CSV_Lite_Prefix.pch;
 				INFOPLIST_FILE = "CSV Lite-Info-iPad.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
-				IPHONEOS_DEPLOYMENT_TARGET = 3.1.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 3.2;
 				OTHER_CFLAGS = "-DCSV_LITE";
 				OTHER_LDFLAGS = "";
-				PREBINDING = NO;
 				PRODUCT_NAME = "CSV Lite";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
@@ -945,22 +951,24 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				ARCHS = (
+					"$(ARCHS_STANDARD_32_BIT)",
+					armv6,
+				);
 				CODE_SIGN_ENTITLEMENTS = "~/Utveckling/AppStore/CSVReader/Entitlements.plist";
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Simon Wigzell";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Simon Wigzell";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = CSV_Lite_Prefix.pch;
 				INFOPLIST_FILE = "CSV Lite-Info-iPad.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
-				IPHONEOS_DEPLOYMENT_TARGET = 3.1.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 3.2;
 				OTHER_CFLAGS = "-DCSV_LITE";
 				OTHER_LDFLAGS = "";
-				PREBINDING = NO;
 				PRODUCT_NAME = "CSV Lite";
-				PROVISIONING_PROFILE = "3531C7DF-A0B1-4132-AD6E-274C513BCB91";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "3531C7DF-A0B1-4132-AD6E-274C513BCB91";
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -971,22 +979,24 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				ARCHS = (
+					"$(ARCHS_STANDARD_32_BIT)",
+					armv6,
+				);
 				CODE_SIGN_ENTITLEMENTS = "~/Utveckling/AppStore/CSVReader/Entitlements.plist";
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Simon Wigzell";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Simon Wigzell";
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = CSV_Lite_Prefix.pch;
 				INFOPLIST_FILE = "CSV Lite-Info-iPad.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
-				IPHONEOS_DEPLOYMENT_TARGET = 3.1.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 3.2;
 				OTHER_CFLAGS = "-DCSV_LITE";
 				OTHER_LDFLAGS = "";
-				PREBINDING = NO;
 				PRODUCT_NAME = "CSV Lite";
-				PROVISIONING_PROFILE = "";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				PROVISIONING_PROFILE = "41E4B329-E642-4CF8-AD32-BA40F5D62779";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "41E4B329-E642-4CF8-AD32-BA40F5D62779";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -998,17 +1008,17 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CODE_SIGN_ENTITLEMENTS = dist.plist;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Simon Wigzell";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Simon Wigzell";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "\"$SRCROOT\"/**";
 				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
-				PREBINDING = NO;
-				PROVISIONING_PROFILE = "";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				PROVISIONING_PROFILE = "41E4B329-E642-4CF8-AD32-BA40F5D62779";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "41E4B329-E642-4CF8-AD32-BA40F5D62779";
 				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Privatdistribution;
 		};

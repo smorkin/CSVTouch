@@ -304,7 +304,7 @@
 	{
 		NSIndexPath *selectedRow = [[itemController tableView] indexPathForSelectedRow];
 		if( selectedRow &&
-		   [itemController indexForObjectAtIndexPath:selectedRow] >= 0 )
+		   [itemController indexForObjectAtIndexPath:selectedRow] != NSNotFound )
 		{
 			count = [itemController indexForObjectAtIndexPath:selectedRow] + 1;
 		}
@@ -1084,11 +1084,22 @@ static CSVDataViewController *sharedInstance = nil;
 	[super dealloc];
 }
 
+- (void) saveColumnNames
+{
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    if( columnNamesForFileName )
+    {
+        [defaults setObject:columnNamesForFileName forKey:DEFS_COLUMN_NAMES];
+        [defaults synchronize];
+    }
+}
+
 - (void) resetColumnNames
 {
 	[columnNamesForFileName removeObjectForKey:[currentFile fileName]];
 	[self updateColumnNames];
 	itemsNeedResorting = YES;
+    [self saveColumnNames];
 }
 
 - (IBAction) resetColumnNames:(id)sender
@@ -1103,6 +1114,8 @@ static CSVDataViewController *sharedInstance = nil;
 		[columnNamesForFileName setObject:[editController objects] forKey:[currentFile fileName]];
 		[self updateColumnIndexes];
 		itemsNeedResorting = YES;
+        // Fix so that this is remembered even if app is forcefully terminated (DSI bug 2011-07-18)
+        [self saveColumnNames];
 	}
 	else if( [n object] == fileController )
 	{

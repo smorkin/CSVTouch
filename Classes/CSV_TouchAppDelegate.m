@@ -28,8 +28,9 @@
 @synthesize httpStatusCode = _httpStatusCode;
 @synthesize fileInspected = _fileInspected;
 @synthesize URLsToDownload = _URLsToDownload;
-@synthesize newFilesAddedThroughURLList = _newFilesAddedThroughURLList;
+@synthesize filesAddedThroughURLList = _filesAddedThroughURLList;
 @synthesize readingFileList = _readingFileList;
+@synthesize downloadFailed = _downloadFailed;
 @synthesize enteredBackground = _enteredBackground;
 
 static CSV_TouchAppDelegate *sharedInstance = nil;
@@ -350,7 +351,7 @@ static NSString *newPassword = nil;
 	{
 		sharedInstance = self;
 		_URLsToDownload = [[NSMutableArray alloc] init];
-		_newFilesAddedThroughURLList = [[NSMutableArray alloc] init];
+		_filesAddedThroughURLList = [[NSMutableArray alloc] init];
 	}
 	return self;
 }
@@ -429,7 +430,7 @@ static NSString *newPassword = nil;
 - (BOOL)application:(UIApplication *)application
 didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {	
-	[[UIApplication sharedApplication] setStatusBarHidden:![CSVPreferencesController showStatusBar] animated:YES];
+	[[UIApplication sharedApplication] setStatusBarHidden:![CSVPreferencesController showStatusBar] withAnimation:YES];
 	startupController.view.frame = [[UIScreen mainScreen] applicationFrame];
 	[window addSubview:startupController.view];
 	[startupActivityView startAnimating];
@@ -468,7 +469,7 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 	[window release];
 	[rawData release];
 	[self.URLsToDownload release];
-	[self.newFilesAddedThroughURLList release];
+	[self.filesAddedThroughURLList release];
 	[super dealloc];
 }
 
@@ -497,23 +498,27 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 	{
 		if([CSVPreferencesController synchronizeDownloadedFiles])
 		{
-			// We need to remove any files not included amongst the newly downloaded ones
-			NSMutableSet *newFileNames = [NSMutableSet set];
-			NSMutableSet *oldFileNames = [NSMutableSet set];
-			for( NSString *URLString in self.newFilesAddedThroughURLList )
-			{
-				[newFileNames addObject:[CSV_TouchAppDelegate internalFileNameForOriginalFileName:[URLString lastPathComponent]]];
-			}
-			for( CSVFileParser *file in [dataController files] )
-			{
-				[oldFileNames addObject:[file fileName]];
-			}
-			[oldFileNames minusSet:newFileNames];
-			for( NSString *name in oldFileNames )
-			{
-				[dataController removeFileWithName:name];
-                [[NSFileManager defaultManager] removeItemAtPath:[[CSV_TouchAppDelegate importedDocumentsPath] stringByAppendingPathComponent:name] error:NULL];
-			}
+            // Only continue if download was successful; cf. Mark McCorkle's mail of 2012-04-18
+            if( self.downloadFailed == false )
+            {
+                // We need to remove any files not included amongst the newly downloaded ones
+                NSMutableSet *newFileNames = [NSMutableSet set];
+                NSMutableSet *oldFileNames = [NSMutableSet set];
+                for( NSString *URLString in self.filesAddedThroughURLList )
+                {
+                    [newFileNames addObject:[CSV_TouchAppDelegate internalFileNameForOriginalFileName:[URLString lastPathComponent]]];
+                }
+                for( CSVFileParser *file in [dataController files] )
+                {
+                    [oldFileNames addObject:[file fileName]];
+                }
+                [oldFileNames minusSet:newFileNames];
+                for( NSString *name in oldFileNames )
+                {
+                    [dataController removeFileWithName:name];
+                    [[NSFileManager defaultManager] removeItemAtPath:[[CSV_TouchAppDelegate importedDocumentsPath] stringByAppendingPathComponent:name] error:NULL];
+                }
+            }
 		}
 		[CSVPreferencesController setHideAddress:NO]; // In case we had temporarily set this from
 													  // a URL list file with preference settings
@@ -525,6 +530,8 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
 {
+    self.downloadFailed = true;
+    
 	NSString *alertTitle;
 	
 	if( self.readingFileList )
@@ -565,7 +572,21 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 	{
 		self.readingFileList = FALSE;
 		[self.URLsToDownload removeAllObjects];
-		[self.newFilesAddedThroughURLList removeAllObjects];
+		[self.filesAddedThroughURLList removeAllObjects];
+        
+        // Check that we didn't get an http error
+        if( self.httpStatusCode >= 400 )
+        {
+            self.downloadFailed = true;
+            UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Download Failure"
+                                                             message:[NSString httpStatusDescription:self.httpStatusCode]
+                                                            delegate:self
+                                                   cancelButtonTitle:@"OK"
+                                                   otherButtonTitles:nil] autorelease];	
+            [alert show];
+            [self downloadDone];
+        }
+        
 		NSString *s = [[NSString alloc] initWithData:rawData 
 											encoding:[CSVPreferencesController encoding]];
 		NSUInteger length = [s length];
@@ -610,7 +631,7 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 		
 		// Take a copy of the files to download,
 		// to use later in case synchronizeDownloadedFiles is used
-		[self.newFilesAddedThroughURLList addObjectsFromArray:self.URLsToDownload];
+		[self.filesAddedThroughURLList addObjectsFromArray:self.URLsToDownload];
 		
 		// We are doing the settings immediately, instead of later in [self downloadDone]
 		// to avoid having to store the values somewhere locally
@@ -679,6 +700,7 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
 	[rawData release];
 	rawData = [[NSMutableData alloc] init];
+    self.downloadFailed = false;
 	self.httpStatusCode = 0;
 	NSURLRequest *theRequest=[NSURLRequest requestWithURL:url
 											  cachePolicy:NSURLRequestReloadIgnoringLocalCacheData
@@ -686,6 +708,7 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 	connection = [[NSURLConnection alloc] initWithRequest:theRequest delegate:self];
 	if (!connection)
 	{
+        self.downloadFailed = true;
 		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Download Failure"
 														message:@"Couldn't open connection"
 													   delegate:self
@@ -717,13 +740,15 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 											  otherButtonTitles:@"OK", nil];
 	alert.textField.keyboardType = UIKeyboardTypeURL;
 	alert.textField.secureTextEntry = NO;
+    if( [CSVPreferencesController lastUsedListURL] )
+        alert.textField.text = [[CSVPreferencesController lastUsedListURL] absoluteString];
 	alert.tag = CSV_FILE_LIST_SETUP;
 	[alert show];
 	[alert release];	
 }
 
 - (void) readFileListFromURL:(NSString *)URLString
-{
+{    
 	if( !URLString || [URLString isEqualToString:@""] )
 		return;
 	
