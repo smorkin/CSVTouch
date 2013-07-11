@@ -21,13 +21,11 @@
 #define PREFS_ITEMS_TABLEVIEW_SIZE @"tableViewSize"
 #define PREFS_DETAILS_TABLEVIEW_SIZE @"detailsTableViewSize"
 #define PREFS_MAX_NUMBER_TO_SORT @"maxNumberOfItemsToSort"
-#define PREFS_ALLOW_ROTATION @"allowRotation"
 #define PREFS_USE_GROUPING_FOR_ITEMS @"useGroupingForItems"
 #define PREFS_GROUP_NUMBERS @"groupNumbers"
 #define PREFS_ENABLE_PHONE_LINKS @"enablePhoneLinks"
 #define PREFS_USE_FIXED_WIDTH @"useFixedWidth"
 #define PREFS_DEFINED_FIXED_WIDTHS @"definedFixedWidths"
-#define PREFS_SHOW_STATUS_BAR @"showStatusBar"
 #define PREFS_SHOW_DETAILS_TOOLBAR @"showDetailsToolbar"
 #define PREFS_SAFE_START @"safeStart"
 #define PREFS_KEEP_QUOTES @"keepQuotes"
@@ -153,16 +151,8 @@ BOOL reverseItemSorting = FALSE;
 	if( obj )
 		return [obj intValue];
 	else
-		return NSISOLatin1StringEncoding;
-}
-
-+ (BOOL) allowRotatableInterface
-{
-	id obj = [[NSUserDefaults standardUserDefaults] objectForKey:PREFS_ALLOW_ROTATION];
-	if( obj )
-		return [obj boolValue];
-	else
-		return YES;
+//		return NSISOLatin1StringEncoding;
+        return NSMacOSRomanStringEncoding;
 }
 
 + (BOOL) useGroupingForItems
@@ -218,14 +208,6 @@ BOOL reverseItemSorting = FALSE;
 		return [obj boolValue];
 	else
 		return NO;
-}
-
-+ (BOOL) showStatusBar
-{
-	if( [[NSUserDefaults standardUserDefaults] objectForKey:PREFS_SHOW_STATUS_BAR] )
-		return [[NSUserDefaults standardUserDefaults] boolForKey:PREFS_SHOW_STATUS_BAR];
-	else
-		return YES;
 }
 
 + (BOOL) keepQuotes
@@ -487,10 +469,6 @@ static BOOL hideAdress = NO;
 				[[NSUserDefaults standardUserDefaults] setInteger:[[words objectAtIndex:1] intValue]
 														   forKey:PREFS_MAX_NUMBER_TO_SORT];
 			
-			else if( [[words objectAtIndex:0] isEqualToString:PREFS_ALLOW_ROTATION] )
-				[[NSUserDefaults standardUserDefaults] setBool:[[words objectAtIndex:1] boolValue]
-														   forKey:PREFS_ALLOW_ROTATION];
-			
 			else if( [[words objectAtIndex:0] isEqualToString:PREFS_USE_GROUPING_FOR_ITEMS] )
 				[[NSUserDefaults standardUserDefaults] setBool:[[words objectAtIndex:1] boolValue]
 														forKey:PREFS_USE_GROUPING_FOR_ITEMS];
@@ -510,10 +488,6 @@ static BOOL hideAdress = NO;
 			else if( [[words objectAtIndex:0] isEqualToString:PREFS_DEFINED_FIXED_WIDTHS] )
 				[[NSUserDefaults standardUserDefaults] setBool:[[words objectAtIndex:1] boolValue]
 														forKey:PREFS_DEFINED_FIXED_WIDTHS];
-			
-			else if( [[words objectAtIndex:0] isEqualToString:PREFS_SHOW_STATUS_BAR] )
-				[[NSUserDefaults standardUserDefaults] setBool:[[words objectAtIndex:1] boolValue]
-														forKey:PREFS_SHOW_STATUS_BAR];
 			
 			else if( [[words objectAtIndex:0] isEqualToString:PREFS_SHOW_DETAILS_TOOLBAR] )
 				[[NSUserDefaults standardUserDefaults] setBool:[[words objectAtIndex:1] boolValue]

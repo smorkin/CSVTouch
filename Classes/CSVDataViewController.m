@@ -739,6 +739,8 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
 	}
 	[self updateShowHideDeletedColumnsButtons];
 	
+    [[CSV_TouchAppDelegate sharedInstance].window setRootViewController:self];
+
 	// Setup stuff for controllers which can't be configured using InterfaceBuilder
 	[[editController tableView] setEditing:YES animated:NO];
 	editController.editable = YES;
@@ -790,7 +792,7 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
 	
 	// Autocorrection of searching should be off
 	searchBar.autocorrectionType = UITextAutocorrectionTypeNo;
-	itemController.tableView.tableHeaderView = searchBar;
+//	itemController.tableView.tableHeaderView = searchBar;
 	
 	// Push the fileController to the root of the navigation;
 	// we must do this in case we have no saved navigationstack
@@ -963,7 +965,7 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
 - (IBAction) toggleItemSortOrder:(id)sender
 {
     [CSVPreferencesController toggleReverseItemSorting];
-    if( ((UIBarButtonItem*)sender).title == NORMAL_SORT_ORDER )
+    if( [((UIBarButtonItem*)sender).title isEqualToString:NORMAL_SORT_ORDER])
     {
         ((UIBarButtonItem*)sender).title = REVERSE_SORT_ORDER;
     }
@@ -1752,6 +1754,15 @@ didSelectRowAtIndexPath:[fileController.tableView indexPathForSelectedRow]];
 		[fileController.tableView reloadData];
 }
 
+- (BOOL)shouldAutorotate
+{
+    return YES;
+}
+
+- (NSUInteger)supportedInterfaceOrientations
+{
+    return UIInterfaceOrientationMaskAll;
+}
 
 @end
 

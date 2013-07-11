@@ -35,11 +35,6 @@
 
 static CSV_TouchAppDelegate *sharedInstance = nil;
 
-- (BOOL) allowRotation
-{
-	return [CSVPreferencesController allowRotatableInterface];	
-}
-
 + (NSArray *) allowedDelimiters
 {
 	static NSArray *delimiters = nil;
@@ -430,9 +425,9 @@ static NSString *newPassword = nil;
 - (BOOL)application:(UIApplication *)application
 didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {	
-	[[UIApplication sharedApplication] setStatusBarHidden:![CSVPreferencesController showStatusBar] withAnimation:YES];
 	startupController.view.frame = [[UIScreen mainScreen] applicationFrame];
 	[window addSubview:startupController.view];
+    [window setRootViewController:startupController];
 	[startupActivityView startAnimating];
 	
 	// Only show startup activity view if there are files cached

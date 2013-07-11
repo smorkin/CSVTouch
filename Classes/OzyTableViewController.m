@@ -449,10 +449,17 @@ sectionForSectionIndexTitle:(NSString *)title
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
-	if( [[[UIApplication sharedApplication] delegate] respondsToSelector:@selector(allowRotation)] )
-		return [(id <OzymandiasApplicationDelegate>)[[UIApplication sharedApplication] delegate] allowRotation];
-	
 	return YES;
+}
+
+- (BOOL)shouldAutorotate
+{
+    return YES;
+}
+
+- (NSUInteger)supportedInterfaceOrientations
+{
+    return UIInterfaceOrientationMaskAll;
 }
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
@@ -481,11 +488,11 @@ sectionForSectionIndexTitle:(NSString *)title
 	}
 	switch (size)
 	{
-		case MINI_FONT_SIZE:
+		case OZY_MINI:
 			return miniView;
-		case SMALL_FONT_SIZE:
+		case OZY_SMALL:
 			return smallView;
-		case NORMAL_FONT_SIZE:
+		case OZY_NORMAL:
 		default:
 			return normalView;
 	}

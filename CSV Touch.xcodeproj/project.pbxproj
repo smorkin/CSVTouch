@@ -16,6 +16,10 @@
 		F458080C11466F1600A4C4E1 /* seaglass.css in Resources */ = {isa = PBXBuildFile; fileRef = F458080911466F1600A4C4E1 /* seaglass.css */; };
 		F458080D11466F1600A4C4E1 /* seaglass.css in Resources */ = {isa = PBXBuildFile; fileRef = F458080911466F1600A4C4E1 /* seaglass.css */; };
 		F45B64B6127E039A00E02CE3 /* iAd.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F45B64B5127E039A00E02CE3 /* iAd.framework */; };
+		F467C1D2160149790067D792 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F467C1D1160149790067D792 /* Default-568h@2x.png */; };
+		F467C1D4160290120067D792 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F467C1D3160290110067D792 /* Default@2x.png */; };
+		F467C1D5160290F60067D792 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F467C1D1160149790067D792 /* Default-568h@2x.png */; };
+		F467C1D6160290F90067D792 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F467C1D3160290110067D792 /* Default@2x.png */; };
 		F46D894511725CFA00D45EEA /* OzyWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F46D894411725CFA00D45EEA /* OzyWebViewController.m */; };
 		F46D894611725CFA00D45EEA /* OzyWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F46D894411725CFA00D45EEA /* OzyWebViewController.m */; };
 		F47DC7EA1111004C00E8DD8B /* col.png in Resources */ = {isa = PBXBuildFile; fileRef = F473432C0E2A90B20072F3DE /* col.png */; };
@@ -221,6 +225,8 @@
 		F45807FC11466E9400A4C4E1 /* nksTablegallery.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = nksTablegallery.css; sourceTree = "<group>"; };
 		F458080911466F1600A4C4E1 /* seaglass.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = seaglass.css; sourceTree = "<group>"; };
 		F45B64B5127E039A00E02CE3 /* iAd.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iAd.framework; path = System/Library/Frameworks/iAd.framework; sourceTree = SDKROOT; };
+		F467C1D1160149790067D792 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		F467C1D3160290110067D792 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		F46D894311725CFA00D45EEA /* OzyWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OzyWebViewController.h; sourceTree = "<group>"; };
 		F46D894411725CFA00D45EEA /* OzyWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OzyWebViewController.m; sourceTree = "<group>"; };
 		F473432C0E2A90B20072F3DE /* col.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = col.png; sourceTree = "<group>"; };
@@ -295,7 +301,7 @@
 		F4AE6ED013217AD500BABD6C /* Entitlements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Entitlements.plist; sourceTree = "<group>"; };
 		F4CB510A11689FD300CFCBBC /* CSV Lite-Info-iPad.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "CSV Lite-Info-iPad.plist"; sourceTree = "<group>"; };
 		F4CB510B11689FD300CFCBBC /* Info-iPad.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Info-iPad.plist"; sourceTree = "<group>"; };
-		F4CB51381168A49B00CFCBBC /* large_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = large_icon.png; path = ../large_icon.png; sourceTree = "<group>"; };
+		F4CB51381168A49B00CFCBBC /* large_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = large_icon.png; sourceTree = "<group>"; };
 		F4CCB53F1026D6D800FD684A /* Priv dist-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Priv dist-Info.plist"; sourceTree = "<group>"; };
 		F4E5EA930E08843D002EB091 /* OzyRotatableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OzyRotatableViewController.h; sourceTree = "<group>"; };
 		F4E5EA940E08843D002EB091 /* OzyRotatableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OzyRotatableViewController.m; sourceTree = "<group>"; };
@@ -356,7 +362,6 @@
 				F4E5EE2E0E09B591002EB091 /* OzyTextViewController.h */,
 				F4E5EE2F0E09B591002EB091 /* OzyTextViewController.m */,
 				F46D894311725CFA00D45EEA /* OzyWebViewController.h */,
-				F4CB51381168A49B00CFCBBC /* large_icon.png */,
 				F46D894411725CFA00D45EEA /* OzyWebViewController.m */,
 				F4A73D190E2EB49200E1DF27 /* OzymandiasAdditions.h */,
 				F4A73D1A0E2EB49200E1DF27 /* OzymandiasAdditions.m */,
@@ -418,11 +423,14 @@
 				F4174D440E40F9D400351EE4 /* Large comma.tif */,
 				F487C5DB13ACBDA800769144 /* icon_retina.png */,
 				F4174D140E40A4A200351EE4 /* icon.png */,
+				F4CB51381168A49B00CFCBBC /* large_icon.png */,
 				F41BB7470EE9F65A00BEFDED /* lock.png */,
 				F4F0DD68117A5C120043C377 /* RefreshAll.png */,
 				F49218530EA7AC7400E74493 /* 2lines.png */,
 				F49218540EA7AC7400E74493 /* 4lines.png */,
 				F4E928750E4EE808006165B0 /* Default.png */,
+				F467C1D3160290110067D792 /* Default@2x.png */,
+				F467C1D1160149790067D792 /* Default-568h@2x.png */,
 				F487C5DE13ACBE0100769144 /* Default-Landscape~ipad.png */,
 				F487C5E113ACBE1C00769144 /* Default-Portrait~ipad.png */,
 				F451F1800E99146300F22ED9 /* info.png */,
@@ -584,7 +592,7 @@
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0430;
+				LastUpgradeCheck = 0500;
 			};
 			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "CSV Touch" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -682,6 +690,8 @@
 				F487C5DC13ACBDA800769144 /* icon_retina.png in Resources */,
 				F487C5DF13ACBE0100769144 /* Default-Landscape~ipad.png in Resources */,
 				F487C5E213ACBE1C00769144 /* Default-Portrait~ipad.png in Resources */,
+				F467C1D2160149790067D792 /* Default-568h@2x.png in Resources */,
+				F467C1D4160290120067D792 /* Default@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -758,6 +768,8 @@
 				F487C5DD13ACBDA800769144 /* icon_retina.png in Resources */,
 				F487C5E013ACBE0100769144 /* Default-Landscape~ipad.png in Resources */,
 				F487C5E313ACBE1C00769144 /* Default-Portrait~ipad.png in Resources */,
+				F467C1D5160290F60067D792 /* Default-568h@2x.png in Resources */,
+				F467C1D6160290F90067D792 /* Default@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -816,7 +828,6 @@
 		C01FCF4F08A954540054247B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CODE_SIGN_IDENTITY = "iPhone Developer: Simon Wigzell (652JQH3FNP)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Simon Wigzell (652JQH3FNP)";
 				GCC_C_LANGUAGE_STANDARD = c99;
@@ -833,7 +844,6 @@
 		F40C24330E3259B500C3B20E /* AppStore */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				GCC_C_LANGUAGE_STANDARD = c99;
@@ -852,7 +862,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CODE_SIGN_ENTITLEMENTS = "~/Utveckling/AppStore/CSVReader/Entitlements.plist";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -861,8 +870,9 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = CSV_Touch_Prefix.pch;
+				GCC_THUMB_SUPPORT = NO;
 				INFOPLIST_FILE = "Info-iPad.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 3.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "CSV Touch";
 				PROVISIONING_PROFILE = "";
@@ -876,17 +886,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = (
-					"$(ARCHS_STANDARD_32_BIT)",
-					armv6,
-				);
 				CODE_SIGN_ENTITLEMENTS = "~/Utveckling/AppStore/CSVReader/Entitlements.plist";
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = CSV_Touch_Prefix.pch;
+				GCC_THUMB_SUPPORT = NO;
 				INFOPLIST_FILE = "Info-iPad.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 3.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				PRODUCT_NAME = "CSV Touch";
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
@@ -899,18 +906,15 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = (
-					"$(ARCHS_STANDARD_32_BIT)",
-					armv6,
-				);
 				CODE_SIGN_ENTITLEMENTS = "~/Utveckling/AppStore/CSVReader/Entitlements.plist";
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Simon Wigzell";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Simon Wigzell";
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = CSV_Touch_Prefix.pch;
+				GCC_THUMB_SUPPORT = NO;
 				INFOPLIST_FILE = "Info-iPad.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 3.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "CSV Touch";
 				PROVISIONING_PROFILE = "41E4B329-E642-4CF8-AD32-BA40F5D62779";
@@ -926,7 +930,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CODE_SIGN_ENTITLEMENTS = "~/Utveckling/AppStore/CSVReader/Entitlements.plist";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -937,7 +940,7 @@
 				GCC_PREFIX_HEADER = CSV_Lite_Prefix.pch;
 				INFOPLIST_FILE = "CSV Lite-Info-iPad.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
-				IPHONEOS_DEPLOYMENT_TARGET = 3.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				OTHER_CFLAGS = "-DCSV_LITE";
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = "CSV Lite";
@@ -951,10 +954,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = (
-					"$(ARCHS_STANDARD_32_BIT)",
-					armv6,
-				);
 				CODE_SIGN_ENTITLEMENTS = "~/Utveckling/AppStore/CSVReader/Entitlements.plist";
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
@@ -963,7 +962,7 @@
 				GCC_PREFIX_HEADER = CSV_Lite_Prefix.pch;
 				INFOPLIST_FILE = "CSV Lite-Info-iPad.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
-				IPHONEOS_DEPLOYMENT_TARGET = 3.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				OTHER_CFLAGS = "-DCSV_LITE";
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = "CSV Lite";
@@ -979,10 +978,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = (
-					"$(ARCHS_STANDARD_32_BIT)",
-					armv6,
-				);
 				CODE_SIGN_ENTITLEMENTS = "~/Utveckling/AppStore/CSVReader/Entitlements.plist";
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Simon Wigzell";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Simon Wigzell";
@@ -991,7 +986,7 @@
 				GCC_PREFIX_HEADER = CSV_Lite_Prefix.pch;
 				INFOPLIST_FILE = "CSV Lite-Info-iPad.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
-				IPHONEOS_DEPLOYMENT_TARGET = 3.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				OTHER_CFLAGS = "-DCSV_LITE";
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = "CSV Lite";
@@ -1006,7 +1001,6 @@
 		F4BE8A980E44FF1100F2A27B /* Privatdistribution */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CODE_SIGN_ENTITLEMENTS = dist.plist;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Simon Wigzell";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Simon Wigzell";

@@ -39,7 +39,6 @@
 
 @protocol OzymandiasApplicationDelegate
 @required
-- (BOOL) allowRotation;
 @end
 
 @protocol OzymandiasViewControllerViewDelegate

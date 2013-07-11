@@ -22,13 +22,11 @@
 + (NSStringEncoding) encoding;
 + (BOOL) smartDelimiter;
 + (NSUInteger) maxNumberOfItemsToSort;
-+ (BOOL) allowRotatableInterface;
 + (BOOL) useGroupingForItems;
 + (BOOL) groupNumbers;
 + (BOOL) enablePhoneLinks;
 + (BOOL) useFixedWidth;
 + (BOOL) definedFixedWidths;
-+ (BOOL) showStatusBar;
 + (BOOL) showDetailsToolbar;
 + (BOOL) keepQuotes;
 + (BOOL) showDebugInfo;
