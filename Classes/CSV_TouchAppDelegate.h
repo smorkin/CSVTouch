@@ -74,6 +74,7 @@ OzymandiasApplicationDelegate> {
 @property (nonatomic, assign) BOOL readingFileList;
 @property (nonatomic, assign) BOOL downloadFailed;
 @property (nonatomic, retain) NSDate *enteredBackground;
+@property (nonatomic, readonly) UIToolbar *downloadToolbar;
 
 
 - (IBAction) downloadNewFile:(id)sender;

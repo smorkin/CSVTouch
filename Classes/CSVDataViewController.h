@@ -18,7 +18,7 @@ CSVRow,
 OzyTextViewController,
 OzyWebViewController;
 
-@interface CSVDataViewController : UINavigationController <UITableViewDelegate>
+@interface CSVDataViewController : UINavigationController <UITableViewDelegate, UISearchBarDelegate>
 {
 	IBOutlet OzyTextViewController *detailsController;
 	IBOutlet OzyTableViewController *fancyDetailsController;
@@ -45,8 +45,7 @@ OzyWebViewController;
 	IBOutlet UINavigationBar *editNavigationBar;
 	
 	// Search view
-	IBOutlet UISearchBar *searchBar;
-//	IBOutlet UIBarButtonItem *searchButton;
+    UISearchBar *_searchBar;
 
 	// Toolbars
 	IBOutlet UIToolbar *itemsToolbar;
@@ -95,7 +94,7 @@ OzyWebViewController;
 
 @property (nonatomic, readonly) UIToolbar *itemsToolbar;
 @property (nonatomic, readonly) UIToolbar *filesToolbar;
-@property (nonatomic, readonly) UISearchBar *searchBar;
+@property (nonatomic, retain) UISearchBar *searchBar;
 @property (nonatomic, copy) NSURL *leaveAppURL;
 @property (nonatomic, assign) BOOL showDeletedColumns;
 @property (nonatomic, retain) UIView *contentView;

@@ -61,8 +61,6 @@ typedef enum OzyTableViewSize {
 
 - (void) dataLoaded;
 
-+ (UIView *) headerViewForSize:(OzyTableViewSize)size;
-
 - (NSUInteger) indexForObjectAtIndexPath:(NSIndexPath *)indexPath;
 - (NSIndexPath *) indexPathForObjectAtIndex:(NSUInteger)index;
 - (BOOL) itemExistsAtIndexPath:(NSIndexPath *)indexPath;
