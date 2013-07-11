@@ -47,7 +47,7 @@
 
 @synthesize itemsToolbar;
 @synthesize filesToolbar;
-@synthesize searchBar;
+@synthesize searchBar = _searchBar;
 @synthesize leaveAppURL;
 @synthesize showDeletedColumns = _showDeletedColumns;
 @synthesize contentView = _contentView;
@@ -86,7 +86,7 @@
 	NSMutableArray *allObjects = [currentFile itemsWithResetShortdescriptions:needsResorting];
 	NSMutableArray *filteredObjects = [NSMutableArray array];
 	NSMutableArray *workObjects;
-	NSString *searchString = [searchBar.text lowercaseString];
+	NSString *searchString = [self.searchBar.text lowercaseString];
 	
 	// We should always resort all objects, no matter which are actually shown
 	if( needsResorting &&
@@ -199,8 +199,8 @@
 			[indexPathForFileName setObject:[[a objectAtIndex:0] dictionaryRepresentation] forKey:[currentFile fileName]];
 		else
 			[indexPathForFileName removeObjectForKey:[currentFile fileName]];
-		if( searchBar.text && ![searchBar.text isEqualToString:@""] )
-			[searchStringForFileName setObject:searchBar.text forKey:[currentFile fileName]];
+		if( self.searchBar.text && ![self.searchBar.text isEqualToString:@""] )
+			[searchStringForFileName setObject:self.searchBar.text forKey:[currentFile fileName]];
 		else
 			[searchStringForFileName removeObjectForKey:[currentFile fileName]];
 	}
@@ -238,9 +238,9 @@
 	}
 	NSString *cachedSearchString = [searchStringForFileName objectForKey:[currentFile fileName]];
 	if( cachedSearchString )
-		searchBar.text = cachedSearchString;
+		self.searchBar.text = cachedSearchString;
 	else
-		searchBar.text = @"";
+		self.searchBar.text = @"";
 	[self updateColumnNames];
 	[itemController setTitle:[currentFile defaultTableViewDescription]];
 	[self updateFileModificationDateButton];
@@ -790,9 +790,13 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
 	if( [CSVPreferencesController enablePhoneLinks] == FALSE )
 		[htmlDetailsController.webView setDataDetectorTypes:UIDataDetectorTypeLink];
 	
-	// Autocorrection of searching should be off
-	searchBar.autocorrectionType = UITextAutocorrectionTypeNo;
-//	itemController.tableView.tableHeaderView = searchBar;
+	// Searchbar setup
+    UISearchBar *searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0,170,320,44)];
+    self.searchBar = searchBar;
+    [searchBar setDelegate:self];
+	itemController.tableView.tableHeaderView = searchBar;
+	self.searchBar.autocorrectionType = UITextAutocorrectionTypeNo;
+    self.searchBar.placeholder = @"Search items";
 	
 	// Push the fileController to the root of the navigation;
 	// we must do this in case we have no saved navigationstack
@@ -1356,6 +1360,25 @@ static CSVDataViewController *sharedInstance = nil;
 	[self searchStart];	
 }
 
+#ifdef __IPHONE_7_0
+- (UIBarPosition)positionForBar:(id <UIBarPositioning>)bar
+{
+    if( bar == self.searchBar)
+    {
+        return UIBarPositionTopAttached;
+    }
+    else if( bar == [CSV_TouchAppDelegate sharedInstance].downloadToolbar ||
+            bar == editNavigationBar)
+    {
+        return UIBarPositionTopAttached;
+    }
+    else
+    {
+        return UIBarPositionAny;
+    }
+}
+#endif
+
 - (void)searchBar:(UISearchBar *)modifiedSearchBar textDidChange:(NSString *)searchText
 {
 	if( [[currentFile itemsWithResetShortdescriptions:NO] count] < [CSVPreferencesController maxNumberOfItemsToLiveFilter] )
@@ -1437,7 +1460,7 @@ static CSVDataViewController *sharedInstance = nil;
 	
 	if( resetSearch )
 	{
-		searchBar.text = @"";
+		self.searchBar.text = @"";
 		CSVRow *selectedItem = [[itemController objects] objectAtIndex:[itemController indexForObjectAtIndexPath:indexPath]];
 		[self refreshObjectsWithResorting:NO];
 		NSUInteger newPosition = [[currentFile itemsWithResetShortdescriptions:NO] indexOfObject:selectedItem];
@@ -1469,7 +1492,7 @@ static CSVDataViewController *sharedInstance = nil;
 
 - (IBAction) editDone:(id)sender
 {
-	[searchBar endEditing:YES];
+	[self.searchBar endEditing:YES];
 	//	if( searchBar.text && ![searchBar.text isEqualToString:@""] )
 	//		searchButton.style = UIBarButtonItemStyleDone;
 	//	else

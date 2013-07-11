@@ -98,18 +98,18 @@
 				continue;
 			
 			// For performance reasons, we compare using isEqualToString: before we
-			// do the possible transformation to comparison character 
+			// do the possible transformation to comparison character
 			currentFirstLetter = [shortDescription substringToIndex:1];
 			if(!latestFirstLetter ||
-			   (![currentFirstLetter isEqualToString:latestFirstLetter] && 
+			   (![currentFirstLetter isEqualToString:latestFirstLetter] &&
 				![[self comparisonCharacterForCharacter:currentFirstLetter] isEqualToString:
 				  [self comparisonCharacterForCharacter:latestFirstLetter]] ))
 			{
 				[_sectionStarts addObject:[NSNumber numberWithInt:i]];
 				[_sectionIndexes addObject:[self sectionTitleForCharacter:currentFirstLetter]];
 				latestFirstLetter = currentFirstLetter;
-			}				
-			else if(![currentFirstLetter isEqualToString:latestFirstLetter] && 
+			}
+			else if(![currentFirstLetter isEqualToString:latestFirstLetter] &&
 					![[self comparisonCharacterForCharacter:currentFirstLetter] isEqualToString:
 					  [self comparisonCharacterForCharacter:latestFirstLetter]] )
 			{
@@ -178,7 +178,7 @@
 		[self.objects removeObjectAtIndex:index];
 		self.navigationItem.rightBarButtonItem.enabled = TRUE;
 		[self.tableView reloadData];
-		[[NSNotificationCenter defaultCenter] postNotificationName:OzyContentChangedInTableView 
+		[[NSNotificationCenter defaultCenter] postNotificationName:OzyContentChangedInTableView
 															object:self
 														  userInfo:[NSDictionary dictionaryWithObject:objectToRemove
 																							   forKey:OzyRemovedTableViewObject]];
@@ -229,7 +229,7 @@
 		if( indexPath.section == [_sectionStarts count] - 1 )
 			return [[_sectionStarts objectAtIndex:indexPath.section] intValue] + indexPath.row < [self.objects count];
 		else if( indexPath.section < [_sectionStarts count] - 1 )
-			return [[_sectionStarts objectAtIndex:indexPath.section] intValue] + indexPath.row < 
+			return [[_sectionStarts objectAtIndex:indexPath.section] intValue] + indexPath.row <
 			[[_sectionStarts objectAtIndex:indexPath.section + 1] intValue];
 		else
 			return NO;
@@ -242,7 +242,7 @@
 	{
 		return indexPath.row < [self.objects count];
 	}
-}	
+}
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
@@ -295,7 +295,7 @@
 	else
 	{
 		return nil;
-	}	
+	}
 }
 
 - (NSInteger)tableView:(UITableView *)tableView
@@ -356,14 +356,14 @@ sectionForSectionIndexTitle:(NSString *)title
 	
 	if( self.useFixedWidth )
 		[cell.textLabel setFont:[UIFont fontWithName:@"Courier-Bold" size:fontSize]];
-	else 
+	else
 		[cell.textLabel setFont:[[cell.textLabel font] fontWithSize:fontSize]];
 	
 	return cell;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)aTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{	
+{
 	UITableViewCell *cell = [self tableViewCell];
 	id item;
 	
@@ -411,7 +411,7 @@ sectionForSectionIndexTitle:(NSString *)title
 }
 
 - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
-{	
+{
 	NSInteger fromIndex;
 	NSInteger toIndex;
 	if( [_sectionStarts count] > 0 )
@@ -438,7 +438,7 @@ sectionForSectionIndexTitle:(NSString *)title
 	[_sectionIndexes release];
 	[_sectionTitles release];
 	//	[_imageName release];
-
+    
 	[super dealloc];
 }
 
@@ -465,37 +465,6 @@ sectionForSectionIndexTitle:(NSString *)title
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
 {
 	[self.tableView reloadData];
-}
-
-// Not used right now
-+ (UIView *) headerViewForSize:(OzyTableViewSize)size
-{
-	static UILabel *miniView = nil;
-	static UILabel *smallView = nil;
-	static UILabel *normalView = nil;
-	
-	if( !miniView )
-	{
-		miniView = [[UILabel alloc] init];
-		miniView.font = [miniView.font fontWithSize:MINI_FONT_SIZE];
-		miniView.textColor = [UIColor whiteColor];
-		smallView = [[UILabel alloc] init];
-		smallView.font = [smallView.font fontWithSize:SMALL_FONT_SIZE];
-		smallView.textColor = [UIColor whiteColor];
-		normalView = [[UILabel alloc] init];
-		normalView.font = [normalView.font fontWithSize:NORMAL_FONT_SIZE];
-		normalView.textColor = [UIColor whiteColor];
-	}
-	switch (size)
-	{
-		case OZY_MINI:
-			return miniView;
-		case OZY_SMALL:
-			return smallView;
-		case OZY_NORMAL:
-		default:
-			return normalView;
-	}
 }
 
 - (void)viewDidAppear:(BOOL)animated

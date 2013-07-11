@@ -14,7 +14,6 @@
 #import "CSVPreferencesController.h"
 #import "CSVRow.h"
 #import "CSVFileParser.h"
-#import "TextAlertView.h"
 #import "csv.h"
 
 #define SELECTED_TAB_BAR_INDEX @"selectedTabBarIndex"
@@ -32,6 +31,7 @@
 @synthesize readingFileList = _readingFileList;
 @synthesize downloadFailed = _downloadFailed;
 @synthesize enteredBackground = _enteredBackground;
+@synthesize downloadToolbar;
 
 static CSV_TouchAppDelegate *sharedInstance = nil;
 
@@ -70,12 +70,13 @@ static NSString *newPassword = nil;
 
 - (void) checkPassword
 {
-	TextAlertView *alert = [[TextAlertView alloc] initWithTitle:@"Input Password" 
-													   delegate:self
-											  cancelButtonTitle:@"Quit"
-											  otherButtonTitles:@"OK", nil];
-	alert.textField.keyboardType = UIKeyboardTypeDefault;
-	alert.textField.secureTextEntry = YES;
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Input password:"
+                                                    message:nil
+                                                   delegate:self
+                                          cancelButtonTitle:@"Quit"
+                                          otherButtonTitles:@"OK", nil];
+
+    alert.alertViewStyle = UIAlertViewStyleSecureTextInput;
 	alert.tag = PASSWORD_CHECK;
 	[alert show];
 	[alert release];
@@ -83,51 +84,17 @@ static NSString *newPassword = nil;
 
 - (void) setPassword:(NSString *)title
 {
-	TextAlertView *alert = [[TextAlertView alloc] initWithTitle:title 
-													   delegate:self
-											  cancelButtonTitle:@"Cancel"
-											  otherButtonTitles:@"OK", nil];
-	alert.textField.keyboardType = UIKeyboardTypeDefault;
-	alert.textField.secureTextEntry = YES;
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title
+                                                    message:nil
+                                                   delegate:self
+                                          cancelButtonTitle:@"Cancel"
+                                          otherButtonTitles:@"OK", nil];
+    alert.alertViewStyle = UIAlertViewStyleSecureTextInput;
+	[alert textFieldAtIndex:0].keyboardType = UIKeyboardTypeDefault;
 	alert.tag = PASSWORD_SET;
 	[alert show];
 	[alert release];
 }
-
-//- (IBAction) newPasswordDone
-//{
-//	static BOOL emptyPasswordWarned = FALSE;
-//	
-//	if( ![newPassword1.text isEqualToString:newPassword2.text] )
-//	{
-//		newPassword1.text = @"";	
-//		newPassword2.text = @"";	
-//		[newPassword1 becomeFirstResponder];
-//		UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Password mismatch!"
-//														 message:@"Please re-enter the password" 
-//														delegate:self
-//											   cancelButtonTitle:@"OK"
-//											   otherButtonTitles:nil] autorelease];
-//		[alert show];
-//	}
-//	else if( [newPassword1.text length] == 0 && !emptyPasswordWarned )
-//	{
-//		[newPassword1 becomeFirstResponder];
-//		UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Empty Password!"
-//														 message:@"This is probably not a good idea, but if you are certain, go ahead!" 
-//														delegate:self
-//											   cancelButtonTitle:@"OK"
-//											   otherButtonTitles:nil] autorelease];
-//		[alert show];
-//		emptyPasswordWarned = TRUE;
-//	}
-//	else
-//	{
-//		[[NSUserDefaults standardUserDefaults] setObject:[newPassword1.text ozyHash]
-//												  forKey:FILE_PASSWORD];
-//		[newPasswordModalController dismissModalViewControllerAnimated:YES];
-//	}
-//}
 
 + (CSV_TouchAppDelegate *) sharedInstance
 {
@@ -368,21 +335,22 @@ static NSString *newPassword = nil;
 	
 	if( [CSVPreferencesController useBlackTheme] )
 	{
-		[self dataController].navigationBar.barStyle = UIBarStyleBlackOpaque;
-		[self dataController].itemsToolbar.barStyle = UIBarStyleBlackOpaque;
-		[self dataController].filesToolbar.barStyle = UIBarStyleBlackOpaque;
-		[self dataController].searchBar.barStyle = UIBarStyleBlackOpaque;
-		downloadToolbar.barStyle = UIBarStyleBlackOpaque;
-		[[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackOpaque animated:YES];
+		[self dataController].navigationBar.barStyle = UIBarStyleBlack;
+		[self dataController].itemsToolbar.barStyle = UIBarStyleBlack;
+		[self dataController].filesToolbar.barStyle = UIBarStyleBlack;
+		[self dataController].searchBar.barStyle = UIBarStyleBlack;
+		downloadToolbar.barStyle = UIBarStyleBlack;
+		[[UIApplication sharedApplication] setStatusBarStyle:UIBarStyleBlack animated:YES];
 	}		
 	
 	// Configure and show the window
 	[startupActivityView stopAnimating];
 	[startupController.view removeFromSuperview];
 	
-	[window addSubview:[[self dataController] view]];
-	[window makeKeyAndVisible];
-	
+//    [[self window] setTintColor:[UIColor redColor]];
+	[self.window addSubview:[[self dataController] view]];
+	[self.window makeKeyAndVisible];
+    
 	NSDate *nextDownload = [CSVPreferencesController nextDownload];
 	if( nextDownload )
 	{
@@ -426,8 +394,8 @@ static NSString *newPassword = nil;
 didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {	
 	startupController.view.frame = [[UIScreen mainScreen] applicationFrame];
-	[window addSubview:startupController.view];
-    [window setRootViewController:startupController];
+	[self.window addSubview:startupController.view];
+    [self.window setRootViewController:startupController];
 	[startupActivityView startAnimating];
 	
 	// Only show startup activity view if there are files cached
@@ -435,7 +403,7 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 	if( documentsPath && [[[NSFileManager defaultManager] contentsOfDirectoryAtPath:documentsPath
 																			  error:NULL] count] > 0 )
 	{
-		[window makeKeyAndVisible];
+		[self.window makeKeyAndVisible];
 	}
 	if( [self currentPasswordHash] != nil )
 	{
@@ -461,7 +429,7 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 }
 
 - (void)dealloc {
-	[window release];
+	[self.window release];
 	[rawData release];
 	[self.URLsToDownload release];
 	[self.filesAddedThroughURLList release];
@@ -729,14 +697,13 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 
 - (void) loadFileList
 {
-	TextAlertView *alert = [[TextAlertView alloc] initWithTitle:@"File list address:" 
-													   delegate:self
-											  cancelButtonTitle:nil
-											  otherButtonTitles:@"OK", nil];
-	alert.textField.keyboardType = UIKeyboardTypeURL;
-	alert.textField.secureTextEntry = NO;
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"File list address:" message:nil delegate:self cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
+    
+    alert.alertViewStyle = UIAlertViewStylePlainTextInput;    
+	[alert textFieldAtIndex:0].keyboardType = UIKeyboardTypeURL;
+	[alert textFieldAtIndex:0].secureTextEntry = NO;
     if( [CSVPreferencesController lastUsedListURL] )
-        alert.textField.text = [[CSVPreferencesController lastUsedListURL] absoluteString];
+        [alert textFieldAtIndex:0].text = [[CSVPreferencesController lastUsedListURL] absoluteString];
 	alert.tag = CSV_FILE_LIST_SETUP;
 	[alert show];
 	[alert release];	
@@ -844,7 +811,7 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 - (void) slowActivityStarted
 {
 	activityView.frame = [[UIScreen mainScreen] applicationFrame];
-	[window addSubview:activityView];
+	[self.window addSubview:activityView];
 	[fileParsingActivityView startAnimating];
 }
 
@@ -886,12 +853,12 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 
 - (void)alertView:(UIAlertView *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-	TextAlertView *alertView = (TextAlertView*) actionSheet;
-	if(alertView.tag == PASSWORD_CHECK)
+    NSString *text = [actionSheet textFieldAtIndex:0].text;
+	if(actionSheet.tag == PASSWORD_CHECK)
 	{
 		if(buttonIndex > 0)
 		{
-			if( [[alertView.textField.text ozyHash] isEqual:[[NSUserDefaults standardUserDefaults] dataForKey:FILE_PASSWORD]] )
+			if( [[text ozyHash] isEqual:[[NSUserDefaults standardUserDefaults] dataForKey:FILE_PASSWORD]] )
 			{
 				if( [CSVPreferencesController usePassword] == NO )
 					[[NSUserDefaults standardUserDefaults] removeObjectForKey:FILE_PASSWORD];
@@ -912,18 +879,18 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 			exit(1);
 		}
 	}
-	else if(alertView.tag == PASSWORD_SET)
+	else if(actionSheet.tag == PASSWORD_SET)
 	{
 		if(buttonIndex > 0)
 		{
 			if( newPassword == nil )
 			{
-				newPassword = [alertView.textField.text copy];
+				newPassword = [text copy];
 				[self performSelector:@selector(setPassword:)
 						   withObject:@"Confirm Password"
 						   afterDelay:0.3];
 			}
-			else if( [alertView.textField.text isEqual:newPassword] )
+			else if( [text isEqual:newPassword] )
 			{
 				[[NSUserDefaults standardUserDefaults] setObject:[newPassword ozyHash] forKey:FILE_PASSWORD];
 				[newPassword release];
@@ -945,15 +912,15 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 			[self performSelector:@selector(delayedStartup) withObject:nil afterDelay:0];
 		}
 	}
-	else if( alertView.tag == CSV_FILE_LIST_SETUP )
+	else if( actionSheet.tag == CSV_FILE_LIST_SETUP )
 	{
-		[self readFileListFromURL:alertView.textField.text];
+		[self readFileListFromURL:text];
 	}
-	else if( alertView.tag == UPGRADE_FAILED )
+	else if( actionSheet.tag == UPGRADE_FAILED )
 	{
 		exit(1);
 	}
-	else if( alertView.tag == RELOAD_FILES && buttonIndex > 0)
+	else if( actionSheet.tag == RELOAD_FILES && buttonIndex > 0)
 	{
 		[self reloadAllFiles];
 	}

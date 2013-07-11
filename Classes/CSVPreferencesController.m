@@ -151,8 +151,7 @@ BOOL reverseItemSorting = FALSE;
 	if( obj )
 		return [obj intValue];
 	else
-//		return NSISOLatin1StringEncoding;
-        return NSMacOSRomanStringEncoding;
+		return NSISOLatin1StringEncoding;
 }
 
 + (BOOL) useGroupingForItems
