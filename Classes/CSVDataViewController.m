@@ -22,8 +22,20 @@
 #define NORMAL_SORT_ORDER @"▼"
 #define REVERSE_SORT_ORDER @"▲"
 
-
 #define MAX_ITEMS_IN_LITE_VERSION 150
+
+#ifndef __IPHONE_7_0
+typedef enum UIBarPosition {
+    UIBarPositionAny = 0,
+    UIBarPositionBottom = 1, // The bar is at the bottom of its local context, and directional decoration draws accordingly (e.g., shadow above the bar).
+    UIBarPositionTop = 2, // The bar is at the top of its local context, and directional decoration draws accordingly (e.g., shadow below the bar)
+    UIBarPositionTopAttached = 3, // The bar is at the top of the screen (as well as its local context), and its background extends upward—currently only enough for the status bar.
+}UIBarPosition;
+@protocol UIBarPositioning <NSObject> // UINavigationBar, UIToolbar, and UISearchBar conform to this
+@property(nonatomic,readonly) UIBarPosition barPosition;
+@end
+#endif
+
 
 @interface NSString (FancyDetailsComparison)
 - (NSComparisonResult) compareFancyDetails:(NSString *)s;
@@ -1360,7 +1372,6 @@ static CSVDataViewController *sharedInstance = nil;
 	[self searchStart];	
 }
 
-#ifdef __IPHONE_7_0
 - (UIBarPosition)positionForBar:(id <UIBarPositioning>)bar
 {
     if( bar == self.searchBar)
@@ -1377,7 +1388,6 @@ static CSVDataViewController *sharedInstance = nil;
         return UIBarPositionAny;
     }
 }
-#endif
 
 - (void)searchBar:(UISearchBar *)modifiedSearchBar textDidChange:(NSString *)searchText
 {

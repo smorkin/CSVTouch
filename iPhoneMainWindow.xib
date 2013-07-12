@@ -19,7 +19,6 @@
 			<string>IBUILabel</string>
 			<string>IBUINavigationBar</string>
 			<string>IBUINavigationItem</string>
-			<string>IBUISearchBar</string>
 			<string>IBUITableView</string>
 			<string>IBUITextField</string>
 			<string>IBUITextView</string>
@@ -1015,23 +1014,6 @@
 				<float key="IBUIAlpha">0.5</float>
 				<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 			</object>
-			<object class="IBUISearchBar" id="746704620">
-				<reference key="NSNextResponder"/>
-				<int key="NSvFlags">290</int>
-				<string key="NSFrameSize">{320, 44}</string>
-				<reference key="NSSuperview"/>
-				<bool key="IBUIOpaque">NO</bool>
-				<int key="IBUIContentMode">3</int>
-				<bool key="IBUIMultipleTouchEnabled">YES</bool>
-				<string key="IBUIContentStretch">{{0, 0}, {0.69999999999999996, 1}}</string>
-				<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-				<string key="IBText"/>
-				<string key="IBPrompt"/>
-				<string key="IBPlaceholder">Search items</string>
-				<object class="IBUITextInputTraits" key="IBTextInputTraits">
-					<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-				</object>
-			</object>
 			<object class="IBUIButton" id="632869097">
 				<nil key="NSNextResponder"/>
 				<int key="NSvFlags">265</int>
@@ -1610,14 +1592,6 @@
 					<int key="connectionID">504</int>
 				</object>
 				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">delegate</string>
-						<reference key="source" ref="746704620"/>
-						<reference key="destination" ref="1067888901"/>
-					</object>
-					<int key="connectionID">512</int>
-				</object>
-				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
 						<string key="label">toggleShowFileInfo:</string>
 						<reference key="source" ref="864703851"/>
@@ -2041,11 +2015,6 @@
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 						</object>
-						<reference key="parent" ref="0"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">509</int>
-						<reference key="object" ref="746704620"/>
 						<reference key="parent" ref="0"/>
 					</object>
 					<object class="IBObjectRecord">
@@ -2479,7 +2448,6 @@
 					<string>499.IBPluginDependency</string>
 					<string>500.IBPluginDependency</string>
 					<string>505.IBPluginDependency</string>
-					<string>509.IBPluginDependency</string>
 					<string>515.IBPluginDependency</string>
 					<string>516.IBPluginDependency</string>
 					<string>520.IBPluginDependency</string>
@@ -2585,7 +2553,6 @@
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>OzyWebViewController</string>
-					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
