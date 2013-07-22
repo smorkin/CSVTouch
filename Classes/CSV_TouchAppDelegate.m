@@ -853,7 +853,10 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 
 - (void)alertView:(UIAlertView *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    NSString *text = [actionSheet textFieldAtIndex:0].text;
+    NSString *text = @"";
+    if( actionSheet.alertViewStyle == UIAlertViewStylePlainTextInput ||
+       actionSheet.alertViewStyle == UIAlertViewStyleSecureTextInput)
+        text = [actionSheet textFieldAtIndex:0].text;
 	if(actionSheet.tag == PASSWORD_CHECK)
 	{
 		if(buttonIndex > 0)

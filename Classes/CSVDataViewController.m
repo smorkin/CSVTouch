@@ -1520,7 +1520,10 @@ static CSVDataViewController *sharedInstance = nil;
 		shouldPopItem:(UINavigationItem *)item
 {
 	[self updateBadgeValueUsingItem:item push:NO];
-	return [super navigationBar:navigationBar shouldPopItem:item];
+    if( [super respondsToSelector:@selector(navigationBar:shouldPopItem:)])
+        return [super navigationBar:navigationBar shouldPopItem:item];
+    else
+        return TRUE;
 }
 
 - (BOOL)navigationBar:(UINavigationBar *)navigationBar 
