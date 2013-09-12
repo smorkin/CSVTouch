@@ -41,12 +41,12 @@ static char *cstrstr(const char *haystack, const char needle) {
 		stringSize -= 2;
 	}
 	NSMutableString *tempString = [[[NSMutableString alloc] initWithBytes:(const void *)laststop
-								   length:stringSize
-								   encoding:encoding] autorelease];
-	[tempString replaceOccurrencesOfString:@"\"\"" 
-				    withString:@"\"" 
-				       options:0
-				         range:NSMakeRange(0, [tempString length])];
+                                                                   length:stringSize
+                                                                 encoding:encoding] autorelease];
+	[tempString replaceOccurrencesOfString:@"\"\""
+                                withString:@"\""
+                                   options:0
+                                     range:NSMakeRange(0, [tempString length])];
 	return tempString;
 }
 
@@ -59,8 +59,8 @@ static char *cstrstr(const char *haystack, const char needle) {
 		fileHandle = 0;
 		// Set delimiter to 0
 		delimiter = ',';
-		// Set default encoding
-		encoding = NSISOLatin1StringEncoding;
+		// Set default encoding; should be one which works fine w c strings
+		encoding = NSUTF8StringEncoding;
 	}
 	return self;
 }
@@ -98,7 +98,7 @@ static char *cstrstr(const char *haystack, const char needle) {
 	
 	while (*textp != '\0')
 	{
-//		if (strlen(textp) > 0) 
+        //		if (strlen(textp) > 0)
 		{
 			// This is data
 			laststop = textp;
@@ -107,11 +107,11 @@ static char *cstrstr(const char *haystack, const char needle) {
 			// Parsing is splitted in parts till EOL
 			while (NOT_EOL(textp) || (*textp != '\0' && (quoteCount % 2) != 0)) {
 				// If we got two quotes and a delimiter before and after, this is an empty value
-				if (	*textp == '\"' && 
+				if (	*textp == '\"' &&
 					*(textp+1) == '\"') {
 					// we'll just skip this, but firstly check if it's an empty value
-					if (	(textp > (const char*)allData) && 
-						*(textp-1) == delimiter && 
+					if (	(textp > (const char*)allData) &&
+						*(textp-1) == delimiter &&
 						*(textp+2) == delimiter) {
 						[csvLine addObject: @""];
 					}
@@ -144,7 +144,7 @@ static char *cstrstr(const char *haystack, const char needle) {
 					[csvContent addObject: csvLine];
 				}
 				csvLine = [NSMutableArray array];
-			} 
+			}
 			if ((*textp == '\0' || (quoteCount % 2) != 0) && lineBeginning != textp) {
 				csvLine = [NSMutableArray array];
 			}

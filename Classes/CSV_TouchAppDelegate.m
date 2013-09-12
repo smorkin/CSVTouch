@@ -333,16 +333,6 @@ static NSString *newPassword = nil;
 		newFileURL.text = @"http://";
 	newFileURL.clearButtonMode = UITextFieldViewModeWhileEditing;
 	
-	if( [CSVPreferencesController useBlackTheme] )
-	{
-		[self dataController].navigationBar.barStyle = UIBarStyleBlack;
-		[self dataController].itemsToolbar.barStyle = UIBarStyleBlack;
-		[self dataController].filesToolbar.barStyle = UIBarStyleBlack;
-		[self dataController].searchBar.barStyle = UIBarStyleBlack;
-		downloadToolbar.barStyle = UIBarStyleBlack;
-		[[UIApplication sharedApplication] setStatusBarStyle:UIBarStyleBlack animated:YES];
-	}		
-	
 	// Configure and show the window
 	[startupActivityView stopAnimating];
 	[startupController.view removeFromSuperview];
@@ -618,8 +608,8 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 	[s appendString:@"1. For FTP download, use\n\n"];
 	[s appendString:@"ftp://user:password@server.com/file.csv\n\n"];
 	[s appendString:@"2. An example file to test CSV Touch is available at\n\n"];
-	[s appendString:@"http://idisk.mac.com/simon_wigzell-Public/Games.csv\n\n"];
-	[s appendString:@"Note the capital \"P\" and \"G\", and the \"-\"."];
+	[s appendString:@"http://www.wigzell.net/csv/Spel.csv\n\n"];
+	[s appendString:@"This particular file uses the UTF8 encoding so that encoding must be selected in the\nSettings -> CSV Touch -> Data section"];
 	fileInfo.text = s;
 	[[self dataController] presentModalViewController:fileViewController animated:YES];
 }

@@ -12,20 +12,6 @@
 			<key>Type</key>
 			<string>PSToggleSwitchSpecifier</string>
 			<key>Title</key>
-			<string>Black Theme</string>
-			<key>Key</key>
-			<string>useBlackTheme</string>
-			<key>DefaultValue</key>
-			<false/>
-			<key>TrueValue</key>
-			<true/>
-			<key>FalseValue</key>
-			<false/>
-		</dict>
-		<dict>
-			<key>Type</key>
-			<string>PSToggleSwitchSpecifier</string>
-			<key>Title</key>
 			<string>Details Navigation</string>
 			<key>Key</key>
 			<string>useDetailsNavigation</string>

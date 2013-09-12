@@ -90,7 +90,7 @@
   foundColumns:(int *)foundColumns
 	useCorrect:(BOOL)useCorrect
 {
-	NSUInteger encoding = [CSVPreferencesController encoding];
+    NSUInteger encoding = NSUTF8StringEncoding; // Use an encoding which works fine w c-string
 	int csvParseFlags = CSV_TRIM | ([CSVPreferencesController keepQuotes] ? 0 : CSV_QUOTES);
 	int *columnWidths = NULL;
 	

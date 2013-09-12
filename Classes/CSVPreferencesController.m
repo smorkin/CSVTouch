@@ -30,7 +30,6 @@
 #define PREFS_SAFE_START @"safeStart"
 #define PREFS_KEEP_QUOTES @"keepQuotes"
 #define PREFS_SHOW_DEBUG_INFO @"showDebugInfo"
-#define PREFS_USE_BLACK_THEME @"useBlackTheme"
 #define PREFS_USE_CORRECT_PARSING @"useCorrectParsing"
 #define PREFS_USE_CORRECT_SORTING @"useCorrectSorting"
 #define PREFS_REMOVE_DETAILS_NAVIGATION @"useDetailsNavigation"
@@ -217,11 +216,6 @@ BOOL reverseItemSorting = FALSE;
 + (BOOL) showDebugInfo
 {
 	return [[NSUserDefaults standardUserDefaults] boolForKey:PREFS_SHOW_DEBUG_INFO];
-}
-
-+ (BOOL) useBlackTheme
-{
-	return [[NSUserDefaults standardUserDefaults] boolForKey:PREFS_USE_BLACK_THEME];
 }
 
 + (BOOL) safeStart
@@ -503,10 +497,6 @@ static BOOL hideAdress = NO;
 			else if( [[words objectAtIndex:0] isEqualToString:PREFS_SHOW_DEBUG_INFO] )
 				[[NSUserDefaults standardUserDefaults] setBool:[[words objectAtIndex:1] boolValue]
 														forKey:PREFS_SHOW_DEBUG_INFO];
-			
-			else if( [[words objectAtIndex:0] isEqualToString:PREFS_USE_BLACK_THEME] )
-				[[NSUserDefaults standardUserDefaults] setBool:[[words objectAtIndex:1] boolValue]
-														forKey:PREFS_USE_BLACK_THEME];
 			
 			else if( [[words objectAtIndex:0] isEqualToString:PREFS_USE_CORRECT_PARSING] )
 				[[NSUserDefaults standardUserDefaults] setBool:[[words objectAtIndex:1] boolValue]

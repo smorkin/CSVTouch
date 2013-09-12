@@ -31,7 +31,6 @@
 + (BOOL) keepQuotes;
 + (BOOL) showDebugInfo;
 + (BOOL) safeStart;
-+ (BOOL) useBlackTheme;
 + (BOOL) useCorrectParsing;
 + (BOOL) useCorrectSorting;
 + (BOOL) useDetailsNavigation;

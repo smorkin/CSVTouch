@@ -24,19 +24,6 @@
 
 #define MAX_ITEMS_IN_LITE_VERSION 150
 
-#ifndef __IPHONE_7_0
-typedef enum UIBarPosition {
-    UIBarPositionAny = 0,
-    UIBarPositionBottom = 1, // The bar is at the bottom of its local context, and directional decoration draws accordingly (e.g., shadow above the bar).
-    UIBarPositionTop = 2, // The bar is at the top of its local context, and directional decoration draws accordingly (e.g., shadow below the bar)
-    UIBarPositionTopAttached = 3, // The bar is at the top of the screen (as well as its local context), and its background extends upward—currently only enough for the status bar.
-}UIBarPosition;
-@protocol UIBarPositioning <NSObject> // UINavigationBar, UIToolbar, and UISearchBar conform to this
-@property(nonatomic,readonly) UIBarPosition barPosition;
-@end
-#endif
-
-
 @interface NSString (FancyDetailsComparison)
 - (NSComparisonResult) compareFancyDetails:(NSString *)s;
 @end
@@ -777,11 +764,7 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
         UILabel *l = [[[UILabel alloc] initWithFrame:frame] autorelease];
         l.font = [UIFont fontWithName:l.font.fontName size:10];
         l.backgroundColor = [UIColor clearColor];
-        if([CSV_TouchAppDelegate iPadMode] &&
-           ![CSVPreferencesController useBlackTheme])
-            l.textColor = [UIColor darkGrayColor];
-        else
-            l.textColor = [UIColor whiteColor];
+        l.textColor = [UIColor darkGrayColor];
         l.lineBreakMode = UILineBreakModeWordWrap;
         l.textAlignment = UITextAlignmentCenter;
         l.numberOfLines = 2;
@@ -1278,7 +1261,7 @@ static CSVDataViewController *sharedInstance = nil;
 
 - (UIBarButtonItem *) refreshFilesItem
 {
-	UIBarButtonItem *button = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh 
+	UIBarButtonItem *button = [[[UIBarButtonItem alloc] initWithTitle:@"Refresh..." style:UIBarButtonItemStyleBordered//initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh
 																			 target:self 
 																			 action:@selector(toggleRefreshFiles:)] autorelease];
 	button.style = UIBarButtonItemStyleBordered;
@@ -1287,7 +1270,7 @@ static CSVDataViewController *sharedInstance = nil;
 
 - (UIBarButtonItem *) showFileInfoItem
 {
-	return [[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"info.png"]
+	return [[[UIBarButtonItem alloc] initWithTitle:@"Info"//initWithImage:[UIImage imageNamed:@"info.png"]
 											 style:UIBarButtonItemStyleBordered
 											target:self 
 											action:@selector(toggleShowFileInfo:)] autorelease];
@@ -1492,11 +1475,6 @@ static CSVDataViewController *sharedInstance = nil;
 
 - (IBAction) editColumns:(id)sender
 {
-	if( [CSVPreferencesController useBlackTheme] )
-	{
-		editNavigationBar.barStyle = UIBarStyleBlackOpaque;
-	}
-	
 	[self presentModalViewController:editController animated:YES];
 }
 
