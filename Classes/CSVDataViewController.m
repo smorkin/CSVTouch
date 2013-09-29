@@ -36,7 +36,7 @@
 @end
 
 
-#if defined(__IPHONE_4_0) && defined(CSV_LITE)
+#if defined(CSV_LITE)
 @interface CSVDataViewController (AdBannerViewDelegate) <ADBannerViewDelegate>
 @end
 #endif
@@ -50,7 +50,7 @@
 @synthesize leaveAppURL;
 @synthesize showDeletedColumns = _showDeletedColumns;
 @synthesize contentView = _contentView;
-#if defined(__IPHONE_4_0) && defined(CSV_LITE)
+#if defined(CSV_LITE)
 @synthesize bannerView = _bannerView;
 @synthesize bannerIsVisible = _bannerIsVisible;
 #endif
@@ -106,7 +106,7 @@
 		{
 			objectDescription = [[row shortDescription] lowercaseString];
 			for( wordNr = 0 ;
-				wordNr < wordCount && [objectDescription hasSubstring:[words objectAtIndex:wordNr]]; 
+				wordNr < wordCount && [objectDescription hasSubstring:[words objectAtIndex:wordNr]];
 				wordNr++ );
 			if( wordNr == wordCount )
 				[filteredObjects addObject:row];
@@ -203,14 +203,14 @@
 		else
 			[searchStringForFileName removeObjectForKey:[currentFile fileName]];
 	}
-}	
+}
 
 - (void) updateFileModificationDateButton
 {
 	NSString *date;
 	NSString *time;
 	NSDateFormatter *dateFormatter = [[[NSDateFormatter alloc] init]  autorelease];
-
+    
 	[dateFormatter setDateStyle:NSDateFormatterShortStyle];
 	[dateFormatter setTimeStyle:NSDateFormatterNoStyle];
 	date = [dateFormatter stringFromDate:currentFile.downloadDate];
@@ -219,11 +219,11 @@
 	time = [dateFormatter stringFromDate:currentFile.downloadDate];
 	
 	[(UILabel *)modificationDateButton.customView setText:[NSString stringWithFormat:@"%@\n%@",
-								   date, time]]; 
+                                                           date, time]];
 }
 
 - (BOOL) selectFile:(CSVFileParser *)file
-{		
+{
 	// Store current position of itemController and search string
 	[self cacheCurrentFileData];
 	
@@ -285,7 +285,7 @@
         NSMutableString *s = [NSMutableString string];
         [s appendString:@"file://"];
         [s appendString:[[CSV_TouchAppDelegate localMediaDocumentsPath] stringByAppendingPathComponent:[tmpArray objectAtIndex:1]]];
-         return s;
+        return s;
     }
     else
         return localURL;
@@ -317,7 +317,7 @@
 		htmlDetailsController.title = s;
 	}
 	// Item controller will be visible
-	else if((push && item == itemController.navigationItem) || 
+	else if((push && item == itemController.navigationItem) ||
 			(!push && item == detailsController.navigationItem) ||
 			(!push && item == fancyDetailsController.navigationItem) ||
 			(!push && item == htmlDetailsController.navigationItem))
@@ -354,7 +354,7 @@
 	if( [[currentFile availableColumnNames] count] > [importantColumnIndexes count] )
 	{
 		NSArray *sectionStarts = [NSArray arrayWithObjects:
-								  [NSNumber numberWithInt:0], 
+								  [NSNumber numberWithInt:0],
 								  [NSNumber numberWithInt:[importantColumnIndexes count]],
 								  nil];
 		[fancyDetailsController setSectionStarts:sectionStarts];
@@ -387,26 +387,26 @@
 		if(htmlDetailsController.interfaceOrientation == UIInterfaceOrientationLandscapeLeft ||
 		   htmlDetailsController.interfaceOrientation == UIInterfaceOrientationLandscapeRight)
 		{
-			[s replaceOccurrencesOfString:@"normal 36px verdana" 
-							   withString:@"normal 18px verdana" 
+			[s replaceOccurrencesOfString:@"normal 36px verdana"
+							   withString:@"normal 18px verdana"
 								  options:0
-									range:NSMakeRange(0, [s length])];		
+									range:NSMakeRange(0, [s length])];
 		}
-		else 
+		else
 		{
-			[s replaceOccurrencesOfString:@"normal 36px verdana" 
-							   withString:@"normal 24px verdana" 
+			[s replaceOccurrencesOfString:@"normal 36px verdana"
+							   withString:@"normal 24px verdana"
 								  options:0
-									range:NSMakeRange(0, [s length])];					
+									range:NSMakeRange(0, [s length])];
 		}
 	}
 	else if(htmlDetailsController.interfaceOrientation == UIInterfaceOrientationLandscapeLeft ||
-	   htmlDetailsController.interfaceOrientation == UIInterfaceOrientationLandscapeRight)
+            htmlDetailsController.interfaceOrientation == UIInterfaceOrientationLandscapeRight)
 	{
-		[s replaceOccurrencesOfString:@"normal 36px verdana" 
-						   withString:@"normal 24px verdana" 
+		[s replaceOccurrencesOfString:@"normal 36px verdana"
+						   withString:@"normal 24px verdana"
 							  options:0
-								range:NSMakeRange(0, [s length])];		
+								range:NSMakeRange(0, [s length])];
 	}
 	[s appendString:@"</head><body>"];
 	if( useTable )
@@ -429,11 +429,11 @@
 			   row-1 == [[self importantColumnIndexes] count] &&
 			   [[self importantColumnIndexes] count] != [columnsAndValues count] )
 			{
-				[data appendString:@"<tr class=\"rowstep\"><th><b>-</b><td>"]; 
-				[data appendString:@"<tr class=\"rowstep\"><th><b>-</b><td>"]; 
+				[data appendString:@"<tr class=\"rowstep\"><th><b>-</b><td>"];
+				[data appendString:@"<tr class=\"rowstep\"><th><b>-</b><td>"];
 			}
 			
-			[data appendFormat:@"<tr%@><th valign=\"top\"><b>%@</b>", 
+			[data appendFormat:@"<tr%@><th valign=\"top\"><b>%@</b>",
 			 ((row % 2) == 1 ? @" class=\"odd\"" : @""),
 			 [d objectForKey:COLUMN_KEY]];
 			if( [[d objectForKey:VALUE_KEY] containsImageURL] && [CSVPreferencesController showInlineImages] )
@@ -467,8 +467,8 @@
 		}
 		row++;
 	}
-	[data replaceOccurrencesOfString:@"\n" 
-						  withString:@"<br>" 
+	[data replaceOccurrencesOfString:@"\n"
+						  withString:@"<br>"
 							 options:0
 							   range:NSMakeRange(0, [data length])];
 	[s appendString:data];
@@ -481,7 +481,7 @@
 }
 
 - (void) selectDetailsForRow:(NSUInteger)row
-{	
+{
 	if( [[itemController objects] count] > row )
 		_latestShownItem = [[itemController objects] objectAtIndex:row];
 	else
@@ -503,14 +503,14 @@
 		leaveAppView = nil;
 		self.leaveAppURL = nil;
 	}
-}	
+}
 
 - (void) delayedHtmlClick:(NSURL *)URL
 {
 	if( [CSVPreferencesController confirmLink] )
 	{
 		self.leaveAppURL = URL;
-		leaveAppView = [[UIAlertView alloc] initWithTitle:[NSString stringWithFormat:@"Leave %@", 
+		leaveAppView = [[UIAlertView alloc] initWithTitle:[NSString stringWithFormat:@"Leave %@",
 														   ([CSVPreferencesController restrictedDataVersionRunning] ? @"CSV Lite" : @"CSV Touch")]
 												  message:[NSString stringWithFormat:@"Continue opening %@?", [self.leaveAppURL absoluteString]]
 												 delegate:self
@@ -525,7 +525,7 @@
 }
 
 - (BOOL)webView:(UIWebView *)webView
-shouldStartLoadWithRequest:(NSURLRequest *)request 
+shouldStartLoadWithRequest:(NSURLRequest *)request
  navigationType:(UIWebViewNavigationType)navigationType
 {
 	if( navigationType == UIWebViewNavigationTypeLinkClicked )
@@ -599,7 +599,7 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
 			return detailsController;
 	}
 	else
-		return nil;	
+		return nil;
 }
 
 #define DEFS_COLUMN_NAMES @"defaultColumnNames"
@@ -690,7 +690,7 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
 }
 
 - (void) applicationDidFinishLaunchingInEmergencyMode:(BOOL)emergencyMode
-{	
+{
 	// If someone wants to have this button, it is likely they don't want to see the columns as default
 	if( [CSVPreferencesController showDetailsToolbar] )
 	{
@@ -739,7 +739,7 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
 	[self updateShowHideDeletedColumnsButtons];
 	
     [[CSV_TouchAppDelegate sharedInstance].window setRootViewController:self];
-
+    
 	// Setup stuff for controllers which can't be configured using InterfaceBuilder
 	[[editController tableView] setEditing:YES animated:NO];
 	editController.editable = YES;
@@ -764,7 +764,7 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
         UILabel *l = [[[UILabel alloc] initWithFrame:frame] autorelease];
         l.font = [UIFont fontWithName:l.font.fontName size:10];
         l.backgroundColor = [UIColor clearColor];
-        l.textColor = [UIColor darkGrayColor];
+        l.textColor = [UIColor blackColor];
         l.lineBreakMode = UILineBreakModeWordWrap;
         l.textAlignment = UITextAlignmentCenter;
         l.numberOfLines = 2;
@@ -775,7 +775,7 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
     for( UIBarButtonItem *item in [itemsToolbar items] )
     {
         if( [item action] == @selector(toggleItemSortOrder:))
-        {            
+        {
             item.title = NORMAL_SORT_ORDER;
             break;
         }
@@ -797,7 +797,7 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
 	// we must do this in case we have no saved navigationstack
 	[self pushViewController:fileController animated:NO];
 	[self updateBadgeValueUsingItem:fileController.navigationItem push:YES];
-
+    
 	// Fix simple mode (note that this must be done AFTER pushing the file controller
 	// onto the navigation stack, to correctly get to the download new file-button)
 	if( [CSVPreferencesController simpleMode] )
@@ -823,7 +823,7 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
 			{
 				if([item action] != @selector(toggleEditFiles) &&
 				   [item action] != @selector(toggleShowFileInfo:))
-					[keptItems addObject:item];				
+					[keptItems addObject:item];
 			}
 		}
 		[filesToolbar setItems:keptItems animated:NO];
@@ -929,7 +929,7 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
 	if( [CSVPreferencesController modifyItemsTableViewSize:increase] )
 	{
 		NSArray *a = [[itemController tableView] indexPathsForVisibleRows];
-		NSIndexPath *oldIndexPath = nil;	
+		NSIndexPath *oldIndexPath = nil;
 		if( [a count] > 0 )
 			oldIndexPath = [a objectAtIndex:0];
 		itemController.size = [CSVPreferencesController itemsTableViewSize];
@@ -988,21 +988,15 @@ static CSVDataViewController *sharedInstance = nil;
 - (void) setupBannerView
 {
 	// Ads
-#if defined(__IPHONE_4_0) && defined(CSV_LITE)
+#if defined(CSV_LITE)
 	NSString *contentSize;
 	if( UIInterfaceOrientationIsPortrait(self.interfaceOrientation) )
 	{
-		if ([CSVPreferencesController canUseAbstractBannerNames] )
-			contentSize = ADBannerContentSizeIdentifierPortrait;
-		else
-			contentSize = ADBannerContentSizeIdentifier320x50;
+        contentSize = ADBannerContentSizeIdentifierPortrait;
 	}
 	else
 	{
-		if ([CSVPreferencesController canUseAbstractBannerNames] )
-			contentSize = ADBannerContentSizeIdentifierLandscape;
-		else
-			contentSize = ADBannerContentSizeIdentifier480x32;
+        contentSize = ADBannerContentSizeIdentifierLandscape;
 	}
 	
 	// First, fix views
@@ -1027,15 +1021,15 @@ static CSVDataViewController *sharedInstance = nil;
 	
 	// On iOS 4.2, default is both portrait and landscape
 	if (![CSVPreferencesController canUseAbstractBannerNames] )
-		bannerView.requiredContentSizeIdentifiers = [NSSet setWithObjects: ADBannerContentSizeIdentifier320x50,
-														  ADBannerContentSizeIdentifier480x32,
-														  nil];
+		bannerView.requiredContentSizeIdentifiers = [NSSet setWithObjects: ADBannerContentSizeIdentifierPortrait,
+                                                     ADBannerContentSizeIdentifierLandscape,
+                                                     nil];
 	
 	[self.view addSubview:bannerView];
     self.bannerView = bannerView;
-    [bannerView release];	
+    [bannerView release];
 	
-#endif	
+#endif
 }
 
 
@@ -1048,15 +1042,15 @@ static CSVDataViewController *sharedInstance = nil;
 	searchStringForFileName = [[NSMutableDictionary alloc] init];
 	importantColumnIndexes = [[NSMutableArray alloc] init];
 	_preDefinedHiddenColumns = [[NSMutableDictionary alloc] init];
-
-#if defined(__IPHONE_4_0) && defined(CSV_LITE)
+    
+#if defined(CSV_LITE)
 	[self setupBannerView];
-#endif		
+#endif
 	
-	[[NSNotificationCenter defaultCenter] addObserver:self 
+	[[NSNotificationCenter defaultCenter] addObserver:self
 											 selector:@selector(tableViewContentChanged:)
 												 name:OzyContentChangedInTableView
-											   object:nil];	
+											   object:nil];
 	return self;
 }
 
@@ -1078,9 +1072,9 @@ static CSVDataViewController *sharedInstance = nil;
 	
 	if( rawColumnIndexes )
 		free(rawColumnIndexes);
-#if defined(__IPHONE_4_0) && defined(CSV_LITE)
+#if defined(CSV_LITE)
 	self.bannerView.delegate = nil;
-#endif	
+#endif
 	
 	[super dealloc];
 }
@@ -1183,7 +1177,7 @@ static CSVDataViewController *sharedInstance = nil;
 			showingRawString = NO;
 			[[parseErrorController textView] setText:[CSVDataViewController parseErrorStringForFile:currentFile]];
 			[self pushViewController:parseErrorController animated:YES];
-			return;			
+			return;
 		}
 		[[itemController tableView] deselectRowAtIndexPath:[[itemController tableView] indexPathForSelectedRow]
 												  animated:NO];
@@ -1210,7 +1204,7 @@ static CSVDataViewController *sharedInstance = nil;
 															delegate:[[UIApplication sharedApplication] delegate]
 												   cancelButtonTitle:@"OK"
 												   otherButtonTitles:nil] autorelease];
-			[alert show];		
+			[alert show];
 		}
 		else if( [CSVPreferencesController showDebugInfo] )
 		{
@@ -1224,7 +1218,7 @@ static CSVDataViewController *sharedInstance = nil;
 													   otherButtonTitles:nil] autorelease];
 				[alert show];
 			}
-			else if([[currentFile availableColumnNames] count] != 
+			else if([[currentFile availableColumnNames] count] !=
 					[[NSSet setWithArray:[currentFile availableColumnNames]] count] )
 			{
 				UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Identical Column Titles!"
@@ -1250,29 +1244,29 @@ static CSVDataViewController *sharedInstance = nil;
 	{
 		[self popViewControllerAnimated:NO];
 		[self pushViewController:detailsController animated:NO];
-	}	
+	}
 	else if( [self currentDetailsController] == detailsController )
 	{
 		[self popViewControllerAnimated:NO];
 		[self pushViewController:fancyDetailsController animated:NO];
-	}	
+	}
 	selectedDetailsView = (selectedDetailsView+1) % 3;
 }
 
 - (UIBarButtonItem *) refreshFilesItem
 {
-	UIBarButtonItem *button = [[[UIBarButtonItem alloc] initWithTitle:@"Refresh..." style:UIBarButtonItemStyleBordered//initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh
-																			 target:self 
-																			 action:@selector(toggleRefreshFiles:)] autorelease];
+	UIBarButtonItem *button = [[[UIBarButtonItem alloc] initWithTitle:@"Refresh..." style:UIBarButtonItemStyleBordered
+                                                               target:self
+                                                               action:@selector(toggleRefreshFiles:)] autorelease];
 	button.style = UIBarButtonItemStyleBordered;
 	return button;
 }
 
 - (UIBarButtonItem *) showFileInfoItem
 {
-	return [[[UIBarButtonItem alloc] initWithTitle:@"Info"//initWithImage:[UIImage imageNamed:@"info.png"]
+	return [[[UIBarButtonItem alloc] initWithTitle:@"Info"
 											 style:UIBarButtonItemStyleBordered
-											target:self 
+											target:self
 											action:@selector(toggleShowFileInfo:)] autorelease];
 }
 
@@ -1280,14 +1274,14 @@ static CSVDataViewController *sharedInstance = nil;
 {
 	return [[[UIBarButtonItem alloc] initWithTitle:@"Edit"
 											 style:UIBarButtonItemStyleBordered
-											target:self 
+											target:self
 											action:@selector(toggleEditFiles)] autorelease];
 }
 
 - (UIBarButtonItem *) doneItemWithSelector:(SEL)selector
 {
-	return [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone 
-														  target:self 
+	return [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone
+														  target:self
 														  action:selector] autorelease];
 }
 
@@ -1297,15 +1291,9 @@ static CSVDataViewController *sharedInstance = nil;
 	itemController.useIndexes = FALSE;
 	[itemController refreshIndexes];
 	[itemController dataLoaded];
-	//	[UIView beginAnimations:nil context:NULL];
-	//	[UIView setAnimationDuration:0.5];
-	//	itemController.tableView.alpha = 0.5;
-	//	[UIView commitAnimations];
 	
 	[itemController.navigationItem setRightBarButtonItem:[self doneItemWithSelector:@selector(searchItems:)] animated:YES];
 	[itemController.navigationItem setHidesBackButton:YES animated:YES];
-	
-//	[self.searchBar becomeFirstResponder];
 }
 
 - (void) searchFinish
@@ -1313,14 +1301,6 @@ static CSVDataViewController *sharedInstance = nil;
 	if( searchInputInProgress )
 	{
 		searchInputInProgress = FALSE;
-		//	[UIView beginAnimations:nil context:NULL];
-		//	[UIView setAnimationDuration:0.5];
-		//	[self.searchBar removeFromSuperview];
-		//	itemController.tableView.alpha = 1;
-		//	CGRect tableViewFrame = itemController.tableView.frame;
-		//	tableViewFrame.origin.y = 0;
-		//	itemController.tableView.frame = tableViewFrame;
-		//	[UIView commitAnimations];
 		
 		[itemController.navigationItem setHidesBackButton:NO animated:YES];
 		[itemController.navigationItem setRightBarButtonItem:modificationDateButton animated:YES];
@@ -1333,7 +1313,7 @@ static CSVDataViewController *sharedInstance = nil;
 		NSUInteger path[2];
 		if( itemController.useIndexes )
 			path[0] = 1;
-		else 
+		else
 			path[0] = 0;
 		path[1] = 0;
 		if( [itemController itemExistsAtIndexPath:[NSIndexPath indexPathWithIndexes:path length:2]] )
@@ -1352,7 +1332,7 @@ static CSVDataViewController *sharedInstance = nil;
 
 - (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar
 {
-	[self searchStart];	
+	[self searchStart];
 }
 
 - (UIBarPosition)positionForBar:(id <UIBarPositioning>)bar
@@ -1481,10 +1461,6 @@ static CSVDataViewController *sharedInstance = nil;
 - (IBAction) editDone:(id)sender
 {
 	[self.searchBar endEditing:YES];
-	//	if( searchBar.text && ![searchBar.text isEqualToString:@""] )
-	//		searchButton.style = UIBarButtonItemStyleDone;
-	//	else
-	//		searchButton.style = UIBarButtonItemStylePlain;
 	if( itemsNeedResorting || itemsNeedFiltering )
 	{
 		[self refreshObjectsWithResorting:itemsNeedResorting];
@@ -1494,7 +1470,7 @@ static CSVDataViewController *sharedInstance = nil;
 	[self dismissModalViewControllerAnimated:YES];
 }
 
-- (BOOL)navigationBar:(UINavigationBar *)navigationBar 
+- (BOOL)navigationBar:(UINavigationBar *)navigationBar
 		shouldPopItem:(UINavigationItem *)item
 {
 	[self updateBadgeValueUsingItem:item push:NO];
@@ -1504,12 +1480,12 @@ static CSVDataViewController *sharedInstance = nil;
         return TRUE;
 }
 
-- (BOOL)navigationBar:(UINavigationBar *)navigationBar 
+- (BOOL)navigationBar:(UINavigationBar *)navigationBar
 	   shouldPushItem:(UINavigationItem *)item
 {
 	[self updateBadgeValueUsingItem:item push:YES];
 	return YES;
-}	
+}
 
 - (void) passwordWasChecked
 {
@@ -1628,10 +1604,10 @@ didSelectRowAtIndexPath:[fileController.tableView indexPathForSelectedRow]];
 	
 	showingFileInfoInProgress = !showingFileInfoInProgress;
 	NSUInteger index = [self indexOfFilesToolbarItemWithSelector:@selector(toggleShowFileInfo:)];
-
+    
 	if( index == NSNotFound )
 		return;
-
+    
 	if( showingFileInfoInProgress )
 	{
 		fileController.removeDisclosure = YES;
@@ -1742,7 +1718,7 @@ didSelectRowAtIndexPath:[fileController.tableView indexPathForSelectedRow]];
 			[UIView commitAnimations];
 	}
 }
-   
+
 - (void) rightSwipe:(UIView *) swipeView
 {
 	[self swipe:swipeView rightSwipe:YES];
@@ -1788,7 +1764,7 @@ didSelectRowAtIndexPath:[fileController.tableView indexPathForSelectedRow]];
 - (void) addNavigationButtonsToView:(UIViewController *)controller
 {
 	UIView *contentView = ([controller respondsToSelector:@selector(contentView)] ?
-					[(OzyRotatableViewController *)controller contentView] : [controller view]);
+                           [(OzyRotatableViewController *)controller contentView] : [controller view]);
 	CGSize viewSize = contentView.frame.size;
 	CGSize buttonSize = nextDetails.frame.size; // We assume both buttons have the same size already
 	CGFloat toolbarOffset = 44;//([CSVPreferencesController showDetailsToolbar] ? 44 : 0);
@@ -1831,7 +1807,7 @@ didSelectRowAtIndexPath:[fileController.tableView indexPathForSelectedRow]];
 - (void) viewDidDisappear:(UIView *)view controller:(UIViewController *)controller
 {
 	if( [CSVPreferencesController useDetailsNavigation] )
-	{	
+	{
 		if( controller == htmlDetailsController || ![CSVPreferencesController useDetailsSwipe] )
 		{
 			[self removeNavigationButtonsFromView:controller];
@@ -1841,7 +1817,7 @@ didSelectRowAtIndexPath:[fileController.tableView indexPathForSelectedRow]];
 
 @end
 
-#if defined(__IPHONE_4_0) && defined(CSV_LITE)
+#if defined(CSV_LITE)
 @implementation CSVDataViewController (AdBannerViewDelegate)
 
 -(void)layoutForCurrentOrientation:(BOOL)animated
@@ -1857,17 +1833,11 @@ didSelectRowAtIndexPath:[fileController.tableView indexPathForSelectedRow]];
 	
 	if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation))
 	{
-		if ([CSVPreferencesController canUseAbstractBannerNames] )
-			contentSizeIdentifier = ADBannerContentSizeIdentifierLandscape;
-		else
-			contentSizeIdentifier = ADBannerContentSizeIdentifier480x32;
+        contentSizeIdentifier = ADBannerContentSizeIdentifierLandscape;
 	}
     else
 	{
-		if ([CSVPreferencesController canUseAbstractBannerNames] )
-			contentSizeIdentifier = ADBannerContentSizeIdentifierPortrait;
-		else
-			contentSizeIdentifier = ADBannerContentSizeIdentifier320x50;
+        contentSizeIdentifier = ADBannerContentSizeIdentifierPortrait;
 	}
 	self.bannerView.currentContentSizeIdentifier = contentSizeIdentifier;
 	bannerHeight = [ADBannerView sizeFromBannerContentSizeIdentifier:contentSizeIdentifier].height;
@@ -1907,7 +1877,7 @@ didSelectRowAtIndexPath:[fileController.tableView indexPathForSelectedRow]];
 		[self layoutForCurrentOrientation:YES];
 		self.bannerIsVisible = NO;
 	}
-}	
+}
 
 - (void)bannerView:(ADBannerView *)banner didFailToReceiveAdWithError:(NSError *)error
 {
@@ -1922,7 +1892,7 @@ didSelectRowAtIndexPath:[fileController.tableView indexPathForSelectedRow]];
 {
 	// We have no restrictions about when we can leave app or not, and nothing to stop
 	return YES;
-}	
+}
 
 - (void)bannerViewActionDidFinish:(ADBannerView *)banner
 {

@@ -637,7 +637,7 @@ static BOOL hideAdress = NO;
     reverseItemSorting = !reverseItemSorting;
 }
 
-#if defined(__IPHONE_4_0) && defined(CSV_LITE)
+#if defined(CSV_LITE)
 + (BOOL) canUseAbstractBannerNames
 {
 	return (&ADBannerContentSizeIdentifierPortrait != NULL);

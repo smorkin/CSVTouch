@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#if defined(__IPHONE_4_0) && defined(CSV_LITE)
+#if defined(CSV_LITE)
 #import <iAd/iAd.h>
 #endif
 
@@ -73,7 +73,7 @@ extern NSUInteger sortingMask; // This is available for performance-critical ope
 
 + (BOOL) modifyItemsTableViewSize:(BOOL)increase;
 
-#if defined(__IPHONE_4_0) && defined(CSV_LITE)
+#if defined(CSV_LITE)
 + (BOOL) canUseAbstractBannerNames;
 #endif
 

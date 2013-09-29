@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#if defined(__IPHONE_4_0) && defined(CSV_LITE)
+#if defined(CSV_LITE)
 #import <iAd/iAd.h>
 #endif
 
@@ -84,7 +84,7 @@ OzyWebViewController;
 	
 	// Ads
 	UIView *_contentView;
-#if defined(__IPHONE_4_0) && defined(CSV_LITE)
+#if defined(CSV_LITE)
 	// Ad support
 	ADBannerView *_bannerView;
 	BOOL _bannerIsVisible;
@@ -98,7 +98,7 @@ OzyWebViewController;
 @property (nonatomic, copy) NSURL *leaveAppURL;
 @property (nonatomic, assign) BOOL showDeletedColumns;
 @property (nonatomic, retain) UIView *contentView;
-#if defined(__IPHONE_4_0) && defined(CSV_LITE)
+#if defined(CSV_LITE)
 @property (nonatomic, retain) ADBannerView *bannerView;
 @property (nonatomic, assign) BOOL bannerIsVisible;
 #endif
