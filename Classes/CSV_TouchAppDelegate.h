@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "OzymandiasAdditions.h"
+#import "HowToController.h"
 
 @class OzyRotatableViewController, CSVFileParser, CSVDataViewController;
 
@@ -21,7 +22,9 @@ enum{PASSWORD_CHECK = 1,
 
 @interface CSV_TouchAppDelegate : NSObject <UIApplicationDelegate,
 UITabBarControllerDelegate,
-OzymandiasApplicationDelegate> {
+OzymandiasApplicationDelegate,
+UIPageViewControllerDataSource,
+HowToControllerDelegate> {
 	
 	// Main view
 	IBOutlet UIWindow *window;
@@ -40,7 +43,10 @@ OzymandiasApplicationDelegate> {
 	// For better GUI when things are slow...
 	IBOutlet UIView *activityView;
 	IBOutlet UIActivityIndicatorView *fileParsingActivityView;
-	
+    
+    // How-To
+    NSMutableArray *_howToControllers;
+    
 	NSURLConnection *connection;
     NSMutableData *rawData;
 	
@@ -59,6 +65,10 @@ OzymandiasApplicationDelegate> {
 	NSDate *_enteredBackground;
 }
 
+// Presenting a How-To at first ever start
+@property (strong, nonatomic) UIPageViewController *howToPageController;
+- (void) setupHowToControllers;
+
 + (CSV_TouchAppDelegate *) sharedInstance;
 + (NSArray *) allowedDelimiters;
 + (BOOL) iPadMode;
@@ -75,7 +85,6 @@ OzymandiasApplicationDelegate> {
 @property (nonatomic, assign) BOOL downloadFailed;
 @property (nonatomic, retain) NSDate *enteredBackground;
 @property (nonatomic, readonly) UIToolbar *downloadToolbar;
-
 
 - (IBAction) downloadNewFile:(id)sender;
 - (IBAction) doDownloadNewFile:(id)sender;
