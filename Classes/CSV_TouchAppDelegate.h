@@ -24,7 +24,8 @@ enum{PASSWORD_CHECK = 1,
 UITabBarControllerDelegate,
 OzymandiasApplicationDelegate,
 UIPageViewControllerDataSource,
-HowToControllerDelegate> {
+HowToControllerDelegate,
+UIToolbarDelegate> {
 	
 	// Main view
 	IBOutlet UIWindow *window;
@@ -68,6 +69,7 @@ HowToControllerDelegate> {
 // Presenting a How-To at first ever start
 @property (strong, nonatomic) UIPageViewController *howToPageController;
 - (void) setupHowToControllers;
+- (void) startHowToShowing;
 
 + (CSV_TouchAppDelegate *) sharedInstance;
 + (NSArray *) allowedDelimiters;

@@ -367,19 +367,9 @@ static NSString *newPassword = nil;
 	}	
 	
 	// Show the Add file window in case no files are present
-//	if( [[self dataController] numberOfFiles] == 0 )
+	if( [[self dataController] numberOfFiles] == 0 && ![CSVPreferencesController hasShownHowTo])
 	{
-        self.howToPageController = [[UIPageViewController alloc] initWithTransitionStyle:UIPageViewControllerTransitionStyleScroll navigationOrientation:UIPageViewControllerNavigationOrientationHorizontal options:nil];
-        self.howToPageController.dataSource = self;
-        self.howToPageController.view.backgroundColor = [UIColor colorWithRed:0.917 green:0.917 blue:0.945 alpha:1];
-        self.window.rootViewController = self.howToPageController;
-        [self setupHowToControllers];
-        
-        HowToController *initialViewController = [self viewControllerAtIndex:0];
-        NSArray *viewControllers = [NSArray arrayWithObject:initialViewController];
-        [self.howToPageController setViewControllers:viewControllers direction:UIPageViewControllerNavigationDirectionForward animated:NO completion:nil];
-        
-//		[self downloadNewFile:self];
+        [self startHowToShowing];
 	}
 }
 
@@ -836,7 +826,7 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 
 - (void)applicationWillEnterForeground:(UIApplication *)application
 {
-	int maxMinutesInBackground = [CSVPreferencesController maxSafeBackgroundMinutes];
+	long maxMinutesInBackground = [CSVPreferencesController maxSafeBackgroundMinutes];
 	if(maxMinutesInBackground != NSIntegerMax &&
 	   self.enteredBackground &&
 	   [[NSDate date] timeIntervalSinceDate:self.enteredBackground] > maxMinutesInBackground*60 )
@@ -934,6 +924,43 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 }
 
 // PageViewController data source
+- (UIBarPosition)positionForBar:(id <UIBarPositioning>)bar
+{
+    return UIBarPositionTop;
+}
+
+- (void) startHowToShowing
+{
+    if( self.howToPageController == nil )
+    {
+        UIToolbar *bar = [[[UIToolbar alloc] init] autorelease];
+        bar.delegate = self;
+        [bar setBackgroundImage:[UIImage new]
+             forToolbarPosition:UIBarPositionAny
+                     barMetrics:UIBarMetricsDefault];
+        [bar setShadowImage:[UIImage new]
+         forToolbarPosition:UIToolbarPositionAny];
+        self.howToPageController = [[UIPageViewController alloc] initWithTransitionStyle:UIPageViewControllerTransitionStyleScroll navigationOrientation:UIPageViewControllerNavigationOrientationHorizontal options:nil];
+        self.howToPageController.dataSource = self;
+        self.howToPageController.view.backgroundColor = [UIColor colorWithRed:0.917 green:0.917 blue:0.945 alpha:1];
+        [self.howToPageController.view addSubview:bar];
+        [bar sizeToFit];
+        CGRect frame = bar.frame;
+        frame.origin.y += 20;
+        bar.frame = frame;
+        UIBarButtonItem *button = [[[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStyleBordered
+                                                                   target:self
+                                                                   action:@selector(dismissHowToController)] autorelease];
+        bar.items = [NSArray arrayWithObject:button];
+        [self setupHowToControllers];
+        
+        HowToController *initialViewController = [self viewControllerAtIndex:0];
+        NSArray *viewControllers = [NSArray arrayWithObject:initialViewController];
+        [self.howToPageController setViewControllers:viewControllers direction:UIPageViewControllerNavigationDirectionForward animated:NO completion:nil];
+    }
+    self.window.rootViewController = self.howToPageController;
+}
+
 - (void) setupHowToControllers
 {
     for( int i = 0; i < HOW_TO_PAGES; ++i)
@@ -989,6 +1016,7 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 
 - (void)dismissHowToController
 {
+    [CSVPreferencesController setHasShownHowTo];
     self.window.rootViewController = [self dataController];
 }
 

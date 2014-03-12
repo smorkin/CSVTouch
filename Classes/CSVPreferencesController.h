@@ -48,7 +48,7 @@
 + (void) setLastDownload:(NSDate *)lastDownload;
 + (BOOL) simpleMode;
 + (BOOL) blankWordSeparator;
-+ (int) maxSafeBackgroundMinutes;
++ (long) maxSafeBackgroundMinutes;
 + (NSURL *) lastUsedListURL;
 + (void) setLastUsedListURL:(NSURL *)URL;
 + (BOOL) synchronizeDownloadedFiles;
@@ -66,6 +66,9 @@
 
 + (void) toggleReverseItemSorting;
 extern BOOL reverseItemSorting;
+
++ (BOOL) hasShownHowTo;
++ (void) setHasShownHowTo;
 
 + (void) updateSortingMask; // Needs to be called as part of initialization
 + (NSUInteger) sortingMask;

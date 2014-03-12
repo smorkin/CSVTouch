@@ -45,6 +45,7 @@
 #define PREFS_ALIGN_HTML @"alignHtml"
 #define PREFS_USE_PASSWORD @"usePassword"
 #define PREFS_HAS_BEEN_UPGRADED_TO_CUSTOM_EXTENSION @"hasBeenUpgradedToCustomExtension"
+#define PREFS_HAS_SHOWN_HOW_TO @"hasShownHowTo"
 #define PREFS_HIDE_ADDRESS @"hideAddress"
 #define PREFS_NEXT_DOWNLOAD_TIME @"nextDownloadTime"
 #define PREFS_LAST_DOWNLOAD @"lastDownload"
@@ -380,7 +381,7 @@ BOOL reverseItemSorting = FALSE;
 		return NO;	
 }
 
-+ (int) maxSafeBackgroundMinutes
++ (long) maxSafeBackgroundMinutes
 {
 	id obj = [[NSUserDefaults standardUserDefaults] objectForKey:PREFS_MAX_SAFE_BACKGROUND_MINUTES];
 	if( obj )
@@ -605,6 +606,20 @@ static BOOL hideAdress = NO;
 + (void) setHasBeenUpgradedToCustomExtension
 {
 	[[NSUserDefaults standardUserDefaults] setBool:YES forKey:PREFS_HAS_BEEN_UPGRADED_TO_CUSTOM_EXTENSION];
+}
+
++ (BOOL) hasShownHowTo
+{
+	id obj = [[NSUserDefaults standardUserDefaults] objectForKey:PREFS_HAS_SHOWN_HOW_TO];
+	if( obj )
+		return [[NSUserDefaults standardUserDefaults] boolForKey:PREFS_HAS_SHOWN_HOW_TO];
+	else
+		return NO;
+}
+
++ (void) setHasShownHowTo
+{
+	[[NSUserDefaults standardUserDefaults] setBool:YES forKey:PREFS_HAS_SHOWN_HOW_TO];
 }
 
 + (void) updateSortingMask
