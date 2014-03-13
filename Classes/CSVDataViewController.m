@@ -757,6 +757,13 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
 	detailsController.viewDelegate = self;
 	fancyDetailsController.viewDelegate = self;
 	htmlDetailsController.viewDelegate = self;
+    
+    // Fix the +20 frame for edit controller (since it is not a navigation controller,
+    // we must do this manually
+    CGRect frame = editNavigationBar.frame;
+    frame.origin.y += 20;
+    editNavigationBar.frame = frame;
+    
 	
 	// Setup modificationdate/time label
     {

@@ -364,10 +364,22 @@ static NSString *newPassword = nil;
 					   withObject:nil
 					   afterDelay:2.0];
 		}
-	}	
+	}
+    
+    // Fix position of download file-window
+    CGRect frame = self.downloadToolbar.frame;
+    frame.origin.y += 20;
+    self.downloadToolbar.frame = frame;
+    frame = newFileURL.frame;
+    frame.origin.y += 20;
+    newFileURL.frame = frame;
+    frame = fileInfo.frame;
+    frame.origin.y += 20;
+    fileInfo.frame = frame;
+
 	
 	// Show the Add file window in case no files are present
-	if( [[self dataController] numberOfFiles] == 0 && ![CSVPreferencesController hasShownHowTo])
+//	if( [[self dataController] numberOfFiles] == 0 && ![CSVPreferencesController hasShownHowTo])
 	{
         [self startHowToShowing];
 	}
@@ -611,9 +623,8 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 	NSMutableString *s = [NSMutableString string];
 	[s appendString:@"1. For FTP download, use\n\n"];
 	[s appendString:@"ftp://user:password@server.com/file.csv\n\n"];
-	[s appendString:@"2. An example file to test CSV Touch is available at\n\n"];
-	[s appendString:@"http://www.wigzell.net/csv/Spel.csv\n\n"];
-	[s appendString:@"This particular file uses the UTF8 encoding so that encoding must be selected in the\nSettings -> CSV Touch -> Data section"];
+	[s appendString:@"2. An example file to test the functionality is available at\n\n"];
+	[s appendString:@"http://www.wigzell.net/csv/books.csv\n\n"];
 	fileInfo.text = s;
 	[[self dataController] presentModalViewController:fileViewController animated:YES];
 }
@@ -1049,7 +1060,14 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
     switch(index)
     {
         case 0:
-            return @"Welcome! To get you started, you first need to get your CSV file(s) into the app. There are multiple ways of doing this, presented on the following pages.";
+        {
+            NSMutableString *s = [NSMutableString stringWithString:@"Welcome! To get started, you first need to get your CSV file(s) into the app. There are multiple ways of doing this, presented on the following pages."];
+            if( [CSVPreferencesController restrictedDataVersionRunning])
+            {
+                [s appendString:@"\n\nNOTE: This free version is restricted to 1 file and only shows the 150 first items."];
+            }
+            return s;
+        }
         case 1:
             return [NSString stringWithFormat:@"By adding your file to any cloud drive which has an app for iOS, you can simply go to that app and select to open the CSV file in %@.", appName];
         case 2:
@@ -1061,7 +1079,7 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
         case 5:
             return [NSString stringWithFormat:@"Finally, there are some more unusual ways of getting your files into %@. See the full documentation at http://www.ozymandias.se.", appName];
         case 6:
-            return @"If you are having problems, please check the full documenation at http://www.ozymandias.se; if that still doesn't help, you can always mail me (email address available in the AppStore) :-)";
+            return @"If you are having problems, please check the full documentation at http://www.ozymandias.se; if that still doesn't help, you can always mail me (email address available in the AppStore) :-)";
         default:
             return @"";
     }
