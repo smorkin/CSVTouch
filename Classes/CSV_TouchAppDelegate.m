@@ -379,7 +379,7 @@ static NSString *newPassword = nil;
 
 	
 	// Show the Add file window in case no files are present
-//	if( [[self dataController] numberOfFiles] == 0 && ![CSVPreferencesController hasShownHowTo])
+	if( [[self dataController] numberOfFiles] == 0 && ![CSVPreferencesController hasShownHowTo])
 	{
         [self startHowToShowing];
 	}
