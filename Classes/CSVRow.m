@@ -105,9 +105,9 @@ static NSMutableArray *formatsStrings = nil;
 
 + (NSString *) concatenateWords:(NSArray *)words
 				   usingIndexes:(int *)indexes
-						  count:(int)indexCount
+						  count:(NSUInteger)indexCount
 {
-	if( indexCount <= 0 )
+	if( indexCount == 0 )
 		return @"";
 	else if( indexCount > [words count] )
 		return nil;
@@ -408,7 +408,7 @@ static NSMutableArray *formatsStrings = nil;
 	{
 		for( NSUInteger i = 0 ; i < [self.items count] ; i++ )
 		{
-			if( ![importantColumnIndexes containsObject:[NSNumber numberWithInt:i]] )
+			if( ![importantColumnIndexes containsObject:[NSNumber numberWithUnsignedInteger:i]] )
 			{
 				[array addObject:[NSDictionary dictionaryWithObjectsAndKeys:
 								  [self.items objectAtIndex:i], VALUE_KEY,
@@ -448,7 +448,7 @@ static NSMutableArray *formatsStrings = nil;
 			NSMutableArray *otherColumns = [NSMutableArray array];
 			for( NSUInteger i = 0 ; i < [self.items count] ; i++ )
 			{
-				if( ![importantColumnIndexes containsObject:[NSNumber numberWithInt:i]] )
+				if( ![importantColumnIndexes containsObject:[NSNumber numberWithUnsignedInteger:i]] )
 				{
 					NSMutableString *s = [NSMutableString stringWithFormat:@"%@: %@",
 										  [availableColumnNames objectAtIndex:i],
@@ -504,7 +504,7 @@ static NSMutableArray *formatsStrings = nil;
 			[s appendString:@"____________________\n"];
 			for( NSUInteger i = 0 ; i < [self.items count] ; i++ )
 			{
-				if( ![importantColumnIndexes containsObject:[NSNumber numberWithInt:i]] )
+				if( ![importantColumnIndexes containsObject:[NSNumber numberWithUnsignedInteger:i]] )
 					[s appendFormat:@"%@: %@\n",
 					 [availableColumnNames objectAtIndex:i],
 					 [self.items objectAtIndex:i]];

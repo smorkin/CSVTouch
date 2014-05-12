@@ -197,7 +197,7 @@ csv_parse_str(struct sinput *in,
 		buf[t] = '\0';
 	}
 
-	return in->count;
+	return (int)in->count;
 }
 static int
 csv_parse_wcs(struct winput *in, wchar_t *buf, size_t bn, wchar_t *row[], int rn, wint_t sep, int flags)
@@ -298,7 +298,7 @@ csv_parse_wcs(struct winput *in, wchar_t *buf, size_t bn, wchar_t *row[], int rn
 		buf[t] = L'\0';
 	}
 
-	return in->count;
+	return (int)in->count;
 }
 int
 csv_row_parse_wcs(const wchar_t *src, size_t sn, wchar_t *buf, size_t bn, wchar_t *row[], int rn, int sep, int trim)

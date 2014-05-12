@@ -9,7 +9,6 @@
 #import "CSV_TouchAppDelegate.h"
 #import "OzyTableViewController.h"
 #import "OzyRotatableViewController.h"
-//#import "OzyRotatableTabBarController.h"
 #import "CSVDataViewController.h"
 #import "CSVPreferencesController.h"
 #import "CSVRow.h"
@@ -24,16 +23,6 @@
 #define HOW_TO_PAGES 7
 
 @implementation CSV_TouchAppDelegate
-
-@synthesize window;
-@synthesize httpStatusCode = _httpStatusCode;
-@synthesize fileInspected = _fileInspected;
-@synthesize URLsToDownload = _URLsToDownload;
-@synthesize filesAddedThroughURLList = _filesAddedThroughURLList;
-@synthesize readingFileList = _readingFileList;
-@synthesize downloadFailed = _downloadFailed;
-@synthesize enteredBackground = _enteredBackground;
-@synthesize downloadToolbar;
 
 static CSV_TouchAppDelegate *sharedInstance = nil;
 
@@ -316,7 +305,6 @@ static NSString *newPassword = nil;
 		sharedInstance = self;
 		_URLsToDownload = [[NSMutableArray alloc] init];
 		_filesAddedThroughURLList = [[NSMutableArray alloc] init];
-        _howToControllers = [[NSMutableArray alloc] init];
 	}
 	return self;
 }
@@ -340,7 +328,6 @@ static NSString *newPassword = nil;
 	[startupActivityView stopAnimating];
 	[startupController.view removeFromSuperview];
 	
-//    [[self window] setTintColor:[UIColor redColor]];
 	[self.window addSubview:[[self dataController] view]];
 	[self.window makeKeyAndVisible];
     
@@ -381,7 +368,8 @@ static NSString *newPassword = nil;
 	// Show the Add file window in case no files are present
 	if( [[self dataController] numberOfFiles] == 0 && ![CSVPreferencesController hasShownHowTo])
 	{
-        [self startHowToShowing];
+        self.introHowToController = [[[IntroViewController alloc] init] autorelease];
+        [self.introHowToController startHowToShowing:self];
 	}
 }
 
@@ -435,19 +423,16 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 
 - (void)dealloc {
 	[self.window release];
-	[rawData release];
+	[self.rawData release];
 	[self.URLsToDownload release];
 	[self.filesAddedThroughURLList release];
-    [_howToControllers release];
+    [self.introHowToController release];
 	[super dealloc];
 }
 
-
-
 - (void) downloadDone
 {
-	[connection release];
-	connection = nil;
+	self.connection = nil;
 	[self slowActivityCompleted];
 	// Are we in single file reload mode or all file reload mode?
 	if( [self.URLsToDownload count] > 0 )
@@ -493,7 +478,7 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 													  // a URL list file with preference settings
 		[newFileURL resignFirstResponder];
 		self.fileInspected = nil;
-		[[self dataController] dismissModalViewControllerAnimated:YES];
+        [[self dataController] dismissViewControllerAnimated:YES completion:NULL];
 	}
 }
 
@@ -525,7 +510,7 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)newData
 {
-	[rawData appendData:newData];
+	[self.rawData appendData:newData];
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
@@ -556,7 +541,7 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
             [self downloadDone];
         }
         
-		NSString *s = [[NSString alloc] initWithData:rawData 
+		NSString *s = [[NSString alloc] initWithData:self.rawData
 											encoding:[CSVPreferencesController encoding]];
 		NSUInteger length = [s length];
 		NSUInteger lineStart, lineEnd, nextLineStart;
@@ -609,12 +594,11 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 	}
 	else
 	{
-		[self readRawFileData:rawData
+		[self readRawFileData:self.rawData
 					 fileName:[[newFileURL text] lastPathComponent]
 			  isLocalDownload:NO];
 	}
-	[rawData release];
-	rawData = nil;
+	self.rawData = nil;
 	[self downloadDone];
 }
 
@@ -626,7 +610,7 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 	[s appendString:@"2. An example file to test the functionality is available at\n\n"];
 	[s appendString:@"http://www.wigzell.net/csv/books.csv\n\n"];
 	fileInfo.text = s;
-	[[self dataController] presentModalViewController:fileViewController animated:YES];
+	[[self dataController] presentViewController:fileViewController animated:YES completion:NULL];
 }
 
 - (void) showFileInfo:(CSVFileParser *)fp
@@ -660,21 +644,21 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 		newFileURL.text = @"<address hidden>";
 	else 
 		newFileURL.text = fp.URL;
-	[[self dataController] presentModalViewController:fileViewController animated:YES];
+	[[self dataController] presentViewController:fileViewController animated:YES completion:NULL];
 }
 
 
 - (void) startDownloadUsingURL:(NSURL *)url
 {
-	[rawData release];
-	rawData = [[NSMutableData alloc] init];
+	[self.rawData release];
+	self.rawData = [[[NSMutableData alloc] init] autorelease];
     self.downloadFailed = false;
 	self.httpStatusCode = 0;
 	NSURLRequest *theRequest=[NSURLRequest requestWithURL:url
 											  cachePolicy:NSURLRequestReloadIgnoringLocalCacheData
 										  timeoutInterval:300.0];
-	connection = [[NSURLConnection alloc] initWithRequest:theRequest delegate:self];
-	if (!connection)
+	self.connection = [[[NSURLConnection alloc] initWithRequest:theRequest delegate:self] autorelease];
+	if (!self.connection)
 	{
         self.downloadFailed = true;
 		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Download Failure"
@@ -848,6 +832,13 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 	}
     // Import any new files imported manually (e.g. in iTunes, while this app was in the background)
     [self importManuallyAddedDocuments];
+    
+    if( [CSVPreferencesController defaultsHaveChanged])
+    {
+        [self loadOldDocuments];
+        [[self dataController]  popToViewController:[[self dataController] fileController] animated:NO];
+        [CSVPreferencesController resetDefaultsHaveChanges];
+    }
 }
 
 // Import any new files imported manually (e.g. in iTunes, while this app was running)
@@ -934,199 +925,17 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 	}
 }
 
-// PageViewController data source
-- (UIBarPosition)positionForBar:(id <UIBarPositioning>)bar
-{
-    return UIBarPositionTop;
-}
+@end
 
-- (void) startHowToShowing
+@implementation CSV_TouchAppDelegate (IntroProtocol)
+
+- (void) dismissHowToController:(IntroViewController *)controller
 {
-    if( self.howToPageController == nil )
+    if( self.introHowToController == controller)
     {
-        UIToolbar *bar = [[[UIToolbar alloc] init] autorelease];
-        bar.delegate = self;
-        [bar setBackgroundImage:[UIImage new]
-             forToolbarPosition:UIBarPositionAny
-                     barMetrics:UIBarMetricsDefault];
-        [bar setShadowImage:[UIImage new]
-         forToolbarPosition:UIToolbarPositionAny];
-        self.howToPageController = [[UIPageViewController alloc] initWithTransitionStyle:UIPageViewControllerTransitionStyleScroll navigationOrientation:UIPageViewControllerNavigationOrientationHorizontal options:nil];
-        self.howToPageController.dataSource = self;
-        self.howToPageController.view.backgroundColor = [UIColor colorWithRed:0.917 green:0.917 blue:0.945 alpha:1];
-        [self.howToPageController.view addSubview:bar];
-        [bar sizeToFit];
-        CGRect frame = bar.frame;
-        frame.origin.y += 20;
-        bar.frame = frame;
-        UIBarButtonItem *button = [[[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStyleBordered
-                                                                   target:self
-                                                                   action:@selector(dismissHowToController)] autorelease];
-        bar.items = [NSArray arrayWithObject:button];
-        [self setupHowToControllers];
-        
-        HowToController *initialViewController = [self viewControllerAtIndex:0];
-        NSArray *viewControllers = [NSArray arrayWithObject:initialViewController];
-        [self.howToPageController setViewControllers:viewControllers direction:UIPageViewControllerNavigationDirectionForward animated:NO completion:nil];
-    }
-    self.window.rootViewController = self.howToPageController;
-}
-
-- (void) setupHowToControllers
-{
-    for( int i = 0; i < HOW_TO_PAGES; ++i)
-    {
-        HowToController *childViewController = [[[HowToController alloc] initWithNibName:@"HowToController" bundle:nil] autorelease];
-        childViewController.index = i;
-        childViewController.delegate = self;
-        CGRect rect = self.window.rootViewController.view.frame;
-        childViewController.view.frame = rect;
-        [_howToControllers addObject:childViewController];
+        [CSVPreferencesController setHasShownHowTo];
+        self.window.rootViewController = [self dataController];
     }
 }
-
-- (HowToController *)viewControllerAtIndex:(NSUInteger)index {
-    return [_howToControllers objectAtIndex:index];
-}
-
-- (UIViewController *)pageViewController:(UIPageViewController *)pageViewController viewControllerBeforeViewController:(UIViewController *)viewController
-{
-    NSUInteger index = [(HowToController *)viewController index];
-    
-    if (index == 0) {
-        return nil;
-    }
-    
-    index--;
-    
-    return [self viewControllerAtIndex:index];
-}
-
-- (UIViewController *)pageViewController:(UIPageViewController *)pageViewController viewControllerAfterViewController:(UIViewController *)viewController
-{
-    NSUInteger index = [(HowToController *)viewController index];
-    
-    
-    index++;
-    
-    if (index == HOW_TO_PAGES) {
-        return nil;
-    }
-    return [self viewControllerAtIndex:index];
-}
-
-- (NSInteger)presentationCountForPageViewController:(UIPageViewController *)pageViewController {
-    // The number of items reflected in the page indicator.
-    return HOW_TO_PAGES;
-}
-
-- (NSInteger)presentationIndexForPageViewController:(UIPageViewController *)pageViewController {
-    // The selected item reflected in the page indicator.
-    return 0;
-}
-
-- (void)dismissHowToController
-{
-    [CSVPreferencesController setHasShownHowTo];
-    self.window.rootViewController = [self dataController];
-}
-
-- (NSString *)titleForHowTo:(NSInteger)index
-{
-    switch(index)
-    {
-        case 0:
-            return NSBundle.mainBundle.infoDictionary[@"CFBundleDisplayName"];
-        case 1:
-            return @"Dropbox, Google Drive etc";
-        case 2:
-            return @"Mail, messages etc";
-        case 3:
-            return @"iTunes";
-        case 4:
-            return @"Direct internet access";
-        case 5:
-            return @"Advanced";
-        case 6:
-            return @"Troubleshooting";
-        default:
-            return @"";
-    }
-}
-
-- (NSString *)textForHowTo:(NSInteger)index
-{
-    NSString *appName = NSBundle.mainBundle.infoDictionary[@"CFBundleDisplayName"];
-    switch(index)
-    {
-        case 0:
-        {
-            NSMutableString *s = [NSMutableString stringWithString:@"Welcome! To get started, you first need to get your CSV file(s) into the app. There are multiple ways of doing this, presented on the following pages."];
-            if( [CSVPreferencesController restrictedDataVersionRunning])
-            {
-                [s appendString:@"\n\nNOTE: This free version is restricted to 1 file and only shows the 150 first items."];
-            }
-            return s;
-        }
-        case 1:
-            return [NSString stringWithFormat:@"By adding your file to any cloud drive which has an app for iOS, you can simply go to that app and select to open the CSV file in %@.", appName];
-        case 2:
-            return @"Similarly, you can select to open a CSV file which has been sent to you by mail or messaging apps which allow you to send files.";
-        case 3:
-            return [NSString stringWithFormat:@"If you connect your device to iTunes, you can add CSV files directly in iTunes in the same way you add files to any app: Select the device, select the Apps tab, and scroll down until you see %@. Then you add the files there.", appName];
-        case 4:
-            return [NSString stringWithFormat:@"If your file is accessibly directly from internet, you can select the \"+\" button in %@ and then input the address to your file. See http://www.ozymandias.se for more details about how to use this feature.", appName];
-        case 5:
-            return [NSString stringWithFormat:@"Finally, there are some more unusual ways of getting your files into %@. See the full documentation at http://www.ozymandias.se.", appName];
-        case 6:
-            return @"If you are having problems, please check the full documentation at http://www.ozymandias.se; if that still doesn't help, you can always mail me (email address available in the AppStore) :-)";
-        default:
-            return @"";
-    }
-}
-
-- (NSAttributedString *) stringForController:(HowToController *)controller
-{
-    NSMutableAttributedString *s = [[[NSMutableAttributedString alloc] init] autorelease];
-    NSString *title = [self titleForHowTo:controller.index];
-    NSString *text = [self textForHowTo:controller.index];
-    [s.mutableString appendString:title];
-    [s.mutableString appendString:@"\n\n"];
-    [s.mutableString appendString:text];
-
-    //add alignments for title
-    NSMutableParagraphStyle *centeredParagraphStyle = [[[NSMutableParagraphStyle alloc] init] autorelease];
-    [centeredParagraphStyle setAlignment:NSTextAlignmentCenter];
-    [s addAttribute:NSParagraphStyleAttributeName value:centeredParagraphStyle range:NSMakeRange(0, title.length)];
-    //add alignment for text
-    NSMutableParagraphStyle *normalParagraphStyle = [[[NSMutableParagraphStyle alloc] init] autorelease];
-    [normalParagraphStyle setAlignment:NSTextAlignmentNatural];
-    [s addAttribute:NSParagraphStyleAttributeName value:normalParagraphStyle range:NSMakeRange(title.length, text.length+2)];
-    
-    //add larger font for title
-    UIFont *font = [controller.howToText.font fontWithSize:20];
-    [s addAttribute:NSFontAttributeName value:font range:NSMakeRange(0, title.length)];
-
-    return s;
-}
-
-- (UIImage *) imageForController:(HowToController *)controller
-{
-    switch(controller.index)
-    {
-        case 1:
-            return [UIImage imageNamed:@"file_via_app.png"];
-        case 2:
-            return [UIImage imageNamed:@"file_via_mail.png"];
-        case 3:
-            return [UIImage imageNamed:@"file_via_itunes.png"];
-        case 4:
-            return [UIImage imageNamed:@"file_via_internet.png"];
-        default:
-            return nil;
-    }
-}
-
-
 
 @end

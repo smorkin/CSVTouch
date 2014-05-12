@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "OzymandiasAdditions.h"
-#import "HowToController.h"
+#import "IntroViewController.h"
 
 @class OzyRotatableViewController, CSVFileParser, CSVDataViewController;
 
@@ -21,14 +21,9 @@ enum{PASSWORD_CHECK = 1,
 
 
 @interface CSV_TouchAppDelegate : NSObject <UIApplicationDelegate,
-UITabBarControllerDelegate,
-OzymandiasApplicationDelegate,
-UIPageViewControllerDataSource,
-HowToControllerDelegate,
-UIToolbarDelegate> {
-	
+OzymandiasApplicationDelegate>
+{
 	// Main view
-	IBOutlet UIWindow *window;
 	IBOutlet CSVDataViewController *dataController;
 	
 	// Startup
@@ -39,37 +34,13 @@ UIToolbarDelegate> {
 	IBOutlet OzyRotatableViewController *fileViewController;
 	IBOutlet UITextField *newFileURL;
 	IBOutlet UITextView *fileInfo;
-	IBOutlet UIToolbar *downloadToolbar;
 	
 	// For better GUI when things are slow...
 	IBOutlet UIView *activityView;
 	IBOutlet UIActivityIndicatorView *fileParsingActivityView;
     
-    // How-To
-    NSMutableArray *_howToControllers;
-    
-	NSURLConnection *connection;
-    NSMutableData *rawData;
-	
-	NSInteger _httpStatusCode;
-	
-	CSVFileParser *_fileInspected;
-
-	NSMutableArray *_URLsToDownload;
-	NSMutableArray *_filesAddedThroughURLList;
-	BOOL _readingFileList;
-    
-    BOOL _downloadFailed;
-		
 	NSTimer *downloadTimer;
-	
-	NSDate *_enteredBackground;
 }
-
-// Presenting a How-To at first ever start
-@property (strong, nonatomic) UIPageViewController *howToPageController;
-- (void) setupHowToControllers;
-- (void) startHowToShowing;
 
 + (CSV_TouchAppDelegate *) sharedInstance;
 + (NSArray *) allowedDelimiters;
@@ -78,6 +49,8 @@ UIToolbarDelegate> {
 + (NSString *) internalFileNameForOriginalFileName:(NSString *)original;
 + (NSString *) localMediaDocumentsPath;
 
+// Presenting a How-To at first ever start
+@property (nonatomic, retain) IntroViewController *introHowToController;
 @property (nonatomic, retain) UIWindow *window;
 @property (nonatomic, assign) NSInteger httpStatusCode;
 @property (nonatomic, retain) CSVFileParser *fileInspected;
@@ -86,7 +59,9 @@ UIToolbarDelegate> {
 @property (nonatomic, assign) BOOL readingFileList;
 @property (nonatomic, assign) BOOL downloadFailed;
 @property (nonatomic, retain) NSDate *enteredBackground;
-@property (nonatomic, readonly) UIToolbar *downloadToolbar;
+@property (nonatomic, retain) NSMutableData *rawData;
+@property (nonatomic, retain) NSURLConnection *connection;
+@property (nonatomic, retain, readonly) UIToolbar *downloadToolbar;
 
 - (IBAction) downloadNewFile:(id)sender;
 - (IBAction) doDownloadNewFile:(id)sender;
@@ -100,4 +75,8 @@ UIToolbarDelegate> {
 - (void) slowActivityStarted;
 - (void) slowActivityCompleted;
 
+@end
+
+@interface CSV_TouchAppDelegate (IntroProtocol)
+<IntroViewControllerDelegate>
 @end

@@ -55,6 +55,11 @@
 @synthesize bannerIsVisible = _bannerIsVisible;
 #endif
 
+- (OzyTableViewController *) fileController
+{
+    return fileController;
+}
+
 - (CSVFileParser *) currentFile
 {
 	return currentFile;
@@ -65,7 +70,7 @@
 	return [fileController objects];
 }
 
-- (int) numberOfFiles
+- (NSUInteger) numberOfFiles
 {
 	return [[fileController objects] count];
 }
@@ -150,7 +155,7 @@
 	{
 		for( NSUInteger i = 0 ; i < [availableColumns count] ; i++ )
 			if( [usedColumn isEqualToString:[availableColumns objectAtIndex:i]] )
-				[importantColumnIndexes addObject:[NSNumber numberWithInt:i]];
+				[importantColumnIndexes addObject:[NSNumber numberWithUnsignedInteger:i]];
 	}
 	rawColumnIndexes = malloc(sizeof(int) * [importantColumnIndexes count]);
 	for( int i = 0 ; i < [importantColumnIndexes count] ; i++ )
@@ -311,7 +316,7 @@
 		{
 			count = 0;
 		}
-		NSString *s = [NSString stringWithFormat:@"%d/%d", count, [[itemController objects] count]];
+		NSString *s = [NSString stringWithFormat:@"%lu/%lu", (unsigned long)count, (unsigned long)[[itemController objects] count]];
 		detailsController.title = s;
 		fancyDetailsController.title = s;
 		htmlDetailsController.title = s;
@@ -325,8 +330,8 @@
 		NSString *addString = @"";
 		count = [[itemController objects] count];
 		if( count != [[currentFile itemsWithResetShortdescriptions:NO] count] )
-			addString = [NSString stringWithFormat:@"/%d", [[currentFile itemsWithResetShortdescriptions:NO] count]];
-		itemsCountButton.title = [NSString stringWithFormat:@"%d%@", count, addString];
+			addString = [NSString stringWithFormat:@"/%lu", (unsigned long)[[currentFile itemsWithResetShortdescriptions:NO] count]];
+		itemsCountButton.title = [NSString stringWithFormat:@"%lu%@", (unsigned long)count, addString];
 	}
 	// File controller will be visible (or parseErrorController involved, in which case always use Files data)
 	else if((!push && item == itemController.navigationItem) ||
@@ -334,7 +339,7 @@
 			(item == parseErrorController.navigationItem))
 	{
 		count = [[fileController objects] count];
-		filesCountButton.title = [NSString stringWithFormat:@"%d", count];
+		filesCountButton.title = [NSString stringWithFormat:@"%lu", (unsigned long)count];
 	}
 }
 
@@ -355,7 +360,7 @@
 	{
 		NSArray *sectionStarts = [NSArray arrayWithObjects:
 								  [NSNumber numberWithInt:0],
-								  [NSNumber numberWithInt:[importantColumnIndexes count]],
+								  [NSNumber numberWithUnsignedInteger:[importantColumnIndexes count]],
 								  nil];
 		[fancyDetailsController setSectionStarts:sectionStarts];
 	}
@@ -544,8 +549,8 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
 	if( [CSVPreferencesController showDebugInfo] )
 	{
 		UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Load error!"
-														 message:[NSString stringWithFormat:@"Error when loading view. Description: %@\nCode: %d",
-																  [error localizedDescription], [error code]]
+														 message:[NSString stringWithFormat:@"Error when loading view. Description: %@\nCode: %ld",
+																  [error localizedDescription], (long)[error code]]
 														delegate:[[UIApplication sharedApplication] delegate]
 											   cancelButtonTitle:@"OK"
 											   otherButtonTitles:nil] autorelease];
@@ -772,8 +777,8 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
         l.font = [UIFont fontWithName:l.font.fontName size:10];
         l.backgroundColor = [UIColor clearColor];
         l.textColor = [UIColor blackColor];
-        l.lineBreakMode = UILineBreakModeWordWrap;
-        l.textAlignment = UITextAlignmentCenter;
+        l.lineBreakMode = NSLineBreakByWordWrapping;
+        l.textAlignment = NSTextAlignmentCenter;
         l.numberOfLines = 2;
         modificationDateButton.customView = l;
     }
@@ -843,7 +848,7 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 	
 	// 0. Extra settings
-	selectedDetailsView = [defaults integerForKey:DEFS_SELECTED_DETAILS_VIEW];
+	selectedDetailsView = (int)[defaults integerForKey:DEFS_SELECTED_DETAILS_VIEW];
 	
 	// 1. Read in the saved columns & order of them for each file; similarly for search strings & positions
 	NSDictionary *defaultNames = [defaults objectForKey:DEFS_COLUMN_NAMES];
@@ -1147,9 +1152,9 @@ static CSVDataViewController *sharedInstance = nil;
 	}
 	else
 	{
-		[s appendFormat:@"Found %d items in %d columns, using delimiter '%C'; check \"Data\" preferences.\n\n",
-		 [[file itemsWithResetShortdescriptions:NO] count],
-		 [[file availableColumnNames] count],
+		[s appendFormat:@"Found %lu items in %lu columns, using delimiter '%C'; check \"Data\" preferences.\n\n",
+		 (unsigned long)[[file itemsWithResetShortdescriptions:NO] count],
+		 (unsigned long)[[file availableColumnNames] count],
 		 file.usedDelimiter];
 		[s appendFormat:@"File read when using the selected encoding:\n\n%@", file.rawString];
 	}
@@ -1462,7 +1467,7 @@ static CSVDataViewController *sharedInstance = nil;
 
 - (IBAction) editColumns:(id)sender
 {
-	[self presentModalViewController:editController animated:YES];
+	[self presentViewController:editController animated:YES completion:NULL];
 }
 
 - (IBAction) editDone:(id)sender
@@ -1474,7 +1479,7 @@ static CSVDataViewController *sharedInstance = nil;
 		itemsNeedResorting = itemsNeedFiltering = NO;
 	}
 	[self updateBadgeValueUsingItem:itemController.navigationItem push:YES];
-	[self dismissModalViewControllerAnimated:YES];
+	[self dismissViewControllerAnimated:YES completion:NULL];
 }
 
 - (BOOL)navigationBar:(UINavigationBar *)navigationBar
