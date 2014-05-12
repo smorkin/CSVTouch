@@ -432,8 +432,6 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 
 - (void) downloadDone
 {
-    // Something wrong with memory handling, can't release self.connection here...
-//	[self.connection release];
 	self.connection = nil;
 	[self slowActivityCompleted];
 	// Are we in single file reload mode or all file reload mode?
@@ -600,7 +598,6 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 					 fileName:[[newFileURL text] lastPathComponent]
 			  isLocalDownload:NO];
 	}
-	[self.rawData release];
 	self.rawData = nil;
 	[self downloadDone];
 }
