@@ -9,6 +9,8 @@
 #import <UIKit/UIKit.h>
 #import "OzyTableViewController.h"
 
+#define DEFAULT_ENCODING 0
+
 @interface CSVFileParser : NSObject {
 	NSMutableArray *_parsedItems;
 	NSMutableArray *_columnNames;
@@ -43,10 +45,12 @@
 + (CSVFileParser *) parserWithFile:(NSString *)path;
 - (void) saveToFile;
 
-- (id) initWithRawData:(NSData *)d;
+- (id) initWithRawData:(NSData *)d filePath:(NSString *)filePath;
 
 - (void) parseIfNecessary;
 - (void) reparseIfParsed;
+
+- (void) encodingUpdated;
 
 - (NSArray *) availableColumnNames;
 - (NSMutableArray *) itemsWithResetShortdescriptions:(BOOL)reset; // Note that a caller for performance reasons can resort these, but nothing else
@@ -61,4 +65,16 @@
 @interface CSVFileParser (OzyTableViewProtocol) <OzyTableViewObject>
 - (NSString *) defaultTableViewDescription;
 @end
+
+@interface CSVFileParser (Preferences)
+
++ (void) setFileEncoding:(NSStringEncoding)encoding forFile:(NSString *)fileName;
++ (void) removeFileEncodingForFile:(NSString *) fileName;
+// Returns an actual good encoding
++ (NSStringEncoding) getEncodingForFile:(NSString *)fileName;
+// Returns the actual setting, i.e. possibly DEFAULT_ENCODING
++ (NSUInteger) getEncodingSettingForFile:(NSString *)fileName;
+
+@end
+
 

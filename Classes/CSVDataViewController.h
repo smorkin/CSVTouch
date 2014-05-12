@@ -136,6 +136,8 @@ OzyWebViewController;
 
 - (void) setHiddenColumns:(NSIndexSet *)hidden forFile:(NSString *)fileName;
 
+- (void) resetColumnNamesForFile:(NSString *)fileName;
+
 - (void) applicationWillTerminate;
 - (void) applicationDidFinishLaunchingInEmergencyMode:(BOOL) emergencyMode;
 

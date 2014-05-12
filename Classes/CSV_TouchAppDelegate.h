@@ -34,6 +34,7 @@ OzymandiasApplicationDelegate>
 	IBOutlet OzyRotatableViewController *fileViewController;
 	IBOutlet UITextField *newFileURL;
 	IBOutlet UITextView *fileInfo;
+    IBOutlet UISegmentedControl *fileEncodingSegment;
 	
 	// For better GUI when things are slow...
 	IBOutlet UIView *activityView;
@@ -62,6 +63,7 @@ OzymandiasApplicationDelegate>
 @property (nonatomic, retain) NSMutableData *rawData;
 @property (nonatomic, retain) NSURLConnection *connection;
 @property (nonatomic, retain, readonly) UIToolbar *downloadToolbar;
+@property (nonatomic, assign) BOOL hasConfiguredFileEncodings;
 
 - (IBAction) downloadNewFile:(id)sender;
 - (IBAction) doDownloadNewFile:(id)sender;
@@ -80,3 +82,10 @@ OzymandiasApplicationDelegate>
 @interface CSV_TouchAppDelegate (IntroProtocol)
 <IntroViewControllerDelegate>
 @end
+
+@interface CSV_TouchAppDelegate (FileEncoding)
+- (void) configureFileEncodings;
+- (void) synchronizeFileEncoding;
+- (IBAction) segmentClicked:(id)sender;
+@end
+

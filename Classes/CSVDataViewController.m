@@ -162,9 +162,9 @@
 		rawColumnIndexes[i] = [[importantColumnIndexes objectAtIndex:i] intValue];
 }
 
-- (void) updateColumnNames
+- (void) updateColumnNames:(NSString *)fileName
 {
-	NSArray *names = [columnNamesForFileName objectForKey:[currentFile fileName]];
+	NSArray *names = [columnNamesForFileName objectForKey:fileName];
 	if( !names )
 	{
 		NSArray *availableNames = [currentFile availableColumnNames];
@@ -189,9 +189,12 @@
 		[_preDefinedHiddenColumns removeObjectForKey:[currentFile fileName]];
 		[columnNamesForFileName setObject:names forKey:[currentFile fileName]];
 	}
-	[editController setObjects:[NSMutableArray arrayWithArray:names]];
-	[editController dataLoaded];
-	[self updateColumnIndexes];
+    if( [fileName isEqualToString:[currentFile fileName]])
+    {
+        [editController setObjects:[NSMutableArray arrayWithArray:names]];
+        [editController dataLoaded];
+        [self updateColumnIndexes];
+    }
 }
 
 - (void) cacheCurrentFileData
@@ -245,7 +248,7 @@
 		self.searchBar.text = cachedSearchString;
 	else
 		self.searchBar.text = @"";
-	[self updateColumnNames];
+	[self updateColumnNames:currentFile.fileName];
 	[itemController setTitle:[currentFile defaultTableViewDescription]];
 	[self updateFileModificationDateButton];
 	[self refreshObjectsWithResorting:!currentFile.hasBeenSorted];
@@ -850,7 +853,7 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
 	// 0. Extra settings
 	selectedDetailsView = (int)[defaults integerForKey:DEFS_SELECTED_DETAILS_VIEW];
 	
-	// 1. Read in the saved columns & order of them for each file; similarly for search strings & positions
+	// 1. Read in the saved columns & order of them for each file; similarly for search strings, positions, etc
 	NSDictionary *defaultNames = [defaults objectForKey:DEFS_COLUMN_NAMES];
 	if( defaultNames && [defaultNames isKindOfClass:[NSDictionary class]] )
 	{
@@ -1091,6 +1094,7 @@ static CSVDataViewController *sharedInstance = nil;
 	[super dealloc];
 }
 
+
 - (void) saveColumnNames
 {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
@@ -1101,17 +1105,17 @@ static CSVDataViewController *sharedInstance = nil;
     }
 }
 
-- (void) resetColumnNames
+- (void) resetColumnNamesForFile:(NSString *)fileName
 {
-	[columnNamesForFileName removeObjectForKey:[currentFile fileName]];
-	[self updateColumnNames];
+    [columnNamesForFileName removeObjectForKey:[currentFile fileName]];
+	[self updateColumnNames:fileName];
 	itemsNeedResorting = YES;
     [self saveColumnNames];
 }
 
 - (IBAction) resetColumnNames:(id)sender
 {
-	[self resetColumnNames];
+	[self resetColumnNamesForFile:[currentFile fileName]];
 }
 
 - (void) tableViewContentChanged:(NSNotification *)n
@@ -1180,22 +1184,22 @@ static CSVDataViewController *sharedInstance = nil;
 	// Note that the actual animation of the activity view won't stop until this callback is done
 	[[CSV_TouchAppDelegate sharedInstance] slowActivityCompleted];
 	
-	if( currentFile != selectedFile )
-	{
-		BOOL parsedOK = [self selectFile:selectedFile];
-		
-		if( !parsedOK )
-		{
-			showingRawString = NO;
-			[[parseErrorController textView] setText:[CSVDataViewController parseErrorStringForFile:currentFile]];
-			[self pushViewController:parseErrorController animated:YES];
-			return;
-		}
-		[[itemController tableView] deselectRowAtIndexPath:[[itemController tableView] indexPathForSelectedRow]
-												  animated:NO];
-		[itemController dataLoaded];
-	}
-	
+    // Don't check if current file == selected file; this will happen very rarely,
+    // and if user has e.g. changed file encoding we need to reparse etc anyways
+    BOOL parsedOK = [self selectFile:selectedFile];
+    
+    if( !parsedOK )
+    {
+        showingRawString = NO;
+        [[parseErrorController textView] setText:[CSVDataViewController parseErrorStringForFile:currentFile]];
+        [self pushViewController:parseErrorController
+                        animated:YES];
+        return;
+    }
+    [[itemController tableView] deselectRowAtIndexPath:[[itemController tableView] indexPathForSelectedRow]
+                                              animated:NO];
+    [itemController dataLoaded];
+
 	// Check if there seems to be a problem with the file preventing us from reading it
 	if( [[currentFile itemsWithResetShortdescriptions:NO] count] < 1 ||
 	   [[currentFile availableColumnNames] count] == 0 ||
@@ -1521,7 +1525,7 @@ didSelectRowAtIndexPath:[fileController.tableView indexPathForSelectedRow]];
 {
 	for( CSVFileParser *fileParser in [fileController objects] )
 		fileParser.hasBeenParsed = NO;
-	[self updateColumnNames];
+	[self updateColumnNames:currentFile.fileName];
 	[self refreshObjectsWithResorting:YES];
 	[self updateBadgeValueUsingItem:[self topViewController].navigationItem push:YES];
 }

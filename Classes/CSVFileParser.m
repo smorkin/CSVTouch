@@ -10,6 +10,7 @@
 #import "CSVRow.h"
 #import "CSVPreferencesController.h"
 #import "CSV_TouchAppDelegate.h"
+#import "CSVDataViewController.h"
 #import "OzyTableViewController.h"
 #import "csv.h"
 #import "parseCSV.h"
@@ -21,6 +22,7 @@
 
 #define ITEM_ICON_COLUMN_NAME @"CSV Touch icon"
 
+#define DEFS_ENCODING_FOR_FILES @"encodingForFiles"
 
 @implementation CSVFileParser
 
@@ -48,8 +50,10 @@
 		self.hideAddress = NO;
 	_rawData = [[d objectForKey:FILEPARSER_RAW_DATA] retain];
 	if( _rawData )
-		_rawString = [[NSString alloc] initWithData:_rawData 
-										   encoding:[CSVPreferencesController encoding]];
+	{
+        _rawString = [[NSString alloc] initWithData:_rawData
+										   encoding:[CSVFileParser getEncodingForFile:[self fileName]]];
+    }
 }
 
 - (NSString *) URL
@@ -379,15 +383,31 @@
 	}
 }
 
-- (id) initWithRawData:(NSData *)d
+- (void) encodingUpdated
+{
+    [_rawString release];
+    _rawString = nil;
+    if( _rawData)
+    {
+        _rawString = [[NSString alloc] initWithData:_rawData
+										   encoding:[CSVFileParser getEncodingForFile:[self fileName]]];
+    }
+    [self reparseIfParsed];
+    [[CSVDataViewController sharedInstance] resetColumnNames:self.fileName];
+}
+
+- (id) initWithRawData:(NSData *)d filePath:(NSString *)path
 {
 	[super init];
 	_parsedItems = [[NSMutableArray alloc] init];
 	_columnNames = [[NSMutableArray alloc] init];
 	_rawData = [d retain];
+    self.filePath = path;
 	if( _rawData )
-		_rawString = [[NSString alloc] initWithData:_rawData 
-										   encoding:[CSVPreferencesController encoding]];
+	{
+        _rawString = [[NSString alloc] initWithData:_rawData
+										   encoding:[CSVFileParser getEncodingForFile:[self fileName]]];
+    }
 	_hasBeenParsed = NO;
 	return self;
 }
@@ -417,8 +437,7 @@
 
 + (CSVFileParser *) parserWithFile:(NSString *)path
 {
-	CSVFileParser *fp = [[[self alloc] initWithRawData:nil] autorelease];
-	fp.filePath = path;
+	CSVFileParser *fp = [[[self alloc] initWithRawData:nil filePath:path] autorelease];
 	return fp;
 }
 
@@ -483,3 +502,78 @@
 }
 
 @end
+
+@implementation CSVFileParser (Preferences)
+
+static NSMutableDictionary *encodingForFileName;
+
++ (void) initialize
+{
+    if( self == [CSVFileParser class])
+    {
+        NSDictionary *encodings = [[NSUserDefaults standardUserDefaults] objectForKey:DEFS_ENCODING_FOR_FILES];
+        if( encodings && [encodings isKindOfClass:[NSDictionary class]] )
+        {
+            [encodingForFileName release];
+            encodingForFileName = [[NSMutableDictionary alloc] initWithDictionary:encodings];
+        }
+        else
+        {
+            encodingForFileName = [[NSMutableDictionary alloc] init];
+        }
+    }
+}
+
++ (void) saveEncodingForFiles
+{
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    if( encodingForFileName )
+    {
+        [defaults setObject:encodingForFileName forKey:DEFS_ENCODING_FOR_FILES];
+        [defaults synchronize];
+    }
+}
+
++ (void) setFileEncoding:(NSStringEncoding)encoding forFile:(NSString *)fileName
+{
+    [encodingForFileName setObject:[NSNumber numberWithUnsignedInteger:encoding]
+                            forKey:fileName];
+    [self saveEncodingForFiles];
+}
+
++ (void) removeFileEncodingForFile:(NSString *) fileName
+{
+    [encodingForFileName removeObjectForKey:fileName];
+    [self saveEncodingForFiles];
+}
+
++ (NSStringEncoding) getEncodingForFile:(NSString *)fileName
+{
+    NSNumber *encoding = [encodingForFileName objectForKey:fileName];
+    if( encoding && [encoding unsignedIntegerValue] != DEFAULT_ENCODING)
+    {
+        return [encoding unsignedIntegerValue];
+    }
+    else
+    {
+        return [CSVPreferencesController encoding];
+    }
+}
+
++ (NSUInteger) getEncodingSettingForFile:(NSString *)fileName
+{
+    NSNumber *encoding = [encodingForFileName objectForKey:fileName];
+    if( encoding )
+    {
+        return [encoding unsignedIntegerValue];
+    }
+    else
+    {
+        return DEFAULT_ENCODING;
+    }
+}
+
+@end
+
+
+
