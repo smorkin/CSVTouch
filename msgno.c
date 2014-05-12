@@ -158,7 +158,7 @@ msgno_append(const char *src, int n)
 	*dst = '\0';
 	msgno_buf_idx += dst - start;
 
-	return dst - start;
+	return (int)(dst - start);
 }
 int
 msgno_vsprintf(const char *fmt, va_list ap)

@@ -17,7 +17,7 @@
 	else if( status == 404 )
 		return @"File not found on server";
 	else
-		return [NSString stringWithFormat:@"Other error (http status code %d)", status];
+		return [NSString stringWithFormat:@"Other error (http status code %ldd)", (long)status];
 }
 
 - (BOOL) containsDigit
@@ -85,7 +85,7 @@
 {
 	const char *representation = [self UTF8String];
 	unsigned char hash[CC_MD5_DIGEST_LENGTH];
-	CC_MD5((const void *)representation,strlen(representation), hash);
+	CC_MD5((const void *)representation,(unsigned int)strlen(representation), hash);
 	return [NSData dataWithBytes:hash length:CC_MD5_DIGEST_LENGTH];
 }
 
@@ -103,8 +103,8 @@
 
 - (NSDictionary *) dictionaryRepresentation
 {
-	return [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:self.row], ROW_KEY,
-			[NSNumber numberWithInt:self.section], SECTION_KEY,
+	return [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInteger:self.row], ROW_KEY,
+			[NSNumber numberWithInteger:self.section], SECTION_KEY,
 			nil];
 }
 

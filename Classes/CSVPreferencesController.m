@@ -8,7 +8,6 @@
 
 #import "CSVPreferencesController.h"
 #import "OzymandiasAdditions.h"
-#import "OzyTableViewController.h"
 
 
 @implementation CSVPreferencesController
@@ -81,6 +80,8 @@ BOOL reverseItemSorting = FALSE;
 	obj = [defaults objectForKey:PREFS_LITERAL_SORTING];
 	if( obj && [obj boolValue] == FALSE )
 		sortingMask ^= NSLiteralSearch;
+    
+    [self resetDefaultsHaveChanges];
 }
 
 
@@ -102,28 +103,29 @@ BOOL reverseItemSorting = FALSE;
 		return YES;
 }
 
-+ (NSInteger) itemsTableViewSize
++ (OzyTableViewSize) itemsTableViewSize
 {
+	id obj = [[NSUserDefaults standardUserDefaults] objectForKey:PREFS_ITEMS_TABLEVIEW_SIZE];
 	NSInteger s = [[NSUserDefaults standardUserDefaults] integerForKey:PREFS_ITEMS_TABLEVIEW_SIZE];
-	if( s < 0 || s > OZY_MINI )
+	if( !obj || s < OZY_NORMAL || s > OZY_MINI )
 		return OZY_SMALL;
 	else
-		return s;
+		return (OzyTableViewSize)s;
 }
 
-+ (NSInteger) detailsTableViewSize
++ (OzyTableViewSize) detailsTableViewSize
 {
 	id obj = [[NSUserDefaults standardUserDefaults] objectForKey:PREFS_DETAILS_TABLEVIEW_SIZE];
 	NSInteger s = [[NSUserDefaults standardUserDefaults] integerForKey:PREFS_DETAILS_TABLEVIEW_SIZE];
 	if( !obj || s < 0 || s > OZY_MINI )
-		return OZY_NORMAL;
+		return OZY_SMALL;
 	else
-		return s;
+		return (OzyTableViewSize)s;
 }
 
 + (BOOL) modifyItemsTableViewSize:(BOOL)increase
 {
-	int newSize = [self itemsTableViewSize];
+	NSInteger newSize = [self itemsTableViewSize];
 	
 	// Stupidly enough the sizes go backwards...
 	if( increase) 
@@ -658,4 +660,19 @@ static BOOL hideAdress = NO;
 	return (&ADBannerContentSizeIdentifierPortrait != NULL);
 }
 #endif
+
+static NSDictionary *oldDefaults = nil;
+
++ (BOOL) defaultsHaveChanged
+{
+    return ![[[NSUserDefaults standardUserDefaults] dictionaryRepresentation] isEqual:oldDefaults];
+}
+
++ (void) resetDefaultsHaveChanges
+{
+    [oldDefaults release];
+    oldDefaults = [[[NSUserDefaults standardUserDefaults] dictionaryRepresentation] copy];
+}
+
+
 @end

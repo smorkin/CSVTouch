@@ -109,7 +109,6 @@ OzyWebViewController;
 - (IBAction) editDone:(id)sender;
 - (IBAction) resetColumnNames:(id)sender;
 - (IBAction) toggleEditFiles;
-//- (IBAction) searchItems:(id)sender;
 - (IBAction) toggleRefreshFiles:(id)sender;
 - (IBAction) refreshAllFiles:(id)sender;
 - (IBAction) loadFileList;
@@ -141,9 +140,10 @@ OzyWebViewController;
 - (void) applicationDidFinishLaunchingInEmergencyMode:(BOOL) emergencyMode;
 
 - (CSVFileParser *) currentFile;
+- (OzyTableViewController *) fileController;
 
 // For CSV_TouchAppDelegate
-- (int) numberOfFiles;
+- (NSUInteger) numberOfFiles;
 - (BOOL) fileExistsWithURL:(NSString *)URL;
 
 @end

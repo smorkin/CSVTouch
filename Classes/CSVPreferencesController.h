@@ -6,6 +6,8 @@
 //  Copyright 2008 Ozymandias. All rights reserved.
 //
 
+#import "OzyTableViewController.h"
+
 #import <UIKit/UIKit.h>
 #if defined(CSV_LITE)
 #import <iAd/iAd.h>
@@ -17,8 +19,8 @@
 + (void) applicationDidFinishLaunching;
 
 + (NSString *) delimiter;
-+ (NSInteger) itemsTableViewSize;
-+ (NSInteger) detailsTableViewSize;
++ (OzyTableViewSize) itemsTableViewSize;
++ (OzyTableViewSize) detailsTableViewSize;
 + (NSStringEncoding) encoding;
 + (BOOL) smartDelimiter;
 + (NSUInteger) maxNumberOfItemsToSort;
@@ -79,5 +81,9 @@ extern NSUInteger sortingMask; // This is available for performance-critical ope
 #if defined(CSV_LITE)
 + (BOOL) canUseAbstractBannerNames;
 #endif
+
+// Check if prefs have changed while in background
++ (BOOL) defaultsHaveChanged;
++ (void) resetDefaultsHaveChanges;
 
 @end

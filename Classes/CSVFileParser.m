@@ -103,7 +103,7 @@
 	
 	if( useCorrect )
 	{
-		int numberOfRows = 0;
+		NSUInteger numberOfRows = 0;
 		CSVParser *parser = [[[CSVParser alloc] init] autorelease];
 		[parser setEncoding:encoding];
 		[parser setDelimiter:delimiter];
@@ -115,7 +115,7 @@
 			if( !testing )
 			{
 				[_columnNames addObjectsFromArray:[tmp objectAtIndex:0]];
-				int numberOfColumns = [_columnNames count];
+				NSUInteger numberOfColumns = [_columnNames count];
 				if( (self.iconIndex = [_columnNames indexOfObject:ITEM_ICON_COLUMN_NAME]) != NSNotFound )
 					[_columnNames removeObjectAtIndex:self.iconIndex];
 				[tmp removeObjectAtIndex:0];
@@ -140,10 +140,10 @@
 					words = [tmp objectAtIndex:i];
 					if( [words count] != numberOfColumns )
 					{
-						self.problematicRow = [NSString stringWithFormat:@"Found %d values, expected %d.\nItem %d, content: %@",
-											   [words count],
-											   numberOfColumns,
-											   i+1, 
+						self.problematicRow = [NSString stringWithFormat:@"Found %lu values, expected %lu.\nItem %lu, content: %@",
+											   (unsigned long)[words count],
+											   (unsigned long)numberOfColumns,
+											   (unsigned long)i+1,
 											   words];
 						[_columnNames removeAllObjects];
 						[_parsedItems removeAllObjects];

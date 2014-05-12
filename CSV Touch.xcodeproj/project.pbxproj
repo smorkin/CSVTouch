@@ -180,6 +180,8 @@
 		F4C2E44618CE0CE9004E49E5 /* HowToController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4C2E44318CE0CE9004E49E5 /* HowToController.m */; };
 		F4C2E44718CE0CE9004E49E5 /* HowToController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F4C2E44418CE0CE9004E49E5 /* HowToController.xib */; };
 		F4C2E44818CE0CE9004E49E5 /* HowToController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F4C2E44418CE0CE9004E49E5 /* HowToController.xib */; };
+		F4C5C13018D4817C00B73144 /* IntroViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4C5C12F18D4817C00B73144 /* IntroViewController.m */; };
+		F4C5C13118D4817C00B73144 /* IntroViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4C5C12F18D4817C00B73144 /* IntroViewController.m */; };
 		F4D6864B11675900001511F4 /* iPhoneMainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = F412B2CF115567C5000C7596 /* iPhoneMainWindow.xib */; };
 		F4EC004F17F87E8600A52838 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F4EC004E17F87E8600A52838 /* Images.xcassets */; };
 		F4EC005017F8845B00A52838 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F4EC004E17F87E8600A52838 /* Images.xcassets */; };
@@ -297,6 +299,8 @@
 		F4C2E44218CE0CE9004E49E5 /* HowToController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HowToController.h; sourceTree = "<group>"; };
 		F4C2E44318CE0CE9004E49E5 /* HowToController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HowToController.m; sourceTree = "<group>"; };
 		F4C2E44418CE0CE9004E49E5 /* HowToController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HowToController.xib; sourceTree = "<group>"; };
+		F4C5C12E18D4817C00B73144 /* IntroViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IntroViewController.h; sourceTree = "<group>"; };
+		F4C5C12F18D4817C00B73144 /* IntroViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IntroViewController.m; sourceTree = "<group>"; };
 		F4CB510A11689FD300CFCBBC /* CSV Lite-Info-iPad.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "CSV Lite-Info-iPad.plist"; sourceTree = "<group>"; };
 		F4CB510B11689FD300CFCBBC /* Info-iPad.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Info-iPad.plist"; sourceTree = "<group>"; };
 		F4CCB53F1026D6D800FD684A /* Priv dist-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Priv dist-Info.plist"; sourceTree = "<group>"; };
@@ -368,6 +372,8 @@
 				F4C2E44218CE0CE9004E49E5 /* HowToController.h */,
 				F4C2E44318CE0CE9004E49E5 /* HowToController.m */,
 				F4C2E44418CE0CE9004E49E5 /* HowToController.xib */,
+				F4C5C12E18D4817C00B73144 /* IntroViewController.h */,
+				F4C5C12F18D4817C00B73144 /* IntroViewController.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -815,6 +821,7 @@
 				F47DC7F71111004C00E8DD8B /* OzyTableViewController.m in Sources */,
 				F47DC7F81111004C00E8DD8B /* csv.c in Sources */,
 				F47DC7F91111004C00E8DD8B /* msgno.c in Sources */,
+				F4C5C13018D4817C00B73144 /* IntroViewController.m in Sources */,
 				F47DC7FA1111004C00E8DD8B /* CSVDataViewController.m in Sources */,
 				F47DC7FB1111004C00E8DD8B /* CSVRow.m in Sources */,
 				F47DC7FC1111004C00E8DD8B /* CSVFileParser.m in Sources */,
@@ -838,6 +845,7 @@
 				F47DC8241111005400E8DD8B /* CSVPreferencesController.m in Sources */,
 				F47DC8251111005400E8DD8B /* CSVRow.m in Sources */,
 				F47DC8261111005400E8DD8B /* CSVFileParser.m in Sources */,
+				F4C5C13118D4817C00B73144 /* IntroViewController.m in Sources */,
 				F47DC8271111005400E8DD8B /* OzyTableViewController.m in Sources */,
 				F47DC8281111005400E8DD8B /* OzyRotatableViewController.m in Sources */,
 				F47DC8291111005400E8DD8B /* OzyRotatableTabBarController.m in Sources */,

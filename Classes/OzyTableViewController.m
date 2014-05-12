@@ -105,7 +105,7 @@
 				![[self comparisonCharacterForCharacter:currentFirstLetter] isEqualToString:
 				  [self comparisonCharacterForCharacter:latestFirstLetter]] ))
 			{
-				[_sectionStarts addObject:[NSNumber numberWithInt:i]];
+				[_sectionStarts addObject:[NSNumber numberWithUnsignedInteger:i]];
 				[_sectionIndexes addObject:[self sectionTitleForCharacter:currentFirstLetter]];
 				latestFirstLetter = currentFirstLetter;
 			}
@@ -113,7 +113,7 @@
 					![[self comparisonCharacterForCharacter:currentFirstLetter] isEqualToString:
 					  [self comparisonCharacterForCharacter:latestFirstLetter]] )
 			{
-				[_sectionStarts addObject:[NSNumber numberWithInt:i]];
+				[_sectionStarts addObject:[NSNumber numberWithUnsignedInteger:i]];
 				[_sectionIndexes addObject:[self sectionTitleForCharacter:currentFirstLetter]];
 				latestFirstLetter = currentFirstLetter;
 			}
