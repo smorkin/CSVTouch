@@ -536,9 +536,12 @@ static NSMutableDictionary *encodingForFileName;
 
 + (void) setFileEncoding:(NSStringEncoding)encoding forFile:(NSString *)fileName
 {
-    [encodingForFileName setObject:[NSNumber numberWithUnsignedInteger:encoding]
-                            forKey:fileName];
-    [self saveEncodingForFiles];
+    if( fileName != nil)
+    {
+        [encodingForFileName setObject:[NSNumber numberWithUnsignedInteger:encoding]
+                                forKey:fileName];
+        [self saveEncodingForFiles];
+    }
 }
 
 + (void) removeFileEncodingForFile:(NSString *) fileName

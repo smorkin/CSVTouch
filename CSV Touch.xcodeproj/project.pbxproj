@@ -200,7 +200,6 @@
 		28C286DF0D94DF7D0034E888 /* OzyTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OzyTableViewController.h; sourceTree = "<group>"; };
 		28C286E00D94DF7D0034E888 /* OzyTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OzyTableViewController.m; sourceTree = "<group>"; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F4064A7718CE65BB00E29CD5 /* file_via_app.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = file_via_app.png; path = "Image masters/file_via_app.png"; sourceTree = "<group>"; };
 		F4064A7818CE65BB00E29CD5 /* file_via_internet.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = file_via_internet.png; path = "Image masters/file_via_internet.png"; sourceTree = "<group>"; };
 		F4064A7918CE65BB00E29CD5 /* file_via_itunes.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = file_via_itunes.png; path = "Image masters/file_via_itunes.png"; sourceTree = "<group>"; };
@@ -222,7 +221,6 @@
 		F42D908C0DE95538001A2E5C /* CSVDataViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSVDataViewController.h; sourceTree = "<group>"; };
 		F42D908D0DE95538001A2E5C /* CSVDataViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSVDataViewController.m; sourceTree = "<group>"; };
 		F451F1800E99146300F22ED9 /* info.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = info.png; path = ../info.png; sourceTree = "<group>"; };
-		F452CA8D0EB24A0D002F7697 /* CSV Lite-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "CSV Lite-Info.plist"; sourceTree = "<group>"; };
 		F45807FC11466E9400A4C4E1 /* nksTablegallery.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = nksTablegallery.css; sourceTree = "<group>"; };
 		F458080911466F1600A4C4E1 /* seaglass.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = seaglass.css; sourceTree = "<group>"; };
 		F45B64B5127E039A00E02CE3 /* iAd.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iAd.framework; path = System/Library/Frameworks/iAd.framework; sourceTree = SDKROOT; };
@@ -303,7 +301,6 @@
 		F4C5C12F18D4817C00B73144 /* IntroViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IntroViewController.m; sourceTree = "<group>"; };
 		F4CB510A11689FD300CFCBBC /* CSV Lite-Info-iPad.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "CSV Lite-Info-iPad.plist"; sourceTree = "<group>"; };
 		F4CB510B11689FD300CFCBBC /* Info-iPad.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Info-iPad.plist"; sourceTree = "<group>"; };
-		F4CCB53F1026D6D800FD684A /* Priv dist-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Priv dist-Info.plist"; sourceTree = "<group>"; };
 		F4E5EA930E08843D002EB091 /* OzyRotatableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OzyRotatableViewController.h; sourceTree = "<group>"; };
 		F4E5EA940E08843D002EB091 /* OzyRotatableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OzyRotatableViewController.m; sourceTree = "<group>"; };
 		F4E5EAA80E0884D8002EB091 /* OzyRotatableTabBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OzyRotatableTabBarController.h; sourceTree = "<group>"; };
@@ -500,11 +497,8 @@
 		F4A3BCAA17F8975100B7C201 /* Plists */ = {
 			isa = PBXGroup;
 			children = (
-				F452CA8D0EB24A0D002F7697 /* CSV Lite-Info.plist */,
 				F4CB510A11689FD300CFCBBC /* CSV Lite-Info-iPad.plist */,
-				8D1107310486CEB800E47090 /* Info.plist */,
 				F4CB510B11689FD300CFCBBC /* Info-iPad.plist */,
-				F4CCB53F1026D6D800FD684A /* Priv dist-Info.plist */,
 			);
 			name = Plists;
 			sourceTree = "<group>";
@@ -941,7 +935,7 @@
 				INFOPLIST_FILE = "Info-iPad.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				PRODUCT_NAME = "CSV Touch";
-				PROVISIONING_PROFILE = "404CBFE0-A943-44DD-A2B3-6196024D1E71";
+				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -967,8 +961,8 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "CSV Touch";
-				PROVISIONING_PROFILE = "A22B5C05-DF93-454A-9922-F8C92CF06199";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "A22B5C05-DF93-454A-9922-F8C92CF06199";
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -1020,8 +1014,8 @@
 				OTHER_CFLAGS = "-DCSV_LITE";
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = "CSV Lite";
-				PROVISIONING_PROFILE = "404CBFE0-A943-44DD-A2B3-6196024D1E71";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "404CBFE0-A943-44DD-A2B3-6196024D1E71";
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -1046,8 +1040,8 @@
 				OTHER_CFLAGS = "-DCSV_LITE";
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = "CSV Lite";
-				PROVISIONING_PROFILE = "A22B5C05-DF93-454A-9922-F8C92CF06199";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "A22B5C05-DF93-454A-9922-F8C92CF06199";
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;

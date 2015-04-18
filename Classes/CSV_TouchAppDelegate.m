@@ -379,6 +379,7 @@ static NSString *newPassword = nil;
 		[[NSBundle mainBundle] loadNibNamed:@"iPadMainWindow" owner:self options:nil];
 	else 
 		[[NSBundle mainBundle] loadNibNamed:@"iPhoneMainWindow" owner:self options:nil];
+    [self configureFileEncodings];
 }
 
 //UIApplicationLaunchOptionsURLKey
