@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.iPad.XIB" version="3.0" toolsVersion="6245" systemVersion="13F34" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.iPad.XIB" version="3.0" toolsVersion="7531" systemVersion="14D136" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none">
     <dependencies>
-        <deployment version="1536" defaultVersion="1552" identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
+        <deployment version="1536" identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7520"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CSV_TouchAppDelegate">
@@ -28,19 +28,17 @@
             <nil key="simulatedStatusBarMetrics"/>
         </window>
         <viewController id="371" userLabel="Startup" customClass="OzyRotatableViewController">
-            <layoutGuides>
-                <viewControllerLayoutGuide type="top" id="suc-Xv-Syq"/>
-                <viewControllerLayoutGuide type="bottom" id="aIx-1G-8fm"/>
-            </layoutGuides>
             <view key="view" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="372">
                 <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 <subviews>
-                    <activityIndicatorView opaque="NO" clearsContextBeforeDrawing="NO" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="374">
+                    <activityIndicatorView opaque="NO" clearsContextBeforeDrawing="NO" userInteractionEnabled="NO" contentMode="scaleToFill" style="whiteLarge" id="374">
                         <rect key="frame" x="387" y="464" width="37" height="37"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                     </activityIndicatorView>
-                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" text="Initializing cached data..." lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="377">
+                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" text="Initializing cached data..." lineBreakMode="tailTruncation" minimumFontSize="10" id="377">
                         <rect key="frame" x="327" y="573" width="187" height="21"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                         <fontDescription key="fontDescription" type="system" size="system"/>
                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
@@ -78,19 +76,17 @@
             </connections>
         </viewController>
         <viewController id="76" userLabel="File view" customClass="OzyRotatableViewController">
-            <layoutGuides>
-                <viewControllerLayoutGuide type="top" id="9Ij-xB-F03"/>
-                <viewControllerLayoutGuide type="bottom" id="mdn-r1-Bp0"/>
-            </layoutGuides>
             <view key="view" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="79">
                 <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 <subviews>
-                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="614">
+                    <view contentMode="scaleToFill" id="614">
                         <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="80">
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="80">
                                 <rect key="frame" x="0.0" y="0.0" width="768" height="44"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <items>
                                     <barButtonItem systemItem="done" id="81">
                                         <connections>
@@ -100,21 +96,24 @@
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="83"/>
                                 </items>
                             </toolbar>
-                            <textView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" showsHorizontalScrollIndicator="NO" delaysContentTouches="NO" canCancelContentTouches="NO" bouncesZoom="NO" editable="NO" text="Test" translatesAutoresizingMaskIntoConstraints="NO" id="467">
+                            <textView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" delaysContentTouches="NO" canCancelContentTouches="NO" bouncesZoom="NO" editable="NO" text="Test" id="467">
                                 <rect key="frame" x="25" y="203" width="718" height="821"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textView>
-                            <textField opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="http://" borderStyle="roundedRect" placeholder="" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="84">
+                            <textField opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="http://" borderStyle="roundedRect" placeholder="" minimumFontSize="17" id="84">
                                 <rect key="frame" x="25" y="61" width="718" height="31"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" size="system"/>
                                 <textInputTraits key="textInputTraits" autocorrectionType="no" keyboardType="URL" returnKeyType="go" enablesReturnKeyAutomatically="YES"/>
                                 <connections>
                                     <outlet property="delegate" destination="-1" id="588"/>
                                 </connections>
                             </textField>
-                            <segmentedControl opaque="NO" contentMode="scaleAspectFit" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="aek-Hp-qeZ">
+                            <segmentedControl opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" id="aek-Hp-qeZ">
                                 <rect key="frame" x="25" y="164" width="718" height="29"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <segments>
                                     <segment title="First"/>
                                     <segment title="Second"/>
@@ -123,8 +122,9 @@
                                     <action selector="segmentClicked:" destination="-1" eventType="valueChanged" id="I7l-iD-RLu"/>
                                 </connections>
                             </segmentedControl>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="File-specific encoding:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1jr-bY-KTA">
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="File-specific encoding:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="1jr-bY-KTA">
                                 <rect key="frame" x="25" y="139" width="146" height="17"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
@@ -142,27 +142,26 @@
             </connections>
         </viewController>
         <viewController id="210" userLabel="Edit controller" customClass="OzyTableViewController">
-            <layoutGuides>
-                <viewControllerLayoutGuide type="top" id="63P-Yw-wV6"/>
-                <viewControllerLayoutGuide type="bottom" id="2NI-gb-QNe"/>
-            </layoutGuides>
             <view key="view" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="211">
                 <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 <subviews>
-                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="616">
+                    <view contentMode="scaleToFill" id="616">
                         <rect key="frame" x="-10" y="-10" width="768" height="1024"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" bouncesZoom="NO" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="27" sectionFooterHeight="27" translatesAutoresizingMaskIntoConstraints="NO" id="212">
+                            <tableView opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" bouncesZoom="NO" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="27" sectionFooterHeight="27" id="212">
                                 <rect key="frame" x="10" y="54" width="768" height="980"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <connections>
                                     <outlet property="dataSource" destination="210" id="224"/>
                                     <outlet property="delegate" destination="14" id="225"/>
                                 </connections>
                             </tableView>
-                            <navigationBar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="214">
+                            <navigationBar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="214">
                                 <rect key="frame" x="10" y="10" width="768" height="44"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <items>
                                     <navigationItem id="215">
                                         <nil key="title"/>
@@ -193,27 +192,26 @@
             </connections>
         </viewController>
         <viewController title="Items" id="226" userLabel="Item controller" customClass="OzyTableViewController">
-            <layoutGuides>
-                <viewControllerLayoutGuide type="top" id="N8x-bq-ScL"/>
-                <viewControllerLayoutGuide type="bottom" id="wAw-qh-eh7"/>
-            </layoutGuides>
             <view key="view" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="230">
                 <rect key="frame" x="0.0" y="0.0" width="768" height="960"/>
                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 <subviews>
-                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="618">
+                    <view contentMode="scaleToFill" id="618">
                         <rect key="frame" x="0.0" y="0.0" width="768" height="960"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" bouncesZoom="NO" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="24" sectionFooterHeight="27" translatesAutoresizingMaskIntoConstraints="NO" id="231" customClass="OzyTableView">
+                            <tableView opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" bouncesZoom="NO" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="24" sectionFooterHeight="27" id="231" customClass="OzyTableView">
                                 <rect key="frame" x="0.0" y="0.0" width="768" height="916"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <connections>
                                     <outlet property="dataSource" destination="226" id="235"/>
                                     <outlet property="delegate" destination="14" id="237"/>
                                 </connections>
                             </tableView>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="499">
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="499">
                                 <rect key="frame" x="0.0" y="916" width="768" height="44"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                 <items>
                                     <barButtonItem systemItem="edit" id="500">
                                         <connections>
@@ -247,7 +245,7 @@
             </view>
             <extendedEdge key="edgesForExtendedLayout"/>
             <navigationItem key="navigationItem" title="Items" id="273">
-                <barButtonItem key="rightBarButtonItem" title="&lt;d>" id="632"/>
+                <barButtonItem key="rightBarButtonItem" title="&lt;d&gt;" id="632"/>
             </navigationItem>
             <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="blackOpaque"/>
             <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
@@ -257,27 +255,26 @@
             </connections>
         </viewController>
         <viewController title="Files" id="227" userLabel="File controller" customClass="OzyTableViewController">
-            <layoutGuides>
-                <viewControllerLayoutGuide type="top" id="yKK-Fb-lEq"/>
-                <viewControllerLayoutGuide type="bottom" id="25E-0m-bos"/>
-            </layoutGuides>
             <view key="view" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="253">
                 <rect key="frame" x="0.0" y="94" width="768" height="930"/>
                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 <subviews>
-                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="620">
+                    <view contentMode="scaleToFill" id="620">
                         <rect key="frame" x="0.0" y="0.0" width="768" height="930"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" bouncesZoom="NO" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="27" sectionFooterHeight="27" translatesAutoresizingMaskIntoConstraints="NO" id="254">
+                            <tableView opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" bouncesZoom="NO" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="27" sectionFooterHeight="27" id="254">
                                 <rect key="frame" x="0.0" y="0.0" width="768" height="886"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <connections>
                                     <outlet property="dataSource" destination="227" id="262"/>
                                     <outlet property="delegate" destination="14" id="263"/>
                                 </connections>
                             </tableView>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="515">
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="515">
                                 <rect key="frame" x="0.0" y="886" width="768" height="44"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                 <items>
                                     <barButtonItem style="plain" systemItem="edit" id="520">
                                         <connections>
@@ -330,19 +327,17 @@
             </connections>
         </viewController>
         <viewController title="Items" id="444" userLabel="Fancy details" customClass="OzyTableViewController">
-            <layoutGuides>
-                <viewControllerLayoutGuide type="top" id="yDP-Zn-w5O"/>
-                <viewControllerLayoutGuide type="bottom" id="SW8-DU-Ys9"/>
-            </layoutGuides>
             <view key="view" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="446">
                 <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 <subviews>
-                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="622">
+                    <view contentMode="scaleToFill" id="622">
                         <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="597">
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="597">
                                 <rect key="frame" x="0.0" y="980" width="768" height="44"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                 <items>
                                     <barButtonItem title="Toggle" id="598">
                                         <connections>
@@ -351,8 +346,9 @@
                                     </barButtonItem>
                                 </items>
                             </toolbar>
-                            <tableView opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" bouncesZoom="NO" style="grouped" separatorStyle="default" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="44" sectionHeaderHeight="24" sectionFooterHeight="27" translatesAutoresizingMaskIntoConstraints="NO" id="447" customClass="OzyTableView">
+                            <tableView opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" bouncesZoom="NO" style="grouped" separatorStyle="default" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="44" sectionHeaderHeight="24" sectionFooterHeight="27" id="447" customClass="OzyTableView">
                                 <rect key="frame" x="0.0" y="0.0" width="768" height="980"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <connections>
                                     <outlet property="dataSource" destination="444" id="449"/>
@@ -380,19 +376,17 @@
             </connections>
         </viewController>
         <viewController title="Details" id="470" userLabel="html details" customClass="OzyWebViewController">
-            <layoutGuides>
-                <viewControllerLayoutGuide type="top" id="jr8-al-ANy"/>
-                <viewControllerLayoutGuide type="bottom" id="qwH-qe-mBy"/>
-            </layoutGuides>
             <view key="view" contentMode="scaleToFill" id="603">
                 <rect key="frame" x="0.0" y="0.0" width="768" height="960"/>
                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 <subviews>
-                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="624">
+                    <view contentMode="scaleToFill" id="624">
                         <rect key="frame" x="0.0" y="0.0" width="768" height="960"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="606">
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="606">
                                 <rect key="frame" x="0.0" y="916" width="768" height="44"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                 <items>
                                     <barButtonItem title="Toggle" id="607">
                                         <connections>
@@ -401,8 +395,9 @@
                                     </barButtonItem>
                                 </items>
                             </toolbar>
-                            <webView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" scalesPageToFit="YES" translatesAutoresizingMaskIntoConstraints="NO" id="604" customClass="OzyWebView">
+                            <webView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scalesPageToFit="YES" id="604" customClass="OzyWebView">
                                 <rect key="frame" x="0.0" y="0.0" width="768" height="916"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <connections>
                                     <outlet property="delegate" destination="14" id="605"/>
@@ -430,19 +425,17 @@
             </connections>
         </viewController>
         <viewController id="267" userLabel="Details controller" customClass="OzyTextViewController">
-            <layoutGuides>
-                <viewControllerLayoutGuide type="top" id="NE5-fZ-sG1"/>
-                <viewControllerLayoutGuide type="bottom" id="zI0-Nc-AeH"/>
-            </layoutGuides>
             <view key="view" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="293">
                 <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 <subviews>
-                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="626">
+                    <view contentMode="scaleToFill" id="626">
                         <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="594">
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="594">
                                 <rect key="frame" x="0.0" y="980" width="768" height="44"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                 <items>
                                     <barButtonItem title="Toggle" id="595">
                                         <connections>
@@ -451,8 +444,9 @@
                                     </barButtonItem>
                                 </items>
                             </toolbar>
-                            <textView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" showsHorizontalScrollIndicator="NO" delaysContentTouches="NO" canCancelContentTouches="NO" bouncesZoom="NO" editable="NO" text="No details available. Most likely, you have changed &quot;Group Items&quot; setting and then restarted when this view was visible." translatesAutoresizingMaskIntoConstraints="NO" id="294" customClass="OzyTextView">
+                            <textView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" delaysContentTouches="NO" canCancelContentTouches="NO" bouncesZoom="NO" editable="NO" text="No details available. Most likely, you have changed &quot;Group Items&quot; setting and then restarted when this view was visible." id="294" customClass="OzyTextView">
                                 <rect key="frame" x="0.0" y="0.0" width="768" height="980"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <fontDescription key="fontDescription" type="system" size="system"/>
                                 <textInputTraits key="textInputTraits"/>
                                 <connections>
@@ -480,19 +474,17 @@
             </connections>
         </viewController>
         <viewController title="File error" id="424" userLabel="Parse error" customClass="OzyTextViewController">
-            <layoutGuides>
-                <viewControllerLayoutGuide type="top" id="pAM-Qn-GBc"/>
-                <viewControllerLayoutGuide type="bottom" id="SrU-DL-SjK"/>
-            </layoutGuides>
             <view key="view" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="425">
                 <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 <subviews>
-                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="628">
+                    <view contentMode="scaleToFill" id="628">
                         <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" showsHorizontalScrollIndicator="NO" delaysContentTouches="NO" canCancelContentTouches="NO" bouncesZoom="NO" editable="NO" text="&lt;error message>" translatesAutoresizingMaskIntoConstraints="NO" id="427">
+                            <textView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" delaysContentTouches="NO" canCancelContentTouches="NO" bouncesZoom="NO" editable="NO" text="&lt;error message&gt;" id="427">
                                 <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <fontDescription key="fontDescription" type="system" size="system"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textView>
@@ -520,8 +512,9 @@
             <rect key="frame" x="0.0" y="0.0" width="768" height="1004"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <activityIndicatorView opaque="NO" clearsContextBeforeDrawing="NO" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="368" userLabel="File parsing">
+                <activityIndicatorView opaque="NO" clearsContextBeforeDrawing="NO" userInteractionEnabled="NO" contentMode="scaleToFill" style="whiteLarge" id="368" userLabel="File parsing">
                     <rect key="frame" x="406" y="463" width="37" height="37"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                 </activityIndicatorView>
             </subviews>
             <color key="backgroundColor" red="0.84239131" green="0.84239131" blue="0.84239131" alpha="1" colorSpace="calibratedRGB"/>
@@ -532,7 +525,7 @@
             <rect key="frame" x="0.0" y="0.0" width="30" height="30"/>
             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
             <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="36"/>
-            <state key="normal" title=">">
+            <state key="normal" title="&gt;">
                 <color key="titleColor" red="0.48913044" green="0.48913044" blue="0.48913044" alpha="0.51999998000000003" colorSpace="calibratedRGB"/>
                 <color key="titleShadowColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
             </state>
