@@ -38,7 +38,8 @@ static CSV_TouchAppDelegate *sharedInstance = nil;
 
 + (BOOL) iPadMode
 {
-	return [[[UIDevice currentDevice] name] hasSubstring:@"iPad"];
+    return ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad);
+//	return [[[UIDevice currentDevice] name] hasSubstring:@"iPad"];
 }
 
 + (NSString *) internalFileNameForOriginalFileName:(NSString *)original
@@ -375,6 +376,7 @@ static NSString *newPassword = nil;
 
 - (void) awakeFromNib
 {
+    [super awakeFromNib];
 	if( [CSV_TouchAppDelegate iPadMode] )
 		[[NSBundle mainBundle] loadNibNamed:@"iPadMainWindow" owner:self options:nil];
 	else 

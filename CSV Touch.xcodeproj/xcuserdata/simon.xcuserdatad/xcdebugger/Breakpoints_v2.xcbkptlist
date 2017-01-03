@@ -10,6 +10,8 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             symbolName = "-[NSException raise]">
+            <Locations>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy

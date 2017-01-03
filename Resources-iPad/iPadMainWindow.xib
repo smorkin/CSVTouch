@@ -1,8 +1,12 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.iPad.XIB" version="3.0" toolsVersion="7531" systemVersion="14D136" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.iPad.XIB" version="3.0" toolsVersion="11542" systemVersion="16B2555" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" colorMatched="YES">
+    <device id="ipad9_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
-        <deployment version="1536" identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7520"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CSV_TouchAppDelegate">
@@ -24,7 +28,7 @@
         <window opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="2">
             <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <nil key="simulatedStatusBarMetrics"/>
         </window>
         <viewController id="371" userLabel="Startup" customClass="OzyRotatableViewController">
@@ -40,11 +44,11 @@
                         <rect key="frame" x="327" y="573" width="187" height="21"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                         <fontDescription key="fontDescription" type="system" size="system"/>
-                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                 </subviews>
-                <color key="backgroundColor" red="0.027173935999999999" green="0.027173935999999999" blue="0.027173935999999999" alpha="1" colorSpace="calibratedRGB"/>
+                <color key="backgroundColor" red="0.027173935999999999" green="0.027173935999999999" blue="0.027173935999999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             </view>
             <extendedEdge key="edgesForExtendedLayout"/>
             <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="blackOpaque"/>
@@ -126,14 +130,14 @@
                                 <rect key="frame" x="25" y="139" width="146" height="17"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </view>
                 </subviews>
-                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             </view>
             <extendedEdge key="edgesForExtendedLayout"/>
             <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="blackOpaque"/>
@@ -153,7 +157,7 @@
                             <tableView opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" bouncesZoom="NO" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="27" sectionFooterHeight="27" id="212">
                                 <rect key="frame" x="10" y="54" width="768" height="980"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <connections>
                                     <outlet property="dataSource" destination="210" id="224"/>
                                     <outlet property="delegate" destination="14" id="225"/>
@@ -179,10 +183,10 @@
                                 </items>
                             </navigationBar>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </view>
                 </subviews>
-                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             </view>
             <extendedEdge key="edgesForExtendedLayout"/>
             <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="blackOpaque"/>
@@ -193,7 +197,7 @@
         </viewController>
         <viewController title="Items" id="226" userLabel="Item controller" customClass="OzyTableViewController">
             <view key="view" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="230">
-                <rect key="frame" x="0.0" y="0.0" width="768" height="960"/>
+                <rect key="frame" x="0.0" y="64" width="768" height="960"/>
                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 <subviews>
                     <view contentMode="scaleToFill" id="618">
@@ -203,7 +207,7 @@
                             <tableView opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" bouncesZoom="NO" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="24" sectionFooterHeight="27" id="231" customClass="OzyTableView">
                                 <rect key="frame" x="0.0" y="0.0" width="768" height="916"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <connections>
                                     <outlet property="dataSource" destination="226" id="235"/>
                                     <outlet property="delegate" destination="14" id="237"/>
@@ -238,10 +242,10 @@
                                 </items>
                             </toolbar>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </view>
                 </subviews>
-                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             </view>
             <extendedEdge key="edgesForExtendedLayout"/>
             <navigationItem key="navigationItem" title="Items" id="273">
@@ -266,7 +270,7 @@
                             <tableView opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" bouncesZoom="NO" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="27" sectionFooterHeight="27" id="254">
                                 <rect key="frame" x="0.0" y="0.0" width="768" height="886"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <connections>
                                     <outlet property="dataSource" destination="227" id="262"/>
                                     <outlet property="delegate" destination="14" id="263"/>
@@ -306,10 +310,10 @@
                                 </items>
                             </toolbar>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </view>
                 </subviews>
-                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             </view>
             <extendedEdge key="edgesForExtendedLayout"/>
             <navigationItem key="navigationItem" title="Files" id="270">
@@ -346,20 +350,20 @@
                                     </barButtonItem>
                                 </items>
                             </toolbar>
-                            <tableView opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" bouncesZoom="NO" style="grouped" separatorStyle="default" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="44" sectionHeaderHeight="24" sectionFooterHeight="27" id="447" customClass="OzyTableView">
+                            <tableView opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" bouncesZoom="NO" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="24" sectionFooterHeight="27" id="447" customClass="OzyTableView">
                                 <rect key="frame" x="0.0" y="0.0" width="768" height="980"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <connections>
                                     <outlet property="dataSource" destination="444" id="449"/>
                                     <outlet property="delegate" destination="14" id="479"/>
                                 </connections>
                             </tableView>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </view>
                 </subviews>
-                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             </view>
             <extendedEdge key="edgesForExtendedLayout"/>
             <navigationItem key="navigationItem" title="Details" id="445">
@@ -377,7 +381,7 @@
         </viewController>
         <viewController title="Details" id="470" userLabel="html details" customClass="OzyWebViewController">
             <view key="view" contentMode="scaleToFill" id="603">
-                <rect key="frame" x="0.0" y="0.0" width="768" height="960"/>
+                <rect key="frame" x="0.0" y="64" width="768" height="960"/>
                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 <subviews>
                     <view contentMode="scaleToFill" id="624">
@@ -398,16 +402,16 @@
                             <webView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scalesPageToFit="YES" id="604" customClass="OzyWebView">
                                 <rect key="frame" x="0.0" y="0.0" width="768" height="916"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <connections>
                                     <outlet property="delegate" destination="14" id="605"/>
                                 </connections>
                             </webView>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </view>
                 </subviews>
-                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             </view>
             <extendedEdge key="edgesForExtendedLayout"/>
             <navigationItem key="navigationItem" title="Details" id="473">
@@ -454,10 +458,10 @@
                                 </connections>
                             </textView>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </view>
                 </subviews>
-                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             </view>
             <extendedEdge key="edgesForExtendedLayout"/>
             <navigationItem key="navigationItem" title="Details" id="283">
@@ -489,10 +493,10 @@
                                 <textInputTraits key="textInputTraits"/>
                             </textView>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </view>
                 </subviews>
-                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             </view>
             <extendedEdge key="edgesForExtendedLayout"/>
             <navigationItem key="navigationItem" title="File Error" id="426">
@@ -517,7 +521,7 @@
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                 </activityIndicatorView>
             </subviews>
-            <color key="backgroundColor" red="0.84239131" green="0.84239131" blue="0.84239131" alpha="1" colorSpace="calibratedRGB"/>
+            <color key="backgroundColor" red="0.84239131" green="0.84239131" blue="0.84239131" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
         </view>
@@ -526,17 +530,17 @@
             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
             <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="36"/>
             <state key="normal" title="&gt;">
-                <color key="titleColor" red="0.48913044" green="0.48913044" blue="0.48913044" alpha="0.51999998000000003" colorSpace="calibratedRGB"/>
-                <color key="titleShadowColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                <color key="titleColor" red="0.48913044" green="0.48913044" blue="0.48913044" alpha="0.51999998000000003" colorSpace="custom" customColorSpace="sRGB"/>
+                <color key="titleShadowColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             </state>
             <state key="disabled" title="⇛">
-                <color key="titleColor" red="0.48913044" green="0.48913044" blue="0.48913044" alpha="0.51999998000000003" colorSpace="calibratedRGB"/>
+                <color key="titleColor" red="0.48913044" green="0.48913044" blue="0.48913044" alpha="0.51999998000000003" colorSpace="custom" customColorSpace="sRGB"/>
             </state>
             <state key="selected" title="⇛">
-                <color key="titleColor" red="0.48913044" green="0.48913044" blue="0.48913044" alpha="0.51999998000000003" colorSpace="calibratedRGB"/>
+                <color key="titleColor" red="0.48913044" green="0.48913044" blue="0.48913044" alpha="0.51999998000000003" colorSpace="custom" customColorSpace="sRGB"/>
             </state>
             <state key="highlighted" title="⇛">
-                <color key="titleColor" red="0.48913044" green="0.48913044" blue="0.48913044" alpha="0.51999998000000003" colorSpace="calibratedRGB"/>
+                <color key="titleColor" red="0.48913044" green="0.48913044" blue="0.48913044" alpha="0.51999998000000003" colorSpace="custom" customColorSpace="sRGB"/>
             </state>
             <connections>
                 <action selector="nextDetailsClicked:" destination="14" eventType="touchUpInside" id="543"/>
@@ -547,17 +551,17 @@
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="36"/>
             <state key="normal" title="&lt;">
-                <color key="titleColor" red="0.48913044" green="0.48913044" blue="0.48913044" alpha="0.51999998000000003" colorSpace="calibratedRGB"/>
-                <color key="titleShadowColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                <color key="titleColor" red="0.48913044" green="0.48913044" blue="0.48913044" alpha="0.51999998000000003" colorSpace="custom" customColorSpace="sRGB"/>
+                <color key="titleShadowColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             </state>
             <state key="disabled" title="⇚">
-                <color key="titleColor" red="0.48913044" green="0.48913044" blue="0.48913044" alpha="0.51999998000000003" colorSpace="calibratedRGB"/>
+                <color key="titleColor" red="0.48913044" green="0.48913044" blue="0.48913044" alpha="0.51999998000000003" colorSpace="custom" customColorSpace="sRGB"/>
             </state>
             <state key="selected" title="⇚">
-                <color key="titleColor" red="0.48913044" green="0.48913044" blue="0.48913044" alpha="0.51999998000000003" colorSpace="calibratedRGB"/>
+                <color key="titleColor" red="0.48913044" green="0.48913044" blue="0.48913044" alpha="0.51999998000000003" colorSpace="custom" customColorSpace="sRGB"/>
             </state>
             <state key="highlighted" title="⇚">
-                <color key="titleColor" red="0.48913044" green="0.48913044" blue="0.48913044" alpha="0.51999998000000003" colorSpace="calibratedRGB"/>
+                <color key="titleColor" red="0.48913044" green="0.48913044" blue="0.48913044" alpha="0.51999998000000003" colorSpace="custom" customColorSpace="sRGB"/>
             </state>
             <connections>
                 <action selector="previousDetailsClicked:" destination="14" eventType="touchUpInside" id="544"/>
