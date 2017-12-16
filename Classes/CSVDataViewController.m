@@ -1230,22 +1230,6 @@ static CSVDataViewController *sharedInstance = nil;
 	selectedDetailsView = (selectedDetailsView+1) % 3;
 }
 
-- (UIBarButtonItem *) refreshFilesItem
-{
-	UIBarButtonItem *button = [[[UIBarButtonItem alloc] initWithTitle:@"Refresh..." style:UIBarButtonItemStylePlain
-                                                               target:self
-                                                               action:@selector(toggleRefreshFiles)] autorelease];
-	return button;
-}
-
-- (UIBarButtonItem *) showFileInfoItem
-{
-	return [[[UIBarButtonItem alloc] initWithTitle:@"Info"
-											 style:UIBarButtonItemStylePlain
-											target:self
-											action:@selector(toggleShowFileInfo:)] autorelease];
-}
-
 - (UIBarButtonItem *) doneItemWithSelector:(SEL)selector
 {
 	return [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone
@@ -1501,67 +1485,6 @@ didSelectRowAtIndexPath:[fileController.tableView indexPathForSelectedRow]];
     }
     
     return NSNotFound;
-}
-
-
-- (void) toggleRefreshFiles
-{
-	if( showingFileInfoInProgress )
-		return;
-	
-	refreshingFilesInProgress = !refreshingFilesInProgress;
-	NSUInteger index = [self indexOfToolbarItemWithSelector:@selector(toggleRefreshFiles)];
-	
-	if( index == NSNotFound )
-		return;
-	
-	if( refreshingFilesInProgress )
-	{
-		fileController.removeDisclosure = YES;
-		NSMutableArray *items = [NSMutableArray arrayWithArray:[self.toolbar items]];
-		[items replaceObjectAtIndex:index
-						 withObject:[self doneItemWithSelector:@selector(toggleRefreshFiles)]];
-		self.toolbar.items = items;
-	}
-	else
-	{
-		fileController.removeDisclosure = NO;
-		NSMutableArray *items = [NSMutableArray arrayWithArray:[self.toolbar items]];
-		[items replaceObjectAtIndex:index withObject:[self refreshFilesItem]];
-		self.toolbar.items = items;
-	}
-	[fileController dataLoaded];
-}
-
-- (IBAction) toggleShowFileInfo:(id)sender
-{
-	if( refreshingFilesInProgress )
-		return;
-	
-	showingFileInfoInProgress = !showingFileInfoInProgress;
-	NSUInteger index = [self indexOfToolbarItemWithSelector:@selector(toggleShowFileInfo:)];
-    
-	if( index == NSNotFound )
-		return;
-    
-	if( showingFileInfoInProgress )
-	{
-		fileController.removeDisclosure = YES;
-		NSMutableArray *items = [NSMutableArray arrayWithArray:[self.toolbar items]];
-		[items replaceObjectAtIndex:index withObject:[self doneItemWithSelector:@selector(toggleShowFileInfo:)]];
-		self.toolbar.items = items;
-		if( [fileController.tableView indexPathForSelectedRow] != nil )
-			[self tableView:fileController.tableView didSelectRowAtIndexPath:
-			 [fileController.tableView indexPathForSelectedRow]];
-	}
-	else
-	{
-		fileController.removeDisclosure = NO;
-		NSMutableArray *items = [NSMutableArray arrayWithArray:[self.toolbar items]];
-		[items replaceObjectAtIndex:index withObject:[self showFileInfoItem]];
-		self.toolbar.items = items;
-	}
-	[fileController dataLoaded];
 }
 
 - (IBAction) nextDetailsClicked:(id)sender

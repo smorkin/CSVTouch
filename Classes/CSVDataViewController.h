@@ -76,8 +76,6 @@ OzyWebViewController;
 	// Weak reference to the latest shown item
 	CSVRow *_latestShownItem;
 	
-	BOOL refreshingFilesInProgress;
-	BOOL showingFileInfoInProgress;
 	BOOL searchInputInProgress;
 	
 	BOOL _showDeletedColumns;
@@ -107,8 +105,6 @@ OzyWebViewController;
 - (IBAction) editColumns:(id)sender;
 - (IBAction) editDone:(id)sender;
 - (IBAction) resetColumnNames:(id)sender;
-- (void) toggleRefreshFiles;
-- (IBAction) toggleShowFileInfo:(id)sender;
 - (IBAction) toggleDetailsView:(id)sender;
 - (IBAction) nextDetailsClicked:(id)sender;
 - (IBAction) previousDetailsClicked:(id)sender;
