@@ -11,6 +11,8 @@
 #import <iAd/iAd.h>
 #endif
 
+#import "FilesViewController.h"
+#import "ParseErrorViewController.h"
 
 @class OzyTableViewController,
 CSVFileParser, 
@@ -24,16 +26,17 @@ OzyWebViewController;
 	IBOutlet OzyTableViewController *fancyDetailsController;
 	IBOutlet OzyWebViewController *htmlDetailsController;
 	IBOutlet OzyTableViewController *itemController;
-	IBOutlet OzyTableViewController *fileController;
-	IBOutlet OzyTextViewController *parseErrorController;
+	IBOutlet FilesViewController *fileController;
+	IBOutlet ParseErrorViewController *parseErrorController;
 	
 	int selectedDetailsView; // 0 = fancy, 1 = web, 2 = simple
 	IBOutlet UIButton *nextDetails;
 	IBOutlet UIButton *previousDetails;
 	
-	CSVFileParser *currentFile;
 	BOOL itemsNeedResorting;
 	BOOL itemsNeedFiltering;
+
+    CSVFileParser *currentFile;
 
 	// Cached data for files
 	NSMutableDictionary *columnNamesForFileName;
@@ -53,7 +56,6 @@ OzyWebViewController;
 	IBOutlet UIBarButtonItem *shrinkItemsButton;
 	IBOutlet UIBarButtonItem *modificationDateButton;
 	IBOutlet UIBarButtonItem *itemsCountButton;
-	IBOutlet UIToolbar *filesToolbar;
 	IBOutlet UIBarButtonItem *filesCountButton;
 	IBOutlet UIToolbar *detailsViewToolbar;
 	IBOutlet UIToolbar *fancyDetailsViewToolbar;
@@ -76,8 +78,6 @@ OzyWebViewController;
 	
 	BOOL refreshingFilesInProgress;
 	BOOL showingFileInfoInProgress;
-	BOOL editFilesInProgress;
-	BOOL showingRawString;
 	BOOL searchInputInProgress;
 	
 	BOOL _showDeletedColumns;
@@ -93,7 +93,6 @@ OzyWebViewController;
 }
 
 @property (nonatomic, readonly) UIToolbar *itemsToolbar;
-@property (nonatomic, readonly) UIToolbar *filesToolbar;
 @property (nonatomic, retain) UISearchBar *searchBar;
 @property (nonatomic, copy) NSURL *leaveAppURL;
 @property (nonatomic, assign) BOOL showDeletedColumns;
@@ -108,12 +107,8 @@ OzyWebViewController;
 - (IBAction) editColumns:(id)sender;
 - (IBAction) editDone:(id)sender;
 - (IBAction) resetColumnNames:(id)sender;
-- (IBAction) toggleEditFiles;
-- (IBAction) toggleRefreshFiles:(id)sender;
-- (IBAction) refreshAllFiles:(id)sender;
-- (IBAction) loadFileList;
+- (void) toggleRefreshFiles;
 - (IBAction) toggleShowFileInfo:(id)sender;
-- (IBAction) toggleShowingRawString:(id)sender;
 - (IBAction) toggleDetailsView:(id)sender;
 - (IBAction) nextDetailsClicked:(id)sender;
 - (IBAction) previousDetailsClicked:(id)sender;
@@ -143,9 +138,13 @@ OzyWebViewController;
 
 - (CSVFileParser *) currentFile;
 - (OzyTableViewController *) fileController;
+- (OzyTableViewController *) itemController;
+- (ParseErrorViewController *) parseErrorController;
 
 // For CSV_TouchAppDelegate
 - (NSUInteger) numberOfFiles;
 - (BOOL) fileExistsWithURL:(NSString *)URL;
+
+- (void) fileWasSelected:(CSVFileParser *)file;
 
 @end

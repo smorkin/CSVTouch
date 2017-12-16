@@ -45,7 +45,6 @@
 @implementation CSVDataViewController
 
 @synthesize itemsToolbar;
-@synthesize filesToolbar;
 @synthesize searchBar = _searchBar;
 @synthesize leaveAppURL;
 @synthesize showDeletedColumns = _showDeletedColumns;
@@ -58,6 +57,16 @@
 - (OzyTableViewController *) fileController
 {
     return fileController;
+}
+
+- (OzyTableViewController *) itemController
+{
+    return itemController;
+}
+
+- (ParseErrorViewController *) parseErrorController
+{
+    return parseErrorController;
 }
 
 - (CSVFileParser *) currentFile
@@ -87,7 +96,7 @@
 
 - (void) refreshObjectsWithResorting:(BOOL)needsResorting
 {
-	NSMutableArray *allObjects = [currentFile itemsWithResetShortdescriptions:needsResorting];
+	NSMutableArray *allObjects = [[self currentFile] itemsWithResetShortdescriptions:needsResorting];
 	NSMutableArray *filteredObjects = [NSMutableArray array];
 	NSMutableArray *workObjects;
 	NSString *searchString = [self.searchBar.text lowercaseString];
@@ -98,7 +107,7 @@
 		[allObjects count] <= [CSVPreferencesController maxNumberOfItemsToSort]) )
 	{
 		[allObjects sortUsingSelector:[CSVRow compareSelector]];
-		currentFile.hasBeenSorted = YES;
+		[self currentFile].hasBeenSorted = YES;
 	}
 	
 	if( searchString && ![searchString isEqualToString:@""] )
@@ -147,7 +156,7 @@
 
 - (void) updateColumnIndexes
 {
-	NSArray *availableColumns = [currentFile availableColumnNames];
+	NSArray *availableColumns = [[self currentFile] availableColumnNames];
 	[importantColumnIndexes removeAllObjects];
 	if( rawColumnIndexes )
 		free(rawColumnIndexes);
@@ -167,9 +176,9 @@
 	NSArray *names = [columnNamesForFileName objectForKey:fileName];
 	if( !names )
 	{
-		NSArray *availableNames = [currentFile availableColumnNames];
+		NSArray *availableNames = [[self currentFile] availableColumnNames];
 		// Do we have any predefined hidden columns?
-		NSIndexSet *hidden = [_preDefinedHiddenColumns objectForKey:[currentFile fileName]];
+		NSIndexSet *hidden = [_preDefinedHiddenColumns objectForKey:[[self currentFile] fileName]];
 		if(hidden &&
 		   [hidden isKindOfClass:[NSIndexSet class]] &&
 		   [hidden count] > 0)
@@ -184,12 +193,12 @@
 		}
 		else
 		{
-			names = [currentFile availableColumnNames];
+			names = [[self currentFile] availableColumnNames];
 		}
-		[_preDefinedHiddenColumns removeObjectForKey:[currentFile fileName]];
-		[columnNamesForFileName setObject:names forKey:[currentFile fileName]];
+		[_preDefinedHiddenColumns removeObjectForKey:[[self currentFile] fileName]];
+		[columnNamesForFileName setObject:names forKey:[[self currentFile] fileName]];
 	}
-    if( [fileName isEqualToString:[currentFile fileName]])
+    if( [fileName isEqualToString:[[self currentFile] fileName]])
     {
         [editController setObjects:[NSMutableArray arrayWithArray:names]];
         [editController dataLoaded];
@@ -199,17 +208,17 @@
 
 - (void) cacheCurrentFileData
 {
-	if( currentFile )
+	if( [self currentFile] )
 	{
 		NSArray *a = [[itemController tableView] indexPathsForVisibleRows];
 		if( [a count] > 0 )
-			[indexPathForFileName setObject:[[a objectAtIndex:0] dictionaryRepresentation] forKey:[currentFile fileName]];
+			[indexPathForFileName setObject:[[a objectAtIndex:0] dictionaryRepresentation] forKey:[[self currentFile] fileName]];
 		else
-			[indexPathForFileName removeObjectForKey:[currentFile fileName]];
+			[indexPathForFileName removeObjectForKey:[[self currentFile] fileName]];
 		if( self.searchBar.text && ![self.searchBar.text isEqualToString:@""] )
-			[searchStringForFileName setObject:self.searchBar.text forKey:[currentFile fileName]];
+			[searchStringForFileName setObject:self.searchBar.text forKey:[[self currentFile] fileName]];
 		else
-			[searchStringForFileName removeObjectForKey:[currentFile fileName]];
+			[searchStringForFileName removeObjectForKey:[[self currentFile] fileName]];
 	}
 }
 
@@ -221,10 +230,10 @@
     
 	[dateFormatter setDateStyle:NSDateFormatterShortStyle];
 	[dateFormatter setTimeStyle:NSDateFormatterNoStyle];
-	date = [dateFormatter stringFromDate:currentFile.downloadDate];
+	date = [dateFormatter stringFromDate:[self currentFile].downloadDate];
 	[dateFormatter setDateStyle:NSDateFormatterNoStyle];
 	[dateFormatter setTimeStyle:NSDateFormatterShortStyle];
-	time = [dateFormatter stringFromDate:currentFile.downloadDate];
+	time = [dateFormatter stringFromDate:[self currentFile].downloadDate];
 	
 	[(UILabel *)modificationDateButton.customView setText:[NSString stringWithFormat:@"%@\n%@",
                                                            date, time]];
@@ -232,42 +241,114 @@
 
 - (BOOL) selectFile:(CSVFileParser *)file
 {
-	// Store current position of itemController and search string
-	[self cacheCurrentFileData];
-	
-	[currentFile release];
-	currentFile = [file retain];
-	[currentFile parseIfNecessary];
-	
-	if( !currentFile.rawString )
-	{
-		return FALSE;
-	}
-	NSString *cachedSearchString = [searchStringForFileName objectForKey:[currentFile fileName]];
-	if( cachedSearchString )
-		self.searchBar.text = cachedSearchString;
-	else
-		self.searchBar.text = @"";
-	[self updateColumnNames:currentFile.fileName];
-	[itemController setTitle:[currentFile defaultTableViewDescription]];
-	[self updateFileModificationDateButton];
-	[self refreshObjectsWithResorting:!currentFile.hasBeenSorted];
-	
-	// Reset last known position of items
-	// First scroll to top, if we don't find any setting
-	[itemController.tableView scrollToTopWithAnimation:NO];
-	NSDictionary *indexPathDictionary = [indexPathForFileName objectForKey:[currentFile fileName]];
-	if( [indexPathDictionary isKindOfClass:[NSDictionary class]] )
-	{
-		NSIndexPath *indexPath = [NSIndexPath indexPathWithDictionary:indexPathDictionary];
-		if( [itemController itemExistsAtIndexPath:indexPath] )
-		{
-			[[itemController tableView] scrollToRowAtIndexPath:indexPath
-											  atScrollPosition:UITableViewScrollPositionTop
-													  animated:NO];
-		}
-	}
-	return TRUE;
+    // Store current position of itemController and search string
+    [self cacheCurrentFileData];
+    
+    [[self currentFile] release];
+    currentFile = [file retain];
+    [[self currentFile] parseIfNecessary];
+    
+    if( !currentFile.rawString )
+    {
+        return FALSE;
+    }
+    NSString *cachedSearchString = [searchStringForFileName objectForKey:[currentFile fileName]];
+    if( cachedSearchString )
+        self.searchBar.text = cachedSearchString;
+    else
+        self.searchBar.text = @"";
+    [self updateColumnNames:currentFile.fileName];
+    [[self itemController] setTitle:[currentFile defaultTableViewDescription]];
+    [self updateFileModificationDateButton];
+    [self refreshObjectsWithResorting:!currentFile.hasBeenSorted];
+    
+    // Reset last known position of items
+    // First scroll to top, if we don't find any setting
+    [itemController.tableView scrollToTopWithAnimation:NO];
+    NSDictionary *indexPathDictionary = [indexPathForFileName objectForKey:[currentFile fileName]];
+    if( [indexPathDictionary isKindOfClass:[NSDictionary class]] )
+    {
+        NSIndexPath *indexPath = [NSIndexPath indexPathWithDictionary:indexPathDictionary];
+        if( [itemController itemExistsAtIndexPath:indexPath] )
+        {
+            [[itemController tableView] scrollToRowAtIndexPath:indexPath
+                                              atScrollPosition:UITableViewScrollPositionTop
+                                                      animated:NO];
+        }
+    }
+    return TRUE;
+}
+
+
+- (void) delayedPushItemController:(CSVFileParser *)selectedFile
+{
+    // Note that the actual animation of the activity view won't stop until this callback is done
+    [[CSV_TouchAppDelegate sharedInstance] slowActivityCompleted];
+    
+    // Don't check if current file == selected file; this will happen very rarely,
+    // and if user has e.g. changed file encoding we need to reparse etc anyways
+    BOOL parsedOK = [self selectFile:selectedFile];
+    
+    if( !parsedOK )
+    {
+        [self parseErrorController].showRawString  = NO;
+        [[[self parseErrorController] textView] setText:[[self currentFile] parseErrorString]];
+        [self pushViewController:[self parseErrorController] animated:YES];
+        return;
+    }
+    
+    [[[self itemController] tableView] deselectRowAtIndexPath:[[[self itemController] tableView] indexPathForSelectedRow]
+                                                                                       animated:NO];
+    [[self itemController] dataLoaded];
+    
+    // Check if there seems to be a problem with the file preventing us from reading it
+    if( [[[self currentFile] itemsWithResetShortdescriptions:NO] count] < 1 ||
+       [[[self currentFile] availableColumnNames] count] == 0 ||
+       ([[[self currentFile] availableColumnNames] count] == 1 && [CSVPreferencesController showDebugInfo]) )
+    {
+        [self parseErrorController].showRawString = NO;
+        [[[self parseErrorController] textView] setText:[[self currentFile] parseErrorString]];
+        [self pushViewController:[self parseErrorController] animated:YES];
+    }
+    else
+    {
+        // We could read the file and will display it, but we should also check if we have any other problems
+        // Check if something seems screwy...
+        if( [importantColumnIndexes count] == 0 && [[self itemController].objects count] > 1 )
+        {
+            UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"No columns to show!"
+                                                             message:@"Probably reason: File refreshed but column names have changed. Please click Edit -> Reset Columns"
+                                                            delegate:[[UIApplication sharedApplication] delegate]
+                                                   cancelButtonTitle:@"OK"
+                                                   otherButtonTitles:nil] autorelease];
+            [alert show];
+        }
+        else if( [CSVPreferencesController showDebugInfo] )
+        {
+            if( [self currentFile].droppedRows > 0 )
+            {
+                UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Dropped Rows!"
+                                                                 message:[NSString stringWithFormat:@"%d rows dropped due to problems reading them. Last dropped row:\n%@",
+                                                                          [self currentFile].droppedRows,
+                                                                          [self currentFile].problematicRow]
+                                                                delegate:[[UIApplication sharedApplication] delegate]
+                                                       cancelButtonTitle:@"OK"
+                                                       otherButtonTitles:nil] autorelease];
+                [alert show];
+            }
+            else if([[[self currentFile] availableColumnNames] count] !=
+                    [[NSSet setWithArray:[[self currentFile] availableColumnNames]] count] )
+            {
+                UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Identical Column Titles!"
+                                                                 message:@"Some of the columns have the same title; this should be changed for correct functionality. Please make sure the first line in the file consists of the column titles."
+                                                                delegate:[[UIApplication sharedApplication] delegate]
+                                                       cancelButtonTitle:@"OK"
+                                                       otherButtonTitles:nil] autorelease];
+                [alert show];
+            }
+        }
+        [self pushViewController:[self itemController] animated:YES];
+    }
 }
 
 - (UIViewController *) currentDetailsController
@@ -304,7 +385,7 @@
 	NSUInteger count = 0;
 	
 	// Details controller will be visible
-	if(push &
+	if(push &&
 	   (item == detailsController.navigationItem ||
 		item == fancyDetailsController.navigationItem ||
 		item == htmlDetailsController.navigationItem))
@@ -332,8 +413,8 @@
 	{
 		NSString *addString = @"";
 		count = [[itemController objects] count];
-		if( count != [[currentFile itemsWithResetShortdescriptions:NO] count] )
-			addString = [NSString stringWithFormat:@"/%lu", (unsigned long)[[currentFile itemsWithResetShortdescriptions:NO] count]];
+		if( count != [[[self currentFile] itemsWithResetShortdescriptions:NO] count] )
+			addString = [NSString stringWithFormat:@"/%lu", (unsigned long)[[[self currentFile] itemsWithResetShortdescriptions:NO] count]];
 		itemsCountButton.title = [NSString stringWithFormat:@"%lu%@", (unsigned long)count, addString];
 	}
 	// File controller will be visible (or parseErrorController involved, in which case always use Files data)
@@ -359,7 +440,7 @@
 	NSMutableArray *items = [item longDescriptionInArrayWithHiddenValues:self.showDeletedColumns];
 	fancyDetailsController.objects = items;
 	fancyDetailsController.removeDisclosure = YES;
-	if( [[currentFile availableColumnNames] count] > [importantColumnIndexes count] )
+	if( [[[self currentFile] availableColumnNames] count] > [importantColumnIndexes count] )
 	{
 		NSArray *sectionStarts = [NSArray arrayWithObjects:
 								  [NSNumber numberWithInt:0],
@@ -655,7 +736,7 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
 	}
 	
 	if( [self topViewController] != fileController )
-		[defaults setObject:[currentFile fileName] forKey:DEFS_CURRENT_FILE];
+		[defaults setObject:[[self currentFile] fileName] forKey:DEFS_CURRENT_FILE];
 	else
 		[defaults removeObjectForKey:DEFS_CURRENT_FILE];
 	
@@ -825,26 +906,6 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
 				[keptItems addObject:item];
 		}
 		[itemsToolbar setItems:keptItems animated:NO];
-		
-		[keptItems removeAllObjects];
-		for( UIBarButtonItem *item in [filesToolbar items] )
-		{
-			if( [CSVPreferencesController lastUsedListURL] )
-			{
-				if([item action] == @selector(refreshAllFiles:))
-					[keptItems addObject:item];
-			}
-			else
-			{
-				if([item action] != @selector(toggleEditFiles) &&
-				   [item action] != @selector(toggleShowFileInfo:))
-					[keptItems addObject:item];
-			}
-		}
-		[filesToolbar setItems:keptItems animated:NO];
-		
-		self.navigationBar.topItem.rightBarButtonItem = nil;
-		fileController.editable = NO;
 	}
 	
 	// Read last state to be able to get back to where we were before quitting last time
@@ -937,6 +998,17 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
 	
 	// Enable/Disable item size buttons
 	[self validateItemSizeButtons];
+}
+
+- (void) fileWasSelected:(CSVFileParser *)file
+{
+    if( !file.hasBeenSorted )
+    {
+        [[CSV_TouchAppDelegate sharedInstance] slowActivityStarted];
+    }
+    [self performSelector:@selector(delayedPushItemController:)
+               withObject:file
+               afterDelay:0];
 }
 
 - (void) modifyItemsTableViewSize:(BOOL)increase
@@ -1078,7 +1150,6 @@ static CSVDataViewController *sharedInstance = nil;
 	[fancyDetailsController release];
 	[htmlDetailsController release];
 	[parseErrorController release];
-	[currentFile release];
 	[columnNamesForFileName release];
 	[indexPathForFileName release];
 	[searchStringForFileName release];
@@ -1107,7 +1178,7 @@ static CSVDataViewController *sharedInstance = nil;
 
 - (void) resetColumnNamesForFile:(NSString *)fileName
 {
-    [columnNamesForFileName removeObjectForKey:[currentFile fileName]];
+    [columnNamesForFileName removeObjectForKey:[[self currentFile] fileName]];
 	[self updateColumnNames:fileName];
 	itemsNeedResorting = YES;
     [self saveColumnNames];
@@ -1115,14 +1186,14 @@ static CSVDataViewController *sharedInstance = nil;
 
 - (IBAction) resetColumnNames:(id)sender
 {
-	[self resetColumnNamesForFile:[currentFile fileName]];
+	[self resetColumnNamesForFile:[[self currentFile] fileName]];
 }
 
 - (void) tableViewContentChanged:(NSNotification *)n
 {
 	if( [n object] == editController )
 	{
-		[columnNamesForFileName setObject:[editController objects] forKey:[currentFile fileName]];
+		[columnNamesForFileName setObject:[editController objects] forKey:[[self currentFile] fileName]];
 		[self updateColumnIndexes];
 		itemsNeedResorting = YES;
         // Fix so that this is remembered even if app is forcefully terminated (DSI bug 2011-07-18)
@@ -1136,116 +1207,6 @@ static CSVDataViewController *sharedInstance = nil;
 			[[NSFileManager defaultManager] removeItemAtPath:[removedFile filePath] error:NULL];
 			[self updateBadgeValueUsingItem:fileController.navigationItem push:YES];
 		}
-	}
-}
-
-+ (NSString *) parseErrorStringForFile:(CSVFileParser *)file
-{
-	NSMutableString *s = [NSMutableString string];
-	
-	// What type of problem?
-	if( file.problematicRow && ![file.problematicRow isEqualToString:@""] )
-	{
-		[s appendFormat:@"Wrong number of objects in row(s). Potentially first problematic row:\n\n%@\n\n", file.problematicRow];
-		if( [CSVPreferencesController keepQuotes] && [file.problematicRow hasSubstring:@"\""])
-			[s appendString:@"Try switching off the \"Keep Quotes\"-setting."];
-	}
-	else if( [file.rawString length] == 0 )
-	{
-		[s appendString:@"Couldn't read the file using the selected encoding."];
-	}
-	else
-	{
-		[s appendFormat:@"Found %lu items in %lu columns, using delimiter '%C'; check \"Data\" preferences.\n\n",
-		 (unsigned long)[[file itemsWithResetShortdescriptions:NO] count],
-		 (unsigned long)[[file availableColumnNames] count],
-		 file.usedDelimiter];
-		[s appendFormat:@"File read when using the selected encoding:\n\n%@", file.rawString];
-	}
-	
-	return s;
-}
-
-- (IBAction) toggleShowingRawString:(id)sender
-{
-	if( showingRawString )
-	{
-		[[parseErrorController textView] setText:[CSVDataViewController parseErrorStringForFile:currentFile]];
-	}
-	else
-	{
-		[[parseErrorController textView] setText:[NSString stringWithFormat:@"File read when using the selected encoding:\n\n%@", currentFile.rawString]];
-	}
-	showingRawString = !showingRawString;
-}
-
-- (void) delayedPushItemController:(CSVFileParser *)selectedFile
-{
-	// Note that the actual animation of the activity view won't stop until this callback is done
-	[[CSV_TouchAppDelegate sharedInstance] slowActivityCompleted];
-	
-    // Don't check if current file == selected file; this will happen very rarely,
-    // and if user has e.g. changed file encoding we need to reparse etc anyways
-    BOOL parsedOK = [self selectFile:selectedFile];
-    
-    if( !parsedOK )
-    {
-        showingRawString = NO;
-        [[parseErrorController textView] setText:[CSVDataViewController parseErrorStringForFile:currentFile]];
-        [self pushViewController:parseErrorController
-                        animated:YES];
-        return;
-    }
-    [[itemController tableView] deselectRowAtIndexPath:[[itemController tableView] indexPathForSelectedRow]
-                                              animated:NO];
-    [itemController dataLoaded];
-
-	// Check if there seems to be a problem with the file preventing us from reading it
-	if( [[currentFile itemsWithResetShortdescriptions:NO] count] < 1 ||
-	   [[currentFile availableColumnNames] count] == 0 ||
-	   ([[currentFile availableColumnNames] count] == 1 && [CSVPreferencesController showDebugInfo]) )
-	{
-		showingRawString = NO;
-		[[parseErrorController textView] setText:[CSVDataViewController parseErrorStringForFile:currentFile]];
-		[self pushViewController:parseErrorController animated:YES];
-	}
-	else
-	{
-		// We could read the file and will display it, but we should also check if we have any other problems
-		// Check if something seems screwy...
-		if( [importantColumnIndexes count] == 0 && [itemController.objects count] > 1 )
-		{
-			UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"No columns to show!"
-															 message:@"Probably reason: File refreshed but column names have changed. Please click Edit -> Reset Columns"
-															delegate:[[UIApplication sharedApplication] delegate]
-												   cancelButtonTitle:@"OK"
-												   otherButtonTitles:nil] autorelease];
-			[alert show];
-		}
-		else if( [CSVPreferencesController showDebugInfo] )
-		{
-			if( currentFile.droppedRows > 0 )
-			{
-				UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Dropped Rows!"
-																 message:[NSString stringWithFormat:@"%d rows dropped due to problems reading them. Last dropped row:\n%@",
-																		  currentFile.droppedRows, currentFile.problematicRow]
-																delegate:[[UIApplication sharedApplication] delegate]
-													   cancelButtonTitle:@"OK"
-													   otherButtonTitles:nil] autorelease];
-				[alert show];
-			}
-			else if([[currentFile availableColumnNames] count] !=
-					[[NSSet setWithArray:[currentFile availableColumnNames]] count] )
-			{
-				UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Identical Column Titles!"
-																 message:@"Some of the columns have the same title; this should be changed for correct functionality. Please make sure the first line in the file consists of the column titles."
-																delegate:[[UIApplication sharedApplication] delegate]
-													   cancelButtonTitle:@"OK"
-													   otherButtonTitles:nil] autorelease];
-				[alert show];
-			}
-		}
-		[self pushViewController:itemController animated:YES];
 	}
 }
 
@@ -1271,27 +1232,18 @@ static CSVDataViewController *sharedInstance = nil;
 
 - (UIBarButtonItem *) refreshFilesItem
 {
-	UIBarButtonItem *button = [[[UIBarButtonItem alloc] initWithTitle:@"Refresh..." style:UIBarButtonItemStyleBordered
+	UIBarButtonItem *button = [[[UIBarButtonItem alloc] initWithTitle:@"Refresh..." style:UIBarButtonItemStylePlain
                                                                target:self
-                                                               action:@selector(toggleRefreshFiles:)] autorelease];
-	button.style = UIBarButtonItemStyleBordered;
+                                                               action:@selector(toggleRefreshFiles)] autorelease];
 	return button;
 }
 
 - (UIBarButtonItem *) showFileInfoItem
 {
 	return [[[UIBarButtonItem alloc] initWithTitle:@"Info"
-											 style:UIBarButtonItemStyleBordered
+											 style:UIBarButtonItemStylePlain
 											target:self
 											action:@selector(toggleShowFileInfo:)] autorelease];
-}
-
-- (UIBarButtonItem *) editFilesItem
-{
-	return [[[UIBarButtonItem alloc] initWithTitle:@"Edit"
-											 style:UIBarButtonItemStyleBordered
-											target:self
-											action:@selector(toggleEditFiles)] autorelease];
 }
 
 - (UIBarButtonItem *) doneItemWithSelector:(SEL)selector
@@ -1370,7 +1322,7 @@ static CSVDataViewController *sharedInstance = nil;
 
 - (void)searchBar:(UISearchBar *)modifiedSearchBar textDidChange:(NSString *)searchText
 {
-	if( [[currentFile itemsWithResetShortdescriptions:NO] count] < [CSVPreferencesController maxNumberOfItemsToLiveFilter] )
+	if( [[[self currentFile] itemsWithResetShortdescriptions:NO] count] < [CSVPreferencesController maxNumberOfItemsToLiveFilter] )
 		[self refreshObjectsWithResorting:NO];
 	else
 		itemsNeedFiltering = YES;
@@ -1406,29 +1358,6 @@ static CSVDataViewController *sharedInstance = nil;
 		[self selectDetailsForRow:[itemController indexForObjectAtIndexPath:indexPath]];
 		[self pushViewController:[self currentDetailsController] animated:YES];
 	}
-	else if( tableView == [fileController tableView] )
-	{
-		if( refreshingFilesInProgress )
-		{
-			[[CSV_TouchAppDelegate sharedInstance] downloadFileWithString:[(CSVFileParser *)[[fileController objects] objectAtIndex:indexPath.row] URL]];
-		}
-		else if( showingFileInfoInProgress )
-		{
-			[[CSV_TouchAppDelegate sharedInstance] showFileInfo:(CSVFileParser *)[[fileController objects] objectAtIndex:indexPath.row]];
-		}
-		else
-		{
-			CSVFileParser *selectedFile = [[fileController objects] objectAtIndex:indexPath.row];
-			
-			if( selectedFile != currentFile && !selectedFile.hasBeenSorted )
-			{
-				[[CSV_TouchAppDelegate sharedInstance] slowActivityStarted];
-			}
-			[self performSelector:@selector(delayedPushItemController:)
-					   withObject:selectedFile
-					   afterDelay:0];
-		}
-	}
 	else if( tableView == [fancyDetailsController tableView] )
 	{
 		NSArray *words = [[fancyDetailsController.objects objectAtIndex:
@@ -1452,7 +1381,7 @@ static CSVDataViewController *sharedInstance = nil;
 		self.searchBar.text = @"";
 		CSVRow *selectedItem = [[itemController objects] objectAtIndex:[itemController indexForObjectAtIndexPath:indexPath]];
 		[self refreshObjectsWithResorting:NO];
-		NSUInteger newPosition = [[currentFile itemsWithResetShortdescriptions:NO] indexOfObject:selectedItem];
+		NSUInteger newPosition = [[[self currentFile] itemsWithResetShortdescriptions:NO] indexOfObject:selectedItem];
 		if( newPosition != NSNotFound )
 		{
 			NSIndexPath *newPath = [itemController indexPathForObjectAtIndex:newPosition];
@@ -1525,7 +1454,7 @@ didSelectRowAtIndexPath:[fileController.tableView indexPathForSelectedRow]];
 {
 	for( CSVFileParser *fileParser in [fileController objects] )
 		fileParser.hasBeenParsed = NO;
-	[self updateColumnNames:currentFile.fileName];
+	[self updateColumnNames:[self currentFile].fileName];
 	[self refreshObjectsWithResorting:YES];
 	[self updateBadgeValueUsingItem:[self topViewController].navigationItem push:YES];
 }
@@ -1561,26 +1490,27 @@ didSelectRowAtIndexPath:[fileController.tableView indexPathForSelectedRow]];
 		[self updateBadgeValueUsingItem:fileController.navigationItem push:YES];
 }
 
-- (NSUInteger) indexOfFilesToolbarItemWithSelector:(SEL)selector
+- (NSUInteger) indexOfToolbarItemWithSelector:(SEL)selector
 {
-	NSUInteger index = 0;
-	for( UIBarButtonItem *item in [self.filesToolbar items] )
-	{
-		if( item.action == selector )
-			return index;
-		index++;
-	}
-	
-	return NSNotFound;
+    NSUInteger index = 0;
+    for( UIBarButtonItem *item in [self.toolbar items] )
+    {
+        if( item.action == selector )
+            return index;
+        index++;
+    }
+    
+    return NSNotFound;
 }
 
-- (IBAction) toggleRefreshFiles:(id)sender
+
+- (void) toggleRefreshFiles
 {
-	if( showingFileInfoInProgress || editFilesInProgress )
+	if( showingFileInfoInProgress )
 		return;
 	
 	refreshingFilesInProgress = !refreshingFilesInProgress;
-	NSUInteger index = [self indexOfFilesToolbarItemWithSelector:@selector(toggleRefreshFiles:)];
+	NSUInteger index = [self indexOfToolbarItemWithSelector:@selector(toggleRefreshFiles)];
 	
 	if( index == NSNotFound )
 		return;
@@ -1588,38 +1518,28 @@ didSelectRowAtIndexPath:[fileController.tableView indexPathForSelectedRow]];
 	if( refreshingFilesInProgress )
 	{
 		fileController.removeDisclosure = YES;
-		NSMutableArray *items = [NSMutableArray arrayWithArray:[self.filesToolbar items]];
+		NSMutableArray *items = [NSMutableArray arrayWithArray:[self.toolbar items]];
 		[items replaceObjectAtIndex:index
-						 withObject:[self doneItemWithSelector:@selector(toggleRefreshFiles:)]];
-		self.filesToolbar.items = items;
+						 withObject:[self doneItemWithSelector:@selector(toggleRefreshFiles)]];
+		self.toolbar.items = items;
 	}
 	else
 	{
 		fileController.removeDisclosure = NO;
-		NSMutableArray *items = [NSMutableArray arrayWithArray:[self.filesToolbar items]];
+		NSMutableArray *items = [NSMutableArray arrayWithArray:[self.toolbar items]];
 		[items replaceObjectAtIndex:index withObject:[self refreshFilesItem]];
-		self.filesToolbar.items = items;
+		self.toolbar.items = items;
 	}
 	[fileController dataLoaded];
 }
 
-- (IBAction) refreshAllFiles:(id)sender
-{
-	[[CSV_TouchAppDelegate sharedInstance] reloadAllFiles];
-}
-
-- (IBAction) loadFileList
-{
-	[[CSV_TouchAppDelegate sharedInstance] loadFileList];
-}
-
 - (IBAction) toggleShowFileInfo:(id)sender
 {
-	if( editFilesInProgress || refreshingFilesInProgress )
+	if( refreshingFilesInProgress )
 		return;
 	
 	showingFileInfoInProgress = !showingFileInfoInProgress;
-	NSUInteger index = [self indexOfFilesToolbarItemWithSelector:@selector(toggleShowFileInfo:)];
+	NSUInteger index = [self indexOfToolbarItemWithSelector:@selector(toggleShowFileInfo:)];
     
 	if( index == NSNotFound )
 		return;
@@ -1627,9 +1547,9 @@ didSelectRowAtIndexPath:[fileController.tableView indexPathForSelectedRow]];
 	if( showingFileInfoInProgress )
 	{
 		fileController.removeDisclosure = YES;
-		NSMutableArray *items = [NSMutableArray arrayWithArray:[self.filesToolbar items]];
+		NSMutableArray *items = [NSMutableArray arrayWithArray:[self.toolbar items]];
 		[items replaceObjectAtIndex:index withObject:[self doneItemWithSelector:@selector(toggleShowFileInfo:)]];
-		self.filesToolbar.items = items;
+		self.toolbar.items = items;
 		if( [fileController.tableView indexPathForSelectedRow] != nil )
 			[self tableView:fileController.tableView didSelectRowAtIndexPath:
 			 [fileController.tableView indexPathForSelectedRow]];
@@ -1637,33 +1557,11 @@ didSelectRowAtIndexPath:[fileController.tableView indexPathForSelectedRow]];
 	else
 	{
 		fileController.removeDisclosure = NO;
-		NSMutableArray *items = [NSMutableArray arrayWithArray:[self.filesToolbar items]];
+		NSMutableArray *items = [NSMutableArray arrayWithArray:[self.toolbar items]];
 		[items replaceObjectAtIndex:index withObject:[self showFileInfoItem]];
-		self.filesToolbar.items = items;
+		self.toolbar.items = items;
 	}
 	[fileController dataLoaded];
-}
-
-- (IBAction) toggleEditFiles
-{
-	if( showingFileInfoInProgress || refreshingFilesInProgress )
-		return;
-	
-	editFilesInProgress = !editFilesInProgress;
-	if( editFilesInProgress )
-	{
-		NSMutableArray *items = [NSMutableArray arrayWithArray:[self.filesToolbar items]];
-		[items replaceObjectAtIndex:0 withObject:[self doneItemWithSelector:@selector(toggleEditFiles)]];
-		self.filesToolbar.items = items;
-		[[fileController tableView] setEditing:YES animated:YES];
-	}
-	else
-	{
-		NSMutableArray *items = [NSMutableArray arrayWithArray:[self.filesToolbar items]];
-		[items replaceObjectAtIndex:0 withObject:[self editFilesItem]];
-		self.filesToolbar.items = items;
-		[[fileController tableView] setEditing:NO animated:YES];
-	}
 }
 
 - (IBAction) nextDetailsClicked:(id)sender
@@ -1765,7 +1663,7 @@ didSelectRowAtIndexPath:[fileController.tableView indexPathForSelectedRow]];
     return YES;
 }
 
-- (NSUInteger)supportedInterfaceOrientations
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations
 {
     return UIInterfaceOrientationMaskAll;
 }

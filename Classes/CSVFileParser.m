@@ -451,6 +451,34 @@
 	[d writeToFile:self.filePath atomically:YES];
 }
 
+- (NSString *) parseErrorString
+{
+    NSMutableString *s = [NSMutableString string];
+    
+    // What type of problem?
+    if( self.problematicRow && ![self.problematicRow isEqualToString:@""] )
+    {
+        [s appendFormat:@"Wrong number of objects in row(s). Potentially first problematic row:\n\n%@\n\n", self.problematicRow];
+        if( [CSVPreferencesController keepQuotes] && [self.problematicRow hasSubstring:@"\""])
+            [s appendString:@"Try switching off the \"Keep Quotes\"-setting."];
+    }
+    else if( [self.rawString length] == 0 )
+    {
+        [s appendString:@"Couldn't read the file using the selected encoding."];
+    }
+    else
+    {
+        [s appendFormat:@"Found %lu items in %lu columns, using delimiter '%C'; check \"Data\" preferences.\n\n",
+         (unsigned long)[[self itemsWithResetShortdescriptions:NO] count],
+         (unsigned long)[[self availableColumnNames] count],
+         self.usedDelimiter];
+        [s appendFormat:@"File read when using the selected encoding:\n\n%@", self.rawString];
+    }
+    
+    return s;
+}
+
+
 @end
 
 @implementation CSVFileParser (OzyTableViewProtocol)

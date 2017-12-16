@@ -24,6 +24,12 @@
 		F458080C11466F1600A4C4E1 /* seaglass.css in Resources */ = {isa = PBXBuildFile; fileRef = F458080911466F1600A4C4E1 /* seaglass.css */; };
 		F458080D11466F1600A4C4E1 /* seaglass.css in Resources */ = {isa = PBXBuildFile; fileRef = F458080911466F1600A4C4E1 /* seaglass.css */; };
 		F45B64B6127E039A00E02CE3 /* iAd.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F45B64B5127E039A00E02CE3 /* iAd.framework */; };
+		F46CA0CC1FE56DEC00FE645C /* FilesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F46CA0CB1FE56DEC00FE645C /* FilesViewController.m */; };
+		F46CA0CD1FE56DEC00FE645C /* FilesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F46CA0CB1FE56DEC00FE645C /* FilesViewController.m */; };
+		F46CA0D01FE5960700FE645C /* ItemsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F46CA0CF1FE5960700FE645C /* ItemsViewController.m */; };
+		F46CA0D11FE5960700FE645C /* ItemsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F46CA0CF1FE5960700FE645C /* ItemsViewController.m */; };
+		F46CA0D41FE59A4900FE645C /* ParseErrorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F46CA0D31FE59A4900FE645C /* ParseErrorViewController.m */; };
+		F46CA0D51FE59A4900FE645C /* ParseErrorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F46CA0D31FE59A4900FE645C /* ParseErrorViewController.m */; };
 		F46D894511725CFA00D45EEA /* OzyWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F46D894411725CFA00D45EEA /* OzyWebViewController.m */; };
 		F46D894611725CFA00D45EEA /* OzyWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F46D894411725CFA00D45EEA /* OzyWebViewController.m */; };
 		F47DC7EA1111004C00E8DD8B /* col.png in Resources */ = {isa = PBXBuildFile; fileRef = F473432C0E2A90B20072F3DE /* col.png */; };
@@ -224,6 +230,12 @@
 		F45807FC11466E9400A4C4E1 /* nksTablegallery.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = nksTablegallery.css; sourceTree = "<group>"; };
 		F458080911466F1600A4C4E1 /* seaglass.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = seaglass.css; sourceTree = "<group>"; };
 		F45B64B5127E039A00E02CE3 /* iAd.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iAd.framework; path = System/Library/Frameworks/iAd.framework; sourceTree = SDKROOT; };
+		F46CA0CA1FE56DEC00FE645C /* FilesViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FilesViewController.h; sourceTree = "<group>"; };
+		F46CA0CB1FE56DEC00FE645C /* FilesViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FilesViewController.m; sourceTree = "<group>"; };
+		F46CA0CE1FE5960700FE645C /* ItemsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ItemsViewController.h; sourceTree = "<group>"; };
+		F46CA0CF1FE5960700FE645C /* ItemsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ItemsViewController.m; sourceTree = "<group>"; };
+		F46CA0D21FE59A4900FE645C /* ParseErrorViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ParseErrorViewController.h; sourceTree = "<group>"; };
+		F46CA0D31FE59A4900FE645C /* ParseErrorViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ParseErrorViewController.m; sourceTree = "<group>"; };
 		F46D894311725CFA00D45EEA /* OzyWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OzyWebViewController.h; sourceTree = "<group>"; };
 		F46D894411725CFA00D45EEA /* OzyWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OzyWebViewController.m; sourceTree = "<group>"; };
 		F473432C0E2A90B20072F3DE /* col.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = col.png; path = ../col.png; sourceTree = "<group>"; };
@@ -371,6 +383,12 @@
 				F4C2E44418CE0CE9004E49E5 /* HowToController.xib */,
 				F4C5C12E18D4817C00B73144 /* IntroViewController.h */,
 				F4C5C12F18D4817C00B73144 /* IntroViewController.m */,
+				F46CA0CA1FE56DEC00FE645C /* FilesViewController.h */,
+				F46CA0CB1FE56DEC00FE645C /* FilesViewController.m */,
+				F46CA0CE1FE5960700FE645C /* ItemsViewController.h */,
+				F46CA0CF1FE5960700FE645C /* ItemsViewController.m */,
+				F46CA0D21FE59A4900FE645C /* ParseErrorViewController.h */,
+				F46CA0D31FE59A4900FE645C /* ParseErrorViewController.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -823,10 +841,13 @@
 				F47DC7FD1111004C00E8DD8B /* OzyRotatableViewController.m in Sources */,
 				F47DC7FE1111004C00E8DD8B /* OzyRotatableTabBarController.m in Sources */,
 				F47DC7FF1111004C00E8DD8B /* OzyTextViewController.m in Sources */,
+				F46CA0D41FE59A4900FE645C /* ParseErrorViewController.m in Sources */,
 				F47DC8001111004C00E8DD8B /* CSVPreferencesController.m in Sources */,
 				F47DC8011111004C00E8DD8B /* OzymandiasAdditions.m in Sources */,
 				F47DC8021111004C00E8DD8B /* parseCSV.m in Sources */,
+				F46CA0CC1FE56DEC00FE645C /* FilesViewController.m in Sources */,
 				F46D894511725CFA00D45EEA /* OzyWebViewController.m in Sources */,
+				F46CA0D01FE5960700FE645C /* ItemsViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -847,10 +868,13 @@
 				F47DC82A1111005400E8DD8B /* OzyTextViewController.m in Sources */,
 				F47DC82B1111005400E8DD8B /* OzymandiasAdditions.m in Sources */,
 				F47DC82C1111005400E8DD8B /* parseCSV.m in Sources */,
+				F46CA0D51FE59A4900FE645C /* ParseErrorViewController.m in Sources */,
 				F47DC82D1111005400E8DD8B /* csv.c in Sources */,
 				F47DC82E1111005400E8DD8B /* msgno.c in Sources */,
 				F47DC82F1111005400E8DD8B /* main.m in Sources */,
+				F46CA0CD1FE56DEC00FE645C /* FilesViewController.m in Sources */,
 				F46D894611725CFA00D45EEA /* OzyWebViewController.m in Sources */,
+				F46CA0D11FE5960700FE645C /* ItemsViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

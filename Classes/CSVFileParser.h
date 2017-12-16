@@ -60,10 +60,14 @@
 
 - (unichar) delimiter;
 
+- (NSString *) parseErrorString;
+
+
 @end
 
 @interface CSVFileParser (OzyTableViewProtocol) <OzyTableViewObject>
 - (NSString *) defaultTableViewDescription;
+- (NSComparisonResult) compareFileName:(CSVFileParser *)fp;
 @end
 
 @interface CSVFileParser (Preferences)

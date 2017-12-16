@@ -38,7 +38,7 @@
         CGRect frame = bar.frame;
         frame.origin.y += 20;
         bar.frame = frame;
-        UIBarButtonItem *button = [[[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStyleBordered
+        UIBarButtonItem *button = [[[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStylePlain
                                                                    target:self
                                                                    action:@selector(dismissHowToController)] autorelease];
         bar.items = [NSArray arrayWithObject:button];

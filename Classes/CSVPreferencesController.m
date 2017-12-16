@@ -332,9 +332,9 @@ BOOL reverseItemSorting = FALSE;
 		{
 			NSDate *now = [NSDate date];
 			NSCalendar *current = [NSCalendar currentCalendar];
-			NSDateComponents *components = [current components:NSYearCalendarUnit |
-											NSMonthCalendarUnit |
-											NSDayCalendarUnit
+			NSDateComponents *components = [current components:NSCalendarUnitYear |
+											NSCalendarUnitMonth |
+											NSCalendarUnitDay
 													  fromDate:now];
 			[components setHour:[[split objectAtIndex:0] intValue]];
 			[components setMinute:[[split objectAtIndex:1] intValue]];
