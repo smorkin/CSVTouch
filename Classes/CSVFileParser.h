@@ -62,6 +62,8 @@
 
 - (NSString *) parseErrorString;
 
++ (NSArray *) allowedFileEncodings; // NSUIntegers
++ (NSArray *) allowedFileEncodingNames;
 
 @end
 

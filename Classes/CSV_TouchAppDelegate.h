@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "OzymandiasAdditions.h"
 #import "IntroViewController.h"
+#import "FileDataViewController.h"
 
 @class OzyRotatableViewController, CSVFileParser, CSVDataViewController;
 
@@ -31,7 +32,7 @@ OzymandiasApplicationDelegate>
 	IBOutlet UIActivityIndicatorView *startupActivityView;
 	
 	// File information / Downloading new file
-	IBOutlet OzyRotatableViewController *fileViewController;
+	IBOutlet FileDataViewController *fileViewController;
 	IBOutlet UITextField *newFileURL;
 	IBOutlet UITextView *fileInfo;
     IBOutlet UISegmentedControl *fileEncodingSegment;
@@ -63,7 +64,6 @@ OzymandiasApplicationDelegate>
 @property (nonatomic, retain) NSMutableData *rawData;
 @property (nonatomic, retain) NSURLConnection *connection;
 @property (nonatomic, retain, readonly) UIToolbar *downloadToolbar;
-@property (nonatomic, assign) BOOL hasConfiguredFileEncodings;
 
 - (IBAction) downloadNewFile:(id)sender;
 - (IBAction) doDownloadNewFile:(id)sender;

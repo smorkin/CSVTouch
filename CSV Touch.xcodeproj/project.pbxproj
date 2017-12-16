@@ -30,6 +30,10 @@
 		F46CA0D11FE5960700FE645C /* ItemsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F46CA0CF1FE5960700FE645C /* ItemsViewController.m */; };
 		F46CA0D41FE59A4900FE645C /* ParseErrorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F46CA0D31FE59A4900FE645C /* ParseErrorViewController.m */; };
 		F46CA0D51FE59A4900FE645C /* ParseErrorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F46CA0D31FE59A4900FE645C /* ParseErrorViewController.m */; };
+		F46CA0D81FE5AEAA00FE645C /* FileDataViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F46CA0D71FE5AEAA00FE645C /* FileDataViewController.m */; };
+		F46CA0D91FE5AEAA00FE645C /* FileDataViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F46CA0D71FE5AEAA00FE645C /* FileDataViewController.m */; };
+		F46CA0DC1FE5B1AB00FE645C /* FileDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = F46CA0DB1FE5B1AB00FE645C /* FileDownloader.m */; };
+		F46CA0DD1FE5B1AB00FE645C /* FileDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = F46CA0DB1FE5B1AB00FE645C /* FileDownloader.m */; };
 		F46D894511725CFA00D45EEA /* OzyWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F46D894411725CFA00D45EEA /* OzyWebViewController.m */; };
 		F46D894611725CFA00D45EEA /* OzyWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F46D894411725CFA00D45EEA /* OzyWebViewController.m */; };
 		F47DC7EA1111004C00E8DD8B /* col.png in Resources */ = {isa = PBXBuildFile; fileRef = F473432C0E2A90B20072F3DE /* col.png */; };
@@ -236,6 +240,10 @@
 		F46CA0CF1FE5960700FE645C /* ItemsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ItemsViewController.m; sourceTree = "<group>"; };
 		F46CA0D21FE59A4900FE645C /* ParseErrorViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ParseErrorViewController.h; sourceTree = "<group>"; };
 		F46CA0D31FE59A4900FE645C /* ParseErrorViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ParseErrorViewController.m; sourceTree = "<group>"; };
+		F46CA0D61FE5AEAA00FE645C /* FileDataViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FileDataViewController.h; sourceTree = "<group>"; };
+		F46CA0D71FE5AEAA00FE645C /* FileDataViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FileDataViewController.m; sourceTree = "<group>"; };
+		F46CA0DA1FE5B1AB00FE645C /* FileDownloader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FileDownloader.h; sourceTree = "<group>"; };
+		F46CA0DB1FE5B1AB00FE645C /* FileDownloader.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FileDownloader.m; sourceTree = "<group>"; };
 		F46D894311725CFA00D45EEA /* OzyWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OzyWebViewController.h; sourceTree = "<group>"; };
 		F46D894411725CFA00D45EEA /* OzyWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OzyWebViewController.m; sourceTree = "<group>"; };
 		F473432C0E2A90B20072F3DE /* col.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = col.png; path = ../col.png; sourceTree = "<group>"; };
@@ -389,6 +397,10 @@
 				F46CA0CF1FE5960700FE645C /* ItemsViewController.m */,
 				F46CA0D21FE59A4900FE645C /* ParseErrorViewController.h */,
 				F46CA0D31FE59A4900FE645C /* ParseErrorViewController.m */,
+				F46CA0D61FE5AEAA00FE645C /* FileDataViewController.h */,
+				F46CA0D71FE5AEAA00FE645C /* FileDataViewController.m */,
+				F46CA0DA1FE5B1AB00FE645C /* FileDownloader.h */,
+				F46CA0DB1FE5B1AB00FE645C /* FileDownloader.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -836,6 +848,7 @@
 				F47DC7F91111004C00E8DD8B /* msgno.c in Sources */,
 				F4C5C13018D4817C00B73144 /* IntroViewController.m in Sources */,
 				F47DC7FA1111004C00E8DD8B /* CSVDataViewController.m in Sources */,
+				F46CA0DC1FE5B1AB00FE645C /* FileDownloader.m in Sources */,
 				F47DC7FB1111004C00E8DD8B /* CSVRow.m in Sources */,
 				F47DC7FC1111004C00E8DD8B /* CSVFileParser.m in Sources */,
 				F47DC7FD1111004C00E8DD8B /* OzyRotatableViewController.m in Sources */,
@@ -843,6 +856,7 @@
 				F47DC7FF1111004C00E8DD8B /* OzyTextViewController.m in Sources */,
 				F46CA0D41FE59A4900FE645C /* ParseErrorViewController.m in Sources */,
 				F47DC8001111004C00E8DD8B /* CSVPreferencesController.m in Sources */,
+				F46CA0D81FE5AEAA00FE645C /* FileDataViewController.m in Sources */,
 				F47DC8011111004C00E8DD8B /* OzymandiasAdditions.m in Sources */,
 				F47DC8021111004C00E8DD8B /* parseCSV.m in Sources */,
 				F46CA0CC1FE56DEC00FE645C /* FilesViewController.m in Sources */,
@@ -863,6 +877,7 @@
 				F47DC8261111005400E8DD8B /* CSVFileParser.m in Sources */,
 				F4C5C13118D4817C00B73144 /* IntroViewController.m in Sources */,
 				F47DC8271111005400E8DD8B /* OzyTableViewController.m in Sources */,
+				F46CA0DD1FE5B1AB00FE645C /* FileDownloader.m in Sources */,
 				F47DC8281111005400E8DD8B /* OzyRotatableViewController.m in Sources */,
 				F47DC8291111005400E8DD8B /* OzyRotatableTabBarController.m in Sources */,
 				F47DC82A1111005400E8DD8B /* OzyTextViewController.m in Sources */,
@@ -870,6 +885,7 @@
 				F47DC82C1111005400E8DD8B /* parseCSV.m in Sources */,
 				F46CA0D51FE59A4900FE645C /* ParseErrorViewController.m in Sources */,
 				F47DC82D1111005400E8DD8B /* csv.c in Sources */,
+				F46CA0D91FE5AEAA00FE645C /* FileDataViewController.m in Sources */,
 				F47DC82E1111005400E8DD8B /* msgno.c in Sources */,
 				F47DC82F1111005400E8DD8B /* main.m in Sources */,
 				F46CA0CD1FE56DEC00FE645C /* FilesViewController.m in Sources */,

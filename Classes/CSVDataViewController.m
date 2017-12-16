@@ -291,7 +291,6 @@
     
     if( !parsedOK )
     {
-        [self parseErrorController].showRawString  = NO;
         [[[self parseErrorController] textView] setText:[[self currentFile] parseErrorString]];
         [self pushViewController:[self parseErrorController] animated:YES];
         return;
@@ -306,7 +305,6 @@
        [[[self currentFile] availableColumnNames] count] == 0 ||
        ([[[self currentFile] availableColumnNames] count] == 1 && [CSVPreferencesController showDebugInfo]) )
     {
-        [self parseErrorController].showRawString = NO;
         [[[self parseErrorController] textView] setText:[[self currentFile] parseErrorString]];
         [self pushViewController:[self parseErrorController] animated:YES];
     }

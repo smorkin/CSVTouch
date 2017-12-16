@@ -39,6 +39,19 @@
 @synthesize iconIndex = _iconIndex;
 @synthesize hideAddress = _hideAddress;
 
+static NSMutableDictionary *encodingForFileName;
+static NSArray *_allowedEncodings = nil;
+static NSArray *_allowedEncodingNames = nil;
+
++ (NSArray *) allowedFileEncodings
+{
+    return _allowedEncodings;
+}
++ (NSArray *) allowedFileEncodingNames
+{
+    return _allowedEncodingNames;
+}
+
 - (void) loadFile
 {
 	NSDictionary *d = [NSDictionary dictionaryWithContentsOfFile:self.filePath];
@@ -533,8 +546,6 @@
 
 @implementation CSVFileParser (Preferences)
 
-static NSMutableDictionary *encodingForFileName;
-
 + (void) initialize
 {
     if( self == [CSVFileParser class])
@@ -549,6 +560,12 @@ static NSMutableDictionary *encodingForFileName;
         {
             encodingForFileName = [[NSMutableDictionary alloc] init];
         }
+        _allowedEncodings = [[NSArray arrayWithObjects:[NSNumber numberWithUnsignedInteger:DEFAULT_ENCODING],
+                             [NSNumber numberWithUnsignedInteger:NSUTF8StringEncoding],
+                             [NSNumber numberWithUnsignedInteger:NSUnicodeStringEncoding],
+                             [NSNumber numberWithUnsignedInteger:NSISOLatin1StringEncoding],
+                             [NSNumber numberWithUnsignedInteger:NSMacOSRomanStringEncoding], nil] retain];
+        _allowedEncodingNames = [[NSArray arrayWithObjects:@"<default>", @"UTF8", @"Unicode", @"Latin1", @"Mac", nil] retain];
     }
 }
 

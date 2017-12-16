@@ -10,10 +10,4 @@
 
 @interface ParseErrorViewController : OzyTextViewController
 
-@property (assign) BOOL showRawString;;
-
-- (IBAction) toggleShowingRawString;
-
-- (void) setFile:(CSVFileParser *)file;
-
 @end

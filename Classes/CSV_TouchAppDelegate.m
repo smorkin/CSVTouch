@@ -14,10 +14,10 @@
 #import "CSVRow.h"
 #import "CSVFileParser.h"
 #import "csv.h"
+#import "FileDownloader.h"
 
 #define SELECTED_TAB_BAR_INDEX @"selectedTabBarIndex"
 #define FILE_PASSWORD @"filePassword"
-#define MANUALLY_ADDED_URL_VALUE @""
 #define INTERNAL_EXTENSION @".csvtouch"
 
 #define HOW_TO_PAGES 7
@@ -620,7 +620,7 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 
 - (void) showFileInfo:(CSVFileParser *)fp
 {
-    [self configureFileEncodings];
+//    [self configureFileEncodings];
     
 	self.fileInspected = fp;
 	
@@ -955,16 +955,6 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 
 @implementation CSV_TouchAppDelegate (FileEncoding)
 
-static NSUInteger allowedEncodings[] = {DEFAULT_ENCODING, NSUTF8StringEncoding, NSUnicodeStringEncoding,
-    NSISOLatin1StringEncoding, NSMacOSRomanStringEncoding};
-
-static NSString *allowedEncodingsNames[] = {@"<default>", @"UTF8", @"Unicode", @"Latin1", @"Mac"};
-
-+ (NSInteger) numberOfAllowedEncodings
-{
-    return sizeof(allowedEncodings)/sizeof(NSUInteger);
-}
-
 - (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView
 {
     return 1;
@@ -973,7 +963,7 @@ static NSString *allowedEncodingsNames[] = {@"<default>", @"UTF8", @"Unicode", @
 - (IBAction) segmentClicked:(id)sender
 {
     NSUInteger oldEncoding = [CSVFileParser getEncodingSettingForFile:self.fileInspected.fileName];
-    NSStringEncoding newEncoding = allowedEncodings[fileEncodingSegment.selectedSegmentIndex];
+    NSStringEncoding newEncoding = [[[CSVFileParser allowedFileEncodings] objectAtIndex:fileEncodingSegment.selectedSegmentIndex] integerValue];
     
     if( oldEncoding != newEncoding)
     {
@@ -992,25 +982,21 @@ static NSString *allowedEncodingsNames[] = {@"<default>", @"UTF8", @"Unicode", @
 
 - (void) configureFileEncodings
 {
-    if( !self.hasConfiguredFileEncodings)
+    [fileEncodingSegment removeAllSegments];
+    for( NSUInteger i = 0 ; i < [CSVFileParser allowedFileEncodingNames].count ; ++i)
     {
-        [fileEncodingSegment removeAllSegments];
-        for( NSUInteger i = 0 ; i < [CSV_TouchAppDelegate numberOfAllowedEncodings] ; ++i)
-        {
-            [fileEncodingSegment insertSegmentWithTitle:allowedEncodingsNames[i]
-                                                atIndex:i
-                                               animated:NO];
-        }
-        self.hasConfiguredFileEncodings = TRUE;
+        [fileEncodingSegment insertSegmentWithTitle:[[CSVFileParser allowedFileEncodingNames] objectAtIndex:i]
+                                            atIndex:i
+                                           animated:NO];
     }
 }
 
 - (void) synchronizeFileEncoding
 {
     NSUInteger encoding = [CSVFileParser getEncodingSettingForFile:self.fileInspected.fileName];
-    for( NSUInteger i = 0 ; i < [CSV_TouchAppDelegate numberOfAllowedEncodings] ; ++i)
+    for( NSUInteger i = 0 ; i < [CSVFileParser allowedFileEncodings].count ; ++i)
     {
-        if( allowedEncodings[i] == encoding )
+        if( [[[CSVFileParser allowedFileEncodings] objectAtIndex:i] integerValue] == encoding)
         {
             fileEncodingSegment.selectedSegmentIndex = i;
             return;
