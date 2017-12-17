@@ -30,7 +30,8 @@ OzyWebViewController;
 	IBOutlet ItemsViewController *itemController;
 	IBOutlet FilesViewController *fileController;
 	IBOutlet ParseErrorViewController *parseErrorController;
-	
+    IBOutlet EditViewController *editController;
+
 	int selectedDetailsView; // 0 = fancy, 1 = web, 2 = simple
 	IBOutlet UIButton *nextDetails;
 	IBOutlet UIButton *previousDetails;
@@ -44,9 +45,6 @@ OzyWebViewController;
 	NSMutableDictionary *columnNamesForFileName;
 	NSMutableDictionary *indexPathForFileName;
 	NSMutableDictionary *searchStringForFileName;
-
-	// Edit view
-	IBOutlet EditViewController *editController;
 	
 	// Search view
     UISearchBar *_searchBar;

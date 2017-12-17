@@ -82,6 +82,13 @@
     [self validateItemSizeButtons];
 }
 
+- (void) viewWillAppear:(BOOL)animated
+{
+    // Might be that setObjects is call before setFile -> we need to update counts
+    [self updateItemCount];
+    [super viewWillAppear:animated];
+}
+
 - (void) modifyItemsTableViewSize:(BOOL)increase
 {
     if( [CSVPreferencesController modifyItemsTableViewSize:increase] )
