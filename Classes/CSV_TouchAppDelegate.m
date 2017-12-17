@@ -593,17 +593,15 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 - (void) addNewFile
 {
     [fileViewController configureForNewFile:self.lastFileURL];
-	[[self dataController] presentViewController:fileViewController animated:YES completion:NULL];
+	[[self dataController] pushViewController:fileViewController animated:YES];
 }
 
 - (void) showFileInfo:(CSVFileParser *)fp
 {
     [fileViewController setFile:fp];
-    [[self dataController] presentViewController:fileViewController
-                                        animated:YES
-                                      completion:NULL];
+    [[self dataController] pushViewController:fileViewController
+                                        animated:YES];
 }
-
 
 - (void) startDownloadUsingURL:(NSURL *)url
 {

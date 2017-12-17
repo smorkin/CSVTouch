@@ -44,7 +44,6 @@
 
 @implementation CSVDataViewController
 
-@synthesize itemsToolbar;
 @synthesize searchBar = _searchBar;
 @synthesize leaveAppURL;
 @synthesize showDeletedColumns = _showDeletedColumns;
@@ -403,14 +402,6 @@
 		detailsController.title = s;
 		fancyDetailsController.title = s;
 		htmlDetailsController.title = s;
-	}
-	// File controller will be visible (or parseErrorController involved, in which case always use Files data)
-	else if((!push && item == itemController.navigationItem) ||
-			(push && item == fileController.navigationItem) ||
-			(item == parseErrorController.navigationItem))
-	{
-		count = [[fileController objects] count];
-		filesCountButton.title = [NSString stringWithFormat:@"%lu", (unsigned long)count];
 	}
 }
 
@@ -810,30 +801,11 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
     [[CSV_TouchAppDelegate sharedInstance].window setRootViewController:self];
     
 	// Setup stuff for controllers which can't be configured using InterfaceBuilder
-	[[editController tableView] setEditing:YES animated:NO];
-	editController.editable = YES;
-	editController.reorderable = YES;
-	editController.size = OZY_NORMAL;
-	[editController setSectionTitles:[NSArray arrayWithObject:@"Select & Arrange Columns"]];
-	fileController.editable = YES;
-	fileController.size = OZY_NORMAL;
-	itemController.editable = NO;
-	itemController.size = [CSVPreferencesController itemsTableViewSize];
-	itemController.useIndexes = [CSVPreferencesController useGroupingForItems];
-	itemController.groupNumbers = [CSVPreferencesController groupNumbers];
-	itemController.useFixedWidth = [CSVPreferencesController useFixedWidth];
 	fancyDetailsController.size = [CSVPreferencesController detailsTableViewSize];
 	detailsController.viewDelegate = self;
 	fancyDetailsController.viewDelegate = self;
 	htmlDetailsController.viewDelegate = self;
-    
-    // Fix the +20 frame for edit controller (since it is not a navigation controller,
-    // we must do this manually
-    CGRect frame = editNavigationBar.frame;
-    frame.origin.y += 20;
-    editNavigationBar.frame = frame;
-    
-	
+    	
 	// Setup modificationdate/time label
     {
         CGRect frame = CGRectMake(0, 0, 72, 44);
@@ -864,20 +836,6 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
 	[self pushViewController:fileController animated:NO];
 	[self updateBadgeValueUsingItem:fileController.navigationItem push:YES];
     
-	// Fix simple mode (note that this must be done AFTER pushing the file controller
-	// onto the navigation stack, to correctly get to the download new file-button)
-	if( [CSVPreferencesController simpleMode] )
-	{
-		NSMutableArray *keptItems = [NSMutableArray array];
-		
-		for( UIBarButtonItem *item in [itemsToolbar items] )
-		{
-			if( [item action] != @selector(editColumns:))
-				[keptItems addObject:item];
-		}
-		[itemsToolbar setItems:keptItems animated:NO];
-	}
-	
 	// Read last state to be able to get back to where we were before quitting last time
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 	
@@ -1125,7 +1083,7 @@ static CSVDataViewController *sharedInstance = nil;
     }
 }
 
-- (IBAction) resetColumnNames:(id)sender
+- (void) resetColumnNamesForCurrentFile
 {
 	[self resetColumnNamesForFile:[self currentFile]];
 }
@@ -1318,9 +1276,9 @@ static CSVDataViewController *sharedInstance = nil;
 	
 }
 
-- (IBAction) editColumns:(id)sender
+- (IBAction) editColumns
 {
-	[self presentViewController:editController animated:YES completion:NULL];
+	[self pushViewController:editController animated:YES];
 }
 
 - (IBAction) editDone:(id)sender

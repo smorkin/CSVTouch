@@ -82,13 +82,20 @@ static FilesViewController *_sharedInstance = nil;
         longPress.enabled = TRUE;
     }
 }
+
+- (void) configureTable
+{
+    self.editable = YES;
+    self.size = OZY_NORMAL;
+}
+
 - (void) awakeFromNib
 {
     [super awakeFromNib];
     _sharedInstance = self;
     [self configureToolbarButtons];
     [self configureGestures];
-    
+    [self configureTable];
 }
 
 - (void) viewDidAppear:(BOOL)animated

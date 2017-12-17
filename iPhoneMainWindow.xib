@@ -65,14 +65,12 @@
                 <outlet property="detailsController" destination="267" id="269"/>
                 <outlet property="detailsViewToolbar" destination="609" id="625"/>
                 <outlet property="editController" destination="210" id="264"/>
-                <outlet property="editNavigationBar" destination="214" id="456"/>
                 <outlet property="fancyDetailsController" destination="444" id="451"/>
                 <outlet property="fancyDetailsViewToolbar" destination="606" id="626"/>
                 <outlet property="fileController" destination="227" id="242"/>
                 <outlet property="htmlDetailsController" destination="470" id="472"/>
                 <outlet property="htmlDetailsViewToolbar" destination="620" id="627"/>
                 <outlet property="itemController" destination="226" id="370"/>
-                <outlet property="itemsToolbar" destination="499" id="502"/>
                 <outlet property="modificationDateButton" destination="645" id="646"/>
                 <outlet property="nextDetails" destination="539" id="541"/>
                 <outlet property="parseErrorController" destination="424" id="429"/>
@@ -138,7 +136,7 @@
             </connections>
             <point key="canvasLocation" x="521" y="546"/>
         </viewController>
-        <viewController id="210" userLabel="Edit controller" customClass="OzyTableViewController">
+        <viewController id="210" userLabel="Edit controller" customClass="EditViewController">
             <view key="view" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="211">
                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -147,8 +145,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" bouncesZoom="NO" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="27" sectionFooterHeight="27" id="212">
-                                <rect key="frame" x="0.0" y="44" width="375" height="623"/>
+                            <tableView opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" misplaced="YES" bouncesZoom="NO" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="27" sectionFooterHeight="27" id="212">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <connections>
@@ -156,25 +154,6 @@
                                     <outlet property="delegate" destination="14" id="225"/>
                                 </connections>
                             </tableView>
-                            <navigationBar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="214">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                <items>
-                                    <navigationItem id="215">
-                                        <nil key="title"/>
-                                        <barButtonItem key="leftBarButtonItem" systemItem="done" id="216">
-                                            <connections>
-                                                <action selector="editDone:" destination="14" id="223"/>
-                                            </connections>
-                                        </barButtonItem>
-                                        <barButtonItem key="rightBarButtonItem" title="Reset Columns" id="217">
-                                            <connections>
-                                                <action selector="resetColumnNames:" destination="14" id="222"/>
-                                            </connections>
-                                        </barButtonItem>
-                                    </navigationItem>
-                                </items>
-                            </navigationBar>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </view>
@@ -187,7 +166,7 @@
                 <outlet property="_contentView" destination="639" id="640"/>
                 <outlet property="_tableView" destination="212" id="279"/>
             </connections>
-            <point key="canvasLocation" x="965" y="-178"/>
+            <point key="canvasLocation" x="964.5" y="-178.5"/>
         </viewController>
         <viewController title="Items" id="226" userLabel="Item controller" customClass="ItemsViewController">
             <view key="view" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="230">
@@ -198,8 +177,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" bouncesZoom="NO" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="24" sectionFooterHeight="27" id="231" customClass="OzyTableView">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="623"/>
+                            <tableView opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" misplaced="YES" bouncesZoom="NO" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="24" sectionFooterHeight="27" id="231" customClass="OzyTableView">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <connections>
@@ -207,17 +186,6 @@
                                     <outlet property="delegate" destination="14" id="237"/>
                                 </connections>
                             </tableView>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="499">
-                                <rect key="frame" x="0.0" y="623" width="375" height="44"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                                <items>
-                                    <barButtonItem systemItem="edit" id="500">
-                                        <connections>
-                                            <action selector="editColumns:" destination="14" id="504"/>
-                                        </connections>
-                                    </barButtonItem>
-                                </items>
-                            </toolbar>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </view>
@@ -234,7 +202,7 @@
                 <outlet property="_contentView" destination="641" id="642"/>
                 <outlet property="_tableView" destination="231" id="277"/>
             </connections>
-            <point key="canvasLocation" x="59" y="-939"/>
+            <point key="canvasLocation" x="58.5" y="-939.5"/>
         </viewController>
         <viewController title="Files" id="227" userLabel="File controller" customClass="FilesViewController">
             <view key="view" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="253">
@@ -278,15 +246,15 @@
         </viewController>
         <viewController title="Items" id="444" userLabel="Fancy details" customClass="OzyTableViewController">
             <view key="view" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="446">
-                <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
+                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 <subviews>
                     <view contentMode="scaleToFill" id="635">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="606">
-                                <rect key="frame" x="0.0" y="559" width="375" height="44"/>
+                                <rect key="frame" x="0.0" y="623" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                 <items>
                                     <barButtonItem title="Toggle" id="607">
@@ -297,7 +265,7 @@
                                 </items>
                             </toolbar>
                             <tableView opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" bouncesZoom="NO" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="24" sectionFooterHeight="27" id="447" customClass="OzyTableView">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="559"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="623"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <connections>

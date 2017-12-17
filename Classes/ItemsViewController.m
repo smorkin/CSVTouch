@@ -8,6 +8,7 @@
 #import "ItemsViewController.h"
 #import "CSVPreferencesController.h"
 #import "CSVRow.h"
+#import "CSVDataViewController.h"
 
 #define NORMAL_SORT_ORDER @"▼"
 #define REVERSE_SORT_ORDER @"▲"
@@ -30,10 +31,12 @@
 - (void) configureToolbarButtons
 {
     NSMutableArray *items = [NSMutableArray array];
-    UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit
-                                                                          target:self
-                                                                          action:nil];
-    [items addObject:item];
+    if( ![CSVPreferencesController simpleMode]){
+        UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit
+                                                                              target:self
+                                                                              action:@selector(editColumns)];
+        [items addObject:item];
+    }
     shrinkItemsButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"4lines.png"]
                                                          style:UIBarButtonItemStylePlain
                                                         target:self
@@ -49,9 +52,9 @@
                                            target:self
                                            action:@selector(toggleItemSortOrder)];
     [items addObject:sortOrderButton];
-    item = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace
-                                                         target:nil
-                                                         action:nil];
+    UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace
+                                                                          target:nil
+                                                                          action:nil];
     [items addObject:item];
     itemsCountButton = [[UIBarButtonItem alloc] initWithTitle:@"0"
                                                          style:UIBarButtonItemStylePlain
@@ -62,10 +65,20 @@
     self.toolbarItems = items;
 }
 
+- (void) configureTable
+{
+    self.editable = NO;
+    self.size = [CSVPreferencesController itemsTableViewSize];
+    self.useIndexes = [CSVPreferencesController useGroupingForItems];
+    self.groupNumbers = [CSVPreferencesController groupNumbers];
+    self.useFixedWidth = [CSVPreferencesController useFixedWidth];
+}
+
 - (void) awakeFromNib
 {
     [super awakeFromNib];
     [self configureToolbarButtons];
+    [self configureTable];
     [self validateItemSizeButtons];
 }
 
@@ -112,6 +125,11 @@
     [objects sortUsingSelector:[CSVRow compareSelector]];
     [self setObjects:objects];
     [self dataLoaded];
+}
+
+- (void) editColumns
+{
+    [[CSVDataViewController sharedInstance] editColumns];
 }
 
 - (void) updateItemCount

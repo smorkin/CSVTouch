@@ -14,6 +14,7 @@
 #import "FilesViewController.h"
 #import "ParseErrorViewController.h"
 #import "ItemsViewController.h"
+#import "EditViewController.h"
 
 @class OzyTableViewController,
 CSVFileParser, 
@@ -45,16 +46,13 @@ OzyWebViewController;
 	NSMutableDictionary *searchStringForFileName;
 
 	// Edit view
-	IBOutlet OzyTableViewController *editController;
-	IBOutlet UINavigationBar *editNavigationBar;
+	IBOutlet EditViewController *editController;
 	
 	// Search view
     UISearchBar *_searchBar;
 
 	// Toolbars
-	IBOutlet UIToolbar *itemsToolbar;
 	IBOutlet UIBarButtonItem *modificationDateButton;
-	IBOutlet UIBarButtonItem *filesCountButton;
 	IBOutlet UIToolbar *detailsViewToolbar;
 	IBOutlet UIToolbar *fancyDetailsViewToolbar;
 	IBOutlet UIToolbar *htmlDetailsViewToolbar;
@@ -100,15 +98,15 @@ OzyWebViewController;
 
 + (CSVDataViewController *) sharedInstance;
 
-- (IBAction) editColumns:(id)sender;
 - (IBAction) editDone:(id)sender;
-- (IBAction) resetColumnNames:(id)sender;
 - (IBAction) toggleDetailsView:(id)sender;
 - (IBAction) nextDetailsClicked:(id)sender;
 - (IBAction) previousDetailsClicked:(id)sender;
 - (IBAction) toggleShowHideDeletedColumns;
 
 - (void) resetColumnNamesForFile:(CSVFileParser *)file;
+- (void) resetColumnNamesForCurrentFile;
+- (void) editColumns;
 
 - (void) setFiles:(NSArray *) files;
 - (NSArray *) files;
