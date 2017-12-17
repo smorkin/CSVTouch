@@ -15,7 +15,6 @@
 @interface FilesViewController ()
 
 @property (assign) BOOL refreshFilesInProgress;
-@property (assign) BOOL showFileInfoInProgress;
 
 @end
 
@@ -28,10 +27,8 @@ static FilesViewController *_sharedInstance = nil;
     return _sharedInstance;
 }
 
-- (void) awakeFromNib
+- (void) configureToolbarButtons
 {
-    [super awakeFromNib];
-    _sharedInstance = self;
     UIBarButtonItem *refreshAllItems = [[UIBarButtonItem alloc] initWithTitle:@"Refresh all"
                                                                         style:UIBarButtonItemStylePlain
                                                                        target:self
@@ -48,16 +45,50 @@ static FilesViewController *_sharedInstance = nil;
         [items addObject:[self refreshFilesItem]];
         if([CSVPreferencesController lastUsedListURL])
             [items addObject:refreshAllItems];
-        [items addObject:[self showFileInfoItem]];
     }
     else
     {
         [items addObject:[self refreshFilesItem]];
         [items addObject:refreshAllItems];
         [items addObject:loadFileListItem];
-        [items addObject:[self showFileInfoItem]];
     }
     self.toolbarItems = items;
+}
+
+- (void) configureGestures
+{
+    UILongPressGestureRecognizer *lpgr = [[UILongPressGestureRecognizer alloc]
+                                         initWithTarget:self action:@selector(handleLongPress:)];
+    lpgr.minimumPressDuration = 0.5; //seconds
+    [self.tableView addGestureRecognizer:lpgr];
+    [lpgr release];
+}
+
+- (void) handleLongPress:(UILongPressGestureRecognizer *)longPress
+{
+    if( longPress.state != UIGestureRecognizerStateCancelled)
+    {
+        // We ignore state and just cancels the gesture
+        longPress.enabled = FALSE;
+        CGPoint p = [longPress locationInView:self.tableView];
+        
+        NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:p];
+        if (indexPath != nil) {
+            [[CSV_TouchAppDelegate sharedInstance] showFileInfo:(CSVFileParser *)[[self objects] objectAtIndex:indexPath.row]];
+        }
+    }
+    else
+    {
+        longPress.enabled = TRUE;
+    }
+}
+- (void) awakeFromNib
+{
+    [super awakeFromNib];
+    _sharedInstance = self;
+    [self configureToolbarButtons];
+    [self configureGestures];
+    
 }
 
 - (void) viewDidAppear:(BOOL)animated
@@ -110,19 +141,8 @@ static FilesViewController *_sharedInstance = nil;
     return button;
 }
 
-- (UIBarButtonItem *) showFileInfoItem
-{
-    return [[[UIBarButtonItem alloc] initWithTitle:@"Info"
-                                             style:UIBarButtonItemStylePlain
-                                            target:self
-                                            action:@selector(toggleShowFileInfo)] autorelease];
-}
-
 - (void) toggleRefreshFiles
 {
-    if( self.showFileInfoInProgress )
-        return;
-    
     self.refreshFilesInProgress = !self.refreshFilesInProgress;
     NSUInteger index = [self indexOfToolbarItemWithSelector:@selector(toggleRefreshFiles)];
     
@@ -142,37 +162,6 @@ static FilesViewController *_sharedInstance = nil;
         self.removeDisclosure = NO;
         NSMutableArray *items = [NSMutableArray arrayWithArray:self.toolbarItems];
         [items replaceObjectAtIndex:index withObject:[self refreshFilesItem]];
-        self.toolbarItems = items;
-    }
-    [self dataLoaded];
-}
-
-- (void) toggleShowFileInfo
-{
-    if( self.refreshFilesInProgress )
-        return;
-    
-    self.showFileInfoInProgress = !self.showFileInfoInProgress;
-    NSUInteger index = [self indexOfToolbarItemWithSelector:@selector(toggleShowFileInfo)];
-    
-    if( index == NSNotFound )
-        return;
-    
-    if( self.showFileInfoInProgress )
-    {
-        self.removeDisclosure = YES;
-        NSMutableArray *items = [NSMutableArray arrayWithArray:self.toolbarItems];
-        [items replaceObjectAtIndex:index withObject:[self doneItemWithSelector:@selector(toggleShowFileInfo)]];
-        self.toolbarItems = items;
-        if( [self.tableView indexPathForSelectedRow] != nil )
-            [self tableView:self.tableView didSelectRowAtIndexPath:
-             [self.tableView indexPathForSelectedRow]];
-    }
-    else
-    {
-        self.removeDisclosure = NO;
-        NSMutableArray *items = [NSMutableArray arrayWithArray:self.toolbarItems];
-        [items replaceObjectAtIndex:index withObject:[self showFileInfoItem]];
         self.toolbarItems = items;
     }
     [self dataLoaded];
@@ -224,17 +213,13 @@ static FilesViewController *_sharedInstance = nil;
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if( self.refreshFilesInProgress )
+    CSVFileParser *selectedFile = [[self objects] objectAtIndex:indexPath.row];
+    if( self.refreshFilesInProgress && selectedFile)
     {
-        [[CSV_TouchAppDelegate sharedInstance] downloadFileWithString:[(CSVFileParser *)[[self objects] objectAtIndex:indexPath.row] URL]];
+        [[CSV_TouchAppDelegate sharedInstance] downloadFileWithString:[selectedFile URL]];
     }
-    else if( self.showFileInfoInProgress )
+    else if( selectedFile)
     {
-        [[CSV_TouchAppDelegate sharedInstance] showFileInfo:(CSVFileParser *)[[self objects] objectAtIndex:indexPath.row]];
-    }
-    else
-    {
-        CSVFileParser *selectedFile = [[self objects] objectAtIndex:indexPath.row];
         [[CSVDataViewController sharedInstance] fileWasSelected:selectedFile];
     }
 }
