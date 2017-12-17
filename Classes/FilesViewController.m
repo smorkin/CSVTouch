@@ -167,6 +167,11 @@ static FilesViewController *_sharedInstance = nil;
     [self dataLoaded];
 }
 
+- (IBAction) addNewFile
+{
+    [[CSV_TouchAppDelegate sharedInstance] downloadNewFile];
+}
+
 //- (void) showFileInfo:(CSVFileParser *)fp
 //{
 //    [self configureFileEncodings];

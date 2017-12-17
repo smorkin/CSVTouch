@@ -65,7 +65,7 @@ OzymandiasApplicationDelegate>
 @property (nonatomic, retain) NSURLConnection *connection;
 @property (nonatomic, retain, readonly) UIToolbar *downloadToolbar;
 
-- (IBAction) downloadNewFile:(id)sender;
+- (void) downloadNewFile;
 - (IBAction) doDownloadNewFile:(id)sender;
 - (IBAction) cancelDownloadNewFile:(id)sender;
 

@@ -271,15 +271,15 @@
         </viewController>
         <viewController title="Files" id="227" userLabel="File controller" customClass="FilesViewController">
             <view key="view" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="253">
-                <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
+                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 <subviews>
                     <view contentMode="scaleToFill" id="637">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" bouncesZoom="NO" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="27" sectionFooterHeight="27" id="254">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="623"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="687"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <connections>
@@ -297,7 +297,7 @@
             <navigationItem key="navigationItem" title="Files" id="270">
                 <barButtonItem key="rightBarButtonItem" systemItem="add" id="574">
                     <connections>
-                        <action selector="downloadNewFile:" destination="-1" id="587"/>
+                        <action selector="addNewFile" destination="227" id="Qcx-nx-VcO"/>
                     </connections>
                 </barButtonItem>
             </navigationItem>

@@ -10,4 +10,6 @@
 
 @interface FilesViewController : OzyTableViewController
 
+- (IBAction) addNewFile;
+
 @end

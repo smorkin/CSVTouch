@@ -607,7 +607,7 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 	[self downloadDone];
 }
 
-- (IBAction) downloadNewFile:(id)sender
+- (void) downloadNewFile
 {
 	NSMutableString *s = [NSMutableString string];
 	[s appendString:@"1. For FTP download, use\n\n"];
