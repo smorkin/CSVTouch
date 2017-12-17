@@ -66,8 +66,9 @@
 
 + (BOOL) restrictedDataVersionRunning;
 
+// This is not stored so restart of app -> back to default
 + (void) toggleReverseItemSorting;
-extern BOOL reverseItemSorting;
++ (BOOL) reverseItemSorting;
 
 + (BOOL) hasShownHowTo;
 + (void) setHasShownHowTo;

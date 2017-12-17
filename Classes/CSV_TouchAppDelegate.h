@@ -53,7 +53,6 @@ OzymandiasApplicationDelegate>
 @property (nonatomic, retain) IntroViewController *introHowToController;
 @property (nonatomic, retain) UIWindow *window;
 @property (nonatomic, assign) NSInteger httpStatusCode;
-@property (nonatomic, retain) CSVFileParser *fileInspected;
 @property (nonatomic, readonly) NSMutableArray *URLsToDownload;
 @property (nonatomic, retain) NSMutableArray *filesAddedThroughURLList;
 @property (nonatomic, assign) BOOL readingFileList;

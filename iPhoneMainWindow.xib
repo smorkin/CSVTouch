@@ -66,20 +66,17 @@
                 <outlet property="detailsViewToolbar" destination="609" id="625"/>
                 <outlet property="editController" destination="210" id="264"/>
                 <outlet property="editNavigationBar" destination="214" id="456"/>
-                <outlet property="enlargeItemsButton" destination="532" id="538"/>
                 <outlet property="fancyDetailsController" destination="444" id="451"/>
                 <outlet property="fancyDetailsViewToolbar" destination="606" id="626"/>
                 <outlet property="fileController" destination="227" id="242"/>
                 <outlet property="htmlDetailsController" destination="470" id="472"/>
                 <outlet property="htmlDetailsViewToolbar" destination="620" id="627"/>
                 <outlet property="itemController" destination="226" id="370"/>
-                <outlet property="itemsCountButton" destination="505" id="507"/>
                 <outlet property="itemsToolbar" destination="499" id="502"/>
                 <outlet property="modificationDateButton" destination="645" id="646"/>
                 <outlet property="nextDetails" destination="539" id="541"/>
                 <outlet property="parseErrorController" destination="424" id="429"/>
                 <outlet property="previousDetails" destination="540" id="542"/>
-                <outlet property="shrinkItemsButton" destination="530" id="537"/>
             </connections>
             <point key="canvasLocation" x="521" y="-1006"/>
         </viewController>
@@ -192,17 +189,17 @@
             </connections>
             <point key="canvasLocation" x="965" y="-178"/>
         </viewController>
-        <viewController title="Items" id="226" userLabel="Item controller" customClass="OzyTableViewController">
+        <viewController title="Items" id="226" userLabel="Item controller" customClass="ItemsViewController">
             <view key="view" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="230">
-                <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
+                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 <subviews>
                     <view contentMode="scaleToFill" id="641">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" bouncesZoom="NO" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="24" sectionFooterHeight="27" id="231" customClass="OzyTableView">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="559"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="623"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <connections>
@@ -211,7 +208,7 @@
                                 </connections>
                             </tableView>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="499">
-                                <rect key="frame" x="0.0" y="559" width="375" height="44"/>
+                                <rect key="frame" x="0.0" y="623" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                 <items>
                                     <barButtonItem systemItem="edit" id="500">
@@ -219,23 +216,6 @@
                                             <action selector="editColumns:" destination="14" id="504"/>
                                         </connections>
                                     </barButtonItem>
-                                    <barButtonItem image="4lines.png" id="530">
-                                        <connections>
-                                            <action selector="decreaseTableViewSize" destination="14" id="534"/>
-                                        </connections>
-                                    </barButtonItem>
-                                    <barButtonItem image="2lines.png" id="532">
-                                        <connections>
-                                            <action selector="increaseTableViewSize" destination="14" id="533"/>
-                                        </connections>
-                                    </barButtonItem>
-                                    <barButtonItem title="Item" id="649">
-                                        <connections>
-                                            <action selector="toggleItemSortOrder:" destination="14" id="651"/>
-                                        </connections>
-                                    </barButtonItem>
-                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="531"/>
-                                    <barButtonItem enabled="NO" title="#" style="plain" id="505"/>
                                 </items>
                             </toolbar>
                         </subviews>
@@ -542,8 +522,4 @@
             <point key="canvasLocation" x="-624" y="-342"/>
         </button>
     </objects>
-    <resources>
-        <image name="2lines.png" width="20" height="24"/>
-        <image name="4lines.png" width="20" height="24"/>
-    </resources>
 </document>

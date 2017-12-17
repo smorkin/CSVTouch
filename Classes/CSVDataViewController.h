@@ -13,6 +13,7 @@
 
 #import "FilesViewController.h"
 #import "ParseErrorViewController.h"
+#import "ItemsViewController.h"
 
 @class OzyTableViewController,
 CSVFileParser, 
@@ -25,7 +26,7 @@ OzyWebViewController;
 	IBOutlet OzyTextViewController *detailsController;
 	IBOutlet OzyTableViewController *fancyDetailsController;
 	IBOutlet OzyWebViewController *htmlDetailsController;
-	IBOutlet OzyTableViewController *itemController;
+	IBOutlet ItemsViewController *itemController;
 	IBOutlet FilesViewController *fileController;
 	IBOutlet ParseErrorViewController *parseErrorController;
 	
@@ -52,10 +53,7 @@ OzyWebViewController;
 
 	// Toolbars
 	IBOutlet UIToolbar *itemsToolbar;
-	IBOutlet UIBarButtonItem *enlargeItemsButton;
-	IBOutlet UIBarButtonItem *shrinkItemsButton;
 	IBOutlet UIBarButtonItem *modificationDateButton;
-	IBOutlet UIBarButtonItem *itemsCountButton;
 	IBOutlet UIBarButtonItem *filesCountButton;
 	IBOutlet UIToolbar *detailsViewToolbar;
 	IBOutlet UIToolbar *fancyDetailsViewToolbar;
@@ -108,10 +106,7 @@ OzyWebViewController;
 - (IBAction) toggleDetailsView:(id)sender;
 - (IBAction) nextDetailsClicked:(id)sender;
 - (IBAction) previousDetailsClicked:(id)sender;
-- (IBAction) increaseTableViewSize;
-- (IBAction) decreaseTableViewSize;
 - (IBAction) toggleShowHideDeletedColumns;
-- (IBAction) toggleItemSortOrder:(id)sender;
 
 - (void) resetColumnNamesForFile:(CSVFileParser *)file;
 
@@ -133,8 +128,8 @@ OzyWebViewController;
 - (void) applicationDidFinishLaunchingInEmergencyMode:(BOOL) emergencyMode;
 
 - (CSVFileParser *) currentFile;
-- (OzyTableViewController *) fileController;
-- (OzyTableViewController *) itemController;
+- (FilesViewController *) fileController;
+- (ItemsViewController *) itemController;
 - (ParseErrorViewController *) parseErrorController;
 
 // For CSV_TouchAppDelegate

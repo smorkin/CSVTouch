@@ -172,50 +172,6 @@ static FilesViewController *_sharedInstance = nil;
     [[CSV_TouchAppDelegate sharedInstance] addNewFile];
 }
 
-//- (void) showFileInfo:(CSVFileParser *)fp
-//{
-//    [self configureFileEncodings];
-//
-//    self.fileInspected = fp;
-//
-//    NSError *error;
-//    NSDictionary *fileAttributes = [[NSFileManager defaultManager] attributesOfItemAtPath:[fp filePath] error:&error];
-//
-//    if( fileAttributes )
-//    {
-//        NSMutableString *s = [NSMutableString string];
-//        NSDateFormatter *dateFormatter = [[[NSDateFormatter alloc] init]  autorelease];
-//        [dateFormatter setDateStyle:NSDateFormatterShortStyle];
-//        [dateFormatter setTimeStyle:NSDateFormatterShortStyle];
-//        [s appendFormat:@"Size: %.2f KB\n\n", ((double)[[fileAttributes objectForKey:NSFileSize] longLongValue]) / 1024.0];
-//        if( [fp URL] && [[fp URL] isEqualToString:MANUALLY_ADDED_URL_VALUE] )
-//            [s appendFormat:@"Imported: %@\n\n",
-//             (fp.downloadDate ? [dateFormatter stringFromDate:fp.downloadDate] : @"n/a")];
-//        else
-//            [s appendFormat:@"Downloaded: %@\n\n",
-//             (fp.downloadDate ? [dateFormatter stringFromDate:fp.downloadDate] : @"Available after next download")];
-//        [s appendFormat:@"File: %@\n\n", fp.filePath];
-//        fileInfo.text = s;
-//    }
-//    else
-//    {
-//        fileInfo.text = [error localizedDescription];
-//    }
-//    if( fp.hideAddress )
-//    {
-//        newFileURL.text = @"<address hidden>";
-//    }
-//    else
-//    {
-//        newFileURL.text = fp.URL;
-//    }
-//    [self synchronizeFileEncoding];
-//    [[self dataController] presentViewController:fileViewController
-//                                        animated:YES
-//                                      completion:NULL];
-//}
-//
-
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     CSVFileParser *selectedFile = [[self objects] objectAtIndex:indexPath.row];

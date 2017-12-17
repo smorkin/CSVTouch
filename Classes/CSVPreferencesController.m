@@ -55,7 +55,7 @@
 #define PREFS_SYNCHRONIZE_DOWNLOADED_FILES @"synchronizeDownloadedFiles"
 
 NSUInteger sortingMask;
-BOOL reverseItemSorting = FALSE;
+static BOOL reverseItemSorting = FALSE;
 
 + (void) applicationDidFinishLaunching
 {
@@ -652,6 +652,11 @@ static BOOL hideAdress = NO;
 + (void) toggleReverseItemSorting
 {
     reverseItemSorting = !reverseItemSorting;
+}
+
++ (BOOL) reverseItemSorting
+{
+    return reverseItemSorting;
 }
 
 #if defined(CSV_LITE)

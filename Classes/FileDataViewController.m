@@ -100,7 +100,8 @@
 
 - (void) setFile:(CSVFileParser *)newFile
 {
-    file = newFile;
+    [file release];
+    file = [newFile retain];
     [self updateFileInfo];
 }
 

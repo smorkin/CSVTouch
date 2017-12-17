@@ -466,7 +466,6 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 		}
 		[CSVPreferencesController setHideAddress:NO]; // In case we had temporarily set this from
 													  // a URL list file with preference settings
-		self.fileInspected = nil;
         [[self dataController] dismissViewControllerAnimated:YES completion:NULL];
 	}
 }
@@ -599,7 +598,6 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 
 - (void) showFileInfo:(CSVFileParser *)fp
 {
-	self.fileInspected = fp;
     [fileViewController setFile:fp];
     [[self dataController] presentViewController:fileViewController
                                         animated:YES

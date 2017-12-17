@@ -54,12 +54,12 @@
 @synthesize bannerIsVisible = _bannerIsVisible;
 #endif
 
-- (OzyTableViewController *) fileController
+- (FilesViewController *) fileController
 {
     return fileController;
 }
 
-- (OzyTableViewController *) itemController
+- (ItemsViewController *) itemController
 {
     return itemController;
 }
@@ -345,6 +345,7 @@
                 [alert show];
             }
         }
+        [[self itemController] setFile:[self currentFile]];
         [self pushViewController:[self itemController] animated:YES];
     }
 }
@@ -402,18 +403,6 @@
 		detailsController.title = s;
 		fancyDetailsController.title = s;
 		htmlDetailsController.title = s;
-	}
-	// Item controller will be visible
-	else if((push && item == itemController.navigationItem) ||
-			(!push && item == detailsController.navigationItem) ||
-			(!push && item == fancyDetailsController.navigationItem) ||
-			(!push && item == htmlDetailsController.navigationItem))
-	{
-		NSString *addString = @"";
-		count = [[itemController objects] count];
-		if( count != [[[self currentFile] itemsWithResetShortdescriptions:NO] count] )
-			addString = [NSString stringWithFormat:@"/%lu", (unsigned long)[[[self currentFile] itemsWithResetShortdescriptions:NO] count]];
-		itemsCountButton.title = [NSString stringWithFormat:@"%lu%@", (unsigned long)count, addString];
 	}
 	// File controller will be visible (or parseErrorController involved, in which case always use Files data)
 	else if((!push && item == itemController.navigationItem) ||
@@ -641,13 +630,6 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
 	}
 }
 
-- (void) validateItemSizeButtons
-{
-	OzyTableViewSize s = [CSVPreferencesController itemsTableViewSize];
-	shrinkItemsButton.enabled = (s == OZY_MINI ? NO : YES);
-	enlargeItemsButton.enabled = (s == OZY_NORMAL? NO : YES);
-}
-
 - (void) updateShowHideDeletedColumnsButtons
 {
 	NSString *title = (self.showDeletedColumns ? @"Hide" : @"Show");
@@ -865,16 +847,6 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
         modificationDateButton.customView = l;
     }
     
-    // Setup item sort order button
-    for( UIBarButtonItem *item in [itemsToolbar items] )
-    {
-        if( [item action] == @selector(toggleItemSortOrder:))
-        {
-            item.title = NORMAL_SORT_ORDER;
-            break;
-        }
-    }
-	
 	// Disable phone links, if desired
 	if( [CSVPreferencesController enablePhoneLinks] == FALSE )
 		[htmlDetailsController.webView setDataDetectorTypes:UIDataDetectorTypeLink];
@@ -993,9 +965,6 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
 																						  animated:NO];
 		}
 	}
-	
-	// Enable/Disable item size buttons
-	[self validateItemSizeButtons];
 }
 
 - (void) fileWasSelected:(CSVFileParser *)file
@@ -1025,18 +994,6 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
 	}
 }
 
-- (IBAction) increaseTableViewSize
-{
-	[self modifyItemsTableViewSize:YES];
-	[self validateItemSizeButtons];
-}
-
-- (IBAction) decreaseTableViewSize
-{
-	[self modifyItemsTableViewSize:NO];
-	[self validateItemSizeButtons];
-}
-
 - (IBAction) toggleShowHideDeletedColumns
 {
 	self.showDeletedColumns = !self.showDeletedColumns;
@@ -1044,23 +1001,6 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
 	[self updateSimpleViewWithItem:_latestShownItem];
 	[self updateEnhancedViewWithItem:_latestShownItem];
 	[self updateHtmlViewWithItem:_latestShownItem];
-}
-
-- (IBAction) toggleItemSortOrder:(id)sender
-{
-    [CSVPreferencesController toggleReverseItemSorting];
-    if( [((UIBarButtonItem*)sender).title isEqualToString:NORMAL_SORT_ORDER])
-    {
-        ((UIBarButtonItem*)sender).title = REVERSE_SORT_ORDER;
-    }
-    else
-    {
-        ((UIBarButtonItem*)sender).title = NORMAL_SORT_ORDER;
-    }
-    NSMutableArray *objects = [itemController objects];
-    [objects sortUsingSelector:[CSVRow compareSelector]];
-    [itemController setObjects:objects];
-	[itemController dataLoaded];
 }
 
 static CSVDataViewController *sharedInstance = nil;

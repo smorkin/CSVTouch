@@ -27,7 +27,7 @@
 {
     NSComparisonResult r = [self.shortDescription compare:row.shortDescription options:sortingMask];
     
-    if( reverseItemSorting )
+    if( [CSVPreferencesController reverseItemSorting] )
     {
         if( r == NSOrderedAscending )
             return NSOrderedDescending;
@@ -52,7 +52,7 @@
 		r = [[self.items objectAtIndex:importantColumnIndexes[i]] compare:[row.items objectAtIndex:importantColumnIndexes[i]] options:sortingMask];
 		if( r != NSOrderedSame )
         {
-            if( reverseItemSorting )
+            if( [CSVPreferencesController reverseItemSorting] )
             {
                 if( r == NSOrderedAscending )
                     return NSOrderedDescending;
