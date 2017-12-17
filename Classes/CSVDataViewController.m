@@ -171,14 +171,14 @@
 		rawColumnIndexes[i] = [[importantColumnIndexes objectAtIndex:i] intValue];
 }
 
-- (void) updateColumnNames:(NSString *)fileName
+- (void) updateColumnNamesForFile:(CSVFileParser *)file
 {
-	NSArray *names = [columnNamesForFileName objectForKey:fileName];
+	NSArray *names = [columnNamesForFileName objectForKey:[file fileName]];
 	if( !names )
 	{
-		NSArray *availableNames = [[self currentFile] availableColumnNames];
+		NSArray *availableNames = [file availableColumnNames];
 		// Do we have any predefined hidden columns?
-		NSIndexSet *hidden = [_preDefinedHiddenColumns objectForKey:[[self currentFile] fileName]];
+		NSIndexSet *hidden = [_preDefinedHiddenColumns objectForKey:[file fileName]];
 		if(hidden &&
 		   [hidden isKindOfClass:[NSIndexSet class]] &&
 		   [hidden count] > 0)
@@ -193,12 +193,12 @@
 		}
 		else
 		{
-			names = [[self currentFile] availableColumnNames];
+			names = [file availableColumnNames];
 		}
-		[_preDefinedHiddenColumns removeObjectForKey:[[self currentFile] fileName]];
-		[columnNamesForFileName setObject:names forKey:[[self currentFile] fileName]];
+		[_preDefinedHiddenColumns removeObjectForKey:[file fileName]];
+		[columnNamesForFileName setObject:names forKey:[file fileName]];
 	}
-    if( [fileName isEqualToString:[[self currentFile] fileName]])
+    if( [[file fileName] isEqualToString:[[self currentFile] fileName]])
     {
         [editController setObjects:[NSMutableArray arrayWithArray:names]];
         [editController dataLoaded];
@@ -257,7 +257,7 @@
         self.searchBar.text = cachedSearchString;
     else
         self.searchBar.text = @"";
-    [self updateColumnNames:currentFile.fileName];
+    [self updateColumnNamesForFile:currentFile];
     [[self itemController] setTitle:[currentFile defaultTableViewDescription]];
     [self updateFileModificationDateButton];
     [self refreshObjectsWithResorting:!currentFile.hasBeenSorted];
@@ -1174,17 +1174,20 @@ static CSVDataViewController *sharedInstance = nil;
     }
 }
 
-- (void) resetColumnNamesForFile:(NSString *)fileName
+- (void) resetColumnNamesForFile:(CSVFileParser *)file
 {
-    [columnNamesForFileName removeObjectForKey:[[self currentFile] fileName]];
-	[self updateColumnNames:fileName];
-	itemsNeedResorting = YES;
-    [self saveColumnNames];
+    if( file && [file fileName])
+    {
+        [columnNamesForFileName removeObjectForKey:[file fileName]];
+        [self updateColumnNamesForFile:file];
+        itemsNeedResorting = YES;
+        [self saveColumnNames];
+    }
 }
 
 - (IBAction) resetColumnNames:(id)sender
 {
-	[self resetColumnNamesForFile:[[self currentFile] fileName]];
+	[self resetColumnNamesForFile:[self currentFile]];
 }
 
 - (void) tableViewContentChanged:(NSNotification *)n
@@ -1288,11 +1291,6 @@ static CSVDataViewController *sharedInstance = nil;
 - (UIBarPosition)positionForBar:(id <UIBarPositioning>)bar
 {
     if( bar == self.searchBar)
-    {
-        return UIBarPositionTopAttached;
-    }
-    else if( bar == [CSV_TouchAppDelegate sharedInstance].downloadToolbar ||
-            bar == editNavigationBar)
     {
         return UIBarPositionTopAttached;
     }
@@ -1436,7 +1434,7 @@ didSelectRowAtIndexPath:[fileController.tableView indexPathForSelectedRow]];
 {
 	for( CSVFileParser *fileParser in [fileController objects] )
 		fileParser.hasBeenParsed = NO;
-	[self updateColumnNames:[self currentFile].fileName];
+	[self updateColumnNamesForFile:[self currentFile]];
 	[self refreshObjectsWithResorting:YES];
 	[self updateBadgeValueUsingItem:[self topViewController].navigationItem push:YES];
 }

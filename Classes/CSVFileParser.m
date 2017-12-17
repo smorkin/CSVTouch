@@ -406,7 +406,7 @@ static NSArray *_allowedEncodingNames = nil;
 										   encoding:[CSVFileParser getEncodingForFile:[self fileName]]];
     }
     [self reparseIfParsed];
-    [[CSVDataViewController sharedInstance] resetColumnNames:self.fileName];
+    [[CSVDataViewController sharedInstance] resetColumnNamesForFile:self];
 }
 
 - (id) initWithRawData:(NSData *)d filePath:(NSString *)path

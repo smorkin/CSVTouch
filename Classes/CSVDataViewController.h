@@ -113,6 +113,8 @@ OzyWebViewController;
 - (IBAction) toggleShowHideDeletedColumns;
 - (IBAction) toggleItemSortOrder:(id)sender;
 
+- (void) resetColumnNamesForFile:(CSVFileParser *)file;
+
 - (void) setFiles:(NSArray *) files;
 - (NSArray *) files;
 
@@ -126,8 +128,6 @@ OzyWebViewController;
 - (int *) rawColumnIndexes;
 
 - (void) setHiddenColumns:(NSIndexSet *)hidden forFile:(NSString *)fileName;
-
-- (void) resetColumnNamesForFile:(NSString *)fileName;
 
 - (void) applicationWillTerminate;
 - (void) applicationDidFinishLaunchingInEmergencyMode:(BOOL) emergencyMode;

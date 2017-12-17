@@ -15,6 +15,13 @@
     IBOutlet UISegmentedControl *fileEncodingSegment;
 }
 
-@property (assign) CSVFileParser *file;
+- (IBAction) segmentClicked:(id)sender;
+
+// For viewing data about existing file
+- (CSVFileParser *) file;
+- (void) setFile:(CSVFileParser *)file;
+
+// For downloading a new file
+- (void) configureForNewFile:(NSString *)defaultURL;
 
 @end

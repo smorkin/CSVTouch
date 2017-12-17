@@ -19,12 +19,8 @@
             <connections>
                 <outlet property="activityView" destination="380" id="576"/>
                 <outlet property="dataController" destination="14" id="577"/>
-                <outlet property="downloadToolbar" destination="80" id="578"/>
-                <outlet property="fileEncodingSegment" destination="pKG-s0-CeW" id="A2b-mU-apq"/>
-                <outlet property="fileInfo" destination="467" id="579"/>
                 <outlet property="fileParsingActivityView" destination="368" id="580"/>
                 <outlet property="fileViewController" destination="76" id="581"/>
-                <outlet property="newFileURL" destination="84" id="582"/>
                 <outlet property="startupActivityView" destination="374" id="583"/>
                 <outlet property="startupController" destination="371" id="584"/>
                 <outlet property="window" destination="2" id="585"/>
@@ -96,25 +92,13 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="80">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                <items>
-                                    <barButtonItem systemItem="done" id="81">
-                                        <connections>
-                                            <action selector="cancelDownloadNewFile:" destination="-1" id="586"/>
-                                        </connections>
-                                    </barButtonItem>
-                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="83"/>
-                                </items>
-                            </toolbar>
                             <textField opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="http://" borderStyle="roundedRect" placeholder="" minimumFontSize="17" id="84">
                                 <rect key="frame" x="6" y="55" width="362" height="31"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" size="system"/>
                                 <textInputTraits key="textInputTraits" autocorrectionType="no" keyboardType="URL" returnKeyType="go" enablesReturnKeyAutomatically="YES"/>
                                 <connections>
-                                    <outlet property="delegate" destination="-1" id="588"/>
+                                    <outlet property="delegate" destination="76" id="RxI-pp-slC"/>
                                 </connections>
                             </textField>
                             <textView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" delaysContentTouches="NO" canCancelContentTouches="NO" bouncesZoom="NO" editable="NO" text="Test" id="467">
@@ -131,7 +115,7 @@
                                     <segment title="Second"/>
                                 </segments>
                                 <connections>
-                                    <action selector="segmentClicked:" destination="-1" eventType="valueChanged" id="5n7-o7-E7a"/>
+                                    <action selector="segmentClicked:" destination="76" eventType="valueChanged" id="bB3-4f-Bqc"/>
                                 </connections>
                             </segmentedControl>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="File-specific encoding:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="F8R-JU-LA1">
@@ -151,6 +135,9 @@
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
                 <outlet property="_contentView" destination="628" id="629"/>
+                <outlet property="fileEncodingSegment" destination="pKG-s0-CeW" id="vxA-44-l8d"/>
+                <outlet property="fileInfo" destination="467" id="qqp-Qk-ld3"/>
+                <outlet property="newFileURL" destination="84" id="tV3-A5-h3T"/>
             </connections>
             <point key="canvasLocation" x="521" y="546"/>
         </viewController>

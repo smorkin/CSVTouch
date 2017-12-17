@@ -33,15 +33,13 @@ OzymandiasApplicationDelegate>
 	
 	// File information / Downloading new file
 	IBOutlet FileDataViewController *fileViewController;
-	IBOutlet UITextField *newFileURL;
-	IBOutlet UITextView *fileInfo;
-    IBOutlet UISegmentedControl *fileEncodingSegment;
 	
 	// For better GUI when things are slow...
 	IBOutlet UIView *activityView;
 	IBOutlet UIActivityIndicatorView *fileParsingActivityView;
     
 	NSTimer *downloadTimer;
+    
 }
 
 + (CSV_TouchAppDelegate *) sharedInstance;
@@ -63,12 +61,9 @@ OzymandiasApplicationDelegate>
 @property (nonatomic, retain) NSDate *enteredBackground;
 @property (nonatomic, retain) NSMutableData *rawData;
 @property (nonatomic, retain) NSURLConnection *connection;
-@property (nonatomic, retain, readonly) UIToolbar *downloadToolbar;
+@property (nonatomic, retain) NSString *lastFileURL;
 
-- (void) downloadNewFile;
-- (IBAction) doDownloadNewFile:(id)sender;
-- (IBAction) cancelDownloadNewFile:(id)sender;
-
+- (void) addNewFile;
 - (void) downloadFileWithString:(NSString *)URL;
 - (void) reloadAllFiles;
 - (void) showFileInfo:(CSVFileParser *)fp;
@@ -84,8 +79,5 @@ OzymandiasApplicationDelegate>
 @end
 
 @interface CSV_TouchAppDelegate (FileEncoding)
-- (void) configureFileEncodings;
-- (void) synchronizeFileEncoding;
-- (IBAction) segmentClicked:(id)sender;
 @end
 

@@ -145,7 +145,7 @@ static NSString *newPassword = nil;
 		 isLocalDownload:(BOOL)isLocalDownload
 {
 	if( [[self dataController] numberOfFiles] > 0 &&
-	   ![[self dataController] fileExistsWithURL:[newFileURL text]] &&
+	   ![[self dataController] fileExistsWithURL:self.lastFileURL] &&
 	   [CSVPreferencesController restrictedDataVersionRunning] )
 	{
 		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Only 1 file allowed"
@@ -175,7 +175,7 @@ static NSString *newPassword = nil;
 		CSVFileParser *fp = [[CSVFileParser alloc] initWithRawData:data filePath:filePath];
 		if( !isLocalDownload )
 		{
-			fp.URL = [newFileURL text];
+			fp.URL = self.lastFileURL;
 			if( [CSVPreferencesController hideAddress] )
 				fp.hideAddress = TRUE;
 		}
@@ -318,13 +318,12 @@ static NSString *newPassword = nil;
 	[CSVPreferencesController applicationDidFinishLaunching];
 	[[self dataController] applicationDidFinishLaunchingInEmergencyMode:[CSVPreferencesController safeStart]];
 	
-	NSString *savedNewFileURL = [[NSUserDefaults standardUserDefaults] objectForKey:NEW_FILE_URL];
-	if( savedNewFileURL && ![savedNewFileURL isEqualToString:@""] )
-		newFileURL.text = savedNewFileURL;
-	else
-		newFileURL.text = @"http://";
-	newFileURL.clearButtonMode = UITextFieldViewModeWhileEditing;
-	
+	self.lastFileURL = [[NSUserDefaults standardUserDefaults] objectForKey:NEW_FILE_URL];
+	if( !self.lastFileURL || [self.lastFileURL isEqualToString:@""] )
+    {
+		self.lastFileURL = @"http://";
+    }
+    
 	// Configure and show the window
 	[startupActivityView stopAnimating];
 	[startupController.view removeFromSuperview];
@@ -353,18 +352,6 @@ static NSString *newPassword = nil;
 					   afterDelay:2.0];
 		}
 	}
-    
-    // Fix position of download file-window
-    CGRect frame = self.downloadToolbar.frame;
-    frame.origin.y += 20;
-    self.downloadToolbar.frame = frame;
-    frame = newFileURL.frame;
-    frame.origin.y += 20;
-    newFileURL.frame = frame;
-    frame = fileInfo.frame;
-    frame.origin.y += 20;
-    fileInfo.frame = frame;
-
 	
 	// Show the Add file window in case no files are present
 	if( [[self dataController] numberOfFiles] == 0 && ![CSVPreferencesController hasShownHowTo])
@@ -381,7 +368,6 @@ static NSString *newPassword = nil;
 		[[NSBundle mainBundle] loadNibNamed:@"iPadMainWindow" owner:self options:nil];
 	else 
 		[[NSBundle mainBundle] loadNibNamed:@"iPhoneMainWindow" owner:self options:nil];
-    [self configureFileEncodings];
 }
 
 //UIApplicationLaunchOptionsURLKey
@@ -414,14 +400,13 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 		[self performSelector:@selector(delayedStartup) withObject:nil afterDelay:0];
 	}
     
-    fileEncodingSegment.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleBottomMargin;
 	return NO;
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application 
 {
-	if( newFileURL.text )
-		[[NSUserDefaults standardUserDefaults] setObject:newFileURL.text
+	if( self.lastFileURL )
+		[[NSUserDefaults standardUserDefaults] setObject:self.lastFileURL
 												  forKey:NEW_FILE_URL];
 	[[self dataController] applicationWillTerminate];
 }
@@ -481,7 +466,6 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 		}
 		[CSVPreferencesController setHideAddress:NO]; // In case we had temporarily set this from
 													  // a URL list file with preference settings
-		[newFileURL resignFirstResponder];
 		self.fileInspected = nil;
         [[self dataController] dismissViewControllerAnimated:YES completion:NULL];
 	}
@@ -600,63 +584,24 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 	else
 	{
 		[self readRawFileData:self.rawData
-					 fileName:[[newFileURL text] lastPathComponent]
+					 fileName:[self.lastFileURL lastPathComponent]
 			  isLocalDownload:NO];
 	}
 	self.rawData = nil;
 	[self downloadDone];
 }
 
-- (void) downloadNewFile
+- (void) addNewFile
 {
-	NSMutableString *s = [NSMutableString string];
-	[s appendString:@"1. For FTP download, use\n\n"];
-	[s appendString:@"ftp://user:password@server.com/file.csv\n\n"];
-	[s appendString:@"2. An example file to test the functionality is available at\n\n"];
-	[s appendString:@"http://www.wigzell.net/csv/books.csv\n\n"];
-	fileInfo.text = s;
+    [fileViewController configureForNewFile:self.lastFileURL];
 	[[self dataController] presentViewController:fileViewController animated:YES completion:NULL];
 }
 
 - (void) showFileInfo:(CSVFileParser *)fp
 {
-//    [self configureFileEncodings];
-    
 	self.fileInspected = fp;
-	
-	NSError *error;
-	NSDictionary *fileAttributes = [[NSFileManager defaultManager] attributesOfItemAtPath:[fp filePath] error:&error];
-	
-	if( fileAttributes )
-	{
-		NSMutableString *s = [NSMutableString string];
-		NSDateFormatter *dateFormatter = [[[NSDateFormatter alloc] init]  autorelease];
-		[dateFormatter setDateStyle:NSDateFormatterShortStyle];
-		[dateFormatter setTimeStyle:NSDateFormatterShortStyle];
-		[s appendFormat:@"Size: %.2f KB\n\n", ((double)[[fileAttributes objectForKey:NSFileSize] longLongValue]) / 1024.0];
-		if( [fp URL] && [[fp URL] isEqualToString:MANUALLY_ADDED_URL_VALUE] )
-			[s appendFormat:@"Imported: %@\n\n", 
-			 (fp.downloadDate ? [dateFormatter stringFromDate:fp.downloadDate] : @"n/a")];
-		else
-			[s appendFormat:@"Downloaded: %@\n\n", 
-			 (fp.downloadDate ? [dateFormatter stringFromDate:fp.downloadDate] : @"Available after next download")];
-		[s appendFormat:@"File: %@\n\n", fp.filePath];
-		fileInfo.text = s;
-	}
-	else
-	{
-		fileInfo.text = [error localizedDescription];
-	}
-	if( fp.hideAddress )
-	{
-        newFileURL.text = @"<address hidden>";
-    }
-	else
-    {
-		newFileURL.text = fp.URL;
-    }
-    [self synchronizeFileEncoding];
-	[[self dataController] presentViewController:fileViewController
+    [fileViewController setFile:fp];
+    [[self dataController] presentViewController:fileViewController
                                         animated:YES
                                       completion:NULL];
 }
@@ -682,19 +627,6 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 		[alert show];
 		[self downloadDone];
 	}
-}
-
-// This is when the user presses the "Download" button (the icon with the map) or presses "Enter" on keyboard
-- (IBAction) doDownloadNewFile:(id)sender
-{
-	[newFileURL endEditing:YES];
-	[self slowActivityStarted];
-	[self startDownloadUsingURL:[NSURL URLWithString:[[newFileURL text] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
-}
-
-- (IBAction) cancelDownloadNewFile:(id)sender
-{
-	[self downloadDone];
 }
 
 - (void) loadFileList
@@ -732,7 +664,7 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 	[self startDownloadUsingURL:[NSURL URLWithString:[URL stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
 	
 	// Update this in case you want to download a file from a similar URL later on
-	newFileURL.text = URL;
+	self.lastFileURL = URL;
 }
 
 - (void) downloadScheduled
@@ -769,16 +701,6 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 		}
 	}
 	[CSVPreferencesController setLastDownload:[NSDate date]];
-}
-
-- (BOOL)textFieldShouldReturn:(UITextField *)textField
-{
-	if( textField == newFileURL )
-	{
-		[self performSelector:@selector(doDownloadNewFile:) withObject:self afterDelay:0];
-	}
-	[textField endEditing:YES];
-	return YES;
 }
 
 - (void) delayedURLOpen:(NSString *)s
@@ -958,51 +880,6 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 - (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView
 {
     return 1;
-}
-
-- (IBAction) segmentClicked:(id)sender
-{
-    NSUInteger oldEncoding = [CSVFileParser getEncodingSettingForFile:self.fileInspected.fileName];
-    NSStringEncoding newEncoding = [[[CSVFileParser allowedFileEncodings] objectAtIndex:fileEncodingSegment.selectedSegmentIndex] integerValue];
-    
-    if( oldEncoding != newEncoding)
-    {
-        if( newEncoding == DEFAULT_ENCODING )
-        {
-            [CSVFileParser removeFileEncodingForFile:self.fileInspected.fileName];
-        }
-        else
-        {
-            [CSVFileParser setFileEncoding:newEncoding
-                                   forFile:self.fileInspected.fileName];
-        }
-        [self.fileInspected encodingUpdated];
-    }
-}
-
-- (void) configureFileEncodings
-{
-    [fileEncodingSegment removeAllSegments];
-    for( NSUInteger i = 0 ; i < [CSVFileParser allowedFileEncodingNames].count ; ++i)
-    {
-        [fileEncodingSegment insertSegmentWithTitle:[[CSVFileParser allowedFileEncodingNames] objectAtIndex:i]
-                                            atIndex:i
-                                           animated:NO];
-    }
-}
-
-- (void) synchronizeFileEncoding
-{
-    NSUInteger encoding = [CSVFileParser getEncodingSettingForFile:self.fileInspected.fileName];
-    for( NSUInteger i = 0 ; i < [CSVFileParser allowedFileEncodings].count ; ++i)
-    {
-        if( [[[CSVFileParser allowedFileEncodings] objectAtIndex:i] integerValue] == encoding)
-        {
-            fileEncodingSegment.selectedSegmentIndex = i;
-            return;
-        }
-    }
-    fileEncodingSegment.selectedSegmentIndex = 0;
 }
 
 @end
