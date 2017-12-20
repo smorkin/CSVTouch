@@ -742,7 +742,7 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
     if( [CSVPreferencesController defaultsHaveChanged])
     {
         [self loadOldDocuments];
-        [[self dataController].navController  popToViewController:[[self dataController] fileController] animated:NO];
+        [[self dataController].navController popToViewController:[[self dataController] fileController] animated:NO];
         [CSVPreferencesController resetDefaultsHaveChanges];
     }
 }

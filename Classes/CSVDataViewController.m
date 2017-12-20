@@ -32,23 +32,12 @@
 }
 @end
 
-
-#if defined(CSV_LITE)
-@interface CSVDataViewController (AdBannerViewDelegate) <ADBannerViewDelegate>
-@end
-#endif
-
-
 @implementation CSVDataViewController
 
 @synthesize searchBar = _searchBar;
 @synthesize leaveAppURL;
 @synthesize showDeletedColumns = _showDeletedColumns;
 @synthesize contentView = _contentView;
-#if defined(CSV_LITE)
-@synthesize bannerView = _bannerView;
-@synthesize bannerIsVisible = _bannerIsVisible;
-#endif
 
 - (FilesViewController *) fileController
 {
@@ -834,54 +823,6 @@ static CSVDataViewController *sharedInstance = nil;
 	return sharedInstance;
 }
 
-- (void) setupBannerView
-{
-	// Ads
-#if defined(CSV_LITE)
-	NSString *contentSize;
-	if( UIInterfaceOrientationIsPortrait(self.interfaceOrientation) )
-	{
-        contentSize = ADBannerContentSizeIdentifierPortrait;
-	}
-	else
-	{
-        contentSize = ADBannerContentSizeIdentifierLandscape;
-	}
-	
-	// First, fix views
-	// We need the view to contain our contentview which contains all old views...
-	self.contentView = [[UIView alloc] initWithFrame:self.view.frame];
-    self.contentView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-	// Now move over old subviews to contentview
-	NSArray *oldViews = [self.view subviews];
-	for( UIView *view in oldViews )
-		[self.contentView addSubview:view];
-	// And finally, fix hierarchy
-	[self.view addSubview:self.contentView];
-	
-    CGRect frame;
-    frame.size = [ADBannerView sizeFromBannerContentSizeIdentifier:contentSize];
-    frame.origin = CGPointMake(0.0, CGRectGetMaxY(self.view.bounds));
-	
-	ADBannerView *bannerView = [[ADBannerView alloc] initWithFrame:frame];
-    bannerView.delegate = self;
-    // Set the autoresizing mask so that the banner is pinned to the bottom
-    bannerView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleTopMargin;
-	
-	// On iOS 4.2, default is both portrait and landscape
-	if (![CSVPreferencesController canUseAbstractBannerNames] )
-		bannerView.requiredContentSizeIdentifiers = [NSSet setWithObjects: ADBannerContentSizeIdentifierPortrait,
-                                                     ADBannerContentSizeIdentifierLandscape,
-                                                     nil];
-	
-	[self.view addSubview:bannerView];
-    self.bannerView = bannerView;
-    [bannerView release];
-	
-#endif
-}
-
-
 - (id) initWithCoder:(NSCoder *)aDecoder
 {
 	self = [super initWithCoder:aDecoder];
@@ -892,10 +833,6 @@ static CSVDataViewController *sharedInstance = nil;
 	importantColumnIndexes = [[NSMutableArray alloc] init];
 	_preDefinedHiddenColumns = [[NSMutableDictionary alloc] init];
     
-#if defined(CSV_LITE)
-	[self setupBannerView];
-#endif
-	
 	[[NSNotificationCenter defaultCenter] addObserver:self
 											 selector:@selector(tableViewContentChanged:)
 												 name:OzyContentChangedInTableView
@@ -1388,95 +1325,4 @@ didSelectRowAtIndexPath:[fileController.tableView indexPathForSelectedRow]];
 }
 
 @end
-
-#if defined(CSV_LITE)
-@implementation CSVDataViewController (AdBannerViewDelegate)
-
--(void)layoutForCurrentOrientation:(BOOL)animated
-{
-    CGFloat animationDuration = animated ? 0.2 : 0.0;
-    // by default content consumes the entire view area
-    CGRect contentFrame = self.view.bounds;
-    // the banner still needs to be adjusted further, but this is a reasonable starting point
-    // the y value will need to be adjusted by the banner height to get the final position
-	CGPoint bannerOrigin = CGPointMake(CGRectGetMinX(contentFrame), CGRectGetMaxY(contentFrame));
-    CGFloat bannerHeight = 0.0;
-	NSString *contentSizeIdentifier;
-	
-	if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation))
-	{
-        contentSizeIdentifier = ADBannerContentSizeIdentifierLandscape;
-	}
-    else
-	{
-        contentSizeIdentifier = ADBannerContentSizeIdentifierPortrait;
-	}
-	self.bannerView.currentContentSizeIdentifier = contentSizeIdentifier;
-	bannerHeight = [ADBannerView sizeFromBannerContentSizeIdentifier:contentSizeIdentifier].height;
-	
-    // Depending on if the banner has been loaded, we adjust the content frame and banner location
-    // to accomodate the ad being on or off screen.
-    // This layout is for an ad at the bottom of the view.
-    if(self.bannerView.bannerLoaded)
-    {
-        contentFrame.size.height -= bannerHeight;
-		bannerOrigin.y -= bannerHeight;
-    }
-    else
-    {
-		bannerOrigin.y += bannerHeight;
-    }
-    
-	
-    // And finally animate the changes, running layout for the content view if required.
-    [UIView animateWithDuration:animationDuration
-                     animations:^{
-						 self.contentView.frame = contentFrame;
-						 [self.contentView layoutIfNeeded];
-						 self.bannerView.frame = CGRectMake(bannerOrigin.x,
-															bannerOrigin.y,
-															self.bannerView.frame.size.width,
-															self.bannerView.frame.size.height);
-					 }
-	 ];
-}
-
-
-- (void)bannerViewDidLoadAd:(ADBannerView *)banner
-{
-	if (!self.bannerIsVisible)
-    {
-		[self layoutForCurrentOrientation:YES];
-		self.bannerIsVisible = NO;
-	}
-}
-
-- (void)bannerView:(ADBannerView *)banner didFailToReceiveAdWithError:(NSError *)error
-{
-	if (self.bannerIsVisible)
-    {
-		[self layoutForCurrentOrientation:YES];
-		self.bannerIsVisible = NO;
-	}
-}
-
-- (BOOL)bannerViewActionShouldBegin:(ADBannerView *)banner willLeaveApplication:(BOOL)willLeave
-{
-	// We have no restrictions about when we can leave app or not, and nothing to stop
-	return YES;
-}
-
-- (void)bannerViewActionDidFinish:(ADBannerView *)banner
-{
-	// Nothing for us to do here
-}
-
--(void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
-										duration:(NSTimeInterval)duration
-{
-	[self layoutForCurrentOrientation:NO];
-}
-
-@end
-#endif
 

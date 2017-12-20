@@ -25,10 +25,7 @@ typedef enum OzyTableViewSize {
 	OzyTableViewSize _size;
 	NSMutableArray *_sectionIndexes;
 	NSMutableArray *_sectionStarts;
-	NSString *_imageName;
-	
-	// Ads
-	IBOutlet UIView *_contentView;		
+	NSString *_imageName;	
 }
 
 @property (nonatomic, strong, readonly) UITableView *tableView;

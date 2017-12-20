@@ -7,9 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#if defined(CSV_LITE)
-#import <iAd/iAd.h>
-#endif
 
 #import "FilesViewController.h"
 #import "ParseErrorViewController.h"
@@ -72,16 +69,7 @@ OzyWebViewController;
 	
 	BOOL searchInputInProgress;
 	
-	BOOL _showDeletedColumns;
-	
-	// Ads
-	UIView *_contentView;
-#if defined(CSV_LITE)
-	// Ad support
-	ADBannerView *_bannerView;
-	BOOL _bannerIsVisible;
-#endif
-	
+	BOOL _showDeletedColumns;	
 }
 
 @property (nonatomic, readonly) UIToolbar *itemsToolbar;
@@ -90,10 +78,6 @@ OzyWebViewController;
 @property (nonatomic, assign) BOOL showDeletedColumns;
 @property (nonatomic, retain) UIView *contentView;
 @property (nonatomic, strong) UINavigationController *navController;
-#if defined(CSV_LITE)
-@property (nonatomic, retain) ADBannerView *bannerView;
-@property (nonatomic, assign) BOOL bannerIsVisible;
-#endif
 
 + (CSVDataViewController *) sharedInstance;
 

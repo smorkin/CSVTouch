@@ -659,13 +659,6 @@ static BOOL hideAdress = NO;
     return reverseItemSorting;
 }
 
-#if defined(CSV_LITE)
-+ (BOOL) canUseAbstractBannerNames
-{
-	return (&ADBannerContentSizeIdentifierPortrait != NULL);
-}
-#endif
-
 static NSDictionary *oldDefaults = nil;
 
 + (BOOL) defaultsHaveChanged
