@@ -12,8 +12,6 @@
 
 @implementation OzyRotatableTabBarController
 
-@synthesize viewDelegate = _viewDelegate;
-
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     return YES;
@@ -44,7 +42,6 @@
 - (void) dealloc
 {
 	self.viewDelegate = nil;
-	[super dealloc];
 }
 
 @end

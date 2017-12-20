@@ -29,7 +29,6 @@
 @synthesize filePath = _filePath;
 @synthesize URL = _URL;
 @synthesize downloadDate = _downLoadDate;
-@synthesize rawString = _rawString;
 @synthesize usedDelimiter = _usedDelimiter;
 @synthesize hasBeenSorted = _hasBeenSorted;
 @synthesize hasBeenParsed = _hasBeenParsed;
@@ -61,7 +60,7 @@ static NSArray *_allowedEncodingNames = nil;
 		self.hideAddress = [[d objectForKey:FILEPARSER_HIDE_ADDRESS] boolValue];
 	else
 		self.hideAddress = NO;
-	_rawData = [[d objectForKey:FILEPARSER_RAW_DATA] retain];
+    _rawData = [d objectForKey:FILEPARSER_RAW_DATA];
 	if( _rawData )
 	{
         _rawString = [[NSString alloc] initWithData:_rawData
@@ -121,7 +120,7 @@ static NSArray *_allowedEncodingNames = nil;
 	if( useCorrect )
 	{
 		NSUInteger numberOfRows = 0;
-		CSVParser *parser = [[[CSVParser alloc] init] autorelease];
+		CSVParser *parser = [[CSVParser alloc] init];
 		[parser setEncoding:encoding];
 		[parser setDelimiter:delimiter];
 		parser.string = s;
@@ -152,15 +151,15 @@ static NSArray *_allowedEncodingNames = nil;
 				}
 				numberOfRows = [tmp count];
 				NSMutableArray *words;
-				for( NSUInteger i = 0 ; i < numberOfRows ; i++ )
+				for( NSUInteger rawrow = 0 ; rawrow < numberOfRows ; rawrow++ )
 				{
-					words = [tmp objectAtIndex:i];
+					words = [tmp objectAtIndex:rawrow];
 					if( [words count] != numberOfColumns )
 					{
 						self.problematicRow = [NSString stringWithFormat:@"Found %lu values, expected %lu.\nItem %lu, content: %@",
 											   (unsigned long)[words count],
 											   (unsigned long)numberOfColumns,
-											   (unsigned long)i+1,
+											   (unsigned long)rawrow+1,
 											   words];
 						[_columnNames removeAllObjects];
 						[_parsedItems removeAllObjects];
@@ -168,30 +167,29 @@ static NSArray *_allowedEncodingNames = nil;
 					}
 					else
 					{
-						CSVRow *row = [[CSVRow alloc] initWithItemCapacity:[_columnNames count]];
+						CSVRow *csvrow = [[CSVRow alloc] initWithItemCapacity:[_columnNames count]];
 						if( self.iconIndex != NSNotFound )
 						{
-							row.imageName = [words objectAtIndex:self.iconIndex];
+							csvrow.imageName = [words objectAtIndex:self.iconIndex];
 							[words removeObjectAtIndex:self.iconIndex];
 						}
-						row.items = words;
+						csvrow.items = words;
 						if( columnWidths != NULL )
 						{
-							[row.fixedWidthItems removeAllObjects];
-							for( int i = 0 ; i < [_columnNames count] ; i++ )
+							[csvrow.fixedWidthItems removeAllObjects];
+							for( int col = 0 ; col < [_columnNames count] ; col++ )
 							{
-								if( columnWidths[i] > 0 )
-									[row.fixedWidthItems addObject:[[words objectAtIndex:i] stringByPaddingToLength:columnWidths[i]
+								if( columnWidths[col] > 0 )
+									[csvrow.fixedWidthItems addObject:[[words objectAtIndex:col] stringByPaddingToLength:columnWidths[col]
 																										 withString:@" "
 																									startingAtIndex:0]];
 								else 
-									[row.fixedWidthItems addObject:[words objectAtIndex:i]];
+									[csvrow.fixedWidthItems addObject:[words objectAtIndex:col]];
 							}
 						}
-						row.fileParser = self;
-						row.rawDataPosition = numberOfRows;
-						[_parsedItems addObject:row];
-						[row release];
+						csvrow.fileParser = self;
+						csvrow.rawDataPosition = numberOfRows;
+						[_parsedItems addObject:csvrow];
 					}
 				}
 			}
@@ -232,7 +230,6 @@ static NSArray *_allowedEncodingNames = nil;
 													length:strlen((const char *)row[wordNumber]) 
 												  encoding:encoding];
 					[words addObject:word];
-					[word release];
 					wordNumber++;
 				}
 				
@@ -252,7 +249,6 @@ static NSArray *_allowedEncodingNames = nil;
 					{
 						[_columnNames removeAllObjects];
 						[_parsedItems removeAllObjects];
-						[words release];
 						if( !testing )
 						{
 							self.problematicRow = [NSString stringWithFormat:@"Found %d values, expected %d.\nItem %d:\n%@",
@@ -289,34 +285,31 @@ static NSArray *_allowedEncodingNames = nil;
 					}
 					else
 					{
-						CSVRow *row = [[CSVRow alloc] initWithItemCapacity:[_columnNames count]];
+						CSVRow *csvrow = [[CSVRow alloc] initWithItemCapacity:[_columnNames count]];
 						if( self.iconIndex != NSNotFound )
 						{
-							row.imageName = [words objectAtIndex:self.iconIndex];
+							csvrow.imageName = [words objectAtIndex:self.iconIndex];
 							[words removeObjectAtIndex:self.iconIndex];
 						}
-						row.items = words;
+						csvrow.items = words;
 						if( columnWidths != NULL )
 						{
-							[row.fixedWidthItems removeAllObjects];
+							[csvrow.fixedWidthItems removeAllObjects];
 							for( int i = 0 ; i < [_columnNames count] ; i++ )
 							{
 								if( columnWidths[i] > 0 )
-									[row.fixedWidthItems addObject:[[words objectAtIndex:i] stringByPaddingToLength:columnWidths[i]
+									[csvrow.fixedWidthItems addObject:[[words objectAtIndex:i] stringByPaddingToLength:columnWidths[i]
 																										 withString:@" "
 																									startingAtIndex:0]];
 								else 
-									[row.fixedWidthItems addObject:[words objectAtIndex:i]];
+									[csvrow.fixedWidthItems addObject:[words objectAtIndex:i]];
 								}
 						}
-						row.fileParser = self;
-						row.rawDataPosition = numberOfRows;
-						[_parsedItems addObject:row];
-						[row release];
+						csvrow.fileParser = self;
+						csvrow.rawDataPosition = numberOfRows;
+						[_parsedItems addObject:csvrow];
 					}
-				}
-				
-				[words release];
+				}				
 			}
 			else
 			{
@@ -398,7 +391,6 @@ static NSArray *_allowedEncodingNames = nil;
 
 - (void) encodingUpdated
 {
-    [_rawString release];
     _rawString = nil;
     if( _rawData)
     {
@@ -411,10 +403,10 @@ static NSArray *_allowedEncodingNames = nil;
 
 - (id) initWithRawData:(NSData *)d filePath:(NSString *)path
 {
-	[super init];
+	self = [super init];
 	_parsedItems = [[NSMutableArray alloc] init];
 	_columnNames = [[NSMutableArray alloc] init];
-	_rawData = [d retain];
+	_rawData = d;
     self.filePath = path;
 	if( _rawData )
 	{
@@ -427,15 +419,14 @@ static NSArray *_allowedEncodingNames = nil;
 
 - (void) dealloc
 {
-	[_parsedItems release];
-	[_columnNames release];
-	[_rawString release];
-	[_rawData release];
+    _parsedItems = nil;
+    _columnNames = nil;
+    _rawString = nil;
+    _rawData = nil;
 	self.problematicRow = nil;
 	self.URL = nil;
 	self.downloadDate = nil;
 	self.filePath = nil;
-	[super dealloc];
 }
 
 - (NSString *) fileName
@@ -450,7 +441,7 @@ static NSArray *_allowedEncodingNames = nil;
 
 + (CSVFileParser *) parserWithFile:(NSString *)path
 {
-	CSVFileParser *fp = [[[self alloc] initWithRawData:nil filePath:path] autorelease];
+	CSVFileParser *fp = [[self alloc] initWithRawData:nil filePath:path];
 	return fp;
 }
 
@@ -553,19 +544,18 @@ static NSArray *_allowedEncodingNames = nil;
         NSDictionary *encodings = [[NSUserDefaults standardUserDefaults] objectForKey:DEFS_ENCODING_FOR_FILES];
         if( encodings && [encodings isKindOfClass:[NSDictionary class]] )
         {
-            [encodingForFileName release];
             encodingForFileName = [[NSMutableDictionary alloc] initWithDictionary:encodings];
         }
         else
         {
             encodingForFileName = [[NSMutableDictionary alloc] init];
         }
-        _allowedEncodings = [[NSArray arrayWithObjects:[NSNumber numberWithUnsignedInteger:DEFAULT_ENCODING],
+        _allowedEncodings = [NSArray arrayWithObjects:[NSNumber numberWithUnsignedInteger:DEFAULT_ENCODING],
                              [NSNumber numberWithUnsignedInteger:NSUTF8StringEncoding],
                              [NSNumber numberWithUnsignedInteger:NSUnicodeStringEncoding],
                              [NSNumber numberWithUnsignedInteger:NSISOLatin1StringEncoding],
-                             [NSNumber numberWithUnsignedInteger:NSMacOSRomanStringEncoding], nil] retain];
-        _allowedEncodingNames = [[NSArray arrayWithObjects:@"<default>", @"UTF8", @"Unicode", @"Latin1", @"Mac", nil] retain];
+                             [NSNumber numberWithUnsignedInteger:NSMacOSRomanStringEncoding], nil];
+        _allowedEncodingNames = [NSArray arrayWithObjects:@"<default>", @"UTF8", @"Unicode", @"Latin1", @"Mac", nil];
     }
 }
 

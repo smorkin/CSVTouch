@@ -675,7 +675,6 @@ static NSDictionary *oldDefaults = nil;
 
 + (void) resetDefaultsHaveChanges
 {
-    [oldDefaults release];
     oldDefaults = [[[NSUserDefaults standardUserDefaults] dictionaryRepresentation] copy];
 }
 

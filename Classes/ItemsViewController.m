@@ -24,8 +24,7 @@
 
 - (void) setFile:(CSVFileParser *)newFile
 {
-    [file release];
-    file = [newFile retain];
+    file = newFile;
 }
 
 - (void) configureToolbarButtons

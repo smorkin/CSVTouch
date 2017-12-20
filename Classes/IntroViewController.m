@@ -23,7 +23,7 @@
     self.delegate = delegate;
     if( self.pageController == nil )
     {
-        UIToolbar *bar = [[[UIToolbar alloc] init] autorelease];
+        UIToolbar *bar = [[UIToolbar alloc] init];
         bar.delegate = self;
         [bar setBackgroundImage:[UIImage new]
              forToolbarPosition:UIBarPositionAny
@@ -38,9 +38,9 @@
         CGRect frame = bar.frame;
         frame.origin.y += 20;
         bar.frame = frame;
-        UIBarButtonItem *button = [[[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStylePlain
+        UIBarButtonItem *button = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStylePlain
                                                                    target:self
-                                                                   action:@selector(dismissHowToController)] autorelease];
+                                                                   action:@selector(dismissHowToController)];
         bar.items = [NSArray arrayWithObject:button];
         [self setupHowToControllers];
         
@@ -55,7 +55,7 @@
 {
     for( int i = 0; i < HOW_TO_PAGES; ++i)
     {
-        HowToController *childViewController = [[[HowToController alloc] initWithNibName:@"HowToController" bundle:nil] autorelease];
+        HowToController *childViewController = [[HowToController alloc] initWithNibName:@"HowToController" bundle:nil];
         childViewController.index = i;
         childViewController.delegate = self;
         CGRect rect = self.delegate.window.rootViewController.view.frame;
@@ -165,7 +165,7 @@
 
 - (NSAttributedString *) stringForController:(HowToController *)controller
 {
-    NSMutableAttributedString *s = [[[NSMutableAttributedString alloc] init] autorelease];
+    NSMutableAttributedString *s = [[NSMutableAttributedString alloc] init];
     NSString *title = [self titleForHowTo:controller.index];
     NSString *text = [self textForHowTo:controller.index];
     [s.mutableString appendString:title];
@@ -173,11 +173,11 @@
     [s.mutableString appendString:text];
     
     //add alignments for title
-    NSMutableParagraphStyle *centeredParagraphStyle = [[[NSMutableParagraphStyle alloc] init] autorelease];
+    NSMutableParagraphStyle *centeredParagraphStyle = [[NSMutableParagraphStyle alloc] init];
     [centeredParagraphStyle setAlignment:NSTextAlignmentCenter];
     [s addAttribute:NSParagraphStyleAttributeName value:centeredParagraphStyle range:NSMakeRange(0, title.length)];
     //add alignment for text
-    NSMutableParagraphStyle *normalParagraphStyle = [[[NSMutableParagraphStyle alloc] init] autorelease];
+    NSMutableParagraphStyle *normalParagraphStyle = [[NSMutableParagraphStyle alloc] init];
     [normalParagraphStyle setAlignment:NSTextAlignmentNatural];
     [s addAttribute:NSParagraphStyleAttributeName value:normalParagraphStyle range:NSMakeRange(title.length, text.length+2)];
     
@@ -216,8 +216,7 @@
 
 - (void)dealloc
 {
-    [_howToControllers release];
-	[super dealloc];
+    _howToControllers = nil;
 }
 
 @end

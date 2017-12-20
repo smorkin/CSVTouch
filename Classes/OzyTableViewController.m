@@ -22,21 +22,6 @@
 
 @implementation OzyTableViewController
 
-@synthesize tableView = _tableView;
-@synthesize objects = _objects;
-@synthesize editable = _editable;
-@synthesize reorderable = _reorderable;
-@synthesize useIndexes = _useIndexes;
-@synthesize groupNumbers = _groupNumbers;
-@synthesize size = _size;
-@synthesize removeDisclosure = _removeDisclosure;
-@synthesize useFixedWidth = _useFixedWidth;
-@synthesize sectionTitles = _sectionTitles;
-//@synthesize imageName = _imageName;
-@synthesize viewDelegate = _viewDelegate;
-@synthesize contentView = _contentView;
-
-
 - (NSString *) comparisonCharacterForCharacter:(NSString *)character
 {
 	if( self.groupNumbers && [character containsDigit] )
@@ -136,10 +121,9 @@
 
 - (void) setObjects:(NSMutableArray *)objects
 {
-	if( objects != self.objects )
+	if( objects != _objects )
 	{
-		[_objects release];
-		_objects = [objects retain];
+        _objects = objects;
 	}
 	[self refreshIndexes];
 }
@@ -174,7 +158,7 @@
 	if( editingStyle == UITableViewCellEditingStyleDelete )
 	{
 		NSInteger index = indexPath.row;
-		id objectToRemove = [[self.objects objectAtIndex:index] retain];
+		id objectToRemove = [self.objects objectAtIndex:index];
 		[self.objects removeObjectAtIndex:index];
 		self.navigationItem.rightBarButtonItem.enabled = TRUE;
 		[self.tableView reloadData];
@@ -182,7 +166,6 @@
 															object:self
 														  userInfo:[NSDictionary dictionaryWithObject:objectToRemove
 																							   forKey:OzyRemovedTableViewObject]];
-		[objectToRemove release];
 	}
 }
 
@@ -351,7 +334,7 @@ sectionForSectionIndexTitle:(NSString *)title
 	// Setup the cell if not already setup
 	if (cell == nil)
 	{
-		cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier] autorelease];
+		cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
 	}
 	
 	if( self.useFixedWidth )
@@ -424,22 +407,18 @@ sectionForSectionIndexTitle:(NSString *)title
 		fromIndex = fromIndexPath.row;
 		toIndex = toIndexPath.row;
 	}
-	id item = [[self.objects objectAtIndex:fromIndex] retain];
+	id item = [self.objects objectAtIndex:fromIndex];
 	[self.objects removeObjectAtIndex:fromIndex];
 	[self.objects insertObject:item atIndex:toIndex];
 	self.navigationItem.rightBarButtonItem.enabled = TRUE;
-	[item release];
 	[[NSNotificationCenter defaultCenter] postNotificationName:OzyContentChangedInTableView object:self];
 }
 
 - (void)dealloc {
 	self.objects = nil;
-	[_sectionStarts release];
-	[_sectionIndexes release];
-	[_sectionTitles release];
-	//	[_imageName release];
-    
-	[super dealloc];
+    self.sectionTitles = nil;
+    _sectionStarts = nil;
+    _sectionIndexes = nil;
 }
 
 - (void) dataLoaded

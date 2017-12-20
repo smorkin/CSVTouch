@@ -22,26 +22,17 @@ typedef enum OzyTableViewSize {
 	
 @interface OzyTableViewController : UIViewController <UITableViewDataSource> {
 	IBOutlet UITableView *_tableView;
-	NSMutableArray *_objects;
-	BOOL _editable;
-	BOOL _reorderable;
-	BOOL _useIndexes;
-	BOOL _groupNumbers;
-	BOOL _removeDisclosure;
-	BOOL _useFixedWidth;
 	OzyTableViewSize _size;
 	NSMutableArray *_sectionIndexes;
 	NSMutableArray *_sectionStarts;
-	NSArray *_sectionTitles;
 	NSString *_imageName;
-	id _viewDelegate;
 	
 	// Ads
 	IBOutlet UIView *_contentView;		
 }
 
-@property (nonatomic, readonly) UITableView *tableView;
-@property (nonatomic, retain) NSMutableArray *objects;
+@property (nonatomic, strong, readonly) UITableView *tableView;
+@property (nonatomic, strong) NSMutableArray *objects;
 @property (nonatomic, assign, getter=isEditable) BOOL editable;
 @property (nonatomic, assign) BOOL reorderable;
 @property (nonatomic, assign) BOOL useIndexes;
@@ -49,8 +40,7 @@ typedef enum OzyTableViewSize {
 @property (nonatomic, assign) OzyTableViewSize size;
 @property (nonatomic, assign) BOOL removeDisclosure;
 @property (nonatomic, assign) BOOL useFixedWidth;
-@property (nonatomic, retain) NSArray *sectionTitles;
-//@property (nonatomic, retain) NSString *imageName;
+@property (nonatomic, strong) NSArray *sectionTitles;
 @property (nonatomic, assign) id viewDelegate;
 @property (nonatomic, readonly) UIView *contentView;
 

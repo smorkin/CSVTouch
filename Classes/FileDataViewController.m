@@ -70,7 +70,7 @@
     if( fileAttributes )
     {
         NSMutableString *s = [NSMutableString string];
-        NSDateFormatter *dateFormatter = [[[NSDateFormatter alloc] init]  autorelease];
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
         [dateFormatter setDateStyle:NSDateFormatterShortStyle];
         [dateFormatter setTimeStyle:NSDateFormatterShortStyle];
         [s appendFormat:@"Size: %.2f KB\n\n", ((double)[[fileAttributes objectForKey:NSFileSize] longLongValue]) / 1024.0];
@@ -100,8 +100,7 @@
 
 - (void) setFile:(CSVFileParser *)newFile
 {
-    [file release];
-    file = [newFile retain];
+    file = newFile;
     [self updateFileInfo];
 }
 

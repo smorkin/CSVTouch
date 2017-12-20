@@ -15,7 +15,6 @@
 	NSMutableArray *_parsedItems;
 	NSMutableArray *_columnNames;
 	NSData *_rawData;
-	NSString *_rawString;
 	NSString *_filePath;
 	NSString *_URL;
 	NSDate *_downLoadDate;

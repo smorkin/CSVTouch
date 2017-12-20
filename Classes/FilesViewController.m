@@ -61,7 +61,6 @@ static FilesViewController *_sharedInstance = nil;
                                          initWithTarget:self action:@selector(handleLongPress:)];
     lpgr.minimumPressDuration = 0.5; //seconds
     [self.tableView addGestureRecognizer:lpgr];
-    [lpgr release];
 }
 
 - (void) handleLongPress:(UILongPressGestureRecognizer *)longPress
@@ -135,16 +134,16 @@ static FilesViewController *_sharedInstance = nil;
 
 - (UIBarButtonItem *) doneItemWithSelector:(SEL)selector
 {
-    return [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone
+    return [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone
                                                           target:self
-                                                          action:selector] autorelease];
+                                                          action:selector];
 }
 
 - (UIBarButtonItem *) refreshFilesItem
 {
-    UIBarButtonItem *button = [[[UIBarButtonItem alloc] initWithTitle:@"Refresh…" style:UIBarButtonItemStylePlain
+    UIBarButtonItem *button = [[UIBarButtonItem alloc] initWithTitle:@"Refresh…" style:UIBarButtonItemStylePlain
                                                                target:self
-                                                               action:@selector(toggleRefreshFiles)] autorelease];
+                                                               action:@selector(toggleRefreshFiles)];
     return button;
 }
 

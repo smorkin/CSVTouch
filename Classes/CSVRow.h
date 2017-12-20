@@ -16,12 +16,6 @@
 
 @interface CSVRow : NSObject <OzyTableViewObject>
 {
-	NSString *_shortDescription;
-	NSArray *_items;
-	NSMutableArray *_fixedWidthItems;
-	CSVFileParser *_fileParser;
-	NSUInteger _rawDataPosition;
-	NSString *_imageName;
 }
 
 @property (nonatomic, retain) NSString *shortDescription;

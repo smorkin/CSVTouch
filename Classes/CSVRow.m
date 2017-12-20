@@ -16,13 +16,6 @@
 
 @implementation CSVRow
 
-@synthesize shortDescription = _shortDescription;
-@synthesize items = _items;
-@synthesize fixedWidthItems = _fixedWidthItems;
-@synthesize fileParser = _fileParser;
-@synthesize rawDataPosition = _rawDataPosition;
-@synthesize imageName = _imageName;
-
 - (NSComparisonResult) compareShort:(CSVRow *)row
 {
     NSComparisonResult r = [self.shortDescription compare:row.shortDescription options:sortingMask];
@@ -379,7 +372,7 @@ static NSMutableArray *formatsStrings = nil;
 					[words objectAtIndex:indexes[19]]];			
 		default:
 		{
-			NSMutableString *s = [[[NSMutableString alloc] initWithCapacity:200] autorelease];
+			NSMutableString *s = [[NSMutableString alloc] initWithCapacity:200];
 			for( NSUInteger i = 0 ; i < indexCount ; i++ )
 				[s appendFormat:@"%@%@", [words objectAtIndex:indexes[i]],
 				 [CSVRow wordSeparator]];
@@ -537,7 +530,7 @@ static NSMutableArray *formatsStrings = nil;
 - initWithItemCapacity:(NSUInteger)itemCapacity
 {
 	self = [super init];
-	_fixedWidthItems = [[NSMutableArray alloc] initWithCapacity:itemCapacity];
+	self.fixedWidthItems = [[NSMutableArray alloc] initWithCapacity:itemCapacity];
 	return self;
 }
 
@@ -547,8 +540,7 @@ static NSMutableArray *formatsStrings = nil;
 	self.shortDescription = nil;
 	self.fileParser = nil;
 	self.imageName = nil;
-	[_fixedWidthItems release];
-	[super dealloc];
+    self.fixedWidthItems = nil;
 }
 
 //- (id)initWithCoder:(NSCoder *)aDecoder

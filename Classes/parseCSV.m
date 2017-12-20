@@ -40,9 +40,9 @@ static char *cstrstr(const char *haystack, const char needle) {
 		laststop++;
 		stringSize -= 2;
 	}
-	NSMutableString *tempString = [[[NSMutableString alloc] initWithBytes:(const void *)laststop
+	NSMutableString *tempString = [[NSMutableString alloc] initWithBytes:(const void *)laststop
                                                                    length:stringSize
-                                                                 encoding:encoding] autorelease];
+                                                                 encoding:encoding];
 	[tempString replaceOccurrencesOfString:@"\"\""
                                 withString:@"\""
                                    options:0
@@ -67,9 +67,7 @@ static char *cstrstr(const char *haystack, const char needle) {
 
 - (void) dealloc
 {
-	self.string = nil;
-	
-	[super dealloc];
+	self.string = nil;	
 }
 
 - (void) setBufferSize:(int)newSize

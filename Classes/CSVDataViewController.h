@@ -22,7 +22,7 @@ CSVRow,
 OzyTextViewController,
 OzyWebViewController;
 
-@interface CSVDataViewController : UINavigationController <UITableViewDelegate, UISearchBarDelegate>
+@interface CSVDataViewController : UIViewController <UITableViewDelegate, UISearchBarDelegate>
 {
 	IBOutlet OzyTextViewController *detailsController;
 	IBOutlet OzyTableViewController *fancyDetailsController;
@@ -89,6 +89,7 @@ OzyWebViewController;
 @property (nonatomic, copy) NSURL *leaveAppURL;
 @property (nonatomic, assign) BOOL showDeletedColumns;
 @property (nonatomic, retain) UIView *contentView;
+@property (nonatomic, strong) UINavigationController *navController;
 #if defined(CSV_LITE)
 @property (nonatomic, retain) ADBannerView *bannerView;
 @property (nonatomic, assign) BOOL bannerIsVisible;

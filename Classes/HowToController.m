@@ -27,7 +27,6 @@
 {
     [super viewDidLoad];
     
-    self.imageView.image = [self.delegate imageForController:self];
     self.howToText.backgroundColor = [UIColor clearColor];
     self.howToText.attributedText = [self.delegate stringForController:self];
     self.imageView.image = [self.delegate imageForController:self];
@@ -47,8 +46,7 @@
 }
 
 - (void)dealloc {
-    [_howToText release];
-    [_imageView release];
-    [super dealloc];
+    _howToText = nil;
+    _imageView = nil;
 }
 @end

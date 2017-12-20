@@ -12,10 +12,6 @@
 
 @implementation OzyRotatableViewController
 
-@synthesize viewDelegate = _viewDelegate;
-@synthesize contentView = _contentView;
-
-
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     return YES;
@@ -46,7 +42,6 @@
 - (void) dealloc
 {
 	self.viewDelegate = nil;
-	[super dealloc];
 }
 
 @end

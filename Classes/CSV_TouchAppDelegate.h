@@ -27,10 +27,6 @@ OzymandiasApplicationDelegate>
 	// Main view
 	IBOutlet CSVDataViewController *dataController;
 	
-	// Startup
-	IBOutlet OzyRotatableViewController *startupController;
-	IBOutlet UIActivityIndicatorView *startupActivityView;
-	
 	// File information / Downloading new file
 	IBOutlet FileDataViewController *fileViewController;
 	

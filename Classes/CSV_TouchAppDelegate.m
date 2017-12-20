@@ -31,7 +31,7 @@ static CSV_TouchAppDelegate *sharedInstance = nil;
 	static NSArray *delimiters = nil;
 	
 	if( !delimiters )
-		delimiters = [[NSArray arrayWithObjects:@",", @";", @".", @"|", @" ", @"\t", nil] retain];
+		delimiters = [NSArray arrayWithObjects:@",", @";", @".", @"|", @" ", @"\t", nil];
 	
 	return delimiters;
 }
@@ -71,7 +71,6 @@ static NSString *newPassword = nil;
     alert.alertViewStyle = UIAlertViewStyleSecureTextInput;
 	alert.tag = PASSWORD_CHECK;
 	[alert show];
-	[alert release];
 }
 
 - (void) setPassword:(NSString *)title
@@ -85,7 +84,6 @@ static NSString *newPassword = nil;
 	[alert textFieldAtIndex:0].keyboardType = UIKeyboardTypeDefault;
 	alert.tag = PASSWORD_SET;
 	[alert show];
-	[alert release];
 }
 
 + (CSV_TouchAppDelegate *) sharedInstance
@@ -160,11 +158,11 @@ static NSString *newPassword = nil;
 		// Only show alert if we are not downloading multiple files
 		if( [self.URLsToDownload count] == 0 )
 		{
-			UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Download Failure"
+			UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Download Failure"
 															 message:[NSString httpStatusDescription:self.httpStatusCode]
 															delegate:self
 												   cancelButtonTitle:@"OK"
-												   otherButtonTitles:nil] autorelease];	
+												   otherButtonTitles:nil];
 			[alert show];
 		}
 	}
@@ -186,7 +184,6 @@ static NSString *newPassword = nil;
 		fp.downloadDate = [NSDate date];
 		[fp saveToFile];
 		[[self dataController] newFileDownloaded:fp];
-		[fp release];
 	}
 }
 
@@ -284,11 +281,11 @@ static NSString *newPassword = nil;
 {
     if( ![self upgradeToStoringFilesInSpecialDirectory] )
     {
-        UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Upgrade failed"
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Upgrade failed"
 														 message:@"Couldn't move files when upgrading! Please reinstall application and try again." 
 														delegate:self
 											   cancelButtonTitle:@"Quit"
-											   otherButtonTitles:nil] autorelease];
+											   otherButtonTitles:nil];
 		alert.tag = UPGRADE_FAILED;
 		[alert show];
 		return;  
@@ -323,12 +320,7 @@ static NSString *newPassword = nil;
     {
 		self.lastFileURL = @"http://";
     }
-    
-	// Configure and show the window
-	[startupActivityView stopAnimating];
-	[startupController.view removeFromSuperview];
-	
-	[self.window addSubview:[[self dataController] view]];
+    self.window.rootViewController = [self dataController].navController;
 	[self.window makeKeyAndVisible];
     
 	NSDate *nextDownload = [CSVPreferencesController nextDownload];
@@ -354,9 +346,9 @@ static NSString *newPassword = nil;
 	}
 	
 	// Show the Add file window in case no files are present
-	if( [[self dataController] numberOfFiles] == 0 && ![CSVPreferencesController hasShownHowTo])
+	if( [[self dataController] numberOfFiles] == 0 )//&& ![CSVPreferencesController hasShownHowTo])
 	{
-        self.introHowToController = [[[IntroViewController alloc] init] autorelease];
+        self.introHowToController = [[IntroViewController alloc] init];
         [self.introHowToController startHowToShowing:self];
 	}
 }
@@ -374,19 +366,10 @@ static NSString *newPassword = nil;
 
 - (BOOL)application:(UIApplication *)application
 didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
-{	
-	startupController.view.frame = [[UIScreen mainScreen] applicationFrame];
-	[self.window addSubview:startupController.view];
-    [self.window setRootViewController:startupController];
-	[startupActivityView startAnimating];
+{
+    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    self.window.backgroundColor=[UIColor clearColor];
 	
-	// Only show startup activity view if there are files cached
-	NSString *documentsPath = [CSV_TouchAppDelegate importedDocumentsPath];
-	if( documentsPath && [[[NSFileManager defaultManager] contentsOfDirectoryAtPath:documentsPath
-																			  error:NULL] count] > 0 )
-	{
-		[self.window makeKeyAndVisible];
-	}
 	if( [self currentPasswordHash] != nil )
 	{
 		[self performSelector:@selector(checkPassword) withObject:nil afterDelay:0];
@@ -409,15 +392,6 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 		[[NSUserDefaults standardUserDefaults] setObject:self.lastFileURL
 												  forKey:NEW_FILE_URL];
 	[[self dataController] applicationWillTerminate];
-}
-
-- (void)dealloc {
-	[self.window release];
-    self.rawData = nil;
-	[self.URLsToDownload release];
-	[self.filesAddedThroughURLList release];
-    [self.introHowToController release];
-	[super dealloc];
 }
 
 - (void) downloadDone
@@ -487,11 +461,11 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 	else 
 		alertTitle = @"Download Failure";
 	
-	UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:alertTitle
+	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:alertTitle
 													 message:[error localizedDescription]
 													delegate:self
 										   cancelButtonTitle:@"OK"
-										   otherButtonTitles:nil] autorelease];
+										   otherButtonTitles:nil];
 	[alert show];
 	[self downloadDone];
 }
@@ -520,11 +494,11 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
         if( self.httpStatusCode >= 400 )
         {
             self.downloadFailed = true;
-            UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Download Failure"
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Download Failure"
                                                              message:[NSString httpStatusDescription:self.httpStatusCode]
                                                             delegate:self
                                                    cancelButtonTitle:@"OK"
-                                                   otherButtonTitles:nil] autorelease];	
+                                                   otherButtonTitles:nil];
             [alert show];
             [self downloadDone];
         }
@@ -554,8 +528,10 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 					[self.URLsToDownload addObject:fileName];
 					split = [[split objectAtIndex:1] componentsSeparatedByString:@","];
 					NSMutableIndexSet *hidden = [NSMutableIndexSet indexSet];
-					for( NSString *s in split )
-						[hidden addIndex:[s intValue]];
+                    for( NSString *n in split )
+                    {
+						[hidden addIndex:[n intValue]];
+                    }
 					[[CSVDataViewController sharedInstance] setHiddenColumns:hidden
 																	 forFile:[CSV_TouchAppDelegate internalFileNameForOriginalFileName:
 																			  [fileName lastPathComponent]]];
@@ -593,13 +569,13 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 - (void) addNewFile
 {
     [fileViewController configureForNewFile:self.lastFileURL];
-	[[self dataController] pushViewController:fileViewController animated:YES];
+	[[self dataController].navController pushViewController:fileViewController animated:YES];
 }
 
 - (void) showFileInfo:(CSVFileParser *)fp
 {
     [fileViewController setFile:fp];
-    [[self dataController] pushViewController:fileViewController
+    [[self dataController].navController pushViewController:fileViewController
                                         animated:YES];
 }
 
@@ -611,7 +587,7 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 	NSURLRequest *theRequest=[NSURLRequest requestWithURL:url
 											  cachePolicy:NSURLRequestReloadIgnoringLocalCacheData
 										  timeoutInterval:300.0];
-	self.connection = [[[NSURLConnection alloc] initWithRequest:theRequest delegate:self] autorelease];
+	self.connection = [[NSURLConnection alloc] initWithRequest:theRequest delegate:self];
 	if (!self.connection)
 	{
         self.downloadFailed = true;
@@ -636,7 +612,6 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
         [alert textFieldAtIndex:0].text = [[CSVPreferencesController lastUsedListURL] absoluteString];
 	alert.tag = CSV_FILE_LIST_SETUP;
 	[alert show];
-	[alert release];	
 }
 
 - (void) readFileListFromURL:(NSString *)URLString
@@ -665,11 +640,11 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 
 - (void) downloadScheduled
 {
-	UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Download scheduled"
+	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Download scheduled"
 													message:@"Time to reload all your files!"
 												   delegate:self
 										  cancelButtonTitle:@"Cancel"
-										  otherButtonTitles:@"Download" ,nil] autorelease];
+										  otherButtonTitles:@"Download" ,nil];
 	alert.tag = RELOAD_FILES;
 	[alert show];
 }
@@ -702,7 +677,7 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 - (void) delayedURLOpen:(NSString *)s
 {
 	[self downloadFileWithString:s];
-	[[self dataController] popToRootViewControllerAnimated:NO];
+	[[self dataController].navController popToRootViewControllerAnimated:NO];
 }
 
 - (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url
@@ -767,7 +742,7 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
     if( [CSVPreferencesController defaultsHaveChanged])
     {
         [self loadOldDocuments];
-        [[self dataController]  popToViewController:[[self dataController] fileController] animated:NO];
+        [[self dataController].navController  popToViewController:[[self dataController] fileController] animated:NO];
         [CSVPreferencesController resetDefaultsHaveChanges];
     }
 }
@@ -823,13 +798,11 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 			else if( [text isEqual:newPassword] )
 			{
 				[[NSUserDefaults standardUserDefaults] setObject:[newPassword ozyHash] forKey:FILE_PASSWORD];
-				[newPassword release];
 				newPassword = nil;
 				[self performSelector:@selector(delayedStartup) withObject:nil afterDelay:0];
 			}
 			else
 			{
-				[newPassword release];
 				newPassword = nil;
 				[self performSelector:@selector(setPassword:)
 						   withObject:@"Passwords Don't Match!\nSet Password"
@@ -865,7 +838,7 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
     if( self.introHowToController == controller)
     {
         [CSVPreferencesController setHasShownHowTo];
-        self.window.rootViewController = [self dataController];
+        self.window.rootViewController = [self dataController].navController;
     }
 }
 

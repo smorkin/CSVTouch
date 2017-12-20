@@ -16,9 +16,6 @@
 #import "OzyTextViewController.h"
 #import "OzymandiasAdditions.h"
 
-#define FILES_ID @"filesID"
-#define OBJECTS_ID @"objectsID"
-#define DETAILS_ID @"detailsID"
 #define NORMAL_SORT_ORDER @"▼"
 #define REVERSE_SORT_ORDER @"▲"
 
@@ -225,7 +222,7 @@
 {
 	NSString *date;
 	NSString *time;
-	NSDateFormatter *dateFormatter = [[[NSDateFormatter alloc] init]  autorelease];
+	NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     
 	[dateFormatter setDateStyle:NSDateFormatterShortStyle];
 	[dateFormatter setTimeStyle:NSDateFormatterNoStyle];
@@ -243,8 +240,7 @@
     // Store current position of itemController and search string
     [self cacheCurrentFileData];
     
-    [[self currentFile] release];
-    currentFile = [file retain];
+    currentFile = file;
     [[self currentFile] parseIfNecessary];
     
     if( !currentFile.rawString )
@@ -291,7 +287,7 @@
     if( !parsedOK )
     {
         [[[self parseErrorController] textView] setText:[[self currentFile] parseErrorString]];
-        [self pushViewController:[self parseErrorController] animated:YES];
+        [self.navController pushViewController:[self parseErrorController] animated:YES];
         return;
     }
     
@@ -305,7 +301,7 @@
        ([[[self currentFile] availableColumnNames] count] == 1 && [CSVPreferencesController showDebugInfo]) )
     {
         [[[self parseErrorController] textView] setText:[[self currentFile] parseErrorString]];
-        [self pushViewController:[self parseErrorController] animated:YES];
+        [self.navController pushViewController:[self parseErrorController] animated:YES];
     }
     else
     {
@@ -313,39 +309,39 @@
         // Check if something seems screwy...
         if( [importantColumnIndexes count] == 0 && [[self itemController].objects count] > 1 )
         {
-            UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"No columns to show!"
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"No columns to show!"
                                                              message:@"Probably reason: File refreshed but column names have changed. Please click Edit -> Reset Columns"
                                                             delegate:[[UIApplication sharedApplication] delegate]
                                                    cancelButtonTitle:@"OK"
-                                                   otherButtonTitles:nil] autorelease];
+                                                   otherButtonTitles:nil];
             [alert show];
         }
         else if( [CSVPreferencesController showDebugInfo] )
         {
             if( [self currentFile].droppedRows > 0 )
             {
-                UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Dropped Rows!"
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Dropped Rows!"
                                                                  message:[NSString stringWithFormat:@"%d rows dropped due to problems reading them. Last dropped row:\n%@",
                                                                           [self currentFile].droppedRows,
                                                                           [self currentFile].problematicRow]
                                                                 delegate:[[UIApplication sharedApplication] delegate]
                                                        cancelButtonTitle:@"OK"
-                                                       otherButtonTitles:nil] autorelease];
+                                                       otherButtonTitles:nil];
                 [alert show];
             }
             else if([[[self currentFile] availableColumnNames] count] !=
                     [[NSSet setWithArray:[[self currentFile] availableColumnNames]] count] )
             {
-                UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Identical Column Titles!"
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Identical Column Titles!"
                                                                  message:@"Some of the columns have the same title; this should be changed for correct functionality. Please make sure the first line in the file consists of the column titles."
                                                                 delegate:[[UIApplication sharedApplication] delegate]
                                                        cancelButtonTitle:@"OK"
-                                                       otherButtonTitles:nil] autorelease];
+                                                       otherButtonTitles:nil];
                 [alert show];
             }
         }
         [[self itemController] setFile:[self currentFile]];
-        [self pushViewController:[self itemController] animated:YES];
+        [self.navController pushViewController:[self itemController] animated:YES];
     }
 }
 
@@ -566,7 +562,6 @@
 	{
 		if( buttonIndex == 1 && leaveAppURL )
 			[[UIApplication sharedApplication] openURL:leaveAppURL];
-		[leaveAppView release];
 		leaveAppView = nil;
 		self.leaveAppURL = nil;
 	}
@@ -610,12 +605,12 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
 {
 	if( [CSVPreferencesController showDebugInfo] )
 	{
-		UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Load error!"
+		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Load error!"
 														 message:[NSString stringWithFormat:@"Error when loading view. Description: %@\nCode: %ld",
 																  [error localizedDescription], (long)[error code]]
 														delegate:[[UIApplication sharedApplication] delegate]
 											   cancelButtonTitle:@"OK"
-											   otherButtonTitles:nil] autorelease];
+											   otherButtonTitles:nil];
 		[alert show];
 		
 	}
@@ -629,43 +624,7 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
 	[[[htmlDetailsViewToolbar items] objectAtIndex:0] setTitle:title];
 }
 
-- (NSString *) idForController:(UIViewController *)controller
-{
-	if( controller == fileController )
-		return FILES_ID;
-	else if( controller == itemController )
-		return OBJECTS_ID;
-	else if( controller == fancyDetailsController ||
-			controller == detailsController ||
-			controller == htmlDetailsController)
-		return DETAILS_ID;
-	else
-		return @"";
-}
-
-- (UIViewController *) controllerForId:(NSString *) controllerId
-{
-	if( [controllerId isEqualToString:FILES_ID] )
-		return fileController;
-	else if( [controllerId isEqualToString:OBJECTS_ID] )
-		return itemController;
-	else if( [controllerId isEqualToString:DETAILS_ID] )
-	{
-		if( selectedDetailsView == 0 )
-			return fancyDetailsController;
-		else if( selectedDetailsView == 1 )
-			return htmlDetailsController;
-		else
-			return detailsController;
-	}
-	else
-		return nil;
-}
-
 #define DEFS_COLUMN_NAMES @"defaultColumnNames"
-#define DEFS_CURRENT_FILE @"currentFile"
-#define DEFS_CURRENT_CONTROLLER_STACK @"currentControllerStack"
-#define DEFS_INDEX_PATH @"indexPath"
 #define DEFS_ITEM_POSITIONS_FOR_FILES @"itemPositionsForFiles"
 #define DEFS_SEARCH_STRINGS_FOR_FILES @"searchStringsForFiles"
 #define DEFS_SELECTED_DETAILS_VIEW @"selectedDetailsView"
@@ -706,46 +665,7 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
 		[defaults removeObjectForKey:DEFS_PREDEFINED_HIDDEN_COLUMNS];
 	}
 	
-	if( [self topViewController] != fileController )
-		[defaults setObject:[[self currentFile] fileName] forKey:DEFS_CURRENT_FILE];
-	else
-		[defaults removeObjectForKey:DEFS_CURRENT_FILE];
-	
-	NSMutableArray *controllerStack = [NSMutableArray array];
-	for( UIViewController *controller in [self viewControllers] )
-		[controllerStack addObject:[self idForController:controller]];
-	[defaults setObject:controllerStack forKey:DEFS_CURRENT_CONTROLLER_STACK];
-	
-	if( [self topViewController] == detailsController ||
-	   [self topViewController] == fancyDetailsController ||
-	   [self topViewController] == htmlDetailsController )
-	{
-		[defaults setObject:[[[itemController tableView] indexPathForSelectedRow] dictionaryRepresentation]
-					 forKey:DEFS_INDEX_PATH];
-	}
-	else if( [self topViewController] == itemController )
-	{
-		NSArray *a = [[itemController tableView] indexPathsForVisibleRows];
-		if( [a count] > 0 )
-			[defaults setObject:[[a objectAtIndex:0] dictionaryRepresentation] forKey:DEFS_INDEX_PATH];
-		else
-			[defaults removeObjectForKey:DEFS_INDEX_PATH];
-	}
-	else if( [self topViewController] == fileController )
-	{
-		NSArray *a = [[fileController tableView] indexPathsForVisibleRows];
-		if( [a count] > 0 )
-			[defaults setObject:[[a objectAtIndex:0] dictionaryRepresentation] forKey:DEFS_INDEX_PATH];
-		else
-			[defaults removeObjectForKey:DEFS_INDEX_PATH];
-	}
-	else
-	{
-		[defaults removeObjectForKey:DEFS_INDEX_PATH];
-	}
-	
-	[defaults setInteger:selectedDetailsView forKey:DEFS_SELECTED_DETAILS_VIEW];
-	
+	[defaults setInteger:selectedDetailsView forKey:DEFS_SELECTED_DETAILS_VIEW];	
 	[defaults synchronize];
 }
 
@@ -798,7 +718,8 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
 	}
 	[self updateShowHideDeletedColumnsButtons];
 	
-    [[CSV_TouchAppDelegate sharedInstance].window setRootViewController:self];
+    // Create a navigation controller and set as root
+    self.navController = [[UINavigationController alloc] initWithRootViewController:fileController];
     
 	// Setup stuff for controllers which can't be configured using InterfaceBuilder
 	fancyDetailsController.size = [CSVPreferencesController detailsTableViewSize];
@@ -809,7 +730,7 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
 	// Setup modificationdate/time label
     {
         CGRect frame = CGRectMake(0, 0, 72, 44);
-        UILabel *l = [[[UILabel alloc] initWithFrame:frame] autorelease];
+        UILabel *l = [[UILabel alloc] initWithFrame:frame];
         l.font = [UIFont fontWithName:l.font.fontName size:10];
         l.backgroundColor = [UIColor clearColor];
         l.textColor = [UIColor blackColor];
@@ -831,9 +752,6 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
 	self.searchBar.autocorrectionType = UITextAutocorrectionTypeNo;
     self.searchBar.placeholder = @"Search items";
 	
-	// Push the fileController to the root of the navigation;
-	// we must do this in case we have no saved navigationstack
-	[self pushViewController:fileController animated:NO];
 	[self updateBadgeValueUsingItem:fileController.navigationItem push:YES];
     
 	// Read last state to be able to get back to where we were before quitting last time
@@ -846,19 +764,16 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
 	NSDictionary *defaultNames = [defaults objectForKey:DEFS_COLUMN_NAMES];
 	if( defaultNames && [defaultNames isKindOfClass:[NSDictionary class]] )
 	{
-		[columnNamesForFileName release];
 		columnNamesForFileName = [[NSMutableDictionary alloc] initWithDictionary:defaultNames];
 	}
 	NSDictionary *itemPositions = [defaults objectForKey:DEFS_ITEM_POSITIONS_FOR_FILES];
 	if( itemPositions && [itemPositions isKindOfClass:[NSDictionary class]] )
 	{
-		[indexPathForFileName release];
 		indexPathForFileName = [[NSMutableDictionary alloc] initWithDictionary:itemPositions];
 	}
 	NSDictionary *searchStrings = [defaults objectForKey:DEFS_SEARCH_STRINGS_FOR_FILES];
 	if( searchStrings && [searchStrings isKindOfClass:[NSDictionary class]] )
 	{
-		[searchStringForFileName release];
 		searchStringForFileName = [[NSMutableDictionary alloc] initWithDictionary:searchStrings];
 	}
 	
@@ -866,7 +781,6 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
 	NSDictionary *predefinedHiddenColumns = [defaults objectForKey:DEFS_PREDEFINED_HIDDEN_COLUMNS];
 	if( predefinedHiddenColumns && [predefinedHiddenColumns isKindOfClass:[NSDictionary class]] )
 	{
-		[_preDefinedHiddenColumns release];
 		_preDefinedHiddenColumns = [[NSMutableDictionary alloc] initWithDictionary:predefinedHiddenColumns];
 	}
 	
@@ -874,55 +788,7 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
 	if( emergencyMode )
 		return;
 	
-	// 2. Read in the saved current file
-	NSString *fileName = [defaults objectForKey:DEFS_CURRENT_FILE];
-	for( CSVFileParser *file in [fileController objects] )
-	{
-		if( [fileName isEqualToString:[file fileName]] )
-		{
-			[self selectFile:file];
-			break;
-		}
-	}
-	
-	// 3. Read in & setup navigation stack
-	NSArray *controllerStack = [defaults objectForKey:DEFS_CURRENT_CONTROLLER_STACK];
-	for( NSString *controllerId in controllerStack )
-	{
-		UIViewController *controller = [self controllerForId:controllerId];
-		if( controller && controller != fileController )
-		{
-			[self pushViewController:controller animated:NO];
-		}
-	}
-	[self updateBadgeValueUsingItem:[self topViewController].navigationItem push:YES];
-	
-	// 4. Scroll the table view to the last position, and if we were watching item details,
-	// show those as well.
-	NSDictionary *indexPathDictionary = [defaults objectForKey:DEFS_INDEX_PATH];
-	if( [indexPathDictionary isKindOfClass:[NSDictionary class]] )
-	{
-		NSIndexPath *indexPath = [NSIndexPath indexPathWithDictionary:indexPathDictionary];
-		if([self topViewController] == fancyDetailsController ||
-		   [self topViewController] == htmlDetailsController ||
-		   [self topViewController] == detailsController)
-		{
-			if( [itemController itemExistsAtIndexPath:indexPath] )
-			{
-				[[itemController tableView] selectRowAtIndexPath:indexPath
-														animated:NO
-												  scrollPosition:UITableViewScrollPositionMiddle];
-				[self selectDetailsForRow:[itemController indexForObjectAtIndexPath:indexPath]];
-			}
-		}
-		else if([[self topViewController] isKindOfClass:[OzyTableViewController class]] &&
-				[(OzyTableViewController *)[self topViewController] itemExistsAtIndexPath:indexPath])
-		{
-			[[(OzyTableViewController *)[self topViewController] tableView] scrollToRowAtIndexPath:indexPath
-																				  atScrollPosition:UITableViewScrollPositionTop
-																						  animated:NO];
-		}
-	}
+	[self updateBadgeValueUsingItem:[self.navController topViewController].navigationItem push:YES];
 }
 
 - (void) fileWasSelected:(CSVFileParser *)file
@@ -1037,31 +903,6 @@ static CSVDataViewController *sharedInstance = nil;
 	return self;
 }
 
-- (void) dealloc
-{
-	[detailsController release];
-	[itemController release];
-	[editController release];
-	[fileController release];
-	[fancyDetailsController release];
-	[htmlDetailsController release];
-	[parseErrorController release];
-	[columnNamesForFileName release];
-	[indexPathForFileName release];
-	[searchStringForFileName release];
-	[importantColumnIndexes release];
-	[_preDefinedHiddenColumns release];
-	
-	if( rawColumnIndexes )
-		free(rawColumnIndexes);
-#if defined(CSV_LITE)
-	self.bannerView.delegate = nil;
-#endif
-	
-	[super dealloc];
-}
-
-
 - (void) saveColumnNames
 {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
@@ -1113,27 +954,27 @@ static CSVDataViewController *sharedInstance = nil;
 {
 	if( [self currentDetailsController] == fancyDetailsController )
 	{
-		[self popViewControllerAnimated:NO];
-		[self pushViewController:htmlDetailsController animated:NO];
+		[self.navController popViewControllerAnimated:NO];
+		[self.navController pushViewController:htmlDetailsController animated:NO];
 	}
 	else if( [self currentDetailsController] == htmlDetailsController )
 	{
-		[self popViewControllerAnimated:NO];
-		[self pushViewController:detailsController animated:NO];
+		[self.navController popViewControllerAnimated:NO];
+		[self.navController pushViewController:detailsController animated:NO];
 	}
 	else if( [self currentDetailsController] == detailsController )
 	{
-		[self popViewControllerAnimated:NO];
-		[self pushViewController:fancyDetailsController animated:NO];
+		[self.navController popViewControllerAnimated:NO];
+		[self.navController pushViewController:fancyDetailsController animated:NO];
 	}
 	selectedDetailsView = (selectedDetailsView+1) % 3;
 }
 
 - (UIBarButtonItem *) doneItemWithSelector:(SEL)selector
 {
-	return [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone
+	return [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone
 														  target:self
-														  action:selector] autorelease];
+														  action:selector];
 }
 
 - (void) searchStart
@@ -1234,7 +1075,7 @@ static CSVDataViewController *sharedInstance = nil;
 	if( tableView == [itemController tableView] )
 	{
 		[self selectDetailsForRow:[itemController indexForObjectAtIndexPath:indexPath]];
-		[self pushViewController:[self currentDetailsController] animated:YES];
+		[self.navController pushViewController:[self currentDetailsController] animated:YES];
 	}
 	else if( tableView == [fancyDetailsController tableView] )
 	{
@@ -1278,7 +1119,7 @@ static CSVDataViewController *sharedInstance = nil;
 
 - (IBAction) editColumns
 {
-	[self pushViewController:editController animated:YES];
+	[self.navController pushViewController:editController animated:YES];
 }
 
 - (IBAction) editDone:(id)sender
@@ -1290,16 +1131,16 @@ static CSVDataViewController *sharedInstance = nil;
 		itemsNeedResorting = itemsNeedFiltering = NO;
 	}
 	[self updateBadgeValueUsingItem:itemController.navigationItem push:YES];
-	[self dismissViewControllerAnimated:YES completion:NULL];
+//	[self dismissViewControllerAnimated:YES completion:NULL];
 }
 
 - (BOOL)navigationBar:(UINavigationBar *)navigationBar
 		shouldPopItem:(UINavigationItem *)item
 {
 	[self updateBadgeValueUsingItem:item push:NO];
-    if( [super respondsToSelector:@selector(navigationBar:shouldPopItem:)])
-        return [super navigationBar:navigationBar shouldPopItem:item];
-    else
+//    if( [super respondsToSelector:@selector(navigationBar:shouldPopItem:)])
+//        return [super navigationBar:navigationBar shouldPopItem:item];
+//    else
         return TRUE;
 }
 
@@ -1312,7 +1153,7 @@ static CSVDataViewController *sharedInstance = nil;
 
 - (void) passwordWasChecked
 {
-	if( [self topViewController] == fileController &&
+	if( [self.navController topViewController] == fileController &&
 	   [fileController.tableView indexPathForSelectedRow] != nil )
 		[self tableView:fileController.tableView
 didSelectRowAtIndexPath:[fileController.tableView indexPathForSelectedRow]];
@@ -1324,7 +1165,7 @@ didSelectRowAtIndexPath:[fileController.tableView indexPathForSelectedRow]];
 	[files sortUsingSelector:@selector(compareFileName:)];
 	[fileController setObjects:files];
 	[fileController dataLoaded];
-	if( [self topViewController] == fileController )
+	if( [self.navController topViewController] == fileController )
 		[self updateBadgeValueUsingItem:fileController.navigationItem push:YES];
 }
 
@@ -1334,7 +1175,7 @@ didSelectRowAtIndexPath:[fileController.tableView indexPathForSelectedRow]];
 		fileParser.hasBeenParsed = NO;
 	[self updateColumnNamesForFile:[self currentFile]];
 	[self refreshObjectsWithResorting:YES];
-	[self updateBadgeValueUsingItem:[self topViewController].navigationItem push:YES];
+	[self updateBadgeValueUsingItem:[self.navController topViewController].navigationItem push:YES];
 }
 
 - (void) resortObjects
@@ -1364,14 +1205,14 @@ didSelectRowAtIndexPath:[fileController.tableView indexPathForSelectedRow]];
 	[[fileController objects] addObject:newFile];
 	[[fileController objects] sortUsingSelector:@selector(compareFileName:)];
 	[fileController dataLoaded];
-	if( [self topViewController] == fileController )
+	if( [self.navController topViewController] == fileController )
 		[self updateBadgeValueUsingItem:fileController.navigationItem push:YES];
 }
 
 - (NSUInteger) indexOfToolbarItemWithSelector:(SEL)selector
 {
     NSUInteger index = 0;
-    for( UIBarButtonItem *item in [self.toolbar items] )
+    for( UIBarButtonItem *item in [self.navController.toolbar items] )
     {
         if( item.action == selector )
             return index;
@@ -1462,16 +1303,16 @@ didSelectRowAtIndexPath:[fileController.tableView indexPathForSelectedRow]];
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
 {
-	if(self.visibleViewController == htmlDetailsController ||
-	   self.visibleViewController == fancyDetailsController ||
-	   self.visibleViewController == detailsController)
+	if(self.navController.visibleViewController == htmlDetailsController ||
+	   self.navController.visibleViewController == fancyDetailsController ||
+	   self.navController.visibleViewController == detailsController)
 	{
 		[self updateHtmlViewWithItem:_latestShownItem];
 		[fancyDetailsController.tableView reloadData];
 	}
-	else if( self.visibleViewController == itemController )
+	else if( self.navController.visibleViewController == itemController )
 		[itemController.tableView reloadData];
-	else if( self.visibleViewController == fileController )
+	else if( self.navController.visibleViewController == fileController )
 		[fileController.tableView reloadData];
 }
 

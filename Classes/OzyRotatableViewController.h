@@ -9,11 +9,10 @@
 #import <UIKit/UIKit.h>
 
 @interface OzyRotatableViewController : UIViewController {
-	id _viewDelegate;
 	IBOutlet UIView *_contentView;
 }
 
-@property (nonatomic, assign) id viewDelegate;
-@property (nonatomic, readonly) UIView *contentView;
+@property (nonatomic, weak) id viewDelegate;
+@property (nonatomic, strong, readonly) UIView *contentView;
 
 @end
