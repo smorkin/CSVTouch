@@ -62,28 +62,84 @@ static NSString *newPassword = nil;
 
 - (void) checkPassword
 {
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Input password:"
-                                                    message:nil
-                                                   delegate:self
-                                          cancelButtonTitle:@"Quit"
-                                          otherButtonTitles:@"OK", nil];
-
-    alert.alertViewStyle = UIAlertViewStyleSecureTextInput;
-	alert.tag = PASSWORD_CHECK;
-	[alert show];
+    NSString *query = [CSVPreferencesController usePassword] ? @"Input password:" : @"Remove password:";
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:query
+                                                                             message:nil
+                                                                      preferredStyle:UIAlertControllerStyleAlert];
+    [alertController addTextFieldWithConfigurationHandler:^(UITextField *textField) {
+        textField.secureTextEntry = TRUE;
+        textField.placeholder = @"Password";
+        textField.clearButtonMode = UITextFieldViewModeWhileEditing;
+        textField.borderStyle = UITextBorderStyleRoundedRect;
+    }];
+    UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK"
+                                                 style:UIAlertActionStyleDefault
+                                               handler:^(UIAlertAction *action){
+                                                   NSString *input = alertController.textFields.firstObject.text;
+                                                   if( [[input ozyHash] isEqual:[[NSUserDefaults standardUserDefaults] dataForKey:FILE_PASSWORD]] )
+                                                   {
+                                                       if( [CSVPreferencesController usePassword] == NO )
+                                                       {
+                                                           [[NSUserDefaults standardUserDefaults] removeObjectForKey:FILE_PASSWORD];
+                                                       }
+                                                   }
+                                                   else
+                                                   {
+                                                       [self performSelector:@selector(checkPassword)
+                                                                  withObject:nil
+                                                                  afterDelay:0.3];
+                                                   }
+                                               }];
+    [alertController addAction:ok];
+    UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"Cancel"
+                                                     style:UIAlertActionStyleCancel
+                                                   handler:^(UIAlertAction *action){
+                                                       exit(1);
+                                                   }];
+    [alertController addAction:cancel];
+    [[self dataController].navController.topViewController presentViewController:alertController
+                                                                        animated:YES
+                                                                      completion:nil];
 }
 
 - (void) setPassword:(NSString *)title
 {
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title
-                                                    message:nil
-                                                   delegate:self
-                                          cancelButtonTitle:@"Cancel"
-                                          otherButtonTitles:@"OK", nil];
-    alert.alertViewStyle = UIAlertViewStyleSecureTextInput;
-	[alert textFieldAtIndex:0].keyboardType = UIKeyboardTypeDefault;
-	alert.tag = PASSWORD_SET;
-	[alert show];
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:title
+                                                                             message:nil
+                                                                      preferredStyle:UIAlertControllerStyleAlert];
+    [alertController addTextFieldWithConfigurationHandler:^(UITextField *textField) {
+        textField.secureTextEntry = TRUE;
+        textField.clearButtonMode = UITextFieldViewModeWhileEditing;
+        textField.borderStyle = UITextBorderStyleRoundedRect;
+    }];
+    UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK"
+                                                 style:UIAlertActionStyleDefault
+                                               handler:^(UIAlertAction *action){
+                                                   NSString *input = alertController.textFields.firstObject.text;
+                                                   if( newPassword == nil )
+                                                   {
+                                                       newPassword = [input copy];
+                                                       [self performSelector:@selector(setPassword:)
+                                                                  withObject:@"Confirm Password"
+                                                                  afterDelay:0.3];
+                                                   }
+                                                   else if( [input isEqual:newPassword] )
+                                                   {
+                                                       [[NSUserDefaults standardUserDefaults] setObject:[newPassword ozyHash] forKey:FILE_PASSWORD];
+                                                       newPassword = nil;
+                                                   }
+                                                   else
+                                                   {
+                                                       newPassword = nil;
+                                                       [self performSelector:@selector(setPassword:)
+                                                                  withObject:@"Passwords Don't Match!\nSet Password"
+                                                                  afterDelay:0.3];
+                                                   }
+                                               }];
+    [alertController addAction:ok];
+    [[self dataController].navController.topViewController presentViewController:alertController
+                                                                        animated:YES
+                                                                      completion:nil];
 }
 
 + (CSV_TouchAppDelegate *) sharedInstance
@@ -146,24 +202,27 @@ static NSString *newPassword = nil;
 	   ![[self dataController] fileExistsWithURL:self.lastFileURL] &&
 	   [CSVPreferencesController restrictedDataVersionRunning] )
 	{
-		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Only 1 file allowed"
-														message:@"CSV Lite only allows 1 file; please delete the old one before downloading a new. Or buy CSV Touch :-)"
-													   delegate:self
-											  cancelButtonTitle:@"OK"
-											  otherButtonTitles:nil];
-		[alert show];
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Only 1 file allowed"
+                                                                       message:@"CSV Lite only allows 1 file; please delete the old one before downloading a new. Or buy CSV Touch :-)"
+                                                                 okButtonTitle:@"OK"
+                                                                     okHandler:nil];
+        [[self dataController].navController.topViewController presentViewController:alert
+                                                                            animated:YES
+                                                                          completion:nil];
+
 	}
 	else if( self.httpStatusCode >= 400&& !isLocalDownload )
 	{
 		// Only show alert if we are not downloading multiple files
 		if( [self.URLsToDownload count] == 0 )
 		{
-			UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Download Failure"
-															 message:[NSString httpStatusDescription:self.httpStatusCode]
-															delegate:self
-												   cancelButtonTitle:@"OK"
-												   otherButtonTitles:nil];
-			[alert show];
+            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Download failuer"
+                                                                           message:[NSString httpStatusDescription:self.httpStatusCode]
+                                                                     okButtonTitle:@"OK"
+                                                                         okHandler:nil];
+            [[self dataController].navController.topViewController presentViewController:alert
+                                                                                animated:YES
+                                                                              completion:nil];
 		}
 	}
 	else
@@ -281,14 +340,16 @@ static NSString *newPassword = nil;
 {
     if( ![self upgradeToStoringFilesInSpecialDirectory] )
     {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Upgrade failed"
-														 message:@"Couldn't move files when upgrading! Please reinstall application and try again." 
-														delegate:self
-											   cancelButtonTitle:@"Quit"
-											   otherButtonTitles:nil];
-		alert.tag = UPGRADE_FAILED;
-		[alert show];
-		return;  
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Upgrade failed"
+                                                                       message:@"Couldn't move files when upgrading! Please reinstall application and try again. Sorry!"
+                                                                 okButtonTitle:@"Quit"
+                                                                     okHandler:^(UIAlertAction *action) {
+                                                                         exit(1);
+                                                                     }];
+        [[self dataController].navController.topViewController presentViewController:alert
+                                                                            animated:YES
+                                                                          completion:nil];
+        return;
     }
 
     [self loadOldDocuments];    	
@@ -345,12 +406,23 @@ static NSString *newPassword = nil;
 		}
 	}
 	
-	// Show the Add file window in case no files are present
-	if( [[self dataController] numberOfFiles] == 0 )//&& ![CSVPreferencesController hasShownHowTo])
-	{
-        self.introHowToController = [[IntroViewController alloc] init];
-        [self.introHowToController startHowToShowing:self];
-	}
+    if( [self currentPasswordHash] != nil )
+    {
+        [self checkPassword];
+    }
+    else if( [CSVPreferencesController usePassword] )
+    {
+        [self setPassword:@"New Password"];
+    }
+    else
+    {
+        // Show the Add file window in case no files are present
+        if( [[self dataController] numberOfFiles] == 0 )//&& ![CSVPreferencesController hasShownHowTo])
+        {
+            self.introHowToController = [[IntroViewController alloc] init];
+            [self.introHowToController startHowToShowing:self];
+        }
+    }
 }
 
 - (void) awakeFromNib
@@ -369,19 +441,7 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.backgroundColor=[UIColor clearColor];
-	
-	if( [self currentPasswordHash] != nil )
-	{
-		[self performSelector:@selector(checkPassword) withObject:nil afterDelay:0];
-	}
-	else if( [CSVPreferencesController usePassword] )
-	{
-		[self performSelector:@selector(setPassword:) withObject:@"New Password" afterDelay:0];
-	}	
-	else
-	{
-		[self performSelector:@selector(delayedStartup) withObject:nil afterDelay:0];
-	}
+    [self performSelector:@selector(delayedStartup) withObject:nil afterDelay:0];
     
 	return NO;
 }
@@ -461,12 +521,13 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 	else 
 		alertTitle = @"Download Failure";
 	
-	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:alertTitle
-													 message:[error localizedDescription]
-													delegate:self
-										   cancelButtonTitle:@"OK"
-										   otherButtonTitles:nil];
-	[alert show];
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:alertTitle
+                                                                   message:[error localizedDescription]
+                                                             okButtonTitle:@"OK"
+                                                                 okHandler:nil];
+    [[self dataController].navController.topViewController presentViewController:alert
+                                                                        animated:YES
+                                                                      completion:nil];
 	[self downloadDone];
 }
 
@@ -494,12 +555,13 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
         if( self.httpStatusCode >= 400 )
         {
             self.downloadFailed = true;
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Download Failure"
-                                                             message:[NSString httpStatusDescription:self.httpStatusCode]
-                                                            delegate:self
-                                                   cancelButtonTitle:@"OK"
-                                                   otherButtonTitles:nil];
-            [alert show];
+            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Download failure"
+                                                                           message:[NSString httpStatusDescription:self.httpStatusCode]
+                                                                     okButtonTitle:@"OK"
+                                                                         okHandler:nil];
+            [[self dataController].navController.topViewController presentViewController:alert
+                                                                               animated:YES
+                                                                             completion:nil];
             [self downloadDone];
         }
         
@@ -591,27 +653,37 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 	if (!self.connection)
 	{
         self.downloadFailed = true;
-		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Download Failure"
-														message:@"Couldn't open connection"
-													   delegate:self
-											  cancelButtonTitle:@"OK"
-											  otherButtonTitles:nil];
-		[alert show];
-		[self downloadDone];
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Download failure"
+                                                                       message:@"Couldn't open connection"
+                                                                 okButtonTitle:@"OK"
+                                                                     okHandler:nil];
+        [[self dataController].navController.topViewController presentViewController:alert
+                                                                            animated:YES
+                                                                          completion:nil];
+        [self downloadDone];
 	}
 }
 
 - (void) loadFileList
 {
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"File list address:" message:nil delegate:self cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"File list address:"
+                                                                             message:nil
+                                                                      preferredStyle:UIAlertControllerStyleAlert];
+    [alertController addTextFieldWithConfigurationHandler:^(UITextField *textField) {
+        textField.text = [[CSVPreferencesController lastUsedListURL] absoluteString];
+        textField.clearButtonMode = UITextFieldViewModeWhileEditing;
+        textField.borderStyle = UITextBorderStyleRoundedRect;
+    }];
+    UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK"
+                                                 style:UIAlertActionStyleDefault
+                                               handler:^(UIAlertAction *action){
+                                                   [self readFileListFromURL:alertController.textFields.firstObject.text];
+                                               }];
+    [alertController addAction:ok];
     
-    alert.alertViewStyle = UIAlertViewStylePlainTextInput;    
-	[alert textFieldAtIndex:0].keyboardType = UIKeyboardTypeURL;
-	[alert textFieldAtIndex:0].secureTextEntry = NO;
-    if( [CSVPreferencesController lastUsedListURL] )
-        [alert textFieldAtIndex:0].text = [[CSVPreferencesController lastUsedListURL] absoluteString];
-	alert.tag = CSV_FILE_LIST_SETUP;
-	[alert show];
+    [[self dataController].navController.visibleViewController presentViewController:alertController
+                                                                            animated:YES
+                                                                          completion:nil];
 }
 
 - (void) readFileListFromURL:(NSString *)URLString
@@ -640,13 +712,17 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 
 - (void) downloadScheduled
 {
-	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Download scheduled"
-													message:@"Time to reload all your files!"
-												   delegate:self
-										  cancelButtonTitle:@"Cancel"
-										  otherButtonTitles:@"Download" ,nil];
-	alert.tag = RELOAD_FILES;
-	[alert show];
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Download scheduled"
+                                                                   message:@"Time to reload all your files!"
+                                                             okButtonTitle:@"Download"
+                                                                 okHandler:^(UIAlertAction *action) {
+                                                                     [self reloadAllFiles];
+                                                                 }
+                                                         cancelButtonTitle:@"Cancel"
+                                                             cancelHandler:nil];
+    [[self dataController].navController.topViewController presentViewController:alert
+                                                                        animated:YES
+                                                                      completion:nil];
 }
 
 - (void) reloadAllFiles
@@ -705,7 +781,7 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 
 - (void) slowActivityStarted
 {
-	activityView.frame = [[UIScreen mainScreen] applicationFrame];
+	activityView.frame = [[UIScreen mainScreen] bounds];
 	[self.window addSubview:activityView];
 	[fileParsingActivityView startAnimating];
 }
@@ -751,82 +827,6 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
     [self importManuallyAddedDocuments];
-}
-
-- (void)alertView:(UIAlertView *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    NSString *text = @"";
-    if( actionSheet.alertViewStyle == UIAlertViewStylePlainTextInput ||
-       actionSheet.alertViewStyle == UIAlertViewStyleSecureTextInput)
-        text = [actionSheet textFieldAtIndex:0].text;
-	if(actionSheet.tag == PASSWORD_CHECK)
-	{
-		if(buttonIndex > 0)
-		{
-			if( [[text ozyHash] isEqual:[[NSUserDefaults standardUserDefaults] dataForKey:FILE_PASSWORD]] )
-			{
-				if( [CSVPreferencesController usePassword] == NO )
-					[[NSUserDefaults standardUserDefaults] removeObjectForKey:FILE_PASSWORD];
-				if( !self.enteredBackground ) // If entered background, the password check is not at startup
-					[self performSelector:@selector(delayedStartup)
-							   withObject:nil
-							   afterDelay:0.3];
-			}
-			else
-			{
-				[self performSelector:@selector(checkPassword)
-						   withObject:nil
-						   afterDelay:0.3];
-			}
-		}
-		else // Cancel button pressed
-		{
-			exit(1);
-		}
-	}
-	else if(actionSheet.tag == PASSWORD_SET)
-	{
-		if(buttonIndex > 0)
-		{
-			if( newPassword == nil )
-			{
-				newPassword = [text copy];
-				[self performSelector:@selector(setPassword:)
-						   withObject:@"Confirm Password"
-						   afterDelay:0.3];
-			}
-			else if( [text isEqual:newPassword] )
-			{
-				[[NSUserDefaults standardUserDefaults] setObject:[newPassword ozyHash] forKey:FILE_PASSWORD];
-				newPassword = nil;
-				[self performSelector:@selector(delayedStartup) withObject:nil afterDelay:0];
-			}
-			else
-			{
-				newPassword = nil;
-				[self performSelector:@selector(setPassword:)
-						   withObject:@"Passwords Don't Match!\nSet Password"
-						   afterDelay:0.3];
-			}
-		}
-		else // Cancel button pressed
-		{
-			[CSVPreferencesController clearSetPassword];
-			[self performSelector:@selector(delayedStartup) withObject:nil afterDelay:0];
-		}
-	}
-	else if( actionSheet.tag == CSV_FILE_LIST_SETUP )
-	{
-		[self readFileListFromURL:text];
-	}
-	else if( actionSheet.tag == UPGRADE_FAILED )
-	{
-		exit(1);
-	}
-	else if( actionSheet.tag == RELOAD_FILES && buttonIndex > 0)
-	{
-		[self reloadAllFiles];
-	}
 }
 
 @end

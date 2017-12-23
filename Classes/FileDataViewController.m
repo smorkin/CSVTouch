@@ -37,6 +37,12 @@
 
 }
 
+- (void) viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    self.navigationController.toolbarHidden = YES;
+}
+
 - (void) synchronizeFileEncoding
 {
     NSUInteger encoding = [CSVFileParser getEncodingSettingForFile:[[self file] fileName]];

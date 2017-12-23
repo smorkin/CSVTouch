@@ -35,7 +35,6 @@
 @implementation CSVDataViewController
 
 @synthesize searchBar = _searchBar;
-@synthesize leaveAppURL;
 @synthesize showDeletedColumns = _showDeletedColumns;
 @synthesize contentView = _contentView;
 
@@ -298,35 +297,39 @@
         // Check if something seems screwy...
         if( [importantColumnIndexes count] == 0 && [[self itemController].objects count] > 1 )
         {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"No columns to show!"
-                                                             message:@"Probably reason: File refreshed but column names have changed. Please click Edit -> Reset Columns"
-                                                            delegate:[[UIApplication sharedApplication] delegate]
-                                                   cancelButtonTitle:@"OK"
-                                                   otherButtonTitles:nil];
-            [alert show];
+            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"No columns to show!"
+                                                                           message:@"Probably reason: File refreshed but column names have changed. Please click Edit -> Reset Columns"
+                                                                     okButtonTitle:@"OK"
+                                                                         okHandler:nil];
+            [self.navController.topViewController presentViewController:alert
+                                                               animated:YES
+                                                             completion:nil];
         }
         else if( [CSVPreferencesController showDebugInfo] )
         {
             if( [self currentFile].droppedRows > 0 )
             {
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Dropped Rows!"
-                                                                 message:[NSString stringWithFormat:@"%d rows dropped due to problems reading them. Last dropped row:\n%@",
-                                                                          [self currentFile].droppedRows,
-                                                                          [self currentFile].problematicRow]
-                                                                delegate:[[UIApplication sharedApplication] delegate]
-                                                       cancelButtonTitle:@"OK"
-                                                       otherButtonTitles:nil];
-                [alert show];
+                UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Dropped Rows!"
+                                                                               message:[NSString stringWithFormat:@"%d rows dropped due to problems reading them. Last dropped row:\n%@",
+                                                                                        [self currentFile].droppedRows,
+                                                                                        [self currentFile].problematicRow]
+                                                                         okButtonTitle:@"OK"
+                                                                             okHandler:nil];
+                [self.navController.topViewController presentViewController:alert
+                                                                   animated:YES
+                                                                 completion:nil];
+
             }
             else if([[[self currentFile] availableColumnNames] count] !=
                     [[NSSet setWithArray:[[self currentFile] availableColumnNames]] count] )
             {
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Identical Column Titles!"
-                                                                 message:@"Some of the columns have the same title; this should be changed for correct functionality. Please make sure the first line in the file consists of the column titles."
-                                                                delegate:[[UIApplication sharedApplication] delegate]
-                                                       cancelButtonTitle:@"OK"
-                                                       otherButtonTitles:nil];
-                [alert show];
+                UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Identical Column Titles!"
+                                                                               message:@"Some of the columns have the same title; this should be changed for correct functionality. Please make sure the first line in the file consists of the column titles."
+                                                                         okButtonTitle:@"OK"
+                                                                             okHandler:nil];
+                [self.navController.topViewController presentViewController:alert
+                                                                   animated:YES
+                                                                 completion:nil];
             }
         }
         [[self itemController] setFile:[self currentFile]];
@@ -545,29 +548,22 @@
 	[self updateBadgeValueUsingItem:[[self currentDetailsController] navigationItem] push:YES];
 }
 
-- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
-{
-	if( [alertView isEqual:leaveAppView] )
-	{
-		if( buttonIndex == 1 && leaveAppURL )
-			[[UIApplication sharedApplication] openURL:leaveAppURL];
-		leaveAppView = nil;
-		self.leaveAppURL = nil;
-	}
-}
-
 - (void) delayedHtmlClick:(NSURL *)URL
 {
 	if( [CSVPreferencesController confirmLink] )
 	{
-		self.leaveAppURL = URL;
-		leaveAppView = [[UIAlertView alloc] initWithTitle:[NSString stringWithFormat:@"Leave %@",
-														   ([CSVPreferencesController restrictedDataVersionRunning] ? @"CSV Lite" : @"CSV Touch")]
-												  message:[NSString stringWithFormat:@"Continue opening %@?", [self.leaveAppURL absoluteString]]
-												 delegate:self
-										cancelButtonTitle:@"Cancel"
-										otherButtonTitles:@"Leave", nil];
-		[leaveAppView show];
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:[NSString stringWithFormat:@"Leave %@",
+                                                                                ([CSVPreferencesController restrictedDataVersionRunning] ? @"CSV Lite" : @"CSV Touch")]
+                                                                       message:[NSString stringWithFormat:@"Continue opening %@?", [URL absoluteString]]
+                                                                 okButtonTitle:@"OK"
+                                                                     okHandler:^(UIAlertAction *action) {
+                                                                         [[UIApplication sharedApplication] openURL:URL];
+                                                                     }
+                                                             cancelButtonTitle:@"Cancel"
+                                                                 cancelHandler:nil];
+        [self.navController.topViewController presentViewController:alert
+                                                           animated:YES
+                                                         completion:nil];        
 	}
 	else
 	{
@@ -594,14 +590,14 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
 {
 	if( [CSVPreferencesController showDebugInfo] )
 	{
-		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Load error!"
-														 message:[NSString stringWithFormat:@"Error when loading view. Description: %@\nCode: %ld",
-																  [error localizedDescription], (long)[error code]]
-														delegate:[[UIApplication sharedApplication] delegate]
-											   cancelButtonTitle:@"OK"
-											   otherButtonTitles:nil];
-		[alert show];
-		
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Load error!"
+                                                                       message:[NSString stringWithFormat:@"Error when loading view. Description: %@\nCode: %ld",
+                                                                                [error localizedDescription], (long)[error code]]
+                                                                 okButtonTitle:@"OK"
+                                                                     okHandler:nil];
+        [self.navController.topViewController presentViewController:alert
+                                                           animated:YES
+                                                         completion:nil];
 	}
 }
 
@@ -1068,24 +1064,6 @@ static CSVDataViewController *sharedInstance = nil;
 		itemsNeedResorting = itemsNeedFiltering = NO;
 	}
 	[self updateBadgeValueUsingItem:itemController.navigationItem push:YES];
-//	[self dismissViewControllerAnimated:YES completion:NULL];
-}
-
-- (BOOL)navigationBar:(UINavigationBar *)navigationBar
-		shouldPopItem:(UINavigationItem *)item
-{
-	[self updateBadgeValueUsingItem:item push:NO];
-//    if( [super respondsToSelector:@selector(navigationBar:shouldPopItem:)])
-//        return [super navigationBar:navigationBar shouldPopItem:item];
-//    else
-        return TRUE;
-}
-
-- (BOOL)navigationBar:(UINavigationBar *)navigationBar
-	   shouldPushItem:(UINavigationItem *)item
-{
-	[self updateBadgeValueUsingItem:item push:YES];
-	return YES;
 }
 
 - (void) passwordWasChecked

@@ -52,10 +52,6 @@ OzyWebViewController;
 	IBOutlet UIToolbar *fancyDetailsViewToolbar;
 	IBOutlet UIToolbar *htmlDetailsViewToolbar;
 	
-	// Need to remember this when "Leave CSV Touch"-sheet returns
-	UIAlertView *leaveAppView;
-	NSURL *leaveAppURL;
-	
 	// An array with the current indexes to use for the items
 	NSMutableArray *importantColumnIndexes;
 	int *rawColumnIndexes;
@@ -72,9 +68,7 @@ OzyWebViewController;
 	BOOL _showDeletedColumns;	
 }
 
-@property (nonatomic, readonly) UIToolbar *itemsToolbar;
 @property (nonatomic, retain) UISearchBar *searchBar;
-@property (nonatomic, copy) NSURL *leaveAppURL;
 @property (nonatomic, assign) BOOL showDeletedColumns;
 @property (nonatomic, retain) UIView *contentView;
 @property (nonatomic, strong) UINavigationController *navController;

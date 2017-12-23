@@ -101,12 +101,17 @@ static FilesViewController *_sharedInstance = nil;
 {
     [super viewDidAppear:animated];
 
-    self.navigationController.toolbarHidden = NO;
     if( [CSVPreferencesController simpleMode])
     {
         self.navigationController.navigationItem.rightBarButtonItem = nil;
         self.editable = NO;
     }    
+}
+
+- (void) viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    self.navigationController.toolbarHidden = NO;
 }
 
 - (void) refreshAllFiles

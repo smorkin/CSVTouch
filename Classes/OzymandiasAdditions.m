@@ -275,3 +275,43 @@
 }
 
 @end
+
+@implementation UIAlertController (OzymandiasExtension)
+
++ (UIAlertController *) alertControllerWithTitle:(NSString *)title
+                                         message:(NSString *)message
+                                   okButtonTitle:(NSString *)okTitle
+                                       okHandler:(void (^)(UIAlertAction *action))okHandler
+{
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:title
+                                                                             message:message
+                                                                      preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *ok = [UIAlertAction actionWithTitle:okTitle
+                                                 style:UIAlertActionStyleDefault
+                                               handler:okHandler];
+    [alertController addAction:ok];
+    return alertController;
+}
+
++ (UIAlertController *) alertControllerWithTitle:(NSString *)title
+                                         message:(NSString *)message
+                                   okButtonTitle:(NSString *)okTitle
+                                       okHandler:(void (^)(UIAlertAction *action))okHandler
+                               cancelButtonTitle:(NSString *)cancelTitle
+                                   cancelHandler:(void (^)(UIAlertAction *action))cancelHandler
+{
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:title
+                                                                             message:message
+                                                                      preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *ok = [UIAlertAction actionWithTitle:okTitle
+                                                 style:UIAlertActionStyleDefault
+                                               handler:okHandler];
+    [alertController addAction:ok];
+    UIAlertAction *cancel = [UIAlertAction actionWithTitle:cancelTitle
+                                                     style:UIAlertActionStyleCancel
+                                                   handler:cancelHandler];
+    [alertController addAction:cancel];
+    return alertController;
+}
+
+@end

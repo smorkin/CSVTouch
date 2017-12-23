@@ -31,6 +31,21 @@
 
 @end
 
+@interface UIAlertController (OzymandiasExtension)
++ (UIAlertController *) alertControllerWithTitle:(NSString *)title
+                                         message:(NSString *)message
+                                   okButtonTitle:(NSString *)okTitle
+                                       okHandler:(void (^)(UIAlertAction *action))okHandler;
+
++ (UIAlertController *) alertControllerWithTitle:(NSString *)title
+                                         message:(NSString *)message
+                                   okButtonTitle:(NSString *)okTitle
+                                       okHandler:(void (^)(UIAlertAction *action))okHandler
+                               cancelButtonTitle:(NSString *)cancelTitle
+                                       cancelHandler:(void (^)(UIAlertAction *action))cancelHandler;
+
+@end
+
 @interface UITableView (OzymandiasExtension)
 
 - (void) scrollToTopWithAnimation:(BOOL)animate;

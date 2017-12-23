@@ -25,6 +25,8 @@
                                                                               style:UIBarButtonItemStylePlain
                                                                              target:self
                                                                              action:@selector(resetColumns)];
+    self.navigationController.toolbarHidden = YES;
+    
     [super viewWillAppear:animated];
 }
 

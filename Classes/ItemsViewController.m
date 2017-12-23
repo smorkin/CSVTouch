@@ -86,6 +86,7 @@
     // Might be that setObjects is call before setFile -> we need to update counts
     [self updateItemCount];
     [super viewWillAppear:animated];
+    self.navigationController.toolbarHidden = NO;
 }
 
 - (void) modifyItemsTableViewSize:(BOOL)increase
