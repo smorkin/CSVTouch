@@ -39,7 +39,6 @@ static CSV_TouchAppDelegate *sharedInstance = nil;
 + (BOOL) iPadMode
 {
     return ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad);
-//	return [[[UIDevice currentDevice] name] hasSubstring:@"iPad"];
 }
 
 + (NSString *) internalFileNameForOriginalFileName:(NSString *)original
