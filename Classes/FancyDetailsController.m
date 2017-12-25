@@ -1,28 +1,18 @@
 //
-//  OzyTextViewController.m
+//  FancyDetailsController.m
 //  CSV Touch
 //
-//  Created by Simon Wigzell on 18/06/2008.
-//  Copyright 2008 Ozymandias. All rights reserved.
+//  Created by Simon Wigzell on 2017-12-25.
 //
 
-#import "OzyTextViewController.h"
-#import "OzymandiasAdditions.h"
+#import "FancyDetailsController.h"
 #import "CSVDataViewController.h"
 
-@implementation OzyTextViewController
+@interface FancyDetailsController ()
 
-@synthesize textView = _textView;
+@end
 
-- (UIInterfaceOrientationMask)supportedInterfaceOrientations
-{
-    return UIInterfaceOrientationMaskAll;
-}
-
-- (BOOL)shouldAutorotate
-{
-    return YES;
-}
+@implementation FancyDetailsController
 
 - (void) configureNavigationBar
 {

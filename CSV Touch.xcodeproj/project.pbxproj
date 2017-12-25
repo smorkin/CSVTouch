@@ -21,6 +21,8 @@
 		F412B2D2115567D0000C7596 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28AD735F0D9D9599002E5188 /* MainWindow.xib */; };
 		F412B2D3115567DB000C7596 /* iPadMainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = F47DC8101111004D00E8DD8B /* iPadMainWindow.xib */; };
 		F412B2D4115567DE000C7596 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28AD735F0D9D9599002E5188 /* MainWindow.xib */; };
+		F434D13E1FF14E5000CD622D /* FancyDetailsController.m in Sources */ = {isa = PBXBuildFile; fileRef = F434D13D1FF14E5000CD622D /* FancyDetailsController.m */; };
+		F434D13F1FF14E5000CD622D /* FancyDetailsController.m in Sources */ = {isa = PBXBuildFile; fileRef = F434D13D1FF14E5000CD622D /* FancyDetailsController.m */; };
 		F45807FF11466E9400A4C4E1 /* nksTablegallery.css in Resources */ = {isa = PBXBuildFile; fileRef = F45807FC11466E9400A4C4E1 /* nksTablegallery.css */; };
 		F458080011466E9400A4C4E1 /* nksTablegallery.css in Resources */ = {isa = PBXBuildFile; fileRef = F45807FC11466E9400A4C4E1 /* nksTablegallery.css */; };
 		F458080C11466F1600A4C4E1 /* seaglass.css in Resources */ = {isa = PBXBuildFile; fileRef = F458080911466F1600A4C4E1 /* seaglass.css */; };
@@ -234,6 +236,8 @@
 		F41BB7470EE9F65A00BEFDED /* lock.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = lock.png; path = ../lock.png; sourceTree = "<group>"; };
 		F42D908C0DE95538001A2E5C /* CSVDataViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSVDataViewController.h; sourceTree = "<group>"; };
 		F42D908D0DE95538001A2E5C /* CSVDataViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSVDataViewController.m; sourceTree = "<group>"; };
+		F434D13C1FF14E5000CD622D /* FancyDetailsController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FancyDetailsController.h; sourceTree = "<group>"; };
+		F434D13D1FF14E5000CD622D /* FancyDetailsController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FancyDetailsController.m; sourceTree = "<group>"; };
 		F451F1800E99146300F22ED9 /* info.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = info.png; path = ../info.png; sourceTree = "<group>"; };
 		F45807FC11466E9400A4C4E1 /* nksTablegallery.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = nksTablegallery.css; sourceTree = "<group>"; };
 		F458080911466F1600A4C4E1 /* seaglass.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = seaglass.css; sourceTree = "<group>"; };
@@ -407,6 +411,8 @@
 				F46CA0DB1FE5B1AB00FE645C /* FileDownloader.m */,
 				F40D21301FE6A66F00146BB4 /* EditViewController.h */,
 				F40D21311FE6A66F00146BB4 /* EditViewController.m */,
+				F434D13C1FF14E5000CD622D /* FancyDetailsController.h */,
+				F434D13D1FF14E5000CD622D /* FancyDetailsController.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -868,6 +874,7 @@
 				F47DC8021111004C00E8DD8B /* parseCSV.m in Sources */,
 				F46CA0CC1FE56DEC00FE645C /* FilesViewController.m in Sources */,
 				F46D894511725CFA00D45EEA /* OzyWebViewController.m in Sources */,
+				F434D13E1FF14E5000CD622D /* FancyDetailsController.m in Sources */,
 				F46CA0D01FE5960700FE645C /* ItemsViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -898,6 +905,7 @@
 				F47DC82F1111005400E8DD8B /* main.m in Sources */,
 				F46CA0CD1FE56DEC00FE645C /* FilesViewController.m in Sources */,
 				F46D894611725CFA00D45EEA /* OzyWebViewController.m in Sources */,
+				F434D13F1FF14E5000CD622D /* FancyDetailsController.m in Sources */,
 				F46CA0D11FE5960700FE645C /* ItemsViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

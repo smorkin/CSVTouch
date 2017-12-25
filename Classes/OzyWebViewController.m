@@ -8,6 +8,7 @@
 
 #import "OzyWebViewController.h"
 #import "OzymandiasAdditions.h"
+#import "CSVDataViewController.h"
 
 @implementation OzyWebViewController
 
@@ -23,5 +24,20 @@
     return YES;
 }
 
+- (void) configureNavigationBar
+{
+    
+    UIBarButtonItem *move = [[UIBarButtonItem alloc] initWithTitle:@"Next view"
+                                                             style:UIBarButtonItemStylePlain
+                                                            target:[CSVDataViewController sharedInstance]
+                                                            action:@selector(gotoNextDetailsView)];
+    self.navigationItem.rightBarButtonItem = move;
+}
+
+- (void) awakeFromNib
+{
+    [super awakeFromNib];
+    [self configureNavigationBar];
+}
 
 @end

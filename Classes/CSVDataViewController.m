@@ -834,7 +834,7 @@ static CSVDataViewController *sharedInstance = nil;
 	}
 }
 
-- (IBAction) toggleDetailsView:(id)sender
+- (void) gotoNextDetailsView
 {
 	if( [self currentDetailsController] == fancyDetailsController )
 	{

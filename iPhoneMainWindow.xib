@@ -125,36 +125,19 @@
         </viewController>
         <viewController title="Items" id="226" userLabel="Item controller" customClass="ItemsViewController">
             <extendedEdge key="edgesForExtendedLayout"/>
-            <navigationItem key="navigationItem" title="Items" id="273">
-                <barButtonItem key="rightBarButtonItem" title="&lt;d&gt;" id="645"/>
-            </navigationItem>
             <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <point key="canvasLocation" x="58.5" y="-939.5"/>
         </viewController>
         <viewController title="Files" id="227" userLabel="File controller" customClass="FilesViewController">
             <extendedEdge key="edgesForExtendedLayout"/>
-            <navigationItem key="navigationItem" title="Files" id="270">
-                <barButtonItem key="rightBarButtonItem" systemItem="add" id="574">
-                    <connections>
-                        <action selector="addNewFile" destination="227" id="Qcx-nx-VcO"/>
-                    </connections>
-                </barButtonItem>
-            </navigationItem>
             <simulatedToolbarMetrics key="simulatedBottomBarMetrics" translucent="NO"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <point key="canvasLocation" x="59" y="-171"/>
         </viewController>
-        <viewController title="Items" id="444" userLabel="Fancy details" customClass="OzyTableViewController">
+        <viewController title="Items" id="444" userLabel="Fancy details" customClass="FancyDetailsController">
             <extendedEdge key="edgesForExtendedLayout"/>
             <toolbarItems/>
-            <navigationItem key="navigationItem" title="Details" id="445">
-                <barButtonItem key="rightBarButtonItem" title="Links ➔" id="459">
-                    <connections>
-                        <action selector="toggleDetailsView:" destination="14" id="460"/>
-                    </connections>
-                </barButtonItem>
-            </navigationItem>
             <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <point key="canvasLocation" x="609" y="581"/>
@@ -184,13 +167,6 @@
             </view>
             <extendedEdge key="edgesForExtendedLayout"/>
             <toolbarItems/>
-            <navigationItem key="navigationItem" title="Details" id="473">
-                <barButtonItem key="rightBarButtonItem" title="Simple ➔" id="476">
-                    <connections>
-                        <action selector="toggleDetailsView:" destination="14" id="477"/>
-                    </connections>
-                </barButtonItem>
-            </navigationItem>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
                 <outlet property="_contentView" destination="631" id="632"/>
@@ -223,13 +199,6 @@
                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             </view>
             <extendedEdge key="edgesForExtendedLayout"/>
-            <navigationItem key="navigationItem" title="Details" id="283">
-                <barButtonItem key="rightBarButtonItem" title="Enhanced ➔" id="457">
-                    <connections>
-                        <action selector="toggleDetailsView:" destination="14" id="458"/>
-                    </connections>
-                </barButtonItem>
-            </navigationItem>
             <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
@@ -260,7 +229,6 @@
                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             </view>
             <extendedEdge key="edgesForExtendedLayout"/>
-            <navigationItem key="navigationItem" title="File Error" id="426"/>
             <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
             <connections>
                 <outlet property="_contentView" destination="643" id="644"/>

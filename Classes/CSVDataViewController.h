@@ -12,6 +12,7 @@
 #import "ParseErrorViewController.h"
 #import "ItemsViewController.h"
 #import "EditViewController.h"
+#import "FancyDetailsController.h"
 
 @class OzyTableViewController,
 CSVFileParser, 
@@ -22,7 +23,7 @@ OzyWebViewController;
 @interface CSVDataViewController : UINavigationController <UITableViewDelegate, UISearchBarDelegate>
 {
 	IBOutlet OzyTextViewController *detailsController;
-	IBOutlet OzyTableViewController *fancyDetailsController;
+	IBOutlet FancyDetailsController *fancyDetailsController;
 	IBOutlet OzyWebViewController *htmlDetailsController;
 	IBOutlet FilesViewController *fileController;
 	IBOutlet ParseErrorViewController *parseErrorController;
@@ -67,11 +68,7 @@ OzyWebViewController;
 
 + (CSVDataViewController *) sharedInstance;
 
-- (IBAction) editDone:(id)sender;
-- (IBAction) toggleDetailsView:(id)sender;
-- (IBAction) nextDetailsClicked:(id)sender;
-- (IBAction) previousDetailsClicked:(id)sender;
-- (IBAction) toggleShowHideDeletedColumns;
+- (void) editDone:(id)sender;
 
 - (void) resetColumnNamesForFile:(CSVFileParser *)file;
 - (void) resetColumnNamesForCurrentFile;
@@ -100,6 +97,8 @@ OzyWebViewController;
 - (ParseErrorViewController *) parseErrorController;
 
 - (void) selectedItemAtIndexPath:(NSIndexPath *)indexPath;
+
+- (void) gotoNextDetailsView;
 
 // For CSV_TouchAppDelegate
 - (NSUInteger) numberOfFiles;

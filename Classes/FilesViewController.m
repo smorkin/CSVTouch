@@ -88,6 +88,13 @@ static FilesViewController *_sharedInstance = nil;
     self.size = OZY_NORMAL;
 }
 
+- (void) configureNavigationBar
+{
+    UIBarButtonItem *add = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd
+                                                                         target:self action:@selector(addNewFile)];
+    self.navigationItem.rightBarButtonItem = add;
+}
+
 - (void) awakeFromNib
 {
     [super awakeFromNib];
@@ -95,6 +102,7 @@ static FilesViewController *_sharedInstance = nil;
     [self configureToolbarButtons];
     [self configureGestures];
     [self configureTable];
+    [self configureNavigationBar];
 }
 
 - (void) viewDidAppear:(BOOL)animated
