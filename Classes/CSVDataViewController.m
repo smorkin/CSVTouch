@@ -43,11 +43,6 @@
     return fileController;
 }
 
-- (ItemsViewController *) itemController
-{
-    return itemController;
-}
-
 - (ParseErrorViewController *) parseErrorController
 {
     return parseErrorController;
@@ -119,8 +114,8 @@
 	if( [CSVPreferencesController restrictedDataVersionRunning] && [workObjects count] > MAX_ITEMS_IN_LITE_VERSION )
 		[workObjects removeObjectsInRange:NSMakeRange(MAX_ITEMS_IN_LITE_VERSION, [workObjects count] - MAX_ITEMS_IN_LITE_VERSION)];
 	
-	[itemController setObjects:workObjects];
-	[itemController dataLoaded];
+	[self.itemController setObjects:workObjects];
+	[self.itemController dataLoaded];
 }
 
 - (void) setHiddenColumns:(NSIndexSet *)hidden forFile:(NSString *)fileName
@@ -194,7 +189,7 @@
 {
 	if( [self currentFile] )
 	{
-		NSArray *a = [[itemController tableView] indexPathsForVisibleRows];
+		NSArray *a = [self.itemController.tableView indexPathsForVisibleRows];
 		if( [a count] > 0 )
 			[indexPathForFileName setObject:[[a objectAtIndex:0] dictionaryRepresentation] forKey:[[self currentFile] fileName]];
 		else
@@ -204,23 +199,6 @@
 		else
 			[searchStringForFileName removeObjectForKey:[[self currentFile] fileName]];
 	}
-}
-
-- (void) updateFileModificationDateButton
-{
-	NSString *date;
-	NSString *time;
-	NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    
-	[dateFormatter setDateStyle:NSDateFormatterShortStyle];
-	[dateFormatter setTimeStyle:NSDateFormatterNoStyle];
-	date = [dateFormatter stringFromDate:[self currentFile].downloadDate];
-	[dateFormatter setDateStyle:NSDateFormatterNoStyle];
-	[dateFormatter setTimeStyle:NSDateFormatterShortStyle];
-	time = [dateFormatter stringFromDate:[self currentFile].downloadDate];
-	
-	[(UILabel *)modificationDateButton.customView setText:[NSString stringWithFormat:@"%@\n%@",
-                                                           date, time]];
 }
 
 - (BOOL) selectFile:(CSVFileParser *)file
@@ -241,20 +219,19 @@
     else
         self.searchBar.text = @"";
     [self updateColumnNamesForFile:currentFile];
-    [[self itemController] setTitle:[currentFile defaultTableViewDescription]];
-    [self updateFileModificationDateButton];
+    [self.itemController setTitle:[currentFile defaultTableViewDescription]];
     [self refreshObjectsWithResorting:!currentFile.hasBeenSorted];
     
     // Reset last known position of items
     // First scroll to top, if we don't find any setting
-    [itemController.tableView scrollToTopWithAnimation:NO];
+    [self.itemController.tableView scrollToTopWithAnimation:NO];
     NSDictionary *indexPathDictionary = [indexPathForFileName objectForKey:[currentFile fileName]];
     if( [indexPathDictionary isKindOfClass:[NSDictionary class]] )
     {
         NSIndexPath *indexPath = [NSIndexPath indexPathWithDictionary:indexPathDictionary];
-        if( [itemController itemExistsAtIndexPath:indexPath] )
+        if( [self.itemController itemExistsAtIndexPath:indexPath] )
         {
-            [[itemController tableView] scrollToRowAtIndexPath:indexPath
+            [[self.itemController tableView] scrollToRowAtIndexPath:indexPath
                                               atScrollPosition:UITableViewScrollPositionTop
                                                       animated:NO];
         }
@@ -279,9 +256,9 @@
         return;
     }
     
-    [[[self itemController] tableView] deselectRowAtIndexPath:[[[self itemController] tableView] indexPathForSelectedRow]
+    [[self.itemController tableView] deselectRowAtIndexPath:[[[self itemController] tableView] indexPathForSelectedRow]
                                                                                        animated:NO];
-    [[self itemController] dataLoaded];
+    [self.itemController dataLoaded];
     
     // Check if there seems to be a problem with the file preventing us from reading it
     if( [[[self currentFile] itemsWithResetShortdescriptions:NO] count] < 1 ||
@@ -332,7 +309,7 @@
                                                                  completion:nil];
             }
         }
-        [[self itemController] setFile:[self currentFile]];
+        [self.itemController setFile:[self currentFile]];
         [self.navController pushViewController:[self itemController] animated:YES];
     }
 }
@@ -376,17 +353,17 @@
 		item == fancyDetailsController.navigationItem ||
 		item == htmlDetailsController.navigationItem))
 	{
-		NSIndexPath *selectedRow = [[itemController tableView] indexPathForSelectedRow];
+		NSIndexPath *selectedRow = [self.itemController.tableView indexPathForSelectedRow];
 		if( selectedRow &&
-		   [itemController indexForObjectAtIndexPath:selectedRow] != NSNotFound )
+		   [self.itemController indexForObjectAtIndexPath:selectedRow] != NSNotFound )
 		{
-			count = [itemController indexForObjectAtIndexPath:selectedRow] + 1;
+			count = [self.itemController indexForObjectAtIndexPath:selectedRow] + 1;
 		}
 		else
 		{
 			count = 0;
 		}
-		NSString *s = [NSString stringWithFormat:@"%lu/%lu", (unsigned long)count, (unsigned long)[[itemController objects] count]];
+		NSString *s = [NSString stringWithFormat:@"%lu/%lu", (unsigned long)count, (unsigned long)[[self.itemController objects] count]];
 		detailsController.title = s;
 		fancyDetailsController.title = s;
 		htmlDetailsController.title = s;
@@ -537,8 +514,8 @@
 
 - (void) selectDetailsForRow:(NSUInteger)row
 {
-	if( [[itemController objects] count] > row )
-		_latestShownItem = [[itemController objects] objectAtIndex:row];
+	if( [[self.itemController objects] count] > row )
+		_latestShownItem = [[self.itemController objects] objectAtIndex:row];
 	else
 		_latestShownItem = nil;
 	
@@ -599,14 +576,6 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
                                                            animated:YES
                                                          completion:nil];
 	}
-}
-
-- (void) updateShowHideDeletedColumnsButtons
-{
-	NSString *title = (self.showDeletedColumns ? @"Hide" : @"Show");
-	[[[detailsViewToolbar items] objectAtIndex:0] setTitle:title];
-	[[[fancyDetailsViewToolbar items] objectAtIndex:0] setTitle:title];
-	[[[htmlDetailsViewToolbar items] objectAtIndex:0] setTitle:title];
 }
 
 #define DEFS_COLUMN_NAMES @"defaultColumnNames"
@@ -701,7 +670,6 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
 		}
 		self.showDeletedColumns = TRUE;
 	}
-	[self updateShowHideDeletedColumnsButtons];
 	
     // Create a navigation controller and set as root
     self.navController = [[UINavigationController alloc] initWithRootViewController:fileController];
@@ -712,19 +680,6 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
 	fancyDetailsController.viewDelegate = self;
 	htmlDetailsController.viewDelegate = self;
     	
-	// Setup modificationdate/time label
-    {
-        CGRect frame = CGRectMake(0, 0, 72, 44);
-        UILabel *l = [[UILabel alloc] initWithFrame:frame];
-        l.font = [UIFont fontWithName:l.font.fontName size:10];
-        l.backgroundColor = [UIColor clearColor];
-        l.textColor = [UIColor blackColor];
-        l.lineBreakMode = NSLineBreakByWordWrapping;
-        l.textAlignment = NSTextAlignmentCenter;
-        l.numberOfLines = 2;
-        modificationDateButton.customView = l;
-    }
-    
 	// Disable phone links, if desired
 	if( [CSVPreferencesController enablePhoneLinks] == FALSE )
 		[htmlDetailsController.webView setDataDetectorTypes:UIDataDetectorTypeLink];
@@ -733,7 +688,7 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
     UISearchBar *searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0,170,320,44)];
     self.searchBar = searchBar;
     [searchBar setDelegate:self];
-	itemController.tableView.tableHeaderView = searchBar;
+	self.itemController.tableView.tableHeaderView = searchBar;
 	self.searchBar.autocorrectionType = UITextAutocorrectionTypeNo;
     self.searchBar.placeholder = @"Search items";
 	
@@ -791,13 +746,13 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
 {
 	if( [CSVPreferencesController modifyItemsTableViewSize:increase] )
 	{
-		NSArray *a = [[itemController tableView] indexPathsForVisibleRows];
+		NSArray *a = [self.itemController.tableView indexPathsForVisibleRows];
 		NSIndexPath *oldIndexPath = nil;
 		if( [a count] > 0 )
 			oldIndexPath = [a objectAtIndex:0];
-		itemController.size = [CSVPreferencesController itemsTableViewSize];
+		self.itemController.size = [CSVPreferencesController itemsTableViewSize];
 		if( oldIndexPath )
-			[itemController.tableView scrollToRowAtIndexPath:oldIndexPath
+			[self.itemController.tableView scrollToRowAtIndexPath:oldIndexPath
 											atScrollPosition:UITableViewScrollPositionTop
 													animated:NO];
 	}
@@ -806,7 +761,6 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
 - (IBAction) toggleShowHideDeletedColumns
 {
 	self.showDeletedColumns = !self.showDeletedColumns;
-	[self updateShowHideDeletedColumnsButtons];
 	[self updateSimpleViewWithItem:_latestShownItem];
 	[self updateEnhancedViewWithItem:_latestShownItem];
 	[self updateHtmlViewWithItem:_latestShownItem];
@@ -913,12 +867,12 @@ static CSVDataViewController *sharedInstance = nil;
 - (void) searchStart
 {
 	searchInputInProgress = TRUE;
-	itemController.useIndexes = FALSE;
-	[itemController refreshIndexes];
-	[itemController dataLoaded];
+	self.itemController.useIndexes = FALSE;
+	[self.itemController refreshIndexes];
+	[self.itemController dataLoaded];
 	
-	[itemController.navigationItem setRightBarButtonItem:[self doneItemWithSelector:@selector(searchItems:)] animated:YES];
-	[itemController.navigationItem setHidesBackButton:YES animated:YES];
+	[self.itemController.navigationItem setRightBarButtonItem:[self doneItemWithSelector:@selector(searchItems:)] animated:YES];
+	[self.itemController.navigationItem setHidesBackButton:YES animated:YES];
 }
 
 - (void) searchFinish
@@ -927,22 +881,22 @@ static CSVDataViewController *sharedInstance = nil;
 	{
 		searchInputInProgress = FALSE;
 		
-		[itemController.navigationItem setHidesBackButton:NO animated:YES];
-		[itemController.navigationItem setRightBarButtonItem:modificationDateButton animated:YES];
+		[self.itemController.navigationItem setHidesBackButton:NO animated:YES];
+		[self.itemController.navigationItem setRightBarButtonItem:self.itemController.modificationDateButton animated:YES];
 		if( [CSVPreferencesController useGroupingForItems] )
 		{
-			itemController.useIndexes = TRUE;
-			[itemController refreshIndexes];
-			[itemController dataLoaded];
+			self.itemController.useIndexes = TRUE;
+			[self.itemController refreshIndexes];
+			[self.itemController dataLoaded];
 		}
 		NSUInteger path[2];
-		if( itemController.useIndexes )
+		if( self.itemController.useIndexes )
 			path[0] = 1;
 		else
 			path[0] = 0;
 		path[1] = 0;
-		if( [itemController itemExistsAtIndexPath:[NSIndexPath indexPathWithIndexes:path length:2]] )
-			[itemController.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathWithIndexes:path length:2]
+		if( [self.itemController itemExistsAtIndexPath:[NSIndexPath indexPathWithIndexes:path length:2]] )
+			[self.itemController.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathWithIndexes:path length:2]
 											atScrollPosition:UITableViewScrollPositionTop
 													animated:YES];
 		
@@ -995,22 +949,43 @@ static CSVDataViewController *sharedInstance = nil;
 	[self searchFinish];
 }
 
+- (void) selectedItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    BOOL resetSearch = NO;
+    if( searchInputInProgress )
+    {
+        [self searchFinish];
+        if( [CSVPreferencesController clearSearchWhenQuickSelecting] )
+            resetSearch = YES;
+    }
+    
+    [self selectDetailsForRow:[self.itemController indexForObjectAtIndexPath:indexPath]];
+    [self.navController pushViewController:[self currentDetailsController] animated:YES];
+
+    if( resetSearch )
+    {
+        self.searchBar.text = @"";
+        CSVRow *selectedItem = [[self.itemController objects] objectAtIndex:[self.itemController indexForObjectAtIndexPath:indexPath]];
+        [self refreshObjectsWithResorting:NO];
+        NSUInteger newPosition = [[[self currentFile] itemsWithResetShortdescriptions:NO] indexOfObject:selectedItem];
+        if( newPosition != NSNotFound )
+        {
+            NSIndexPath *newPath = [self.itemController indexPathForObjectAtIndex:newPosition];
+            if( newPath )
+            {
+                [self.itemController.tableView selectRowAtIndexPath:newPath
+                                                           animated:NO
+                                                     scrollPosition:UITableViewScrollPositionTop];
+                [self updateBadgeValueUsingItem:[[self currentDetailsController] navigationItem]
+                                           push:YES];
+            }
+        }
+    }
+    
+}
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	BOOL resetSearch = NO;
-	if( searchInputInProgress )
-	{
-		[self searchFinish];
-		if( [CSVPreferencesController clearSearchWhenQuickSelecting] )
-			resetSearch = YES;
-	}
-	
-	if( tableView == [itemController tableView] )
-	{
-		[self selectDetailsForRow:[itemController indexForObjectAtIndexPath:indexPath]];
-		[self.navController pushViewController:[self currentDetailsController] animated:YES];
-	}
-	else if( tableView == [fancyDetailsController tableView] )
+	if( tableView == [fancyDetailsController tableView] )
 	{
 		NSArray *words = [[fancyDetailsController.objects objectAtIndex:
 						   [fancyDetailsController indexForObjectAtIndexPath:indexPath]]
@@ -1027,27 +1002,6 @@ static CSVDataViewController *sharedInstance = nil;
 			}
 		}
 	}
-	
-	if( resetSearch )
-	{
-		self.searchBar.text = @"";
-		CSVRow *selectedItem = [[itemController objects] objectAtIndex:[itemController indexForObjectAtIndexPath:indexPath]];
-		[self refreshObjectsWithResorting:NO];
-		NSUInteger newPosition = [[[self currentFile] itemsWithResetShortdescriptions:NO] indexOfObject:selectedItem];
-		if( newPosition != NSNotFound )
-		{
-			NSIndexPath *newPath = [itemController indexPathForObjectAtIndex:newPosition];
-			if( newPath )
-			{
-				[itemController.tableView selectRowAtIndexPath:newPath
-													  animated:NO
-												scrollPosition:UITableViewScrollPositionTop];
-				[self updateBadgeValueUsingItem:[[self currentDetailsController] navigationItem]
-										   push:YES];
-			}
-		}
-	}
-	
 }
 
 - (IBAction) editColumns
@@ -1063,7 +1017,7 @@ static CSVDataViewController *sharedInstance = nil;
 		[self refreshObjectsWithResorting:itemsNeedResorting];
 		itemsNeedResorting = itemsNeedFiltering = NO;
 	}
-	[self updateBadgeValueUsingItem:itemController.navigationItem push:YES];
+	[self updateBadgeValueUsingItem:self.itemController.navigationItem push:YES];
 }
 
 - (void) passwordWasChecked
@@ -1095,9 +1049,9 @@ didSelectRowAtIndexPath:[fileController.tableView indexPathForSelectedRow]];
 
 - (void) resortObjects
 {
-	[[itemController objects] sortUsingSelector:[CSVRow compareSelector]];
-	[itemController refreshIndexes];
-	[itemController dataLoaded];
+	[[self.itemController objects] sortUsingSelector:[CSVRow compareSelector]];
+	[self.itemController refreshIndexes];
+	[self.itemController dataLoaded];
 }
 
 - (void) removeFileWithName:(NSString *)name
@@ -1139,18 +1093,18 @@ didSelectRowAtIndexPath:[fileController.tableView indexPathForSelectedRow]];
 
 - (IBAction) nextDetailsClicked:(id)sender
 {
-	NSIndexPath *selectedRow = [[itemController tableView] indexPathForSelectedRow];                                              // return nil or index path representing section and row of selection.
+	NSIndexPath *selectedRow = [self.itemController.tableView indexPathForSelectedRow];                                              // return nil or index path representing section and row of selection.
 	if( selectedRow  )
 	{
 		NSUInteger newIndex;
-		if( [[itemController objects] count] > [itemController indexForObjectAtIndexPath:selectedRow]+1 )
-			newIndex = [itemController indexForObjectAtIndexPath:selectedRow] + 1;
-		else if( [[itemController objects] count] == [itemController indexForObjectAtIndexPath:selectedRow]+1 )
+		if( [[self.itemController objects] count] > [self.itemController indexForObjectAtIndexPath:selectedRow]+1 )
+			newIndex = [self.itemController indexForObjectAtIndexPath:selectedRow] + 1;
+		else if( [[self.itemController objects] count] == [self.itemController indexForObjectAtIndexPath:selectedRow]+1 )
 			newIndex = 0;
 		else
 			return;
-		NSIndexPath *newIndexPath = [itemController indexPathForObjectAtIndex:newIndex];
-		[[itemController tableView] selectRowAtIndexPath:newIndexPath
+		NSIndexPath *newIndexPath = [self.itemController indexPathForObjectAtIndex:newIndex];
+		[[self.itemController tableView] selectRowAtIndexPath:newIndexPath
 												animated:NO
 										  scrollPosition:UITableViewScrollPositionMiddle];
 		[self selectDetailsForRow:newIndex];
@@ -1159,18 +1113,18 @@ didSelectRowAtIndexPath:[fileController.tableView indexPathForSelectedRow]];
 
 - (IBAction) previousDetailsClicked:(id)sender
 {
-	NSIndexPath *selectedRow = [[itemController tableView] indexPathForSelectedRow];                                              // return nil or index path representing section and row of selection.
+	NSIndexPath *selectedRow = [self.itemController.tableView indexPathForSelectedRow];                                              // return nil or index path representing section and row of selection.
 	if( selectedRow  )
 	{
 		NSUInteger newIndex;
-		if( [itemController indexForObjectAtIndexPath:selectedRow] > 0 )
-			newIndex = [itemController indexForObjectAtIndexPath:selectedRow] - 1;
-		else if( [itemController indexForObjectAtIndexPath:selectedRow] == 0 )
-			newIndex = [[itemController objects] count] - 1;
+		if( [self.itemController indexForObjectAtIndexPath:selectedRow] > 0 )
+			newIndex = [self.itemController indexForObjectAtIndexPath:selectedRow] - 1;
+		else if( [self.itemController indexForObjectAtIndexPath:selectedRow] == 0 )
+			newIndex = [[self.itemController objects] count] - 1;
 		else
 			return;
-		NSIndexPath *newIndexPath = [itemController indexPathForObjectAtIndex:newIndex];
-		[[itemController tableView] selectRowAtIndexPath:newIndexPath
+		NSIndexPath *newIndexPath = [self.itemController indexPathForObjectAtIndex:newIndex];
+		[[self.itemController tableView] selectRowAtIndexPath:newIndexPath
 												animated:NO
 										  scrollPosition:UITableViewScrollPositionMiddle];
 		[self selectDetailsForRow:newIndex];
@@ -1225,8 +1179,8 @@ didSelectRowAtIndexPath:[fileController.tableView indexPathForSelectedRow]];
 		[self updateHtmlViewWithItem:_latestShownItem];
 		[fancyDetailsController.tableView reloadData];
 	}
-	else if( self.navController.visibleViewController == itemController )
-		[itemController.tableView reloadData];
+	else if( self.navController.visibleViewController == self.itemController )
+		[self.itemController.tableView reloadData];
 	else if( self.navController.visibleViewController == fileController )
 		[fileController.tableView reloadData];
 }

@@ -19,12 +19,11 @@ CSVRow,
 OzyTextViewController,
 OzyWebViewController;
 
-@interface CSVDataViewController : UIViewController <UITableViewDelegate, UISearchBarDelegate>
+@interface CSVDataViewController : UINavigationController <UITableViewDelegate, UISearchBarDelegate>
 {
 	IBOutlet OzyTextViewController *detailsController;
 	IBOutlet OzyTableViewController *fancyDetailsController;
 	IBOutlet OzyWebViewController *htmlDetailsController;
-	IBOutlet ItemsViewController *itemController;
 	IBOutlet FilesViewController *fileController;
 	IBOutlet ParseErrorViewController *parseErrorController;
     IBOutlet EditViewController *editController;
@@ -46,12 +45,6 @@ OzyWebViewController;
 	// Search view
     UISearchBar *_searchBar;
 
-	// Toolbars
-	IBOutlet UIBarButtonItem *modificationDateButton;
-	IBOutlet UIToolbar *detailsViewToolbar;
-	IBOutlet UIToolbar *fancyDetailsViewToolbar;
-	IBOutlet UIToolbar *htmlDetailsViewToolbar;
-	
 	// An array with the current indexes to use for the items
 	NSMutableArray *importantColumnIndexes;
 	int *rawColumnIndexes;
@@ -72,6 +65,7 @@ OzyWebViewController;
 @property (nonatomic, assign) BOOL showDeletedColumns;
 @property (nonatomic, retain) UIView *contentView;
 @property (nonatomic, strong) UINavigationController *navController;
+@property (nonatomic, retain) IBOutlet ItemsViewController *itemController;
 
 + (CSVDataViewController *) sharedInstance;
 
@@ -106,6 +100,8 @@ OzyWebViewController;
 - (FilesViewController *) fileController;
 - (ItemsViewController *) itemController;
 - (ParseErrorViewController *) parseErrorController;
+
+- (void) selectedItemAtIndexPath:(NSIndexPath *)indexPath;
 
 // For CSV_TouchAppDelegate
 - (NSUInteger) numberOfFiles;

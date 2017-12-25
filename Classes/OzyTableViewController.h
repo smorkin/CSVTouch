@@ -20,15 +20,13 @@ typedef enum OzyTableViewSize {
 	OZY_NORMAL, OZY_SMALL, OZY_MINI
 }OzyTableViewSize;
 	
-@interface OzyTableViewController : UIViewController <UITableViewDataSource> {
-	IBOutlet UITableView *_tableView;
+@interface OzyTableViewController : UITableViewController {
 	OzyTableViewSize _size;
 	NSMutableArray *_sectionIndexes;
 	NSMutableArray *_sectionStarts;
 	NSString *_imageName;	
 }
 
-@property (nonatomic, strong, readonly) UITableView *tableView;
 @property (nonatomic, strong) NSMutableArray *objects;
 @property (nonatomic, assign, getter=isEditable) BOOL editable;
 @property (nonatomic, assign) BOOL reorderable;

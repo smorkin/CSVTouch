@@ -427,10 +427,10 @@ static NSString *newPassword = nil;
 - (void) awakeFromNib
 {
     [super awakeFromNib];
-	if( [CSV_TouchAppDelegate iPadMode] )
-		[[NSBundle mainBundle] loadNibNamed:@"iPadMainWindow" owner:self options:nil];
-	else 
-		[[NSBundle mainBundle] loadNibNamed:@"iPhoneMainWindow" owner:self options:nil];
+    if( [CSV_TouchAppDelegate iPadMode] )
+        [[NSBundle mainBundle] loadNibNamed:@"iPadMainWindow" owner:self options:nil];
+    else 
+        [[NSBundle mainBundle] loadNibNamed:@"iPhoneMainWindow" owner:self options:nil];
 }
 
 //UIApplicationLaunchOptionsURLKey

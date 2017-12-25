@@ -22,9 +22,27 @@
 
 @implementation ItemsViewController
 
+- (void) updateDateButton
+{
+    NSString *date;
+    NSString *time;
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    
+    [dateFormatter setDateStyle:NSDateFormatterShortStyle];
+    [dateFormatter setTimeStyle:NSDateFormatterNoStyle];
+    date = [dateFormatter stringFromDate:file.downloadDate];
+    [dateFormatter setDateStyle:NSDateFormatterNoStyle];
+    [dateFormatter setTimeStyle:NSDateFormatterShortStyle];
+    time = [dateFormatter stringFromDate:file.downloadDate];
+    
+    [(UILabel *)self.modificationDateButton.customView setText:[NSString stringWithFormat:@"%@\n%@",
+                                                                date, time]];
+}
+
 - (void) setFile:(CSVFileParser *)newFile
 {
     file = newFile;
+    [self updateDateButton];
 }
 
 - (void) configureToolbarButtons
@@ -73,20 +91,35 @@
     self.useFixedWidth = [CSVPreferencesController useFixedWidth];
 }
 
+- (void) configureDateButton
+{
+    CGRect frame = CGRectMake(0, 0, 72, 44);
+    UILabel *l = [[UILabel alloc] initWithFrame:frame];
+    l.font = [UIFont fontWithName:l.font.fontName size:10];
+    l.backgroundColor = [UIColor clearColor];
+    l.textColor = [UIColor blackColor];
+    l.lineBreakMode = NSLineBreakByWordWrapping;
+    l.textAlignment = NSTextAlignmentCenter;
+    l.numberOfLines = 2;
+    self.modificationDateButton = [[UIBarButtonItem alloc] initWithCustomView:l];
+}
+
 - (void) awakeFromNib
 {
     [super awakeFromNib];
     [self configureToolbarButtons];
     [self configureTable];
     [self validateItemSizeButtons];
+    [self configureDateButton];
 }
 
 - (void) viewWillAppear:(BOOL)animated
 {
-    // Might be that setObjects is call before setFile -> we need to update counts
+    // Might be that setObjects is called before setFile -> we need to update counts
     [self updateItemCount];
     [super viewWillAppear:animated];
     self.navigationController.toolbarHidden = NO;
+    self.navigationItem.rightBarButtonItem = self.modificationDateButton;
 }
 
 - (void) modifyItemsTableViewSize:(BOOL)increase
@@ -153,4 +186,10 @@
     [super setObjects:objects];
     [self updateItemCount];
 }
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [[CSVDataViewController sharedInstance] selectedItemAtIndexPath:indexPath];
+}
+
 @end
