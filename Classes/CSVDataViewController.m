@@ -676,9 +676,6 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
     
 	// Setup stuff for controllers which can't be configured using InterfaceBuilder
 	fancyDetailsController.size = [CSVPreferencesController detailsTableViewSize];
-	detailsController.viewDelegate = self;
-	fancyDetailsController.viewDelegate = self;
-	htmlDetailsController.viewDelegate = self;
     	
 	// Disable phone links, if desired
 	if( [CSVPreferencesController enablePhoneLinks] == FALSE )
@@ -1196,65 +1193,3 @@ didSelectRowAtIndexPath:[fileController.tableView indexPathForSelectedRow]];
 }
 
 @end
-
-@interface CSVDataViewController (OzymandiasViewControllerViewDelegate) <OzymandiasViewControllerViewDelegate>
-@end
-
-@implementation CSVDataViewController (OzymandiasViewControllerViewDelegate)
-
-- (void) addNavigationButtonsToView:(UIViewController *)controller
-{
-	UIView *contentView = ([controller respondsToSelector:@selector(contentView)] ?
-                           [(OzyRotatableViewController *)controller contentView] : [controller view]);
-	CGSize viewSize = contentView.frame.size;
-	CGSize buttonSize = nextDetails.frame.size; // We assume both buttons have the same size already
-	CGFloat toolbarOffset = 44;//([CSVPreferencesController showDetailsToolbar] ? 44 : 0);
-	previousDetails.frame = CGRectMake(0,
-									   viewSize.height-buttonSize.height-16-toolbarOffset,
-									   buttonSize.width, buttonSize.height);
-	nextDetails.frame = CGRectMake(viewSize.width-buttonSize.width,
-								   viewSize.height-buttonSize.height-16-toolbarOffset,
-								   buttonSize.width, buttonSize.height);
-	[contentView addSubview:nextDetails];
-	[contentView addSubview:previousDetails];
-}
-
-// A little bit hacky, this one...
-- (void) removeNavigationButtonsFromView:(UIViewController *)controller
-{
-	UIView *contentView = ([controller respondsToSelector:@selector(contentView)] ?
-						   [(OzyRotatableViewController *)controller contentView] : [controller view]);
-	for( UIView *view in [contentView subviews] )
-	{
-		if( [view isKindOfClass:[UIButton class]] &&
-		   ([view isEqual:previousDetails] || [view isEqual:nextDetails]) )
-		{
-			[view removeFromSuperview];
-		}
-	}
-}
-
-- (void) viewDidAppear:(UIView *)view controller:(UIViewController *)controller
-{
-	if( [CSVPreferencesController useDetailsNavigation] )
-	{
-		if( controller == htmlDetailsController || ![CSVPreferencesController useDetailsSwipe] )
-		{
-			[self addNavigationButtonsToView:controller];
-		}
-	}
-}
-
-- (void) viewDidDisappear:(UIView *)view controller:(UIViewController *)controller
-{
-	if( [CSVPreferencesController useDetailsNavigation] )
-	{
-		if( controller == htmlDetailsController || ![CSVPreferencesController useDetailsSwipe] )
-		{
-			[self removeNavigationButtonsFromView:controller];
-		}
-	}
-}
-
-@end
-

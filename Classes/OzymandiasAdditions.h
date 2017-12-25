@@ -56,12 +56,6 @@
 @required
 @end
 
-@protocol OzymandiasViewControllerViewDelegate
-@required
-- (void) viewDidAppear:(UIView *)view controller:(UIViewController *)controller;
-- (void) viewDidDisappear:(UIView *)view controller:(UIViewController *)controller;
-@end
-
 @interface OzyTableView : UITableView
 {
 	CGPoint beginSwipePoint;

@@ -36,7 +36,6 @@ typedef enum OzyTableViewSize {
 @property (nonatomic, assign) BOOL removeDisclosure;
 @property (nonatomic, assign) BOOL useFixedWidth;
 @property (nonatomic, strong) NSArray *sectionTitles;
-@property (nonatomic, assign) id viewDelegate;
 @property (nonatomic, readonly) UIView *contentView;
 
 

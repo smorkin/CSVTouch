@@ -12,7 +12,6 @@
 	IBOutlet UIView *_contentView;
 }
 
-@property (nonatomic, weak) id viewDelegate;
 @property (nonatomic, strong, readonly) UIView *contentView;
 
 @end

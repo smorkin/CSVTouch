@@ -12,6 +12,4 @@
 @interface OzyRotatableTabBarController : UITabBarController {
 }
 
-@property (nonatomic, weak) id viewDelegate;
-
 @end

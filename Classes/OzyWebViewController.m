@@ -13,19 +13,6 @@
 
 @synthesize webView = _webView;
 
-// Not necessary since superclass already does this
-//- (void)viewDidAppear:(BOOL)animated
-//{
-//	[self.viewDelegate viewDidAppear:self.view controller:self];
-//	[super viewDidAppear:animated];
-//}
-//
-//- (void)viewDidDisappear:(BOOL)animated
-//{
-//	[self.viewDelegate viewDidDisappear:self.view controller:self];
-//	[super viewDidDisappear:animated];
-//}
-
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations
 {
     return UIInterfaceOrientationMaskAll;

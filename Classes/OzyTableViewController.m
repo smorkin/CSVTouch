@@ -446,16 +446,4 @@ sectionForSectionIndexTitle:(NSString *)title
 	[self.tableView reloadData];
 }
 
-- (void)viewDidAppear:(BOOL)animated
-{
-	[self.viewDelegate viewDidAppear:self.view controller:self];
-	[super viewDidAppear:animated];
-}
-
-- (void)viewDidDisappear:(BOOL)animated
-{
-	[self.viewDelegate viewDidDisappear:self.view controller:self];
-	[super viewDidDisappear:animated];
-}
-
 @end
