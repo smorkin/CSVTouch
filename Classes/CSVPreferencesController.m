@@ -19,7 +19,6 @@
 #define PREFS_SORTING_MASK @"sortingMask"
 #define PREFS_ITEMS_TABLEVIEW_SIZE @"tableViewSize"
 #define PREFS_DETAILS_TABLEVIEW_SIZE @"detailsTableViewSize"
-#define PREFS_MAX_NUMBER_TO_SORT @"maxNumberOfItemsToSort"
 #define PREFS_USE_GROUPING_FOR_ITEMS @"useGroupingForItems"
 #define PREFS_GROUP_NUMBERS @"groupNumbers"
 #define PREFS_ENABLE_PHONE_LINKS @"enablePhoneLinks"
@@ -38,7 +37,6 @@
 #define PREFS_NUMBER_SENSITIVE_SORTING @"numberSensitiveSorting"
 #define PREFS_CASE_SENSITIVE_SORTING @"caseSensitiveSorting"
 #define PREFS_LITERAL_SORTING @"literalSorting"
-#define PREFS_MAX_NUMBER_LIVE_FILTER @"maxNumberLiveFilter"
 #define PREFS_CLEAR_SEARCH_WHEN_QUICK_SELECTING @"clearSearchWhenQuickSelecting"
 #define PREFS_CONFIRM_LINK @"confirmLink"
 #define PREFS_ALIGN_HTML @"alignHtml"
@@ -68,7 +66,11 @@ static BOOL reverseItemSorting = FALSE;
 	[defaults removeObjectForKey:@"dataID"];
 	[defaults removeObjectForKey:@"sortingID"];
 	[defaults removeObjectForKey:@"appearanceID"];
-	[defaults removeObjectForKey:@"currentPrefsControllerStack"];
+    [defaults removeObjectForKey:@"currentPrefsControllerStack"];
+    [defaults removeObjectForKey:@"maxNumberLiveFilter"];
+    [defaults removeObjectForKey:@"maxNumberOfItemsToSort"];
+    [defaults removeObjectForKey:@"searchStringsForFiles"];
+    [defaults removeObjectForKey:@"predefinedHiddenColumns"];
 
 	// Setup sortingMask
 	sortingMask = NSNumericSearch ^ NSCaseInsensitiveSearch ^ NSLiteralSearch;
@@ -143,11 +145,6 @@ static BOOL reverseItemSorting = FALSE;
 	else
 		return NO;
 }
-
-+ (NSUInteger) maxNumberOfItemsToSort
-{
-	return [[NSUserDefaults standardUserDefaults] integerForKey:PREFS_MAX_NUMBER_TO_SORT];
-}	
 
 + (NSStringEncoding) encoding
 {
@@ -271,15 +268,6 @@ static BOOL reverseItemSorting = FALSE;
 		return [[NSUserDefaults standardUserDefaults] boolForKey:PREFS_SHOW_INLINE_IMAGES];
 	else
 		return YES;
-}
-
-+ (NSUInteger) maxNumberOfItemsToLiveFilter
-{
-	id obj = [[NSUserDefaults standardUserDefaults] objectForKey:PREFS_MAX_NUMBER_LIVE_FILTER];
-	if( obj )
-		return [[NSUserDefaults standardUserDefaults] integerForKey:PREFS_MAX_NUMBER_LIVE_FILTER];
-	else
-		return 1500;
 }
 
 + (BOOL) clearSearchWhenQuickSelecting
@@ -463,10 +451,6 @@ static BOOL hideAdress = NO;
 				[[NSUserDefaults standardUserDefaults] setInteger:[[words objectAtIndex:1] intValue]
 														   forKey:PREFS_DETAILS_TABLEVIEW_SIZE];
 			
-			else if( [[words objectAtIndex:0] isEqualToString:PREFS_MAX_NUMBER_TO_SORT] )
-				[[NSUserDefaults standardUserDefaults] setInteger:[[words objectAtIndex:1] intValue]
-														   forKey:PREFS_MAX_NUMBER_TO_SORT];
-			
 			else if( [[words objectAtIndex:0] isEqualToString:PREFS_USE_GROUPING_FOR_ITEMS] )
 				[[NSUserDefaults standardUserDefaults] setBool:[[words objectAtIndex:1] boolValue]
 														forKey:PREFS_USE_GROUPING_FOR_ITEMS];
@@ -538,11 +522,7 @@ static BOOL hideAdress = NO;
 			else if( [[words objectAtIndex:0] isEqualToString:PREFS_LITERAL_SORTING] )
 				[[NSUserDefaults standardUserDefaults] setBool:[[words objectAtIndex:1] boolValue]
 														forKey:PREFS_LITERAL_SORTING];
-			
-			else if( [[words objectAtIndex:0] isEqualToString:PREFS_MAX_NUMBER_LIVE_FILTER] )
-				[[NSUserDefaults standardUserDefaults] setInteger:[[words objectAtIndex:1] intValue]
-														forKey:PREFS_MAX_NUMBER_LIVE_FILTER];
-			
+						
 			else if( [[words objectAtIndex:0] isEqualToString:PREFS_CLEAR_SEARCH_WHEN_QUICK_SELECTING] )
 				[[NSUserDefaults standardUserDefaults] setBool:[[words objectAtIndex:1] boolValue]
 														forKey:PREFS_CLEAR_SEARCH_WHEN_QUICK_SELECTING];

@@ -103,11 +103,6 @@
 				latestFirstLetter = currentFirstLetter;
 			}
 		}
-		//		if( [_sectionIndexes count] > 75 )
-		//		{
-		//			[_sectionStarts removeAllObjects];
-		//			[_sectionIndexes removeAllObjects];
-		//		}
 	}
 	else
 	{
@@ -288,13 +283,10 @@ sectionForSectionIndexTitle:(NSString *)title
 	{
 		if (index == 0)
 		{
-			if( [[tableView tableHeaderView] isKindOfClass:[UISearchBar class]] )
-			{
-				[tableView scrollRectToVisible:[[tableView tableHeaderView] bounds] animated:NO];
-				UISearchBar *searchBar = (UISearchBar *)[tableView tableHeaderView];
-				[searchBar becomeFirstResponder];
-				return -1;
-			}
+            if( self.navigationItem.searchController ){
+                [self.navigationItem.searchController setActive:YES];
+                [self.navigationItem.searchController becomeFirstResponder];
+            }
 		}
 		return [_sectionIndexes indexOfObject:title];
 	}

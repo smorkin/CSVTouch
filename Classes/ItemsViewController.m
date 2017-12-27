@@ -9,13 +9,16 @@
 #import "CSVPreferencesController.h"
 #import "CSVRow.h"
 #import "CSVDataViewController.h"
+#import "OzymandiasAdditions.h"
 
 #define NORMAL_SORT_ORDER @"↓"
 #define REVERSE_SORT_ORDER @"↑"
+#define MAX_ITEMS_IN_LITE_VERSION 150
 
 
 @interface ItemsViewController ()
 @property (nonatomic, weak) CSVFileParser *file;
+@property (nonatomic, strong) UISearchController *searchController;
 @end
 
 @implementation ItemsViewController
@@ -59,12 +62,23 @@
     modificationDateButton.customView = l;
 }
 
+- (void) configureSearch
+{
+    self.searchController = [[UISearchController alloc] initWithSearchResultsController:nil];
+    self.searchController.searchResultsUpdater = self;
+    self.searchController.obscuresBackgroundDuringPresentation = NO;
+    self.searchController.searchBar.placeholder = @"Search items";
+    self.navigationItem.searchController = self.searchController;
+    self.definesPresentationContext = YES;
+}
+
 - (void) awakeFromNib
 {
     [super awakeFromNib];
     [self configureTable];
     [self validateItemSizeButtons];
     [self configureDateButton];
+    [self configureSearch];
     [CSVDataViewController sharedInstance].itemController = self;
 }
 
@@ -73,8 +87,9 @@
     // Might be that setObjects is called before setFile -> we need to update counts
     [self updateItemCount];
     [self updateDateButton];
-    self.navigationController.toolbarHidden = NO;
+    [self resetObjects];
     [self dataLoaded];
+    self.navigationController.toolbarHidden = NO;
     [super viewWillAppear:animated];
 }
 
@@ -132,21 +147,29 @@
     itemsCountButton.title = [NSString stringWithFormat:@"%lu%@", (unsigned long)count, addString];
 
 }
+
+- (void) resetObjects
+{
+    NSMutableArray *rows = [self.file itemsWithResetShortdescriptions:NO];
+    [rows sortUsingSelector:[CSVRow compareSelector]];
+    self.objects = rows;
+}
+
 - (void) setObjects:(NSMutableArray *)objects
 {
+    if( [CSVPreferencesController restrictedDataVersionRunning] && [objects count] > MAX_ITEMS_IN_LITE_VERSION )
+    {
+        [objects removeObjectsInRange:NSMakeRange(MAX_ITEMS_IN_LITE_VERSION, [objects count] - MAX_ITEMS_IN_LITE_VERSION)];
+    }
+    
     [super setObjects:objects];
+    [self refreshIndexes];
     [self updateItemCount];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [[CSVDataViewController sharedInstance] selectedItemAtIndexPath:indexPath];
-}
-
-- (void) dataLoaded
-{
-    self.objects = [self.file itemsWithResetShortdescriptions:NO];
-    [super dataLoaded];
 }
 
 - (void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
@@ -157,3 +180,38 @@
 }
 
 @end
+
+@implementation ItemsViewController (Search)
+
+- (void)updateSearchResultsForSearchController:(UISearchController *)searchController
+{
+    NSString *searchString = [searchController.searchBar.text lowercaseString];
+    NSMutableArray *allRows = [self.file itemsWithResetShortdescriptions:NO];
+
+    if( searchString && ![searchString isEqualToString:@""] )
+    {
+        NSMutableArray *filteredRows = [NSMutableArray array];
+        NSArray *words = [searchString componentsSeparatedByString:@" "];
+        NSUInteger wordCount = [words count];
+        NSUInteger wordNr;
+        NSString *objectDescription;
+        for( CSVRow *row in allRows )
+        {
+            objectDescription = [[row shortDescription] lowercaseString];
+            for( wordNr = 0 ;
+                wordNr < wordCount && [objectDescription hasSubstring:[words objectAtIndex:wordNr]];
+                wordNr++ );
+            if( wordNr == wordCount )
+                [filteredRows addObject:row];
+        }
+        self.objects = filteredRows;
+    }
+    else
+    {
+        self.objects = allRows;
+    }
+    [self dataLoaded];
+}
+
+@end
+

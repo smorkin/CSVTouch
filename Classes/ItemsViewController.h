@@ -24,5 +24,7 @@
 - (IBAction) increaseTableViewSize;
 - (IBAction) toggleItemSortOrder;
 
+@end
 
+@interface ItemsViewController (Search) <UISearchResultsUpdating>
 @end

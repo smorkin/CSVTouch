@@ -19,7 +19,7 @@ CSVRow,
 OzyTextViewController,
 OzyWebViewController;
 
-@interface CSVDataViewController : UINavigationController <UITableViewDelegate, UISearchBarDelegate>
+@interface CSVDataViewController : UINavigationController <UITableViewDelegate>
 {
 	IBOutlet OzyTextViewController *detailsController;
 	IBOutlet FancyDetailsController *fancyDetailsController;
@@ -35,27 +35,17 @@ OzyWebViewController;
 
 	// Cached data for files
 	NSMutableDictionary *indexPathForFileName;
-	NSMutableDictionary *searchStringForFileName;
 	
-	// Search view
-    UISearchBar *_searchBar;
-
 	// Weak reference to the latest shown item
 	CSVRow *_latestShownItem;
-	
-	BOOL searchInputInProgress;
-	
+		
 	BOOL _showDeletedColumns;	
 }
 
-@property (nonatomic, retain) UISearchBar *searchBar;
 @property (nonatomic, assign) BOOL showDeletedColumns;
-@property (nonatomic, retain) UIView *contentView;
 @property (nonatomic, retain) ItemsViewController *itemController;
 
 + (CSVDataViewController *) sharedInstance;
-
-- (void) editDone:(id)sender;
 
 - (void) resortObjects;
 

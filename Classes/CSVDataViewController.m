@@ -45,50 +45,6 @@
 	return currentFile;
 }
 
-- (void) refreshObjectsWithResorting:(BOOL)needsResorting
-{
-	NSMutableArray *allObjects = [[self currentFile] itemsWithResetShortdescriptions:needsResorting];
-	NSMutableArray *filteredObjects = [NSMutableArray array];
-	NSMutableArray *workObjects;
-	NSString *searchString = [self.searchBar.text lowercaseString];
-	
-	// We should always resort all objects, no matter which are actually shown
-	if( needsResorting &&
-	   ([CSVPreferencesController maxNumberOfItemsToSort] == 0 ||
-		[allObjects count] <= [CSVPreferencesController maxNumberOfItemsToSort]) )
-	{
-		[allObjects sortUsingSelector:[CSVRow compareSelector]];
-		[self currentFile].hasBeenSorted = YES;
-	}
-	
-	if( searchString && ![searchString isEqualToString:@""] )
-	{
-		NSArray *words = [searchString componentsSeparatedByString:@" "];
-		NSUInteger wordCount = [words count];
-		NSUInteger wordNr;
-		NSString *objectDescription;
-		for( CSVRow *row in allObjects )
-		{
-			objectDescription = [[row shortDescription] lowercaseString];
-			for( wordNr = 0 ;
-				wordNr < wordCount && [objectDescription hasSubstring:[words objectAtIndex:wordNr]];
-				wordNr++ );
-			if( wordNr == wordCount )
-				[filteredObjects addObject:row];
-		}
-		workObjects = filteredObjects;
-	}
-	else
-	{
-		workObjects = allObjects;
-	}
-	
-	if( [CSVPreferencesController restrictedDataVersionRunning] && [workObjects count] > MAX_ITEMS_IN_LITE_VERSION )
-		[workObjects removeObjectsInRange:NSMakeRange(MAX_ITEMS_IN_LITE_VERSION, [workObjects count] - MAX_ITEMS_IN_LITE_VERSION)];
-	
-	[self.itemController dataLoaded];
-}
-
 - (void) cacheCurrentFileData
 {
 	if( [self currentFile] )
@@ -98,16 +54,12 @@
 			[indexPathForFileName setObject:[[a objectAtIndex:0] dictionaryRepresentation] forKey:[[self currentFile] fileName]];
 		else
 			[indexPathForFileName removeObjectForKey:[[self currentFile] fileName]];
-		if( self.searchBar.text && ![self.searchBar.text isEqualToString:@""] )
-			[searchStringForFileName setObject:self.searchBar.text forKey:[[self currentFile] fileName]];
-		else
-			[searchStringForFileName removeObjectForKey:[[self currentFile] fileName]];
 	}
 }
 
 - (BOOL) selectFile:(CSVFileParser *)file
 {
-    // Store current position of itemController and search string
+    // Store current position of itemController
     [self cacheCurrentFileData];
     
     currentFile = file;
@@ -117,14 +69,8 @@
     {
         return FALSE;
     }
-    NSString *cachedSearchString = [searchStringForFileName objectForKey:[currentFile fileName]];
-    if( cachedSearchString )
-        self.searchBar.text = cachedSearchString;
-    else
-        self.searchBar.text = @"";
     [currentFile updateColumnsInfo];
     [self.itemController setTitle:[currentFile defaultTableViewDescription]];
-    [self refreshObjectsWithResorting:!currentFile.hasBeenSorted];
     
     // Reset last known position of items
     // First scroll to top, if we don't find any setting
@@ -390,7 +336,6 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
 }
 
 #define DEFS_ITEM_POSITIONS_FOR_FILES @"itemPositionsForFiles"
-#define DEFS_SEARCH_STRINGS_FOR_FILES @"searchStringsForFiles"
 #define DEFS_SELECTED_DETAILS_VIEW @"selectedDetailsView"
 
 - (void) applicationWillTerminate
@@ -410,15 +355,7 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
 		[defaults removeObjectForKey:DEFS_ITEM_POSITIONS_FOR_FILES];
 	}
 	
-	if( searchStringForFileName )
-	{
-		[defaults setObject:searchStringForFileName forKey:DEFS_SEARCH_STRINGS_FOR_FILES];
-	}
-
-    // Removing old defs
-    [defaults removeObjectForKey:@"predefinedHiddenColumns"];
-	
-	[defaults setInteger:selectedDetailsView forKey:DEFS_SELECTED_DETAILS_VIEW];	
+	[defaults setInteger:selectedDetailsView forKey:DEFS_SELECTED_DETAILS_VIEW];
 	[defaults synchronize];
 }
 
@@ -476,14 +413,6 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
 	// Disable phone links, if desired
 	if( [CSVPreferencesController enablePhoneLinks] == FALSE )
 		[htmlDetailsController.webView setDataDetectorTypes:UIDataDetectorTypeLink];
-	
-	// Searchbar setup
-    UISearchBar *searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0,170,320,44)];
-    self.searchBar = searchBar;
-    [searchBar setDelegate:self];
-	self.itemController.tableView.tableHeaderView = searchBar;
-	self.searchBar.autocorrectionType = UITextAutocorrectionTypeNo;
-    self.searchBar.placeholder = @"Search items";
     
 	// Read last state to be able to get back to where we were before quitting last time
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
@@ -491,16 +420,11 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
 	// 0. Extra settings
 	selectedDetailsView = (int)[defaults integerForKey:DEFS_SELECTED_DETAILS_VIEW];
 	
-	// 1. Read in search strings, positions, etc
+	// 1. Read in positions, etc
 	NSDictionary *itemPositions = [defaults objectForKey:DEFS_ITEM_POSITIONS_FOR_FILES];
 	if( itemPositions && [itemPositions isKindOfClass:[NSDictionary class]] )
 	{
 		indexPathForFileName = [[NSMutableDictionary alloc] initWithDictionary:itemPositions];
-	}
-	NSDictionary *searchStrings = [defaults objectForKey:DEFS_SEARCH_STRINGS_FOR_FILES];
-	if( searchStrings && [searchStrings isKindOfClass:[NSDictionary class]] )
-	{
-		searchStringForFileName = [[NSMutableDictionary alloc] initWithDictionary:searchStrings];
 	}
 	
 	// If starting up in emergency mode, we should not do anything more here
@@ -614,7 +538,6 @@ static CSVDataViewController *sharedInstance = nil;
 	self = [super initWithCoder:aDecoder];
 	sharedInstance = self;
 	indexPathForFileName = [[NSMutableDictionary alloc] init];
-	searchStringForFileName = [[NSMutableDictionary alloc] init];    
     [CSV_TouchAppDelegate sharedInstance].dataController = self;
     self.delegate = [CSV_TouchAppDelegate sharedInstance];
 	return self;
@@ -647,122 +570,37 @@ static CSVDataViewController *sharedInstance = nil;
 														  action:selector];
 }
 
-- (void) searchStart
-{
-	searchInputInProgress = TRUE;
-	self.itemController.useIndexes = FALSE;
-	[self.itemController refreshIndexes];
-	[self.itemController dataLoaded];
-	
-	[self.itemController.navigationItem setRightBarButtonItem:[self doneItemWithSelector:@selector(searchItems:)] animated:YES];
-	[self.itemController.navigationItem setHidesBackButton:YES animated:YES];
-}
-
-- (void) searchFinish
-{
-	if( searchInputInProgress )
-	{
-		searchInputInProgress = FALSE;
-		
-		[self.itemController.navigationItem setHidesBackButton:NO animated:YES];
-		if( [CSVPreferencesController useGroupingForItems] )
-		{
-			self.itemController.useIndexes = TRUE;
-			[self.itemController refreshIndexes];
-			[self.itemController dataLoaded];
-		}
-		NSUInteger path[2];
-		if( self.itemController.useIndexes )
-			path[0] = 1;
-		else
-			path[0] = 0;
-		path[1] = 0;
-		if( [self.itemController itemExistsAtIndexPath:[NSIndexPath indexPathWithIndexes:path length:2]] )
-			[self.itemController.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathWithIndexes:path length:2]
-											atScrollPosition:UITableViewScrollPositionTop
-													animated:YES];
-		
-		[self editDone:self];
-	}
-}
-
-- (IBAction) searchItems:(id)sender
-{
-	[self searchFinish];
-}
-
-- (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar
-{
-	[self searchStart];
-}
-
-- (UIBarPosition)positionForBar:(id <UIBarPositioning>)bar
-{
-    if( bar == self.searchBar)
-    {
-        return UIBarPositionTopAttached;
-    }
-    else
-    {
-        return UIBarPositionAny;
-    }
-}
-
-- (void)searchBar:(UISearchBar *)modifiedSearchBar textDidChange:(NSString *)searchText
-{
-	if( [[[self currentFile] itemsWithResetShortdescriptions:NO] count] < [CSVPreferencesController maxNumberOfItemsToLiveFilter] )
-		[self refreshObjectsWithResorting:NO];
-	else
-		itemsNeedFiltering = YES;
-}
-
-- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
-{
-	[self searchFinish];
-}
-
-- (void)searchBarTextDidEndEditing:(UISearchBar *)searchBar
-{
-	[self searchFinish];
-}
-
-- (void)searchBarCancelButtonClicked:(UISearchBar *) searchBar
-{
-	[self searchFinish];
-}
-
 - (void) selectedItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    BOOL resetSearch = NO;
-    if( searchInputInProgress )
-    {
-        [self searchFinish];
-        if( [CSVPreferencesController clearSearchWhenQuickSelecting] )
-            resetSearch = YES;
-    }
-    
+//    BOOL resetSearch = NO;
+//    if( searchInputInProgress )
+//    {
+//        [self searchFinish];
+//        if( [CSVPreferencesController clearSearchWhenQuickSelecting] )
+//            resetSearch = YES;
+//    }
+//
     [self selectDetailsForRow:[self.itemController indexForObjectAtIndexPath:indexPath]];
     [self pushViewController:[self currentDetailsController] animated:YES];
 
-    if( resetSearch )
-    {
-        self.searchBar.text = @"";
-        CSVRow *selectedItem = [[self.itemController objects] objectAtIndex:[self.itemController indexForObjectAtIndexPath:indexPath]];
-        [self refreshObjectsWithResorting:NO];
-        NSUInteger newPosition = [[[self currentFile] itemsWithResetShortdescriptions:NO] indexOfObject:selectedItem];
-        if( newPosition != NSNotFound )
-        {
-            NSIndexPath *newPath = [self.itemController indexPathForObjectAtIndex:newPosition];
-            if( newPath )
-            {
-                [self.itemController.tableView selectRowAtIndexPath:newPath
-                                                           animated:NO
-                                                     scrollPosition:UITableViewScrollPositionTop];
-                [self updateBadgeValueUsingItem:[[self currentDetailsController] navigationItem]
-                                           push:YES];
-            }
-        }
-    }
+//    if( resetSearch )
+//    {
+//        self.searchBar.text = @"";
+//        CSVRow *selectedItem = [[self.itemController objects] objectAtIndex:[self.itemController indexForObjectAtIndexPath:indexPath]];
+//        NSUInteger newPosition = [[[self currentFile] itemsWithResetShortdescriptions:NO] indexOfObject:selectedItem];
+//        if( newPosition != NSNotFound )
+//        {
+//            NSIndexPath *newPath = [self.itemController indexPathForObjectAtIndex:newPosition];
+//            if( newPath )
+//            {
+//                [self.itemController.tableView selectRowAtIndexPath:newPath
+//                                                           animated:NO
+//                                                     scrollPosition:UITableViewScrollPositionTop];
+//                [self updateBadgeValueUsingItem:[[self currentDetailsController] navigationItem]
+//                                           push:YES];
+//            }
+//        }
+//    }
     
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -784,17 +622,6 @@ static CSVDataViewController *sharedInstance = nil;
 			}
 		}
 	}
-}
-
-- (IBAction) editDone:(id)sender
-{
-	[self.searchBar endEditing:YES];
-	if( itemsNeedResorting || itemsNeedFiltering )
-	{
-		[self refreshObjectsWithResorting:itemsNeedResorting];
-		itemsNeedResorting = itemsNeedFiltering = NO;
-	}
-	[self updateBadgeValueUsingItem:self.itemController.navigationItem push:YES];
 }
 
 - (void) resortObjects

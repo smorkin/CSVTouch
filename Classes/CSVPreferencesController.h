@@ -19,7 +19,6 @@
 + (OzyTableViewSize) detailsTableViewSize;
 + (NSStringEncoding) encoding;
 + (BOOL) smartDelimiter;
-+ (NSUInteger) maxNumberOfItemsToSort;
 + (BOOL) useGroupingForItems;
 + (BOOL) groupNumbers;
 + (BOOL) enablePhoneLinks;
@@ -35,7 +34,6 @@
 + (BOOL) useDetailsSwipe;
 + (BOOL) useSwipeAnimation;
 + (BOOL) showInlineImages;
-+ (NSUInteger) maxNumberOfItemsToLiveFilter;
 + (BOOL) clearSearchWhenQuickSelecting;
 + (BOOL) confirmLink;
 + (BOOL) alignHtml;
