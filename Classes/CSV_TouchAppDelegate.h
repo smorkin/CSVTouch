@@ -61,3 +61,6 @@ OzymandiasApplicationDelegate>
 @interface CSV_TouchAppDelegate (FileEncoding)
 @end
 
+@interface CSV_TouchAppDelegate (NavigationControllerDelegate) <UINavigationControllerDelegate>
+@end
+

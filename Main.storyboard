@@ -60,7 +60,13 @@
                         <viewLayoutGuide key="safeArea" id="VQF-69-hM9"/>
                     </view>
                     <toolbarItems/>
-                    <navigationItem key="navigationItem" id="hq4-W9-h2C"/>
+                    <navigationItem key="navigationItem" id="hq4-W9-h2C">
+                        <barButtonItem key="leftBarButtonItem" systemItem="done" id="f8L-zD-6EI">
+                            <connections>
+                                <segue destination="0k8-zl-ieG" kind="unwind" unwindAction="prepareForUnwind:" id="48L-P6-vfu"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="fileEncodingSegment" destination="Dah-aV-FgL" id="gCc-kb-Mcj"/>
@@ -69,6 +75,7 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ffc-ac-Ec4" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="0k8-zl-ieG" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="874" y="665"/>
         </scene>
@@ -123,7 +130,13 @@
                             <outlet property="delegate" destination="0Yt-XR-lmL" id="pPT-8F-D9z"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="ven-nC-6ZT"/>
+                    <navigationItem key="navigationItem" id="ven-nC-6ZT">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="ZnK-SL-c4M">
+                            <connections>
+                                <segue destination="dge-RM-wBU" kind="show" identifier="ToNewFile" id="gCa-d4-n7c"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <segue destination="yKV-vJ-ur4" kind="show" identifier="ToItems" id="ZAC-ez-YP2"/>
                         <segue destination="dge-RM-wBU" kind="show" identifier="ToFileData" id="muK-hd-Wte"/>
@@ -223,4 +236,7 @@
         <image name="2lines.png" width="20" height="24"/>
         <image name="4lines.png" width="20" height="24"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="muK-hd-Wte"/>
+    </inferredMetricsTieBreakers>
 </document>

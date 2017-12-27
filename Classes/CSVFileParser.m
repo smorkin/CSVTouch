@@ -724,6 +724,9 @@ static NSMutableArray *_files;
 
 + (NSUInteger) getEncodingSettingForFile:(NSString *)fileName
 {
+    if( !fileName || [fileName isEqualToString:@""]){
+        return DEFAULT_ENCODING;
+    }
     NSNumber *encoding = [encodingForFileName objectForKey:fileName];
     if( encoding )
     {

@@ -89,6 +89,10 @@ static FilesViewController *_sharedInstance = nil;
     {
         [(FileDataViewController *)segue.destinationViewController setFile:sender];
     }
+    else if( [segue.identifier isEqualToString:@"ToNewFile"])
+    {
+        
+    }
     else if( [segue.identifier isEqualToString:@"ToItems"])
     {
         [(ItemsViewController *)segue.destinationViewController setFile:sender];
@@ -101,13 +105,6 @@ static FilesViewController *_sharedInstance = nil;
     self.size = OZY_NORMAL;
 }
 
-- (void) configureNavigationBar
-{
-    UIBarButtonItem *add = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd
-                                                                         target:self action:@selector(addNewFile)];
-    self.navigationItem.rightBarButtonItem = add;
-}
-
 - (void) awakeFromNib
 {
     [super awakeFromNib];
@@ -115,7 +112,6 @@ static FilesViewController *_sharedInstance = nil;
     [self configureToolbarButtons];
     [self configureGestures];
     [self configureTable];
-    [self configureNavigationBar];
 }
 
 - (void) viewDidAppear:(BOOL)animated
@@ -232,4 +228,10 @@ static FilesViewController *_sharedInstance = nil;
     [[NSFileManager defaultManager] removeItemAtPath:[file filePath] error:NULL];
     [super removeObjectAtIndex:index];
 }
+
+-(IBAction)prepareForUnwind:(UIStoryboardSegue *)segue
+{
+    
+}
+
 @end

@@ -10,6 +10,7 @@
 
 @interface EditViewController ()
 @property (nonatomic, weak) CSVFileParser *file;
+@property (nonatomic, assign) BOOL columnsChanged;
 @end
 
 @implementation EditViewController
@@ -32,15 +33,19 @@
 
 - (void)viewWillDisappear:(BOOL)animated
 {
-    [[CSVDataViewController sharedInstance] editDone:self];
+    if( self.columnsChanged)
+    {
+        NSMutableArray *rows = [self.file itemsWithResetShortdescriptions:YES];
+        [rows sortUsingSelector:[CSVRow compareSelector]];
+        [CSVFileParser saveColumnNames];
+    }
     [super viewWillDisappear:animated];
 }
 
 - (void) resetColumns
 {
     [self.file resetColumnsInfo];
-    [self.file itemsWithResetShortdescriptions:YES];
-    [CSVFileParser saveColumnNames];
+    self.columnsChanged = TRUE;
     [self dataLoaded];
 }
 
@@ -48,8 +53,7 @@
 {
     [self.objects removeObjectAtIndex:index];
     [self.file updateColumnsInfoWithShownColumns:self.objects];
-    [self.file itemsWithResetShortdescriptions:YES];
-    [CSVFileParser saveColumnNames];
+    self.columnsChanged = TRUE;
     [self dataLoaded];
 }
 
@@ -57,8 +61,7 @@
 {
     [super movingObjectFrom:from to:to];
     [self.file updateColumnsInfoWithShownColumns:self.objects];
-    [self.file itemsWithResetShortdescriptions:YES];
-    [CSVFileParser saveColumnNames];
+    self.columnsChanged = TRUE;
     [self dataLoaded];
 }
 

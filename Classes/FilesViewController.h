@@ -12,6 +12,9 @@
 
 + (instancetype) sharedInstance;
 
-- (IBAction) addNewFile;
+// We have custom transition so want a custom "back" button (since we are not sliding in the view
+-(IBAction)prepareForUnwind:(UIStoryboardSegue *)segue;
+
+
 
 @end

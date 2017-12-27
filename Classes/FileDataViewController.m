@@ -34,7 +34,6 @@
 - (void) viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    self.navigationController.toolbarHidden = YES;
     if( self.file){
         [self updateFileInfo];
     }
@@ -67,6 +66,7 @@
     [s appendString:@"http://www.wigzell.net/csv/books.csv\n\n"];
     fileInfo.text = s;
     newFileURL.text = [CSVPreferencesController lastUsedURL];
+    [self synchronizeFileEncoding];
 }
 
 - (void) updateFileInfo
@@ -102,6 +102,7 @@
     {
         newFileURL.text = [self file].URL;
     }
+    newFileURL.enabled = NO;
     [self synchronizeFileEncoding];
 }
 
@@ -129,7 +130,7 @@
 {
     if( textField == newFileURL )
     {
-        [[CSV_TouchAppDelegate sharedInstance] performSelector:@selector(downloadFileWithString:) withObject:newFileURL.text afterDelay:0];
+        [[CSV_TouchAppDelegate sharedInstance] downloadFileWithString:newFileURL.text];
     }
     [textField endEditing:YES];
     return YES;

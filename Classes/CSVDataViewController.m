@@ -616,6 +616,7 @@ static CSVDataViewController *sharedInstance = nil;
 	indexPathForFileName = [[NSMutableDictionary alloc] init];
 	searchStringForFileName = [[NSMutableDictionary alloc] init];    
     [CSV_TouchAppDelegate sharedInstance].dataController = self;
+    self.delegate = [CSV_TouchAppDelegate sharedInstance];
 	return self;
 }
 

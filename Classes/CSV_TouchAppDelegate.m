@@ -16,6 +16,7 @@
 #import "csv.h"
 #import "FileDownloader.h"
 #import "FilesViewController.h"
+#import "FadeAnimator.h"
 
 #define SELECTED_TAB_BAR_INDEX @"selectedTabBarIndex"
 #define FILE_PASSWORD @"filePassword"
@@ -670,7 +671,11 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
                                                    [self readFileListFromURL:alertController.textFields.firstObject.text];
                                                }];
     [alertController addAction:ok];
-    
+    UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"Cancel"
+                                                 style:UIAlertActionStyleCancel
+                                               handler:nil];
+    [alertController addAction:cancel];
+
     [[self dataController].visibleViewController presentViewController:alertController
                                                                             animated:YES
                                                                           completion:nil];
@@ -850,4 +855,22 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 }
 
 @end
+
+@implementation CSV_TouchAppDelegate (NavigationControllerDelegate)
+
+- (nullable id <UIViewControllerAnimatedTransitioning>)navigationController:(UINavigationController *)navigationController
+                                            animationControllerForOperation:(UINavigationControllerOperation)operation
+                                                         fromViewController:(UIViewController *)fromVC
+                                                           toViewController:(UIViewController *)toVC
+{
+    if( ([fromVC isKindOfClass:[FilesViewController class]] && [toVC isKindOfClass:[FileDataViewController class]]) ||
+       ([fromVC isKindOfClass:[FileDataViewController class]] && [toVC isKindOfClass:[FilesViewController class]]))
+    {
+        return [[FadeAnimator alloc] init];
+    }
+    return nil;
+}
+
+@end
+
 

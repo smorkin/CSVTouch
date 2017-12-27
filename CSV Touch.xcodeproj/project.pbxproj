@@ -27,6 +27,8 @@
 		F434D1421FF1518800CD622D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F434D1401FF1518800CD622D /* Main.storyboard */; };
 		F434D1441FF2A96200CD622D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F434D1431FF2A96200CD622D /* LaunchScreen.storyboard */; };
 		F434D1451FF2A96200CD622D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F434D1431FF2A96200CD622D /* LaunchScreen.storyboard */; };
+		F434D1481FF40D0000CD622D /* FadeAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = F434D1471FF40D0000CD622D /* FadeAnimator.m */; };
+		F434D1491FF40D0000CD622D /* FadeAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = F434D1471FF40D0000CD622D /* FadeAnimator.m */; };
 		F45807FF11466E9400A4C4E1 /* nksTablegallery.css in Resources */ = {isa = PBXBuildFile; fileRef = F45807FC11466E9400A4C4E1 /* nksTablegallery.css */; };
 		F458080011466E9400A4C4E1 /* nksTablegallery.css in Resources */ = {isa = PBXBuildFile; fileRef = F45807FC11466E9400A4C4E1 /* nksTablegallery.css */; };
 		F458080C11466F1600A4C4E1 /* seaglass.css in Resources */ = {isa = PBXBuildFile; fileRef = F458080911466F1600A4C4E1 /* seaglass.css */; };
@@ -244,6 +246,8 @@
 		F434D13D1FF14E5000CD622D /* FancyDetailsController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FancyDetailsController.m; sourceTree = "<group>"; };
 		F434D1401FF1518800CD622D /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		F434D1431FF2A96200CD622D /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
+		F434D1461FF40D0000CD622D /* FadeAnimator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FadeAnimator.h; sourceTree = "<group>"; };
+		F434D1471FF40D0000CD622D /* FadeAnimator.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FadeAnimator.m; sourceTree = "<group>"; };
 		F451F1800E99146300F22ED9 /* info.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = info.png; path = ../info.png; sourceTree = "<group>"; };
 		F45807FC11466E9400A4C4E1 /* nksTablegallery.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = nksTablegallery.css; sourceTree = "<group>"; };
 		F458080911466F1600A4C4E1 /* seaglass.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = seaglass.css; sourceTree = "<group>"; };
@@ -419,6 +423,8 @@
 				F40D21311FE6A66F00146BB4 /* EditViewController.m */,
 				F434D13C1FF14E5000CD622D /* FancyDetailsController.h */,
 				F434D13D1FF14E5000CD622D /* FancyDetailsController.m */,
+				F434D1461FF40D0000CD622D /* FadeAnimator.h */,
+				F434D1471FF40D0000CD622D /* FadeAnimator.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -882,6 +888,7 @@
 				F46CA0D41FE59A4900FE645C /* ParseErrorViewController.m in Sources */,
 				F47DC8001111004C00E8DD8B /* CSVPreferencesController.m in Sources */,
 				F46CA0D81FE5AEAA00FE645C /* FileDataViewController.m in Sources */,
+				F434D1481FF40D0000CD622D /* FadeAnimator.m in Sources */,
 				F47DC8011111004C00E8DD8B /* OzymandiasAdditions.m in Sources */,
 				F47DC8021111004C00E8DD8B /* parseCSV.m in Sources */,
 				F46CA0CC1FE56DEC00FE645C /* FilesViewController.m in Sources */,
@@ -913,6 +920,7 @@
 				F46CA0D51FE59A4900FE645C /* ParseErrorViewController.m in Sources */,
 				F47DC82D1111005400E8DD8B /* csv.c in Sources */,
 				F46CA0D91FE5AEAA00FE645C /* FileDataViewController.m in Sources */,
+				F434D1491FF40D0000CD622D /* FadeAnimator.m in Sources */,
 				F47DC82E1111005400E8DD8B /* msgno.c in Sources */,
 				F47DC82F1111005400E8DD8B /* main.m in Sources */,
 				F46CA0CD1FE56DEC00FE645C /* FilesViewController.m in Sources */,
