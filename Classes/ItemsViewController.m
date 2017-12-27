@@ -10,14 +10,12 @@
 #import "CSVRow.h"
 #import "CSVDataViewController.h"
 
-#define NORMAL_SORT_ORDER @"▼"
-#define REVERSE_SORT_ORDER @"▲"
+#define NORMAL_SORT_ORDER @"↓"
+#define REVERSE_SORT_ORDER @"↑"
 
 
 @interface ItemsViewController ()
-{
-    CSVFileParser *file;
-}
+@property (nonatomic, weak) CSVFileParser *file;
 @end
 
 @implementation ItemsViewController
@@ -30,55 +28,13 @@
     
     [dateFormatter setDateStyle:NSDateFormatterShortStyle];
     [dateFormatter setTimeStyle:NSDateFormatterNoStyle];
-    date = [dateFormatter stringFromDate:file.downloadDate];
+    date = [dateFormatter stringFromDate:self.file.downloadDate];
     [dateFormatter setDateStyle:NSDateFormatterNoStyle];
     [dateFormatter setTimeStyle:NSDateFormatterShortStyle];
-    time = [dateFormatter stringFromDate:file.downloadDate];
+    time = [dateFormatter stringFromDate:self.file.downloadDate];
     
-    [(UILabel *)self.modificationDateButton.customView setText:[NSString stringWithFormat:@"%@\n%@",
+    [modificationDateButton.customView setText:[NSString stringWithFormat:@"%@\n%@",
                                                                 date, time]];
-}
-
-- (void) setFile:(CSVFileParser *)newFile
-{
-    file = newFile;
-}
-
-- (void) configureToolbarButtons
-{
-    NSMutableArray *items = [NSMutableArray array];
-    if( ![CSVPreferencesController simpleMode]){
-        UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit
-                                                                              target:self
-                                                                              action:@selector(editColumns)];
-        [items addObject:item];
-    }
-    shrinkItemsButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"4lines.png"]
-                                                         style:UIBarButtonItemStylePlain
-                                                        target:self
-                                                        action:@selector(decreaseTableViewSize)];
-    [items addObject:shrinkItemsButton];
-    enlargeItemsButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"2lines.png"]
-                                                          style:UIBarButtonItemStylePlain
-                                                         target:self
-                                                         action:@selector(increaseTableViewSize)];
-    [items addObject:enlargeItemsButton];
-    sortOrderButton = [[UIBarButtonItem alloc] initWithTitle:NORMAL_SORT_ORDER
-                                            style:UIBarButtonItemStylePlain
-                                           target:self
-                                           action:@selector(toggleItemSortOrder)];
-    [items addObject:sortOrderButton];
-    UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace
-                                                                          target:nil
-                                                                          action:nil];
-    [items addObject:item];
-    itemsCountButton = [[UIBarButtonItem alloc] initWithTitle:@"0"
-                                                         style:UIBarButtonItemStylePlain
-                                                        target:self
-                                                        action:nil];
-    itemsCountButton.enabled = NO;
-    [items addObject:itemsCountButton];
-    self.toolbarItems = items;
 }
 
 - (void) configureTable
@@ -100,13 +56,12 @@
     l.lineBreakMode = NSLineBreakByWordWrapping;
     l.textAlignment = NSTextAlignmentCenter;
     l.numberOfLines = 2;
-    self.modificationDateButton = [[UIBarButtonItem alloc] initWithCustomView:l];
+    modificationDateButton.customView = l;
 }
 
 - (void) awakeFromNib
 {
     [super awakeFromNib];
-    [self configureToolbarButtons];
     [self configureTable];
     [self validateItemSizeButtons];
     [self configureDateButton];
@@ -119,7 +74,6 @@
     [self updateItemCount];
     [self updateDateButton];
     self.navigationController.toolbarHidden = NO;
-    self.navigationItem.rightBarButtonItem = self.modificationDateButton;
     [self dataLoaded];
     [super viewWillAppear:animated];
 }
@@ -147,19 +101,19 @@
     enlargeItemsButton.enabled = (s == OZY_NORMAL? NO : YES);
 }
 
-- (void) increaseTableViewSize
+- (IBAction) increaseTableViewSize
 {
     [self modifyItemsTableViewSize:YES];
     [self validateItemSizeButtons];
 }
 
-- (void) decreaseTableViewSize
+- (IBAction) decreaseTableViewSize
 {
     [self modifyItemsTableViewSize:NO];
     [self validateItemSizeButtons];
 }
 
-- (void) toggleItemSortOrder
+- (IBAction) toggleItemSortOrder
 {
     [CSVPreferencesController toggleReverseItemSorting];
     sortOrderButton.title = [CSVPreferencesController reverseItemSorting] ? REVERSE_SORT_ORDER : NORMAL_SORT_ORDER;
@@ -169,17 +123,12 @@
     [self dataLoaded];
 }
 
-- (void) editColumns
-{
-    [[CSVDataViewController sharedInstance] editColumns];
-}
-
 - (void) updateItemCount
 {
     NSString *addString = @"";
     NSUInteger count = [[self objects] count];
-    if( count != [[file itemsWithResetShortdescriptions:NO] count] )
-        addString = [NSString stringWithFormat:@"/%lu", (unsigned long)[[file itemsWithResetShortdescriptions:NO] count]];
+    if( count != [[self.file itemsWithResetShortdescriptions:NO] count] )
+        addString = [NSString stringWithFormat:@"/%lu", (unsigned long)[[self.file itemsWithResetShortdescriptions:NO] count]];
     itemsCountButton.title = [NSString stringWithFormat:@"%lu%@", (unsigned long)count, addString];
 
 }
@@ -196,8 +145,15 @@
 
 - (void) dataLoaded
 {
-    self.objects = [file itemsWithResetShortdescriptions:YES];
+    self.objects = [self.file itemsWithResetShortdescriptions:NO];
     [super dataLoaded];
+}
+
+- (void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if( [segue.identifier isEqualToString:@"ToEdit"]){
+        [(EditViewController *)segue.destinationViewController setFile:self.file];
+    }
 }
 
 @end

@@ -86,7 +86,6 @@
 	if( [CSVPreferencesController restrictedDataVersionRunning] && [workObjects count] > MAX_ITEMS_IN_LITE_VERSION )
 		[workObjects removeObjectsInRange:NSMakeRange(MAX_ITEMS_IN_LITE_VERSION, [workObjects count] - MAX_ITEMS_IN_LITE_VERSION)];
 	
-	[self.itemController setObjects:workObjects];
 	[self.itemController dataLoaded];
 }
 
@@ -524,10 +523,6 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
         return FALSE;
     }
     
-    [[self.itemController tableView] deselectRowAtIndexPath:[[[self itemController] tableView] indexPathForSelectedRow]
-                                                   animated:NO];
-    [self.itemController dataLoaded];
-    
     // Check if there seems to be a problem with the file preventing us from reading it
     if( [[[self currentFile] itemsWithResetShortdescriptions:NO] count] < 1 ||
        [[self currentFile].columnNames count] == 0 ||
@@ -619,30 +614,9 @@ static CSVDataViewController *sharedInstance = nil;
 	self = [super initWithCoder:aDecoder];
 	sharedInstance = self;
 	indexPathForFileName = [[NSMutableDictionary alloc] init];
-	searchStringForFileName = [[NSMutableDictionary alloc] init];
-    
-	[[NSNotificationCenter defaultCenter] addObserver:self
-											 selector:@selector(tableViewContentChanged:)
-												 name:OzyContentChangedInTableView
-											   object:nil];
+	searchStringForFileName = [[NSMutableDictionary alloc] init];    
     [CSV_TouchAppDelegate sharedInstance].dataController = self;
 	return self;
-}
-
-- (void) tableViewContentChanged:(NSNotification *)n
-{
-	if( [n object] == editController )
-	{
-        [self.currentFile updateColumnsInfoWithShownColumns:[[n object] objects]];
-	}
-	else if( [[n object] isKindOfClass:[FilesViewController class]])
-	{
-		CSVFileParser *removedFile = [[n userInfo] objectForKey:OzyRemovedTableViewObject];
-		if( removedFile )
-		{
-			[[NSFileManager defaultManager] removeItemAtPath:[removedFile filePath] error:NULL];
-		}
-	}
 }
 
 - (void) gotoNextDetailsView
@@ -690,7 +664,6 @@ static CSVDataViewController *sharedInstance = nil;
 		searchInputInProgress = FALSE;
 		
 		[self.itemController.navigationItem setHidesBackButton:NO animated:YES];
-		[self.itemController.navigationItem setRightBarButtonItem:self.itemController.modificationDateButton animated:YES];
 		if( [CSVPreferencesController useGroupingForItems] )
 		{
 			self.itemController.useIndexes = TRUE;
@@ -810,11 +783,6 @@ static CSVDataViewController *sharedInstance = nil;
 			}
 		}
 	}
-}
-
-- (IBAction) editColumns
-{
-	[self pushViewController:editController animated:YES];
 }
 
 - (IBAction) editDone:(id)sender

@@ -25,7 +25,6 @@ OzyWebViewController;
 	IBOutlet FancyDetailsController *fancyDetailsController;
 	IBOutlet OzyWebViewController *htmlDetailsController;
 	IBOutlet ParseErrorViewController *parseErrorController;
-    IBOutlet EditViewController *editController;
 
 	int selectedDetailsView; // 0 = fancy, 1 = web, 2 = simple
 	
@@ -57,8 +56,6 @@ OzyWebViewController;
 + (CSVDataViewController *) sharedInstance;
 
 - (void) editDone:(id)sender;
-
-- (void) editColumns;
 
 - (void) resortObjects;
 

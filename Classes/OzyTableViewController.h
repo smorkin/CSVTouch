@@ -10,11 +10,6 @@
 
 @class CSVDataViewController;
 
-// Notice posted when something is changed in an OzyTableViewcontroller's tableview.
-// If an object is removed, it can be found in userInfo using the key below.
-#define OzyContentChangedInTableView @"OzyContentChangedInTableView"
-#define OzyRemovedTableViewObject @"OzyRemovedTableViewObject"
-
 // Make sure no value set, i.e. size = 0, corresponds to OZY_NORMAL
 typedef enum OzyTableViewSize {
 	OZY_NORMAL, OZY_SMALL, OZY_MINI
@@ -38,6 +33,12 @@ typedef enum OzyTableViewSize {
 @property (nonatomic, strong) NSArray *sectionTitles;
 @property (nonatomic, readonly) UIView *contentView;
 
+// Default removes object from self.objects and trigs a dataLoaded
+// Override for other uses
+- (void) removeObjectAtIndex:(NSInteger)index;
+
+// Default moves object in self.objects and trigs a dataLoaded
+- (void) movingObjectFrom:(NSInteger)from to:(NSInteger)to;
 
 // Only use this when not using indexes but you still want sections.
 // Content should be NSNumbers, starting at "0".

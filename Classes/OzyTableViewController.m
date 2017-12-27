@@ -153,19 +153,18 @@
 	}
 }
 
+- (void) removeObjectAtIndex:(NSInteger)index
+{
+    [self.objects removeObjectAtIndex:index];
+    [self.tableView reloadData];
+}
+
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if( editingStyle == UITableViewCellEditingStyleDelete )
     {
         NSInteger index = indexPath.row;
-        id objectToRemove = [self.objects objectAtIndex:index];
-        [self.objects removeObjectAtIndex:index];
-        self.navigationItem.rightBarButtonItem.enabled = TRUE;
-        [self.tableView reloadData];
-        [[NSNotificationCenter defaultCenter] postNotificationName:OzyContentChangedInTableView
-                                                            object:self
-                                                          userInfo:[NSDictionary dictionaryWithObject:objectToRemove
-                                                                                               forKey:OzyRemovedTableViewObject]];
+        [self removeObjectAtIndex:index];
     }
 }
 
@@ -393,6 +392,13 @@ sectionForSectionIndexTitle:(NSString *)title
 	return self.editable;
 }
 
+- (void) movingObjectFrom:(NSInteger)from to:(NSInteger)to
+{
+    id item = [self.objects objectAtIndex:from];
+    [self.objects removeObjectAtIndex:from];
+    [self.objects insertObject:item atIndex:to];
+}
+
 - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
 {
 	NSInteger fromIndex;
@@ -407,11 +413,7 @@ sectionForSectionIndexTitle:(NSString *)title
 		fromIndex = fromIndexPath.row;
 		toIndex = toIndexPath.row;
 	}
-	id item = [self.objects objectAtIndex:fromIndex];
-	[self.objects removeObjectAtIndex:fromIndex];
-	[self.objects insertObject:item atIndex:toIndex];
-	self.navigationItem.rightBarButtonItem.enabled = TRUE;
-	[[NSNotificationCenter defaultCenter] postNotificationName:OzyContentChangedInTableView object:self];
+    [self movingObjectFrom:fromIndex to:toIndex];
 }
 
 - (void)dealloc {

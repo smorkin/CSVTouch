@@ -11,13 +11,18 @@
 @interface ItemsViewController : OzyTableViewController
 {
     // Toolbar
-    UIBarButtonItem *shrinkItemsButton;
-    UIBarButtonItem *enlargeItemsButton;
-    UIBarButtonItem *sortOrderButton;
-    UIBarButtonItem *itemsCountButton;
+    IBOutlet UIBarButtonItem *shrinkItemsButton;
+    IBOutlet UIBarButtonItem *enlargeItemsButton;
+    IBOutlet UIBarButtonItem *sortOrderButton;
+    IBOutlet UIBarButtonItem *itemsCountButton;
+    IBOutlet UIBarButtonItem *modificationDateButton;
 }
 
-@property (nonatomic, retain) UIBarButtonItem *modificationDateButton;
 - (void) setFile:(CSVFileParser *)file;
+
+- (IBAction) decreaseTableViewSize;
+- (IBAction) increaseTableViewSize;
+- (IBAction) toggleItemSortOrder;
+
 
 @end

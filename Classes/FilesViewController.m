@@ -226,4 +226,10 @@ static FilesViewController *_sharedInstance = nil;
     [super dataLoaded];
 }
 
+- (void) removeObjectAtIndex:(NSInteger)index
+{
+    CSVFileParser *file = [self.objects objectAtIndex:index];
+    [[NSFileManager defaultManager] removeItemAtPath:[file filePath] error:NULL];
+    [super removeObjectAtIndex:index];
+}
 @end

@@ -6,7 +6,10 @@
 //
 
 #import "OzyTableViewController.h"
+#import "CSVRow.h"
 
 @interface EditViewController : OzyTableViewController
+
+- (void) setFile:(CSVFileParser *)file;
 
 @end

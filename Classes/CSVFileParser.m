@@ -91,7 +91,14 @@ static NSMutableArray *_files;
     NSMutableDictionary *d = [NSMutableDictionary dictionary];
     for( CSVFileParser *parser in self.files)
     {
-        [d setObject:parser.shownColumnNames forKey:parser.fileName];
+        // Note that parsers don't have shown column names configured unless they've been shown in UI ->
+        // We must take from parser if exists, otherwise from old defaults
+        if( [parser.shownColumnNames count] > 0){
+            [d setObject:parser.shownColumnNames forKey:parser.fileName];
+        }
+        else{
+            [d setObject:[self shownColumnsFromDefaults:parser] forKey:parser.fileName];
+        }
     }
     [[NSUserDefaults standardUserDefaults] setObject:d forKey:DEFS_COLUMN_NAMES];
 }
@@ -107,7 +114,7 @@ static NSMutableArray *_files;
             return [NSMutableArray arrayWithArray:cols];
         }
     }
-    return nil;
+    return [NSMutableArray array];
 }
 
  - (void) loadFile

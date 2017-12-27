@@ -9,7 +9,7 @@
 #import "CSVDataViewController.h"
 
 @interface EditViewController ()
-
+@property (nonatomic, weak) CSVFileParser *file;
 @end
 
 @implementation EditViewController
@@ -26,7 +26,7 @@
                                                                              target:self
                                                                              action:@selector(resetColumns)];
     self.navigationController.toolbarHidden = YES;
-    
+    [self dataLoaded];
     [super viewWillAppear:animated];
 }
 
@@ -38,6 +38,33 @@
 
 - (void) resetColumns
 {
-    [[CSVDataViewController sharedInstance].currentFile resetColumnsInfo];
+    [self.file resetColumnsInfo];
+    [self.file itemsWithResetShortdescriptions:YES];
+    [CSVFileParser saveColumnNames];
+    [self dataLoaded];
+}
+
+- (void) removeObjectAtIndex:(NSInteger)index
+{
+    [self.objects removeObjectAtIndex:index];
+    [self.file updateColumnsInfoWithShownColumns:self.objects];
+    [self.file itemsWithResetShortdescriptions:YES];
+    [CSVFileParser saveColumnNames];
+    [self dataLoaded];
+}
+
+- (void) movingObjectFrom:(NSInteger)from to:(NSInteger)to
+{
+    [super movingObjectFrom:from to:to];
+    [self.file updateColumnsInfoWithShownColumns:self.objects];
+    [self.file itemsWithResetShortdescriptions:YES];
+    [CSVFileParser saveColumnNames];
+    [self dataLoaded];
+}
+
+- (void) dataLoaded
+{
+    self.objects = [self.file.shownColumnNames mutableCopy];
+    [super dataLoaded];
 }
 @end
