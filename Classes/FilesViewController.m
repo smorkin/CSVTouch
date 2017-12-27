@@ -73,12 +73,25 @@ static FilesViewController *_sharedInstance = nil;
         
         NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:p];
         if (indexPath != nil) {
-            [[CSV_TouchAppDelegate sharedInstance] showFileInfo:(CSVFileParser *)[[self objects] objectAtIndex:indexPath.row]];
+            [self performSegueWithIdentifier:@"ToFileData" sender:[[self objects] objectAtIndex:indexPath.row]];
         }
     }
     else
     {
         longPress.enabled = TRUE;
+    }
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue
+                 sender:(id)sender
+{
+    if( [segue.identifier isEqualToString:@"ToFileData"])
+    {
+        [(FileDataViewController *)segue.destinationViewController setFile:sender];
+    }
+    else if( [segue.identifier isEqualToString:@"ToItems"])
+    {
+        [(ItemsViewController *)segue.destinationViewController setFile:sender];
     }
 }
 
@@ -145,11 +158,11 @@ static FilesViewController *_sharedInstance = nil;
     return NSNotFound;
 }
 
-- (UIBarButtonItem *) doneItemWithSelector:(SEL)selector
+- (UIBarButtonItem *) doneItemWithSelector
 {
     return [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone
                                                           target:self
-                                                          action:selector];
+                                                          action:@selector(toggleRefreshFiles)];
 }
 
 - (UIBarButtonItem *) refreshFilesItem
@@ -173,7 +186,7 @@ static FilesViewController *_sharedInstance = nil;
         self.removeDisclosure = YES;
         NSMutableArray *items = [NSMutableArray arrayWithArray:self.toolbarItems];
         [items replaceObjectAtIndex:index
-                         withObject:[self doneItemWithSelector:@selector(toggleRefreshFiles)]];
+                         withObject:[self doneItemWithSelector]];
         self.toolbarItems = items;
     }
     else
@@ -200,8 +213,17 @@ static FilesViewController *_sharedInstance = nil;
     }
     else if( selectedFile)
     {
-        [[CSVDataViewController sharedInstance] fileWasSelected:selectedFile];
+        if([[CSVDataViewController sharedInstance] fileWasSelected:selectedFile])
+        {
+            [self performSegueWithIdentifier:@"ToItems" sender:selectedFile];
+        }
     }
+}
+
+- (void) dataLoaded
+{
+    self.objects = [CSVFileParser files];
+    [super dataLoaded];
 }
 
 @end

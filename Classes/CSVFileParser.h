@@ -12,22 +12,11 @@
 #define DEFAULT_ENCODING 0
 
 @interface CSVFileParser : NSObject {
-	NSMutableArray *_parsedItems;
-	NSMutableArray *_columnNames;
-	NSData *_rawData;
-	NSString *_filePath;
-	NSString *_URL;
-	NSDate *_downLoadDate;
-	NSString *_problematicRow;
-	int _droppedRows;
-	unichar _usedDelimiter;
-	BOOL _hasBeenParsed;
-	BOOL _hasBeenSorted;
-	BOOL _hasBeenDownloaded;
-	NSUInteger _iconIndex;
-	BOOL _hideAddress;
 }
-
+@property (nonatomic, strong) NSMutableArray *columnNames;
+@property (nonatomic, strong) NSMutableIndexSet *hiddenColumns; // Just used temporary, for a newly downloaded file
+@property (nonatomic, assign) int *rawShownColumnIndexes;
+@property (nonatomic, strong) NSMutableArray *shownColumnIndexes;
 @property (nonatomic, copy) NSString *filePath;
 @property (nonatomic, copy) NSString *URL;
 @property (nonatomic, copy) NSDate *downloadDate;
@@ -41,6 +30,16 @@
 @property (nonatomic, assign) NSUInteger iconIndex;
 @property (nonatomic, assign) BOOL hideAddress;
 
+// All currently avaialbe files sorted using file name
++ (NSMutableArray *) files;
+
++ (void) removeFile:(CSVFileParser *)parser;
++ (void) removeFileWithName:(NSString *) name;
+
++ (BOOL) fileExistsWithURL:(NSString *)URL;
+
++ (void) saveColumnNames;
+
 + (CSVFileParser *) parserWithFile:(NSString *)path;
 - (void) saveToFile;
 
@@ -49,9 +48,17 @@
 - (void) parseIfNecessary;
 - (void) reparseIfParsed;
 
+- (NSMutableArray *)shownColumnNames;
+
+// Updates the hidden/shown stuff
+- (void) updateColumnsInfo;
+- (void) updateColumnsInfoWithShownColumns:(NSArray *)shown;
+
+// Will show all columns
+- (void) resetColumnsInfo;
+
 - (void) encodingUpdated;
 
-- (NSArray *) availableColumnNames;
 - (NSMutableArray *) itemsWithResetShortdescriptions:(BOOL)reset; // Note that a caller for performance reasons can resort these, but nothing else
 
 - (NSString *) fileName;

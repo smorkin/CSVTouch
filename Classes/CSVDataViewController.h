@@ -8,7 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-#import "FilesViewController.h"
 #import "ParseErrorViewController.h"
 #import "ItemsViewController.h"
 #import "EditViewController.h"
@@ -25,7 +24,6 @@ OzyWebViewController;
 	IBOutlet OzyTextViewController *detailsController;
 	IBOutlet FancyDetailsController *fancyDetailsController;
 	IBOutlet OzyWebViewController *htmlDetailsController;
-	IBOutlet FilesViewController *fileController;
 	IBOutlet ParseErrorViewController *parseErrorController;
     IBOutlet EditViewController *editController;
 
@@ -37,21 +35,12 @@ OzyWebViewController;
     CSVFileParser *currentFile;
 
 	// Cached data for files
-	NSMutableDictionary *columnNamesForFileName;
 	NSMutableDictionary *indexPathForFileName;
 	NSMutableDictionary *searchStringForFileName;
 	
 	// Search view
     UISearchBar *_searchBar;
 
-	// An array with the current indexes to use for the items
-	NSMutableArray *importantColumnIndexes;
-	int *rawColumnIndexes;
-	
-	// For use when reading a CSV file list which includes
-	// pre-defined columns not to show
-	NSMutableDictionary *_preDefinedHiddenColumns;
-	
 	// Weak reference to the latest shown item
 	CSVRow *_latestShownItem;
 	
@@ -63,36 +52,20 @@ OzyWebViewController;
 @property (nonatomic, retain) UISearchBar *searchBar;
 @property (nonatomic, assign) BOOL showDeletedColumns;
 @property (nonatomic, retain) UIView *contentView;
-@property (nonatomic, strong) UINavigationController *navController;
-@property (nonatomic, retain) IBOutlet ItemsViewController *itemController;
+@property (nonatomic, retain) ItemsViewController *itemController;
 
 + (CSVDataViewController *) sharedInstance;
 
 - (void) editDone:(id)sender;
 
-- (void) resetColumnNamesForFile:(CSVFileParser *)file;
-- (void) resetColumnNamesForCurrentFile;
 - (void) editColumns;
 
-- (void) setFiles:(NSArray *) files;
-- (NSArray *) files;
-
-- (void) markFilesAsDirty;
 - (void) resortObjects;
-
-- (void) newFileDownloaded:(CSVFileParser *)file;
-- (void) removeFileWithName:(NSString *)name;
-
-- (NSArray *) importantColumnIndexes;
-- (int *) rawColumnIndexes;
-
-- (void) setHiddenColumns:(NSIndexSet *)hidden forFile:(NSString *)fileName;
 
 - (void) applicationWillTerminate;
 - (void) applicationDidFinishLaunchingInEmergencyMode:(BOOL) emergencyMode;
 
 - (CSVFileParser *) currentFile;
-- (FilesViewController *) fileController;
 - (ItemsViewController *) itemController;
 - (ParseErrorViewController *) parseErrorController;
 
@@ -100,10 +73,7 @@ OzyWebViewController;
 
 - (void) gotoNextDetailsView;
 
-// For CSV_TouchAppDelegate
-- (NSUInteger) numberOfFiles;
-- (BOOL) fileExistsWithURL:(NSString *)URL;
-
-- (void) fileWasSelected:(CSVFileParser *)file;
+// Returns TRUE if everything OK
+- (BOOL) fileWasSelected:(CSVFileParser *)file;
 
 @end

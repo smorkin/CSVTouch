@@ -15,12 +15,19 @@
 #import "CSVFileParser.h"
 #import "csv.h"
 #import "FileDownloader.h"
+#import "FilesViewController.h"
 
 #define SELECTED_TAB_BAR_INDEX @"selectedTabBarIndex"
 #define FILE_PASSWORD @"filePassword"
 #define INTERNAL_EXTENSION @".csvtouch"
 
 #define HOW_TO_PAGES 7
+
+@interface CSV_TouchAppDelegate ()
+// For use when reading a CSV file list which includes
+// pre-defined columns not to show
+@property (nonatomic, strong) NSMutableDictionary *preDefinedHiddenColumns;
+@end
 
 @implementation CSV_TouchAppDelegate
 
@@ -46,11 +53,6 @@ static CSV_TouchAppDelegate *sharedInstance = nil;
 	return [original stringByAppendingString:INTERNAL_EXTENSION];
 }
 	
-
-- (CSVDataViewController *) dataController
-{
-	return dataController;
-}
 
 static NSString *newPassword = nil;
 
@@ -96,7 +98,7 @@ static NSString *newPassword = nil;
                                                        exit(1);
                                                    }];
     [alertController addAction:cancel];
-    [[self dataController].navController.topViewController presentViewController:alertController
+    [[self dataController].topViewController presentViewController:alertController
                                                                         animated:YES
                                                                       completion:nil];
 }
@@ -136,7 +138,7 @@ static NSString *newPassword = nil;
                                                    }
                                                }];
     [alertController addAction:ok];
-    [[self dataController].navController.topViewController presentViewController:alertController
+    [[self dataController].topViewController presentViewController:alertController
                                                                         animated:YES
                                                                       completion:nil];
 }
@@ -197,15 +199,15 @@ static NSString *newPassword = nil;
 				fileName:(NSString *)fileName
 		 isLocalDownload:(BOOL)isLocalDownload
 {
-	if( [[self dataController] numberOfFiles] > 0 &&
-	   ![[self dataController] fileExistsWithURL:self.lastFileURL] &&
+	if( [[CSVFileParser files] count] > 0 &&
+	   ![CSVFileParser fileExistsWithURL:self.lastFileURL] &&
 	   [CSVPreferencesController restrictedDataVersionRunning] )
 	{
         UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Only 1 file allowed"
                                                                        message:@"CSV Lite only allows 1 file; please delete the old one before downloading a new. Or buy CSV Touch :-)"
                                                                  okButtonTitle:@"OK"
                                                                      okHandler:nil];
-        [[self dataController].navController.topViewController presentViewController:alert
+        [[self dataController].topViewController presentViewController:alert
                                                                             animated:YES
                                                                           completion:nil];
 
@@ -219,13 +221,14 @@ static NSString *newPassword = nil;
                                                                            message:[NSString httpStatusDescription:self.httpStatusCode]
                                                                      okButtonTitle:@"OK"
                                                                          okHandler:nil];
-            [[self dataController].navController.topViewController presentViewController:alert
+            [[self dataController].topViewController presentViewController:alert
                                                                                 animated:YES
                                                                               completion:nil];
 		}
 	}
 	else
 	{
+        [CSVFileParser removeFileWithName:[CSV_TouchAppDelegate internalFileNameForOriginalFileName:fileName]];
         NSString *filePath = [[CSV_TouchAppDelegate importedDocumentsPath] stringByAppendingPathComponent:
                               [CSV_TouchAppDelegate internalFileNameForOriginalFileName:fileName]];
 		CSVFileParser *fp = [[CSVFileParser alloc] initWithRawData:data filePath:filePath];
@@ -240,8 +243,11 @@ static NSString *newPassword = nil;
 			fp.URL = MANUALLY_ADDED_URL_VALUE;
 		}
 		fp.downloadDate = [NSDate date];
+        fp.hasBeenDownloaded = TRUE;
 		[fp saveToFile];
-		[[self dataController] newFileDownloaded:fp];
+        fp.hiddenColumns = [self.preDefinedHiddenColumns objectForKey:fp.URL];
+        [self.preDefinedHiddenColumns removeObjectForKey:fp.URL];
+        [[FilesViewController sharedInstance] dataLoaded];
 	}
 }
 
@@ -314,7 +320,7 @@ static NSString *newPassword = nil;
 			[files addObject:fp];
 		}
 	}
-	[[self dataController] setFiles:files];
+    [[FilesViewController sharedInstance] dataLoaded];
 }
 
 - (void) importOtherAppsAddedDocuments
@@ -345,7 +351,7 @@ static NSString *newPassword = nil;
                                                                      okHandler:^(UIAlertAction *action) {
                                                                          exit(1);
                                                                      }];
-        [[self dataController].navController.topViewController presentViewController:alert
+        [[self dataController].topViewController presentViewController:alert
                                                                             animated:YES
                                                                           completion:nil];
         return;
@@ -363,48 +369,51 @@ static NSString *newPassword = nil;
 		sharedInstance = self;
 		_URLsToDownload = [[NSMutableArray alloc] init];
 		_filesAddedThroughURLList = [[NSMutableArray alloc] init];
+        self.preDefinedHiddenColumns = [NSMutableDictionary dictionary];
 	}
 	return self;
 }
 
-#define NEW_FILE_URL @"newFileURL"
-
-- (void) delayedStartup
+- (void) awakeFromNib
 {
-	[self loadLocalFiles];
-	[CSVPreferencesController applicationDidFinishLaunching];
-	[[self dataController] applicationDidFinishLaunchingInEmergencyMode:[CSVPreferencesController safeStart]];
-	
-	self.lastFileURL = [[NSUserDefaults standardUserDefaults] objectForKey:NEW_FILE_URL];
-	if( !self.lastFileURL || [self.lastFileURL isEqualToString:@""] )
-    {
-		self.lastFileURL = @"http://";
-    }
-    self.window.rootViewController = [self dataController].navController;
-	[self.window makeKeyAndVisible];
+    [super awakeFromNib];
+}
+
+- (BOOL)application:(UIApplication *)application
+didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+{
+    [self loadLocalFiles];
+    [CSVPreferencesController applicationDidFinishLaunching];
+    [[self dataController] applicationDidFinishLaunchingInEmergencyMode:[CSVPreferencesController safeStart]];
     
-	NSDate *nextDownload = [CSVPreferencesController nextDownload];
-	if( nextDownload )
-	{
-		// First let's schedule for next downloads
-		downloadTimer = [[NSTimer alloc] initWithFireDate:nextDownload
-												 interval:24*60*60
-												   target:self
-												 selector:@selector(downloadScheduled)
-												 userInfo:nil
-												  repeats:true];
-		[[NSRunLoop currentRunLoop] addTimer:downloadTimer forMode:NSDefaultRunLoopMode];
-		// Now let's check if we need to do a new download immediately
-		NSDate *lastDownload = [CSVPreferencesController lastDownload];
-		if( !lastDownload ||
-		   ( lastDownload && [nextDownload timeIntervalSinceDate:lastDownload] > 24*60*60 ))
-		{
-			[self performSelector:@selector(downloadScheduled)
-					   withObject:nil
-					   afterDelay:2.0];
-		}
-	}
-	
+    self.lastFileURL = [CSVPreferencesController lastUsedURL];
+    if( !self.lastFileURL || [self.lastFileURL isEqualToString:@""] )
+    {
+        self.lastFileURL = @"http://";
+    }
+    
+    NSDate *nextDownload = [CSVPreferencesController nextDownload];
+    if( nextDownload )
+    {
+        // First let's schedule for next downloads
+        downloadTimer = [[NSTimer alloc] initWithFireDate:nextDownload
+                                                 interval:24*60*60
+                                                   target:self
+                                                 selector:@selector(downloadScheduled)
+                                                 userInfo:nil
+                                                  repeats:true];
+        [[NSRunLoop currentRunLoop] addTimer:downloadTimer forMode:NSDefaultRunLoopMode];
+        // Now let's check if we need to do a new download immediately
+        NSDate *lastDownload = [CSVPreferencesController lastDownload];
+        if( !lastDownload ||
+           ( lastDownload && [nextDownload timeIntervalSinceDate:lastDownload] > 24*60*60 ))
+        {
+            [self performSelector:@selector(downloadScheduled)
+                       withObject:nil
+                       afterDelay:2.0];
+        }
+    }
+    
     if( [self currentPasswordHash] != nil )
     {
         [self checkPassword];
@@ -416,47 +425,28 @@ static NSString *newPassword = nil;
     else
     {
         // Show the Add file window in case no files are present
-        if( [[self dataController] numberOfFiles] == 0 )//&& ![CSVPreferencesController hasShownHowTo])
+        if( [[CSVFileParser files] count] == 0 )//&& ![CSVPreferencesController hasShownHowTo])
         {
             self.introHowToController = [[IntroViewController alloc] init];
             [self.introHowToController startHowToShowing:self];
         }
     }
-}
 
-- (void) awakeFromNib
-{
-    [super awakeFromNib];
-    if( [CSV_TouchAppDelegate iPadMode] )
-        [[NSBundle mainBundle] loadNibNamed:@"iPadMainWindow" owner:self options:nil];
-    else 
-        [[NSBundle mainBundle] loadNibNamed:@"iPhoneMainWindow" owner:self options:nil];
-}
-
-//UIApplicationLaunchOptionsURLKey
-
-- (BOOL)application:(UIApplication *)application
-didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
-{
-    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    self.window.backgroundColor=[UIColor clearColor];
-    [self performSelector:@selector(delayedStartup) withObject:nil afterDelay:0];
-    
 	return NO;
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application 
 {
 	if( self.lastFileURL )
-		[[NSUserDefaults standardUserDefaults] setObject:self.lastFileURL
-												  forKey:NEW_FILE_URL];
+    {
+        [CSVPreferencesController setLastUsedURL:self.lastFileURL];
+    }
 	[[self dataController] applicationWillTerminate];
 }
 
 - (void) downloadDone
 {
 	self.connection = nil;
-	[self slowActivityCompleted];
 	// Are we in single file reload mode or all file reload mode?
 	if( [self.URLsToDownload count] > 0 )
 	{
@@ -485,14 +475,14 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
                 {
                     [newFileNames addObject:[CSV_TouchAppDelegate internalFileNameForOriginalFileName:[URLString lastPathComponent]]];
                 }
-                for( CSVFileParser *file in [dataController files] )
+                for( CSVFileParser *file in [CSVFileParser files] )
                 {
                     [oldFileNames addObject:[file fileName]];
                 }
                 [oldFileNames minusSet:newFileNames];
                 for( NSString *name in oldFileNames )
                 {
-                    [dataController removeFileWithName:name];
+                    [CSVFileParser removeFileWithName:name];
                     [[NSFileManager defaultManager] removeItemAtPath:[[CSV_TouchAppDelegate importedDocumentsPath] stringByAppendingPathComponent:name] error:NULL];
                 }
             }
@@ -517,16 +507,18 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 		alertTitle = @"Download failure; no more files will be downloaded";
 		[self.URLsToDownload removeAllObjects];
 	}
-	else 
+	else
+    {
 		alertTitle = @"Download Failure";
-	
+    }
+    
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:alertTitle
                                                                    message:[error localizedDescription]
                                                              okButtonTitle:@"OK"
                                                                  okHandler:nil];
-    [[self dataController].navController.topViewController presentViewController:alert
-                                                                        animated:YES
-                                                                      completion:nil];
+    [[self dataController].topViewController presentViewController:alert
+                                                          animated:YES
+                                                        completion:nil];
 	[self downloadDone];
 }
 
@@ -558,10 +550,11 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
                                                                            message:[NSString httpStatusDescription:self.httpStatusCode]
                                                                      okButtonTitle:@"OK"
                                                                          okHandler:nil];
-            [[self dataController].navController.topViewController presentViewController:alert
+            [[self dataController].topViewController presentViewController:alert
                                                                                animated:YES
                                                                              completion:nil];
             [self downloadDone];
+            return;
         }
         
 		NSString *s = [[NSString alloc] initWithData:self.rawData
@@ -593,9 +586,7 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
                     {
 						[hidden addIndex:[n intValue]];
                     }
-					[[CSVDataViewController sharedInstance] setHiddenColumns:hidden
-																	 forFile:[CSV_TouchAppDelegate internalFileNameForOriginalFileName:
-																			  [fileName lastPathComponent]]];
+                    [self.preDefinedHiddenColumns setObject:hidden forKey:fileName];
 				}
 				else
 				{
@@ -629,14 +620,14 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 
 - (void) addNewFile
 {
-    [fileViewController configureForNewFile:self.lastFileURL];
-	[[self dataController].navController pushViewController:fileViewController animated:YES];
+    [self.fileViewController configureForNewFile];
+	[self.dataController pushViewController:self.fileViewController animated:YES];
 }
 
 - (void) showFileInfo:(CSVFileParser *)fp
 {
-    [fileViewController setFile:fp];
-    [[self dataController].navController pushViewController:fileViewController
+    [self.fileViewController setFile:fp];
+    [self.dataController pushViewController:self.fileViewController
                                         animated:YES];
 }
 
@@ -656,7 +647,7 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
                                                                        message:@"Couldn't open connection"
                                                                  okButtonTitle:@"OK"
                                                                      okHandler:nil];
-        [[self dataController].navController.topViewController presentViewController:alert
+        [[self dataController].topViewController presentViewController:alert
                                                                             animated:YES
                                                                           completion:nil];
         [self downloadDone];
@@ -680,33 +671,41 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
                                                }];
     [alertController addAction:ok];
     
-    [[self dataController].navController.visibleViewController presentViewController:alertController
+    [[self dataController].visibleViewController presentViewController:alertController
                                                                             animated:YES
                                                                           completion:nil];
+}
+
++ (NSCharacterSet *) tweakedURLPathAllowedCharacterSet
+{
+    NSMutableCharacterSet *set = [[NSMutableCharacterSet alloc] init];
+    [set formUnionWithCharacterSet:[NSCharacterSet URLPathAllowedCharacterSet]];
+    [set addCharactersInString:@":"];
+    return set;
 }
 
 - (void) readFileListFromURL:(NSString *)URLString
 {    
 	if( !URLString || [URLString isEqualToString:@""] )
 		return;
-	
-	NSURL *URL = [NSURL URLWithString:[URLString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+    
+    NSURL *URL = [NSURL URLWithString:[URLString stringByAddingPercentEncodingWithAllowedCharacters:[CSV_TouchAppDelegate tweakedURLPathAllowedCharacterSet]]];
+    
 	self.readingFileList = TRUE;
-	[self slowActivityStarted];
 	[self startDownloadUsingURL:URL];
 	[CSVPreferencesController setLastUsedListURL:URL];
 }
 
-- (void) downloadFileWithString:(NSString *)URL
+- (void) downloadFileWithString:(NSString *)URLString
 {
-	if( !URL || [URL isEqualToString:MANUALLY_ADDED_URL_VALUE] )
+	if( !URLString || [URLString isEqualToString:MANUALLY_ADDED_URL_VALUE] )
 		return;
 	
-	[self slowActivityStarted];
-	[self startDownloadUsingURL:[NSURL URLWithString:[URL stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
+    NSURL *URL = [NSURL URLWithString:[URLString stringByAddingPercentEncodingWithAllowedCharacters:[CSV_TouchAppDelegate tweakedURLPathAllowedCharacterSet]]];
+	[self startDownloadUsingURL:URL];
 	
 	// Update this in case you want to download a file from a similar URL later on
-	self.lastFileURL = URL;
+	self.lastFileURL = URLString;
 }
 
 - (void) downloadScheduled
@@ -719,7 +718,7 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
                                                                  }
                                                          cancelButtonTitle:@"Cancel"
                                                              cancelHandler:nil];
-    [[self dataController].navController.topViewController presentViewController:alert
+    [[self dataController].topViewController presentViewController:alert
                                                                         animated:YES
                                                                       completion:nil];
 }
@@ -734,7 +733,7 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 	else
 	{
 		[self.URLsToDownload removeAllObjects];
-		for( CSVFileParser *fp in [[CSVDataViewController sharedInstance] files] )
+		for( CSVFileParser *fp in [CSVFileParser files] )
 		{
 			if( [fp URL] && ![[fp URL] isEqualToString:MANUALLY_ADDED_URL_VALUE] )
 				[self.URLsToDownload addObject:[fp URL]];
@@ -752,10 +751,10 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 - (void) delayedURLOpen:(NSString *)s
 {
 	[self downloadFileWithString:s];
-	[[self dataController].navController popToRootViewControllerAnimated:NO];
+	[[self dataController] popToRootViewControllerAnimated:NO];
 }
 
-- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url
+- (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey, id> *)options
 {
 	if( [[url scheme] isEqualToString:@"csvtouch"] )
 	{
@@ -817,7 +816,7 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
     if( [CSVPreferencesController defaultsHaveChanged])
     {
         [self loadOldDocuments];
-        [[self dataController].navController popToViewController:[[self dataController] fileController] animated:NO];
+        [[self dataController] popToViewController:[FilesViewController sharedInstance] animated:NO];
         [CSVPreferencesController resetDefaultsHaveChanges];
     }
 }
@@ -837,7 +836,7 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
     if( self.introHowToController == controller)
     {
         [CSVPreferencesController setHasShownHowTo];
-        self.window.rootViewController = [self dataController].navController;
+        self.window.rootViewController = [self dataController];
     }
 }
 

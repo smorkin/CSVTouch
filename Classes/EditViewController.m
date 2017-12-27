@@ -38,6 +38,6 @@
 
 - (void) resetColumns
 {
-    [[CSVDataViewController sharedInstance] resetColumnNamesForCurrentFile];
+    [[CSVDataViewController sharedInstance].currentFile resetColumnsInfo];
 }
 @end

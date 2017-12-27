@@ -16,12 +16,6 @@
 @interface CSV_TouchAppDelegate : NSObject <UIApplicationDelegate,
 OzymandiasApplicationDelegate>
 {
-	// Main view
-	IBOutlet CSVDataViewController *dataController;
-	
-	// File information / Downloading new file
-	IBOutlet FileDataViewController *fileViewController;
-	
 	// For better GUI when things are slow...
 	IBOutlet UIView *activityView;
 	IBOutlet UIActivityIndicatorView *fileParsingActivityView;
@@ -49,15 +43,14 @@ OzymandiasApplicationDelegate>
 @property (nonatomic, retain) NSMutableData *rawData;
 @property (nonatomic, retain) NSURLConnection *connection;
 @property (nonatomic, retain) NSString *lastFileURL;
+@property (nonatomic, weak) CSVDataViewController *dataController;
+@property (nonatomic, weak) FileDataViewController *fileViewController;
 
 - (void) addNewFile;
 - (void) downloadFileWithString:(NSString *)URL;
 - (void) reloadAllFiles;
 - (void) showFileInfo:(CSVFileParser *)fp;
 - (void) loadFileList;
-
-- (void) slowActivityStarted;
-- (void) slowActivityCompleted;
 
 @end
 

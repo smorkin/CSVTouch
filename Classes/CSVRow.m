@@ -35,8 +35,8 @@
 
 - (NSComparisonResult) compareItems:(CSVRow *)row
 {
-	NSUInteger columnsShown = [[[CSVDataViewController sharedInstance] importantColumnIndexes] count];
-	int *importantColumnIndexes = [[CSVDataViewController sharedInstance] rawColumnIndexes];
+	NSUInteger columnsShown = [self.fileParser.shownColumnNames count];
+	int *importantColumnIndexes = self.fileParser.rawShownColumnIndexes;
 	
 	NSUInteger i;
 	NSComparisonResult r;
@@ -386,26 +386,24 @@ static NSMutableArray *formatsStrings = nil;
 	NSMutableArray *array = [NSMutableArray array];
 	
 	// First add sorted column data
-	NSArray *importantColumnIndexes = [[CSVDataViewController sharedInstance] importantColumnIndexes];
-	NSArray *availableColumnNames = [self.fileParser availableColumnNames];
-	for( NSNumber *index in importantColumnIndexes )
+	for( NSNumber *index in self.fileParser.shownColumnIndexes )
 	{
 		[array addObject:[NSDictionary dictionaryWithObjectsAndKeys:
 						  [self.items objectAtIndex:[index intValue]], VALUE_KEY,
-						  [availableColumnNames objectAtIndex:[index intValue]], COLUMN_KEY,
+						  [self.fileParser.columnNames objectAtIndex:[index intValue]], COLUMN_KEY,
 						  nil]];
 	}
 	
 	// Then add other data
-	if( [importantColumnIndexes count] < [availableColumnNames count] )
+	if( [self.fileParser.shownColumnIndexes count] < [self.fileParser.columnNames count] )
 	{
 		for( NSUInteger i = 0 ; i < [self.items count] ; i++ )
 		{
-			if( ![importantColumnIndexes containsObject:[NSNumber numberWithUnsignedInteger:i]] )
+			if( ![self.fileParser.shownColumnIndexes containsObject:[NSNumber numberWithUnsignedInteger:i]] )
 			{
 				[array addObject:[NSDictionary dictionaryWithObjectsAndKeys:
 								  [self.items objectAtIndex:i], VALUE_KEY,
-								  [availableColumnNames objectAtIndex:i], COLUMN_KEY,
+								  [self.fileParser.columnNames objectAtIndex:i], COLUMN_KEY,
 								  nil]];
 			}				
 		}
@@ -419,12 +417,10 @@ static NSMutableArray *formatsStrings = nil;
 	NSMutableArray *array = [NSMutableArray array];
 	
 	// First add sorted column data
-	NSArray *importantColumnIndexes = [[CSVDataViewController sharedInstance] importantColumnIndexes];
-	NSArray *availableColumnNames = [self.fileParser availableColumnNames];
-	for( NSNumber *index in importantColumnIndexes )
+	for( NSNumber *index in self.fileParser.shownColumnIndexes )
 	{
 		NSMutableString *s = [NSMutableString stringWithFormat:@"%@: %@", 
-					   [availableColumnNames objectAtIndex:[index intValue]], 
+					   [self.fileParser.columnNames objectAtIndex:[index intValue]],
 					   [self.items objectAtIndex:[index intValue]]];
 		[s replaceOccurrencesOfString:@"\n" 
 						   withString:@" " 
@@ -436,15 +432,15 @@ static NSMutableArray *formatsStrings = nil;
 	// Then add other data
 	if( includeHiddenValues )
 	{
-		if( [importantColumnIndexes count] < [availableColumnNames count] )
+		if( [self.fileParser.shownColumnNames count] < [self.fileParser.columnNames count] )
 		{
 			NSMutableArray *otherColumns = [NSMutableArray array];
 			for( NSUInteger i = 0 ; i < [self.items count] ; i++ )
 			{
-				if( ![importantColumnIndexes containsObject:[NSNumber numberWithUnsignedInteger:i]] )
+				if( ![self.fileParser.shownColumnIndexes containsObject:[NSNumber numberWithUnsignedInteger:i]] )
 				{
 					NSMutableString *s = [NSMutableString stringWithFormat:@"%@: %@",
-										  [availableColumnNames objectAtIndex:i],
+										  [self.fileParser.columnNames objectAtIndex:i],
 										  [self.items objectAtIndex:i]];
 					[s replaceOccurrencesOfString:@"\n" 
 									   withString:@" " 
@@ -466,12 +462,12 @@ static NSMutableArray *formatsStrings = nil;
 	{
 		if( [CSVPreferencesController definedFixedWidths] )
 			self.shortDescription = [CSVRow concatenateWords:self.fixedWidthItems 
-												usingIndexes:[[CSVDataViewController sharedInstance] rawColumnIndexes]
-													   count:[[[CSVDataViewController sharedInstance] importantColumnIndexes] count]];
+												usingIndexes:self.fileParser.rawShownColumnIndexes
+													   count:[self.fileParser.shownColumnNames count]];
 		else 
 			self.shortDescription = [CSVRow concatenateWords:self.items 
-												usingIndexes:[[CSVDataViewController sharedInstance] rawColumnIndexes]
-													   count:[[[CSVDataViewController sharedInstance] importantColumnIndexes] count]];
+												usingIndexes:self.fileParser.rawShownColumnIndexes
+													   count:[self.fileParser.shownColumnNames count]];
 	}
 	return _shortDescription;
 }
@@ -480,26 +476,24 @@ static NSMutableArray *formatsStrings = nil;
 {
 	// First add sorted column data
 	NSMutableString *s = [NSMutableString stringWithCapacity:200];
-	NSArray *importantColumnIndexes = [[CSVDataViewController sharedInstance] importantColumnIndexes];
-	NSArray *availableColumnNames = [self.fileParser availableColumnNames];
-	for( NSNumber *index in importantColumnIndexes )
+	for( NSNumber *index in self.fileParser.shownColumnIndexes )
 	{
 		[s appendFormat:@"%@: %@\n", 
-		 [availableColumnNames objectAtIndex:[index intValue]], 
+		 [self.fileParser.columnNames objectAtIndex:[index intValue]],
 		 [self.items objectAtIndex:[index intValue]]];
 	}
 	
 	// Then add other data
 	if( includeHiddenValues )
 	{
-		if( [importantColumnIndexes count] < [availableColumnNames count] )
+		if( [self.fileParser.shownColumnIndexes count] < [self.fileParser.columnNames count] )
 		{
 			[s appendString:@"____________________\n"];
 			for( NSUInteger i = 0 ; i < [self.items count] ; i++ )
 			{
-				if( ![importantColumnIndexes containsObject:[NSNumber numberWithUnsignedInteger:i]] )
+				if( ![self.fileParser.shownColumnIndexes containsObject:[NSNumber numberWithUnsignedInteger:i]] )
 					[s appendFormat:@"%@: %@\n",
-					 [availableColumnNames objectAtIndex:i],
+					 [self.fileParser.columnNames objectAtIndex:i],
 					 [self.items objectAtIndex:i]];
 			}
 		}

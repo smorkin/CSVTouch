@@ -53,6 +53,8 @@
 #define PREFS_MAX_SAFE_BACKGROUND_MINUTES @"maxSafeBackgroundMinutes"
 #define LAST_USED_LIST_URL @"lastUsedListURL"
 #define PREFS_SYNCHRONIZE_DOWNLOADED_FILES @"synchronizeDownloadedFiles"
+#define NEW_FILE_URL @"newFileURL"
+
 
 NSUInteger sortingMask;
 static BOOL reverseItemSorting = FALSE;
@@ -657,6 +659,24 @@ static BOOL hideAdress = NO;
 + (BOOL) reverseItemSorting
 {
     return reverseItemSorting;
+}
+
++ (NSString *) lastUsedURL
+{
+    return [[NSUserDefaults standardUserDefaults] objectForKey:NEW_FILE_URL];
+}
+
++ (void) setLastUsedURL:(NSString *)URL
+{
+    if( URL )
+    {
+        [[NSUserDefaults standardUserDefaults] setObject:URL
+                                                  forKey:NEW_FILE_URL];
+    }
+    else
+    {
+        [[NSUserDefaults standardUserDefaults] removeObjectForKey:NEW_FILE_URL];
+    }
 }
 
 static NSDictionary *oldDefaults = nil;

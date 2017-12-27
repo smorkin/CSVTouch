@@ -23,6 +23,10 @@
 		F412B2D4115567DE000C7596 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28AD735F0D9D9599002E5188 /* MainWindow.xib */; };
 		F434D13E1FF14E5000CD622D /* FancyDetailsController.m in Sources */ = {isa = PBXBuildFile; fileRef = F434D13D1FF14E5000CD622D /* FancyDetailsController.m */; };
 		F434D13F1FF14E5000CD622D /* FancyDetailsController.m in Sources */ = {isa = PBXBuildFile; fileRef = F434D13D1FF14E5000CD622D /* FancyDetailsController.m */; };
+		F434D1411FF1518800CD622D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F434D1401FF1518800CD622D /* Main.storyboard */; };
+		F434D1421FF1518800CD622D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F434D1401FF1518800CD622D /* Main.storyboard */; };
+		F434D1441FF2A96200CD622D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F434D1431FF2A96200CD622D /* LaunchScreen.storyboard */; };
+		F434D1451FF2A96200CD622D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F434D1431FF2A96200CD622D /* LaunchScreen.storyboard */; };
 		F45807FF11466E9400A4C4E1 /* nksTablegallery.css in Resources */ = {isa = PBXBuildFile; fileRef = F45807FC11466E9400A4C4E1 /* nksTablegallery.css */; };
 		F458080011466E9400A4C4E1 /* nksTablegallery.css in Resources */ = {isa = PBXBuildFile; fileRef = F45807FC11466E9400A4C4E1 /* nksTablegallery.css */; };
 		F458080C11466F1600A4C4E1 /* seaglass.css in Resources */ = {isa = PBXBuildFile; fileRef = F458080911466F1600A4C4E1 /* seaglass.css */; };
@@ -238,6 +242,8 @@
 		F42D908D0DE95538001A2E5C /* CSVDataViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSVDataViewController.m; sourceTree = "<group>"; };
 		F434D13C1FF14E5000CD622D /* FancyDetailsController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FancyDetailsController.h; sourceTree = "<group>"; };
 		F434D13D1FF14E5000CD622D /* FancyDetailsController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FancyDetailsController.m; sourceTree = "<group>"; };
+		F434D1401FF1518800CD622D /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		F434D1431FF2A96200CD622D /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		F451F1800E99146300F22ED9 /* info.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = info.png; path = ../info.png; sourceTree = "<group>"; };
 		F45807FC11466E9400A4C4E1 /* nksTablegallery.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = nksTablegallery.css; sourceTree = "<group>"; };
 		F458080911466F1600A4C4E1 /* seaglass.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = seaglass.css; sourceTree = "<group>"; };
@@ -429,6 +435,8 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
+				F434D1431FF2A96200CD622D /* LaunchScreen.storyboard */,
+				F434D1401FF1518800CD622D /* Main.storyboard */,
 				080E96DDFE201D6D7F000001 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
@@ -702,8 +710,10 @@
 				F4064A7E18CE65BB00E29CD5 /* file_via_mail.png in Resources */,
 				F47DC7EA1111004C00E8DD8B /* col.png in Resources */,
 				F4EC004F17F87E8600A52838 /* Images.xcassets in Resources */,
+				F434D1411FF1518800CD622D /* Main.storyboard in Resources */,
 				F47DC7EB1111004C00E8DD8B /* row.png in Resources */,
 				F47DC7ED1111004C00E8DD8B /* Settings.bundle in Resources */,
+				F434D1441FF2A96200CD622D /* LaunchScreen.storyboard in Resources */,
 				F47DC7F01111004C00E8DD8B /* info.png in Resources */,
 				F47DC7F11111004C00E8DD8B /* 2lines.png in Resources */,
 				F47DC7F21111004C00E8DD8B /* 4lines.png in Resources */,
@@ -794,11 +804,13 @@
 				F4ADD7F8115E573C0095F061 /* alert.png in Resources */,
 				F4ADD7F9115E573C0095F061 /* ball_blue.png in Resources */,
 				F4ADD7FA115E573C0095F061 /* ball_green.png in Resources */,
+				F434D1421FF1518800CD622D /* Main.storyboard in Resources */,
 				F4ADD7FB115E573C0095F061 /* ball_grey.png in Resources */,
 				F4ADD7FC115E573C0095F061 /* ball_lime.png in Resources */,
 				F4ADD7FD115E573C0095F061 /* ball_orange.png in Resources */,
 				F4ADD7FE115E573C0095F061 /* ball_purple.png in Resources */,
 				F4ADD7FF115E573C0095F061 /* ball_red_glow.png in Resources */,
+				F434D1451FF2A96200CD622D /* LaunchScreen.storyboard in Resources */,
 				F4ADD800115E573C0095F061 /* ball_red.png in Resources */,
 				F4ADD801115E573C0095F061 /* ball_yellow.png in Resources */,
 				F4ADD802115E573C0095F061 /* bug_red.png in Resources */,

@@ -75,6 +75,10 @@ extern NSUInteger sortingMask; // This is available for performance-critical ope
 
 + (BOOL) modifyItemsTableViewSize:(BOOL)increase;
 
+// Internal use
++ (NSString *) lastUsedURL;
++ (void) setLastUsedURL:(NSString *)URL;
+
 // Check if prefs have changed while in background
 + (BOOL) defaultsHaveChanged;
 + (void) resetDefaultsHaveChanges;

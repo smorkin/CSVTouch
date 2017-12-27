@@ -42,7 +42,6 @@
 - (void) setFile:(CSVFileParser *)newFile
 {
     file = newFile;
-    [self updateDateButton];
 }
 
 - (void) configureToolbarButtons
@@ -111,15 +110,18 @@
     [self configureTable];
     [self validateItemSizeButtons];
     [self configureDateButton];
+    [CSVDataViewController sharedInstance].itemController = self;
 }
 
 - (void) viewWillAppear:(BOOL)animated
 {
     // Might be that setObjects is called before setFile -> we need to update counts
     [self updateItemCount];
-    [super viewWillAppear:animated];
+    [self updateDateButton];
     self.navigationController.toolbarHidden = NO;
     self.navigationItem.rightBarButtonItem = self.modificationDateButton;
+    [self dataLoaded];
+    [super viewWillAppear:animated];
 }
 
 - (void) modifyItemsTableViewSize:(BOOL)increase
@@ -190,6 +192,12 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [[CSVDataViewController sharedInstance] selectedItemAtIndexPath:indexPath];
+}
+
+- (void) dataLoaded
+{
+    self.objects = [file itemsWithResetShortdescriptions:YES];
+    [super dataLoaded];
 }
 
 @end

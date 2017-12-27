@@ -8,13 +8,7 @@
 #import "FileDataViewController.h"
 #import "CSV_TouchAppDelegate.h"
 #import "FileDownloader.h"
-
-@interface FileDataViewController ()
-{
-    CSVFileParser *file;
-}
-
-@end
+#import "CSVPreferencesController.h"
 
 @implementation FileDataViewController
 
@@ -41,6 +35,13 @@
 {
     [super viewWillAppear:animated];
     self.navigationController.toolbarHidden = YES;
+    if( self.file){
+        [self updateFileInfo];
+    }
+    else
+    {
+        [self configureForNewFile];
+    }
 }
 
 - (void) synchronizeFileEncoding
@@ -57,7 +58,7 @@
     fileEncodingSegment.selectedSegmentIndex = 0;
 }
 
-- (void) configureForNewFile:(NSString *)defaultURL
+- (void) configureForNewFile
 {
     NSMutableString *s = [NSMutableString string];
     [s appendString:@"1. For FTP download, use\n\n"];
@@ -65,7 +66,7 @@
     [s appendString:@"2. An example file to test the functionality is available at\n\n"];
     [s appendString:@"http://www.wigzell.net/csv/books.csv\n\n"];
     fileInfo.text = s;
-    newFileURL.text = defaultURL;
+    newFileURL.text = [CSVPreferencesController lastUsedURL];
 }
 
 - (void) updateFileInfo
@@ -102,17 +103,6 @@
         newFileURL.text = [self file].URL;
     }
     [self synchronizeFileEncoding];
-}
-
-- (void) setFile:(CSVFileParser *)newFile
-{
-    file = newFile;
-    [self updateFileInfo];
-}
-
-- (CSVFileParser *) file
-{
-    return file;
 }
 
 - (IBAction) segmentClicked:(id)sender

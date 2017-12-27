@@ -17,11 +17,9 @@
 
 - (IBAction) segmentClicked:(id)sender;
 
-// For viewing data about existing file
-- (CSVFileParser *) file;
-- (void) setFile:(CSVFileParser *)file;
+@property (nonatomic, weak) CSVFileParser *file;
 
 // For downloading a new file
-- (void) configureForNewFile:(NSString *)defaultURL;
+- (void) configureForNewFile;
 
 @end

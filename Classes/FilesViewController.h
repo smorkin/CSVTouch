@@ -10,6 +10,8 @@
 
 @interface FilesViewController : OzyTableViewController
 
++ (instancetype) sharedInstance;
+
 - (IBAction) addNewFile;
 
 @end

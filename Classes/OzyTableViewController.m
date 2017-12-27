@@ -155,18 +155,18 @@
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	if( editingStyle == UITableViewCellEditingStyleDelete )
-	{
-		NSInteger index = indexPath.row;
-		id objectToRemove = [self.objects objectAtIndex:index];
-		[self.objects removeObjectAtIndex:index];
-		self.navigationItem.rightBarButtonItem.enabled = TRUE;
-		[self.tableView reloadData];
-		[[NSNotificationCenter defaultCenter] postNotificationName:OzyContentChangedInTableView
-															object:self
-														  userInfo:[NSDictionary dictionaryWithObject:objectToRemove
-																							   forKey:OzyRemovedTableViewObject]];
-	}
+    if( editingStyle == UITableViewCellEditingStyleDelete )
+    {
+        NSInteger index = indexPath.row;
+        id objectToRemove = [self.objects objectAtIndex:index];
+        [self.objects removeObjectAtIndex:index];
+        self.navigationItem.rightBarButtonItem.enabled = TRUE;
+        [self.tableView reloadData];
+        [[NSNotificationCenter defaultCenter] postNotificationName:OzyContentChangedInTableView
+                                                            object:self
+                                                          userInfo:[NSDictionary dictionaryWithObject:objectToRemove
+                                                                                               forKey:OzyRemovedTableViewObject]];
+    }
 }
 
 - (NSIndexPath *) indexPathForObjectAtIndex:(NSUInteger)index
