@@ -10,7 +10,6 @@
 #import "EditViewController.h"
 #import "CSVPreferencesController.h"
 #import "CSVRow.h"
-#import "CSVDataViewController.h"
 #import "OzymandiasAdditions.h"
 
 #define NORMAL_SORT_ORDER @"↓"
@@ -127,6 +126,7 @@ static NSMutableDictionary *_indexPathForFileName;
     [self configureDateButton];
     [self configureSearch];
     self.edgesForExtendedLayout = UIRectEdgeNone;
+    self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
 }
 
 - (void) viewWillAppear:(BOOL)animated
@@ -239,8 +239,6 @@ static NSMutableDictionary *_indexPathForFileName;
 {
     CSVRow *row = [[self objects] objectAtIndex:[self indexForObjectAtIndexPath:indexPath]];
     [self performSegueWithIdentifier:@"ToDetails" sender:row];
-
-//    [[CSVDataViewController sharedInstance] selectedItemAtIndexPath:indexPath];
 }
 
 - (void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender

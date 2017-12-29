@@ -8,8 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@class CSVDataViewController;
-
 // Make sure no value set, i.e. size = 0, corresponds to OZY_NORMAL
 typedef enum OzyTableViewSize {
 	OZY_NORMAL, OZY_SMALL, OZY_MINI

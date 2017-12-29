@@ -7,8 +7,6 @@
 //
 
 #import "OzyTextViewController.h"
-#import "OzymandiasAdditions.h"
-#import "CSVDataViewController.h"
 
 @implementation OzyTextViewController
 

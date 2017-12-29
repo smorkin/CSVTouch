@@ -10,8 +10,7 @@
 #import "OzymandiasAdditions.h"
 #import "IntroViewController.h"
 #import "FileDataViewController.h"
-
-@class OzyRotatableViewController, CSVFileParser, CSVDataViewController;
+#import "CSVDataViewController.h"
 
 @interface CSV_TouchAppDelegate : NSObject <UIApplicationDelegate,
 OzymandiasApplicationDelegate>
@@ -21,7 +20,6 @@ OzymandiasApplicationDelegate>
 }
 
 + (CSV_TouchAppDelegate *) sharedInstance;
-+ (NSArray *) allowedDelimiters;
 + (BOOL) iPadMode;
 
 + (NSString *) internalFileNameForOriginalFileName:(NSString *)original;

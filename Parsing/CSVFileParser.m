@@ -9,11 +9,9 @@
 #import "CSVFileParser.h"
 #import "CSVRow.h"
 #import "CSVPreferencesController.h"
-#import "CSV_TouchAppDelegate.h"
-#import "CSVDataViewController.h"
-#import "OzyTableViewController.h"
 #import "csv.h"
 #import "parseCSV.h"
+#import "OzymandiasAdditions.h"
 
 #define FILEPARSER_RAW_DATA @"rawData"
 #define FILEPARSER_URL @"URL"
@@ -120,6 +118,16 @@ static NSMutableArray *_files;
         }
     }
     return [NSMutableArray array];
+}
+
++ (NSArray *) allowedDelimiters
+{
+    static NSArray *delimiters = nil;
+    
+    if( !delimiters )
+        delimiters = [NSArray arrayWithObjects:@",", @";", @".", @"|", @" ", @"\t", nil];
+    
+    return delimiters;
 }
 
  - (void) loadFile
@@ -399,7 +407,7 @@ static NSMutableArray *_files;
 		int foundColumns;
 		int bestResult = 0;
 		unichar bestDelimiter = ',';
-		for( NSString *testDelimiter in [CSV_TouchAppDelegate allowedDelimiters] )
+		for( NSString *testDelimiter in [CSVFileParser allowedDelimiters] )
 		{
 			if([self parse:_rawString 
 				 delimiter:[testDelimiter characterAtIndex:0]

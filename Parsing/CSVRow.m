@@ -9,7 +9,6 @@
 #import "CSVRow.h"
 #import "OzyTableViewController.h"
 #import "CSVPreferencesController.h"
-#import "CSVDataViewController.h"
 #import "CSVFileParser.h"
 
 #define ITEM_SEPARATOR "‧"

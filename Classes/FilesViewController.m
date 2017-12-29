@@ -7,7 +7,6 @@
 
 #import "FilesViewController.h"
 #import "CSVPreferencesController.h"
-#import "CSVDataViewController.h"
 #import "CSV_TouchAppDelegate.h"
 #import "CSVFileParser.h"
 #import "ItemsViewController.h"
@@ -118,6 +117,7 @@ static FilesViewController *_sharedInstance = nil;
     [self configureGestures];
     [self configureTable];
     self.edgesForExtendedLayout = UIRectEdgeNone;
+    self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
 }
 
 - (void) viewDidAppear:(BOOL)animated

@@ -30,7 +30,6 @@
 + (BOOL) safeStart;
 + (BOOL) useCorrectParsing;
 + (BOOL) useCorrectSorting;
-+ (BOOL) useDetailsNavigation;
 + (BOOL) showInlineImages;
 + (BOOL) clearSearchWhenQuickSelecting;
 + (BOOL) confirmLink;

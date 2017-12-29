@@ -6,7 +6,7 @@
 //
 
 #import "EditViewController.h"
-#import "CSVDataViewController.h"
+#import "CSVFileParser.h"
 
 @interface EditViewController ()
 @property (nonatomic, weak) CSVFileParser *file;
@@ -21,6 +21,7 @@
     self.editable = YES;
     self.reorderable = YES;
     self.size = OZY_NORMAL;
+    self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     [self setSectionTitles:[NSArray arrayWithObject:@"Select & Arrange Columns"]];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Reset"
                                                                               style:UIBarButtonItemStylePlain

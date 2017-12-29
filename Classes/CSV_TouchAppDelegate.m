@@ -8,7 +8,6 @@
 
 #import "CSV_TouchAppDelegate.h"
 #import "OzyTableViewController.h"
-#import "CSVDataViewController.h"
 #import "CSVPreferencesController.h"
 #import "CSVRow.h"
 #import "CSVFileParser.h"
@@ -32,16 +31,6 @@
 @implementation CSV_TouchAppDelegate
 
 static CSV_TouchAppDelegate *sharedInstance = nil;
-
-+ (NSArray *) allowedDelimiters
-{
-	static NSArray *delimiters = nil;
-	
-	if( !delimiters )
-		delimiters = [NSArray arrayWithObjects:@",", @";", @".", @"|", @" ", @"\t", nil];
-	
-	return delimiters;
-}
 
 + (BOOL) iPadMode
 {

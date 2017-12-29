@@ -39,6 +39,7 @@
     [self.fancyView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"DetailsCell"];
     self.fancyView.dataSource = self;
     self.fancyView.delegate = self;
+    self.fancyView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     UISegmentedControl *c = [[UISegmentedControl alloc] initWithItems: @[@"1", @"2", @"3"]];
     [c addTarget:self
           action:@selector(viewSelectionChanged)
