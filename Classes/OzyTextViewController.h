@@ -6,13 +6,9 @@
 //  Copyright 2008 Ozymandias. All rights reserved.
 //
 
-#import "OzyRotatableViewController.h"
+#import <UIKit/UIKit.h>
 
-
-@interface OzyTextViewController : OzyRotatableViewController
-{
-	IBOutlet UITextView *_textView;
-}
+@interface OzyTextViewController : UIViewController
 
 @property (nonatomic, readonly) UITextView *textView;
 

@@ -42,6 +42,11 @@ static NSMutableArray *_files;
     return _files;
 }
 
++ (void) removeAllFiles
+{
+    [_files removeAllObjects];
+}
+
 + (NSArray *) allowedFileEncodings
 {
     return _allowedEncodings;
@@ -489,6 +494,8 @@ static NSMutableArray *_files;
 	self.URL = nil;
 	self.downloadDate = nil;
 	self.filePath = nil;
+    [CSVFileParser removeFile:self];
+    
 }
 
 - (NSString *) fileName

@@ -7,6 +7,7 @@
 
 #import "ItemsViewController.h"
 #import "DetailsViewController.h"
+#import "EditViewController.h"
 #import "CSVPreferencesController.h"
 #import "CSVRow.h"
 #import "CSVDataViewController.h"
@@ -20,6 +21,7 @@
 @interface ItemsViewController ()
 @property (nonatomic, weak) CSVFileParser *file;
 @property (nonatomic, strong) UISearchController *searchController;
+@property (nonatomic, assign) BOOL shouldAutoscroll;
 @end
 
 @implementation ItemsViewController
@@ -35,9 +37,16 @@ static NSMutableDictionary *_indexPathForFileName;
 {
     if( self.file && [self.file fileName] )
     {
-        NSArray *a = [self.tableView indexPathsForVisibleRows];
-        if( [a count] > 0 )
-            [_indexPathForFileName setObject:[[a objectAtIndex:0] dictionaryRepresentation] forKey:[self.file fileName]];
+        NSArray<NSIndexPath *> *a = [self.tableView indexPathsForVisibleRows];
+        if( [a count] > 0 ){
+            // Now, turns out that if we use section headers, visible rows include those under header ->
+            // We should actually use a[1] instead of a[0]
+            NSUInteger i = 0;
+            if( self.useIndexes && [a count] > 1 ){
+                i = 1;
+            }
+            [_indexPathForFileName setObject:[[a objectAtIndex:i] dictionaryRepresentation] forKey:[self.file fileName]];
+        }
         else
             [_indexPathForFileName removeObjectForKey:[self.file fileName]];
     }
@@ -117,7 +126,7 @@ static NSMutableDictionary *_indexPathForFileName;
     [self validateItemSizeButtons];
     [self configureDateButton];
     [self configureSearch];
-    [CSVDataViewController sharedInstance].itemController = self;
+    self.edgesForExtendedLayout = UIRectEdgeNone;
 }
 
 - (void) viewWillAppear:(BOOL)animated
@@ -128,9 +137,23 @@ static NSMutableDictionary *_indexPathForFileName;
     [self resetObjects];
     [self dataLoaded];
     [self setTitle:[self.file defaultTableViewDescription]];
-    [self updateInitialScrollPosition];
     self.navigationController.toolbarHidden = NO;
+    self.shouldAutoscroll = YES;
     [super viewWillAppear:animated];
+}
+
+// http://www.yichizhang.info/2015/03/02/prescroll-a-uitableview.html
+- (void) viewDidLayoutSubviews
+{
+    [super viewDidLayoutSubviews];
+    if( self.shouldAutoscroll){
+        [self updateInitialScrollPosition];
+        self.shouldAutoscroll = NO;
+    }
+}
+- (void) viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
 }
 
 - (void) viewWillDisappear:(BOOL)animated
@@ -209,7 +232,6 @@ static NSMutableDictionary *_indexPathForFileName;
     }
     
     [super setObjects:objects];
-    [self refreshIndexes];
     [self updateItemCount];
 }
 

@@ -53,7 +53,7 @@
 
 
 - (void) resetIndexes
-{ // TODO: gör om till egen datastruktur lgi
+{
 	if( !_sectionIndexes )
 		_sectionIndexes = [[NSMutableArray alloc] init];
 	else
@@ -65,13 +65,12 @@
 }
 
 - (void) refreshIndexes
-// varning: enbart side-effects
 {
-	if( self.useIndexes ) // TODO: gör guard clause här
+    [self resetIndexes];
+	if( self.useIndexes )
 	{
-		[self resetIndexes];
-		[_sectionStarts addObject:[NSNumber numberWithInt:0]];
-		[_sectionIndexes addObject:UITableViewIndexSearch];
+        [_sectionStarts addObject:[NSNumber numberWithInt:0]];
+        [_sectionIndexes addObject:UITableViewIndexSearch];
 		
 		NSUInteger objectCount = [self.objects count];
 		NSString *latestFirstLetter = nil;
@@ -94,24 +93,8 @@
 				[_sectionIndexes addObject:[self sectionTitleForCharacter:currentFirstLetter]];
 				latestFirstLetter = currentFirstLetter;
 			}
-			else if(![currentFirstLetter isEqualToString:latestFirstLetter] &&
-					![[self comparisonCharacterForCharacter:currentFirstLetter] isEqualToString:
-					  [self comparisonCharacterForCharacter:latestFirstLetter]] )
-			{
-				[_sectionStarts addObject:[NSNumber numberWithUnsignedInteger:i]];
-				[_sectionIndexes addObject:[self sectionTitleForCharacter:currentFirstLetter]];
-				latestFirstLetter = currentFirstLetter;
-			}
 		}
 	}
-	else
-	{
-		if( _sectionIndexes )
-			[_sectionIndexes removeAllObjects];
-		if( _sectionStarts )
-			[_sectionStarts removeAllObjects];
-	}
-	
 }
 
 - (void) setObjects:(NSMutableArray *)objects
@@ -416,26 +399,6 @@ sectionForSectionIndexTitle:(NSString *)title
 }
 
 - (void) dataLoaded
-{
-	[self.tableView reloadData];
-}
-
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-	return YES;
-}
-
-- (BOOL)shouldAutorotate
-{
-    return YES;
-}
-
-- (UIInterfaceOrientationMask)supportedInterfaceOrientations
-{
-    return UIInterfaceOrientationMaskAll;
-}
-
-- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
 {
 	[self.tableView reloadData];
 }

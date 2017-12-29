@@ -8,7 +8,6 @@
 
 #import "CSV_TouchAppDelegate.h"
 #import "OzyTableViewController.h"
-#import "OzyRotatableViewController.h"
 #import "CSVDataViewController.h"
 #import "CSVPreferencesController.h"
 #import "CSVRow.h"
@@ -308,6 +307,7 @@ static NSString *newPassword = nil;
 
 - (void) loadOldDocuments
 {
+    [CSVFileParser removeAllFiles];
  	NSString *importedDocumentsPath = [CSV_TouchAppDelegate importedDocumentsPath];
     NSMutableArray *files = [NSMutableArray array];
 	NSArray *documents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:importedDocumentsPath
@@ -385,7 +385,6 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     [self loadLocalFiles];
     [CSVPreferencesController applicationDidFinishLaunching];
-    [[self dataController] applicationDidFinishLaunchingInEmergencyMode:[CSVPreferencesController safeStart]];
     
     self.lastFileURL = [CSVPreferencesController lastUsedURL];
     if( !self.lastFileURL || [self.lastFileURL isEqualToString:@""] )
@@ -442,7 +441,8 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
     {
         [CSVPreferencesController setLastUsedURL:self.lastFileURL];
     }
-	[[self dataController] applicationWillTerminate];
+    
+    [CSVFileParser saveColumnNames];
 }
 
 - (void) downloadDone
@@ -619,19 +619,6 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 	[self downloadDone];
 }
 
-- (void) addNewFile
-{
-    [self.fileViewController configureForNewFile];
-	[self.dataController pushViewController:self.fileViewController animated:YES];
-}
-
-- (void) showFileInfo:(CSVFileParser *)fp
-{
-    [self.fileViewController setFile:fp];
-    [self.dataController pushViewController:self.fileViewController
-                                        animated:YES];
-}
-
 - (void) startDownloadUsingURL:(NSURL *)url
 {
 	self.rawData = [[NSMutableData alloc] init];
@@ -782,22 +769,6 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 	return NO;
 }
 
-- (void) slowActivityStarted
-{
-	activityView.frame = [[UIScreen mainScreen] bounds];
-	[self.window addSubview:activityView];
-	[fileParsingActivityView startAnimating];
-}
-
-- (void) slowActivityCompleted
-{
-	if( [fileParsingActivityView isAnimating] )
-	{
-		[fileParsingActivityView stopAnimating];
-		[activityView removeFromSuperview];
-	}
-}	
-
 - (void)applicationDidEnterBackground:(UIApplication *)application
 {
 	[[NSUserDefaults standardUserDefaults] synchronize];
@@ -843,15 +814,6 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
         [CSVPreferencesController setHasShownHowTo];
         self.window.rootViewController = [self dataController];
     }
-}
-
-@end
-
-@implementation CSV_TouchAppDelegate (FileEncoding)
-
-- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView
-{
-    return 1;
 }
 
 @end

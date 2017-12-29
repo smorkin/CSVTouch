@@ -5,10 +5,9 @@
 //  Created by Simon Wigzell on 2017-12-16.
 //
 
-#import "OzyRotatableViewController.h"
 #import "CSVFileParser.h"
 
-@interface FileDataViewController : OzyRotatableViewController
+@interface FileDataViewController : UIViewController
 {
     IBOutlet UITextField *newFileURL;
     IBOutlet UITextView *fileInfo;

@@ -285,4 +285,5 @@
     <inferredMetricsTieBreakers>
         <segue reference="muK-hd-Wte"/>
     </inferredMetricsTieBreakers>
+    <color key="tintColor" red="0.79742147020725385" green="0.025906589017049658" blue="0.047856113314667215" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
 </document>

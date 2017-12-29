@@ -30,9 +30,6 @@
 #define PREFS_SHOW_DEBUG_INFO @"showDebugInfo"
 #define PREFS_USE_CORRECT_PARSING @"useCorrectParsing"
 #define PREFS_USE_CORRECT_SORTING @"useCorrectSorting"
-#define PREFS_REMOVE_DETAILS_NAVIGATION @"useDetailsNavigation"
-#define PREFS_USE_DETAILS_SWIPE @"useDetailsSwipe"
-#define PREFS_USE_SWIPE_ANIMATION @"useSwipeAnimation"
 #define PREFS_SHOW_INLINE_IMAGES @"showInlineImages"
 #define PREFS_NUMBER_SENSITIVE_SORTING @"numberSensitiveSorting"
 #define PREFS_CASE_SENSITIVE_SORTING @"caseSensitiveSorting"
@@ -52,6 +49,8 @@
 #define LAST_USED_LIST_URL @"lastUsedListURL"
 #define PREFS_SYNCHRONIZE_DOWNLOADED_FILES @"synchronizeDownloadedFiles"
 #define NEW_FILE_URL @"newFileURL"
+#define PREFS_DETAILS_VIEW @"detailsView"
+#define PREFS_SHOW_DELETED_COLUMNS @"showDeletedColumns"
 
 
 NSUInteger sortingMask;
@@ -72,6 +71,9 @@ static BOOL reverseItemSorting = FALSE;
     [defaults removeObjectForKey:@"searchStringsForFiles"];
     [defaults removeObjectForKey:@"predefinedHiddenColumns"];
     [defaults removeObjectForKey:@"itemPositionsForFiles"];
+    [defaults removeObjectForKey:@"useDetailsSwipe"];
+    [defaults removeObjectForKey:@"useSwipeAnimation"];
+    [defaults removeObjectForKey:@"useDetailsNavigation"];
 
 	// Setup sortingMask
 	sortingMask = NSNumericSearch ^ NSCaseInsensitiveSearch ^ NSLiteralSearch;
@@ -234,33 +236,6 @@ static BOOL reverseItemSorting = FALSE;
 + (BOOL) useCorrectSorting
 {
 	return [[NSUserDefaults standardUserDefaults] boolForKey:PREFS_USE_CORRECT_SORTING];
-}
-
-+ (BOOL) useDetailsNavigation
-{
-	id obj = [[NSUserDefaults standardUserDefaults] objectForKey:PREFS_REMOVE_DETAILS_NAVIGATION];
-	if( obj )
-		return [[NSUserDefaults standardUserDefaults] boolForKey:PREFS_REMOVE_DETAILS_NAVIGATION];
-	else
-		return YES;
-}
-
-+ (BOOL) useDetailsSwipe
-{
-	id obj = [[NSUserDefaults standardUserDefaults] objectForKey:PREFS_USE_DETAILS_SWIPE];
-	if( obj )
-		return [[NSUserDefaults standardUserDefaults] boolForKey:PREFS_USE_DETAILS_SWIPE];
-	else
-		return YES;
-}
-
-+ (BOOL) useSwipeAnimation
-{
-	id obj = [[NSUserDefaults standardUserDefaults] objectForKey:PREFS_USE_SWIPE_ANIMATION];
-	if( obj )
-		return [[NSUserDefaults standardUserDefaults] boolForKey:PREFS_USE_SWIPE_ANIMATION];
-	else
-		return YES;
 }
 
 + (BOOL) showInlineImages
@@ -496,18 +471,6 @@ static BOOL hideAdress = NO;
 				[[NSUserDefaults standardUserDefaults] setBool:[[words objectAtIndex:1] boolValue]
 														forKey:PREFS_USE_CORRECT_SORTING];
 			
-			else if( [[words objectAtIndex:0] isEqualToString:PREFS_REMOVE_DETAILS_NAVIGATION] )
-				[[NSUserDefaults standardUserDefaults] setBool:[[words objectAtIndex:1] boolValue]
-														forKey:PREFS_REMOVE_DETAILS_NAVIGATION];
-			
-			else if( [[words objectAtIndex:0] isEqualToString:PREFS_USE_DETAILS_SWIPE] )
-				[[NSUserDefaults standardUserDefaults] setBool:[[words objectAtIndex:1] boolValue]
-														forKey:PREFS_USE_DETAILS_SWIPE];
-			
-			else if( [[words objectAtIndex:0] isEqualToString:PREFS_USE_SWIPE_ANIMATION] )
-				[[NSUserDefaults standardUserDefaults] setBool:[[words objectAtIndex:1] boolValue]
-														forKey:PREFS_USE_SWIPE_ANIMATION];
-			
 			else if( [[words objectAtIndex:0] isEqualToString:PREFS_SHOW_INLINE_IMAGES] )
 				[[NSUserDefaults standardUserDefaults] setBool:[[words objectAtIndex:1] boolValue]
 														forKey:PREFS_SHOW_INLINE_IMAGES];
@@ -658,6 +621,26 @@ static BOOL hideAdress = NO;
     {
         [[NSUserDefaults standardUserDefaults] removeObjectForKey:NEW_FILE_URL];
     }
+}
+
++ (NSInteger) selectedDetailsView
+{
+    return [[NSUserDefaults standardUserDefaults] integerForKey:PREFS_DETAILS_VIEW];
+}
+
++ (void) setSelectedDetailsView:(NSInteger)view
+{
+    [[NSUserDefaults standardUserDefaults] setInteger:view forKey:PREFS_DETAILS_VIEW];
+}
+
++ (BOOL) showDeletedColumns
+{
+    return [[NSUserDefaults standardUserDefaults] boolForKey:PREFS_SHOW_DELETED_COLUMNS];
+}
+
++ (void) setShowDeletedColumns:(BOOL)yn
+{
+    [[NSUserDefaults standardUserDefaults] setBool:yn forKey:PREFS_SHOW_DELETED_COLUMNS];
 }
 
 static NSDictionary *oldDefaults = nil;

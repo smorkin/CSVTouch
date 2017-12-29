@@ -10,7 +10,8 @@
 #import "CSVDataViewController.h"
 #import "CSV_TouchAppDelegate.h"
 #import "CSVFileParser.h"
-#import "FileDownloader.h"
+#import "ItemsViewController.h"
+#import "ParseErrorViewController.h"
 
 @interface FilesViewController ()
 
@@ -116,6 +117,7 @@ static FilesViewController *_sharedInstance = nil;
     [self configureToolbarButtons];
     [self configureGestures];
     [self configureTable];
+    self.edgesForExtendedLayout = UIRectEdgeNone;
 }
 
 - (void) viewDidAppear:(BOOL)animated

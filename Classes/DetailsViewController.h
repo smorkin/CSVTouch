@@ -9,12 +9,10 @@
 #import <WebKit/WebKit.h>
 #import "CSVRow.h"
 
-@interface DetailsViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
-
-@property (nonatomic, strong) WKWebView *webView;
-@property (nonatomic, strong) UITableView *fancyView;
-@property (nonatomic, strong) UITextView *simpleView;
+@interface DetailsViewController : UIViewController
 
 @property (nonatomic, strong) CSVRow *row;
 
 @end
+
+

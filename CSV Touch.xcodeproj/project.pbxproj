@@ -21,8 +21,6 @@
 		F412B2D2115567D0000C7596 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28AD735F0D9D9599002E5188 /* MainWindow.xib */; };
 		F412B2D3115567DB000C7596 /* iPadMainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = F47DC8101111004D00E8DD8B /* iPadMainWindow.xib */; };
 		F412B2D4115567DE000C7596 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28AD735F0D9D9599002E5188 /* MainWindow.xib */; };
-		F434D13E1FF14E5000CD622D /* FancyDetailsController.m in Sources */ = {isa = PBXBuildFile; fileRef = F434D13D1FF14E5000CD622D /* FancyDetailsController.m */; };
-		F434D13F1FF14E5000CD622D /* FancyDetailsController.m in Sources */ = {isa = PBXBuildFile; fileRef = F434D13D1FF14E5000CD622D /* FancyDetailsController.m */; };
 		F434D1411FF1518800CD622D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F434D1401FF1518800CD622D /* Main.storyboard */; };
 		F434D1421FF1518800CD622D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F434D1401FF1518800CD622D /* Main.storyboard */; };
 		F434D1441FF2A96200CD622D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F434D1431FF2A96200CD622D /* LaunchScreen.storyboard */; };
@@ -35,6 +33,8 @@
 		F434D1551FF6B55600CD622D /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F434D1531FF6B51700CD622D /* UIKit.framework */; };
 		F434D1561FF6B55D00CD622D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F434D1521FF6B51700CD622D /* Foundation.framework */; };
 		F434D1571FF6B56D00CD622D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F434D1541FF6B51700CD622D /* CoreGraphics.framework */; };
+		F434D15A1FF6E17E00CD622D /* FileDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = F434D1591FF6E17E00CD622D /* FileDownloader.m */; };
+		F434D15B1FF6E17E00CD622D /* FileDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = F434D1591FF6E17E00CD622D /* FileDownloader.m */; };
 		F45807FF11466E9400A4C4E1 /* nksTablegallery.css in Resources */ = {isa = PBXBuildFile; fileRef = F45807FC11466E9400A4C4E1 /* nksTablegallery.css */; };
 		F458080011466E9400A4C4E1 /* nksTablegallery.css in Resources */ = {isa = PBXBuildFile; fileRef = F45807FC11466E9400A4C4E1 /* nksTablegallery.css */; };
 		F458080C11466F1600A4C4E1 /* seaglass.css in Resources */ = {isa = PBXBuildFile; fileRef = F458080911466F1600A4C4E1 /* seaglass.css */; };
@@ -47,10 +47,6 @@
 		F46CA0D51FE59A4900FE645C /* ParseErrorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F46CA0D31FE59A4900FE645C /* ParseErrorViewController.m */; };
 		F46CA0D81FE5AEAA00FE645C /* FileDataViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F46CA0D71FE5AEAA00FE645C /* FileDataViewController.m */; };
 		F46CA0D91FE5AEAA00FE645C /* FileDataViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F46CA0D71FE5AEAA00FE645C /* FileDataViewController.m */; };
-		F46CA0DC1FE5B1AB00FE645C /* FileDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = F46CA0DB1FE5B1AB00FE645C /* FileDownloader.m */; };
-		F46CA0DD1FE5B1AB00FE645C /* FileDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = F46CA0DB1FE5B1AB00FE645C /* FileDownloader.m */; };
-		F46D894511725CFA00D45EEA /* OzyWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F46D894411725CFA00D45EEA /* OzyWebViewController.m */; };
-		F46D894611725CFA00D45EEA /* OzyWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F46D894411725CFA00D45EEA /* OzyWebViewController.m */; };
 		F47DC7EA1111004C00E8DD8B /* col.png in Resources */ = {isa = PBXBuildFile; fileRef = F473432C0E2A90B20072F3DE /* col.png */; };
 		F47DC7EB1111004C00E8DD8B /* row.png in Resources */ = {isa = PBXBuildFile; fileRef = F473432D0E2A90B20072F3DE /* row.png */; };
 		F47DC7ED1111004C00E8DD8B /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = F4990C160E4276C500D64667 /* Settings.bundle */; };
@@ -66,8 +62,6 @@
 		F47DC7FA1111004C00E8DD8B /* CSVDataViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F42D908D0DE95538001A2E5C /* CSVDataViewController.m */; };
 		F47DC7FB1111004C00E8DD8B /* CSVRow.m in Sources */ = {isa = PBXBuildFile; fileRef = F4AE44860DF469BF001197AB /* CSVRow.m */; };
 		F47DC7FC1111004C00E8DD8B /* CSVFileParser.m in Sources */ = {isa = PBXBuildFile; fileRef = F48836570DF53E2C0063EF75 /* CSVFileParser.m */; };
-		F47DC7FD1111004C00E8DD8B /* OzyRotatableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4E5EA940E08843D002EB091 /* OzyRotatableViewController.m */; };
-		F47DC7FE1111004C00E8DD8B /* OzyRotatableTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4E5EAA90E0884D8002EB091 /* OzyRotatableTabBarController.m */; };
 		F47DC7FF1111004C00E8DD8B /* OzyTextViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4E5EE2F0E09B591002EB091 /* OzyTextViewController.m */; };
 		F47DC8001111004C00E8DD8B /* CSVPreferencesController.m in Sources */ = {isa = PBXBuildFile; fileRef = F47819840E2BDE7A00B44E78 /* CSVPreferencesController.m */; };
 		F47DC8011111004C00E8DD8B /* OzymandiasAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F4A73D1A0E2EB49200E1DF27 /* OzymandiasAdditions.m */; };
@@ -86,8 +80,6 @@
 		F47DC8251111005400E8DD8B /* CSVRow.m in Sources */ = {isa = PBXBuildFile; fileRef = F4AE44860DF469BF001197AB /* CSVRow.m */; };
 		F47DC8261111005400E8DD8B /* CSVFileParser.m in Sources */ = {isa = PBXBuildFile; fileRef = F48836570DF53E2C0063EF75 /* CSVFileParser.m */; };
 		F47DC8271111005400E8DD8B /* OzyTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 28C286E00D94DF7D0034E888 /* OzyTableViewController.m */; };
-		F47DC8281111005400E8DD8B /* OzyRotatableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4E5EA940E08843D002EB091 /* OzyRotatableViewController.m */; };
-		F47DC8291111005400E8DD8B /* OzyRotatableTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4E5EAA90E0884D8002EB091 /* OzyRotatableTabBarController.m */; };
 		F47DC82A1111005400E8DD8B /* OzyTextViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4E5EE2F0E09B591002EB091 /* OzyTextViewController.m */; };
 		F47DC82B1111005400E8DD8B /* OzymandiasAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F4A73D1A0E2EB49200E1DF27 /* OzymandiasAdditions.m */; };
 		F47DC82C1111005400E8DD8B /* parseCSV.m in Sources */ = {isa = PBXBuildFile; fileRef = F4E9290A0E4F5D4C006165B0 /* parseCSV.m */; };
@@ -238,8 +230,6 @@
 		F41BB7470EE9F65A00BEFDED /* lock.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = lock.png; path = ../lock.png; sourceTree = "<group>"; };
 		F42D908C0DE95538001A2E5C /* CSVDataViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSVDataViewController.h; sourceTree = "<group>"; };
 		F42D908D0DE95538001A2E5C /* CSVDataViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSVDataViewController.m; sourceTree = "<group>"; };
-		F434D13C1FF14E5000CD622D /* FancyDetailsController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FancyDetailsController.h; sourceTree = "<group>"; };
-		F434D13D1FF14E5000CD622D /* FancyDetailsController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FancyDetailsController.m; sourceTree = "<group>"; };
 		F434D1401FF1518800CD622D /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		F434D1431FF2A96200CD622D /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		F434D1461FF40D0000CD622D /* FadeAnimator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FadeAnimator.h; sourceTree = "<group>"; };
@@ -250,6 +240,8 @@
 		F434D1521FF6B51700CD622D /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		F434D1531FF6B51700CD622D /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		F434D1541FF6B51700CD622D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		F434D1581FF6E17E00CD622D /* FileDownloader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FileDownloader.h; sourceTree = "<group>"; };
+		F434D1591FF6E17E00CD622D /* FileDownloader.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FileDownloader.m; sourceTree = "<group>"; };
 		F451F1800E99146300F22ED9 /* info.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = info.png; path = ../info.png; sourceTree = "<group>"; };
 		F45807FC11466E9400A4C4E1 /* nksTablegallery.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = nksTablegallery.css; sourceTree = "<group>"; };
 		F458080911466F1600A4C4E1 /* seaglass.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = seaglass.css; sourceTree = "<group>"; };
@@ -261,10 +253,6 @@
 		F46CA0D31FE59A4900FE645C /* ParseErrorViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ParseErrorViewController.m; sourceTree = "<group>"; };
 		F46CA0D61FE5AEAA00FE645C /* FileDataViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FileDataViewController.h; sourceTree = "<group>"; };
 		F46CA0D71FE5AEAA00FE645C /* FileDataViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FileDataViewController.m; sourceTree = "<group>"; };
-		F46CA0DA1FE5B1AB00FE645C /* FileDownloader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FileDownloader.h; sourceTree = "<group>"; };
-		F46CA0DB1FE5B1AB00FE645C /* FileDownloader.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FileDownloader.m; sourceTree = "<group>"; };
-		F46D894311725CFA00D45EEA /* OzyWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OzyWebViewController.h; sourceTree = "<group>"; };
-		F46D894411725CFA00D45EEA /* OzyWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OzyWebViewController.m; sourceTree = "<group>"; };
 		F473432C0E2A90B20072F3DE /* col.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = col.png; path = ../col.png; sourceTree = "<group>"; };
 		F473432D0E2A90B20072F3DE /* row.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = row.png; path = ../row.png; sourceTree = "<group>"; };
 		F47819830E2BDE7A00B44E78 /* CSVPreferencesController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSVPreferencesController.h; sourceTree = "<group>"; };
@@ -340,10 +328,6 @@
 		F4C5C12F18D4817C00B73144 /* IntroViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IntroViewController.m; sourceTree = "<group>"; };
 		F4CB510A11689FD300CFCBBC /* CSV Lite-Info-iPad.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "CSV Lite-Info-iPad.plist"; sourceTree = "<group>"; };
 		F4CB510B11689FD300CFCBBC /* Info-iPad.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Info-iPad.plist"; sourceTree = "<group>"; };
-		F4E5EA930E08843D002EB091 /* OzyRotatableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OzyRotatableViewController.h; sourceTree = "<group>"; };
-		F4E5EA940E08843D002EB091 /* OzyRotatableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OzyRotatableViewController.m; sourceTree = "<group>"; };
-		F4E5EAA80E0884D8002EB091 /* OzyRotatableTabBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OzyRotatableTabBarController.h; sourceTree = "<group>"; };
-		F4E5EAA90E0884D8002EB091 /* OzyRotatableTabBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OzyRotatableTabBarController.m; sourceTree = "<group>"; };
 		F4E5EE2E0E09B591002EB091 /* OzyTextViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OzyTextViewController.h; sourceTree = "<group>"; };
 		F4E5EE2F0E09B591002EB091 /* OzyTextViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OzyTextViewController.m; sourceTree = "<group>"; };
 		F4E929090E4F5D4C006165B0 /* parseCSV.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = parseCSV.h; sourceTree = "<group>"; };
@@ -386,14 +370,8 @@
 				F47819840E2BDE7A00B44E78 /* CSVPreferencesController.m */,
 				28C286DF0D94DF7D0034E888 /* OzyTableViewController.h */,
 				28C286E00D94DF7D0034E888 /* OzyTableViewController.m */,
-				F4E5EA930E08843D002EB091 /* OzyRotatableViewController.h */,
-				F4E5EA940E08843D002EB091 /* OzyRotatableViewController.m */,
-				F4E5EAA80E0884D8002EB091 /* OzyRotatableTabBarController.h */,
-				F4E5EAA90E0884D8002EB091 /* OzyRotatableTabBarController.m */,
 				F4E5EE2E0E09B591002EB091 /* OzyTextViewController.h */,
 				F4E5EE2F0E09B591002EB091 /* OzyTextViewController.m */,
-				F46D894311725CFA00D45EEA /* OzyWebViewController.h */,
-				F46D894411725CFA00D45EEA /* OzyWebViewController.m */,
 				F4A73D190E2EB49200E1DF27 /* OzymandiasAdditions.h */,
 				F4A73D1A0E2EB49200E1DF27 /* OzymandiasAdditions.m */,
 				F4C2E44218CE0CE9004E49E5 /* HowToController.h */,
@@ -409,16 +387,14 @@
 				F46CA0D31FE59A4900FE645C /* ParseErrorViewController.m */,
 				F46CA0D61FE5AEAA00FE645C /* FileDataViewController.h */,
 				F46CA0D71FE5AEAA00FE645C /* FileDataViewController.m */,
-				F46CA0DA1FE5B1AB00FE645C /* FileDownloader.h */,
-				F46CA0DB1FE5B1AB00FE645C /* FileDownloader.m */,
 				F40D21301FE6A66F00146BB4 /* EditViewController.h */,
 				F40D21311FE6A66F00146BB4 /* EditViewController.m */,
-				F434D13C1FF14E5000CD622D /* FancyDetailsController.h */,
-				F434D13D1FF14E5000CD622D /* FancyDetailsController.m */,
 				F434D1461FF40D0000CD622D /* FadeAnimator.h */,
 				F434D1471FF40D0000CD622D /* FadeAnimator.m */,
 				F434D14B1FF6A9B900CD622D /* DetailsViewController.h */,
 				F434D14C1FF6A9B900CD622D /* DetailsViewController.m */,
+				F434D1581FF6E17E00CD622D /* FileDownloader.h */,
+				F434D1591FF6E17E00CD622D /* FileDownloader.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -435,9 +411,8 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
+				F44AD0D51FF6F0EE00BC21D6 /* Storyboards */,
 				F434D14A1FF693F700CD622D /* Parsing */,
-				F434D1431FF2A96200CD622D /* LaunchScreen.storyboard */,
-				F434D1401FF1518800CD622D /* Main.storyboard */,
 				080E96DDFE201D6D7F000001 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
@@ -537,6 +512,15 @@
 				F434D1501FF6B50A00CD622D /* WebKit.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		F44AD0D51FF6F0EE00BC21D6 /* Storyboards */ = {
+			isa = PBXGroup;
+			children = (
+				F434D1431FF2A96200CD622D /* LaunchScreen.storyboard */,
+				F434D1401FF1518800CD622D /* Main.storyboard */,
+			);
+			path = Storyboards;
 			sourceTree = "<group>";
 		};
 		F47DC80F1111004C00E8DD8B /* Resources-iPad */ = {
@@ -885,12 +869,10 @@
 				F47DC7F91111004C00E8DD8B /* msgno.c in Sources */,
 				F4C5C13018D4817C00B73144 /* IntroViewController.m in Sources */,
 				F47DC7FA1111004C00E8DD8B /* CSVDataViewController.m in Sources */,
-				F46CA0DC1FE5B1AB00FE645C /* FileDownloader.m in Sources */,
+				F434D15A1FF6E17E00CD622D /* FileDownloader.m in Sources */,
 				F47DC7FB1111004C00E8DD8B /* CSVRow.m in Sources */,
 				F47DC7FC1111004C00E8DD8B /* CSVFileParser.m in Sources */,
 				F40D21321FE6A66F00146BB4 /* EditViewController.m in Sources */,
-				F47DC7FD1111004C00E8DD8B /* OzyRotatableViewController.m in Sources */,
-				F47DC7FE1111004C00E8DD8B /* OzyRotatableTabBarController.m in Sources */,
 				F47DC7FF1111004C00E8DD8B /* OzyTextViewController.m in Sources */,
 				F46CA0D41FE59A4900FE645C /* ParseErrorViewController.m in Sources */,
 				F47DC8001111004C00E8DD8B /* CSVPreferencesController.m in Sources */,
@@ -900,8 +882,6 @@
 				F47DC8011111004C00E8DD8B /* OzymandiasAdditions.m in Sources */,
 				F47DC8021111004C00E8DD8B /* parseCSV.m in Sources */,
 				F46CA0CC1FE56DEC00FE645C /* FilesViewController.m in Sources */,
-				F46D894511725CFA00D45EEA /* OzyWebViewController.m in Sources */,
-				F434D13E1FF14E5000CD622D /* FancyDetailsController.m in Sources */,
 				F46CA0D01FE5960700FE645C /* ItemsViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -918,9 +898,7 @@
 				F47DC8261111005400E8DD8B /* CSVFileParser.m in Sources */,
 				F4C5C13118D4817C00B73144 /* IntroViewController.m in Sources */,
 				F47DC8271111005400E8DD8B /* OzyTableViewController.m in Sources */,
-				F46CA0DD1FE5B1AB00FE645C /* FileDownloader.m in Sources */,
-				F47DC8281111005400E8DD8B /* OzyRotatableViewController.m in Sources */,
-				F47DC8291111005400E8DD8B /* OzyRotatableTabBarController.m in Sources */,
+				F434D15B1FF6E17E00CD622D /* FileDownloader.m in Sources */,
 				F40D21331FE6A67800146BB4 /* EditViewController.m in Sources */,
 				F47DC82A1111005400E8DD8B /* OzyTextViewController.m in Sources */,
 				F47DC82B1111005400E8DD8B /* OzymandiasAdditions.m in Sources */,
@@ -933,8 +911,6 @@
 				F47DC82E1111005400E8DD8B /* msgno.c in Sources */,
 				F47DC82F1111005400E8DD8B /* main.m in Sources */,
 				F46CA0CD1FE56DEC00FE645C /* FilesViewController.m in Sources */,
-				F46D894611725CFA00D45EEA /* OzyWebViewController.m in Sources */,
-				F434D13F1FF14E5000CD622D /* FancyDetailsController.m in Sources */,
 				F46CA0D11FE5960700FE645C /* ItemsViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

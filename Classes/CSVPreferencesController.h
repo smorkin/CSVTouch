@@ -31,8 +31,6 @@
 + (BOOL) useCorrectParsing;
 + (BOOL) useCorrectSorting;
 + (BOOL) useDetailsNavigation;
-+ (BOOL) useDetailsSwipe;
-+ (BOOL) useSwipeAnimation;
 + (BOOL) showInlineImages;
 + (BOOL) clearSearchWhenQuickSelecting;
 + (BOOL) confirmLink;
@@ -48,6 +46,12 @@
 + (NSURL *) lastUsedListURL;
 + (void) setLastUsedListURL:(NSURL *)URL;
 + (BOOL) synchronizeDownloadedFiles;
+
++ (NSInteger) selectedDetailsView;
++ (void) setSelectedDetailsView:(NSInteger) view;
+
++ (BOOL) showDeletedColumns;
++ (void) setShowDeletedColumns:(BOOL)yn;
 
 // This is temporary, while downloading a file with addresses to CSV files
 + (BOOL) hideAddress;

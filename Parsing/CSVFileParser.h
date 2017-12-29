@@ -32,6 +32,7 @@
 
 // All currently avaialbe files sorted using file name
 + (NSMutableArray *) files;
++ (void) removeAllFiles;
 
 + (void) removeFile:(CSVFileParser *)parser;
 + (void) removeFileWithName:(NSString *) name;

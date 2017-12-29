@@ -461,11 +461,11 @@ static NSMutableArray *formatsStrings = nil;
 	if( !_shortDescription )
 	{
 		if( [CSVPreferencesController definedFixedWidths] )
-			self.shortDescription = [CSVRow concatenateWords:self.fixedWidthItems 
+			_shortDescription = [CSVRow concatenateWords:self.fixedWidthItems
 												usingIndexes:self.fileParser.rawShownColumnIndexes
 													   count:[self.fileParser.shownColumnNames count]];
 		else 
-			self.shortDescription = [CSVRow concatenateWords:self.items 
+			_shortDescription = [CSVRow concatenateWords:self.items 
 												usingIndexes:self.fileParser.rawShownColumnIndexes
 													   count:[self.fileParser.shownColumnNames count]];
 	}
