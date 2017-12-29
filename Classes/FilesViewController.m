@@ -91,11 +91,15 @@ static FilesViewController *_sharedInstance = nil;
     }
     else if( [segue.identifier isEqualToString:@"ToNewFile"])
     {
-        
+        // No need to set anything for FileDataViewController
     }
     else if( [segue.identifier isEqualToString:@"ToItems"])
     {
         [(ItemsViewController *)segue.destinationViewController setFile:sender];
+    }
+    else if( [segue.identifier isEqualToString:@"ToParseError"])
+    {
+        [(ParseErrorViewController *)segue.destinationViewController setErrorText:[(CSVFileParser *)sender parseErrorString]];
     }
 }
 
@@ -195,9 +199,65 @@ static FilesViewController *_sharedInstance = nil;
     [self dataLoaded];
 }
 
-- (IBAction) addNewFile
+- (BOOL) checkFileForSelection:(CSVFileParser *)file
 {
-    [[CSV_TouchAppDelegate sharedInstance] addNewFile];
+    [file parseIfNecessary];
+    [file updateColumnsInfo];
+    if( !file.rawString )
+    {
+        return FALSE;
+    }
+    
+    // Check if there seems to be a problem with the file preventing us from reading it
+    if( [[file itemsWithResetShortdescriptions:NO] count] < 1 ||
+       [file.columnNames count] == 0 ||
+       ([file.columnNames count] == 1 && [CSVPreferencesController showDebugInfo]) )
+    {
+        return FALSE;
+    }
+    else
+    {
+        // We could read the file and will display it, but we should also check if we have any other problems
+        // Check if something seems screwy...
+        if( [file.shownColumnIndexes count] == 0 && [[file itemsWithResetShortdescriptions:NO] count] > 1 )
+        {
+            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"No columns to show!"
+                                                                           message:@"Probably reason: File refreshed but column names have changed. Please click Edit -> Reset Columns"
+                                                                     okButtonTitle:@"OK"
+                                                                         okHandler:nil];
+            [self presentViewController:alert
+                               animated:YES
+                             completion:nil];
+        }
+        else if( [CSVPreferencesController showDebugInfo] )
+        {
+            if( file.droppedRows > 0 )
+            {
+                UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Dropped Rows!"
+                                                                               message:[NSString stringWithFormat:@"%d rows dropped due to problems reading them. Last dropped row:\n%@",
+                                                                                        file.droppedRows,
+                                                                                        file.problematicRow]
+                                                                         okButtonTitle:@"OK"
+                                                                             okHandler:nil];
+                [self presentViewController:alert
+                                   animated:YES
+                                 completion:nil];
+                
+            }
+            else if([file.columnNames count] !=
+                    [[NSSet setWithArray:file.columnNames] count] )
+            {
+                UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Identical Column Titles!"
+                                                                               message:@"Some of the columns have the same title; this should be changed for correct functionality. Please make sure the first line in the file consists of the column titles."
+                                                                         okButtonTitle:@"OK"
+                                                                             okHandler:nil];
+                [self presentViewController:alert
+                                   animated:YES
+                                 completion:nil];
+            }
+        }
+        return TRUE;
+    }
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -209,7 +269,10 @@ static FilesViewController *_sharedInstance = nil;
     }
     else if( selectedFile)
     {
-        if([[CSVDataViewController sharedInstance] fileWasSelected:selectedFile])
+        if( ![self checkFileForSelection:selectedFile]){
+            [self performSegueWithIdentifier:@"ToParseError" sender:selectedFile];
+        }
+        else
         {
             [self performSegueWithIdentifier:@"ToItems" sender:selectedFile];
         }

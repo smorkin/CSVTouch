@@ -6,16 +6,14 @@
 //  Copyright 2010 Ozymandias. All rights reserved.
 //
 
-#import "OzyRotatableViewController.h"
+#import <UIKit/UIKit.h>
+#import <WebKit/WebKit.h>
 
-@class OzyWebView;
 
-@interface OzyWebViewController : OzyRotatableViewController
+@interface OzyWebViewController : UIViewController
 {
-	IBOutlet OzyWebView *_webView;
+	IBOutlet WKWebView *webView;
 
 }
-
-@property (nonatomic, readonly) UIWebView *webView;
 
 @end

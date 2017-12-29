@@ -6,6 +6,7 @@
 //
 
 #import "ItemsViewController.h"
+#import "DetailsViewController.h"
 #import "CSVPreferencesController.h"
 #import "CSVRow.h"
 #import "CSVDataViewController.h"
@@ -22,6 +23,43 @@
 @end
 
 @implementation ItemsViewController
+
+static NSMutableDictionary *_indexPathForFileName;
+
++ (void) initialize
+{
+    _indexPathForFileName = [NSMutableDictionary dictionary];
+}
+
+- (void) cacheCurrentScrollPosition
+{
+    if( self.file && [self.file fileName] )
+    {
+        NSArray *a = [self.tableView indexPathsForVisibleRows];
+        if( [a count] > 0 )
+            [_indexPathForFileName setObject:[[a objectAtIndex:0] dictionaryRepresentation] forKey:[self.file fileName]];
+        else
+            [_indexPathForFileName removeObjectForKey:[self.file fileName]];
+    }
+}
+
+- (void) updateInitialScrollPosition
+{
+    [self.tableView scrollToTopWithAnimation:NO];
+    NSDictionary *indexPathDictionary = [_indexPathForFileName objectForKey:[self.file fileName]];
+    if( [indexPathDictionary isKindOfClass:[NSDictionary class]] )
+    {
+        NSIndexPath *indexPath = [NSIndexPath indexPathWithDictionary:indexPathDictionary];
+        if( [self itemExistsAtIndexPath:indexPath] )
+        {
+            [self.tableView scrollToRowAtIndexPath:indexPath
+                                  atScrollPosition:UITableViewScrollPositionTop
+                                          animated:NO];
+        }
+    }
+    // And remove the cache since we have now used it
+    [_indexPathForFileName removeObjectForKey:[self.file fileName]];
+}
 
 - (void) updateDateButton
 {
@@ -89,8 +127,16 @@
     [self updateDateButton];
     [self resetObjects];
     [self dataLoaded];
+    [self setTitle:[self.file defaultTableViewDescription]];
+    [self updateInitialScrollPosition];
     self.navigationController.toolbarHidden = NO;
     [super viewWillAppear:animated];
+}
+
+- (void) viewWillDisappear:(BOOL)animated
+{
+    [self cacheCurrentScrollPosition];
+    [super viewWillDisappear:animated];
 }
 
 - (void) modifyItemsTableViewSize:(BOOL)increase
@@ -169,13 +215,20 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [[CSVDataViewController sharedInstance] selectedItemAtIndexPath:indexPath];
+    CSVRow *row = [[self objects] objectAtIndex:[self indexForObjectAtIndexPath:indexPath]];
+    [self performSegueWithIdentifier:@"ToDetails" sender:row];
+
+//    [[CSVDataViewController sharedInstance] selectedItemAtIndexPath:indexPath];
 }
 
 - (void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if( [segue.identifier isEqualToString:@"ToEdit"]){
         [(EditViewController *)segue.destinationViewController setFile:self.file];
+    }
+    else if([segue.identifier isEqualToString:@"ToDetails"])
+    {
+        [(DetailsViewController *)segue.destinationViewController setRow:sender];
     }
 }
 

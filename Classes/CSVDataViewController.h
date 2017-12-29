@@ -33,9 +33,6 @@ OzyWebViewController;
 
     CSVFileParser *currentFile;
 
-	// Cached data for files
-	NSMutableDictionary *indexPathForFileName;
-	
 	// Weak reference to the latest shown item
 	CSVRow *_latestShownItem;
 		

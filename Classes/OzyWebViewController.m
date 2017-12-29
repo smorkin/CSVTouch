@@ -12,7 +12,6 @@
 
 @implementation OzyWebViewController
 
-@synthesize webView = _webView;
 
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations
 {

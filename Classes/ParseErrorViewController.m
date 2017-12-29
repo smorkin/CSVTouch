@@ -8,14 +8,26 @@
 #import "ParseErrorViewController.h"
 
 @interface ParseErrorViewController ()
+@property (nonatomic, copy) UIColor *initialToolbarColor;
 @end
 
 @implementation ParseErrorViewController
 
 - (void) viewWillAppear:(BOOL)animated
 {
+    self.title = @"ERROR READING FILE";
+    self.textView.text = self.errorText;
+    self.initialToolbarColor = self.navigationController.navigationBar.barTintColor;
+    self.navigationController.navigationBar.barTintColor = [UIColor redColor];
+   self.navigationItem.rightBarButtonItem = nil;
+    self.navigationController.toolbarHidden = YES;
     [super viewWillAppear:animated];
-    self.navigationItem.rightBarButtonItem = nil;
+}
+
+- (void) viewWillDisappear:(BOOL)animated
+{
+    self.navigationController.navigationBar.barTintColor = self.initialToolbarColor;
+    [super viewWillDisappear:animated];
 }
 
 @end

@@ -71,6 +71,7 @@ static BOOL reverseItemSorting = FALSE;
     [defaults removeObjectForKey:@"maxNumberOfItemsToSort"];
     [defaults removeObjectForKey:@"searchStringsForFiles"];
     [defaults removeObjectForKey:@"predefinedHiddenColumns"];
+    [defaults removeObjectForKey:@"itemPositionsForFiles"];
 
 	// Setup sortingMask
 	sortingMask = NSNumericSearch ^ NSCaseInsensitiveSearch ^ NSLiteralSearch;

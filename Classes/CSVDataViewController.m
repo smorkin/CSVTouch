@@ -45,23 +45,8 @@
 	return currentFile;
 }
 
-- (void) cacheCurrentFileData
-{
-	if( [self currentFile] )
-	{
-		NSArray *a = [self.itemController.tableView indexPathsForVisibleRows];
-		if( [a count] > 0 )
-			[indexPathForFileName setObject:[[a objectAtIndex:0] dictionaryRepresentation] forKey:[[self currentFile] fileName]];
-		else
-			[indexPathForFileName removeObjectForKey:[[self currentFile] fileName]];
-	}
-}
-
 - (BOOL) selectFile:(CSVFileParser *)file
 {
-    // Store current position of itemController
-    [self cacheCurrentFileData];
-    
     currentFile = file;
     [[self currentFile] parseIfNecessary];
     
@@ -70,22 +55,7 @@
         return FALSE;
     }
     [currentFile updateColumnsInfo];
-    [self.itemController setTitle:[currentFile defaultTableViewDescription]];
     
-    // Reset last known position of items
-    // First scroll to top, if we don't find any setting
-    [self.itemController.tableView scrollToTopWithAnimation:NO];
-    NSDictionary *indexPathDictionary = [indexPathForFileName objectForKey:[currentFile fileName]];
-    if( [indexPathDictionary isKindOfClass:[NSDictionary class]] )
-    {
-        NSIndexPath *indexPath = [NSIndexPath indexPathWithDictionary:indexPathDictionary];
-        if( [self.itemController itemExistsAtIndexPath:indexPath] )
-        {
-            [[self.itemController tableView] scrollToRowAtIndexPath:indexPath
-                                              atScrollPosition:UITableViewScrollPositionTop
-                                                      animated:NO];
-        }
-    }
     return TRUE;
 }
 
@@ -175,94 +145,94 @@
 
 - (void) updateHtmlViewWithItem:(CSVRow *)item
 {
-	[htmlDetailsController.webView stopLoading];
-	
-	BOOL useTable = [CSVPreferencesController alignHtml];
-	NSError *error;
-	NSString *cssString = [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"seaglass" ofType:@"css"]
-												usedEncoding:nil
-													   error:&error];
-	
-	NSMutableString *s = [NSMutableString string];
-	[s appendString:@"<html><head><title>Details</title>"];
-	[s appendString:@"<STYLE type=\"text/css\">"];
-	[s appendString:cssString];
-	[s appendString:@"</STYLE>"];
-	
-    [s replaceOccurrencesOfString:@"normal 36px verdana"
-                       withString:@"normal 24px verdana"
-                          options:0
-                            range:NSMakeRange(0, [s length])];
-	[s appendString:@"</head><body>"];
-	if( useTable )
-		[s appendString:@"<table width=\"100%\">"];
-	else
-		[s appendFormat:@"<p><font size=\"+5\">"];
-	NSMutableString *data = [NSMutableString string];
-	NSArray *columnsAndValues = [item columnsAndValues];
-	NSInteger row = 1;
-	for( NSDictionary *d in columnsAndValues )
-	{
-		// Are we done already?
-		if(row > [self.currentFile.shownColumnIndexes count] &&
-		   !self.showDeletedColumns)
-			break;
-		
-		if( useTable )
-		{
-			if(row != 1 && // In case someone has a file where no column is important...
-			   row-1 == [self.currentFile.shownColumnIndexes count] &&
-			   [self.currentFile.shownColumnIndexes count] != [columnsAndValues count] )
-			{
-				[data appendString:@"<tr class=\"rowstep\"><th><b>-</b><td>"];
-				[data appendString:@"<tr class=\"rowstep\"><th><b>-</b><td>"];
-			}
-			
-			[data appendFormat:@"<tr%@><th valign=\"top\"><b>%@</b>",
-			 ((row % 2) == 1 ? @" class=\"odd\"" : @""),
-			 [d objectForKey:COLUMN_KEY]];
-			if( [[d objectForKey:VALUE_KEY] containsImageURL] && [CSVPreferencesController showInlineImages] )
-				[data appendFormat:@"<td><img src=\"%@\">", [d objectForKey:VALUE_KEY]];
-			else if( [[d objectForKey:VALUE_KEY] containsLocalImageURL] && [CSVPreferencesController showInlineImages] )
-				[data appendFormat:@"<td><img src=\"%@\"></img>", [CSVDataViewController sandboxedFileURLFromLocalURL:[d objectForKey:VALUE_KEY]]];
-			else if( [[d objectForKey:VALUE_KEY] containsLocalMovieURL] && [CSVPreferencesController showInlineImages] )
-				[data appendFormat:@"<td><video src=\"%@\" controls x-webkit-airplay=\"allow\"></video>", [CSVDataViewController sandboxedFileURLFromLocalURL:[d objectForKey:VALUE_KEY]]];
-			else if( [[d objectForKey:VALUE_KEY] containsURL] )
-				[data appendFormat:@"<td><a href=\"%@\">%@</a>", [d objectForKey:VALUE_KEY], [d objectForKey:VALUE_KEY]];
-			else if( [[d objectForKey:VALUE_KEY] containsMailAddress] )
-				[data appendFormat:@"<td><a href=\"mailto:%@\">%@</a>", [d objectForKey:VALUE_KEY], [d objectForKey:VALUE_KEY]];
-			else
-				[data appendFormat:@"<td>%@", [d objectForKey:VALUE_KEY]];
-		}
-		else
-		{
-			[data appendFormat:@"<b>%@</b>: ", [d objectForKey:COLUMN_KEY]];
-			if( [[d objectForKey:VALUE_KEY] containsImageURL] && [CSVPreferencesController showInlineImages] )
-				[data appendFormat:@"<br><img src=\"%@\"></img><br>", [d objectForKey:VALUE_KEY]];
-			else if( [[d objectForKey:VALUE_KEY] containsLocalImageURL] && [CSVPreferencesController showInlineImages] )
-				[data appendFormat:@"<br><img src=\"%@\"></img><br>", [CSVDataViewController sandboxedFileURLFromLocalURL:[d objectForKey:VALUE_KEY]]];
-			else if( [[d objectForKey:VALUE_KEY] containsLocalMovieURL] && [CSVPreferencesController showInlineImages] )
-				[data appendFormat:@"<br><video src=\"%@\" controls x-webkit-airplay=\"allow\"></video><br>", [CSVDataViewController sandboxedFileURLFromLocalURL:[d objectForKey:VALUE_KEY]]];
-			else if( [[d objectForKey:VALUE_KEY] containsURL] )
-				[data appendFormat:@"<a href=\"%@\">%@</a><br>", [d objectForKey:VALUE_KEY], [d objectForKey:VALUE_KEY]];
-			else if( [[d objectForKey:VALUE_KEY] containsMailAddress] )
-				[data appendFormat:@"<a href=\"mailto:%@\">%@</a><br>", [d objectForKey:VALUE_KEY], [d objectForKey:VALUE_KEY]];
-			else
-				[data appendFormat:@"%@<br>", [d objectForKey:VALUE_KEY]];
-		}
-		row++;
-	}
-	[data replaceOccurrencesOfString:@"\n"
-						  withString:@"<br>"
-							 options:0
-							   range:NSMakeRange(0, [data length])];
-	[s appendString:data];
-	if( useTable )
-		[s appendFormat:@"</table>"];
-	else
-		[s appendFormat:@"</p>"];
-	[s appendFormat:@"</body></html>"];
-	[htmlDetailsController.webView loadHTMLString:s baseURL:nil];
+//    [htmlDetailsController.webView stopLoading];
+//
+//    BOOL useTable = [CSVPreferencesController alignHtml];
+//    NSError *error;
+//    NSString *cssString = [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"seaglass" ofType:@"css"]
+//                                                usedEncoding:nil
+//                                                       error:&error];
+//
+//    NSMutableString *s = [NSMutableString string];
+//    [s appendString:@"<html><head><title>Details</title>"];
+//    [s appendString:@"<STYLE type=\"text/css\">"];
+//    [s appendString:cssString];
+//    [s appendString:@"</STYLE>"];
+//
+//    [s replaceOccurrencesOfString:@"normal 36px verdana"
+//                       withString:@"normal 24px verdana"
+//                          options:0
+//                            range:NSMakeRange(0, [s length])];
+//    [s appendString:@"</head><body>"];
+//    if( useTable )
+//        [s appendString:@"<table width=\"100%\">"];
+//    else
+//        [s appendFormat:@"<p><font size=\"+5\">"];
+//    NSMutableString *data = [NSMutableString string];
+//    NSArray *columnsAndValues = [item columnsAndValues];
+//    NSInteger row = 1;
+//    for( NSDictionary *d in columnsAndValues )
+//    {
+//        // Are we done already?
+//        if(row > [self.currentFile.shownColumnIndexes count] &&
+//           !self.showDeletedColumns)
+//            break;
+//
+//        if( useTable )
+//        {
+//            if(row != 1 && // In case someone has a file where no column is important...
+//               row-1 == [self.currentFile.shownColumnIndexes count] &&
+//               [self.currentFile.shownColumnIndexes count] != [columnsAndValues count] )
+//            {
+//                [data appendString:@"<tr class=\"rowstep\"><th><b>-</b><td>"];
+//                [data appendString:@"<tr class=\"rowstep\"><th><b>-</b><td>"];
+//            }
+//
+//            [data appendFormat:@"<tr%@><th valign=\"top\"><b>%@</b>",
+//             ((row % 2) == 1 ? @" class=\"odd\"" : @""),
+//             [d objectForKey:COLUMN_KEY]];
+//            if( [[d objectForKey:VALUE_KEY] containsImageURL] && [CSVPreferencesController showInlineImages] )
+//                [data appendFormat:@"<td><img src=\"%@\">", [d objectForKey:VALUE_KEY]];
+//            else if( [[d objectForKey:VALUE_KEY] containsLocalImageURL] && [CSVPreferencesController showInlineImages] )
+//                [data appendFormat:@"<td><img src=\"%@\"></img>", [CSVDataViewController sandboxedFileURLFromLocalURL:[d objectForKey:VALUE_KEY]]];
+//            else if( [[d objectForKey:VALUE_KEY] containsLocalMovieURL] && [CSVPreferencesController showInlineImages] )
+//                [data appendFormat:@"<td><video src=\"%@\" controls x-webkit-airplay=\"allow\"></video>", [CSVDataViewController sandboxedFileURLFromLocalURL:[d objectForKey:VALUE_KEY]]];
+//            else if( [[d objectForKey:VALUE_KEY] containsURL] )
+//                [data appendFormat:@"<td><a href=\"%@\">%@</a>", [d objectForKey:VALUE_KEY], [d objectForKey:VALUE_KEY]];
+//            else if( [[d objectForKey:VALUE_KEY] containsMailAddress] )
+//                [data appendFormat:@"<td><a href=\"mailto:%@\">%@</a>", [d objectForKey:VALUE_KEY], [d objectForKey:VALUE_KEY]];
+//            else
+//                [data appendFormat:@"<td>%@", [d objectForKey:VALUE_KEY]];
+//        }
+//        else
+//        {
+//            [data appendFormat:@"<b>%@</b>: ", [d objectForKey:COLUMN_KEY]];
+//            if( [[d objectForKey:VALUE_KEY] containsImageURL] && [CSVPreferencesController showInlineImages] )
+//                [data appendFormat:@"<br><img src=\"%@\"></img><br>", [d objectForKey:VALUE_KEY]];
+//            else if( [[d objectForKey:VALUE_KEY] containsLocalImageURL] && [CSVPreferencesController showInlineImages] )
+//                [data appendFormat:@"<br><img src=\"%@\"></img><br>", [CSVDataViewController sandboxedFileURLFromLocalURL:[d objectForKey:VALUE_KEY]]];
+//            else if( [[d objectForKey:VALUE_KEY] containsLocalMovieURL] && [CSVPreferencesController showInlineImages] )
+//                [data appendFormat:@"<br><video src=\"%@\" controls x-webkit-airplay=\"allow\"></video><br>", [CSVDataViewController sandboxedFileURLFromLocalURL:[d objectForKey:VALUE_KEY]]];
+//            else if( [[d objectForKey:VALUE_KEY] containsURL] )
+//                [data appendFormat:@"<a href=\"%@\">%@</a><br>", [d objectForKey:VALUE_KEY], [d objectForKey:VALUE_KEY]];
+//            else if( [[d objectForKey:VALUE_KEY] containsMailAddress] )
+//                [data appendFormat:@"<a href=\"mailto:%@\">%@</a><br>", [d objectForKey:VALUE_KEY], [d objectForKey:VALUE_KEY]];
+//            else
+//                [data appendFormat:@"%@<br>", [d objectForKey:VALUE_KEY]];
+//        }
+//        row++;
+//    }
+//    [data replaceOccurrencesOfString:@"\n"
+//                          withString:@"<br>"
+//                             options:0
+//                               range:NSMakeRange(0, [data length])];
+//    [s appendString:data];
+//    if( useTable )
+//        [s appendFormat:@"</table>"];
+//    else
+//        [s appendFormat:@"</p>"];
+//    [s appendFormat:@"</body></html>"];
+//    [htmlDetailsController.webView loadHTMLString:s baseURL:nil];
 }
 
 - (void) selectDetailsForRow:(NSUInteger)row
@@ -335,26 +305,14 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
 	}
 }
 
-#define DEFS_ITEM_POSITIONS_FOR_FILES @"itemPositionsForFiles"
 #define DEFS_SELECTED_DETAILS_VIEW @"selectedDetailsView"
 
 - (void) applicationWillTerminate
 {
-	[self cacheCurrentFileData];
-    
     [CSVFileParser saveColumnNames];
 	
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 		
-	if( indexPathForFileName )
-	{
-		[defaults setObject:indexPathForFileName forKey:DEFS_ITEM_POSITIONS_FOR_FILES];
-	}
-	else
-	{
-		[defaults removeObjectForKey:DEFS_ITEM_POSITIONS_FOR_FILES];
-	}
-	
 	[defaults setInteger:selectedDetailsView forKey:DEFS_SELECTED_DETAILS_VIEW];
 	[defaults synchronize];
 }
@@ -368,51 +326,51 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
 	}
 	else
 	{
-		for( UIView *subview in [[fancyDetailsController view] subviews] )
-		{
-			if( [subview isKindOfClass:[UIToolbar class]] )
-			{
-				CGFloat height = [subview frame].size.height;
-				CGRect frame = [fancyDetailsController.tableView frame];
-				frame.size.height += height;
-				[subview removeFromSuperview];
-				[fancyDetailsController.tableView setFrame:frame];
-				break;
-			}
-		}
-		for( UIView *subview in [[detailsController view] subviews] )
-		{
-			if( [subview isKindOfClass:[UIToolbar class]] )
-			{
-				CGFloat height = [subview frame].size.height;
-				CGRect frame = [detailsController.textView frame];
-				frame.size.height += height;
-				[subview removeFromSuperview];
-				[detailsController.textView setFrame:frame];
-				break;
-			}
-		}
-		for( UIView *subview in [[htmlDetailsController view] subviews] )
-		{
-			if( [subview isKindOfClass:[UIToolbar class]] )
-			{
-				CGFloat height = [subview frame].size.height;
-				CGRect frame = [htmlDetailsController.webView frame];
-				frame.size.height += height;
-				[subview removeFromSuperview];
-				[htmlDetailsController.webView setFrame:frame];
-				break;
-			}
-		}
-		self.showDeletedColumns = TRUE;
+//        for( UIView *subview in [[fancyDetailsController view] subviews] )
+//        {
+//            if( [subview isKindOfClass:[UIToolbar class]] )
+//            {
+//                CGFloat height = [subview frame].size.height;
+//                CGRect frame = [fancyDetailsController.tableView frame];
+//                frame.size.height += height;
+//                [subview removeFromSuperview];
+//                [fancyDetailsController.tableView setFrame:frame];
+//                break;
+//            }
+//        }
+//        for( UIView *subview in [[detailsController view] subviews] )
+//        {
+//            if( [subview isKindOfClass:[UIToolbar class]] )
+//            {
+//                CGFloat height = [subview frame].size.height;
+//                CGRect frame = [detailsController.textView frame];
+//                frame.size.height += height;
+//                [subview removeFromSuperview];
+//                [detailsController.textView setFrame:frame];
+//                break;
+//            }
+//        }
+//        for( UIView *subview in [[htmlDetailsController view] subviews] )
+//        {
+//            if( [subview isKindOfClass:[UIToolbar class]] )
+//            {
+//                CGFloat height = [subview frame].size.height;
+//                CGRect frame = [htmlDetailsController.webView frame];
+//                frame.size.height += height;
+//                [subview removeFromSuperview];
+//                [htmlDetailsController.webView setFrame:frame];
+//                break;
+//            }
+//        }
+//        self.showDeletedColumns = TRUE;
 	}
 	    
 	// Setup stuff for controllers which can't be configured using InterfaceBuilder
 	fancyDetailsController.size = [CSVPreferencesController detailsTableViewSize];
     	
 	// Disable phone links, if desired
-	if( [CSVPreferencesController enablePhoneLinks] == FALSE )
-		[htmlDetailsController.webView setDataDetectorTypes:UIDataDetectorTypeLink];
+//    if( [CSVPreferencesController enablePhoneLinks] == FALSE )
+//        [htmlDetailsController.webView setDataDetectorTypes:UIDataDetectorTypeLink];
     
 	// Read last state to be able to get back to where we were before quitting last time
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
@@ -420,24 +378,13 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
 	// 0. Extra settings
 	selectedDetailsView = (int)[defaults integerForKey:DEFS_SELECTED_DETAILS_VIEW];
 	
-	// 1. Read in positions, etc
-	NSDictionary *itemPositions = [defaults objectForKey:DEFS_ITEM_POSITIONS_FOR_FILES];
-	if( itemPositions && [itemPositions isKindOfClass:[NSDictionary class]] )
-	{
-		indexPathForFileName = [[NSMutableDictionary alloc] initWithDictionary:itemPositions];
-	}
-	
 	// If starting up in emergency mode, we should not do anything more here
 	if( emergencyMode )
 		return;
-	
-	[self updateBadgeValueUsingItem:[self topViewController].navigationItem push:YES];
-}
+	}
 
 - (BOOL) fileWasSelected:(CSVFileParser *)file
 {
-    // Don't check if current file == selected file; this will happen very rarely,
-    // and if user has e.g. changed file encoding we need to reparse etc anyways
     BOOL parsedOK = [self selectFile:file];
     
     if( !parsedOK )
@@ -497,7 +444,6 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
                                                    completion:nil];
             }
         }
-        [self.itemController setFile:[self currentFile]];
         return TRUE;
     }
 }
@@ -537,7 +483,6 @@ static CSVDataViewController *sharedInstance = nil;
 {
 	self = [super initWithCoder:aDecoder];
 	sharedInstance = self;
-	indexPathForFileName = [[NSMutableDictionary alloc] init];
     [CSV_TouchAppDelegate sharedInstance].dataController = self;
     self.delegate = [CSV_TouchAppDelegate sharedInstance];
 	return self;

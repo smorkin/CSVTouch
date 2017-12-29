@@ -10,4 +10,6 @@
 
 @interface ParseErrorViewController : OzyTextViewController
 
+@property (nonatomic, strong) NSString *errorText;
+
 @end
