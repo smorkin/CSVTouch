@@ -11,10 +11,10 @@
 #import "CSV_TouchAppDelegate.h"
 
 @interface DetailsViewController ()
-@property (nonatomic, strong) UIBarButtonItem *viewSelection;
 @property (nonatomic, strong) WKWebView *webView;
 @property (nonatomic, strong) UITableView *fancyView;
 @property (nonatomic, strong) UITextView *simpleView;
+@property (nonatomic, assign) BOOL hasLoadedData;
 @end
 
 @interface DetailsViewController (Fancy) <UITableViewDataSource, UITableViewDelegate>
@@ -29,23 +29,30 @@
 
 - (void) setup
 {
+    self.hasLoadedData = NO;
     self.edgesForExtendedLayout = UIRectEdgeNone;
-    self.webView = [[WKWebView alloc] init];
-    self.webView.opaque = NO;
-    self.webView.backgroundColor = [UIColor whiteColor];
-    self.webView.navigationDelegate = self;
-    self.simpleView = [[UITextView alloc] init];
-    self.fancyView = [[UITableView alloc] init];
-    [self.fancyView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"DetailsCell"];
-    self.fancyView.dataSource = self;
-    self.fancyView.delegate = self;
-    self.fancyView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
-    UISegmentedControl *c = [[UISegmentedControl alloc] initWithItems: @[@"1", @"2", @"3"]];
-    [c addTarget:self
-          action:@selector(viewSelectionChanged)
-forControlEvents:UIControlEventValueChanged];
-    self.viewSelection = [[UIBarButtonItem alloc] initWithCustomView:c];
-    self.view = self.simpleView;
+    NSInteger viewToSelect = [CSVPreferencesController selectedDetailsView];
+    if( viewToSelect == 0){
+        self.webView = [[WKWebView alloc] init];
+        self.webView.opaque = NO;
+        self.webView.backgroundColor = [UIColor whiteColor];
+        self.webView.navigationDelegate = self;
+        self.view = self.webView;
+    }
+    else if( viewToSelect == 1 )
+    {
+        self.simpleView = [[UITextView alloc] init];
+        self.view = self.simpleView;
+    }
+    else if( viewToSelect == 2 )
+    {
+        self.fancyView = [[UITableView alloc] init];
+        [self.fancyView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"DetailsCell"];
+        self.fancyView.dataSource = self;
+        self.fancyView.delegate = self;
+        self.fancyView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
+        self.view = self.fancyView;
+    }
 }
 
 - (void) awakeFromNib
@@ -53,34 +60,38 @@ forControlEvents:UIControlEventValueChanged];
     [self setup];
     [super awakeFromNib];
 }
+
+- (instancetype) init
+{
+    self = [super init];
+    [self setup];
+    return self;
+}
+
 - (void) viewWillAppear:(BOOL)animated
 {
-    self.simpleView.text = [self.row longDescriptionWithHiddenValues:NO];
     self.navigationController.toolbarHidden = YES;
-    NSInteger viewToSelect = [CSVPreferencesController selectedDetailsView];
-    if( viewToSelect >= [(UISegmentedControl *)self.viewSelection.customView numberOfSegments] ){
-        viewToSelect = 0;
-    }
-    [(UISegmentedControl *)self.viewSelection.customView setSelectedSegmentIndex:viewToSelect];
-    [self viewSelectionChanged];
-    self.navigationItem.rightBarButtonItem = self.viewSelection;
+    [self refreshData];
+    self.parentViewController.navigationItem.title = self.title;
     [super viewWillAppear:animated];
 }
 
-- (void) viewSelectionChanged
+- (void) refreshData
 {
-    NSInteger viewToSelect = [(UISegmentedControl *)self.viewSelection.customView selectedSegmentIndex];
-    if( viewToSelect == 0 ){
-        self.view = self.webView;
-        [self updateWebViewContent];
+    if( !self.hasLoadedData)
+    {
+        NSInteger viewToSelect = [CSVPreferencesController selectedDetailsView];
+        if( viewToSelect == 0 ){
+            [self updateWebViewContent];
+        }
+        else if( viewToSelect == 1 ){
+            self.simpleView.text = [self.row longDescriptionWithHiddenValues:NO];
+        }
+        else if( viewToSelect == 2 ){
+            [self.fancyView reloadData];
+        }
+        self.hasLoadedData = YES;
     }
-    else if( viewToSelect == 1 ){
-        self.view = self.fancyView;
-    }
-    else if( viewToSelect == 2 ){
-        self.view = self.simpleView;
-    }
-    [CSVPreferencesController setSelectedDetailsView:viewToSelect];
 }
 
 - (NSArray *) objects

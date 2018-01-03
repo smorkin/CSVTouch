@@ -778,12 +778,13 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
     // Import any new files imported manually (e.g. in iTunes, while this app was in the background)
     [self importManuallyAddedDocuments];
     
-    if( [CSVPreferencesController defaultsHaveChanged])
-    {
-        [self loadOldDocuments];
-        [[self dataController] popToViewController:[FilesViewController sharedInstance] animated:NO];
-        [CSVPreferencesController resetDefaultsHaveChanges];
-    }
+    // Fix to better check for changed defaults, or move defaults inside app!
+//    if( [CSVPreferencesController defaultsHaveChanged])
+//    {
+//        [self loadOldDocuments];
+//        [[self dataController] popToViewController:[FilesViewController sharedInstance] animated:NO];
+//        [CSVPreferencesController resetDefaultsHaveChanges];
+//    }
 }
 
 // Import any new files imported manually (e.g. in iTunes, while this app was running)

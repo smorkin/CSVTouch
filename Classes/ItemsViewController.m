@@ -11,6 +11,7 @@
 #import "CSVPreferencesController.h"
 #import "CSVRow.h"
 #import "OzymandiasAdditions.h"
+#import "DetailsPagesController.h"
 
 #define NORMAL_SORT_ORDER @"↓"
 #define REVERSE_SORT_ORDER @"↑"
@@ -248,7 +249,9 @@ static NSMutableDictionary *_indexPathForFileName;
     }
     else if([segue.identifier isEqualToString:@"ToDetails"])
     {
-        [(DetailsViewController *)segue.destinationViewController setRow:sender];
+        DetailsPagesController *dpc = segue.destinationViewController;
+        [dpc setItems:self.objects];
+        dpc.initialIndex = [self.objects indexOfObject:sender];
     }
 }
 

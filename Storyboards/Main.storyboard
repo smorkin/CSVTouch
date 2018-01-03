@@ -231,27 +231,22 @@
                         <outlet property="modificationDateButton" destination="KKc-nJ-Fbb" id="aym-bw-njg"/>
                         <outlet property="shrinkItemsButton" destination="pdf-VF-k4G" id="9B7-l2-LmX"/>
                         <outlet property="sortOrderButton" destination="9SS-YP-gEn" id="73G-T1-bZu"/>
-                        <segue destination="TXc-34-3a1" kind="show" identifier="ToDetails" id="XLL-Of-UpO"/>
+                        <segue destination="9HI-o4-1EA" kind="show" identifier="ToDetails" id="KBK-bM-0Hz"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="AqZ-bX-mkz" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1742" y="-134"/>
         </scene>
-        <!--Details View Controller-->
-        <scene sceneID="S8A-cm-2Hh">
+        <!--Details Pages Controller-->
+        <scene sceneID="p4N-7S-fE5">
             <objects>
-                <viewController id="TXc-34-3a1" customClass="DetailsViewController" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="hb8-Wv-nib">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="559"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <viewLayoutGuide key="safeArea" id="3OV-fC-Vb7"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="aYY-7f-Mrc" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <pageViewController autoresizesArchivedViewToFullSize="NO" transitionStyle="scroll" navigationOrientation="horizontal" spineLocation="none" id="9HI-o4-1EA" customClass="DetailsPagesController" sceneMemberID="viewController">
+                    <extendedEdge key="edgesForExtendedLayout"/>
+                </pageViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="acN-iv-jXe" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2732" y="-153"/>
+            <point key="canvasLocation" x="2730" y="-134"/>
         </scene>
         <!--Data View Controller-->
         <scene sceneID="Tto-Km-WAj">
@@ -285,5 +280,5 @@
     <inferredMetricsTieBreakers>
         <segue reference="muK-hd-Wte"/>
     </inferredMetricsTieBreakers>
-    <color key="tintColor" red="0.79742147020725385" green="0.025906589017049658" blue="0.047856113314667215" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+    <color key="tintColor" red="0.79742147019999998" green="0.025906589019999999" blue="0.047856113309999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
 </document>

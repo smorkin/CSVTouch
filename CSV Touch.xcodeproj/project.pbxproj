@@ -35,6 +35,8 @@
 		F434D1571FF6B56D00CD622D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F434D1541FF6B51700CD622D /* CoreGraphics.framework */; };
 		F434D15A1FF6E17E00CD622D /* FileDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = F434D1591FF6E17E00CD622D /* FileDownloader.m */; };
 		F434D15B1FF6E17E00CD622D /* FileDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = F434D1591FF6E17E00CD622D /* FileDownloader.m */; };
+		F44AD0D81FFD0CC800BC21D6 /* DetailsPagesController.m in Sources */ = {isa = PBXBuildFile; fileRef = F44AD0D71FFD0CC800BC21D6 /* DetailsPagesController.m */; };
+		F44AD0D91FFD0CC800BC21D6 /* DetailsPagesController.m in Sources */ = {isa = PBXBuildFile; fileRef = F44AD0D71FFD0CC800BC21D6 /* DetailsPagesController.m */; };
 		F45807FF11466E9400A4C4E1 /* nksTablegallery.css in Resources */ = {isa = PBXBuildFile; fileRef = F45807FC11466E9400A4C4E1 /* nksTablegallery.css */; };
 		F458080011466E9400A4C4E1 /* nksTablegallery.css in Resources */ = {isa = PBXBuildFile; fileRef = F45807FC11466E9400A4C4E1 /* nksTablegallery.css */; };
 		F458080C11466F1600A4C4E1 /* seaglass.css in Resources */ = {isa = PBXBuildFile; fileRef = F458080911466F1600A4C4E1 /* seaglass.css */; };
@@ -242,6 +244,8 @@
 		F434D1541FF6B51700CD622D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		F434D1581FF6E17E00CD622D /* FileDownloader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FileDownloader.h; sourceTree = "<group>"; };
 		F434D1591FF6E17E00CD622D /* FileDownloader.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FileDownloader.m; sourceTree = "<group>"; };
+		F44AD0D61FFD0CC800BC21D6 /* DetailsPagesController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DetailsPagesController.h; sourceTree = "<group>"; };
+		F44AD0D71FFD0CC800BC21D6 /* DetailsPagesController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DetailsPagesController.m; sourceTree = "<group>"; };
 		F451F1800E99146300F22ED9 /* info.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = info.png; path = ../info.png; sourceTree = "<group>"; };
 		F45807FC11466E9400A4C4E1 /* nksTablegallery.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = nksTablegallery.css; sourceTree = "<group>"; };
 		F458080911466F1600A4C4E1 /* seaglass.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = seaglass.css; sourceTree = "<group>"; };
@@ -395,6 +399,8 @@
 				F434D14C1FF6A9B900CD622D /* DetailsViewController.m */,
 				F434D1581FF6E17E00CD622D /* FileDownloader.h */,
 				F434D1591FF6E17E00CD622D /* FileDownloader.m */,
+				F44AD0D61FFD0CC800BC21D6 /* DetailsPagesController.h */,
+				F44AD0D71FFD0CC800BC21D6 /* DetailsPagesController.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -865,6 +871,7 @@
 				F4C2E44518CE0CE9004E49E5 /* HowToController.m in Sources */,
 				F47DC7F61111004C00E8DD8B /* CSV_TouchAppDelegate.m in Sources */,
 				F47DC7F71111004C00E8DD8B /* OzyTableViewController.m in Sources */,
+				F44AD0D81FFD0CC800BC21D6 /* DetailsPagesController.m in Sources */,
 				F47DC7F81111004C00E8DD8B /* csv.c in Sources */,
 				F47DC7F91111004C00E8DD8B /* msgno.c in Sources */,
 				F4C5C13018D4817C00B73144 /* IntroViewController.m in Sources */,
@@ -894,6 +901,7 @@
 				F4C2E44618CE0CE9004E49E5 /* HowToController.m in Sources */,
 				F47DC8231111005400E8DD8B /* CSVDataViewController.m in Sources */,
 				F47DC8241111005400E8DD8B /* CSVPreferencesController.m in Sources */,
+				F44AD0D91FFD0CC800BC21D6 /* DetailsPagesController.m in Sources */,
 				F47DC8251111005400E8DD8B /* CSVRow.m in Sources */,
 				F47DC8261111005400E8DD8B /* CSVFileParser.m in Sources */,
 				F4C5C13118D4817C00B73144 /* IntroViewController.m in Sources */,

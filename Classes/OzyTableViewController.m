@@ -346,10 +346,16 @@ sectionForSectionIndexTitle:(NSString *)title
 	}
 	if( [item conformsToProtocol:@protocol(OzyTableViewObject)] )
 	{
-		UIImage *image = [UIImage imageNamed:[(id<OzyTableViewObject>)item imageName]];
-		if( !image )
-			image = [UIImage imageNamed:[(id<OzyTableViewObject>)item emptyImageName]];
-		cell.imageView.image = image;
+        UIImage *image = nil;
+        NSString *imageName = [(id<OzyTableViewObject>)item imageName];
+        if( !imageName)
+        {
+            imageName = [(id<OzyTableViewObject>)item emptyImageName];
+        }
+        if( imageName){
+            image = [UIImage imageNamed:[(id<OzyTableViewObject>)item imageName]];
+        }
+        cell.imageView.image = image;
 	}
 	else
 	{

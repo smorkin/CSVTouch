@@ -509,7 +509,10 @@ static NSMutableArray *formatsStrings = nil;
 
 - (NSString *) imageName
 {
-	return [NSString stringWithFormat:@"%@.png", _imageName];
+    if( _imageName){
+        return [NSString stringWithFormat:@"%@.png", _imageName];
+    }
+    return nil;
 }
 
 - (NSString *) emptyImageName
