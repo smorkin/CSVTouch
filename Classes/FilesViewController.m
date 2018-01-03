@@ -59,7 +59,7 @@ static FilesViewController *_sharedInstance = nil;
 {
     UILongPressGestureRecognizer *lpgr = [[UILongPressGestureRecognizer alloc]
                                          initWithTarget:self action:@selector(handleLongPress:)];
-    lpgr.minimumPressDuration = 0.5; //seconds
+    lpgr.minimumPressDuration = 0.35; //seconds
     [self.tableView addGestureRecognizer:lpgr];
 }
 

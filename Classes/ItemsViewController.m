@@ -135,8 +135,8 @@ static NSMutableDictionary *_indexPathForFileName;
     // Might be that setObjects is called before setFile -> we need to update counts
     [self updateItemCount];
     [self updateDateButton];
-    [self resetObjects];
-    [self dataLoaded];
+    [self sortFileRows]; // Need to sort rows before we set objects since otherwise indexes will be messed up
+    [self updateSearchResultsForSearchController:self.searchController]; // To keep search results we update objects by going through search controller
     [self setTitle:[self.file defaultTableViewDescription]];
     self.navigationController.toolbarHidden = NO;
     self.shouldAutoscroll = YES;
@@ -151,10 +151,6 @@ static NSMutableDictionary *_indexPathForFileName;
         [self updateInitialScrollPosition];
         self.shouldAutoscroll = NO;
     }
-}
-- (void) viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
 }
 
 - (void) viewWillDisappear:(BOOL)animated
@@ -218,11 +214,9 @@ static NSMutableDictionary *_indexPathForFileName;
 
 }
 
-- (void) resetObjects
+- (void) sortFileRows
 {
-    NSMutableArray *rows = [self.file itemsWithResetShortdescriptions:NO];
-    [rows sortUsingSelector:[CSVRow compareSelector]];
-    self.objects = rows;
+    [[self.file itemsWithResetShortdescriptions:NO] sortUsingSelector:[CSVRow compareSelector]];
 }
 
 - (void) setObjects:(NSMutableArray *)objects
@@ -240,6 +234,10 @@ static NSMutableDictionary *_indexPathForFileName;
 {
     CSVRow *row = [[self objects] objectAtIndex:[self indexForObjectAtIndexPath:indexPath]];
     [self performSegueWithIdentifier:@"ToDetails" sender:row];
+    if( [CSVPreferencesController clearSearchWhenQuickSelecting]){
+        self.searchController.searchBar.text = @"";
+        self.searchController.active = NO;
+    }
 }
 
 - (void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender

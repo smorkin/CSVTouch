@@ -8,7 +8,7 @@
 #import "OzyTableViewController.h"
 #import "CSVRow.h"
 
-@interface EditViewController : OzyTableViewController
+@interface EditViewController : UITableViewController
 
 - (void) setFile:(CSVFileParser *)file;
 
