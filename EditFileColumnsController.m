@@ -5,17 +5,17 @@
 //  Created by Simon Wigzell on 2017-12-17.
 //
 
-#import "EditViewController.h"
+#import "EditFileColumnsController.h"
 #import "CSVFileParser.h"
 
-@interface EditViewController ()
+@interface EditFileColumnsController ()
 @property (nonatomic, weak) CSVFileParser *file;
 @property (nonatomic, assign) BOOL columnsChanged;
 @property (nonatomic, strong) NSMutableArray *important;
 @property (nonatomic, strong) NSMutableArray *notImportant;
 @end
 
-@implementation EditViewController
+@implementation EditFileColumnsController
 
 - (void) viewWillAppear:(BOOL)animated
 {

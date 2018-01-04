@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" colorMatched="YES">
-    <device id="retina4_7" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
     <dependencies>
         <deployment version="4384" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
@@ -118,7 +115,7 @@
             </connections>
             <point key="canvasLocation" x="59" y="685"/>
         </viewController>
-        <viewController id="210" userLabel="Edit controller" customClass="EditViewController">
+        <viewController id="210" userLabel="Edit controller" customClass="EditFileColumnsController">
             <extendedEdge key="edgesForExtendedLayout"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <point key="canvasLocation" x="915" y="-970"/>

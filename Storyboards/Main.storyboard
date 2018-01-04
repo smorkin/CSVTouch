@@ -66,10 +66,10 @@
             </objects>
             <point key="canvasLocation" x="472.80000000000001" y="662.51874062968523"/>
         </scene>
-        <!--Edit View Controller-->
+        <!--Edit File Columns Controller-->
         <scene sceneID="Lei-Yi-kF5">
             <objects>
-                <tableViewController id="9lW-Nk-e8g" customClass="EditViewController" sceneMemberID="viewController">
+                <tableViewController id="9lW-Nk-e8g" customClass="EditFileColumnsController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" id="ByK-q8-fg2">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="559"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -135,7 +135,7 @@
         <scene sceneID="97X-W9-p3y">
             <objects>
                 <tableViewController id="xKh-gw-umc" customClass="AddFilesSelectionController" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="iXs-CS-HYn">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="iXs-CS-HYn">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

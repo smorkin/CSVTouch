@@ -7,7 +7,7 @@
 
 #import "ItemsViewController.h"
 #import "DetailsViewController.h"
-#import "EditViewController.h"
+#import "EditFileColumnsController.h"
 #import "CSVPreferencesController.h"
 #import "CSVRow.h"
 #import "OzymandiasAdditions.h"
@@ -243,7 +243,7 @@ static NSMutableDictionary *_indexPathForFileName;
 - (void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if( [segue.identifier isEqualToString:@"ToEdit"]){
-        [(EditViewController *)segue.destinationViewController setFile:self.file];
+        [(EditFileColumnsController *)segue.destinationViewController setFile:self.file];
     }
     else if([segue.identifier isEqualToString:@"ToDetails"])
     {

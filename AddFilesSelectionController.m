@@ -14,6 +14,12 @@
 
 @implementation AddFilesSelectionController
 
+- (void) awakeFromNib
+{
+    self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
+    [super awakeFromNib];
+}
+
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 1;
 }
