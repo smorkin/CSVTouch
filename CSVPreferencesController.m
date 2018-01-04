@@ -36,7 +36,6 @@
 #define PREFS_LITERAL_SORTING @"literalSorting"
 #define PREFS_CLEAR_SEARCH_WHEN_QUICK_SELECTING @"clearSearchWhenQuickSelecting"
 #define PREFS_CONFIRM_LINK @"confirmLink"
-#define PREFS_ALIGN_HTML @"alignHtml"
 #define PREFS_USE_PASSWORD @"usePassword"
 #define PREFS_HAS_BEEN_UPGRADED_TO_CUSTOM_EXTENSION @"hasBeenUpgradedToCustomExtension"
 #define PREFS_HAS_SHOWN_HOW_TO @"hasShownHowTo"
@@ -74,7 +73,8 @@ static BOOL reverseItemSorting = FALSE;
     [defaults removeObjectForKey:@"useDetailsSwipe"];
     [defaults removeObjectForKey:@"useSwipeAnimation"];
     [defaults removeObjectForKey:@"useDetailsNavigation"];
-
+    [defaults removeObjectForKey:@"alignHtml"];
+    
 	// Setup sortingMask
 	sortingMask = NSNumericSearch ^ NSCaseInsensitiveSearch ^ NSLiteralSearch;
 	id obj;
@@ -262,15 +262,6 @@ static BOOL reverseItemSorting = FALSE;
 		return [[NSUserDefaults standardUserDefaults] boolForKey:PREFS_CONFIRM_LINK];
 	else
 		return NO;
-}
-
-+ (BOOL) alignHtml
-{
-	id obj = [[NSUserDefaults standardUserDefaults] objectForKey:PREFS_ALIGN_HTML];
-	if( obj )
-		return [[NSUserDefaults standardUserDefaults] boolForKey:PREFS_ALIGN_HTML];
-	else
-		return YES;
 }
 
 + (BOOL) usePassword
@@ -494,10 +485,6 @@ static BOOL hideAdress = NO;
 			else if( [[words objectAtIndex:0] isEqualToString:PREFS_CONFIRM_LINK] )
 				[[NSUserDefaults standardUserDefaults] setBool:[[words objectAtIndex:1] boolValue]
 														forKey:PREFS_CONFIRM_LINK];
-			
-			else if( [[words objectAtIndex:0] isEqualToString:PREFS_ALIGN_HTML] )
-				[[NSUserDefaults standardUserDefaults] setBool:[[words objectAtIndex:1] boolValue]
-														forKey:PREFS_ALIGN_HTML];
 			
 			else if( [[words objectAtIndex:0] isEqualToString:PREFS_USE_PASSWORD] )
 				[[NSUserDefaults standardUserDefaults] setBool:[[words objectAtIndex:1] boolValue]

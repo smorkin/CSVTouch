@@ -188,7 +188,6 @@
 {
     [self.webView stopLoading];
     
-    BOOL useTable = [CSVPreferencesController alignHtml];
     NSError *error;
     NSString *cssString = [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"seaglass" ofType:@"css"]
                                                 usedEncoding:nil
@@ -205,10 +204,7 @@
                           options:0
                             range:NSMakeRange(0, [s length])];
     [s appendString:@"</head><body>"];
-    if( useTable )
-        [s appendString:@"<table width=\"100%\">"];
-    else
-        [s appendFormat:@"<p><font size=\"+5\">"];
+    [s appendString:@"<table width=\"100%\">"];
     NSMutableString *data = [NSMutableString string];
     NSArray *columnsAndValues = [self.row columnsAndValues];
     NSInteger row = 1;
@@ -219,48 +215,29 @@
            ![CSVPreferencesController showDeletedColumns])
             break;
         
-        if( useTable )
+        if(row != 1 && // In case someone has a file where no column is important...
+           row-1 == [self.row.fileParser.shownColumnIndexes count] &&
+           [self.row.fileParser.shownColumnIndexes count] != [columnsAndValues count] )
         {
-            if(row != 1 && // In case someone has a file where no column is important...
-               row-1 == [self.row.fileParser.shownColumnIndexes count] &&
-               [self.row.fileParser.shownColumnIndexes count] != [columnsAndValues count] )
-            {
-                [data appendString:@"<tr class=\"rowstep\"><th><b>-</b><td>"];
-                [data appendString:@"<tr class=\"rowstep\"><th><b>-</b><td>"];
-            }
-            
-            [data appendFormat:@"<tr%@><th valign=\"top\"><b>%@</b>",
-             ((row % 2) == 1 ? @" class=\"odd\"" : @""),
-             [d objectForKey:COLUMN_KEY]];
-            if( [[d objectForKey:VALUE_KEY] containsImageURL] && [CSVPreferencesController showInlineImages] )
-                [data appendFormat:@"<td><img src=\"%@\">", [d objectForKey:VALUE_KEY]];
-            else if( [[d objectForKey:VALUE_KEY] containsLocalImageURL] && [CSVPreferencesController showInlineImages] )
-                [data appendFormat:@"<td><img src=\"%@\"></img>", [DetailsViewController sandboxedFileURLFromLocalURL:[d objectForKey:VALUE_KEY]]];
-            else if( [[d objectForKey:VALUE_KEY] containsLocalMovieURL] && [CSVPreferencesController showInlineImages] )
-                [data appendFormat:@"<td><video src=\"%@\" controls x-webkit-airplay=\"allow\"></video>", [DetailsViewController sandboxedFileURLFromLocalURL:[d objectForKey:VALUE_KEY]]];
-            else if( [[d objectForKey:VALUE_KEY] containsURL] )
-                [data appendFormat:@"<td><a href=\"%@\">%@</a>", [d objectForKey:VALUE_KEY], [d objectForKey:VALUE_KEY]];
-            else if( [[d objectForKey:VALUE_KEY] containsMailAddress] )
-                [data appendFormat:@"<td><a href=\"mailto:%@\">%@</a>", [d objectForKey:VALUE_KEY], [d objectForKey:VALUE_KEY]];
-            else
-                [data appendFormat:@"<td>%@", [d objectForKey:VALUE_KEY]];
+            [data appendString:@"<tr class=\"rowstep\"><th><b>-</b><td>"];
+            [data appendString:@"<tr class=\"rowstep\"><th><b>-</b><td>"];
         }
+        
+        [data appendFormat:@"<tr%@><th valign=\"top\"><b>%@</b>",
+         ((row % 2) == 1 ? @" class=\"odd\"" : @""),
+         [d objectForKey:COLUMN_KEY]];
+        if( [[d objectForKey:VALUE_KEY] containsImageURL] && [CSVPreferencesController showInlineImages] )
+            [data appendFormat:@"<td><img src=\"%@\">", [d objectForKey:VALUE_KEY]];
+        else if( [[d objectForKey:VALUE_KEY] containsLocalImageURL] && [CSVPreferencesController showInlineImages] )
+            [data appendFormat:@"<td><img src=\"%@\"></img>", [DetailsViewController sandboxedFileURLFromLocalURL:[d objectForKey:VALUE_KEY]]];
+        else if( [[d objectForKey:VALUE_KEY] containsLocalMovieURL] && [CSVPreferencesController showInlineImages] )
+            [data appendFormat:@"<td><video src=\"%@\" controls x-webkit-airplay=\"allow\"></video>", [DetailsViewController sandboxedFileURLFromLocalURL:[d objectForKey:VALUE_KEY]]];
+        else if( [[d objectForKey:VALUE_KEY] containsURL] )
+            [data appendFormat:@"<td><a href=\"%@\">%@</a>", [d objectForKey:VALUE_KEY], [d objectForKey:VALUE_KEY]];
+        else if( [[d objectForKey:VALUE_KEY] containsMailAddress] )
+            [data appendFormat:@"<td><a href=\"mailto:%@\">%@</a>", [d objectForKey:VALUE_KEY], [d objectForKey:VALUE_KEY]];
         else
-        {
-            [data appendFormat:@"<b>%@</b>: ", [d objectForKey:COLUMN_KEY]];
-            if( [[d objectForKey:VALUE_KEY] containsImageURL] && [CSVPreferencesController showInlineImages] )
-                [data appendFormat:@"<br><img src=\"%@\"></img><br>", [d objectForKey:VALUE_KEY]];
-            else if( [[d objectForKey:VALUE_KEY] containsLocalImageURL] && [CSVPreferencesController showInlineImages] )
-                [data appendFormat:@"<br><img src=\"%@\"></img><br>", [DetailsViewController sandboxedFileURLFromLocalURL:[d objectForKey:VALUE_KEY]]];
-            else if( [[d objectForKey:VALUE_KEY] containsLocalMovieURL] && [CSVPreferencesController showInlineImages] )
-                [data appendFormat:@"<br><video src=\"%@\" controls x-webkit-airplay=\"allow\"></video><br>", [DetailsViewController sandboxedFileURLFromLocalURL:[d objectForKey:VALUE_KEY]]];
-            else if( [[d objectForKey:VALUE_KEY] containsURL] )
-                [data appendFormat:@"<a href=\"%@\">%@</a><br>", [d objectForKey:VALUE_KEY], [d objectForKey:VALUE_KEY]];
-            else if( [[d objectForKey:VALUE_KEY] containsMailAddress] )
-                [data appendFormat:@"<a href=\"mailto:%@\">%@</a><br>", [d objectForKey:VALUE_KEY], [d objectForKey:VALUE_KEY]];
-            else
-                [data appendFormat:@"%@<br>", [d objectForKey:VALUE_KEY]];
-        }
+            [data appendFormat:@"<td>%@", [d objectForKey:VALUE_KEY]];
         row++;
     }
     [data replaceOccurrencesOfString:@"\n"
@@ -268,10 +245,7 @@
                              options:0
                                range:NSMakeRange(0, [data length])];
     [s appendString:data];
-    if( useTable )
-        [s appendFormat:@"</table>"];
-    else
-        [s appendFormat:@"</p>"];
+    [s appendFormat:@"</table>"];
     [s appendFormat:@"</body></html>"];
     [self.webView loadHTMLString:s baseURL:nil];
 }
