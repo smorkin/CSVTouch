@@ -363,31 +363,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		080E96DDFE201D6D7F000001 /* Classes */ = {
-			isa = PBXGroup;
-			children = (
-				1D3623240D0F684500981E51 /* CSV_TouchAppDelegate.h */,
-				1D3623250D0F684500981E51 /* CSV_TouchAppDelegate.m */,
-				F42D908C0DE95538001A2E5C /* CSVDataViewController.h */,
-				F42D908D0DE95538001A2E5C /* CSVDataViewController.m */,
-				F46CA0CA1FE56DEC00FE645C /* FilesViewController.h */,
-				F46CA0CB1FE56DEC00FE645C /* FilesViewController.m */,
-				F46CA0CE1FE5960700FE645C /* ItemsViewController.h */,
-				F46CA0CF1FE5960700FE645C /* ItemsViewController.m */,
-				F46CA0D21FE59A4900FE645C /* ParseErrorViewController.h */,
-				F46CA0D31FE59A4900FE645C /* ParseErrorViewController.m */,
-				F46CA0D61FE5AEAA00FE645C /* FileDataViewController.h */,
-				F46CA0D71FE5AEAA00FE645C /* FileDataViewController.m */,
-				F40D21301FE6A66F00146BB4 /* EditViewController.h */,
-				F40D21311FE6A66F00146BB4 /* EditViewController.m */,
-				F434D14B1FF6A9B900CD622D /* DetailsViewController.h */,
-				F434D14C1FF6A9B900CD622D /* DetailsViewController.m */,
-				F44AD0D61FFD0CC800BC21D6 /* DetailsPagesController.h */,
-				F44AD0D71FFD0CC800BC21D6 /* DetailsPagesController.m */,
-			);
-			path = Classes;
-			sourceTree = "<group>";
-		};
 		19C28FACFE9D520D11CA2CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -400,13 +375,13 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
+				F44AD0DF1FFE668800BC21D6 /* Main classes */,
 				F44AD0DE1FFE64E200BC21D6 /* Preferences */,
 				F44AD0DD1FFE64C000BC21D6 /* Helpers */,
 				F44AD0DC1FFE64A000BC21D6 /* Ozy stuff */,
 				F44AD0DB1FFE647B00BC21D6 /* Parse */,
 				F44AD0DA1FFE643700BC21D6 /* Info & Help */,
 				F44AD0D51FF6F0EE00BC21D6 /* Storyboards */,
-				080E96DDFE201D6D7F000001 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
 				F47DC80F1111004C00E8DD8B /* Resources-iPad */,
@@ -559,6 +534,31 @@
 				F47819840E2BDE7A00B44E78 /* CSVPreferencesController.m */,
 			);
 			name = Preferences;
+			sourceTree = "<group>";
+		};
+		F44AD0DF1FFE668800BC21D6 /* Main classes */ = {
+			isa = PBXGroup;
+			children = (
+				1D3623240D0F684500981E51 /* CSV_TouchAppDelegate.h */,
+				1D3623250D0F684500981E51 /* CSV_TouchAppDelegate.m */,
+				F42D908C0DE95538001A2E5C /* CSVDataViewController.h */,
+				F42D908D0DE95538001A2E5C /* CSVDataViewController.m */,
+				F46CA0CA1FE56DEC00FE645C /* FilesViewController.h */,
+				F46CA0CB1FE56DEC00FE645C /* FilesViewController.m */,
+				F46CA0CE1FE5960700FE645C /* ItemsViewController.h */,
+				F46CA0CF1FE5960700FE645C /* ItemsViewController.m */,
+				F46CA0D21FE59A4900FE645C /* ParseErrorViewController.h */,
+				F46CA0D31FE59A4900FE645C /* ParseErrorViewController.m */,
+				F46CA0D61FE5AEAA00FE645C /* FileDataViewController.h */,
+				F46CA0D71FE5AEAA00FE645C /* FileDataViewController.m */,
+				F40D21301FE6A66F00146BB4 /* EditViewController.h */,
+				F40D21311FE6A66F00146BB4 /* EditViewController.m */,
+				F434D14B1FF6A9B900CD622D /* DetailsViewController.h */,
+				F434D14C1FF6A9B900CD622D /* DetailsViewController.m */,
+				F44AD0D61FFD0CC800BC21D6 /* DetailsPagesController.h */,
+				F44AD0D71FFD0CC800BC21D6 /* DetailsPagesController.m */,
+			);
+			name = "Main classes";
 			sourceTree = "<group>";
 		};
 		F47DC80F1111004C00E8DD8B /* Resources-iPad */ = {
