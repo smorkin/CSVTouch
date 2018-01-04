@@ -42,7 +42,6 @@ static CSV_TouchAppDelegate *sharedInstance = nil;
 	return [original stringByAppendingString:INTERNAL_EXTENSION];
 }
 	
-
 static NSString *newPassword = nil;
 
 - (NSString *) currentPasswordHash
@@ -87,7 +86,7 @@ static NSString *newPassword = nil;
                                                        exit(1);
                                                    }];
     [alertController addAction:cancel];
-    [[self dataController].topViewController presentViewController:alertController
+    [self.navigationController.topViewController presentViewController:alertController
                                                                         animated:YES
                                                                       completion:nil];
 }
@@ -127,7 +126,7 @@ static NSString *newPassword = nil;
                                                    }
                                                }];
     [alertController addAction:ok];
-    [[self dataController].topViewController presentViewController:alertController
+    [self.navigationController.topViewController presentViewController:alertController
                                                                         animated:YES
                                                                       completion:nil];
 }
@@ -196,7 +195,7 @@ static NSString *newPassword = nil;
                                                                        message:@"CSV Lite only allows 1 file; please delete the old one before downloading a new. Or buy CSV Touch :-)"
                                                                  okButtonTitle:@"OK"
                                                                      okHandler:nil];
-        [[self dataController].topViewController presentViewController:alert
+        [self.navigationController.topViewController presentViewController:alert
                                                                             animated:YES
                                                                           completion:nil];
 
@@ -210,7 +209,7 @@ static NSString *newPassword = nil;
                                                                            message:[NSString httpStatusDescription:self.httpStatusCode]
                                                                      okButtonTitle:@"OK"
                                                                          okHandler:nil];
-            [[self dataController].topViewController presentViewController:alert
+            [self.navigationController.topViewController presentViewController:alert
                                                                                 animated:YES
                                                                               completion:nil];
 		}
@@ -341,7 +340,7 @@ static NSString *newPassword = nil;
                                                                      okHandler:^(UIAlertAction *action) {
                                                                          exit(1);
                                                                      }];
-        [[self dataController].topViewController presentViewController:alert
+        [self.navigationController.topViewController presentViewController:alert
                                                                             animated:YES
                                                                           completion:nil];
         return;
@@ -479,7 +478,7 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 		}
 		[CSVPreferencesController setHideAddress:NO]; // In case we had temporarily set this from
 													  // a URL list file with preference settings
-        [[self dataController] dismissViewControllerAnimated:YES completion:NULL];
+        [self.navigationController dismissViewControllerAnimated:YES completion:NULL];
 	}
 }
 
@@ -506,7 +505,7 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
                                                                    message:[error localizedDescription]
                                                              okButtonTitle:@"OK"
                                                                  okHandler:nil];
-    [[self dataController].topViewController presentViewController:alert
+    [self.navigationController.topViewController presentViewController:alert
                                                           animated:YES
                                                         completion:nil];
 	[self downloadDone];
@@ -540,7 +539,7 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
                                                                            message:[NSString httpStatusDescription:self.httpStatusCode]
                                                                      okButtonTitle:@"OK"
                                                                          okHandler:nil];
-            [[self dataController].topViewController presentViewController:alert
+            [self.navigationController.topViewController presentViewController:alert
                                                                                animated:YES
                                                                              completion:nil];
             [self downloadDone];
@@ -624,7 +623,7 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
                                                                        message:@"Couldn't open connection"
                                                                  okButtonTitle:@"OK"
                                                                      okHandler:nil];
-        [[self dataController].topViewController presentViewController:alert
+        [self.navigationController.topViewController presentViewController:alert
                                                                             animated:YES
                                                                           completion:nil];
         [self downloadDone];
@@ -652,7 +651,7 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
                                                handler:nil];
     [alertController addAction:cancel];
 
-    [[self dataController].visibleViewController presentViewController:alertController
+    [self.navigationController.visibleViewController presentViewController:alertController
                                                                             animated:YES
                                                                           completion:nil];
 }
@@ -699,7 +698,7 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
                                                                  }
                                                          cancelButtonTitle:@"Cancel"
                                                              cancelHandler:nil];
-    [[self dataController].topViewController presentViewController:alert
+    [self.navigationController.topViewController presentViewController:alert
                                                                         animated:YES
                                                                       completion:nil];
 }
@@ -732,7 +731,7 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 - (void) delayedURLOpen:(NSString *)s
 {
 	[self downloadFileWithString:s];
-	[[self dataController] popToRootViewControllerAnimated:NO];
+	[self.navigationController popToRootViewControllerAnimated:NO];
 }
 
 - (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey, id> *)options
@@ -782,7 +781,7 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 //    if( [CSVPreferencesController defaultsHaveChanged])
 //    {
 //        [self loadOldDocuments];
-//        [[self dataController] popToViewController:[FilesViewController sharedInstance] animated:NO];
+//        [self.navigationController popToViewController:[FilesViewController sharedInstance] animated:NO];
 //        [CSVPreferencesController resetDefaultsHaveChanges];
 //    }
 }
@@ -802,7 +801,7 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
     if( self.introHowToController == controller)
     {
         [CSVPreferencesController setHasShownHowTo];
-        self.window.rootViewController = [self dataController];
+        self.window.rootViewController = self.navigationController;
     }
 }
 

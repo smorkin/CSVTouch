@@ -10,7 +10,6 @@
 #import "OzymandiasAdditions.h"
 #import "IntroViewController.h"
 #import "FileDataViewController.h"
-#import "CSVDataViewController.h"
 
 @interface CSV_TouchAppDelegate : NSObject <UIApplicationDelegate,
 OzymandiasApplicationDelegate>
@@ -37,7 +36,7 @@ OzymandiasApplicationDelegate>
 @property (nonatomic, retain) NSMutableData *rawData;
 @property (nonatomic, retain) NSURLConnection *connection;
 @property (nonatomic, retain) NSString *lastFileURL;
-@property (nonatomic, weak) CSVDataViewController *dataController;
+@property (nonatomic, weak) UINavigationController *navigationController;
 @property (nonatomic, weak) FileDataViewController *fileViewController;
 
 - (void) downloadFileWithString:(NSString *)URL;

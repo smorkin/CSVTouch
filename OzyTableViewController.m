@@ -267,7 +267,7 @@ sectionForSectionIndexTitle:(NSString *)title
 		if (index == 0)
 		{
             if( self.navigationItem.searchController ){
-                [self.navigationItem.searchController setActive:YES];
+                self.navigationItem.searchController.active = YES;
                 [self.navigationItem.searchController becomeFirstResponder];
             }
 		}

@@ -370,19 +370,6 @@
 				1D3623250D0F684500981E51 /* CSV_TouchAppDelegate.m */,
 				F42D908C0DE95538001A2E5C /* CSVDataViewController.h */,
 				F42D908D0DE95538001A2E5C /* CSVDataViewController.m */,
-				F47819830E2BDE7A00B44E78 /* CSVPreferencesController.h */,
-				F47819840E2BDE7A00B44E78 /* CSVPreferencesController.m */,
-				28C286DF0D94DF7D0034E888 /* OzyTableViewController.h */,
-				28C286E00D94DF7D0034E888 /* OzyTableViewController.m */,
-				F4E5EE2E0E09B591002EB091 /* OzyTextViewController.h */,
-				F4E5EE2F0E09B591002EB091 /* OzyTextViewController.m */,
-				F4A73D190E2EB49200E1DF27 /* OzymandiasAdditions.h */,
-				F4A73D1A0E2EB49200E1DF27 /* OzymandiasAdditions.m */,
-				F4C2E44218CE0CE9004E49E5 /* HowToController.h */,
-				F4C2E44318CE0CE9004E49E5 /* HowToController.m */,
-				F4C2E44418CE0CE9004E49E5 /* HowToController.xib */,
-				F4C5C12E18D4817C00B73144 /* IntroViewController.h */,
-				F4C5C12F18D4817C00B73144 /* IntroViewController.m */,
 				F46CA0CA1FE56DEC00FE645C /* FilesViewController.h */,
 				F46CA0CB1FE56DEC00FE645C /* FilesViewController.m */,
 				F46CA0CE1FE5960700FE645C /* ItemsViewController.h */,
@@ -393,12 +380,8 @@
 				F46CA0D71FE5AEAA00FE645C /* FileDataViewController.m */,
 				F40D21301FE6A66F00146BB4 /* EditViewController.h */,
 				F40D21311FE6A66F00146BB4 /* EditViewController.m */,
-				F434D1461FF40D0000CD622D /* FadeAnimator.h */,
-				F434D1471FF40D0000CD622D /* FadeAnimator.m */,
 				F434D14B1FF6A9B900CD622D /* DetailsViewController.h */,
 				F434D14C1FF6A9B900CD622D /* DetailsViewController.m */,
-				F434D1581FF6E17E00CD622D /* FileDownloader.h */,
-				F434D1591FF6E17E00CD622D /* FileDownloader.m */,
 				F44AD0D61FFD0CC800BC21D6 /* DetailsPagesController.h */,
 				F44AD0D71FFD0CC800BC21D6 /* DetailsPagesController.m */,
 			);
@@ -417,8 +400,12 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
+				F44AD0DE1FFE64E200BC21D6 /* Preferences */,
+				F44AD0DD1FFE64C000BC21D6 /* Helpers */,
+				F44AD0DC1FFE64A000BC21D6 /* Ozy stuff */,
+				F44AD0DB1FFE647B00BC21D6 /* Parse */,
+				F44AD0DA1FFE643700BC21D6 /* Info & Help */,
 				F44AD0D51FF6F0EE00BC21D6 /* Storyboards */,
-				F434D14A1FF693F700CD622D /* Parsing */,
 				080E96DDFE201D6D7F000001 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
@@ -494,21 +481,6 @@
 			name = "iTunes Connect";
 			sourceTree = "<group>";
 		};
-		F434D14A1FF693F700CD622D /* Parsing */ = {
-			isa = PBXGroup;
-			children = (
-				F4AE44850DF469BF001197AB /* CSVRow.h */,
-				F4AE44860DF469BF001197AB /* CSVRow.m */,
-				F48836560DF53E2C0063EF75 /* CSVFileParser.h */,
-				F48836570DF53E2C0063EF75 /* CSVFileParser.m */,
-				F4E929090E4F5D4C006165B0 /* parseCSV.h */,
-				F4E9290A0E4F5D4C006165B0 /* parseCSV.m */,
-				F412339F0DE4AD64005E355F /* csv.c */,
-				F41233A00DE4AD64005E355F /* csv.h */,
-			);
-			path = Parsing;
-			sourceTree = "<group>";
-		};
 		F434D14F1FF6B50900CD622D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -527,6 +499,66 @@
 				F434D1401FF1518800CD622D /* Main.storyboard */,
 			);
 			path = Storyboards;
+			sourceTree = "<group>";
+		};
+		F44AD0DA1FFE643700BC21D6 /* Info & Help */ = {
+			isa = PBXGroup;
+			children = (
+				F4C2E44218CE0CE9004E49E5 /* HowToController.h */,
+				F4C2E44318CE0CE9004E49E5 /* HowToController.m */,
+				F4C2E44418CE0CE9004E49E5 /* HowToController.xib */,
+				F4C5C12E18D4817C00B73144 /* IntroViewController.h */,
+				F4C5C12F18D4817C00B73144 /* IntroViewController.m */,
+			);
+			name = "Info & Help";
+			sourceTree = "<group>";
+		};
+		F44AD0DB1FFE647B00BC21D6 /* Parse */ = {
+			isa = PBXGroup;
+			children = (
+				F4AE44850DF469BF001197AB /* CSVRow.h */,
+				F4AE44860DF469BF001197AB /* CSVRow.m */,
+				F48836560DF53E2C0063EF75 /* CSVFileParser.h */,
+				F48836570DF53E2C0063EF75 /* CSVFileParser.m */,
+				F4E929090E4F5D4C006165B0 /* parseCSV.h */,
+				F4E9290A0E4F5D4C006165B0 /* parseCSV.m */,
+				F412339F0DE4AD64005E355F /* csv.c */,
+				F41233A00DE4AD64005E355F /* csv.h */,
+			);
+			name = Parse;
+			sourceTree = "<group>";
+		};
+		F44AD0DC1FFE64A000BC21D6 /* Ozy stuff */ = {
+			isa = PBXGroup;
+			children = (
+				28C286DF0D94DF7D0034E888 /* OzyTableViewController.h */,
+				28C286E00D94DF7D0034E888 /* OzyTableViewController.m */,
+				F4E5EE2E0E09B591002EB091 /* OzyTextViewController.h */,
+				F4E5EE2F0E09B591002EB091 /* OzyTextViewController.m */,
+				F4A73D190E2EB49200E1DF27 /* OzymandiasAdditions.h */,
+				F4A73D1A0E2EB49200E1DF27 /* OzymandiasAdditions.m */,
+			);
+			name = "Ozy stuff";
+			sourceTree = "<group>";
+		};
+		F44AD0DD1FFE64C000BC21D6 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				F434D1461FF40D0000CD622D /* FadeAnimator.h */,
+				F434D1471FF40D0000CD622D /* FadeAnimator.m */,
+				F434D1581FF6E17E00CD622D /* FileDownloader.h */,
+				F434D1591FF6E17E00CD622D /* FileDownloader.m */,
+			);
+			name = Helpers;
+			sourceTree = "<group>";
+		};
+		F44AD0DE1FFE64E200BC21D6 /* Preferences */ = {
+			isa = PBXGroup;
+			children = (
+				F47819830E2BDE7A00B44E78 /* CSVPreferencesController.h */,
+				F47819840E2BDE7A00B44E78 /* CSVPreferencesController.m */,
+			);
+			name = Preferences;
 			sourceTree = "<group>";
 		};
 		F47DC80F1111004C00E8DD8B /* Resources-iPad */ = {

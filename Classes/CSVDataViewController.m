@@ -14,7 +14,7 @@
 - (id) initWithCoder:(NSCoder *)aDecoder
 {
 	self = [super initWithCoder:aDecoder];
-    [CSV_TouchAppDelegate sharedInstance].dataController = self;
+    [CSV_TouchAppDelegate sharedInstance].navigationController = self;
     self.delegate = [CSV_TouchAppDelegate sharedInstance];
 	return self;
 }
