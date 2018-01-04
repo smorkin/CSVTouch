@@ -165,6 +165,16 @@ static NSString *newPassword = nil;
 	return [[self manuallyAddedDocumentsPath] stringByAppendingPathComponent:OTHER_APPS_IMPORTED_CSV_FILES_FOLDER];
 }
 
+- (void) readLocalFiles:(NSArray<NSURL *> *)urls
+{
+    for( NSURL *url in urls)
+    {
+        [self readRawFileData:[NSData dataWithContentsOfURL:url]
+                     fileName:[url lastPathComponent]
+              isLocalDownload:YES];
+    }
+}
+
 #define LOCAL_MEDIA_DOCUMENTS_FOLDER @"Local media"
 
 + (NSString *) localMediaDocumentsPath
@@ -180,8 +190,6 @@ static NSString *newPassword = nil;
 	}
 	return path;
 }
-
-
 
 - (void) readRawFileData:(NSData *)data
 				fileName:(NSString *)fileName
@@ -632,7 +640,7 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 
 - (void) loadFileList
 {
-    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"File list address:"
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"URL file list address:"
                                                                              message:nil
                                                                       preferredStyle:UIAlertControllerStyleAlert];
     [alertController addTextFieldWithConfigurationHandler:^(UITextField *textField) {
@@ -644,16 +652,44 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
                                                  style:UIAlertActionStyleDefault
                                                handler:^(UIAlertAction *action){
                                                    [self readFileListFromURL:alertController.textFields.firstObject.text];
+                                                   [CSVPreferencesController setLastUsedURL:alertController.textFields.firstObject.text];
                                                }];
     [alertController addAction:ok];
     UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"Cancel"
-                                                 style:UIAlertActionStyleCancel
-                                               handler:nil];
+                                                     style:UIAlertActionStyleCancel
+                                                   handler:nil];
     [alertController addAction:cancel];
-
+    
     [self.navigationController.visibleViewController presentViewController:alertController
-                                                                            animated:YES
-                                                                          completion:nil];
+                                                                  animated:YES
+                                                                completion:nil];
+}
+
+- (void) loadNewFile
+{
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"URL file address:"
+                                                                             message:nil
+                                                                      preferredStyle:UIAlertControllerStyleAlert];
+    [alertController addTextFieldWithConfigurationHandler:^(UITextField *textField) {
+        textField.text = [[CSVPreferencesController lastUsedListURL] absoluteString];
+        textField.clearButtonMode = UITextFieldViewModeWhileEditing;
+        textField.borderStyle = UITextBorderStyleRoundedRect;
+    }];
+    UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK"
+                                                 style:UIAlertActionStyleDefault
+                                               handler:^(UIAlertAction *action){
+                                                   [self downloadFileWithString:alertController.textFields.firstObject.text];
+                                                   [CSVPreferencesController setLastUsedURL:alertController.textFields.firstObject.text];
+                                              }];
+    [alertController addAction:ok];
+    UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"Cancel"
+                                                     style:UIAlertActionStyleCancel
+                                                   handler:nil];
+    [alertController addAction:cancel];
+    
+    [self.navigationController.visibleViewController presentViewController:alertController
+                                                                  animated:YES
+                                                                completion:nil];
 }
 
 + (NSCharacterSet *) tweakedURLPathAllowedCharacterSet

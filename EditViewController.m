@@ -101,6 +101,7 @@ moveRowAtIndexPath:(NSIndexPath *)fromIndexPath
         [self.important removeObjectAtIndex:indexPath.row];
         [self.file updateColumnsInfoWithShownColumns:self.important];
         [self loadData];
+        self.columnsChanged = TRUE;
     }
 }
 

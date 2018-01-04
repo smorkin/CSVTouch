@@ -17,24 +17,15 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ae1-1s-SRu">
-                                <rect key="frame" x="16" y="18" width="343" height="30"/>
-                                <nil key="textColor"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
-                                <connections>
-                                    <outlet property="delegate" destination="dge-RM-wBU" id="NFM-Lz-Yz4"/>
-                                </connections>
-                            </textField>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="cVz-JP-Igz">
-                                <rect key="frame" x="16" y="92" width="343" height="467"/>
+                                <rect key="frame" x="16" y="56" width="343" height="503"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="Dah-aV-FgL">
-                                <rect key="frame" x="16" y="56" width="343" height="29"/>
+                                <rect key="frame" x="16" y="20" width="343" height="29"/>
                                 <segments>
                                     <segment title="First"/>
                                     <segment title="Second"/>
@@ -46,14 +37,11 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="VQF-69-hM9" firstAttribute="trailing" secondItem="ae1-1s-SRu" secondAttribute="trailing" constant="16" id="37V-oJ-s1h"/>
                             <constraint firstItem="cVz-JP-Igz" firstAttribute="top" secondItem="Dah-aV-FgL" secondAttribute="bottom" constant="8" id="4fM-jb-ciE"/>
                             <constraint firstItem="VQF-69-hM9" firstAttribute="bottom" secondItem="cVz-JP-Igz" secondAttribute="bottom" id="RjM-9A-cWp"/>
+                            <constraint firstItem="Dah-aV-FgL" firstAttribute="top" secondItem="VQF-69-hM9" secondAttribute="top" constant="20" id="WJ7-jZ-Tim"/>
                             <constraint firstItem="VQF-69-hM9" firstAttribute="trailing" secondItem="Dah-aV-FgL" secondAttribute="trailing" constant="16" id="Wzw-6j-2nF"/>
-                            <constraint firstItem="ae1-1s-SRu" firstAttribute="leading" secondItem="VQF-69-hM9" secondAttribute="leading" constant="16" id="Xlx-BJ-Ou4"/>
                             <constraint firstItem="Dah-aV-FgL" firstAttribute="leading" secondItem="VQF-69-hM9" secondAttribute="leading" constant="16" id="YNp-6X-5fa"/>
-                            <constraint firstItem="Dah-aV-FgL" firstAttribute="top" secondItem="ae1-1s-SRu" secondAttribute="bottom" constant="8" id="eOD-qi-GfT"/>
-                            <constraint firstItem="ae1-1s-SRu" firstAttribute="top" secondItem="VQF-69-hM9" secondAttribute="top" constant="18" id="jiZ-JJ-lKj"/>
                             <constraint firstItem="cVz-JP-Igz" firstAttribute="leading" secondItem="VQF-69-hM9" secondAttribute="leading" constant="16" id="kq0-oP-lgv"/>
                             <constraint firstItem="VQF-69-hM9" firstAttribute="trailing" secondItem="cVz-JP-Igz" secondAttribute="trailing" constant="16" id="vvO-1h-WCr"/>
                         </constraints>
@@ -71,13 +59,12 @@
                     <connections>
                         <outlet property="fileEncodingSegment" destination="Dah-aV-FgL" id="gCc-kb-Mcj"/>
                         <outlet property="fileInfo" destination="cVz-JP-Igz" id="kBI-du-Eze"/>
-                        <outlet property="newFileURL" destination="ae1-1s-SRu" id="vEB-GL-oVW"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ffc-ac-Ec4" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="0k8-zl-ieG" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="874" y="665"/>
+            <point key="canvasLocation" x="472.80000000000001" y="662.51874062968523"/>
         </scene>
         <!--Edit View Controller-->
         <scene sceneID="Lei-Yi-kF5">
@@ -114,7 +101,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dF3-Vt-szh" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1742" y="664"/>
+            <point key="canvasLocation" x="1742" y="663"/>
         </scene>
         <!--Parse Error View Controller-->
         <scene sceneID="7uT-18-uVc">
@@ -142,7 +129,35 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="34x-Hq-4GP" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="872.79999999999995" y="-869.41529235382313"/>
+            <point key="canvasLocation" x="1097" y="663"/>
+        </scene>
+        <!--Add Files Selection Controller-->
+        <scene sceneID="97X-W9-p3y">
+            <objects>
+                <tableViewController id="xKh-gw-umc" customClass="AddFilesSelectionController" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="iXs-CS-HYn">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="AddFilesCell" id="qtH-4l-Jc9">
+                                <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="qtH-4l-Jc9" id="DUd-wP-6gi">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="xKh-gw-umc" id="Fzz-Zd-FZx"/>
+                            <outlet property="delegate" destination="xKh-gw-umc" id="EEb-EK-yxW"/>
+                        </connections>
+                    </tableView>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="1LY-HY-UVo" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="874" y="-869"/>
         </scene>
         <!--Files-->
         <scene sceneID="Uxg-ws-PVe">
@@ -170,7 +185,9 @@
                     <navigationItem key="navigationItem" title="Files" id="ven-nC-6ZT">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="ZnK-SL-c4M">
                             <connections>
-                                <segue destination="dge-RM-wBU" kind="show" identifier="ToNewFile" id="gCa-d4-n7c"/>
+                                <segue destination="xKh-gw-umc" kind="popoverPresentation" identifier="ToAddFiles" popoverAnchorBarButtonItem="ZnK-SL-c4M" id="lZR-7C-IbQ">
+                                    <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
+                                </segue>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -245,7 +262,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="AqZ-bX-mkz" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1742" y="-134"/>
+            <point key="canvasLocation" x="1742" y="-107"/>
         </scene>
         <!--Details Pages Controller-->
         <scene sceneID="p4N-7S-fE5">
@@ -255,7 +272,7 @@
                 </pageViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="acN-iv-jXe" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2730" y="-134"/>
+            <point key="canvasLocation" x="2455" y="-107"/>
         </scene>
         <!--Data View Controller-->
         <scene sceneID="Tto-Km-WAj">
@@ -286,8 +303,5 @@
         <image name="2lines.png" width="20" height="24"/>
         <image name="4lines.png" width="20" height="24"/>
     </resources>
-    <inferredMetricsTieBreakers>
-        <segue reference="muK-hd-Wte"/>
-    </inferredMetricsTieBreakers>
     <color key="tintColor" red="0.79742147019999998" green="0.025906589019999999" blue="0.047856113309999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
 </document>

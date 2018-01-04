@@ -11,6 +11,7 @@
 #import "CSVFileParser.h"
 #import "ItemsViewController.h"
 #import "ParseErrorViewController.h"
+#import "AddFilesSelectionController.h"
 
 @interface FilesViewController ()
 
@@ -33,25 +34,11 @@ static FilesViewController *_sharedInstance = nil;
                                                                         style:UIBarButtonItemStylePlain
                                                                        target:self
                                                                        action:@selector(refreshAllFiles)];
-    UIBarButtonItem *loadFileListItem = [[UIBarButtonItem alloc] initWithTitle:@"List+"
-                                                                         style:UIBarButtonItemStylePlain
-                                                                        target:self
-                                                                        action:@selector(loadFileList)];
     
     // Now, add in order:
     NSMutableArray *items = [NSMutableArray array];
-    if( [CSVPreferencesController simpleMode])
-    {
-        [items addObject:[self refreshFilesItem]];
-        if([CSVPreferencesController lastUsedListURL])
-            [items addObject:refreshAllItems];
-    }
-    else
-    {
-        [items addObject:[self refreshFilesItem]];
-        [items addObject:refreshAllItems];
-        [items addObject:loadFileListItem];
-    }
+    [items addObject:[self refreshFilesItem]];
+    [items addObject:refreshAllItems];
     self.toolbarItems = items;
 }
 
@@ -89,10 +76,6 @@ static FilesViewController *_sharedInstance = nil;
     {
         [(FileDataViewController *)segue.destinationViewController setFile:sender];
     }
-    else if( [segue.identifier isEqualToString:@"ToNewFile"])
-    {
-        // No need to set anything for FileDataViewController
-    }
     else if( [segue.identifier isEqualToString:@"ToItems"])
     {
         [(ItemsViewController *)segue.destinationViewController setFile:sender];
@@ -101,7 +84,55 @@ static FilesViewController *_sharedInstance = nil;
     {
         [(ParseErrorViewController *)segue.destinationViewController setErrorText:[(CSVFileParser *)sender parseErrorString]];
     }
+    else if( [segue.identifier isEqualToString:@"ToAddFiles"]){
+        segue.destinationViewController.popoverPresentationController.delegate = self;
+        AddFilesSelectionController *controller = segue.destinationViewController;
+        [controller.tableView layoutIfNeeded];
+        CGSize s = [controller.tableView contentSize];
+        s.width = MIN(s.width, 280);
+        controller.preferredContentSize = s;
+    }
 }
+
+// To avoid full screen presentation
+-(UIModalPresentationStyle)adaptivePresentationStyleForPresentationController:(UIPresentationController *)controller
+{
+    return UIModalPresentationNone;
+}
+
+- (void) addFileUsingURL
+{
+    [[CSV_TouchAppDelegate sharedInstance] loadNewFile];
+}
+
+- (void) addFileUsingURLList
+{
+    [[CSV_TouchAppDelegate sharedInstance] loadFileList];
+}
+
+- (void)documentPicker:(UIDocumentPickerViewController *)controller didPickDocumentsAtURLs:(NSArray <NSURL *>*)urls
+{
+    [[CSV_TouchAppDelegate sharedInstance] readLocalFiles:urls];
+}
+
+- (void)documentPickerWasCancelled:(UIDocumentPickerViewController *)controller
+{
+}
+
+- (void)importLocalFile
+{
+    NSMutableArray *types = [NSMutableArray array];
+    [types addObject:@"public.comma-separated-values-text"];
+    [types addObject:@"public.text"];
+    [types addObject:@"public.plain-text"];
+    
+    UIDocumentPickerViewController *documentPicker = [[UIDocumentPickerViewController alloc] initWithDocumentTypes:types inMode:UIDocumentPickerModeImport];
+    documentPicker.delegate = self;
+    documentPicker.allowsMultipleSelection = YES;
+    [self presentViewController:documentPicker animated:YES completion:nil];
+    
+}
+
 
 - (void) configureTable
 {
@@ -140,11 +171,6 @@ static FilesViewController *_sharedInstance = nil;
 - (void) refreshAllFiles
 {
     [[CSV_TouchAppDelegate sharedInstance] reloadAllFiles];
-}
-
-- (void) loadFileList
-{
-    [[CSV_TouchAppDelegate sharedInstance] loadFileList];
 }
 
 - (NSUInteger) indexOfToolbarItemWithSelector:(SEL)selector

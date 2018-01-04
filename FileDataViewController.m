@@ -27,7 +27,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self configureFileEncodings];
-    newFileURL.clearButtonMode = UITextFieldViewModeWhileEditing;
 
 }
 
@@ -36,10 +35,6 @@
     [super viewWillAppear:animated];
     if( self.file){
         [self updateFileInfo];
-    }
-    else
-    {
-        [self configureForNewFile];
     }
 }
 
@@ -57,31 +52,28 @@
     fileEncodingSegment.selectedSegmentIndex = 0;
 }
 
-- (void) configureForNewFile
+- (BOOL) fileRetrievedLocally
 {
-    NSMutableString *s = [NSMutableString string];
-    [s appendString:@"1. For FTP download, use\n\n"];
-    [s appendString:@"ftp://user:password@server.com/file.csv\n\n"];
-    [s appendString:@"2. An example file to test the functionality is available at\n\n"];
-    [s appendString:@"http://www.wigzell.net/csv/books.csv\n\n"];
-    fileInfo.text = s;
-    newFileURL.text = [CSVPreferencesController lastUsedURL];
-    [self synchronizeFileEncoding];
+    return [[self file] URL] && [[[self file] URL] isEqualToString:MANUALLY_ADDED_URL_VALUE];
 }
 
 - (void) updateFileInfo
 {
+    NSMutableString *s = [NSMutableString string];
+    if( ![self file].hideAddress ){
+        [s appendFormat:@"Address: %@\n\n", ([self fileRetrievedLocally] ? @"<local import>" : self.file.URL)];
+    }
     NSError *error;
     NSDictionary *fileAttributes = [[NSFileManager defaultManager] attributesOfItemAtPath:[[self file] filePath] error:&error];
     
     if( fileAttributes )
     {
-        NSMutableString *s = [NSMutableString string];
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
         [dateFormatter setDateStyle:NSDateFormatterShortStyle];
         [dateFormatter setTimeStyle:NSDateFormatterShortStyle];
-        [s appendFormat:@"Size: %.2f KB\n\n", ((double)[[fileAttributes objectForKey:NSFileSize] longLongValue]) / 1024.0];
-        if( [[self file] URL] && [[[self file] URL] isEqualToString:MANUALLY_ADDED_URL_VALUE] )
+        [s appendFormat:@"Size: %.2f KB\n\n",
+         ((double)[[fileAttributes objectForKey:NSFileSize] longLongValue]) / 1024.0];
+        if( [self fileRetrievedLocally] )
             [s appendFormat:@"Imported: %@\n\n",
              ([self file].downloadDate ? [dateFormatter stringFromDate:[self file].downloadDate] : @"n/a")];
         else
@@ -94,15 +86,6 @@
     {
         fileInfo.text = [error localizedDescription];
     }
-    if( [self file].hideAddress )
-    {
-        newFileURL.text = @"<address hidden>";
-    }
-    else
-    {
-        newFileURL.text = [self file].URL;
-    }
-    newFileURL.enabled = NO;
     [self synchronizeFileEncoding];
 }
 
@@ -124,16 +107,6 @@
         }
         [[self file] encodingUpdated];
     }
-}
-
-- (BOOL)textFieldShouldReturn:(UITextField *)textField
-{
-    if( textField == newFileURL )
-    {
-        [[CSV_TouchAppDelegate sharedInstance] downloadFileWithString:newFileURL.text];
-    }
-    [textField endEditing:YES];
-    return YES;
 }
 
 @end

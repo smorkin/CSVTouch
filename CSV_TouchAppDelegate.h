@@ -15,7 +15,6 @@
 OzymandiasApplicationDelegate>
 {
 	NSTimer *downloadTimer;
-    
 }
 
 + (CSV_TouchAppDelegate *) sharedInstance;
@@ -42,6 +41,8 @@ OzymandiasApplicationDelegate>
 - (void) downloadFileWithString:(NSString *)URL;
 - (void) reloadAllFiles;
 - (void) loadFileList;
+- (void) loadNewFile;
+- (void) readLocalFiles:(NSArray<NSURL *> *)urls;
 
 @end
 

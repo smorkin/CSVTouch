@@ -37,6 +37,8 @@
 		F434D15B1FF6E17E00CD622D /* FileDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = F434D1591FF6E17E00CD622D /* FileDownloader.m */; };
 		F44AD0D81FFD0CC800BC21D6 /* DetailsPagesController.m in Sources */ = {isa = PBXBuildFile; fileRef = F44AD0D71FFD0CC800BC21D6 /* DetailsPagesController.m */; };
 		F44AD0D91FFD0CC800BC21D6 /* DetailsPagesController.m in Sources */ = {isa = PBXBuildFile; fileRef = F44AD0D71FFD0CC800BC21D6 /* DetailsPagesController.m */; };
+		F44AD0E21FFE671300BC21D6 /* AddFilesSelectionController.m in Sources */ = {isa = PBXBuildFile; fileRef = F44AD0E11FFE671300BC21D6 /* AddFilesSelectionController.m */; };
+		F44AD0E31FFE671300BC21D6 /* AddFilesSelectionController.m in Sources */ = {isa = PBXBuildFile; fileRef = F44AD0E11FFE671300BC21D6 /* AddFilesSelectionController.m */; };
 		F45807FF11466E9400A4C4E1 /* nksTablegallery.css in Resources */ = {isa = PBXBuildFile; fileRef = F45807FC11466E9400A4C4E1 /* nksTablegallery.css */; };
 		F458080011466E9400A4C4E1 /* nksTablegallery.css in Resources */ = {isa = PBXBuildFile; fileRef = F45807FC11466E9400A4C4E1 /* nksTablegallery.css */; };
 		F458080C11466F1600A4C4E1 /* seaglass.css in Resources */ = {isa = PBXBuildFile; fileRef = F458080911466F1600A4C4E1 /* seaglass.css */; };
@@ -246,6 +248,8 @@
 		F434D1591FF6E17E00CD622D /* FileDownloader.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FileDownloader.m; sourceTree = "<group>"; };
 		F44AD0D61FFD0CC800BC21D6 /* DetailsPagesController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DetailsPagesController.h; sourceTree = "<group>"; };
 		F44AD0D71FFD0CC800BC21D6 /* DetailsPagesController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DetailsPagesController.m; sourceTree = "<group>"; };
+		F44AD0E01FFE671300BC21D6 /* AddFilesSelectionController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AddFilesSelectionController.h; sourceTree = "<group>"; };
+		F44AD0E11FFE671300BC21D6 /* AddFilesSelectionController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AddFilesSelectionController.m; sourceTree = "<group>"; };
 		F451F1800E99146300F22ED9 /* info.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = info.png; path = ../info.png; sourceTree = "<group>"; };
 		F45807FC11466E9400A4C4E1 /* nksTablegallery.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = nksTablegallery.css; sourceTree = "<group>"; };
 		F458080911466F1600A4C4E1 /* seaglass.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = seaglass.css; sourceTree = "<group>"; };
@@ -375,13 +379,13 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
+				F44AD0D51FF6F0EE00BC21D6 /* Storyboards */,
 				F44AD0DF1FFE668800BC21D6 /* Main classes */,
 				F44AD0DE1FFE64E200BC21D6 /* Preferences */,
 				F44AD0DD1FFE64C000BC21D6 /* Helpers */,
 				F44AD0DC1FFE64A000BC21D6 /* Ozy stuff */,
 				F44AD0DB1FFE647B00BC21D6 /* Parse */,
 				F44AD0DA1FFE643700BC21D6 /* Info & Help */,
-				F44AD0D51FF6F0EE00BC21D6 /* Storyboards */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
 				F47DC80F1111004C00E8DD8B /* Resources-iPad */,
@@ -557,6 +561,8 @@
 				F434D14C1FF6A9B900CD622D /* DetailsViewController.m */,
 				F44AD0D61FFD0CC800BC21D6 /* DetailsPagesController.h */,
 				F44AD0D71FFD0CC800BC21D6 /* DetailsPagesController.m */,
+				F44AD0E01FFE671300BC21D6 /* AddFilesSelectionController.h */,
+				F44AD0E11FFE671300BC21D6 /* AddFilesSelectionController.m */,
 			);
 			name = "Main classes";
 			sourceTree = "<group>";
@@ -913,6 +919,7 @@
 				F47DC7FC1111004C00E8DD8B /* CSVFileParser.m in Sources */,
 				F40D21321FE6A66F00146BB4 /* EditViewController.m in Sources */,
 				F47DC7FF1111004C00E8DD8B /* OzyTextViewController.m in Sources */,
+				F44AD0E21FFE671300BC21D6 /* AddFilesSelectionController.m in Sources */,
 				F46CA0D41FE59A4900FE645C /* ParseErrorViewController.m in Sources */,
 				F47DC8001111004C00E8DD8B /* CSVPreferencesController.m in Sources */,
 				F434D14D1FF6A9B900CD622D /* DetailsViewController.m in Sources */,
@@ -943,6 +950,7 @@
 				F47DC82A1111005400E8DD8B /* OzyTextViewController.m in Sources */,
 				F47DC82B1111005400E8DD8B /* OzymandiasAdditions.m in Sources */,
 				F47DC82C1111005400E8DD8B /* parseCSV.m in Sources */,
+				F44AD0E31FFE671300BC21D6 /* AddFilesSelectionController.m in Sources */,
 				F46CA0D51FE59A4900FE645C /* ParseErrorViewController.m in Sources */,
 				F47DC82D1111005400E8DD8B /* csv.c in Sources */,
 				F434D14E1FF6A9B900CD622D /* DetailsViewController.m in Sources */,
