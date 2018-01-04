@@ -129,8 +129,7 @@ static FilesViewController *_sharedInstance = nil;
     UIDocumentPickerViewController *documentPicker = [[UIDocumentPickerViewController alloc] initWithDocumentTypes:types inMode:UIDocumentPickerModeImport];
     documentPicker.delegate = self;
     documentPicker.allowsMultipleSelection = YES;
-    [self presentViewController:documentPicker animated:YES completion:nil];
-    
+    [self presentViewController:documentPicker animated:YES completion:nil];    
 }
 
 

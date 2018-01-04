@@ -46,6 +46,8 @@
 
 - (id) initWithRawData:(NSData *)d filePath:(NSString *)filePath;
 
+- (NSData *) fileRawData;;
+
 - (void) parseIfNecessary;
 - (void) reparseIfParsed;
 
@@ -64,6 +66,8 @@
 
 - (NSString *) fileName;
 - (NSUInteger) stringLength;
+
+- (BOOL) downloadedLocally;
 
 - (unichar) delimiter;
 

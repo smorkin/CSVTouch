@@ -24,18 +24,18 @@
     fileEncodingSegment.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleBottomMargin;
 }
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
+- (void)viewDidLoad
+{
     [self configureFileEncodings];
+    [super viewDidLoad];
 
 }
 
 - (void) viewWillAppear:(BOOL)animated
 {
+    [self updateFileInfo];
+    self.title = self.file.tableViewDescription;
     [super viewWillAppear:animated];
-    if( self.file){
-        [self updateFileInfo];
-    }
 }
 
 - (void) synchronizeFileEncoding
@@ -52,16 +52,18 @@
     fileEncodingSegment.selectedSegmentIndex = 0;
 }
 
-- (BOOL) fileRetrievedLocally
-{
-    return [[self file] URL] && [[[self file] URL] isEqualToString:MANUALLY_ADDED_URL_VALUE];
-}
-
 - (void) updateFileInfo
 {
     NSMutableString *s = [NSMutableString string];
     if( ![self file].hideAddress ){
-        [s appendFormat:@"Address: %@\n\n", ([self fileRetrievedLocally] ? @"<local import>" : self.file.URL)];
+        if( [self.file downloadedLocally])
+        {
+            [s appendString:@"Address: <local import>\n\n"];
+        }
+        else
+        {
+            [s appendFormat:@"Address: %@\n(click to re-download & to copy address)\n\n", self.file.URL];
+        }
     }
     NSError *error;
     NSDictionary *fileAttributes = [[NSFileManager defaultManager] attributesOfItemAtPath:[[self file] filePath] error:&error];
@@ -73,13 +75,13 @@
         [dateFormatter setTimeStyle:NSDateFormatterShortStyle];
         [s appendFormat:@"Size: %.2f KB\n\n",
          ((double)[[fileAttributes objectForKey:NSFileSize] longLongValue]) / 1024.0];
-        if( [self fileRetrievedLocally] )
+        if( [self.file downloadedLocally] )
             [s appendFormat:@"Imported: %@\n\n",
              ([self file].downloadDate ? [dateFormatter stringFromDate:[self file].downloadDate] : @"n/a")];
         else
             [s appendFormat:@"Downloaded: %@\n\n",
              ([self file].downloadDate ? [dateFormatter stringFromDate:[self file].downloadDate] : @"Available after next download")];
-        [s appendFormat:@"File: %@\n\n", [self file].filePath];
+        [s appendFormat:@"Internal data file: %@\n\n", [self file].filePath];
         fileInfo.text = s;
     }
     else
@@ -109,4 +111,24 @@
     }
 }
 
+- (BOOL)textView:(UITextView *)textView shouldInteractWithURL:(NSURL *)URL inRange:(NSRange)characterRange interaction:(UITextItemInteraction)interaction
+{
+    [[CSV_TouchAppDelegate sharedInstance] downloadFileWithString:[URL absoluteString]];
+    [[UIPasteboard generalPasteboard] setString:[URL absoluteString]];
+    return NO;
+}
+
+- (IBAction) exportFile
+{
+    NSURL *url = [NSURL fileURLWithPath:NSTemporaryDirectory()];
+    url = [url URLByAppendingPathComponent:[self.file.fileName stringByDeletingPathExtension]]; // We have custom extension
+    if( [self.file.fileRawData writeToURL:url atomically:YES])
+    {
+        UIDocumentPickerViewController *documentPicker = [[UIDocumentPickerViewController alloc]
+                                                          initWithURL:url
+                                                          inMode:UIDocumentPickerModeExportToService];
+        documentPicker.delegate = self;
+        [self presentViewController:documentPicker animated:YES completion:nil];
+    }
+}
 @end

@@ -236,7 +236,7 @@ static NSString *newPassword = nil;
 		}
 		else
 		{
-			fp.URL = MANUALLY_ADDED_URL_VALUE;
+			fp.URL = @"";
 		}
 		fp.downloadDate = [NSDate date];
         fp.hasBeenDownloaded = TRUE;
@@ -449,7 +449,7 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 	{
 		// Have to check if the file is a "local" one, i.e. without URL
 		NSString *URL = [self.URLsToDownload objectAtIndex:0];
-		if( [URL isEqualToString:MANUALLY_ADDED_URL_VALUE] )
+		if( [URL isEqualToString:@""] )
 		{
 			[self.URLsToDownload removeObjectAtIndex:0];
 			[self downloadDone];
@@ -652,7 +652,6 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
                                                  style:UIAlertActionStyleDefault
                                                handler:^(UIAlertAction *action){
                                                    [self readFileListFromURL:alertController.textFields.firstObject.text];
-                                                   [CSVPreferencesController setLastUsedURL:alertController.textFields.firstObject.text];
                                                }];
     [alertController addAction:ok];
     UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"Cancel"
@@ -671,7 +670,7 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
                                                                              message:nil
                                                                       preferredStyle:UIAlertControllerStyleAlert];
     [alertController addTextFieldWithConfigurationHandler:^(UITextField *textField) {
-        textField.text = [[CSVPreferencesController lastUsedListURL] absoluteString];
+        textField.text = self.lastFileURL;
         textField.clearButtonMode = UITextFieldViewModeWhileEditing;
         textField.borderStyle = UITextBorderStyleRoundedRect;
     }];
@@ -679,7 +678,6 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
                                                  style:UIAlertActionStyleDefault
                                                handler:^(UIAlertAction *action){
                                                    [self downloadFileWithString:alertController.textFields.firstObject.text];
-                                                   [CSVPreferencesController setLastUsedURL:alertController.textFields.firstObject.text];
                                               }];
     [alertController addAction:ok];
     UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"Cancel"
@@ -714,13 +712,12 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 
 - (void) downloadFileWithString:(NSString *)URLString
 {
-	if( !URLString || [URLString isEqualToString:MANUALLY_ADDED_URL_VALUE] )
+	if( !URLString || [URLString isEqualToString:@""] )
 		return;
 	
     NSURL *URL = [NSURL URLWithString:[URLString stringByAddingPercentEncodingWithAllowedCharacters:[CSV_TouchAppDelegate tweakedURLPathAllowedCharacterSet]]];
 	[self startDownloadUsingURL:URL];
 	
-	// Update this in case you want to download a file from a similar URL later on
 	self.lastFileURL = URLString;
 }
 
@@ -741,26 +738,18 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 
 - (void) reloadAllFiles
 {
-	if( [CSVPreferencesController simpleMode] && [CSVPreferencesController lastUsedListURL] )
-	{
-		NSURL *url = [CSVPreferencesController lastUsedListURL];
-		[self readFileListFromURL:[url absoluteString]];
-	}
-	else
-	{
-		[self.URLsToDownload removeAllObjects];
-		for( CSVFileParser *fp in [CSVFileParser files] )
-		{
-			if( [fp URL] && ![[fp URL] isEqualToString:MANUALLY_ADDED_URL_VALUE] )
-				[self.URLsToDownload addObject:[fp URL]];
-		}
-		if( [self.URLsToDownload count] > 0 )
-		{
-			NSString *URL = [self.URLsToDownload objectAtIndex:0];
-			[self downloadFileWithString:URL];
-			[self.URLsToDownload removeObjectAtIndex:0];
-		}
-	}
+    [self.URLsToDownload removeAllObjects];
+    for( CSVFileParser *fp in [CSVFileParser files] )
+    {
+        if( ![fp downloadedLocally])
+            [self.URLsToDownload addObject:[fp URL]];
+    }
+    if( [self.URLsToDownload count] > 0 )
+    {
+        NSString *URL = [self.URLsToDownload objectAtIndex:0];
+        [self downloadFileWithString:URL];
+        [self.URLsToDownload removeObjectAtIndex:0];
+    }
 	[CSVPreferencesController setLastDownload:[NSDate date]];
 }
 

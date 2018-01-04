@@ -7,8 +7,6 @@
 
 #import <Foundation/Foundation.h>
 
-#define MANUALLY_ADDED_URL_VALUE @""
-
 @interface FileDownloader : NSObject
 
 

@@ -7,13 +7,14 @@
 
 #import "CSVFileParser.h"
 
-@interface FileDataViewController : UIViewController
+@interface FileDataViewController : UIViewController <UITextViewDelegate, UIDocumentPickerDelegate>
 {
     IBOutlet UITextView *fileInfo;
     IBOutlet UISegmentedControl *fileEncodingSegment;
 }
 
 - (IBAction) segmentClicked:(id)sender;
+- (IBAction) exportFile;
 
 @property (nonatomic, weak) CSVFileParser *file;
 

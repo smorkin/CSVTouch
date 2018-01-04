@@ -130,6 +130,11 @@ static NSMutableArray *_files;
     return delimiters;
 }
 
+- (BOOL) downloadedLocally
+{
+    return !self.URL || [self.URL isEqualToString:@""];
+}
+
  - (void) loadFile
 {
 	NSDictionary *d = [NSDictionary dictionaryWithContentsOfFile:self.filePath];
@@ -520,6 +525,11 @@ static NSMutableArray *_files;
 {
 	CSVFileParser *fp = [[self alloc] initWithRawData:nil filePath:path];
 	return fp;
+}
+
+- (NSData *) fileRawData
+{
+    return _rawData;
 }
 
 - (void) saveToFile

@@ -19,38 +19,4 @@
 	return self;
 }
 
-- (void) selectedItemAtIndexPath:(NSIndexPath *)indexPath
-{
-//    BOOL resetSearch = NO;
-//    if( searchInputInProgress )
-//    {
-//        [self searchFinish];
-//        if( [CSVPreferencesController clearSearchWhenQuickSelecting] )
-//            resetSearch = YES;
-//    }
-//
-//    [self selectDetailsForRow:[self.itemController indexForObjectAtIndexPath:indexPath]];
-//    [self pushViewController:[self currentDetailsController] animated:YES];
-//
-//    if( resetSearch )
-//    {
-//        self.searchBar.text = @"";
-//        CSVRow *selectedItem = [[self.itemController objects] objectAtIndex:[self.itemController indexForObjectAtIndexPath:indexPath]];
-//        NSUInteger newPosition = [[[self currentFile] itemsWithResetShortdescriptions:NO] indexOfObject:selectedItem];
-//        if( newPosition != NSNotFound )
-//        {
-//            NSIndexPath *newPath = [self.itemController indexPathForObjectAtIndex:newPosition];
-//            if( newPath )
-//            {
-//                [self.itemController.tableView selectRowAtIndexPath:newPath
-//                                                           animated:NO
-//                                                     scrollPosition:UITableViewScrollPositionTop];
-//                [self updateBadgeValueUsingItem:[[self currentDetailsController] navigationItem]
-//                                           push:YES];
-//            }
-//        }
-//    }
-    
-}
-
 @end
