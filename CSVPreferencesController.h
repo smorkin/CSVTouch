@@ -6,7 +6,7 @@
 //  Copyright 2008 Ozymandias. All rights reserved.
 //
 
-#import "OzyTableViewController.h"
+#import "OzymandiasAdditions.h"
 
 #import <UIKit/UIKit.h>
 
@@ -17,6 +17,7 @@
 + (NSString *) delimiter;
 + (OzyTableViewSize) itemsTableViewSize;
 + (OzyTableViewSize) detailsTableViewSize;
++ (CGFloat) itemsTableViewFontSize;
 + (NSStringEncoding) encoding;
 + (BOOL) smartDelimiter;
 + (BOOL) useGroupingForItems;

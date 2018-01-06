@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "OzyTableViewController.h"
+#import "OzymandiasAdditions.h"
 
 #define DEFAULT_ENCODING 0
 
@@ -63,6 +63,7 @@
 - (void) encodingUpdated;
 
 - (NSMutableArray *) itemsWithResetShortdescriptions:(BOOL)reset; // Note that a caller for performance reasons can resort these, but nothing else
+- (void) sortItems;
 
 - (NSString *) fileName;
 - (NSUInteger) stringLength;

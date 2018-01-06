@@ -171,13 +171,19 @@ static NSMutableArray *_files;
 	for( CSVRow *row in self.parsedItems )
 		row.shortDescription = nil;
 }
-- (NSMutableArray *) itemsWithResetShortdescriptions:(BOOL)reset
+- (NSMutableArray<CSVRow *> *) itemsWithResetShortdescriptions:(BOOL)reset
 {
 	if( reset )
 		[self invalidateShortDescriptions];
 	return self.parsedItems;
 }
 
+- (void) sortItems
+{
+    [self.parsedItems sortUsingSelector:[CSVRow compareSelector]];
+    self.hasBeenSorted = YES;
+
+}
 // Returns FALSE if error is encountered
 - (BOOL) parse:(NSString *)s
 	 delimiter:(int)delimiter

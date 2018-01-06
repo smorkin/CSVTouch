@@ -5,10 +5,10 @@
 //  Created by Simon Wigzell on 2017-12-16.
 //
 
-#import "OzyTableViewController.h"
+#import <UIKit/UIKit.h>
 #import "CSVFileParser.h"
 
-@interface ItemsViewController : OzyTableViewController
+@interface ItemsViewController : UITableViewController
 {
     // Toolbar
     IBOutlet UIBarButtonItem *shrinkItemsButton;

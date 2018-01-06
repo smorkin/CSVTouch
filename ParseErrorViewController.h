@@ -5,11 +5,12 @@
 //  Created by Simon Wigzell on 2017-12-16.
 //
 
-#import "OzyTextViewController.h"
+#import <UIKit/UIKit.h>
 #import "CSVFileParser.h"
 
-@interface ParseErrorViewController : OzyTextViewController
+@interface ParseErrorViewController : UIViewController
 
+@property IBOutlet UITextView *textView;
 @property (nonatomic, strong) NSString *errorText;
 
 @end

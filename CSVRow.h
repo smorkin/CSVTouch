@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "OzyTableViewController.h"
+#import "OzymandiasAdditions.h"
 
 #define VALUE_KEY @"valueKey"
 #define COLUMN_KEY @"columnKey"

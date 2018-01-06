@@ -110,6 +110,21 @@ static BOOL reverseItemSorting = FALSE;
 		return YES;
 }
 
++ (CGFloat) itemsTableViewFontSize
+{
+    if( [self itemsTableViewSize] == OZY_MINI)
+    {
+        return 12;
+    }
+    else if( [self itemsTableViewSize] == OZY_SMALL)
+    {
+        return 16;
+    }
+    else{
+        return 20;
+    }
+}
+
 + (OzyTableViewSize) itemsTableViewSize
 {
 	id obj = [[NSUserDefaults standardUserDefaults] objectForKey:PREFS_ITEMS_TABLEVIEW_SIZE];
