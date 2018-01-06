@@ -316,6 +316,7 @@ sectionForSectionIndexTitle:(NSString *)title
 	else
 		[cell.textLabel setFont:[[cell.textLabel font] fontWithSize:fontSize]];
 	
+    cell.separatorInset = UIEdgeInsetsZero; // We want the line between rows to include image part of cell
 	return cell;
 }
 
