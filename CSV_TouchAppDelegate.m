@@ -7,7 +7,6 @@
 //
 
 #import "CSV_TouchAppDelegate.h"
-#import "OzyTableViewController.h"
 #import "CSVPreferencesController.h"
 #import "CSVRow.h"
 #import "CSVFileParser.h"
@@ -243,7 +242,7 @@ static NSString *newPassword = nil;
 		[fp saveToFile];
         fp.hiddenColumns = [self.preDefinedHiddenColumns objectForKey:fp.URL];
         [self.preDefinedHiddenColumns removeObjectForKey:fp.URL];
-        [[FilesViewController sharedInstance] dataLoaded];
+        [[FilesViewController sharedInstance].tableView reloadData];
 	}
 }
 
@@ -317,7 +316,7 @@ static NSString *newPassword = nil;
 			[files addObject:fp];
 		}
 	}
-    [[FilesViewController sharedInstance] dataLoaded];
+    [[FilesViewController sharedInstance].tableView reloadData];
 }
 
 - (void) importOtherAppsAddedDocuments

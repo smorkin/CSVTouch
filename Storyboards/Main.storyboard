@@ -190,6 +190,7 @@
                                 </tableViewCellContentView>
                             </tableViewCell>
                         </prototypes>
+                        <sections/>
                         <connections>
                             <outlet property="dataSource" destination="0Yt-XR-lmL" id="2c8-LC-RAw"/>
                             <outlet property="delegate" destination="0Yt-XR-lmL" id="pPT-8F-D9z"/>
@@ -223,13 +224,30 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="ItemCell" id="7gh-j7-hbe">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="ItemCell" id="7gh-j7-hbe" customClass="AutoSizingTableViewCell">
                                 <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="7gh-j7-hbe" id="kbl-X6-CHd">
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6xX-uS-Iy8">
+                                            <rect key="frame" x="16" y="0.0" width="351" height="43.5"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="6xX-uS-Iy8" firstAttribute="leading" secondItem="kbl-X6-CHd" secondAttribute="leading" constant="16" id="Cj4-Nd-UWy"/>
+                                        <constraint firstAttribute="trailing" secondItem="6xX-uS-Iy8" secondAttribute="trailing" constant="8" id="F8r-JE-YMj"/>
+                                        <constraint firstItem="6xX-uS-Iy8" firstAttribute="top" secondItem="kbl-X6-CHd" secondAttribute="top" id="s9w-Qx-xh1"/>
+                                        <constraint firstAttribute="bottom" secondItem="6xX-uS-Iy8" secondAttribute="bottom" id="tQQ-ju-tFo"/>
+                                    </constraints>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="label" destination="6xX-uS-Iy8" id="ITX-n7-k4G"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -275,7 +293,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="AqZ-bX-mkz" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1742" y="-107"/>
+            <point key="canvasLocation" x="1741.5999999999999" y="-107.49625187406298"/>
         </scene>
         <!--Details Pages Controller-->
         <scene sceneID="p4N-7S-fE5">

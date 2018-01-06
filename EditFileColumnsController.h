@@ -5,7 +5,7 @@
 //  Created by Simon Wigzell on 2017-12-17.
 //
 
-#import "OzyTableViewController.h"
+#import <UIKit/UIKit.h>
 #import "CSVRow.h"
 
 @interface EditFileColumnsController : UITableViewController

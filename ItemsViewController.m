@@ -140,6 +140,9 @@ static NSMutableDictionary *_indexPathForFileName;
     [self setTitle:[self.file defaultTableViewDescription]];
     self.navigationController.toolbarHidden = NO;
     self.shouldAutoscroll = YES;
+    self.tableView.rowHeight = UITableViewAutomaticDimension;
+    self.tableView.estimatedRowHeight = 32;
+
     [super viewWillAppear:animated];
 }
 

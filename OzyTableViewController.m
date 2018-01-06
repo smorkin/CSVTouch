@@ -10,6 +10,7 @@
 #import "CSVRow.h"
 #import "OzymandiasAdditions.h"
 #import "CSVPreferencesController.h"
+#import "AutoSizingTableViewCell.h"
 
 #define MINI_FONT_SIZE 12
 #define SMALL_FONT_SIZE 15
@@ -111,22 +112,22 @@
 	//	if( size != self.size )
 	{
 		_size = size;
-		switch (size )
-		{
-			case OZY_MINI:
-				self.tableView.rowHeight = 18;
-				self.tableView.sectionHeaderHeight = 24;
-				break;
-			case OZY_SMALL:
-				self.tableView.rowHeight = 27;
-				self.tableView.sectionHeaderHeight = 24;
-				break;
-			case OZY_NORMAL:
-			default:
-				self.tableView.rowHeight = 44;
-				self.tableView.sectionHeaderHeight = 24;
-				break;
-		}
+//        switch (size )
+//        {
+//            case OZY_MINI:
+//                self.tableView.rowHeight = 18;
+//                self.tableView.sectionHeaderHeight = 24;
+//                break;
+//            case OZY_SMALL:
+//                self.tableView.rowHeight = 27;
+//                self.tableView.sectionHeaderHeight = 24;
+//                break;
+//            case OZY_NORMAL:
+//            default:
+//                self.tableView.rowHeight = 44;
+//                self.tableView.sectionHeaderHeight = 24;
+//                break;
+//        }
 		[self.tableView reloadData];
 	}
 }
@@ -279,7 +280,7 @@ sectionForSectionIndexTitle:(NSString *)title
 	}
 }
 
-- (UITableViewCell *) tableViewCell
+- (AutoSizingTableViewCell *) tableViewCell
 {
 	static NSString *miniIdentifier = @"miniIdentifier";
 	static NSString *smallIdentifier = @"smallIdentifier";
@@ -303,12 +304,12 @@ sectionForSectionIndexTitle:(NSString *)title
 			fontSize = NORMAL_FONT_SIZE;
 			break;
 	}
-	UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+	AutoSizingTableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:cellIdentifier];
 	
 	// Setup the cell if not already setup
 	if (cell == nil)
 	{
-		cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
+		cell = [[AutoSizingTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
 	}
 	
 	if( self.useFixedWidth )
@@ -322,7 +323,7 @@ sectionForSectionIndexTitle:(NSString *)title
 
 - (UITableViewCell *)tableView:(UITableView *)aTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	UITableViewCell *cell = [self tableViewCell];
+	AutoSizingTableViewCell *cell = [self tableViewCell];
 	id item;
 	
 	if( [_sectionStarts count] > 0 )
@@ -331,11 +332,11 @@ sectionForSectionIndexTitle:(NSString *)title
 		item = [self.objects objectAtIndex:indexPath.row];
 	if( [item conformsToProtocol:@protocol(OzyTableViewObject)] )
 	{
-		cell.textLabel.text = [(id<OzyTableViewObject>)item tableViewDescription];
+		cell.label.text = [(id<OzyTableViewObject>)item tableViewDescription];
 	}
 	else
 	{
-		cell.textLabel.text = [item description];
+		cell.label.text = [item description];
 	}
 	if( self.removeDisclosure )
 	{

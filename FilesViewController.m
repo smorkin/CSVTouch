@@ -60,7 +60,7 @@ static FilesViewController *_sharedInstance = nil;
         
         NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:p];
         if (indexPath != nil) {
-            [self performSegueWithIdentifier:@"ToFileData" sender:[[self objects] objectAtIndex:indexPath.row]];
+            [self performSegueWithIdentifier:@"ToFileData" sender:[[CSVFileParser files] objectAtIndex:indexPath.row]];
         }
     }
     else
@@ -132,20 +132,12 @@ static FilesViewController *_sharedInstance = nil;
     [self presentViewController:documentPicker animated:YES completion:nil];    
 }
 
-
-- (void) configureTable
-{
-    self.editable = YES;
-    self.size = OZY_NORMAL;
-}
-
 - (void) awakeFromNib
 {
     [super awakeFromNib];
     _sharedInstance = self;
     [self configureToolbarButtons];
     [self configureGestures];
-    [self configureTable];
     self.edgesForExtendedLayout = UIRectEdgeNone;
     self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
 }
@@ -157,8 +149,7 @@ static FilesViewController *_sharedInstance = nil;
     if( [CSVPreferencesController simpleMode])
     {
         self.navigationController.navigationItem.rightBarButtonItem = nil;
-        self.editable = NO;
-    }    
+    }
 }
 
 - (void) viewWillAppear:(BOOL)animated
@@ -210,7 +201,6 @@ static FilesViewController *_sharedInstance = nil;
     
     if( self.refreshFilesInProgress )
     {
-        self.removeDisclosure = YES;
         NSMutableArray *items = [NSMutableArray arrayWithArray:self.toolbarItems];
         [items replaceObjectAtIndex:index
                          withObject:[self doneItemWithSelector]];
@@ -218,12 +208,11 @@ static FilesViewController *_sharedInstance = nil;
     }
     else
     {
-        self.removeDisclosure = NO;
         NSMutableArray *items = [NSMutableArray arrayWithArray:self.toolbarItems];
         [items replaceObjectAtIndex:index withObject:[self refreshFilesItem]];
         self.toolbarItems = items;
     }
-    [self dataLoaded];
+    [self.tableView reloadData];
 }
 
 - (BOOL) checkFileForSelection:(CSVFileParser *)file
@@ -287,9 +276,40 @@ static FilesViewController *_sharedInstance = nil;
     }
 }
 
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return [[CSVFileParser files] count];
+}
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return 1;
+}
+
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return ![CSVPreferencesController simpleMode];
+}
+
+- (UITableViewCell *)tableView:(UITableView *)aTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"FileCell" forIndexPath:indexPath];
+    CSVFileParser *file = [[CSVFileParser files] objectAtIndex:indexPath.row];
+    cell.textLabel.text = [file tableViewDescription];
+    if( self.refreshFilesInProgress )
+    {
+        cell.accessoryType = UITableViewCellAccessoryNone;
+    }
+    else
+    {
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    }
+    return cell;
+}
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    CSVFileParser *selectedFile = [[self objects] objectAtIndex:indexPath.row];
+    CSVFileParser *selectedFile = [[CSVFileParser files] objectAtIndex:indexPath.row];
     if( self.refreshFilesInProgress && selectedFile)
     {
         [[CSV_TouchAppDelegate sharedInstance] downloadFileWithString:[selectedFile URL]];
@@ -306,17 +326,21 @@ static FilesViewController *_sharedInstance = nil;
     }
 }
 
-- (void) dataLoaded
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    self.objects = [CSVFileParser files];
-    [super dataLoaded];
+    if( editingStyle == UITableViewCellEditingStyleDelete )
+    {
+        NSInteger index = indexPath.row;
+        [self removeObjectAtIndex:index];
+    }
 }
 
 - (void) removeObjectAtIndex:(NSInteger)index
 {
-    CSVFileParser *file = [self.objects objectAtIndex:index];
+    CSVFileParser *file = [[CSVFileParser files] objectAtIndex:index];
     [[NSFileManager defaultManager] removeItemAtPath:[file filePath] error:NULL];
-    [super removeObjectAtIndex:index];
+    [[CSVFileParser files] removeObjectAtIndex:index];
+    [self.tableView reloadData];
 }
 
 -(IBAction)prepareForUnwind:(UIStoryboardSegue *)segue

@@ -7,7 +7,6 @@
 //
 
 #import "CSVRow.h"
-#import "OzyTableViewController.h"
 #import "CSVPreferencesController.h"
 #import "CSVFileParser.h"
 

@@ -198,6 +198,8 @@
 		F4C5C13018D4817C00B73144 /* IntroViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4C5C12F18D4817C00B73144 /* IntroViewController.m */; };
 		F4C5C13118D4817C00B73144 /* IntroViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4C5C12F18D4817C00B73144 /* IntroViewController.m */; };
 		F4D6864B11675900001511F4 /* iPhoneMainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = F412B2CF115567C5000C7596 /* iPhoneMainWindow.xib */; };
+		F4E8FAF02001346000E55844 /* AutoSizingTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F4E8FAEF2001346000E55844 /* AutoSizingTableViewCell.m */; };
+		F4E8FAF12001346000E55844 /* AutoSizingTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F4E8FAEF2001346000E55844 /* AutoSizingTableViewCell.m */; };
 		F4EC004F17F87E8600A52838 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F4EC004E17F87E8600A52838 /* Images.xcassets */; };
 		F4EC005017F8845B00A52838 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F4EC004E17F87E8600A52838 /* Images.xcassets */; };
 		F4F0DD69117A5C120043C377 /* RefreshAll.png in Resources */ = {isa = PBXBuildFile; fileRef = F4F0DD68117A5C120043C377 /* RefreshAll.png */; };
@@ -338,6 +340,8 @@
 		F4CB510B11689FD300CFCBBC /* Info-iPad.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Info-iPad.plist"; sourceTree = "<group>"; };
 		F4E5EE2E0E09B591002EB091 /* OzyTextViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OzyTextViewController.h; sourceTree = "<group>"; };
 		F4E5EE2F0E09B591002EB091 /* OzyTextViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OzyTextViewController.m; sourceTree = "<group>"; };
+		F4E8FAEE2001346000E55844 /* AutoSizingTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AutoSizingTableViewCell.h; sourceTree = "<group>"; };
+		F4E8FAEF2001346000E55844 /* AutoSizingTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AutoSizingTableViewCell.m; sourceTree = "<group>"; };
 		F4E929090E4F5D4C006165B0 /* parseCSV.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = parseCSV.h; sourceTree = "<group>"; };
 		F4E9290A0E4F5D4C006165B0 /* parseCSV.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = parseCSV.m; sourceTree = "<group>"; };
 		F4EC004E17F87E8600A52838 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = "CSV Touch/Images.xcassets"; sourceTree = "<group>"; };
@@ -563,6 +567,8 @@
 				F44AD0D71FFD0CC800BC21D6 /* DetailsPagesController.m */,
 				F44AD0E01FFE671300BC21D6 /* AddFilesSelectionController.h */,
 				F44AD0E11FFE671300BC21D6 /* AddFilesSelectionController.m */,
+				F4E8FAEE2001346000E55844 /* AutoSizingTableViewCell.h */,
+				F4E8FAEF2001346000E55844 /* AutoSizingTableViewCell.m */,
 			);
 			name = "Main classes";
 			sourceTree = "<group>";
@@ -924,6 +930,7 @@
 				F47DC8001111004C00E8DD8B /* CSVPreferencesController.m in Sources */,
 				F434D14D1FF6A9B900CD622D /* DetailsViewController.m in Sources */,
 				F46CA0D81FE5AEAA00FE645C /* FileDataViewController.m in Sources */,
+				F4E8FAF02001346000E55844 /* AutoSizingTableViewCell.m in Sources */,
 				F434D1481FF40D0000CD622D /* FadeAnimator.m in Sources */,
 				F47DC8011111004C00E8DD8B /* OzymandiasAdditions.m in Sources */,
 				F47DC8021111004C00E8DD8B /* parseCSV.m in Sources */,
@@ -955,6 +962,7 @@
 				F47DC82D1111005400E8DD8B /* csv.c in Sources */,
 				F434D14E1FF6A9B900CD622D /* DetailsViewController.m in Sources */,
 				F46CA0D91FE5AEAA00FE645C /* FileDataViewController.m in Sources */,
+				F4E8FAF12001346000E55844 /* AutoSizingTableViewCell.m in Sources */,
 				F434D1491FF40D0000CD622D /* FadeAnimator.m in Sources */,
 				F47DC82E1111005400E8DD8B /* msgno.c in Sources */,
 				F47DC82F1111005400E8DD8B /* main.m in Sources */,

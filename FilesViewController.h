@@ -5,10 +5,10 @@
 //  Created by Simon Wigzell on 2017-12-16.
 //
 
-#import "OzyTableViewController.h"
+#import <UIKit/UIKit.h>
 #import "CSVFileParser.h"
 
-@interface FilesViewController : OzyTableViewController <UIPopoverPresentationControllerDelegate, UIDocumentPickerDelegate>
+@interface FilesViewController : UITableViewController <UIPopoverPresentationControllerDelegate, UIDocumentPickerDelegate>
 
 + (instancetype) sharedInstance;
 
