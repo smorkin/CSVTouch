@@ -42,7 +42,7 @@
                                 <rect key="frame" x="153" y="518" width="70" height="30"/>
                                 <state key="normal" title="Export file"/>
                                 <connections>
-                                    <action selector="exportFile" destination="dge-RM-wBU" eventType="touchUpInside" id="n7g-aD-nwO"/>
+                                    <action selector="exportFile:" destination="dge-RM-wBU" eventType="touchUpInside" id="ER3-Af-Zyb"/>
                                 </connections>
                             </button>
                         </subviews>

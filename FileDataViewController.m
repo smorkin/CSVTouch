@@ -118,17 +118,22 @@
     return NO;
 }
 
-- (IBAction) exportFile
+- (IBAction)exportFile:(id)sender;
 {
     NSURL *url = [NSURL fileURLWithPath:NSTemporaryDirectory()];
     url = [url URLByAppendingPathComponent:[self.file.fileName stringByDeletingPathExtension]]; // We have custom extension
-    if( [self.file.fileRawData writeToURL:url atomically:YES])
+    if( url && [self.file.fileRawData writeToURL:url atomically:YES])
     {
-        UIDocumentPickerViewController *documentPicker = [[UIDocumentPickerViewController alloc]
-                                                          initWithURL:url
-                                                          inMode:UIDocumentPickerModeExportToService];
-        documentPicker.delegate = self;
-        [self presentViewController:documentPicker animated:YES completion:nil];
+        UIActivityViewController *controller = [[UIActivityViewController alloc] initWithActivityItems:@[url] applicationActivities:nil];
+        controller.modalPresentationStyle = UIModalPresentationPopover;
+        controller.popoverPresentationController.permittedArrowDirections =
+        UIPopoverArrowDirectionDown;
+        UIView *v = (UIView *)sender;
+        controller.popoverPresentationController.sourceView = v;
+        CGRect anchorRect = CGRectMake(v.frame.size.width/2, 0, 1, 1);
+        controller.popoverPresentationController.sourceRect = anchorRect;
+        [self presentViewController:controller animated:YES completion:nil];
     }
 }
+
 @end
