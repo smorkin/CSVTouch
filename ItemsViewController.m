@@ -424,16 +424,29 @@ sectionForSectionIndexTitle:(NSString *)title
         item = [self.items objectAtIndex:indexPath.row];
     cell.label.text = [item tableViewDescription];
     cell.accessoryType = (self.useIndices ? UITableViewCellAccessoryNone : UITableViewCellAccessoryDisclosureIndicator);
-    UIImage *image = nil;
-    NSString *imageName = [item imageName];
-    if( !imageName)
+    if( self.file.iconIndex != NSNotFound )
     {
-        imageName = [item emptyImageName];
+        cell.imageWidthConstraint.constant = 32;
+        cell.imageHeightConstraint.constant =32;
+        cell.imageWTrailingSpaceConstraint.constant = 8;
+        UIImage *image = nil;
+        NSString *imageName = [item imageName];
+        if( !imageName)
+        {
+            imageName = [item emptyImageName];
+        }
+        if( imageName){
+            image = [UIImage imageNamed:[item imageName]];
+        }
+        cell.view.image = image;
     }
-    if( imageName){
-        image = [UIImage imageNamed:[item imageName]];
+    else
+    {
+        cell.view.image = nil;
+        cell.imageWidthConstraint.constant = 0;
+        cell.imageHeightConstraint.constant = 0;
+        cell.imageWTrailingSpaceConstraint.constant = 0;
     }
-    cell.imageView.image = image;
     return cell;
 }
 

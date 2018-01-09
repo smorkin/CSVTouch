@@ -19,22 +19,35 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="G6s-qn-J7t">
-                        <rect key="frame" x="16" y="0.0" width="296" height="43.5"/>
+                        <rect key="frame" x="28" y="2" width="292" height="39.5"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="kxR-HW-Nea">
+                        <rect key="frame" x="6" y="13" width="16" height="16"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="16" id="OW6-ib-kye"/>
+                            <constraint firstAttribute="width" constant="16" id="n6c-yh-yYG"/>
+                        </constraints>
+                    </imageView>
                 </subviews>
                 <constraints>
-                    <constraint firstAttribute="bottom" secondItem="G6s-qn-J7t" secondAttribute="bottom" id="4nR-Yp-cBt"/>
-                    <constraint firstItem="G6s-qn-J7t" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="5sp-cZ-ZvN"/>
-                    <constraint firstItem="G6s-qn-J7t" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="16" id="A6z-eJ-fgC"/>
-                    <constraint firstAttribute="trailing" secondItem="G6s-qn-J7t" secondAttribute="trailing" constant="8" id="bxB-Cw-Div"/>
+                    <constraint firstAttribute="bottom" secondItem="G6s-qn-J7t" secondAttribute="bottom" constant="2" id="4nR-Yp-cBt"/>
+                    <constraint firstItem="G6s-qn-J7t" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="2" id="5sp-cZ-ZvN"/>
+                    <constraint firstItem="G6s-qn-J7t" firstAttribute="leading" secondItem="kxR-HW-Nea" secondAttribute="trailing" constant="6" id="68R-xe-bEu"/>
+                    <constraint firstItem="kxR-HW-Nea" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="6" id="AZV-5I-Nno"/>
+                    <constraint firstItem="kxR-HW-Nea" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="FfH-EY-mmC"/>
+                    <constraint firstAttribute="trailing" secondItem="G6s-qn-J7t" secondAttribute="trailing" id="bxB-Cw-Div"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="aW0-zy-SZf"/>
             <connections>
+                <outlet property="imageHeightConstraint" destination="OW6-ib-kye" id="pMx-jM-Eni"/>
+                <outlet property="imageWTrailingSpaceConstraint" destination="bxB-Cw-Div" id="Ca9-d3-C0s"/>
+                <outlet property="imageWidthConstraint" destination="n6c-yh-yYG" id="9eV-Be-5mU"/>
                 <outlet property="label" destination="G6s-qn-J7t" id="o4K-qL-jvL"/>
+                <outlet property="view" destination="kxR-HW-Nea" id="PYc-rH-CcO"/>
             </connections>
         </tableViewCell>
     </objects>
