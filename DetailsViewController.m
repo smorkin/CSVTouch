@@ -85,7 +85,7 @@
             [self updateWebViewContent];
         }
         else if( viewToSelect == 1 ){
-            self.simpleView.text = [self.row longDescriptionWithHiddenValues:NO];
+            self.simpleView.text = [self.row longDescriptionWithHiddenValues:[CSVPreferencesController showDeletedColumns]];
         }
         else if( viewToSelect == 2 ){
             [self.fancyView reloadData];

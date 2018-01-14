@@ -8,11 +8,11 @@
 #import "DetailsPagesController.h"
 #import "DetailsViewController.h"
 #import "CSVPreferencesController.h"
+#import "ItemPreferenceController.h"
 
 @interface DetailsPagesController ()
 @property (nonatomic, strong) NSArray<CSVRow *> *items;
 @property (nonatomic, strong) NSMutableDictionary<NSNumber *, DetailsViewController *> *controllers;
-@property (nonatomic, strong) UIBarButtonItem *viewSelection;
 @end
 
 @implementation DetailsPagesController
@@ -21,11 +21,6 @@
 {
     self.delegate = self;
     self.dataSource = self;
-    UISegmentedControl *c = [[UISegmentedControl alloc] initWithItems: @[@"1", @"2", @"3"]];
-    [c addTarget:self
-          action:@selector(viewSelectionChanged)
-forControlEvents:UIControlEventValueChanged];
-    self.viewSelection = [[UIBarButtonItem alloc] initWithCustomView:c];
     self.controllers = [NSMutableDictionary dictionary];
     self.edgesForExtendedLayout = UIRectEdgeNone;
 }
@@ -36,14 +31,11 @@ forControlEvents:UIControlEventValueChanged];
     [super awakeFromNib];
 }
 
-- (void) viewSelectionChanged
+- (void) refreshViewControllers
 {
-    NSInteger viewToSelect = [(UISegmentedControl *)self.viewSelection.customView selectedSegmentIndex];
-    [CSVPreferencesController setSelectedDetailsView:viewToSelect];
-    
     if( [self.viewControllers count] > 0 )
     {
-        // So need a new version of the view controller for the current index, to make age view controller
+        // So need a new version of the view controller for the current index, to make the view controller
         // forget its cache of before/after. If not, we will crash since cached before/after have wrong subviews
         NSInteger currentIndex = -1;
         DetailsViewController *currentController = [self.viewControllers objectAtIndex:0];
@@ -69,12 +61,11 @@ forControlEvents:UIControlEventValueChanged];
                    direction:UIPageViewControllerNavigationDirectionForward
                     animated:NO
                   completion:nil];
-    NSInteger viewToSelect = [CSVPreferencesController selectedDetailsView];
-    if( viewToSelect >= [(UISegmentedControl *)self.viewSelection.customView numberOfSegments] ){
-        viewToSelect = 0;
-    }
-    [(UISegmentedControl *)self.viewSelection.customView setSelectedSegmentIndex:viewToSelect];
-    self.navigationItem.rightBarButtonItem = self.viewSelection;
+    UIBarButtonItem *prefs = [[UIBarButtonItem alloc] initWithTitle:@"Prefs"
+                                                              style:UIBarButtonItemStylePlain
+                                                             target:self
+                                                             action:@selector(showPreferences)];
+    self.navigationItem.rightBarButtonItem = prefs;
     [super viewWillAppear:animated];
 }
 
@@ -108,6 +99,25 @@ forControlEvents:UIControlEventValueChanged];
     CSVRow *item = [(DetailsViewController *)viewController row];
     return [self controllerAtIndex:[self.items indexOfObject:item]+1];
 
+}
+
+- (void) showPreferences
+{
+    ItemPreferenceController* controller = [[self storyboard] instantiateViewControllerWithIdentifier:@"ItemPreferences"];
+    controller.modalPresentationStyle = UIModalPresentationPopover;
+    controller.popoverPresentationController.delegate = self;
+    controller.popoverPresentationController.permittedArrowDirections =
+    UIPopoverArrowDirectionDown | UIPopoverArrowDirectionUp;
+    controller.popoverPresentationController.barButtonItem = self.navigationItem.rightBarButtonItem;
+    controller.pageController = self;
+    controller.preferredContentSize = CGSizeMake(300, 300);
+    [self presentViewController:controller animated:YES completion:nil];
+}
+
+// To avoid full screen presentation
+-(UIModalPresentationStyle)adaptivePresentationStyleForPresentationController:(UIPresentationController *)controller
+{
+    return UIModalPresentationNone;
 }
 
 @end
