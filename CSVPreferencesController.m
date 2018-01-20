@@ -14,10 +14,10 @@
 
 
 #define PREFS_ENCODING @"encoding"
+#define PREFS_ITEMS_LIST_FONT_SIZE @"itemsListFontSize"
 #define PREFS_SMART_DELIMITER @"smartDelimiter"
 #define PREFS_DELIMITER @"delimiter"
 #define PREFS_SORTING_MASK @"sortingMask"
-#define PREFS_ITEMS_TABLEVIEW_SIZE @"tableViewSize"
 #define PREFS_DETAILS_TABLEVIEW_SIZE @"detailsTableViewSize"
 #define PREFS_USE_GROUPING_FOR_ITEMS @"useGroupingForItems"
 #define PREFS_GROUP_NUMBERS @"groupNumbers"
@@ -74,7 +74,8 @@ static BOOL reverseItemSorting = FALSE;
     [defaults removeObjectForKey:@"useSwipeAnimation"];
     [defaults removeObjectForKey:@"useDetailsNavigation"];
     [defaults removeObjectForKey:@"alignHtml"];
-    
+    [defaults removeObjectForKey:@"tableViewSize"];
+
 	// Setup sortingMask
 	sortingMask = NSNumericSearch ^ NSCaseInsensitiveSearch ^ NSLiteralSearch;
 	id obj;
@@ -110,31 +111,6 @@ static BOOL reverseItemSorting = FALSE;
 		return YES;
 }
 
-+ (CGFloat) itemsTableViewFontSize
-{
-    if( [self itemsTableViewSize] == OZY_MINI)
-    {
-        return 12;
-    }
-    else if( [self itemsTableViewSize] == OZY_SMALL)
-    {
-        return 16;
-    }
-    else{
-        return 20;
-    }
-}
-
-+ (OzyTableViewSize) itemsTableViewSize
-{
-	id obj = [[NSUserDefaults standardUserDefaults] objectForKey:PREFS_ITEMS_TABLEVIEW_SIZE];
-	NSInteger s = [[NSUserDefaults standardUserDefaults] integerForKey:PREFS_ITEMS_TABLEVIEW_SIZE];
-	if( !obj || s < OZY_NORMAL || s > OZY_MINI )
-		return OZY_SMALL;
-	else
-		return (OzyTableViewSize)s;
-}
-
 + (OzyTableViewSize) detailsTableViewSize
 {
 	id obj = [[NSUserDefaults standardUserDefaults] objectForKey:PREFS_DETAILS_TABLEVIEW_SIZE];
@@ -145,25 +121,6 @@ static BOOL reverseItemSorting = FALSE;
 		return (OzyTableViewSize)s;
 }
 
-+ (BOOL) modifyItemsTableViewSize:(BOOL)increase
-{
-	NSInteger newSize = [self itemsTableViewSize];
-	
-	// Stupidly enough the sizes go backwards...
-	if( increase) 
-		newSize--;
-	else
-		newSize++;
-	if( newSize >= OZY_NORMAL && newSize <= OZY_MINI )
-	{
-		[[NSUserDefaults standardUserDefaults] setInteger:newSize
-												   forKey:PREFS_ITEMS_TABLEVIEW_SIZE];
-		return YES;
-	}
-	else
-		return NO;
-}
-
 + (NSStringEncoding) encoding
 {
 	id obj = [[NSUserDefaults standardUserDefaults] objectForKey:PREFS_ENCODING];
@@ -171,6 +128,49 @@ static BOOL reverseItemSorting = FALSE;
 		return [obj intValue];
 	else
 		return NSISOLatin1StringEncoding;
+}
+
+#define MAX_ITEMS_LIST_FONT_SIZE 100
+#define MIN_ITEMS_LIST_FONT_SIZE 1
+#define STANDARD_ITEMS_LIST_FONT_SIZE 12
+
++ (void) setItemsListFontSize:(CGFloat)size
+{
+    [[NSUserDefaults standardUserDefaults] setDouble:size forKey:PREFS_ITEMS_LIST_FONT_SIZE];
+}
+
++ (CGFloat) itemsListFontSize
+{
+    CGFloat size = [[NSUserDefaults standardUserDefaults] doubleForKey:PREFS_ITEMS_LIST_FONT_SIZE];
+    if( size < MIN_ITEMS_LIST_FONT_SIZE)
+    {
+        size = STANDARD_ITEMS_LIST_FONT_SIZE;
+    }
+    else if( size > MAX_ITEMS_LIST_FONT_SIZE)
+    {
+        size = MAX_ITEMS_LIST_FONT_SIZE;
+    }
+    return size;
+}
+
++ (void) increaseItemsListFontSize
+{
+    [self setItemsListFontSize:[self itemsListFontSize] + 1];
+}
+
++ (void) decreaseItemsListFontSize
+{
+    [self setItemsListFontSize:[self itemsListFontSize] - 1];
+}
+
++ (BOOL) canIncreaseItemsListFontSize
+{
+    return [self itemsListFontSize] < MAX_ITEMS_LIST_FONT_SIZE;
+}
+
++ (BOOL) canDecreaseItemsListFontSize
+{
+    return [self itemsListFontSize] > MIN_ITEMS_LIST_FONT_SIZE;
 }
 
 + (BOOL) useGroupingForItems
@@ -424,10 +424,6 @@ static BOOL hideAdress = NO;
 			else if( [[words objectAtIndex:0] isEqualToString:PREFS_SORTING_MASK] )
 				[[NSUserDefaults standardUserDefaults] setInteger:[[words objectAtIndex:1] intValue]
 														   forKey:PREFS_SORTING_MASK];
-			
-			else if( [[words objectAtIndex:0] isEqualToString:PREFS_ITEMS_TABLEVIEW_SIZE] )
-				[[NSUserDefaults standardUserDefaults] setInteger:[[words objectAtIndex:1] intValue]
-														   forKey:PREFS_ITEMS_TABLEVIEW_SIZE];
 			
 			else if( [[words objectAtIndex:0] isEqualToString:PREFS_DETAILS_TABLEVIEW_SIZE] )
 				[[NSUserDefaults standardUserDefaults] setInteger:[[words objectAtIndex:1] intValue]

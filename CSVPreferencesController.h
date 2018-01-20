@@ -15,9 +15,12 @@
 + (void) applicationDidFinishLaunching;
 
 + (NSString *) delimiter;
-+ (OzyTableViewSize) itemsTableViewSize;
 + (OzyTableViewSize) detailsTableViewSize;
-+ (CGFloat) itemsTableViewFontSize;
++ (CGFloat) itemsListFontSize;
++ (void) increaseItemsListFontSize;
++ (void) decreaseItemsListFontSize;
++ (BOOL) canIncreaseItemsListFontSize;
++ (BOOL) canDecreaseItemsListFontSize;
 + (NSStringEncoding) encoding;
 + (BOOL) smartDelimiter;
 + (BOOL) useGroupingForItems;
@@ -73,8 +76,6 @@
 + (void) updateSortingMask; // Needs to be called as part of initialization
 + (NSUInteger) sortingMask;
 extern NSUInteger sortingMask; // This is available for performance-critical operations
-
-+ (BOOL) modifyItemsTableViewSize:(BOOL)increase;
 
 // Internal use
 + (NSString *) lastUsedURL;

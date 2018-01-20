@@ -194,24 +194,21 @@ static NSMutableDictionary *_indexPathForFileName;
 
 - (void) modifyItemsTableViewSize:(BOOL)increase
 {
-    if( [CSVPreferencesController modifyItemsTableViewSize:increase] )
-    {
-        NSArray *a = [[self tableView] indexPathsForVisibleRows];
-        NSIndexPath *oldIndexPath = nil;
-        if( [a count] > 0 )
-            oldIndexPath = [a objectAtIndex:0];
-        if( oldIndexPath )
-            [[self tableView] scrollToRowAtIndexPath:oldIndexPath
-                                            atScrollPosition:UITableViewScrollPositionTop
-                                                    animated:NO];
-    }
+    (increase ? [CSVPreferencesController increaseItemsListFontSize] : [CSVPreferencesController decreaseItemsListFontSize]);
+    NSArray *a = [[self tableView] indexPathsForVisibleRows];
+    NSIndexPath *oldIndexPath = nil;
+    if( [a count] > 0 )
+        oldIndexPath = [a objectAtIndex:0];
+    if( oldIndexPath )
+        [[self tableView] scrollToRowAtIndexPath:oldIndexPath
+                                atScrollPosition:UITableViewScrollPositionTop
+                                        animated:NO];
 }
 
 - (void) validateItemSizeButtons
 {
-    OzyTableViewSize s = [CSVPreferencesController itemsTableViewSize];
-    shrinkItemsButton.enabled = (s == OZY_MINI ? NO : YES);
-    enlargeItemsButton.enabled = (s == OZY_NORMAL? NO : YES);
+    shrinkItemsButton.enabled = [CSVPreferencesController canDecreaseItemsListFontSize];
+    enlargeItemsButton.enabled = [CSVPreferencesController canIncreaseItemsListFontSize];
 }
 
 - (IBAction) increaseTableViewSize
@@ -412,9 +409,9 @@ sectionForSectionIndexTitle:(NSString *)title
 {
     AutoSizingTableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"AutoCell" forIndexPath:indexPath];
     if( self.useFixedWidth)
-        [cell.label setFont:[UIFont fontWithName:@"Courier-Bold" size:[CSVPreferencesController itemsTableViewFontSize]]];
+        [cell.label setFont:[UIFont fontWithName:@"Courier-Bold" size:[CSVPreferencesController itemsListFontSize]]];
     else
-        [cell.label setFont:[[cell.label font] fontWithSize:[CSVPreferencesController itemsTableViewFontSize]]];
+        [cell.label setFont:[[cell.label font] fontWithSize:[CSVPreferencesController itemsListFontSize]]];
     cell.separatorInset = UIEdgeInsetsZero; // We want the line between rows to include image part of cell
 
     CSVRow *item;

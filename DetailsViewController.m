@@ -11,7 +11,7 @@
 #import "CSV_TouchAppDelegate.h"
 
 @interface DetailsViewController ()
-@property (nonatomic, strong) WKWebView *webView;
+@property (nonatomic, strong) UIWebView *webView;
 @property (nonatomic, strong) UITableView *fancyView;
 @property (nonatomic, strong) UITextView *simpleView;
 @property (nonatomic, assign) BOOL hasLoadedData;
@@ -20,7 +20,7 @@
 @interface DetailsViewController (Fancy) <UITableViewDataSource, UITableViewDelegate>
 @end
 
-@interface DetailsViewController (Web) <WKNavigationDelegate>
+@interface DetailsViewController (Web) <WKNavigationDelegate, UIWebViewDelegate>
 - (void) delayedHtmlClick:(NSURL *)URL;
 - (void) updateWebViewContent;
 @end
@@ -33,10 +33,14 @@
     self.edgesForExtendedLayout = UIRectEdgeNone;
     NSInteger viewToSelect = [CSVPreferencesController selectedDetailsView];
     if( viewToSelect == 0){
-        self.webView = [[WKWebView alloc] init];
+//        self.webView = [[WKWebView alloc] init];
+//        self.webView.opaque = NO;
+//        self.webView.backgroundColor = [UIColor whiteColor];
+//        self.webView.navigationDelegate = self;
+        self.webView = [[UIWebView alloc] init];
         self.webView.opaque = NO;
         self.webView.backgroundColor = [UIColor whiteColor];
-        self.webView.navigationDelegate = self;
+        self.webView.delegate = self;
         self.view = self.webView;
     }
     else if( viewToSelect == 1 )
@@ -189,7 +193,7 @@
     [self.webView stopLoading];
     
     NSError *error;
-    NSString *cssString = [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"seaglass" ofType:@"css"]
+    NSString *cssString = [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"nksTablegallery" ofType:@"css"]
                                                 usedEncoding:nil
                                                        error:&error];
     
@@ -262,4 +266,20 @@
         decisionHandler(WKNavigationActionPolicyAllow);
     }
 }
+
+- (BOOL)webView:(UIWebView *)webView
+shouldStartLoadWithRequest:(NSURLRequest *)request
+ navigationType:(UIWebViewNavigationType)navigationType
+{
+    if( navigationType == UIWebViewNavigationTypeLinkClicked )
+    {
+        [self performSelector:@selector(delayedHtmlClick:)
+                   withObject:[request URL]
+                   afterDelay:0];
+        return NO;
+    }
+    return YES;
+}
+
+
 @end
