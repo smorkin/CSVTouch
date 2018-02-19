@@ -12,34 +12,6 @@
 			<key>Type</key>
 			<string>PSToggleSwitchSpecifier</string>
 			<key>Title</key>
-			<string>Confirm Link Click</string>
-			<key>Key</key>
-			<string>confirmLink</string>
-			<key>DefaultValue</key>
-			<false/>
-			<key>TrueValue</key>
-			<true/>
-			<key>FalseValue</key>
-			<false/>
-		</dict>
-		<dict>
-			<key>Type</key>
-			<string>PSToggleSwitchSpecifier</string>
-			<key>Title</key>
-			<string>Show Images</string>
-			<key>Key</key>
-			<string>showInlineImages</string>
-			<key>DefaultValue</key>
-			<true/>
-			<key>TrueValue</key>
-			<true/>
-			<key>FalseValue</key>
-			<false/>
-		</dict>
-		<dict>
-			<key>Type</key>
-			<string>PSToggleSwitchSpecifier</string>
-			<key>Title</key>
 			<string>Group Items</string>
 			<key>Key</key>
 			<string>useGroupingForItems</string>
@@ -68,20 +40,6 @@
 			<key>Type</key>
 			<string>PSToggleSwitchSpecifier</string>
 			<key>Title</key>
-			<string>Enable Phone Links</string>
-			<key>Key</key>
-			<string>enablePhoneLinks</string>
-			<key>DefaultValue</key>
-			<true/>
-			<key>TrueValue</key>
-			<true/>
-			<key>FalseValue</key>
-			<false/>
-		</dict>
-		<dict>
-			<key>Type</key>
-			<string>PSToggleSwitchSpecifier</string>
-			<key>Title</key>
 			<string>Use Courier for items</string>
 			<key>Key</key>
 			<string>useFixedWidth</string>
@@ -99,20 +57,6 @@
 			<string>Defined fixed widths</string>
 			<key>Key</key>
 			<string>definedFixedWidths</string>
-			<key>DefaultValue</key>
-			<false/>
-			<key>TrueValue</key>
-			<true/>
-			<key>FalseValue</key>
-			<false/>
-		</dict>
-		<dict>
-			<key>Type</key>
-			<string>PSToggleSwitchSpecifier</string>
-			<key>Title</key>
-			<string>Show details toolbar</string>
-			<key>Key</key>
-			<string>showDetailsToolbar</string>
 			<key>DefaultValue</key>
 			<false/>
 			<key>TrueValue</key>

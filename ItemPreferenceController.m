@@ -17,6 +17,7 @@
 - (void) viewWillAppear:(BOOL)animated
 {
     showHidden.onTintColor = self.pageController.navigationController.navigationBar.tintColor;
+    showImages.onTintColor = self.pageController.navigationController.navigationBar.tintColor;
     [self synchUI];
     [super viewWillAppear:animated];
 }
@@ -27,6 +28,7 @@
     viewSelection.selectedSegmentIndex = [CSVPreferencesController selectedDetailsView];
     increaseSize.enabled = [CSVPreferencesController canIncreaseDetailsFontSize];
     decreaseSize.enabled = [CSVPreferencesController canDecreaseDetailsFontSize];
+    showImages.on = [CSVPreferencesController showInlineImages];
 }
 
 - (IBAction) showHiddenChanged:(id)sender
@@ -53,6 +55,13 @@
 - (IBAction) decreaseSize:(id)sender
 {
     [CSVPreferencesController decreaseDetailsFontSize];
+    [self.pageController refreshViewControllers];
+    [self synchUI];
+}
+
+- (IBAction) showImages:(id)sender
+{
+    [CSVPreferencesController setShowInlineImages:showImages.on];
     [self.pageController refreshViewControllers];
     [self synchUI];
 }

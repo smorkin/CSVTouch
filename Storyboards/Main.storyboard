@@ -281,13 +281,10 @@
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="LBm-le-iYw"/>
                         <barButtonItem enabled="NO" title="#" id="95b-yr-lIs"/>
                     </toolbarItems>
-                    <navigationItem key="navigationItem" id="zT4-gJ-k7l">
-                        <barButtonItem key="rightBarButtonItem" enabled="NO" title="Item" id="KKc-nJ-Fbb"/>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" id="zT4-gJ-k7l"/>
                     <connections>
                         <outlet property="enlargeItemsButton" destination="0ps-lE-zjl" id="vJH-mN-Uuj"/>
                         <outlet property="itemsCountButton" destination="95b-yr-lIs" id="E5W-Ia-rvs"/>
-                        <outlet property="modificationDateButton" destination="KKc-nJ-Fbb" id="aym-bw-njg"/>
                         <outlet property="shrinkItemsButton" destination="pdf-VF-k4G" id="9B7-l2-LmX"/>
                         <outlet property="sortOrderButton" destination="9SS-YP-gEn" id="73G-T1-bZu"/>
                         <segue destination="9HI-o4-1EA" kind="show" identifier="ToDetails" id="KBK-bM-0Hz"/>
@@ -320,13 +317,13 @@
                                 </connections>
                             </segmentedControl>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Show hidden" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="J8z-Yz-0yG">
-                                <rect key="frame" x="16" y="69" width="100" height="21"/>
+                                <rect key="frame" x="16" y="106" width="100" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="C8G-YH-IP6">
-                                <rect key="frame" x="126" y="64" width="51" height="31"/>
+                                <rect key="frame" x="125" y="101" width="51" height="31"/>
                                 <accessibility key="accessibilityConfiguration" label="Show hidden">
                                     <accessibilityTraits key="traits" button="YES"/>
                                 </accessibility>
@@ -335,7 +332,7 @@
                                 </connections>
                             </switch>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BtM-IE-PuU">
-                                <rect key="frame" x="126" y="110" width="30" height="30"/>
+                                <rect key="frame" x="125" y="63" width="30" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="28"/>
                                 <state key="normal" title="-"/>
@@ -343,15 +340,8 @@
                                     <action selector="decreaseSize:" destination="hb6-tD-iwR" eventType="touchUpInside" id="ieM-M8-92n"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Size" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zfa-SJ-owg">
-                                <rect key="frame" x="83" y="115" width="33" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9je-GE-SB9">
-                                <rect key="frame" x="164" y="109" width="30" height="30"/>
+                                <rect key="frame" x="163" y="62" width="30" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="28"/>
                                 <state key="normal" title="+"/>
@@ -359,14 +349,35 @@
                                     <action selector="increaseSize:" destination="hb6-tD-iwR" eventType="touchUpInside" id="QN8-pF-Fyl"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Size" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zfa-SJ-owg">
+                                <rect key="frame" x="83" y="67" width="33" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Show images" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="beh-Wo-Dot">
+                                <rect key="frame" x="14" y="150" width="102" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="UTt-ro-MY3">
+                                <rect key="frame" x="126" y="145" width="49" height="31"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <connections>
+                                    <action selector="showImages:" destination="hb6-tD-iwR" eventType="valueChanged" id="Wgw-JO-Fna"/>
+                                </connections>
+                            </switch>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="J8z-Yz-0yG" firstAttribute="leading" secondItem="R9C-d1-WF3" secondAttribute="leading" constant="16" id="BMq-Hi-F22"/>
-                            <constraint firstItem="C8G-YH-IP6" firstAttribute="top" secondItem="4Bc-jA-fAd" secondAttribute="bottom" constant="16" id="FAk-pe-yjH"/>
+                            <constraint firstItem="C8G-YH-IP6" firstAttribute="top" secondItem="4Bc-jA-fAd" secondAttribute="bottom" constant="53" id="FAk-pe-yjH"/>
                             <constraint firstItem="4Bc-jA-fAd" firstAttribute="centerX" secondItem="R9C-d1-WF3" secondAttribute="centerX" id="Orc-iy-vcC"/>
-                            <constraint firstItem="C8G-YH-IP6" firstAttribute="leading" secondItem="J8z-Yz-0yG" secondAttribute="trailing" constant="10" id="OzL-Mk-0f3"/>
-                            <constraint firstItem="J8z-Yz-0yG" firstAttribute="top" secondItem="4Bc-jA-fAd" secondAttribute="bottom" constant="21" id="f4g-xz-bBf"/>
+                            <constraint firstItem="C8G-YH-IP6" firstAttribute="leading" secondItem="J8z-Yz-0yG" secondAttribute="trailing" constant="9" id="OzL-Mk-0f3"/>
+                            <constraint firstItem="J8z-Yz-0yG" firstAttribute="top" secondItem="4Bc-jA-fAd" secondAttribute="bottom" constant="58" id="f4g-xz-bBf"/>
                             <constraint firstItem="4Bc-jA-fAd" firstAttribute="top" secondItem="R9C-d1-WF3" secondAttribute="top" constant="20" id="i63-Rc-fDR"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="R9C-d1-WF3"/>
@@ -378,6 +389,7 @@
                         <outlet property="decreaseSize" destination="BtM-IE-PuU" id="wiq-eH-17A"/>
                         <outlet property="increaseSize" destination="9je-GE-SB9" id="aJ8-5Z-eFz"/>
                         <outlet property="showHidden" destination="C8G-YH-IP6" id="Cjs-tf-ErR"/>
+                        <outlet property="showImages" destination="UTt-ro-MY3" id="nvY-vj-NuH"/>
                         <outlet property="viewSelection" destination="4Bc-jA-fAd" id="Z3u-sW-GA4"/>
                     </connections>
                 </viewController>

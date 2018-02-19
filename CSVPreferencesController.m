@@ -24,7 +24,6 @@
 #define PREFS_ENABLE_PHONE_LINKS @"enablePhoneLinks"
 #define PREFS_USE_FIXED_WIDTH @"useFixedWidth"
 #define PREFS_DEFINED_FIXED_WIDTHS @"definedFixedWidths"
-#define PREFS_SHOW_DETAILS_TOOLBAR @"showDetailsToolbar"
 #define PREFS_SAFE_START @"safeStart"
 #define PREFS_KEEP_QUOTES @"keepQuotes"
 #define PREFS_SHOW_DEBUG_INFO @"showDebugInfo"
@@ -35,7 +34,6 @@
 #define PREFS_CASE_SENSITIVE_SORTING @"caseSensitiveSorting"
 #define PREFS_LITERAL_SORTING @"literalSorting"
 #define PREFS_CLEAR_SEARCH_WHEN_QUICK_SELECTING @"clearSearchWhenQuickSelecting"
-#define PREFS_CONFIRM_LINK @"confirmLink"
 #define PREFS_USE_PASSWORD @"usePassword"
 #define PREFS_HAS_BEEN_UPGRADED_TO_CUSTOM_EXTENSION @"hasBeenUpgradedToCustomExtension"
 #define PREFS_HAS_SHOWN_HOW_TO @"hasShownHowTo"
@@ -76,7 +74,9 @@ static BOOL reverseItemSorting = FALSE;
     [defaults removeObjectForKey:@"alignHtml"];
     [defaults removeObjectForKey:@"tableViewSize"];
     [defaults removeObjectForKey:@"detailsTableViewSize"];
-    
+    [defaults removeObjectForKey:@"showDetailsToolbar"];
+    [defaults removeObjectForKey:@"confirmLink"];
+    [defaults removeObjectForKey:@"enablePhoneLinks"];
 
 	// Setup sortingMask
 	sortingMask = NSNumericSearch ^ NSCaseInsensitiveSearch ^ NSLiteralSearch;
@@ -223,15 +223,6 @@ static BOOL reverseItemSorting = FALSE;
 }
 
 
-+ (BOOL) enablePhoneLinks
-{
-	id obj = [[NSUserDefaults standardUserDefaults] objectForKey:PREFS_ENABLE_PHONE_LINKS];
-	if( obj )
-		return [obj boolValue];
-	else
-		return YES;
-}
-
 + (BOOL) useFixedWidth
 {
 	id obj = [[NSUserDefaults standardUserDefaults] objectForKey:PREFS_USE_FIXED_WIDTH];
@@ -244,15 +235,6 @@ static BOOL reverseItemSorting = FALSE;
 + (BOOL) definedFixedWidths
 {
 	id obj = [[NSUserDefaults standardUserDefaults] objectForKey:PREFS_DEFINED_FIXED_WIDTHS];
-	if( obj )
-		return [obj boolValue];
-	else
-		return NO;
-}
-
-+ (BOOL) showDetailsToolbar
-{
-	id obj = [[NSUserDefaults standardUserDefaults] objectForKey:PREFS_SHOW_DETAILS_TOOLBAR];
 	if( obj )
 		return [obj boolValue];
 	else
@@ -284,6 +266,11 @@ static BOOL reverseItemSorting = FALSE;
 	return [[NSUserDefaults standardUserDefaults] boolForKey:PREFS_USE_CORRECT_SORTING];
 }
 
++ (void) setShowInlineImages:(BOOL)yn
+{
+    [[NSUserDefaults standardUserDefaults] setBool:yn forKey:PREFS_SHOW_INLINE_IMAGES];
+}
+
 + (BOOL) showInlineImages
 {
 	if( [[NSUserDefaults standardUserDefaults] objectForKey:PREFS_SHOW_INLINE_IMAGES] )
@@ -299,15 +286,6 @@ static BOOL reverseItemSorting = FALSE;
 		return [[NSUserDefaults standardUserDefaults] boolForKey:PREFS_CLEAR_SEARCH_WHEN_QUICK_SELECTING];
 	else
 		return YES;
-}
-
-+ (BOOL) confirmLink
-{
-	id obj = [[NSUserDefaults standardUserDefaults] objectForKey:PREFS_CONFIRM_LINK];
-	if( obj )
-		return [[NSUserDefaults standardUserDefaults] boolForKey:PREFS_CONFIRM_LINK];
-	else
-		return NO;
 }
 
 + (BOOL) usePassword
@@ -476,10 +454,6 @@ static BOOL hideAdress = NO;
 				[[NSUserDefaults standardUserDefaults] setBool:[[words objectAtIndex:1] boolValue]
 														forKey:PREFS_DEFINED_FIXED_WIDTHS];
 			
-			else if( [[words objectAtIndex:0] isEqualToString:PREFS_SHOW_DETAILS_TOOLBAR] )
-				[[NSUserDefaults standardUserDefaults] setBool:[[words objectAtIndex:1] boolValue]
-														forKey:PREFS_SHOW_DETAILS_TOOLBAR];
-			
 			else if( [[words objectAtIndex:0] isEqualToString:PREFS_SAFE_START] )
 				[[NSUserDefaults standardUserDefaults] setBool:[[words objectAtIndex:1] boolValue]
 														forKey:PREFS_SAFE_START];
@@ -519,10 +493,6 @@ static BOOL hideAdress = NO;
 			else if( [[words objectAtIndex:0] isEqualToString:PREFS_CLEAR_SEARCH_WHEN_QUICK_SELECTING] )
 				[[NSUserDefaults standardUserDefaults] setBool:[[words objectAtIndex:1] boolValue]
 														forKey:PREFS_CLEAR_SEARCH_WHEN_QUICK_SELECTING];
-			
-			else if( [[words objectAtIndex:0] isEqualToString:PREFS_CONFIRM_LINK] )
-				[[NSUserDefaults standardUserDefaults] setBool:[[words objectAtIndex:1] boolValue]
-														forKey:PREFS_CONFIRM_LINK];
 			
 			else if( [[words objectAtIndex:0] isEqualToString:PREFS_USE_PASSWORD] )
 				[[NSUserDefaults standardUserDefaults] setBool:[[words objectAtIndex:1] boolValue]

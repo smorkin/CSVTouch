@@ -100,42 +100,12 @@ static NSMutableDictionary *_indexPathForFileName;
     }
 }
 
-- (void) updateDateButton
-{
-    NSString *date;
-    NSString *time;
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    
-    [dateFormatter setDateStyle:NSDateFormatterShortStyle];
-    [dateFormatter setTimeStyle:NSDateFormatterNoStyle];
-    date = [dateFormatter stringFromDate:self.file.downloadDate];
-    [dateFormatter setDateStyle:NSDateFormatterNoStyle];
-    [dateFormatter setTimeStyle:NSDateFormatterShortStyle];
-    time = [dateFormatter stringFromDate:self.file.downloadDate];
-    
-    [modificationDateButton.customView setText:[NSString stringWithFormat:@"%@\n%@",
-                                                                date, time]];
-}
-
 - (void) configureTable
 {
     self.useIndices = [CSVPreferencesController useGroupingForItems];
     self.groupNumbers = [CSVPreferencesController groupNumbers];
     self.useFixedWidth = [CSVPreferencesController useFixedWidth];
     [self.tableView registerNib:[UINib nibWithNibName:@"AutoSizingTableViewCell" bundle:nil] forCellReuseIdentifier:@"AutoCell"];
-}
-
-- (void) configureDateButton
-{
-    CGRect frame = CGRectMake(0, 0, 72, 44);
-    UILabel *l = [[UILabel alloc] initWithFrame:frame];
-    l.font = [UIFont fontWithName:l.font.fontName size:10];
-    l.backgroundColor = [UIColor clearColor];
-    l.textColor = [UIColor blackColor];
-    l.lineBreakMode = NSLineBreakByWordWrapping;
-    l.textAlignment = NSTextAlignmentCenter;
-    l.numberOfLines = 2;
-    modificationDateButton.customView = l;
 }
 
 - (void) configureSearch
@@ -153,7 +123,6 @@ static NSMutableDictionary *_indexPathForFileName;
     [super awakeFromNib];
     [self configureTable];
     [self validateItemSizeButtons];
-    [self configureDateButton];
     [self configureSearch];
     self.items = [NSMutableArray array];
     self.sectionStarts = [NSMutableArray array];
@@ -165,7 +134,6 @@ static NSMutableDictionary *_indexPathForFileName;
 - (void) viewWillAppear:(BOOL)animated
 {
     [self updateItemCount];
-    [self updateDateButton];
     [self.file sortItems]; // Need to sort rows before we set objects since otherwise indexes will be messed up
     [self updateSearchResultsForSearchController:self.searchController]; // To keep search results we update objects by going through search controller
     [self setTitle:[self.file defaultTableViewDescription]];
@@ -504,4 +472,36 @@ sectionForSectionIndexTitle:(NSString *)title
 }
 
 @end
+//
+//- (void) configureDateButton
+//{
+//    CGRect frame = CGRectMake(0, 0, 72, 44);
+//    UILabel *l = [[UILabel alloc] initWithFrame:frame];
+//    l.font = [UIFont fontWithName:l.font.fontName size:10];
+//    l.backgroundColor = [UIColor clearColor];
+//    l.textColor = [UIColor blackColor];
+//    l.lineBreakMode = NSLineBreakByWordWrapping;
+//    l.textAlignment = NSTextAlignmentCenter;
+//    l.numberOfLines = 2;
+//    modificationDateButton.customView = l;
+//}
+//
+//- (void) updateDateButton
+//{
+//    NSString *date;
+//    NSString *time;
+//    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+//
+//    [dateFormatter setDateStyle:NSDateFormatterShortStyle];
+//    [dateFormatter setTimeStyle:NSDateFormatterNoStyle];
+//    date = [dateFormatter stringFromDate:self.file.downloadDate];
+//    [dateFormatter setDateStyle:NSDateFormatterNoStyle];
+//    [dateFormatter setTimeStyle:NSDateFormatterShortStyle];
+//    time = [dateFormatter stringFromDate:self.file.downloadDate];
+//
+//    [modificationDateButton.customView setText:[NSString stringWithFormat:@"%@\n%@",
+//                                                date, time]];
+//}
+//
+
 

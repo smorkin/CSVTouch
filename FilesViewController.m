@@ -145,7 +145,7 @@ static FilesViewController *_sharedInstance = nil;
 - (void) viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    self.navigationController.toolbarHidden = NO;
+    self.navigationController.toolbarHidden = YES;
 }
 
 - (void) refreshAllFiles

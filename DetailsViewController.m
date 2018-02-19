@@ -191,29 +191,9 @@
 
 - (void) delayedHtmlClick:(NSURL *)URL
 {
-    if( [CSVPreferencesController confirmLink] )
-    {
-        UIAlertController *alert = [UIAlertController alertControllerWithTitle:[NSString stringWithFormat:@"Leave %@",
-                                                                                ([CSVPreferencesController restrictedDataVersionRunning] ? @"CSV Lite" : @"CSV Touch")]
-                                                                       message:[NSString stringWithFormat:@"Continue opening %@?", [URL absoluteString]]
-                                                                 okButtonTitle:@"OK"
-                                                                     okHandler:^(UIAlertAction *action) {
-                                                                         [[UIApplication sharedApplication] openURL:URL
-                                                                                                            options:[NSDictionary dictionary]
-                                                                                                  completionHandler:nil];
-                                                                     }
-                                                             cancelButtonTitle:@"Cancel"
-                                                                 cancelHandler:nil];
-        [self presentViewController:alert
-                           animated:YES
-                         completion:nil];
-    }
-    else
-    {
-        [[UIApplication sharedApplication] openURL:URL
-                                           options:[NSDictionary dictionary]
-                                 completionHandler:nil];
-    }
+    [[UIApplication sharedApplication] openURL:URL
+                                       options:[NSDictionary dictionary]
+                             completionHandler:nil];
 }
 
 - (void) updateWebViewContent

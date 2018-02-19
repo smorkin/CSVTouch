@@ -29,18 +29,16 @@
 + (BOOL) smartDelimiter;
 + (BOOL) useGroupingForItems;
 + (BOOL) groupNumbers;
-+ (BOOL) enablePhoneLinks;
 + (BOOL) useFixedWidth;
 + (BOOL) definedFixedWidths;
-+ (BOOL) showDetailsToolbar;
 + (BOOL) keepQuotes;
 + (BOOL) showDebugInfo;
 + (BOOL) safeStart;
 + (BOOL) useCorrectParsing;
 + (BOOL) useCorrectSorting;
++ (void) setShowInlineImages:(BOOL)yn;
 + (BOOL) showInlineImages;
 + (BOOL) clearSearchWhenQuickSelecting;
-+ (BOOL) confirmLink;
 + (BOOL) usePassword;
 + (void) clearSetPassword;
 + (NSDate *) nextDownload; // Returns nil if none set

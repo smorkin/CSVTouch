@@ -15,7 +15,6 @@
     IBOutlet UIBarButtonItem *enlargeItemsButton;
     IBOutlet UIBarButtonItem *sortOrderButton;
     IBOutlet UIBarButtonItem *itemsCountButton;
-    IBOutlet UIBarButtonItem *modificationDateButton;
 }
 
 - (void) setFile:(CSVFileParser *)file;
