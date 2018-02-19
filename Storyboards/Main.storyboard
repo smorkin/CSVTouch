@@ -334,6 +334,31 @@
                                     <action selector="showHiddenChanged:" destination="hb6-tD-iwR" eventType="valueChanged" id="MLu-Nu-488"/>
                                 </connections>
                             </switch>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BtM-IE-PuU">
+                                <rect key="frame" x="126" y="110" width="30" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="28"/>
+                                <state key="normal" title="-"/>
+                                <connections>
+                                    <action selector="decreaseSize:" destination="hb6-tD-iwR" eventType="touchUpInside" id="ieM-M8-92n"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Size" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zfa-SJ-owg">
+                                <rect key="frame" x="83" y="115" width="33" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9je-GE-SB9">
+                                <rect key="frame" x="164" y="109" width="30" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="28"/>
+                                <state key="normal" title="+"/>
+                                <connections>
+                                    <action selector="increaseSize:" destination="hb6-tD-iwR" eventType="touchUpInside" id="QN8-pF-Fyl"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
@@ -350,6 +375,8 @@
                     <value key="contentSizeForViewInPopover" type="size" width="300" height="300"/>
                     <size key="freeformSize" width="300" height="300"/>
                     <connections>
+                        <outlet property="decreaseSize" destination="BtM-IE-PuU" id="wiq-eH-17A"/>
+                        <outlet property="increaseSize" destination="9je-GE-SB9" id="aJ8-5Z-eFz"/>
                         <outlet property="showHidden" destination="C8G-YH-IP6" id="Cjs-tf-ErR"/>
                         <outlet property="viewSelection" destination="4Bc-jA-fAd" id="Z3u-sW-GA4"/>
                     </connections>

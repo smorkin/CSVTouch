@@ -15,10 +15,10 @@
 
 #define PREFS_ENCODING @"encoding"
 #define PREFS_ITEMS_LIST_FONT_SIZE @"itemsListFontSize"
+#define PREFS_DETAILS_FONT_SIZE @"detailsFontSize"
 #define PREFS_SMART_DELIMITER @"smartDelimiter"
 #define PREFS_DELIMITER @"delimiter"
 #define PREFS_SORTING_MASK @"sortingMask"
-#define PREFS_DETAILS_TABLEVIEW_SIZE @"detailsTableViewSize"
 #define PREFS_USE_GROUPING_FOR_ITEMS @"useGroupingForItems"
 #define PREFS_GROUP_NUMBERS @"groupNumbers"
 #define PREFS_ENABLE_PHONE_LINKS @"enablePhoneLinks"
@@ -75,6 +75,8 @@ static BOOL reverseItemSorting = FALSE;
     [defaults removeObjectForKey:@"useDetailsNavigation"];
     [defaults removeObjectForKey:@"alignHtml"];
     [defaults removeObjectForKey:@"tableViewSize"];
+    [defaults removeObjectForKey:@"detailsTableViewSize"];
+    
 
 	// Setup sortingMask
 	sortingMask = NSNumericSearch ^ NSCaseInsensitiveSearch ^ NSLiteralSearch;
@@ -111,16 +113,6 @@ static BOOL reverseItemSorting = FALSE;
 		return YES;
 }
 
-+ (OzyTableViewSize) detailsTableViewSize
-{
-	id obj = [[NSUserDefaults standardUserDefaults] objectForKey:PREFS_DETAILS_TABLEVIEW_SIZE];
-	NSInteger s = [[NSUserDefaults standardUserDefaults] integerForKey:PREFS_DETAILS_TABLEVIEW_SIZE];
-	if( !obj || s < 0 || s > OZY_MINI )
-		return OZY_SMALL;
-	else
-		return (OzyTableViewSize)s;
-}
-
 + (NSStringEncoding) encoding
 {
 	id obj = [[NSUserDefaults standardUserDefaults] objectForKey:PREFS_ENCODING];
@@ -130,9 +122,9 @@ static BOOL reverseItemSorting = FALSE;
 		return NSISOLatin1StringEncoding;
 }
 
-#define MAX_ITEMS_LIST_FONT_SIZE 100
-#define MIN_ITEMS_LIST_FONT_SIZE 1
-#define STANDARD_ITEMS_LIST_FONT_SIZE 12
+#define MAX_FONT_SIZE 100
+#define MIN_FONT_SIZE 1
+#define STANDARD_FONT_SIZE 12
 
 + (void) setItemsListFontSize:(CGFloat)size
 {
@@ -142,13 +134,13 @@ static BOOL reverseItemSorting = FALSE;
 + (CGFloat) itemsListFontSize
 {
     CGFloat size = [[NSUserDefaults standardUserDefaults] doubleForKey:PREFS_ITEMS_LIST_FONT_SIZE];
-    if( size < MIN_ITEMS_LIST_FONT_SIZE)
+    if( size < MIN_FONT_SIZE)
     {
-        size = STANDARD_ITEMS_LIST_FONT_SIZE;
+        size = STANDARD_FONT_SIZE;
     }
-    else if( size > MAX_ITEMS_LIST_FONT_SIZE)
+    else if( size > MAX_FONT_SIZE)
     {
-        size = MAX_ITEMS_LIST_FONT_SIZE;
+        size = STANDARD_FONT_SIZE;
     }
     return size;
 }
@@ -165,12 +157,51 @@ static BOOL reverseItemSorting = FALSE;
 
 + (BOOL) canIncreaseItemsListFontSize
 {
-    return [self itemsListFontSize] < MAX_ITEMS_LIST_FONT_SIZE;
+    return [self itemsListFontSize] < MAX_FONT_SIZE;
 }
 
 + (BOOL) canDecreaseItemsListFontSize
 {
-    return [self itemsListFontSize] > MIN_ITEMS_LIST_FONT_SIZE;
+    return [self itemsListFontSize] > MIN_FONT_SIZE;
+}
+
++ (void) setDetailsFontSize:(CGFloat)size
+{
+    [[NSUserDefaults standardUserDefaults] setDouble:size forKey:PREFS_DETAILS_FONT_SIZE];
+}
+
++ (CGFloat) detailsFontSize
+{
+    CGFloat size = [[NSUserDefaults standardUserDefaults] doubleForKey:PREFS_DETAILS_FONT_SIZE];
+    if( size < MIN_FONT_SIZE)
+    {
+        size = STANDARD_FONT_SIZE;
+    }
+    else if( size > MAX_FONT_SIZE)
+    {
+        size = STANDARD_FONT_SIZE;
+    }
+    return size;
+}
+
++ (void) increaseDetailsFontSize
+{
+    [self setDetailsFontSize:[self detailsFontSize] + 1];
+}
+
++ (void) decreaseDetailsFontSize
+{
+    [self setDetailsFontSize:[self detailsFontSize] - 1];
+}
+
++ (BOOL) canIncreaseDetailsFontSize
+{
+    return [self detailsFontSize] < MAX_FONT_SIZE;
+}
+
++ (BOOL) canDecreaseDetailsFontSize
+{
+    return [self detailsFontSize] > MIN_FONT_SIZE;
 }
 
 + (BOOL) useGroupingForItems
@@ -424,10 +455,6 @@ static BOOL hideAdress = NO;
 			else if( [[words objectAtIndex:0] isEqualToString:PREFS_SORTING_MASK] )
 				[[NSUserDefaults standardUserDefaults] setInteger:[[words objectAtIndex:1] intValue]
 														   forKey:PREFS_SORTING_MASK];
-			
-			else if( [[words objectAtIndex:0] isEqualToString:PREFS_DETAILS_TABLEVIEW_SIZE] )
-				[[NSUserDefaults standardUserDefaults] setInteger:[[words objectAtIndex:1] intValue]
-														   forKey:PREFS_DETAILS_TABLEVIEW_SIZE];
 			
 			else if( [[words objectAtIndex:0] isEqualToString:PREFS_USE_GROUPING_FOR_ITEMS] )
 				[[NSUserDefaults standardUserDefaults] setBool:[[words objectAtIndex:1] boolValue]

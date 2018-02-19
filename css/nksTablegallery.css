@@ -2,6 +2,14 @@
 		background: #F0F0F0 url(back01.gif) no-repeat;
 		}
 
+img {
+    max-width:100%;
+}
+
+video {
+    max-width:100%;
+}
+
 table		{
 		margin: 0;
 		padding: 0;

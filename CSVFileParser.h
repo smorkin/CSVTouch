@@ -60,6 +60,9 @@
 // Will show all columns
 - (void) resetColumnsInfo;
 
+// Convenience
+- (BOOL) hiddenColumnsExist;
+
 - (void) encodingUpdated;
 
 - (NSMutableArray *) itemsWithResetShortdescriptions:(BOOL)reset; // Note that a caller for performance reasons can resort these, but nothing else

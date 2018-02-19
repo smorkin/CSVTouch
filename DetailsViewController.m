@@ -9,6 +9,7 @@
 #import "OzymandiasAdditions.h"
 #import "CSVPreferencesController.h"
 #import "CSV_TouchAppDelegate.h"
+#import "AutoSizingTableViewCell.h"
 
 @interface DetailsViewController ()
 @property (nonatomic, strong) UIWebView *webView;
@@ -33,10 +34,6 @@
     self.edgesForExtendedLayout = UIRectEdgeNone;
     NSInteger viewToSelect = [CSVPreferencesController selectedDetailsView];
     if( viewToSelect == 0){
-//        self.webView = [[WKWebView alloc] init];
-//        self.webView.opaque = NO;
-//        self.webView.backgroundColor = [UIColor whiteColor];
-//        self.webView.navigationDelegate = self;
         self.webView = [[UIWebView alloc] init];
         self.webView.opaque = NO;
         self.webView.backgroundColor = [UIColor whiteColor];
@@ -46,12 +43,14 @@
     else if( viewToSelect == 1 )
     {
         self.simpleView = [[UITextView alloc] init];
+        self.simpleView.font = [UIFont systemFontOfSize:[CSVPreferencesController detailsFontSize]];
         self.view = self.simpleView;
     }
     else if( viewToSelect == 2 )
     {
-        self.fancyView = [[UITableView alloc] init];
-        [self.fancyView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"DetailsCell"];
+        self.fancyView = [[UITableView alloc] initWithFrame:CGRectZero
+                                                      style:UITableViewStyleGrouped];
+        [self.fancyView registerNib:[UINib nibWithNibName:@"AutoSizingTableViewCell" bundle:nil] forCellReuseIdentifier:@"AutoCell"];
         self.fancyView.dataSource = self;
         self.fancyView.delegate = self;
         self.fancyView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
@@ -98,9 +97,14 @@
     }
 }
 
-- (NSArray *) objects
+- (NSArray *) normalObjects
 {
-    return [self.row longDescriptionInArrayWithHiddenValues:NO];
+    return [self.row longDescriptionInArray:YES];
+}
+
+- (NSArray *) hiddenObjects
+{
+    return [self.row longDescriptionInArray:NO];
 }
 
 @end
@@ -109,25 +113,49 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [[self objects] count];
+    if( section == 0){
+        return [[self normalObjects] count];
+    }
+    else if( section == 1){
+        return [[self hiddenObjects] count];
+    }
+    return 0;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 1;
+    if( [CSVPreferencesController showDeletedColumns] && [self.row.fileParser hiddenColumnsExist])
+    {
+        return 2;
+    }
+    else
+    {
+        return 1;
+    }
 }
-
+    
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [self.fancyView dequeueReusableCellWithIdentifier:@"DetailsCell"];
-    cell.textLabel.text = [[self objects] objectAtIndex:indexPath.row];
+    AutoSizingTableViewCell *cell = [self.fancyView dequeueReusableCellWithIdentifier:@"AutoCell" forIndexPath:indexPath];
+    [cell.label setFont:[[cell.label font] fontWithSize:[CSVPreferencesController detailsFontSize]]];
+    cell.imageWidthConstraint.constant = 0;
+    cell.imageHeightConstraint.constant = 0;
+    cell.imageWTrailingSpaceConstraint.constant = 0;
+    NSString *text;
+    if( indexPath.section == 0){
+        text = [[self normalObjects] objectAtIndex:indexPath.row];
+    }
+    else if( indexPath.section == 1){
+        text = [[self hiddenObjects] objectAtIndex:indexPath.row];
+    }
+    cell.label.text = text;
     return cell;
 
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-        NSArray *words = [[[self objects] objectAtIndex:indexPath.row]
+    NSArray *words = [[(indexPath.section == 0 ? [self normalObjects] : [self hiddenObjects]) objectAtIndex:indexPath.row]
                           componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
         for(NSString *word in words)
         {
@@ -193,6 +221,7 @@
     [self.webView stopLoading];
     
     NSError *error;
+    
     NSString *cssString = [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"nksTablegallery" ofType:@"css"]
                                                 usedEncoding:nil
                                                        error:&error];
@@ -203,10 +232,13 @@
     [s appendString:cssString];
     [s appendString:@"</STYLE>"];
     
-    [s replaceOccurrencesOfString:@"normal 36px verdana"
-                       withString:@"normal 24px verdana"
+    // This replacing depends on which css used, of course
+    [s replaceOccurrencesOfString:@"0.9em tahoma"
+                       withString:[NSString stringWithFormat:@"%fem tahoma", [CSVPreferencesController detailsFontSize]/16]
                           options:0
                             range:NSMakeRange(0, [s length])];
+    
+    
     [s appendString:@"</head><body>"];
     [s appendString:@"<table width=\"100%\">"];
     NSMutableString *data = [NSMutableString string];
@@ -223,8 +255,8 @@
            row-1 == [self.row.fileParser.shownColumnIndexes count] &&
            [self.row.fileParser.shownColumnIndexes count] != [columnsAndValues count] )
         {
-            [data appendString:@"<tr class=\"rowstep\"><th><b>-</b><td>"];
-            [data appendString:@"<tr class=\"rowstep\"><th><b>-</b><td>"];
+            [data appendString:@"<tr class=\"rowstep\"><th><b> </b><td>"];
+//            [data appendString:@"<tr class=\"rowstep\"><th><b>-</b><td>"];
         }
         
         [data appendFormat:@"<tr%@><th valign=\"top\"><b>%@</b>",

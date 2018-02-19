@@ -25,18 +25,34 @@
 {
     showHidden.on = [CSVPreferencesController showDeletedColumns];
     viewSelection.selectedSegmentIndex = [CSVPreferencesController selectedDetailsView];
+    increaseSize.enabled = [CSVPreferencesController canIncreaseDetailsFontSize];
+    decreaseSize.enabled = [CSVPreferencesController canDecreaseDetailsFontSize];
 }
 
-- (void) showHiddenChanged:(id)sender
+- (IBAction) showHiddenChanged:(id)sender
 {
     [CSVPreferencesController setShowDeletedColumns:showHidden.on];
     [self.pageController refreshViewControllers];
     [self synchUI];
 }
 
-- (void) viewSelectionChanged:(id)sender
+- (IBAction) viewSelectionChanged:(id)sender
 {
     [CSVPreferencesController setSelectedDetailsView:viewSelection.selectedSegmentIndex];
+    [self.pageController refreshViewControllers];
+    [self synchUI];
+}
+
+- (IBAction) increaseSize:(id)sender
+{
+    [CSVPreferencesController increaseDetailsFontSize];
+    [self.pageController refreshViewControllers];
+    [self synchUI];
+}
+
+- (IBAction) decreaseSize:(id)sender
+{
+    [CSVPreferencesController decreaseDetailsFontSize];
     [self.pageController refreshViewControllers];
     [self synchUI];
 }

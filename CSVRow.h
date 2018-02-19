@@ -28,8 +28,9 @@
 - initWithItemCapacity:(NSUInteger)itemCapacity;
 
 - (NSString *) longDescriptionWithHiddenValues:(BOOL)includeHiddenValues;
-- (NSMutableArray *) longDescriptionInArrayWithHiddenValues:(BOOL)includeHiddenValues;
-- (NSArray *) columnsAndValues; 
+// Call with YES for regular visible columns, NO for hidden columns
+- (NSMutableArray *) longDescriptionInArray:(BOOL)useShownColumns;
+- (NSArray *) columnsAndValues;
 
 + (SEL) compareSelector;
 @end

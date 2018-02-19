@@ -11,6 +11,7 @@
 
 - (void)awakeFromNib {
     [super awakeFromNib];
+    self.separatorInset = UIEdgeInsetsZero; // We want the line between rows to include image part of cell
     // Initialization code
 }
 

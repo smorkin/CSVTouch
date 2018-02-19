@@ -15,12 +15,16 @@
 + (void) applicationDidFinishLaunching;
 
 + (NSString *) delimiter;
-+ (OzyTableViewSize) detailsTableViewSize;
 + (CGFloat) itemsListFontSize;
 + (void) increaseItemsListFontSize;
 + (void) decreaseItemsListFontSize;
 + (BOOL) canIncreaseItemsListFontSize;
 + (BOOL) canDecreaseItemsListFontSize;
++ (CGFloat) detailsFontSize;
++ (void) increaseDetailsFontSize;
++ (void) decreaseDetailsFontSize;
++ (BOOL) canIncreaseDetailsFontSize;
++ (BOOL) canDecreaseDetailsFontSize;
 + (NSStringEncoding) encoding;
 + (BOOL) smartDelimiter;
 + (BOOL) useGroupingForItems;

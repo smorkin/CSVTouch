@@ -19,5 +19,8 @@
 - (void) addFileUsingURLList;
 - (void) importLocalFile;
 
+// Call after files have been refreshed
+- (void) allFilesRefreshed;
+
 @end
 

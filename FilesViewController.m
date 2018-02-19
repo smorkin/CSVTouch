@@ -28,20 +28,6 @@ static FilesViewController *_sharedInstance = nil;
     return _sharedInstance;
 }
 
-- (void) configureToolbarButtons
-{
-    UIBarButtonItem *refreshAllItems = [[UIBarButtonItem alloc] initWithTitle:@"Refresh all"
-                                                                        style:UIBarButtonItemStylePlain
-                                                                       target:self
-                                                                       action:@selector(refreshAllFiles)];
-    
-    // Now, add in order:
-    NSMutableArray *items = [NSMutableArray array];
-    [items addObject:[self refreshFilesItem]];
-    [items addObject:refreshAllItems];
-    self.toolbarItems = items;
-}
-
 - (void) configureGestures
 {
     UILongPressGestureRecognizer *lpgr = [[UILongPressGestureRecognizer alloc]
@@ -136,7 +122,6 @@ static FilesViewController *_sharedInstance = nil;
 {
     [super awakeFromNib];
     _sharedInstance = self;
-    [self configureToolbarButtons];
     [self configureGestures];
     self.edgesForExtendedLayout = UIRectEdgeNone;
     self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
@@ -150,6 +135,11 @@ static FilesViewController *_sharedInstance = nil;
     {
         self.navigationController.navigationItem.rightBarButtonItem = nil;
     }
+    
+    self.refreshControl = [[UIRefreshControl alloc] init];
+    [self.refreshControl addTarget:self
+                            action:@selector(refreshAllFiles)
+                  forControlEvents:UIControlEventValueChanged];
 }
 
 - (void) viewWillAppear:(BOOL)animated
@@ -163,6 +153,11 @@ static FilesViewController *_sharedInstance = nil;
     [[CSV_TouchAppDelegate sharedInstance] reloadAllFiles];
 }
 
+- (void) allFilesRefreshed
+{
+    [self.refreshControl endRefreshing];
+}
+
 - (NSUInteger) indexOfToolbarItemWithSelector:(SEL)selector
 {
     NSUInteger index = 0;
@@ -174,45 +169,6 @@ static FilesViewController *_sharedInstance = nil;
     }
     
     return NSNotFound;
-}
-
-- (UIBarButtonItem *) doneItemWithSelector
-{
-    return [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone
-                                                          target:self
-                                                          action:@selector(toggleRefreshFiles)];
-}
-
-- (UIBarButtonItem *) refreshFilesItem
-{
-    UIBarButtonItem *button = [[UIBarButtonItem alloc] initWithTitle:@"Refresh…" style:UIBarButtonItemStylePlain
-                                                               target:self
-                                                               action:@selector(toggleRefreshFiles)];
-    return button;
-}
-
-- (void) toggleRefreshFiles
-{
-    self.refreshFilesInProgress = !self.refreshFilesInProgress;
-    NSUInteger index = [self indexOfToolbarItemWithSelector:@selector(toggleRefreshFiles)];
-    
-    if( index == NSNotFound )
-        return;
-    
-    if( self.refreshFilesInProgress )
-    {
-        NSMutableArray *items = [NSMutableArray arrayWithArray:self.toolbarItems];
-        [items replaceObjectAtIndex:index
-                         withObject:[self doneItemWithSelector]];
-        self.toolbarItems = items;
-    }
-    else
-    {
-        NSMutableArray *items = [NSMutableArray arrayWithArray:self.toolbarItems];
-        [items replaceObjectAtIndex:index withObject:[self refreshFilesItem]];
-        self.toolbarItems = items;
-    }
-    [self.tableView reloadData];
 }
 
 - (BOOL) checkFileForSelection:(CSVFileParser *)file

@@ -637,6 +637,11 @@ static NSMutableArray *_files;
     self.hasBeenSorted = FALSE;
 }
 
+- (BOOL) hiddenColumnsExist
+{
+    return [self.shownColumnIndexes count] < [self.columnNames count];
+}
+
 @end
 
 @implementation CSVFileParser (OzyTableViewProtocol)

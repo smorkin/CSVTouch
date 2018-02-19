@@ -19,7 +19,7 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="G6s-qn-J7t">
-                        <rect key="frame" x="28" y="2" width="292" height="39.5"/>
+                        <rect key="frame" x="28" y="3" width="292" height="37.5"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
@@ -33,8 +33,8 @@
                     </imageView>
                 </subviews>
                 <constraints>
-                    <constraint firstAttribute="bottom" secondItem="G6s-qn-J7t" secondAttribute="bottom" constant="2" id="4nR-Yp-cBt"/>
-                    <constraint firstItem="G6s-qn-J7t" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="2" id="5sp-cZ-ZvN"/>
+                    <constraint firstAttribute="bottom" secondItem="G6s-qn-J7t" secondAttribute="bottom" constant="3" id="4nR-Yp-cBt"/>
+                    <constraint firstItem="G6s-qn-J7t" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="3" id="5sp-cZ-ZvN"/>
                     <constraint firstItem="G6s-qn-J7t" firstAttribute="leading" secondItem="kxR-HW-Nea" secondAttribute="trailing" constant="6" id="68R-xe-bEu"/>
                     <constraint firstItem="kxR-HW-Nea" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="6" id="AZV-5I-Nno"/>
                     <constraint firstItem="kxR-HW-Nea" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="FfH-EY-mmC"/>

@@ -410,46 +410,36 @@ static NSMutableArray *formatsStrings = nil;
 	return array;
 }
 
-- (NSMutableArray *) longDescriptionInArrayWithHiddenValues:(BOOL)includeHiddenValues
+- (NSString *) descriptionForValueAtIndex:(NSUInteger)index
+{
+    NSMutableString *s = [NSMutableString stringWithFormat:@"%@: %@",
+                          [self.fileParser.columnNames objectAtIndex:index],
+                          [self.items objectAtIndex:index]];
+    [s replaceOccurrencesOfString:@"\n"
+                       withString:@" "
+                          options:0
+                            range:NSMakeRange(0, [s length])];
+    return s;
+}
+
+- (NSMutableArray *) longDescriptionInArray:(BOOL)useShownColumns
 {
 	NSMutableArray *array = [NSMutableArray array];
 	
-	// First add sorted column data
-	for( NSNumber *index in self.fileParser.shownColumnIndexes )
-	{
-		NSMutableString *s = [NSMutableString stringWithFormat:@"%@: %@", 
-					   [self.fileParser.columnNames objectAtIndex:[index intValue]],
-					   [self.items objectAtIndex:[index intValue]]];
-		[s replaceOccurrencesOfString:@"\n" 
-						   withString:@" " 
-							  options:0
-								range:NSMakeRange(0, [s length])];				
-		[array addObject:s];
-	}
-	
-	// Then add other data
-	if( includeHiddenValues )
-	{
-		if( [self.fileParser.shownColumnNames count] < [self.fileParser.columnNames count] )
-		{
-			NSMutableArray *otherColumns = [NSMutableArray array];
-			for( NSUInteger i = 0 ; i < [self.items count] ; i++ )
-			{
-				if( ![self.fileParser.shownColumnIndexes containsObject:[NSNumber numberWithUnsignedInteger:i]] )
-				{
-					NSMutableString *s = [NSMutableString stringWithFormat:@"%@: %@",
-										  [self.fileParser.columnNames objectAtIndex:i],
-										  [self.items objectAtIndex:i]];
-					[s replaceOccurrencesOfString:@"\n" 
-									   withString:@" " 
-										  options:0
-											range:NSMakeRange(0, [s length])];				
-					[otherColumns addObject:s];
-				}				
-			}
-			//		[otherColumns sortUsingSelector:@selector(compare:)];
-			[array addObjectsFromArray:otherColumns];
-		}
+    if( useShownColumns){
+        for( NSNumber *index in self.fileParser.shownColumnIndexes )
+        {
+            [array addObject:[self descriptionForValueAtIndex:[index intValue]]];
+        }
+    }
+    else{
+        for( NSUInteger i = 0 ; i < [self.items count] ; i++ )
+        {
+            if( ![self.fileParser.shownColumnIndexes containsObject:[NSNumber numberWithUnsignedInteger:i]] )
+            {
+                [array addObject:[self descriptionForValueAtIndex:i]];
+            }
+        }
 	}
 	return array;
 }
@@ -482,19 +472,16 @@ static NSMutableArray *formatsStrings = nil;
 	}
 	
 	// Then add other data
-	if( includeHiddenValues )
+    if( includeHiddenValues && [self.fileParser hiddenColumnsExist])
 	{
-		if( [self.fileParser.shownColumnIndexes count] < [self.fileParser.columnNames count] )
-		{
-			[s appendString:@"____________________\n"];
-			for( NSUInteger i = 0 ; i < [self.items count] ; i++ )
-			{
-				if( ![self.fileParser.shownColumnIndexes containsObject:[NSNumber numberWithUnsignedInteger:i]] )
-					[s appendFormat:@"%@: %@\n",
-					 [self.fileParser.columnNames objectAtIndex:i],
-					 [self.items objectAtIndex:i]];
-			}
-		}
+        [s appendString:@"____________________\n"];
+        for( NSUInteger i = 0 ; i < [self.items count] ; i++ )
+        {
+            if( ![self.fileParser.shownColumnIndexes containsObject:[NSNumber numberWithUnsignedInteger:i]] )
+                [s appendFormat:@"%@: %@\n",
+                 [self.fileParser.columnNames objectAtIndex:i],
+                 [self.items objectAtIndex:i]];
+        }
 	}
 			
 	return s;

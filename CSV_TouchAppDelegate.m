@@ -485,7 +485,7 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 		}
 		[CSVPreferencesController setHideAddress:NO]; // In case we had temporarily set this from
 													  // a URL list file with preference settings
-        [self.navigationController dismissViewControllerAnimated:YES completion:NULL];
+        [[FilesViewController sharedInstance] allFilesRefreshed];
 	}
 }
 

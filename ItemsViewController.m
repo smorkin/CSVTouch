@@ -412,7 +412,6 @@ sectionForSectionIndexTitle:(NSString *)title
         [cell.label setFont:[UIFont fontWithName:@"Courier-Bold" size:[CSVPreferencesController itemsListFontSize]]];
     else
         [cell.label setFont:[[cell.label font] fontWithSize:[CSVPreferencesController itemsListFontSize]]];
-    cell.separatorInset = UIEdgeInsetsZero; // We want the line between rows to include image part of cell
 
     CSVRow *item;
     if( [_sectionStarts count] > 0 )
