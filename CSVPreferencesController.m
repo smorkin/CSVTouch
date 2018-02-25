@@ -79,17 +79,7 @@ static BOOL reverseItemSorting = FALSE;
     [defaults removeObjectForKey:@"enablePhoneLinks"];
 
 	// Setup sortingMask
-	sortingMask = NSNumericSearch ^ NSCaseInsensitiveSearch ^ NSLiteralSearch;
-	id obj;
-	obj = [defaults objectForKey:PREFS_NUMBER_SENSITIVE_SORTING];
-	if( obj && [obj boolValue] == FALSE )
-		sortingMask ^= NSNumericSearch;
-	obj = [defaults objectForKey:PREFS_CASE_SENSITIVE_SORTING];
-	if( obj && [obj boolValue] == TRUE )
-		sortingMask ^= NSCaseInsensitiveSearch;
-	obj = [defaults objectForKey:PREFS_LITERAL_SORTING];
-	if( obj && [obj boolValue] == FALSE )
-		sortingMask ^= NSLiteralSearch;
+    [self updateSortingMask];    
     
     [self resetDefaultsHaveChanges];
 }
@@ -204,6 +194,11 @@ static BOOL reverseItemSorting = FALSE;
     return [self detailsFontSize] > MIN_FONT_SIZE;
 }
 
++ (void) setUseGroupingForItems:(BOOL)yn
+{
+    [[NSUserDefaults standardUserDefaults] setBool:yn forKey:PREFS_USE_GROUPING_FOR_ITEMS];
+}
+
 + (BOOL) useGroupingForItems
 {
 	id obj = [[NSUserDefaults standardUserDefaults] objectForKey:PREFS_USE_GROUPING_FOR_ITEMS];
@@ -211,6 +206,11 @@ static BOOL reverseItemSorting = FALSE;
 		return [obj boolValue];
 	else
 		return YES;
+}
+
++ (void) setGroupNumbers:(BOOL)yn
+{
+    [[NSUserDefaults standardUserDefaults] setBool:yn forKey:PREFS_GROUP_NUMBERS];
 }
 
 + (BOOL) groupNumbers
@@ -222,6 +222,10 @@ static BOOL reverseItemSorting = FALSE;
 		return YES;
 }
 
++ (void) setUseFixedWidth:(BOOL)yn
+{
+    [[NSUserDefaults standardUserDefaults] setBool:yn forKey:PREFS_USE_FIXED_WIDTH];
+}
 
 + (BOOL) useFixedWidth
 {
@@ -230,6 +234,11 @@ static BOOL reverseItemSorting = FALSE;
 		return [obj boolValue];
 	else
 		return NO;
+}
+
++ (void) setDefinedFixedWidths:(BOOL)yn
+{
+    [[NSUserDefaults standardUserDefaults] setBool:yn forKey:PREFS_DEFINED_FIXED_WIDTHS];
 }
 
 + (BOOL) definedFixedWidths
@@ -261,11 +270,6 @@ static BOOL reverseItemSorting = FALSE;
 	return [[NSUserDefaults standardUserDefaults] boolForKey:PREFS_USE_CORRECT_PARSING];
 }
 
-+ (BOOL) useCorrectSorting
-{
-	return [[NSUserDefaults standardUserDefaults] boolForKey:PREFS_USE_CORRECT_SORTING];
-}
-
 + (void) setShowInlineImages:(BOOL)yn
 {
     [[NSUserDefaults standardUserDefaults] setBool:yn forKey:PREFS_SHOW_INLINE_IMAGES];
@@ -279,7 +283,12 @@ static BOOL reverseItemSorting = FALSE;
 		return YES;
 }
 
-+ (BOOL) clearSearchWhenQuickSelecting
++ (void) setSmartSearchClearing:(BOOL)yn
+{
+    [[NSUserDefaults standardUserDefaults] setBool:yn forKey:PREFS_CLEAR_SEARCH_WHEN_QUICK_SELECTING];
+}
+
++ (BOOL) smartSeachClearing
 {
 	id obj = [[NSUserDefaults standardUserDefaults] objectForKey:PREFS_CLEAR_SEARCH_WHEN_QUICK_SELECTING];
 	if( obj )
@@ -353,6 +362,11 @@ static BOOL reverseItemSorting = FALSE;
 	else
 		return NO;
 	
+}
+
++ (void) setBlankWordSeparator:(BOOL)yn
+{
+    [[NSUserDefaults standardUserDefaults] setBool:yn forKey:PREFS_BLANK_WORD_SEPARATOR];
 }
 
 + (BOOL) blankWordSeparator
@@ -565,19 +579,73 @@ static BOOL hideAdress = NO;
 	[[NSUserDefaults standardUserDefaults] setBool:YES forKey:PREFS_HAS_SHOWN_HOW_TO];
 }
 
++ (void) setCaseSensitiveSort:(BOOL)yn
+{
+    [[NSUserDefaults standardUserDefaults] setBool:yn forKey:PREFS_CASE_SENSITIVE_SORTING];
+    [self updateSortingMask];
+}
++ (BOOL) caseSensitiveSort
+{
+    id obj;
+    obj = [[NSUserDefaults standardUserDefaults] objectForKey:PREFS_CASE_SENSITIVE_SORTING];
+    if( obj )
+        return [obj boolValue];
+    else
+        return FALSE;
+}
+
++ (void) setNumericSort:(BOOL)yn
+{
+    [[NSUserDefaults standardUserDefaults] setBool:yn forKey:PREFS_NUMBER_SENSITIVE_SORTING];
+    [self updateSortingMask];
+}
+
++ (BOOL) numericSort
+{
+    id obj;
+    obj = [[NSUserDefaults standardUserDefaults] objectForKey:PREFS_NUMBER_SENSITIVE_SORTING];
+    if( obj )
+        return [obj boolValue];
+    else
+        return TRUE;
+}
+
++ (void) setLiteralSort:(BOOL)yn
+{
+    [[NSUserDefaults standardUserDefaults] setBool:yn forKey:PREFS_LITERAL_SORTING];
+    [self updateSortingMask];
+}
+
++ (BOOL) literalSort
+{
+    id obj;
+    obj = [[NSUserDefaults standardUserDefaults] objectForKey:PREFS_LITERAL_SORTING];
+    if( obj )
+        return [obj boolValue];
+    else
+        return TRUE;
+}
+
++ (void) setCorrectSort:(BOOL)yn
+{
+    [[NSUserDefaults standardUserDefaults] setBool:yn forKey:PREFS_USE_CORRECT_SORTING];
+}
+
++ (BOOL) correctSort
+{
+    return [[NSUserDefaults standardUserDefaults] boolForKey:PREFS_USE_CORRECT_SORTING];
+}
+
 + (void) updateSortingMask
 {
-	sortingMask = NSNumericSearch ^ NSCaseInsensitiveSearch ^ NSLiteralSearch;
-	id obj;
-	obj = [[NSUserDefaults standardUserDefaults] objectForKey:PREFS_NUMBER_SENSITIVE_SORTING];
-	if( obj && [obj boolValue] == FALSE )
-		sortingMask = NSCaseInsensitiveSearch;
-	obj = [[NSUserDefaults standardUserDefaults] objectForKey:PREFS_CASE_SENSITIVE_SORTING];
-	if( obj && [obj boolValue] == TRUE )
-		sortingMask ^= NSCaseInsensitiveSearch;
-	obj = [[NSUserDefaults standardUserDefaults] objectForKey:PREFS_LITERAL_SORTING];
-	if( obj && [obj boolValue] == TRUE )
-		sortingMask ^= NSLiteralSearch;
+    // Default, so make sure default return values above correlates to these defaults
+    sortingMask = 0;
+    if( ![self caseSensitiveSort])
+        sortingMask ^= NSCaseInsensitiveSearch;
+    if( [self numericSort])
+        sortingMask ^= NSNumericSearch;
+    if( [self literalSort])
+        sortingMask ^= NSLiteralSearch;
 }
 
 + (NSUInteger) sortingMask
@@ -589,6 +657,8 @@ static BOOL hideAdress = NO;
 		sortingMask = NSNumericSearch ^ NSCaseInsensitiveSearch;
 	return sortingMask;
 }
+
+
 
 + (void) toggleReverseItemSorting
 {

@@ -59,7 +59,7 @@
 
 + (SEL) compareSelector
 {
-	if( [CSVPreferencesController useCorrectSorting] )
+	if( [CSVPreferencesController correctSort] )
 		return @selector(compareItems:);
 	else
 		return @selector(compareShort:);
@@ -69,27 +69,32 @@ static NSMutableArray *formatsStrings = nil;
 
 + (NSString *) wordSeparator
 {
-	return (([CSVPreferencesController useFixedWidth] || [CSVPreferencesController blankWordSeparator])
-			? @" " : @"‧");
+	return ([CSVPreferencesController blankWordSeparator] ? @" " : @"‧");
+}
+
++ (void) refreshRowFormatStrings
+{
+    [formatsStrings removeAllObjects];
+    NSString *separator = [CSVRow wordSeparator];
+    for( NSInteger numberOfWords = 2 ; numberOfWords <= 20 ; numberOfWords++ )
+    {
+        NSMutableString *s = [NSMutableString string];
+        for( NSInteger i = 0 ; i < numberOfWords ; i++ )
+        {
+            [s appendString:@"%@"];
+            if( i < numberOfWords-1 )
+                [s appendString:separator];
+        }
+        [formatsStrings addObject:s];
+    }
 }
 
 + (void) initialize
 {
 	if( formatsStrings == nil )
 	{
-		NSString *separator = [CSVRow wordSeparator];
-		formatsStrings = [[NSMutableArray alloc] initWithCapacity:20];
-		for( NSInteger numberOfWords = 2 ; numberOfWords <= 20 ; numberOfWords++ )
-		{
-			NSMutableString *s = [NSMutableString string];
-			for( NSInteger i = 0 ; i < numberOfWords ; i++ )
-			{
-				[s appendString:@"%@"];
-				if( i < numberOfWords-1 )
-					[s appendString:separator];
-			}
-			[formatsStrings addObject:s];
-		}
+        formatsStrings = [[NSMutableArray alloc] initWithCapacity:20];
+        [self refreshRowFormatStrings];
 	}
 }
 

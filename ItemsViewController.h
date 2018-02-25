@@ -17,6 +17,11 @@
     IBOutlet UIBarButtonItem *itemsCountButton;
 }
 
++ (instancetype) sharedInstance;
+
+// Will reload data in table but also do other necessary stuff to make table udate with current settings
+- (void) refresh;
+
 - (void) setFile:(CSVFileParser *)file;
 
 - (IBAction) decreaseTableViewSize;
@@ -25,5 +30,3 @@
 
 @end
 
-@interface ItemsViewController (Search) <UISearchResultsUpdating>
-@end

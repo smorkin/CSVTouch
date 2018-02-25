@@ -25,6 +25,10 @@
 @property (nonatomic, assign) NSUInteger rawDataPosition;
 @property (nonatomic, retain) NSString *imageName;
 
+// For performance reasons, we have a bunch of pre-initialized format strings. When settings
+// are changed, we need to redo those;
++ (void) refreshRowFormatStrings;
+
 - initWithItemCapacity:(NSUInteger)itemCapacity;
 
 - (NSString *) longDescriptionWithHiddenValues:(BOOL)includeHiddenValues;

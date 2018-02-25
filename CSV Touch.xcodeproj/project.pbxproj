@@ -192,6 +192,10 @@
 		F4C5C13118D4817C00B73144 /* IntroViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4C5C12F18D4817C00B73144 /* IntroViewController.m */; };
 		F4DC40E3200BB0A800EA43A8 /* ItemPreferenceController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4DC40E2200BB0A800EA43A8 /* ItemPreferenceController.m */; };
 		F4DC40E4200BB0A800EA43A8 /* ItemPreferenceController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4DC40E2200BB0A800EA43A8 /* ItemPreferenceController.m */; };
+		F4DF84DB20432B8000AE653A /* ItemsAppearancePreferencesController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4DF84DA20432B8000AE653A /* ItemsAppearancePreferencesController.m */; };
+		F4DF84DC20432B8000AE653A /* ItemsAppearancePreferencesController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4DF84DA20432B8000AE653A /* ItemsAppearancePreferencesController.m */; };
+		F4DF84DF20433A6D00AE653A /* ItemsSortAndSearchPreferencesController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4DF84DE20433A6D00AE653A /* ItemsSortAndSearchPreferencesController.m */; };
+		F4DF84E020433A6D00AE653A /* ItemsSortAndSearchPreferencesController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4DF84DE20433A6D00AE653A /* ItemsSortAndSearchPreferencesController.m */; };
 		F4E8FAF52001409F00E55844 /* AutoSizingTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F4E8FAF32001409F00E55844 /* AutoSizingTableViewCell.m */; };
 		F4E8FAF62001409F00E55844 /* AutoSizingTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F4E8FAF32001409F00E55844 /* AutoSizingTableViewCell.m */; };
 		F4E8FAF72001409F00E55844 /* AutoSizingTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F4E8FAF42001409F00E55844 /* AutoSizingTableViewCell.xib */; };
@@ -332,6 +336,10 @@
 		F4CB510B11689FD300CFCBBC /* Info-iPad.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Info-iPad.plist"; sourceTree = "<group>"; };
 		F4DC40E1200BB0A800EA43A8 /* ItemPreferenceController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ItemPreferenceController.h; sourceTree = "<group>"; };
 		F4DC40E2200BB0A800EA43A8 /* ItemPreferenceController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ItemPreferenceController.m; sourceTree = "<group>"; };
+		F4DF84D920432B8000AE653A /* ItemsAppearancePreferencesController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ItemsAppearancePreferencesController.h; sourceTree = "<group>"; };
+		F4DF84DA20432B8000AE653A /* ItemsAppearancePreferencesController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ItemsAppearancePreferencesController.m; sourceTree = "<group>"; };
+		F4DF84DD20433A6D00AE653A /* ItemsSortAndSearchPreferencesController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ItemsSortAndSearchPreferencesController.h; sourceTree = "<group>"; };
+		F4DF84DE20433A6D00AE653A /* ItemsSortAndSearchPreferencesController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ItemsSortAndSearchPreferencesController.m; sourceTree = "<group>"; };
 		F4E8FAF22001409F00E55844 /* AutoSizingTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AutoSizingTableViewCell.h; sourceTree = "<group>"; };
 		F4E8FAF32001409F00E55844 /* AutoSizingTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AutoSizingTableViewCell.m; sourceTree = "<group>"; };
 		F4E8FAF42001409F00E55844 /* AutoSizingTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AutoSizingTableViewCell.xib; sourceTree = "<group>"; };
@@ -521,6 +529,10 @@
 				F47819840E2BDE7A00B44E78 /* CSVPreferencesController.m */,
 				F4DC40E1200BB0A800EA43A8 /* ItemPreferenceController.h */,
 				F4DC40E2200BB0A800EA43A8 /* ItemPreferenceController.m */,
+				F4DF84D920432B8000AE653A /* ItemsAppearancePreferencesController.h */,
+				F4DF84DA20432B8000AE653A /* ItemsAppearancePreferencesController.m */,
+				F4DF84DD20433A6D00AE653A /* ItemsSortAndSearchPreferencesController.h */,
+				F4DF84DE20433A6D00AE653A /* ItemsSortAndSearchPreferencesController.m */,
 			);
 			name = Preferences;
 			sourceTree = "<group>";
@@ -900,6 +912,7 @@
 				F47DC8001111004C00E8DD8B /* CSVPreferencesController.m in Sources */,
 				F434D14D1FF6A9B900CD622D /* DetailsViewController.m in Sources */,
 				F46CA0D81FE5AEAA00FE645C /* FileDataViewController.m in Sources */,
+				F4DF84DB20432B8000AE653A /* ItemsAppearancePreferencesController.m in Sources */,
 				F4E8FAF52001409F00E55844 /* AutoSizingTableViewCell.m in Sources */,
 				F434D1481FF40D0000CD622D /* FadeAnimator.m in Sources */,
 				F47DC8011111004C00E8DD8B /* OzymandiasAdditions.m in Sources */,
@@ -907,6 +920,7 @@
 				F46CA0CC1FE56DEC00FE645C /* FilesViewController.m in Sources */,
 				F46CA0D01FE5960700FE645C /* ItemsViewController.m in Sources */,
 				F4DC40E3200BB0A800EA43A8 /* ItemPreferenceController.m in Sources */,
+				F4DF84DF20433A6D00AE653A /* ItemsSortAndSearchPreferencesController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -931,6 +945,7 @@
 				F47DC82D1111005400E8DD8B /* csv.c in Sources */,
 				F434D14E1FF6A9B900CD622D /* DetailsViewController.m in Sources */,
 				F46CA0D91FE5AEAA00FE645C /* FileDataViewController.m in Sources */,
+				F4DF84DC20432B8000AE653A /* ItemsAppearancePreferencesController.m in Sources */,
 				F4E8FAF62001409F00E55844 /* AutoSizingTableViewCell.m in Sources */,
 				F434D1491FF40D0000CD622D /* FadeAnimator.m in Sources */,
 				F47DC82E1111005400E8DD8B /* msgno.c in Sources */,
@@ -938,6 +953,7 @@
 				F46CA0CD1FE56DEC00FE645C /* FilesViewController.m in Sources */,
 				F46CA0D11FE5960700FE645C /* ItemsViewController.m in Sources */,
 				F4DC40E4200BB0A800EA43A8 /* ItemPreferenceController.m in Sources */,
+				F4DF84E020433A6D00AE653A /* ItemsSortAndSearchPreferencesController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

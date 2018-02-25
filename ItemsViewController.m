@@ -26,12 +26,23 @@
 @property (nonatomic, strong) NSMutableArray *sectionStarts;
 @property (nonatomic, strong) NSMutableArray *sectionIndices;
 @property BOOL hasBeenVisible;
-@property BOOL useIndices;
-@property BOOL groupNumbers;
-@property BOOL useFixedWidth;
 @end
 
+@interface ItemsViewController (PopoverDelegate) <UIPopoverPresentationControllerDelegate>
+@end
+
+@interface ItemsViewController (Search) <UISearchResultsUpdating>
+@end
+
+
 @implementation ItemsViewController
+
+static ItemsViewController *_sharedInstance = nil;
+
++ (instancetype) sharedInstance
+{
+    return _sharedInstance;
+}
 
 static NSMutableDictionary *_indexPathForFileName;
 
@@ -52,7 +63,7 @@ static NSMutableDictionary *_indexPathForFileName;
             // Now, turns out that if we use section headers, visible rows include those under header ->
             // We should actually use a[1] instead of a[0]
             NSUInteger i = 0;
-            if( self.useIndices && [a count] > 1 ){
+            if( [CSVPreferencesController useGroupingForItems] && [a count] > 1 ){
                 i = 1;
             }
             [_indexPathForFileName setObject:[[a objectAtIndex:i] dictionaryRepresentation] forKey:[self.file fileName]];
@@ -102,9 +113,6 @@ static NSMutableDictionary *_indexPathForFileName;
 
 - (void) configureTable
 {
-    self.useIndices = [CSVPreferencesController useGroupingForItems];
-    self.groupNumbers = [CSVPreferencesController groupNumbers];
-    self.useFixedWidth = [CSVPreferencesController useFixedWidth];
     [self.tableView registerNib:[UINib nibWithNibName:@"AutoSizingTableViewCell" bundle:nil] forCellReuseIdentifier:@"AutoCell"];
 }
 
@@ -129,6 +137,7 @@ static NSMutableDictionary *_indexPathForFileName;
     self.sectionIndices = [NSMutableArray array];
     self.edgesForExtendedLayout = UIRectEdgeNone;
     self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
+    _sharedInstance = self;
 }
 
 - (void) viewWillAppear:(BOOL)animated
@@ -233,7 +242,7 @@ static NSMutableDictionary *_indexPathForFileName;
 
 - (NSString *) comparisonCharacterForCharacter:(NSString *)character
 {
-    if( self.groupNumbers && [character containsDigit] )
+    if( [CSVPreferencesController groupNumbers] && [character containsDigit] )
         return @"0";
     else if( (sortingMask & NSCaseInsensitiveSearch) == 0 )
         return character;
@@ -243,7 +252,7 @@ static NSMutableDictionary *_indexPathForFileName;
 
 - (NSString *) sectionTitleForCharacter:(NSString *)character
 {
-    if( self.groupNumbers && [character containsDigit] )
+    if( [CSVPreferencesController groupNumbers] && [character containsDigit] )
         return @"0-9";
     else if( (sortingMask & NSCaseInsensitiveSearch) == 0 )
         return character;
@@ -255,7 +264,7 @@ static NSMutableDictionary *_indexPathForFileName;
 {
     [self.sectionStarts removeAllObjects];
     [self.sectionIndices removeAllObjects];
-    if( self.useIndices )
+    if( [CSVPreferencesController useGroupingForItems] )
     {
         [self.sectionStarts addObject:[NSNumber numberWithInt:0]];
         [self.sectionIndices addObject:UITableViewIndexSearch];
@@ -285,6 +294,14 @@ static NSMutableDictionary *_indexPathForFileName;
     }
 }
 
+- (void) refresh
+{
+    [self.file itemsWithResetShortdescriptions:YES]; // Call to reset
+    [self.file sortItems];
+    [self refreshIndices];
+    [self.tableView reloadData];
+}
+
 - (void) setItems:(NSMutableArray *)items
 {
     if( [CSVPreferencesController restrictedDataVersionRunning] && [items count] > MAX_ITEMS_IN_LITE_VERSION )
@@ -294,8 +311,7 @@ static NSMutableDictionary *_indexPathForFileName;
     
     _items = items;
     [self updateItemCount];
-    [self refreshIndices];
-    [self.tableView reloadData];
+    [self refresh];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -376,10 +392,10 @@ sectionForSectionIndexTitle:(NSString *)title
 - (UITableViewCell *)tableView:(UITableView *)aTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     AutoSizingTableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"AutoCell" forIndexPath:indexPath];
-    if( self.useFixedWidth)
+    if( [CSVPreferencesController useFixedWidth])
         [cell.label setFont:[UIFont fontWithName:@"Courier-Bold" size:[CSVPreferencesController itemsListFontSize]]];
     else
-        [cell.label setFont:[[cell.label font] fontWithSize:[CSVPreferencesController itemsListFontSize]]];
+        [cell.label setFont:[UIFont systemFontOfSize:[CSVPreferencesController itemsListFontSize]]];
 
     CSVRow *item;
     if( [_sectionStarts count] > 0 )
@@ -387,7 +403,7 @@ sectionForSectionIndexTitle:(NSString *)title
     else
         item = [self.items objectAtIndex:indexPath.row];
     cell.label.text = [item tableViewDescription];
-    cell.accessoryType = (self.useIndices ? UITableViewCellAccessoryNone : UITableViewCellAccessoryDisclosureIndicator);
+    cell.accessoryType = ([CSVPreferencesController useGroupingForItems] ? UITableViewCellAccessoryNone : UITableViewCellAccessoryDisclosureIndicator);
     if( self.file.iconIndex != NSNotFound )
     {
         cell.imageWidthConstraint.constant = 32;
@@ -418,7 +434,7 @@ sectionForSectionIndexTitle:(NSString *)title
 {
     CSVRow *row = [self.items objectAtIndex:[self indexForObjectAtIndexPath:indexPath]];
     [self performSegueWithIdentifier:@"ToDetails" sender:row];
-    if( [CSVPreferencesController clearSearchWhenQuickSelecting]){
+    if( [CSVPreferencesController smartSeachClearing]){
         self.searchController.searchBar.text = @"";
         self.searchController.active = NO;
     }
@@ -435,8 +451,11 @@ sectionForSectionIndexTitle:(NSString *)title
         [dpc setItems:self.items];
         dpc.initialIndex = [self.items indexOfObject:sender];
     }
+    else if([segue.identifier isEqualToString:@"ToItemsViewPrefs"])
+    {
+        segue.destinationViewController.popoverPresentationController.delegate = self;
+    }
 }
-
 @end
 
 @implementation ItemsViewController (Search)
@@ -472,6 +491,14 @@ sectionForSectionIndexTitle:(NSString *)title
 }
 
 @end
+
+@implementation ItemsViewController (PopoverDelegate)
+-(UIModalPresentationStyle)adaptivePresentationStyleForPresentationController:(UIPresentationController *)controller
+{
+    return UIModalPresentationNone;
+}
+@end
+
 //
 //- (void) configureDateButton
 //{
