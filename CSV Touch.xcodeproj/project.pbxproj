@@ -196,6 +196,10 @@
 		F4DF84DC20432B8000AE653A /* ItemsAppearancePreferencesController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4DF84DA20432B8000AE653A /* ItemsAppearancePreferencesController.m */; };
 		F4DF84DF20433A6D00AE653A /* ItemsSortAndSearchPreferencesController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4DF84DE20433A6D00AE653A /* ItemsSortAndSearchPreferencesController.m */; };
 		F4DF84E020433A6D00AE653A /* ItemsSortAndSearchPreferencesController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4DF84DE20433A6D00AE653A /* ItemsSortAndSearchPreferencesController.m */; };
+		F4DF84E32044BBF500AE653A /* FilesParsingPreferencesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4DF84E22044BBF500AE653A /* FilesParsingPreferencesViewController.m */; };
+		F4DF84E42044BBF500AE653A /* FilesParsingPreferencesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4DF84E22044BBF500AE653A /* FilesParsingPreferencesViewController.m */; };
+		F4DF84E72044CB1F00AE653A /* AppPrefsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4DF84E62044CB1F00AE653A /* AppPrefsViewController.m */; };
+		F4DF84E82044CB1F00AE653A /* AppPrefsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4DF84E62044CB1F00AE653A /* AppPrefsViewController.m */; };
 		F4E8FAF52001409F00E55844 /* AutoSizingTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F4E8FAF32001409F00E55844 /* AutoSizingTableViewCell.m */; };
 		F4E8FAF62001409F00E55844 /* AutoSizingTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F4E8FAF32001409F00E55844 /* AutoSizingTableViewCell.m */; };
 		F4E8FAF72001409F00E55844 /* AutoSizingTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F4E8FAF42001409F00E55844 /* AutoSizingTableViewCell.xib */; };
@@ -340,6 +344,10 @@
 		F4DF84DA20432B8000AE653A /* ItemsAppearancePreferencesController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ItemsAppearancePreferencesController.m; sourceTree = "<group>"; };
 		F4DF84DD20433A6D00AE653A /* ItemsSortAndSearchPreferencesController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ItemsSortAndSearchPreferencesController.h; sourceTree = "<group>"; };
 		F4DF84DE20433A6D00AE653A /* ItemsSortAndSearchPreferencesController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ItemsSortAndSearchPreferencesController.m; sourceTree = "<group>"; };
+		F4DF84E12044BBF500AE653A /* FilesParsingPreferencesViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FilesParsingPreferencesViewController.h; sourceTree = "<group>"; };
+		F4DF84E22044BBF500AE653A /* FilesParsingPreferencesViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FilesParsingPreferencesViewController.m; sourceTree = "<group>"; };
+		F4DF84E52044CB1F00AE653A /* AppPrefsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppPrefsViewController.h; sourceTree = "<group>"; };
+		F4DF84E62044CB1F00AE653A /* AppPrefsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppPrefsViewController.m; sourceTree = "<group>"; };
 		F4E8FAF22001409F00E55844 /* AutoSizingTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AutoSizingTableViewCell.h; sourceTree = "<group>"; };
 		F4E8FAF32001409F00E55844 /* AutoSizingTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AutoSizingTableViewCell.m; sourceTree = "<group>"; };
 		F4E8FAF42001409F00E55844 /* AutoSizingTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AutoSizingTableViewCell.xib; sourceTree = "<group>"; };
@@ -533,6 +541,10 @@
 				F4DF84DA20432B8000AE653A /* ItemsAppearancePreferencesController.m */,
 				F4DF84DD20433A6D00AE653A /* ItemsSortAndSearchPreferencesController.h */,
 				F4DF84DE20433A6D00AE653A /* ItemsSortAndSearchPreferencesController.m */,
+				F4DF84E12044BBF500AE653A /* FilesParsingPreferencesViewController.h */,
+				F4DF84E22044BBF500AE653A /* FilesParsingPreferencesViewController.m */,
+				F4DF84E52044CB1F00AE653A /* AppPrefsViewController.h */,
+				F4DF84E62044CB1F00AE653A /* AppPrefsViewController.m */,
 			);
 			name = Preferences;
 			sourceTree = "<group>";
@@ -903,8 +915,10 @@
 				F47DC7F91111004C00E8DD8B /* msgno.c in Sources */,
 				F4C5C13018D4817C00B73144 /* IntroViewController.m in Sources */,
 				F47DC7FA1111004C00E8DD8B /* CSVDataViewController.m in Sources */,
+				F4DF84E32044BBF500AE653A /* FilesParsingPreferencesViewController.m in Sources */,
 				F434D15A1FF6E17E00CD622D /* FileDownloader.m in Sources */,
 				F47DC7FB1111004C00E8DD8B /* CSVRow.m in Sources */,
+				F4DF84E72044CB1F00AE653A /* AppPrefsViewController.m in Sources */,
 				F47DC7FC1111004C00E8DD8B /* CSVFileParser.m in Sources */,
 				F40D21321FE6A66F00146BB4 /* EditFileColumnsController.m in Sources */,
 				F44AD0E21FFE671300BC21D6 /* AddFilesSelectionController.m in Sources */,
@@ -936,8 +950,10 @@
 				F47DC8251111005400E8DD8B /* CSVRow.m in Sources */,
 				F47DC8261111005400E8DD8B /* CSVFileParser.m in Sources */,
 				F4C5C13118D4817C00B73144 /* IntroViewController.m in Sources */,
+				F4DF84E42044BBF500AE653A /* FilesParsingPreferencesViewController.m in Sources */,
 				F434D15B1FF6E17E00CD622D /* FileDownloader.m in Sources */,
 				F40D21331FE6A67800146BB4 /* EditFileColumnsController.m in Sources */,
+				F4DF84E82044CB1F00AE653A /* AppPrefsViewController.m in Sources */,
 				F47DC82B1111005400E8DD8B /* OzymandiasAdditions.m in Sources */,
 				F47DC82C1111005400E8DD8B /* parseCSV.m in Sources */,
 				F44AD0E31FFE671300BC21D6 /* AddFilesSelectionController.m in Sources */,

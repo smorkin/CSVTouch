@@ -17,6 +17,11 @@
 
 - (void) viewWillAppear:(BOOL)animated
 {
+    caseSensitiveSort.onTintColor = [[UIView appearance] tintColor];
+    numericSort.onTintColor = [[UIView appearance] tintColor];
+    literalSort.onTintColor = [[UIView appearance] tintColor];
+    correctSort.onTintColor = [[UIView appearance] tintColor];
+    smartSearchClearing.onTintColor = [[UIView appearance] tintColor];
     [super viewWillAppear:animated];
     [self synchUI];
 }

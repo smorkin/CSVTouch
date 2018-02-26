@@ -78,6 +78,10 @@ static FilesViewController *_sharedInstance = nil;
         s.width = MIN(s.width, 300);
         controller.preferredContentSize = s;
     }
+    else if( [segue.identifier isEqualToString:@"ToFilesPrefs"])
+    {
+        segue.destinationViewController.popoverPresentationController.delegate = self;
+    }
 }
 
 // To avoid full screen presentation

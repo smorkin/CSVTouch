@@ -427,6 +427,11 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
         }
     }
 
+    [[UIView appearance] setTintColor:[UIColor redColor]];
+    
+
+//    [[UITabBar appearance] setTintColor:[UIColor yellowColor]];
+
 	return NO;
 }
 

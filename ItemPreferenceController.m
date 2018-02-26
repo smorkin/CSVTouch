@@ -16,8 +16,8 @@
 
 - (void) viewWillAppear:(BOOL)animated
 {
-    showHidden.onTintColor = self.pageController.navigationController.navigationBar.tintColor;
-    showImages.onTintColor = self.pageController.navigationController.navigationBar.tintColor;
+    showHidden.onTintColor = [[UIView appearance] tintColor];
+    showImages.onTintColor = [[UIView appearance] tintColor];
     [self synchUI];
     [super viewWillAppear:animated];
 }

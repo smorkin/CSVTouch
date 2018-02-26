@@ -18,6 +18,11 @@
 
 - (void) viewWillAppear:(BOOL)animated
 {
+    groupItems.onTintColor = [[UIView appearance] tintColor];
+    groupNumbers.onTintColor = [[UIView appearance] tintColor];
+    fixedWidth.onTintColor = [[UIView appearance] tintColor];
+    useWordSeparator.onTintColor = [[UIView appearance] tintColor];
+    predefinedWidths.onTintColor = [[UIView appearance] tintColor];
     [super viewWillAppear:animated];
     [self synchUI];
 }
