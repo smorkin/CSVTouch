@@ -14,7 +14,10 @@
 
 + (void) applicationDidFinishLaunching;
 
+// Setting with nil -> smart delimiter
++ (void) setDelimiter:(NSString *)delimiter;
 + (NSString *) delimiter;
++ (BOOL) smartDelimiter;
 + (CGFloat) itemsListFontSize;
 + (void) increaseItemsListFontSize;
 + (void) decreaseItemsListFontSize;
@@ -25,8 +28,8 @@
 + (void) decreaseDetailsFontSize;
 + (BOOL) canIncreaseDetailsFontSize;
 + (BOOL) canDecreaseDetailsFontSize;
++ (void) setStringEncoding:(NSStringEncoding)encoding;
 + (NSStringEncoding) encoding;
-+ (BOOL) smartDelimiter;
 + (void) setUseGroupingForItems:(BOOL)yn;
 + (BOOL) useGroupingForItems;
 + (void) setGroupNumbers:(BOOL)yn;
@@ -35,9 +38,11 @@
 + (BOOL) useFixedWidth;
 + (void) setDefinedFixedWidths:(BOOL)yn;
 + (BOOL) definedFixedWidths;
++ (void) setKeepQuotes:(BOOL)yn;
 + (BOOL) keepQuotes;
 + (BOOL) showDebugInfo;
 + (BOOL) safeStart;
++ (void) setUseCorrectParsing:(BOOL)yn;
 + (BOOL) useCorrectParsing;
 + (void) setShowInlineImages:(BOOL)yn;
 + (BOOL) showInlineImages;

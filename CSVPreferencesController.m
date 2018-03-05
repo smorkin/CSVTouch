@@ -16,7 +16,6 @@
 #define PREFS_ENCODING @"encoding"
 #define PREFS_ITEMS_LIST_FONT_SIZE @"itemsListFontSize"
 #define PREFS_DETAILS_FONT_SIZE @"detailsFontSize"
-#define PREFS_SMART_DELIMITER @"smartDelimiter"
 #define PREFS_DELIMITER @"delimiter"
 #define PREFS_SORTING_MASK @"sortingMask"
 #define PREFS_USE_GROUPING_FOR_ITEMS @"useGroupingForItems"
@@ -77,6 +76,11 @@ static BOOL reverseItemSorting = FALSE;
     [defaults removeObjectForKey:@"showDetailsToolbar"];
     [defaults removeObjectForKey:@"confirmLink"];
     [defaults removeObjectForKey:@"enablePhoneLinks"];
+    
+    if( [defaults objectForKey:@"smartDelimiter"]){
+        [defaults removeObjectForKey:@"smartDelimiter"];
+        [self setDelimiter:nil];
+    }
 
 	// Setup sortingMask
     [self updateSortingMask];    
@@ -84,23 +88,30 @@ static BOOL reverseItemSorting = FALSE;
     [self resetDefaultsHaveChanges];
 }
 
++ (void) setDelimiter:(NSString *)delimiter
+{
+    if( delimiter == nil ){
+        [[NSUserDefaults standardUserDefaults] removeObjectForKey:PREFS_DELIMITER];
+    }
+    else{
+        [[NSUserDefaults standardUserDefaults] setObject:delimiter forKey:PREFS_DELIMITER];
+    }
+}
 
 + (NSString *) delimiter
 {
-	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-	NSString *s = [defaults stringForKey:PREFS_DELIMITER];
-	if( !s )
-		s = @";";
-	return s;
+	return [[NSUserDefaults standardUserDefaults] stringForKey:PREFS_DELIMITER];
 }
 
 + (BOOL) smartDelimiter
 {
-	id obj = [[NSUserDefaults standardUserDefaults] objectForKey:PREFS_SMART_DELIMITER];
-	if( obj )
-		return [[NSUserDefaults standardUserDefaults] boolForKey:PREFS_SMART_DELIMITER];
-	else
-		return YES;
+	id obj = [[NSUserDefaults standardUserDefaults] objectForKey:PREFS_DELIMITER];
+    return obj == nil || [obj isEqualToString:@""];
+}
+
++ (void) setStringEncoding:(NSStringEncoding)encoding
+{
+    [[NSUserDefaults standardUserDefaults] setInteger:encoding forKey:PREFS_ENCODING];
 }
 
 + (NSStringEncoding) encoding
@@ -250,6 +261,11 @@ static BOOL reverseItemSorting = FALSE;
 		return NO;
 }
 
++ (void) setKeepQuotes:(BOOL)yn
+{
+    [[NSUserDefaults standardUserDefaults] setBool:yn forKey:PREFS_KEEP_QUOTES];
+}
+
 + (BOOL) keepQuotes
 {
 	return [[NSUserDefaults standardUserDefaults] boolForKey:PREFS_KEEP_QUOTES];
@@ -263,6 +279,11 @@ static BOOL reverseItemSorting = FALSE;
 + (BOOL) safeStart
 {
 	return [[NSUserDefaults standardUserDefaults] boolForKey:PREFS_SAFE_START];
+}
+
++ (void) setUseCorrectParsing:(BOOL)yn
+{
+    [[NSUserDefaults standardUserDefaults] setBool:yn forKey:PREFS_USE_CORRECT_PARSING];
 }
 
 + (BOOL) useCorrectParsing
@@ -436,10 +457,6 @@ static BOOL hideAdress = NO;
 				[[NSUserDefaults standardUserDefaults] setInteger:[[words objectAtIndex:1] intValue]
 														   forKey:PREFS_ENCODING];
 			
-			else if( [[words objectAtIndex:0] isEqualToString:PREFS_SMART_DELIMITER] )
-				[[NSUserDefaults standardUserDefaults] setBool:[[words objectAtIndex:1] boolValue]
-														   forKey:PREFS_SMART_DELIMITER];
-
 			else if( [[words objectAtIndex:0] isEqualToString:PREFS_DELIMITER] )
 				[[NSUserDefaults standardUserDefaults] setObject:[words objectAtIndex:1]
 														   forKey:PREFS_DELIMITER];
