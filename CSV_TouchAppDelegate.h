@@ -35,8 +35,7 @@ OzymandiasApplicationDelegate>
 @property (nonatomic, retain) NSMutableData *rawData;
 @property (nonatomic, retain) NSURLConnection *connection;
 @property (nonatomic, retain) NSString *lastFileURL;
-@property (nonatomic, weak) UINavigationController *navigationController;
-@property (nonatomic, weak) FileDataViewController *fileViewController;
+@property (nonatomic, retain) UINavigationController *navigationController;
 
 - (void) downloadFileWithString:(NSString *)URL;
 - (void) reloadAllFiles;
