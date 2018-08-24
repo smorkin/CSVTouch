@@ -7,6 +7,7 @@
 
 #import "FilesParsingPreferencesViewController.h"
 #import "CSVPreferencesController.h"
+#import "CSVFileParser.h"
 
 @implementation FilesParsingPreferencesViewController
 
@@ -135,6 +136,10 @@
     else if( sender == alternativeParsing){
         [CSVPreferencesController setUseCorrectParsing:alternativeParsing.on];
     }
+    // We need to reparse & save results
+    [[CSVFileParser files] makeObjectsPerformSelector:@selector(encodingUpdated)];
+    [CSVFileParser saveColumnNames];
+
     [self synchUI];
 }
 

@@ -26,6 +26,7 @@
 @property (nonatomic, strong) NSMutableArray *parsedItems;
 @property (nonatomic, copy) NSData *rawData;
 @property (nonatomic, strong) NSMutableArray *shownColumnNames;
+@property (nonatomic) unichar usedDelimiter;
 @end
 
 @implementation CSVFileParser
@@ -241,14 +242,13 @@ static NSMutableArray *_files;
 					words = [tmp objectAtIndex:rawrow];
 					if( [words count] != numberOfColumns )
 					{
-						self.problematicRow = [NSString stringWithFormat:@"Found %lu values, expected %lu.\nItem %lu, content: %@",
-											   (unsigned long)[words count],
-											   (unsigned long)numberOfColumns,
-											   (unsigned long)rawrow+1,
-											   words];
-						[self.columnNames removeAllObjects];
-						[self.parsedItems removeAllObjects];
-						return FALSE;
+                        if( !self.problematicRow){
+                            self.problematicRow = [NSString stringWithFormat:@"Found %lu values, expected %lu for row %lu; row data: %@",
+                                                   (unsigned long)[words count],
+                                                   (unsigned long)numberOfColumns,
+                                                   (unsigned long)rawrow+1,
+                                                   words];
+                        }
 					}
 					else
 					{
@@ -323,25 +323,23 @@ static NSMutableArray *_files;
 					*foundColumns = wordNumber;
 				else if( *foundColumns != wordNumber && wordNumber != 0 )
 				{
-					if(!testing &&
-					   ![CSVPreferencesController showDebugInfo] && 
-					   wordNumber < *foundColumns )
+					if(!testing && wordNumber < *foundColumns )
 					{
 						for( int i = 0 ; i < *foundColumns - wordNumber ; i++ )
 							[words addObject:@""];
 					}
 					else
 					{
-						[self.columnNames removeAllObjects];
-						[self.parsedItems removeAllObjects];
 						if( !testing )
 						{
-							self.problematicRow = [NSString stringWithFormat:@"Found %d values, expected %d.\nItem %d:\n%@",
-												   wordNumber,
-												   *foundColumns,
-												   numberOfRows, 
-												   line];
-						}
+                            if( !self.problematicRow){
+                                self.problematicRow = [NSString stringWithFormat:@"Found %d values, expected %d for row %d:\n%@",
+                                                       wordNumber,
+                                                       *foundColumns,
+                                                       numberOfRows,
+                                                       line];
+                            }
+                        }
 						return FALSE;
 					}
 				}
@@ -392,21 +390,23 @@ static NSMutableArray *_files;
 						}
 						csvrow.fileParser = self;
 						csvrow.rawDataPosition = numberOfRows;
-						[self.parsedItems addObject:csvrow];
-					}
-				}				
-			}
-			else
-			{
-				_droppedRows++;
-				self.problematicRow = [NSString stringWithFormat:@"Row %d: %@", numberOfRows, line];
-			}
-			numberOfRows++;
-		}
-	}
-	
-	if( columnWidths != NULL )
-		free( columnWidths);
+                        [self.parsedItems addObject:csvrow];
+                    }
+                }
+            }
+            else
+            {
+                _droppedRows++;
+                if( !self.problematicRow){ // Pick first problematic row
+                    self.problematicRow = [NSString stringWithFormat:@"Problem parsing row %d: %@", numberOfRows, line];
+                }
+            }
+            numberOfRows++;
+        }
+    }
+        
+    if( columnWidths != NULL )
+        free( columnWidths);
 									  
 	return TRUE;
 }
@@ -447,11 +447,11 @@ static NSMutableArray *_files;
 		[self loadFile];
 	
 	int foundColumns;
-	_usedDelimiter = [self delimiter];
+	self.usedDelimiter = [self delimiter];
 	
 	// Parse file
 	[self parse:_rawString
-	  delimiter:_usedDelimiter
+	  delimiter:self.usedDelimiter
 		testing:NO
    foundColumns:&foundColumns
 	 useCorrect:[CSVPreferencesController useCorrectParsing]];
@@ -548,30 +548,42 @@ static NSMutableArray *_files;
 	[d writeToFile:self.filePath atomically:YES];
 }
 
+- (NSString *) readableUsedDelimiter
+{
+    if( self.usedDelimiter == '\t')
+        return @"<tab>";
+    else if( self.usedDelimiter == ' ' )
+        return @"<space>";
+    else
+        return [NSString stringWithFormat:@"%C", self.usedDelimiter];
+}
+
 - (NSString *) parseErrorString
 {
     NSMutableString *s = [NSMutableString string];
     
     // What type of problem?
-    if( self.problematicRow && ![self.problematicRow isEqualToString:@""] )
-    {
-        [s appendFormat:@"Wrong number of objects in row(s). Potentially first problematic row:\n\n%@\n\n", self.problematicRow];
-        if( [CSVPreferencesController keepQuotes] && [self.problematicRow hasSubstring:@"\""])
-            [s appendString:@"Try switching off the \"Keep Quotes\"-setting."];
-    }
-    else if( [self.rawString length] == 0 )
+    if( [self.rawString length] == 0 )
     {
         [s appendString:@"Couldn't read the file using the selected encoding."];
     }
     else
     {
-        [s appendFormat:@"Found %lu items in %lu columns, using delimiter '%C'; check \"Data\" preferences.\n\n",
-         (unsigned long)[[self itemsWithResetShortdescriptions:NO] count],
-         (unsigned long)[self.columnNames count],
-         self.usedDelimiter];
-        [s appendFormat:@"File read when using the selected encoding:\n\n%@", self.rawString];
+        [s appendFormat:@"Error reading file:\n\nUsed separator: %@\n\nFound number of columns using separator:%lu\n\nFound rows using separator:%lu",
+         [self readableUsedDelimiter],
+         (unsigned long)[[self columnNames] count],
+         (unsigned long)[[self itemsWithResetShortdescriptions:NO] count]];
+        if( [CSVPreferencesController keepQuotes] && [self.problematicRow hasSubstring:@"\""])
+            [s appendString:@"\n\nTry switching off the \"Keep Quotes\"-setting."];
+        if( self.problematicRow && ![self.problematicRow isEqualToString:@""] ){
+            [s appendFormat:@"\n\nPotentially first problematic row:\n\n%@\n\n",
+             self.problematicRow];
+        }
+        else
+        {
+            [s appendFormat:@"\n\nFile read when using the selected encoding:\n\n%@", self.rawString];
+        }
     }
-    
     return s;
 }
 
@@ -618,7 +630,7 @@ static NSMutableArray *_files;
     {
         self.shownColumnNames = [CSVFileParser shownColumnsFromDefaults:self];
         if( [self.shownColumnNames count] == 0 ){
-            self.shownColumnNames = [self.columnNames copy];
+            self.shownColumnNames = [self.columnNames mutableCopy];
         }
     }
     
@@ -632,7 +644,7 @@ static NSMutableArray *_files;
 
 - (void) resetColumnsInfo
 {
-    self.shownColumnNames = [self.columnNames copy];
+    self.shownColumnNames = [self.columnNames mutableCopy];
     [self updateRawColumnIndexes];
     self.hasBeenSorted = FALSE;
 }

@@ -25,7 +25,6 @@
 #define PREFS_DEFINED_FIXED_WIDTHS @"definedFixedWidths"
 #define PREFS_SAFE_START @"safeStart"
 #define PREFS_KEEP_QUOTES @"keepQuotes"
-#define PREFS_SHOW_DEBUG_INFO @"showDebugInfo"
 #define PREFS_USE_CORRECT_PARSING @"useCorrectParsing"
 #define PREFS_USE_CORRECT_SORTING @"useCorrectSorting"
 #define PREFS_SHOW_INLINE_IMAGES @"showInlineImages"
@@ -76,7 +75,8 @@ static BOOL reverseItemSorting = FALSE;
     [defaults removeObjectForKey:@"showDetailsToolbar"];
     [defaults removeObjectForKey:@"confirmLink"];
     [defaults removeObjectForKey:@"enablePhoneLinks"];
-    
+    [defaults removeObjectForKey:@"showDebugInfo"];
+
     if( [defaults objectForKey:@"smartDelimiter"]){
         [defaults removeObjectForKey:@"smartDelimiter"];
         [self setDelimiter:nil];
@@ -269,11 +269,6 @@ static BOOL reverseItemSorting = FALSE;
 + (BOOL) keepQuotes
 {
 	return [[NSUserDefaults standardUserDefaults] boolForKey:PREFS_KEEP_QUOTES];
-}
-
-+ (BOOL) showDebugInfo
-{
-	return [[NSUserDefaults standardUserDefaults] boolForKey:PREFS_SHOW_DEBUG_INFO];
 }
 
 + (BOOL) safeStart
@@ -492,10 +487,6 @@ static BOOL hideAdress = NO;
 			else if( [[words objectAtIndex:0] isEqualToString:PREFS_KEEP_QUOTES] )
 				[[NSUserDefaults standardUserDefaults] setBool:[[words objectAtIndex:1] boolValue]
 														forKey:PREFS_KEEP_QUOTES];
-			
-			else if( [[words objectAtIndex:0] isEqualToString:PREFS_SHOW_DEBUG_INFO] )
-				[[NSUserDefaults standardUserDefaults] setBool:[[words objectAtIndex:1] boolValue]
-														forKey:PREFS_SHOW_DEBUG_INFO];
 			
 			else if( [[words objectAtIndex:0] isEqualToString:PREFS_USE_CORRECT_PARSING] )
 				[[NSUserDefaults standardUserDefaults] setBool:[[words objectAtIndex:1] boolValue]

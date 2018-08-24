@@ -40,7 +40,6 @@
 + (BOOL) definedFixedWidths;
 + (void) setKeepQuotes:(BOOL)yn;
 + (BOOL) keepQuotes;
-+ (BOOL) showDebugInfo;
 + (BOOL) safeStart;
 + (void) setUseCorrectParsing:(BOOL)yn;
 + (BOOL) useCorrectParsing;

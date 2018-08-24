@@ -186,8 +186,7 @@ static FilesViewController *_sharedInstance = nil;
     
     // Check if there seems to be a problem with the file preventing us from reading it
     if( [[file itemsWithResetShortdescriptions:NO] count] < 1 ||
-       [file.columnNames count] == 0 ||
-       ([file.columnNames count] == 1 && [CSVPreferencesController showDebugInfo]) )
+       [file.columnNames count] == 0 )
     {
         return FALSE;
     }
@@ -198,39 +197,18 @@ static FilesViewController *_sharedInstance = nil;
         if( [file.shownColumnIndexes count] == 0 && [[file itemsWithResetShortdescriptions:NO] count] > 1 )
         {
             UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"No columns to show!"
-                                                                           message:@"Probably reason: File refreshed but column names have changed. Please click Edit -> Reset Columns"
+                                                                           message:@"Probably reason: Separator has been changed and file was not correctly re-parsed; will try to fix it. Please try again, and if file still fails to load, try using another separator."
                                                                      okButtonTitle:@"OK"
                                                                          okHandler:nil];
             [self presentViewController:alert
                                animated:YES
-                             completion:nil];
-        }
-        else if( [CSVPreferencesController showDebugInfo] )
-        {
-            if( file.droppedRows > 0 )
-            {
-                UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Dropped Rows!"
-                                                                               message:[NSString stringWithFormat:@"%d rows dropped due to problems reading them. Last dropped row:\n%@",
-                                                                                        file.droppedRows,
-                                                                                        file.problematicRow]
-                                                                         okButtonTitle:@"OK"
-                                                                             okHandler:nil];
-                [self presentViewController:alert
-                                   animated:YES
-                                 completion:nil];
-                
-            }
-            else if([file.columnNames count] !=
-                    [[NSSet setWithArray:file.columnNames] count] )
-            {
-                UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Identical Column Titles!"
-                                                                               message:@"Some of the columns have the same title; this should be changed for correct functionality. Please make sure the first line in the file consists of the column titles."
-                                                                         okButtonTitle:@"OK"
-                                                                             okHandler:nil];
-                [self presentViewController:alert
-                                   animated:YES
-                                 completion:nil];
-            }
+                             completion:^(void){
+                                 [file resetColumnsInfo];
+                                 [CSVFileParser saveColumnNames];
+            }];
+        }        
+        else if( file.problematicRow){
+            return FALSE;
         }
         return TRUE;
     }
@@ -245,6 +223,12 @@ static FilesViewController *_sharedInstance = nil;
 {
     return 1;
 }
+
+// For implementing leading swipe to reload file
+//- (nullable UISwipeActionsConfiguration *)tableView:(UITableView *)tableView leadingSwipeActionsConfigurationForRowAtIndexPath:(NSIndexPath *)indexPath
+//{
+//    
+//}
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
 {

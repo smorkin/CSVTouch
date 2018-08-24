@@ -420,7 +420,7 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
     else
     {
         // Show the Add file window in case no files are present
-        if( [[CSVFileParser files] count] == 0 )//&& ![CSVPreferencesController hasShownHowTo])
+        if( [[CSVFileParser files] count] == 0 && ![CSVPreferencesController hasShownHowTo])
         {
             self.introHowToController = [[IntroViewController alloc] init];
             [self.introHowToController startHowToShowing:self];
