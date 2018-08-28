@@ -10,30 +10,6 @@
 	<array>
 		<dict>
 			<key>File</key>
-			<string>Appearance</string>
-			<key>Title</key>
-			<string>Appearance</string>
-			<key>Type</key>
-			<string>PSChildPaneSpecifier</string>
-		</dict>
-		<dict>
-			<key>File</key>
-			<string>Data</string>
-			<key>Title</key>
-			<string>Data</string>
-			<key>Type</key>
-			<string>PSChildPaneSpecifier</string>
-		</dict>
-		<dict>
-			<key>File</key>
-			<string>Troubleshooting</string>
-			<key>Title</key>
-			<string>Troubleshooting</string>
-			<key>Type</key>
-			<string>PSChildPaneSpecifier</string>
-		</dict>
-		<dict>
-			<key>File</key>
 			<string>Legal</string>
 			<key>Title</key>
 			<string>Legal</string>
