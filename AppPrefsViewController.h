@@ -9,10 +9,8 @@
 
 @interface AppPrefsViewController : UIViewController
 {
-    IBOutlet UISwitch *usePassword;
-    IBOutlet UISwitch *synchronizeFiles;
-    IBOutlet UIDatePicker *reloadTime;
-    IBOutlet UITextField *passwordTimeout;
+    IBOutlet UISwitch *useAutomatedDownload;
+    IBOutlet UIDatePicker *downloadTime;
 }
 
 - (IBAction)somethingChanged:(id)sender;

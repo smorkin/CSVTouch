@@ -7,31 +7,36 @@
 
 #import "AppPrefsViewController.h"
 #import "CSVPreferencesController.h"
+#import "CSV_TouchAppDelegate.h"
 
 @implementation AppPrefsViewController
 
 - (void) viewWillAppear:(BOOL)animated
 {
-    usePassword.onTintColor = [[UIView appearance] tintColor];
-    synchronizeFiles.onTintColor = [[UIView appearance] tintColor];
     [super viewWillAppear:animated];
     [self synchUI];
 }
 
 - (void) synchUI
 {
-    usePassword.on = [CSVPreferencesController usePassword];
-    synchronizeFiles.on = [CSVPreferencesController synchronizeDownloadedFiles];
-    if( [CSVPreferencesController maxSafeBackgroundMinutes] != NSIntegerMax){
-        passwordTimeout.text = [NSString stringWithFormat:@"%ld", [CSVPreferencesController maxSafeBackgroundMinutes]];
+    useAutomatedDownload.on = [CSVPreferencesController useAutomatedDownload];
+    if( [CSVPreferencesController configuredDownloadTime])
+    {
+        downloadTime.date = [CSVPreferencesController configuredDownloadTime];
     }
+    downloadTime.enabled = useAutomatedDownload.on;
 }
 
 - (IBAction)somethingChanged:(id)sender
 {
-    //    if( sender == caseSensitiveSort){
-    //        [CSVPreferencesController setCaseSensitiveSort:caseSensitiveSort.on];
-    //    }
+    if( sender == useAutomatedDownload)
+    {
+        [CSVPreferencesController setUseAutomatedDownload:useAutomatedDownload.on];
+    }
+    else if( sender == downloadTime )
+    {
+        [CSVPreferencesController setConfiguredDownloadTime:downloadTime.date];
+    }
     [self synchUI];
 }
 

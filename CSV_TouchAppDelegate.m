@@ -41,95 +41,6 @@ static CSV_TouchAppDelegate *sharedInstance = nil;
 	return [original stringByAppendingString:INTERNAL_EXTENSION];
 }
 	
-static NSString *newPassword = nil;
-
-- (NSString *) currentPasswordHash
-{
-	return [[NSUserDefaults standardUserDefaults] objectForKey:FILE_PASSWORD];
-}
-
-- (void) checkPassword
-{
-    NSString *query = [CSVPreferencesController usePassword] ? @"Input password:" : @"Remove password:";
-    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:query
-                                                                             message:nil
-                                                                      preferredStyle:UIAlertControllerStyleAlert];
-    [alertController addTextFieldWithConfigurationHandler:^(UITextField *textField) {
-        textField.secureTextEntry = TRUE;
-        textField.placeholder = @"Password";
-        textField.clearButtonMode = UITextFieldViewModeWhileEditing;
-        textField.borderStyle = UITextBorderStyleRoundedRect;
-    }];
-    UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK"
-                                                 style:UIAlertActionStyleDefault
-                                               handler:^(UIAlertAction *action){
-                                                   NSString *input = alertController.textFields.firstObject.text;
-                                                   if( [[input ozyHash] isEqual:[[NSUserDefaults standardUserDefaults] dataForKey:FILE_PASSWORD]] )
-                                                   {
-                                                       if( [CSVPreferencesController usePassword] == NO )
-                                                       {
-                                                           [[NSUserDefaults standardUserDefaults] removeObjectForKey:FILE_PASSWORD];
-                                                       }
-                                                   }
-                                                   else
-                                                   {
-                                                       [self performSelector:@selector(checkPassword)
-                                                                  withObject:nil
-                                                                  afterDelay:0.3];
-                                                   }
-                                               }];
-    [alertController addAction:ok];
-    UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"Cancel"
-                                                     style:UIAlertActionStyleCancel
-                                                   handler:^(UIAlertAction *action){
-                                                       exit(1);
-                                                   }];
-    [alertController addAction:cancel];
-    [self.navigationController.topViewController presentViewController:alertController
-                                                                        animated:YES
-                                                                      completion:nil];
-}
-
-- (void) setPassword:(NSString *)title
-{
-    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:title
-                                                                             message:nil
-                                                                      preferredStyle:UIAlertControllerStyleAlert];
-    [alertController addTextFieldWithConfigurationHandler:^(UITextField *textField) {
-        textField.secureTextEntry = TRUE;
-        textField.clearButtonMode = UITextFieldViewModeWhileEditing;
-        textField.borderStyle = UITextBorderStyleRoundedRect;
-    }];
-    UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK"
-                                                 style:UIAlertActionStyleDefault
-                                               handler:^(UIAlertAction *action){
-                                                   NSString *input = alertController.textFields.firstObject.text;
-                                                   if( newPassword == nil )
-                                                   {
-                                                       newPassword = [input copy];
-                                                       [self performSelector:@selector(setPassword:)
-                                                                  withObject:@"Confirm Password"
-                                                                  afterDelay:0.3];
-                                                   }
-                                                   else if( [input isEqual:newPassword] )
-                                                   {
-                                                       [[NSUserDefaults standardUserDefaults] setObject:[newPassword ozyHash] forKey:FILE_PASSWORD];
-                                                       newPassword = nil;
-                                                   }
-                                                   else
-                                                   {
-                                                       newPassword = nil;
-                                                       [self performSelector:@selector(setPassword:)
-                                                                  withObject:@"Passwords Don't Match!\nSet Password"
-                                                                  afterDelay:0.3];
-                                                   }
-                                               }];
-    [alertController addAction:ok];
-    [self.navigationController.topViewController presentViewController:alertController
-                                                                        animated:YES
-                                                                      completion:nil];
-}
-
 + (CSV_TouchAppDelegate *) sharedInstance
 {
 	return sharedInstance;
@@ -409,22 +320,11 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
         }
     }
     
-    if( [self currentPasswordHash] != nil )
+    // Show the Add file window in case no files are present
+    if( [[CSVFileParser files] count] == 0 && ![CSVPreferencesController hasShownHowTo])
     {
-        [self checkPassword];
-    }
-    else if( [CSVPreferencesController usePassword] )
-    {
-        [self setPassword:@"New Password"];
-    }
-    else
-    {
-        // Show the Add file window in case no files are present
-        if( [[CSVFileParser files] count] == 0 && ![CSVPreferencesController hasShownHowTo])
-        {
-            self.introHowToController = [[IntroViewController alloc] init];
-            [self.introHowToController startHowToShowing:self];
-        }
+        self.introHowToController = [[IntroViewController alloc] init];
+        [self.introHowToController startHowToShowing:self];
     }
 
     [[UIView appearance] setTintColor:[UIColor redColor]];
@@ -464,30 +364,6 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 	}
 	else 
 	{
-		if([CSVPreferencesController synchronizeDownloadedFiles])
-		{
-            // Only continue if download was successful; cf. Mark McCorkle's mail of 2012-04-18
-            if( self.downloadFailed == false )
-            {
-                // We need to remove any files not included amongst the newly downloaded ones
-                NSMutableSet *newFileNames = [NSMutableSet set];
-                NSMutableSet *oldFileNames = [NSMutableSet set];
-                for( NSString *URLString in self.filesAddedThroughURLList )
-                {
-                    [newFileNames addObject:[CSV_TouchAppDelegate internalFileNameForOriginalFileName:[URLString lastPathComponent]]];
-                }
-                for( CSVFileParser *file in [CSVFileParser files] )
-                {
-                    [oldFileNames addObject:[file fileName]];
-                }
-                [oldFileNames minusSet:newFileNames];
-                for( NSString *name in oldFileNames )
-                {
-                    [CSVFileParser removeFileWithName:name];
-                    [[NSFileManager defaultManager] removeItemAtPath:[[CSV_TouchAppDelegate importedDocumentsPath] stringByAppendingPathComponent:name] error:NULL];
-                }
-            }
-		}
 		[CSVPreferencesController setHideAddress:NO]; // In case we had temporarily set this from
 													  // a URL list file with preference settings
         [[FilesViewController sharedInstance] allFilesRefreshed];
@@ -794,25 +670,8 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 
 - (void)applicationWillEnterForeground:(UIApplication *)application
 {
-	long maxMinutesInBackground = [CSVPreferencesController maxSafeBackgroundMinutes];
-	if(maxMinutesInBackground != NSIntegerMax &&
-	   self.enteredBackground &&
-	   [[NSDate date] timeIntervalSinceDate:self.enteredBackground] > maxMinutesInBackground*60 )
-	{
-		[self performSelector:@selector(checkPassword)
-				   withObject:nil 
-				   afterDelay:0.3];
-	}
     // Import any new files imported manually (e.g. in iTunes, while this app was in the background)
-    [self importManuallyAddedDocuments];
-    
-    // Fix to better check for changed defaults, or move defaults inside app!
-//    if( [CSVPreferencesController defaultsHaveChanged])
-//    {
-//        [self loadOldDocuments];
-//        [self.navigationController popToViewController:[FilesViewController sharedInstance] animated:NO];
-//        [CSVPreferencesController resetDefaultsHaveChanges];
-//    }
+    [self importManuallyAddedDocuments];    
 }
 
 // Import any new files imported manually (e.g. in iTunes, while this app was running)

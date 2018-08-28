@@ -135,11 +135,6 @@ static FilesViewController *_sharedInstance = nil;
 {
     [super viewDidAppear:animated];
 
-    if( [CSVPreferencesController simpleMode])
-    {
-        self.navigationController.navigationItem.rightBarButtonItem = nil;
-    }
-    
     self.refreshControl = [[UIRefreshControl alloc] init];
     [self.refreshControl addTarget:self
                             action:@selector(refreshAllFiles)
@@ -229,11 +224,6 @@ static FilesViewController *_sharedInstance = nil;
 //{
 //    
 //}
-
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return ![CSVPreferencesController simpleMode];
-}
 
 - (UITableViewCell *)tableView:(UITableView *)aTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {

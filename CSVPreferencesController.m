@@ -20,10 +20,8 @@
 #define PREFS_SORTING_MASK @"sortingMask"
 #define PREFS_USE_GROUPING_FOR_ITEMS @"useGroupingForItems"
 #define PREFS_GROUP_NUMBERS @"groupNumbers"
-#define PREFS_ENABLE_PHONE_LINKS @"enablePhoneLinks"
 #define PREFS_USE_FIXED_WIDTH @"useFixedWidth"
 #define PREFS_DEFINED_FIXED_WIDTHS @"definedFixedWidths"
-#define PREFS_SAFE_START @"safeStart"
 #define PREFS_KEEP_QUOTES @"keepQuotes"
 #define PREFS_USE_CORRECT_PARSING @"useCorrectParsing"
 #define PREFS_USE_CORRECT_SORTING @"useCorrectSorting"
@@ -32,21 +30,18 @@
 #define PREFS_CASE_SENSITIVE_SORTING @"caseSensitiveSorting"
 #define PREFS_LITERAL_SORTING @"literalSorting"
 #define PREFS_CLEAR_SEARCH_WHEN_QUICK_SELECTING @"clearSearchWhenQuickSelecting"
-#define PREFS_USE_PASSWORD @"usePassword"
 #define PREFS_HAS_BEEN_UPGRADED_TO_CUSTOM_EXTENSION @"hasBeenUpgradedToCustomExtension"
 #define PREFS_HAS_SHOWN_HOW_TO @"hasShownHowTo"
 #define PREFS_HIDE_ADDRESS @"hideAddress"
 #define PREFS_NEXT_DOWNLOAD_TIME @"nextDownloadTime"
 #define PREFS_LAST_DOWNLOAD @"lastDownload"
-#define PREFS_SIMPLE_MODE @"simpleMode"
 #define PREFS_BLANK_WORD_SEPARATOR @"blankWordSeparator"
-#define PREFS_MAX_SAFE_BACKGROUND_MINUTES @"maxSafeBackgroundMinutes"
 #define LAST_USED_LIST_URL @"lastUsedListURL"
-#define PREFS_SYNCHRONIZE_DOWNLOADED_FILES @"synchronizeDownloadedFiles"
 #define NEW_FILE_URL @"newFileURL"
 #define PREFS_DETAILS_VIEW @"detailsView"
 #define PREFS_SHOW_DELETED_COLUMNS @"showDeletedColumns"
-
+#define PREFS_USE_AUTOMATED_DOWNLOAD @"useAutomatedDownload"
+#define PREFS_CONFIGURED_DOWNLOAD_TIME @"configuredDownloadTime"
 
 NSUInteger sortingMask;
 static BOOL reverseItemSorting = FALSE;
@@ -76,6 +71,11 @@ static BOOL reverseItemSorting = FALSE;
     [defaults removeObjectForKey:@"confirmLink"];
     [defaults removeObjectForKey:@"enablePhoneLinks"];
     [defaults removeObjectForKey:@"showDebugInfo"];
+    [defaults removeObjectForKey:@"simpleMode"];
+    [defaults removeObjectForKey:@"synchronizeDownloadedFiles"];
+    [defaults removeObjectForKey:@"safeStart"];
+    [defaults removeObjectForKey:@"maxSafeBackgroundMinutes"];
+    [defaults removeObjectForKey:@"usePassword"];
 
     if( [defaults objectForKey:@"smartDelimiter"]){
         [defaults removeObjectForKey:@"smartDelimiter"];
@@ -271,11 +271,6 @@ static BOOL reverseItemSorting = FALSE;
 	return [[NSUserDefaults standardUserDefaults] boolForKey:PREFS_KEEP_QUOTES];
 }
 
-+ (BOOL) safeStart
-{
-	return [[NSUserDefaults standardUserDefaults] boolForKey:PREFS_SAFE_START];
-}
-
 + (void) setUseCorrectParsing:(BOOL)yn
 {
     [[NSUserDefaults standardUserDefaults] setBool:yn forKey:PREFS_USE_CORRECT_PARSING];
@@ -313,18 +308,40 @@ static BOOL reverseItemSorting = FALSE;
 		return YES;
 }
 
-+ (BOOL) usePassword
++ (void) setUseAutomatedDownload:(BOOL)yn
 {
-	id obj = [[NSUserDefaults standardUserDefaults] objectForKey:PREFS_USE_PASSWORD];
-	if( obj )
-		return [[NSUserDefaults standardUserDefaults] boolForKey:PREFS_USE_PASSWORD];
-	else
-		return NO;
+    [[NSUserDefaults standardUserDefaults] setBool:yn forKey:PREFS_USE_AUTOMATED_DOWNLOAD];
 }
 
-+ (void) clearSetPassword
++ (BOOL) useAutomatedDownload
 {
-	[[NSUserDefaults standardUserDefaults] removeObjectForKey:PREFS_USE_PASSWORD];
+    id obj = [[NSUserDefaults standardUserDefaults] objectForKey:PREFS_USE_AUTOMATED_DOWNLOAD];
+    if( obj )
+        return [obj boolValue];
+    else
+        return NO;
+}
+
++ (void) setConfiguredDownloadTime:(NSDate *)time
+{
+    if( time)
+    {
+        [[NSUserDefaults standardUserDefaults] setObject:time forKey:PREFS_CONFIGURED_DOWNLOAD_TIME];
+    }
+    else
+    {
+        [[NSUserDefaults standardUserDefaults] removeObjectForKey:PREFS_CONFIGURED_DOWNLOAD_TIME];
+    }
+}
+
++ (NSDate *) configuredDownloadTime
+{
+    id obj = [[NSUserDefaults standardUserDefaults] objectForKey:PREFS_CONFIGURED_DOWNLOAD_TIME];
+    if( obj && [obj isKindOfClass:[NSDate class]])
+    {
+        return obj;
+    }
+    return nil;
 }
 
 + (NSDate *) nextDownload
@@ -353,7 +370,7 @@ static BOOL reverseItemSorting = FALSE;
 			return nextDownload;
 		}
 	}
-		return nil;
+    return nil;
 }
 
 + (NSDate *) lastDownload
@@ -370,16 +387,6 @@ static BOOL reverseItemSorting = FALSE;
 	[[NSUserDefaults standardUserDefaults] setObject:lastDownload forKey:PREFS_LAST_DOWNLOAD];
 }
 
-+ (BOOL) simpleMode
-{
-	id obj = [[NSUserDefaults standardUserDefaults] objectForKey:PREFS_SIMPLE_MODE];
-	if( obj )
-		return [[NSUserDefaults standardUserDefaults] boolForKey:PREFS_SIMPLE_MODE];
-	else
-		return NO;
-	
-}
-
 + (void) setBlankWordSeparator:(BOOL)yn
 {
     [[NSUserDefaults standardUserDefaults] setBool:yn forKey:PREFS_BLANK_WORD_SEPARATOR];
@@ -392,15 +399,6 @@ static BOOL reverseItemSorting = FALSE;
 		return [[NSUserDefaults standardUserDefaults] boolForKey:PREFS_BLANK_WORD_SEPARATOR];
 	else
 		return NO;	
-}
-
-+ (long) maxSafeBackgroundMinutes
-{
-	id obj = [[NSUserDefaults standardUserDefaults] objectForKey:PREFS_MAX_SAFE_BACKGROUND_MINUTES];
-	if( obj )
-		return [[NSUserDefaults standardUserDefaults] integerForKey:PREFS_MAX_SAFE_BACKGROUND_MINUTES];
-	else
-		return NSIntegerMax;	
 }
 
 + (NSURL *) lastUsedListURL
@@ -417,15 +415,6 @@ static BOOL reverseItemSorting = FALSE;
         [[NSUserDefaults standardUserDefaults] setURL:URL forKey:LAST_USED_LIST_URL];
     else
         [[NSUserDefaults standardUserDefaults] setObject:[URL absoluteString] forKey:LAST_USED_LIST_URL];
-}
-
-+ (BOOL) synchronizeDownloadedFiles
-{
-	id obj = [[NSUserDefaults standardUserDefaults] objectForKey:PREFS_SYNCHRONIZE_DOWNLOADED_FILES];
-	if( obj )
-		return [[NSUserDefaults standardUserDefaults] boolForKey:PREFS_SYNCHRONIZE_DOWNLOADED_FILES];
-	else
-		return NO;	
 }
 
 static BOOL hideAdress = NO;
@@ -468,10 +457,6 @@ static BOOL hideAdress = NO;
 				[[NSUserDefaults standardUserDefaults] setBool:[[words objectAtIndex:1] boolValue]
 														forKey:PREFS_GROUP_NUMBERS];
 			
-			else if( [[words objectAtIndex:0] isEqualToString:PREFS_ENABLE_PHONE_LINKS] )
-				[[NSUserDefaults standardUserDefaults] setBool:[[words objectAtIndex:1] boolValue]
-														forKey:PREFS_ENABLE_PHONE_LINKS];
-			
 			else if( [[words objectAtIndex:0] isEqualToString:PREFS_USE_FIXED_WIDTH] )
 				[[NSUserDefaults standardUserDefaults] setBool:[[words objectAtIndex:1] boolValue]
 														forKey:PREFS_USE_FIXED_WIDTH];
@@ -479,10 +464,6 @@ static BOOL hideAdress = NO;
 			else if( [[words objectAtIndex:0] isEqualToString:PREFS_DEFINED_FIXED_WIDTHS] )
 				[[NSUserDefaults standardUserDefaults] setBool:[[words objectAtIndex:1] boolValue]
 														forKey:PREFS_DEFINED_FIXED_WIDTHS];
-			
-			else if( [[words objectAtIndex:0] isEqualToString:PREFS_SAFE_START] )
-				[[NSUserDefaults standardUserDefaults] setBool:[[words objectAtIndex:1] boolValue]
-														forKey:PREFS_SAFE_START];
 			
 			else if( [[words objectAtIndex:0] isEqualToString:PREFS_KEEP_QUOTES] )
 				[[NSUserDefaults standardUserDefaults] setBool:[[words objectAtIndex:1] boolValue]
@@ -516,10 +497,6 @@ static BOOL hideAdress = NO;
 				[[NSUserDefaults standardUserDefaults] setBool:[[words objectAtIndex:1] boolValue]
 														forKey:PREFS_CLEAR_SEARCH_WHEN_QUICK_SELECTING];
 			
-			else if( [[words objectAtIndex:0] isEqualToString:PREFS_USE_PASSWORD] )
-				[[NSUserDefaults standardUserDefaults] setBool:[[words objectAtIndex:1] boolValue]
-														forKey:PREFS_USE_PASSWORD];						
-
 			else if( [[words objectAtIndex:0] isEqualToString:PREFS_HIDE_ADDRESS] )
 				[CSVPreferencesController setHideAddress:[[words objectAtIndex:1] boolValue]];
 
@@ -527,23 +504,11 @@ static BOOL hideAdress = NO;
 				[[NSUserDefaults standardUserDefaults] setObject:[words objectAtIndex:1]
 														  forKey:PREFS_NEXT_DOWNLOAD_TIME];
 			
-			else if( [[words objectAtIndex:0] isEqualToString:PREFS_SIMPLE_MODE] )
-				[[NSUserDefaults standardUserDefaults] setBool:[[words objectAtIndex:1] boolValue]
-														forKey:PREFS_SIMPLE_MODE];
-			
-			else if( [[words objectAtIndex:0] isEqualToString:PREFS_BLANK_WORD_SEPARATOR] )
-				[[NSUserDefaults standardUserDefaults] setBool:[[words objectAtIndex:1] boolValue]
-														forKey:PREFS_BLANK_WORD_SEPARATOR];
-			
-			else if( [[words objectAtIndex:0] isEqualToString:PREFS_MAX_SAFE_BACKGROUND_MINUTES] )
-				[[NSUserDefaults standardUserDefaults] setBool:[[words objectAtIndex:1] integerValue]
-														forKey:PREFS_MAX_SAFE_BACKGROUND_MINUTES];
-			
-			else if( [[words objectAtIndex:0] isEqualToString:PREFS_SYNCHRONIZE_DOWNLOADED_FILES] )
-				[[NSUserDefaults standardUserDefaults] setBool:[[words objectAtIndex:1] boolValue]
-														forKey:PREFS_SYNCHRONIZE_DOWNLOADED_FILES];
-			
-		}
+            else if( [[words objectAtIndex:0] isEqualToString:PREFS_BLANK_WORD_SEPARATOR] )
+                [[NSUserDefaults standardUserDefaults] setBool:[[words objectAtIndex:1] boolValue]
+                                                        forKey:PREFS_BLANK_WORD_SEPARATOR];
+            
+        }
 	}
 	[[NSUserDefaults standardUserDefaults] synchronize];
 }
