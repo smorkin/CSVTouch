@@ -33,7 +33,6 @@
 #define PREFS_HAS_BEEN_UPGRADED_TO_CUSTOM_EXTENSION @"hasBeenUpgradedToCustomExtension"
 #define PREFS_HAS_SHOWN_HOW_TO @"hasShownHowTo"
 #define PREFS_HIDE_ADDRESS @"hideAddress"
-#define PREFS_NEXT_DOWNLOAD_TIME @"nextDownloadTime"
 #define PREFS_LAST_DOWNLOAD @"lastDownload"
 #define PREFS_BLANK_WORD_SEPARATOR @"blankWordSeparator"
 #define LAST_USED_LIST_URL @"lastUsedListURL"
@@ -76,6 +75,7 @@ static BOOL reverseItemSorting = FALSE;
     [defaults removeObjectForKey:@"safeStart"];
     [defaults removeObjectForKey:@"maxSafeBackgroundMinutes"];
     [defaults removeObjectForKey:@"usePassword"];
+    [defaults removeObjectForKey:@"nextDownloadTime"];
 
     if( [defaults objectForKey:@"smartDelimiter"]){
         [defaults removeObjectForKey:@"smartDelimiter"];
@@ -346,31 +346,34 @@ static BOOL reverseItemSorting = FALSE;
 
 + (NSDate *) nextDownload
 {
-	id obj = [[NSUserDefaults standardUserDefaults] objectForKey:PREFS_NEXT_DOWNLOAD_TIME];
-	if( obj )
-	{
-		NSString *time = [[NSUserDefaults standardUserDefaults] stringForKey:PREFS_NEXT_DOWNLOAD_TIME];
-		NSArray *split = [time componentsSeparatedByString:@":"];
-		if( [split count] == 2 )
-		{
-			NSDate *now = [NSDate date];
-			NSCalendar *current = [NSCalendar currentCalendar];
-			NSDateComponents *components = [current components:NSCalendarUnitYear |
-											NSCalendarUnitMonth |
-											NSCalendarUnitDay
-													  fromDate:now];
-			[components setHour:[[split objectAtIndex:0] intValue]];
-			[components setMinute:[[split objectAtIndex:1] intValue]];
-			NSDate *nextDownload = [current dateFromComponents:components];
-			if( [nextDownload timeIntervalSinceDate:now] < 0 )
-			{
-				[components setDay:[components day]+1];
-				nextDownload = [current dateFromComponents:components];
-			}
-			return nextDownload;
-		}
-	}
-    return nil;
+    NSDate *configuredDownloadTime = [CSVPreferencesController configuredDownloadTime];
+    if( ![CSVPreferencesController useAutomatedDownload] || !configuredDownloadTime)
+    {
+        return nil;
+    }
+    // So we have a configured time or rather, unfortunately, a date, where only time part is
+    // relevant. Next download is either today's date with this time, or tomorrow with this time.
+    NSDate *today = [NSDate date];
+    NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier: NSCalendarIdentifierGregorian];
+    NSDateComponents *configuredComponents = [gregorian components: NSUIntegerMax
+                                                          fromDate: configuredDownloadTime];
+    NSDateComponents *todayComponents = [gregorian components: NSUIntegerMax
+                                                     fromDate: today];
+    todayComponents.hour = configuredComponents.hour;
+    todayComponents.minute = configuredComponents.minute;
+    todayComponents.second = 0;
+    NSDate *configuredToday = [gregorian dateFromComponents:todayComponents];
+    if( [configuredToday compare:today] == NSOrderedDescending)
+    {
+        return configuredToday;
+    }
+    else
+    {
+        NSDateComponents *dayComponent = [[NSDateComponents alloc] init];
+        dayComponent.day = 1;
+        NSCalendar *theCalendar = [NSCalendar currentCalendar];
+        return [theCalendar dateByAddingComponents:dayComponent toDate:configuredToday options:0];
+    }
 }
 
 + (NSDate *) lastDownload
@@ -500,10 +503,6 @@ static BOOL hideAdress = NO;
 			else if( [[words objectAtIndex:0] isEqualToString:PREFS_HIDE_ADDRESS] )
 				[CSVPreferencesController setHideAddress:[[words objectAtIndex:1] boolValue]];
 
-			else if( [[words objectAtIndex:0] isEqualToString:PREFS_NEXT_DOWNLOAD_TIME] )
-				[[NSUserDefaults standardUserDefaults] setObject:[words objectAtIndex:1]
-														  forKey:PREFS_NEXT_DOWNLOAD_TIME];
-			
             else if( [[words objectAtIndex:0] isEqualToString:PREFS_BLANK_WORD_SEPARATOR] )
                 [[NSUserDefaults standardUserDefaults] setBool:[[words objectAtIndex:1] boolValue]
                                                         forKey:PREFS_BLANK_WORD_SEPARATOR];

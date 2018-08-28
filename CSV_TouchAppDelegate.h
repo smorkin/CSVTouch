@@ -42,6 +42,7 @@ OzymandiasApplicationDelegate>
 - (void) loadFileList;
 - (void) loadNewFile;
 - (void) readLocalFiles:(NSArray<NSURL *> *)urls;
+- (void) scheduleAutomatedDownload;
 
 @end
 

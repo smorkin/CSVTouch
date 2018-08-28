@@ -32,10 +32,12 @@
     if( sender == useAutomatedDownload)
     {
         [CSVPreferencesController setUseAutomatedDownload:useAutomatedDownload.on];
+        [[CSV_TouchAppDelegate sharedInstance] scheduleAutomatedDownload];
     }
     else if( sender == downloadTime )
     {
         [CSVPreferencesController setConfiguredDownloadTime:downloadTime.date];
+        [[CSV_TouchAppDelegate sharedInstance] scheduleAutomatedDownload];
     }
     [self synchUI];
 }

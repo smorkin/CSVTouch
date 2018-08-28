@@ -286,18 +286,9 @@ static CSV_TouchAppDelegate *sharedInstance = nil;
     [super awakeFromNib];
 }
 
-- (BOOL)application:(UIApplication *)application
-didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+- (void) scheduleAutomatedDownload
 {
-    [self loadLocalFiles];
-    [CSVPreferencesController applicationDidFinishLaunching];
-    
-    self.lastFileURL = [CSVPreferencesController lastUsedURL];
-    if( !self.lastFileURL || [self.lastFileURL isEqualToString:@""] )
-    {
-        self.lastFileURL = @"http://";
-    }
-    
+    [downloadTimer invalidate];
     NSDate *nextDownload = [CSVPreferencesController nextDownload];
     if( nextDownload )
     {
@@ -311,14 +302,28 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
         [[NSRunLoop currentRunLoop] addTimer:downloadTimer forMode:NSDefaultRunLoopMode];
         // Now let's check if we need to do a new download immediately
         NSDate *lastDownload = [CSVPreferencesController lastDownload];
-        if( !lastDownload ||
-           ( lastDownload && [nextDownload timeIntervalSinceDate:lastDownload] > 24*60*60 ))
+        if( lastDownload && [nextDownload timeIntervalSinceDate:lastDownload] > 24*60*60 )
         {
             [self performSelector:@selector(downloadScheduled)
                        withObject:nil
                        afterDelay:2.0];
         }
     }
+}
+
+- (BOOL)application:(UIApplication *)application
+didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+{
+    [self loadLocalFiles];
+    [CSVPreferencesController applicationDidFinishLaunching];
+    
+    self.lastFileURL = [CSVPreferencesController lastUsedURL];
+    if( !self.lastFileURL || [self.lastFileURL isEqualToString:@""] )
+    {
+        self.lastFileURL = @"http://";
+    }
+    
+    [self scheduleAutomatedDownload];
     
     // Show the Add file window in case no files are present
     if( [[CSVFileParser files] count] == 0 && ![CSVPreferencesController hasShownHowTo])

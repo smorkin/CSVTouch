@@ -5,6 +5,7 @@
     </device>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -422,15 +423,30 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Refresh time" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ipr-y3-8kt">
-                                <rect key="frame" x="101.5" y="148" width="97" height="21"/>
+                                <rect key="frame" x="101" y="73" width="97" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="97" id="jv8-6p-qR7"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ZWA-MD-FE0">
+                                <rect key="frame" x="237" y="20" width="51" height="31"/>
+                                <connections>
+                                    <action selector="somethingChanged:" destination="lMs-RE-JYJ" eventType="valueChanged" id="P3E-EX-4oo"/>
+                                </connections>
+                            </switch>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Automated refresh" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4L4-iK-a96">
+                                <rect key="frame" x="17" y="25" width="143" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="time" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="gBR-8n-YBS">
-                                <rect key="frame" x="17" y="177" width="264" height="43"/>
+                                <rect key="frame" x="16" y="102" width="270" height="43"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="43" id="gPb-fz-qNN"/>
+                                    <constraint firstAttribute="height" constant="43" id="hbO-R8-vzZ"/>
                                 </constraints>
                                 <date key="date" timeIntervalSinceReferenceDate="541379584.38926601">
                                     <!--2018-02-26 23:13:04 +0000-->
@@ -439,28 +455,18 @@
                                     <action selector="somethingChanged:" destination="lMs-RE-JYJ" eventType="valueChanged" id="5zx-so-VO0"/>
                                 </connections>
                             </datePicker>
-                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ZWA-MD-FE0">
-                                <rect key="frame" x="237" y="20" width="49" height="31"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <connections>
-                                    <action selector="somethingChanged:" destination="lMs-RE-JYJ" eventType="valueChanged" id="P3E-EX-4oo"/>
-                                </connections>
-                            </switch>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Automated refresh" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4L4-iK-a96">
-                                <rect key="frame" x="17" y="25" width="143" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="gBR-8n-YBS" firstAttribute="leading" secondItem="lIB-Uc-ICq" secondAttribute="leading" constant="17" id="9Ja-1P-Rpc"/>
-                            <constraint firstItem="gBR-8n-YBS" firstAttribute="centerX" secondItem="Ipr-y3-8kt" secondAttribute="centerX" constant="-1" id="Cn2-66-Mlk"/>
-                            <constraint firstItem="Ipr-y3-8kt" firstAttribute="centerX" secondItem="lIB-Uc-ICq" secondAttribute="centerX" id="YPz-Tf-J67"/>
-                            <constraint firstItem="Ipr-y3-8kt" firstAttribute="top" secondItem="lIB-Uc-ICq" secondAttribute="top" constant="148" id="lc2-N4-DAq"/>
-                            <constraint firstItem="gBR-8n-YBS" firstAttribute="top" secondItem="Ipr-y3-8kt" secondAttribute="bottom" constant="8" id="mi7-9b-8e1"/>
+                            <constraint firstItem="gBR-8n-YBS" firstAttribute="top" secondItem="Ipr-y3-8kt" secondAttribute="bottom" constant="8" symbolic="YES" id="2Nd-aI-YW5"/>
+                            <constraint firstItem="4L4-iK-a96" firstAttribute="leading" secondItem="lIB-Uc-ICq" secondAttribute="leading" constant="17" id="7z1-1T-Mmb"/>
+                            <constraint firstItem="ZWA-MD-FE0" firstAttribute="leading" secondItem="4L4-iK-a96" secondAttribute="trailing" constant="77" id="FPV-cg-o6a"/>
+                            <constraint firstItem="4L4-iK-a96" firstAttribute="top" secondItem="lIB-Uc-ICq" secondAttribute="top" constant="25" id="QuN-9G-76x"/>
+                            <constraint firstItem="lIB-Uc-ICq" firstAttribute="trailing" secondItem="gBR-8n-YBS" secondAttribute="trailing" constant="14" id="fHX-jl-tXJ"/>
+                            <constraint firstItem="gBR-8n-YBS" firstAttribute="leading" secondItem="m8N-cE-fTx" secondAttribute="leadingMargin" id="mJ3-zR-EsJ"/>
+                            <constraint firstItem="Ipr-y3-8kt" firstAttribute="top" secondItem="lIB-Uc-ICq" secondAttribute="top" constant="73" id="sUM-30-8Do"/>
+                            <constraint firstItem="Ipr-y3-8kt" firstAttribute="centerX" secondItem="lIB-Uc-ICq" secondAttribute="centerX" id="tuA-80-xEG"/>
+                            <constraint firstItem="ZWA-MD-FE0" firstAttribute="centerY" secondItem="4L4-iK-a96" secondAttribute="centerY" id="zsD-l6-0UI"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="lIB-Uc-ICq"/>
                     </view>
