@@ -61,7 +61,7 @@
                    direction:UIPageViewControllerNavigationDirectionForward
                     animated:NO
                   completion:nil];
-    UIBarButtonItem *prefs = [[UIBarButtonItem alloc] initWithTitle:@"Prefs"
+    UIBarButtonItem *prefs = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"prefs_main"]
                                                               style:UIBarButtonItemStylePlain
                                                              target:self
                                                              action:@selector(showPreferences)];

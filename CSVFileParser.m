@@ -183,8 +183,8 @@ static NSMutableArray *_files;
 {
     [self.parsedItems sortUsingSelector:[CSVRow compareSelector]];
     self.hasBeenSorted = YES;
-
 }
+
 // Returns FALSE if error is encountered
 - (BOOL) parse:(NSString *)s
 	 delimiter:(int)delimiter
@@ -601,10 +601,21 @@ static NSMutableArray *_files;
             if( [usedColumn isEqualToString:[self.columnNames objectAtIndex:i]] )
                 [self.shownColumnIndexes addObject:[NSNumber numberWithUnsignedInteger:i]];
     }
-    self.rawShownColumnIndexes = malloc(sizeof(int) * [self.shownColumnIndexes count]);
-    for( int i = 0 ; i < [self.shownColumnIndexes count] ; i++ )
+    // Here we can run into a problem: Normally sizeof(shownColumnNames) = sizeof(shownColumnIndexes).
+    // But if we e.g. have changed encoding used, the previously saved column names to show might no longer
+    // exist among the available column names. If this happens, let's just redo
+    if( [self.shownColumnIndexes count] != [self.shownColumnNames count])
     {
-        self.rawShownColumnIndexes[i] = [[self.shownColumnIndexes objectAtIndex:i] intValue];
+        self.shownColumnNames = [self.columnNames mutableCopy];
+        [self updateRawColumnIndexes];
+    }
+    else
+    {
+        self.rawShownColumnIndexes = malloc(sizeof(int) * [self.shownColumnIndexes count]);
+        for( int i = 0 ; i < [self.shownColumnIndexes count] ; i++ )
+        {
+            self.rawShownColumnIndexes[i] = [[self.shownColumnIndexes objectAtIndex:i] intValue];
+        }
     }
 }
 

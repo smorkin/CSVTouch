@@ -40,8 +40,8 @@
                                 </connections>
                             </segmentedControl>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VbH-u1-RgG">
-                                <rect key="frame" x="153" y="518" width="70" height="30"/>
-                                <state key="normal" title="Export file"/>
+                                <rect key="frame" x="136" y="518" width="104" height="30"/>
+                                <state key="normal" title="Export CSV file"/>
                                 <connections>
                                     <action selector="exportFile:" destination="dge-RM-wBU" eventType="touchUpInside" id="ER3-Af-Zyb"/>
                                 </connections>
@@ -206,7 +206,7 @@
                                 </segue>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" title="Prefs" id="l7y-xi-cpE">
+                        <barButtonItem key="rightBarButtonItem" title="Prefs" image="prefs_main" id="l7y-xi-cpE">
                             <connections>
                                 <segue destination="Hr8-Hg-30Q" kind="popoverPresentation" identifier="ToFilesPrefs" popoverAnchorBarButtonItem="l7y-xi-cpE" id="0tT-el-bdh">
                                     <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
@@ -695,7 +695,7 @@
                         <barButtonItem enabled="NO" title="#" id="95b-yr-lIs"/>
                     </toolbarItems>
                     <navigationItem key="navigationItem" id="zT4-gJ-k7l">
-                        <barButtonItem key="rightBarButtonItem" title="Prefs" id="lG6-Ho-k0O">
+                        <barButtonItem key="rightBarButtonItem" title="Prefs" image="prefs_main" id="lG6-Ho-k0O">
                             <connections>
                                 <segue destination="Nph-FW-Xhv" kind="popoverPresentation" identifier="ToItemsViewPrefs" popoverAnchorBarButtonItem="lG6-Ho-k0O" id="XBC-8w-qBT">
                                     <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
@@ -856,5 +856,6 @@
     <resources>
         <image name="2lines.png" width="20" height="24"/>
         <image name="4lines.png" width="20" height="24"/>
+        <image name="prefs_main" width="22" height="22"/>
     </resources>
 </document>

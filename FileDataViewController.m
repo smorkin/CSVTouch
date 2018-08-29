@@ -58,11 +58,11 @@
     if( ![self file].hideAddress ){
         if( [self.file downloadedLocally])
         {
-            [s appendString:@"Address: <local import>\n\n"];
+            [s appendString:@"Imported from: <local import>\n\n"];
         }
         else
         {
-            [s appendFormat:@"Address: %@\n(click to re-download & to copy address)\n\n", self.file.URL];
+            [s appendFormat:@"Imported from: %@\n(click to re-download & to copy address)\n\n", self.file.URL];
         }
     }
     NSError *error;
@@ -73,15 +73,15 @@
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
         [dateFormatter setDateStyle:NSDateFormatterShortStyle];
         [dateFormatter setTimeStyle:NSDateFormatterShortStyle];
-        [s appendFormat:@"Size: %.2f KB\n\n",
-         ((double)[[fileAttributes objectForKey:NSFileSize] longLongValue]) / 1024.0];
         if( [self.file downloadedLocally] )
             [s appendFormat:@"Imported: %@\n\n",
              ([self file].downloadDate ? [dateFormatter stringFromDate:[self file].downloadDate] : @"n/a")];
         else
-            [s appendFormat:@"Downloaded: %@\n\n",
+            [s appendFormat:@"Imported: %@\n\n",
              ([self file].downloadDate ? [dateFormatter stringFromDate:[self file].downloadDate] : @"Available after next download")];
-        [s appendFormat:@"Internal data file: %@\n\n", [self file].filePath];
+        [s appendFormat:@"Size: %.2f KB\n\n",
+         ((double)[[fileAttributes objectForKey:NSFileSize] longLongValue]) / 1024.0];
+//        [s appendFormat:@"Internal data file: %@\n\n", [self file].filePath];
         fileInfo.text = s;
     }
     else
