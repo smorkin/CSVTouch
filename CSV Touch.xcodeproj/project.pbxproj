@@ -33,6 +33,8 @@
 		F434D1571FF6B56D00CD622D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F434D1541FF6B51700CD622D /* CoreGraphics.framework */; };
 		F434D15A1FF6E17E00CD622D /* FileDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = F434D1591FF6E17E00CD622D /* FileDownloader.m */; };
 		F434D15B1FF6E17E00CD622D /* FileDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = F434D1591FF6E17E00CD622D /* FileDownloader.m */; };
+		F43B34CB21616BB70099CCD0 /* Entitlements.plist in Resources */ = {isa = PBXBuildFile; fileRef = F43B34CA21616BB70099CCD0 /* Entitlements.plist */; };
+		F43B34CC21616BB70099CCD0 /* Entitlements.plist in Resources */ = {isa = PBXBuildFile; fileRef = F43B34CA21616BB70099CCD0 /* Entitlements.plist */; };
 		F44AD0D81FFD0CC800BC21D6 /* DetailsPagesController.m in Sources */ = {isa = PBXBuildFile; fileRef = F44AD0D71FFD0CC800BC21D6 /* DetailsPagesController.m */; };
 		F44AD0D91FFD0CC800BC21D6 /* DetailsPagesController.m in Sources */ = {isa = PBXBuildFile; fileRef = F44AD0D71FFD0CC800BC21D6 /* DetailsPagesController.m */; };
 		F44AD0E21FFE671300BC21D6 /* AddFilesSelectionController.m in Sources */ = {isa = PBXBuildFile; fileRef = F44AD0E11FFE671300BC21D6 /* AddFilesSelectionController.m */; };
@@ -183,7 +185,6 @@
 		F4ADD824115E573C0095F061 /* yes.png in Resources */ = {isa = PBXBuildFile; fileRef = F4ADD7CA115E573C0095F061 /* yes.png */; };
 		F4ADD90E115E692D0095F061 /* empty.png in Resources */ = {isa = PBXBuildFile; fileRef = F4ADD90D115E692D0095F061 /* empty.png */; };
 		F4ADD90F115E692D0095F061 /* empty.png in Resources */ = {isa = PBXBuildFile; fileRef = F4ADD90D115E692D0095F061 /* empty.png */; };
-		F4AE6ED113217AEB00BABD6C /* Entitlements.plist in Resources */ = {isa = PBXBuildFile; fileRef = F4AE6ED013217AD500BABD6C /* Entitlements.plist */; };
 		F4C2E44518CE0CE9004E49E5 /* HowToController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4C2E44318CE0CE9004E49E5 /* HowToController.m */; };
 		F4C2E44618CE0CE9004E49E5 /* HowToController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4C2E44318CE0CE9004E49E5 /* HowToController.m */; };
 		F4C2E44718CE0CE9004E49E5 /* HowToController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F4C2E44418CE0CE9004E49E5 /* HowToController.xib */; };
@@ -249,6 +250,7 @@
 		F434D1541FF6B51700CD622D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		F434D1581FF6E17E00CD622D /* FileDownloader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FileDownloader.h; sourceTree = "<group>"; };
 		F434D1591FF6E17E00CD622D /* FileDownloader.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FileDownloader.m; sourceTree = "<group>"; };
+		F43B34CA21616BB70099CCD0 /* Entitlements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Entitlements.plist; sourceTree = "<group>"; };
 		F44AD0D61FFD0CC800BC21D6 /* DetailsPagesController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DetailsPagesController.h; sourceTree = "<group>"; };
 		F44AD0D71FFD0CC800BC21D6 /* DetailsPagesController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DetailsPagesController.m; sourceTree = "<group>"; };
 		F44AD0E01FFE671300BC21D6 /* AddFilesSelectionController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AddFilesSelectionController.h; sourceTree = "<group>"; };
@@ -330,7 +332,6 @@
 		F4ADD90D115E692D0095F061 /* empty.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = empty.png; sourceTree = "<group>"; };
 		F4AE44850DF469BF001197AB /* CSVRow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSVRow.h; sourceTree = "<group>"; };
 		F4AE44860DF469BF001197AB /* CSVRow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSVRow.m; sourceTree = "<group>"; };
-		F4AE6ED013217AD500BABD6C /* Entitlements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Entitlements.plist; sourceTree = "<group>"; };
 		F4C2E44218CE0CE9004E49E5 /* HowToController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HowToController.h; sourceTree = "<group>"; };
 		F4C2E44318CE0CE9004E49E5 /* HowToController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HowToController.m; sourceTree = "<group>"; };
 		F4C2E44418CE0CE9004E49E5 /* HowToController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HowToController.xib; sourceTree = "<group>"; };
@@ -404,7 +405,7 @@
 				F4174D3C0E40F99C00351EE4 /* iTunes Connect */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
 				F4990C160E4276C500D64667 /* Settings.bundle */,
-				F4AE6ED013217AD500BABD6C /* Entitlements.plist */,
+				F43B34CA21616BB70099CCD0 /* Entitlements.plist */,
 				F434D14F1FF6B50900CD622D /* Frameworks */,
 			);
 			name = CustomTemplate;
@@ -801,6 +802,7 @@
 				F4ADD7E8115E573C0095F061 /* square_green.png in Resources */,
 				F4ADD7E9115E573C0095F061 /* square_grey.png in Resources */,
 				F4ADD7EA115E573C0095F061 /* square_orange.png in Resources */,
+				F43B34CB21616BB70099CCD0 /* Entitlements.plist in Resources */,
 				F4ADD7EB115E573C0095F061 /* square_red_glow.png in Resources */,
 				F4ADD7EC115E573C0095F061 /* square_red.png in Resources */,
 				F4ADD7ED115E573C0095F061 /* square_yellow.png in Resources */,
@@ -819,7 +821,6 @@
 				F48584F811EE4F34001CFC28 /* dvd.png in Resources */,
 				F48584F911EE4F34001CFC28 /* hd.png in Resources */,
 				F48584FA11EE4F34001CFC28 /* qt.png in Resources */,
-				F4AE6ED113217AEB00BABD6C /* Entitlements.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -879,6 +880,7 @@
 				F4ADD816115E573C0095F061 /* square_grey.png in Resources */,
 				F4ADD817115E573C0095F061 /* square_orange.png in Resources */,
 				F4ADD818115E573C0095F061 /* square_red_glow.png in Resources */,
+				F43B34CC21616BB70099CCD0 /* Entitlements.plist in Resources */,
 				F4ADD819115E573C0095F061 /* square_red.png in Resources */,
 				F4ADD81A115E573C0095F061 /* square_yellow.png in Resources */,
 				F4ADD81B115E573C0095F061 /* triangle_blue.png in Resources */,
@@ -1066,7 +1068,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_ASSIGN_ENUM = YES;
-				CODE_SIGN_ENTITLEMENTS = "~/Utveckling/AppStore/CSV Touch/Entitlements.plist";
+				CODE_SIGN_ENTITLEMENTS = Entitlements.plist;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
@@ -1100,7 +1102,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_ASSIGN_ENUM = YES;
-				CODE_SIGN_ENTITLEMENTS = "~/Utveckling/AppStore/CSV Touch/Entitlements.plist";
+				CODE_SIGN_ENTITLEMENTS = Entitlements.plist;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
@@ -1131,7 +1133,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_ASSIGN_ENUM = YES;
-				CODE_SIGN_ENTITLEMENTS = "~/Utveckling/AppStore/CSV Touch/Entitlements.plist";
+				CODE_SIGN_ENTITLEMENTS = Entitlements.plist;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
@@ -1164,7 +1166,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_OBJC_WEAK = YES;
-				CODE_SIGN_ENTITLEMENTS = "~/Utveckling/AppStore/CSV Touch/Entitlements.plist";
+				CODE_SIGN_ENTITLEMENTS = Entitlements.plist;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
@@ -1192,7 +1194,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_OBJC_WEAK = YES;
-				CODE_SIGN_ENTITLEMENTS = "~/Utveckling/AppStore/CSV Touch/Entitlements.plist";
+				CODE_SIGN_ENTITLEMENTS = Entitlements.plist;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
@@ -1220,7 +1222,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_OBJC_WEAK = YES;
-				CODE_SIGN_ENTITLEMENTS = "~/Utveckling/AppStore/CSV Touch/Entitlements.plist";
+				CODE_SIGN_ENTITLEMENTS = Entitlements.plist;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
