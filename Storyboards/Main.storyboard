@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="HMm-SB-a07">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="HMm-SB-a07">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -40,7 +39,7 @@
                                 </connections>
                             </segmentedControl>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VbH-u1-RgG">
-                                <rect key="frame" x="136" y="518" width="104" height="30"/>
+                                <rect key="frame" x="135.5" y="518" width="104" height="30"/>
                                 <state key="normal" title="Export CSV file"/>
                                 <connections>
                                     <action selector="exportFile:" destination="dge-RM-wBU" eventType="touchUpInside" id="ER3-Af-Zyb"/>
@@ -62,7 +61,7 @@
                         <viewLayoutGuide key="safeArea" id="VQF-69-hM9"/>
                     </view>
                     <toolbarItems/>
-                    <navigationItem key="navigationItem" id="hq4-W9-h2C">
+                    <navigationItem key="navigationItem" largeTitleDisplayMode="never" id="hq4-W9-h2C">
                         <barButtonItem key="leftBarButtonItem" systemItem="done" id="f8L-zD-6EI">
                             <connections>
                                 <segue destination="0k8-zl-ieG" kind="unwind" unwindAction="prepareForUnwind:" id="48L-P6-vfu"/>
@@ -85,7 +84,7 @@
             <objects>
                 <tableViewController id="9lW-Nk-e8g" customClass="EditFileColumnsController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" id="ByK-q8-fg2">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="559"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="507"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <prototypes>
@@ -122,7 +121,7 @@
             <objects>
                 <viewController id="IPc-16-9qP" customClass="ParseErrorViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="WfJ-O2-oFn">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="559"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="507"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" editable="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="sH5-ft-0le">
@@ -179,7 +178,7 @@
             <objects>
                 <tableViewController id="0Yt-XR-lmL" customClass="FilesViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="ARf-3C-mxb">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="559"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="507"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <prototypes>
@@ -198,7 +197,7 @@
                             <outlet property="delegate" destination="0Yt-XR-lmL" id="pPT-8F-D9z"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Files" id="ven-nC-6ZT">
+                    <navigationItem key="navigationItem" title="Files" largeTitleDisplayMode="always" id="ven-nC-6ZT">
                         <barButtonItem key="leftBarButtonItem" systemItem="add" id="ZnK-SL-c4M">
                             <connections>
                                 <segue destination="xKh-gw-umc" kind="popoverPresentation" identifier="ToAddFiles" popoverAnchorBarButtonItem="ZnK-SL-c4M" id="lZR-7C-IbQ">
@@ -423,7 +422,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Refresh time" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ipr-y3-8kt">
-                                <rect key="frame" x="101" y="73" width="97" height="21"/>
+                                <rect key="frame" x="101.5" y="73" width="97" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="97" id="jv8-6p-qR7"/>
                                 </constraints>
@@ -634,7 +633,7 @@
             <objects>
                 <tableViewController id="yKV-vJ-ur4" customClass="ItemsViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="qRd-ft-2oG">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="559"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="507"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <prototypes>
@@ -694,7 +693,7 @@
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="LBm-le-iYw"/>
                         <barButtonItem enabled="NO" title="#" id="95b-yr-lIs"/>
                     </toolbarItems>
-                    <navigationItem key="navigationItem" id="zT4-gJ-k7l">
+                    <navigationItem key="navigationItem" largeTitleDisplayMode="always" id="zT4-gJ-k7l">
                         <barButtonItem key="rightBarButtonItem" title="Prefs" image="prefs_main" id="lG6-Ho-k0O">
                             <connections>
                                 <segue destination="Nph-FW-Xhv" kind="popoverPresentation" identifier="ToItemsViewPrefs" popoverAnchorBarButtonItem="lG6-Ho-k0O" id="XBC-8w-qBT">
@@ -724,7 +723,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="4Bc-jA-fAd">
-                                <rect key="frame" x="67" y="20" width="167" height="29"/>
+                                <rect key="frame" x="66.5" y="20" width="167" height="29"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="167" id="maP-Hy-D5B"/>
                                 </constraints>
@@ -818,11 +817,12 @@
             </objects>
             <point key="canvasLocation" x="3174" y="-461"/>
         </scene>
-        <!--Details Pages Controller-->
+        <!--Details-->
         <scene sceneID="p4N-7S-fE5">
             <objects>
                 <pageViewController autoresizesArchivedViewToFullSize="NO" transitionStyle="scroll" navigationOrientation="horizontal" spineLocation="none" id="9HI-o4-1EA" customClass="DetailsPagesController" sceneMemberID="viewController">
                     <extendedEdge key="edgesForExtendedLayout"/>
+                    <navigationItem key="navigationItem" title="Details" largeTitleDisplayMode="never" id="hPG-uj-Fe1"/>
                 </pageViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="acN-iv-jXe" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -835,8 +835,8 @@
                     <toolbarItems/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <nil key="simulatedBottomBarMetrics"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translucent="NO" id="8Hb-Tp-Dbz">
-                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translucent="NO" largeTitles="YES" id="8Hb-Tp-Dbz">
+                        <rect key="frame" x="0.0" y="20" width="375" height="96"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
@@ -856,6 +856,6 @@
     <resources>
         <image name="2lines.png" width="20" height="24"/>
         <image name="4lines.png" width="20" height="24"/>
-        <image name="prefs_main" width="22" height="22"/>
+        <image name="prefs_main" width="44" height="44"/>
     </resources>
 </document>

@@ -53,6 +53,7 @@ static NSMutableDictionary *_indexPathForFileName;
 
 - (void) cacheCurrentScrollPosition
 {
+    [_indexPathForFileName removeObjectForKey:[self.file fileName]];
     if( self.file && [self.file fileName] )
     {
         // Bug sometimes trigged in indexPathsForVisibleRows, unless visibleCells is called first:
@@ -61,15 +62,14 @@ static NSMutableDictionary *_indexPathForFileName;
         NSArray<NSIndexPath *> *a = [self.tableView indexPathsForVisibleRows];
         if( [a count] > 0 ){
             // Now, turns out that if we use section headers, visible rows include those under header ->
-            // We should actually use a[1] instead of a[0]
+            // We should actually use a[1] instead of a[0].
             NSUInteger i = 0;
-            if( [CSVPreferencesController useGroupingForItems] && [a count] > 1 ){
+            if( [CSVPreferencesController useGroupingForItems] && [a count] > 1 )
+            {
                 i = 1;
             }
-            [_indexPathForFileName setObject:[[a objectAtIndex:i] dictionaryRepresentation] forKey:[self.file fileName]];
+            [_indexPathForFileName setObject:[a objectAtIndex:i] forKey:[self.file fileName]];
         }
-        else
-            [_indexPathForFileName removeObjectForKey:[self.file fileName]];
     }
 }
 
@@ -95,19 +95,27 @@ static NSMutableDictionary *_indexPathForFileName;
     }
 }
 
+- (NSIndexPath *)cachedIndexPathPosition
+{
+    NSIndexPath *indexPath = [_indexPathForFileName objectForKey:[self.file fileName]];
+    if( [indexPath isKindOfClass:[NSIndexPath class]] )
+    {
+        return indexPath;
+    }
+    return nil;
+}
+
 - (void) updateInitialScrollPosition
 {
     [self.tableView scrollToTopWithAnimation:NO];
-    NSDictionary *indexPathDictionary = [_indexPathForFileName objectForKey:[self.file fileName]];
-    if( [indexPathDictionary isKindOfClass:[NSDictionary class]] )
+    NSIndexPath *indexPath = [self cachedIndexPathPosition];
+    if( [self itemExistsAtIndexPath:indexPath] )
     {
-        NSIndexPath *indexPath = [NSIndexPath indexPathWithDictionary:indexPathDictionary];
-        if( [self itemExistsAtIndexPath:indexPath] )
-        {
-            [self.tableView scrollToRowAtIndexPath:indexPath
-                                  atScrollPosition:UITableViewScrollPositionTop
-                                          animated:NO];
-        }
+        [self.tableView scrollToRowAtIndexPath:indexPath
+                              atScrollPosition:UITableViewScrollPositionTop
+                                      animated:NO];
+        // And reset the navigstion item so we get large title if we scroll all the way to the top
+        self.navigationItem.largeTitleDisplayMode = UINavigationItemLargeTitleDisplayModeAlways;
     }
 }
 
@@ -124,6 +132,23 @@ static NSMutableDictionary *_indexPathForFileName;
     self.searchController.searchBar.placeholder = @"Search items";
     self.navigationItem.searchController = self.searchController;
     self.definesPresentationContext = YES;
+}
+
+- (BOOL) isTopItem:(NSIndexPath *)path
+{
+    if( !path){
+        // A bit weird, but conceptually no path kind of is the same as the top path
+        return YES;
+    }
+    if([CSVPreferencesController useGroupingForItems])
+        return (path.section == 1 && path.row == 1);
+    else
+        return (path.section == 0 && path.row == 0);
+}
+
+- (BOOL) wantsLargeDisplayTitle
+{
+    return [self isTopItem:[self cachedIndexPathPosition]];
 }
 
 - (void) awakeFromNib
@@ -149,6 +174,7 @@ static NSMutableDictionary *_indexPathForFileName;
     self.navigationController.toolbarHidden = NO;
     self.tableView.rowHeight = UITableViewAutomaticDimension;
     self.tableView.estimatedRowHeight = 32;
+    self.navigationItem.largeTitleDisplayMode = ([self wantsLargeDisplayTitle] ? UINavigationItemLargeTitleDisplayModeAlways : UINavigationItemLargeTitleDisplayModeNever);
 
     [super viewWillAppear:animated];
 }
@@ -158,7 +184,10 @@ static NSMutableDictionary *_indexPathForFileName;
 {
     [super viewDidLayoutSubviews];
     if( !self.hasBeenVisible){
-        [self updateInitialScrollPosition];
+        if( ![self wantsLargeDisplayTitle])
+        {
+            [self updateInitialScrollPosition];
+        }
         self.hasBeenVisible = YES;
     }
 }
