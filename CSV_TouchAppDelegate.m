@@ -275,7 +275,6 @@ static CSV_TouchAppDelegate *sharedInstance = nil;
 	{
 		sharedInstance = self;
 		_URLsToDownload = [[NSMutableArray alloc] init];
-		_filesAddedThroughURLList = [[NSMutableArray alloc] init];
         self.preDefinedHiddenColumns = [NSMutableDictionary dictionary];
 	}
 	return self;
@@ -422,7 +421,6 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 	{
 		self.readingFileList = FALSE;
 		[self.URLsToDownload removeAllObjects];
-		[self.filesAddedThroughURLList removeAllObjects];
         
         // Check that we didn't get an http error
         if( self.httpStatusCode >= 400 )
@@ -480,10 +478,6 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 			else if( readingSettings && line && ![line isEqualToString:@""] )
 				[settings addObject:line];
 		}
-		
-		// Take a copy of the files to download,
-		// to use later in case synchronizeDownloadedFiles is used
-		[self.filesAddedThroughURLList addObjectsFromArray:self.URLsToDownload];
 		
 		// We are doing the settings immediately, instead of later in [self downloadDone]
 		// to avoid having to store the values somewhere locally

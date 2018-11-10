@@ -499,6 +499,7 @@ static NSMutableArray *_files;
 										   encoding:[CSVFileParser getEncodingForFile:[self fileName]]];
     }
 	self.hasBeenParsed = NO;
+    self.rawShownColumnIndexes = NULL;
     [CSVFileParser addParser:self];
 	return self;
 }
@@ -598,8 +599,13 @@ static NSMutableArray *_files;
     for( NSString *usedColumn in self.shownColumnNames )
     {
         for( NSUInteger i = 0 ; i < [self.columnNames count] ; i++ )
+        {
             if( [usedColumn isEqualToString:[self.columnNames objectAtIndex:i]] )
+            {
                 [self.shownColumnIndexes addObject:[NSNumber numberWithUnsignedInteger:i]];
+                break;
+            }
+        }
     }
     // Here we can run into a problem: Normally sizeof(shownColumnNames) = sizeof(shownColumnIndexes).
     // But if we e.g. have changed encoding used, the previously saved column names to show might no longer

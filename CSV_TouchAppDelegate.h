@@ -28,7 +28,6 @@ OzymandiasApplicationDelegate>
 @property (nonatomic, retain) UIWindow *window;
 @property (nonatomic, assign) NSInteger httpStatusCode;
 @property (nonatomic, readonly) NSMutableArray *URLsToDownload;
-@property (nonatomic, retain) NSMutableArray *filesAddedThroughURLList;
 @property (nonatomic, assign) BOOL readingFileList;
 @property (nonatomic, assign) BOOL downloadFailed;
 @property (nonatomic, retain) NSDate *enteredBackground;
