@@ -70,7 +70,8 @@ static NSMutableArray *_files;
 {
     for( CSVFileParser *oldFile in _files )
     {
-        if( [name isEqualToString:[oldFile fileName]] )
+        // Do not use -isEqualToString! This gives wrong results due to using literal Unicode compare which is bad for us since strings might come from both file system names & URL paths
+        if( [name localizedCompare:[oldFile fileName]] == NSOrderedSame )
         {
             [_files removeObject:oldFile];
             return;
@@ -528,10 +529,9 @@ static NSMutableArray *_files;
 	return [_rawString length];
 }
 
-+ (CSVFileParser *) parserWithFile:(NSString *)path
++ (void) addParserWithFile:(NSString *)path
 {
 	CSVFileParser *fp = [[self alloc] initWithRawData:nil filePath:path];
-	return fp;
 }
 
 - (NSData *) fileRawData
@@ -546,7 +546,10 @@ static NSMutableArray *_files;
 					   self.downloadDate, FILEPARSER_DOWNLOAD_DATE,
 					   [NSNumber numberWithBool:self.hideAddress], FILEPARSER_HIDE_ADDRESS,
 					   nil];
-	[d writeToFile:self.filePath atomically:YES];
+    if(	[d writeToFile:self.filePath atomically:YES])
+    {
+        // Set the file path to the actual string you get back when looking at the file in the file system. Sounds weird, but if you e.g. used an http URL with file name containing "Ö" and write using this string as path to the file system and you then read the file name, you'll still get "Ö" (naturally) but it won't compare equal to the original "Ö"...
+    }
 }
 
 - (NSString *) readableUsedDelimiter

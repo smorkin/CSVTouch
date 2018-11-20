@@ -14,6 +14,7 @@
     IBOutlet UISwitch *fixedWidth;
     IBOutlet UISwitch *predefinedWidths;
     IBOutlet UISwitch *useWordSeparator;
+    IBOutlet UISwitch *multiLinte;
 }
 
 - (IBAction)switchChanged:(id)sender;

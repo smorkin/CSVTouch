@@ -65,6 +65,8 @@
 + (BOOL) literalSort;
 + (void) setCorrectSort:(BOOL)yn;
 + (BOOL) correctSort;
++ (void) setMultilineItemCells:(BOOL)yn;
++ (BOOL) multilineItemCells;
 
 + (NSInteger) selectedDetailsView;
 + (void) setSelectedDetailsView:(NSInteger) view;

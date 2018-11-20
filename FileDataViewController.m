@@ -113,8 +113,10 @@
 
 - (BOOL)textView:(UITextView *)textView shouldInteractWithURL:(NSURL *)URL inRange:(NSRange)characterRange interaction:(UITextItemInteraction)interaction
 {
-    [[CSV_TouchAppDelegate sharedInstance] downloadFileWithString:[URL absoluteString]];
-    [[UIPasteboard generalPasteboard] setString:[URL absoluteString]];
+    // Do not use the actual URL we get here since it might have "wrong" string encodings etc. Instead use the URL stored in the actual file parser
+    NSString *s = self.file.URL;
+    [[CSV_TouchAppDelegate sharedInstance] downloadFileWithString:s];
+    [[UIPasteboard generalPasteboard] setString:s];
     return NO;
 }
 

@@ -175,7 +175,6 @@ static NSMutableDictionary *_indexPathForFileName;
     self.tableView.rowHeight = UITableViewAutomaticDimension;
     self.tableView.estimatedRowHeight = 32;
     self.navigationItem.largeTitleDisplayMode = ([self wantsLargeDisplayTitle] ? UINavigationItemLargeTitleDisplayModeAlways : UINavigationItemLargeTitleDisplayModeNever);
-
     [super viewWillAppear:animated];
 }
 
@@ -432,6 +431,7 @@ sectionForSectionIndexTitle:(NSString *)title
     else
         item = [self.items objectAtIndex:indexPath.row];
     cell.label.text = [item tableViewDescription];
+    cell.label.numberOfLines = [CSVPreferencesController multilineItemCells] ? 0 : 1;
     cell.accessoryType = ([CSVPreferencesController useGroupingForItems] ? UITableViewCellAccessoryNone : UITableViewCellAccessoryDisclosureIndicator);
     if( self.file.iconIndex != NSNotFound )
     {

@@ -14,6 +14,7 @@
 #import "FileDownloader.h"
 #import "FilesViewController.h"
 #import "FadeAnimator.h"
+#import "CSVDataViewController.h"
 
 #define SELECTED_TAB_BAR_INDEX @"selectedTabBarIndex"
 #define FILE_PASSWORD @"filePassword"
@@ -25,6 +26,7 @@
 // For use when reading a CSV file list which includes
 // pre-defined columns not to show
 @property (nonatomic, strong) NSMutableDictionary *preDefinedHiddenColumns;
+@property BOOL refreshingAllFilesInProgress;
 @end
 
 @implementation CSV_TouchAppDelegate
@@ -101,6 +103,7 @@ static CSV_TouchAppDelegate *sharedInstance = nil;
 	return path;
 }
 
+// File name: Note that this will not necessarily become
 - (void) readRawFileData:(NSData *)data
 				fileName:(NSString *)fileName
 		 isLocalDownload:(BOOL)isLocalDownload
@@ -215,7 +218,6 @@ static CSV_TouchAppDelegate *sharedInstance = nil;
 {
     [CSVFileParser removeAllFiles];
  	NSString *importedDocumentsPath = [CSV_TouchAppDelegate importedDocumentsPath];
-    NSMutableArray *files = [NSMutableArray array];
 	NSArray *documents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:importedDocumentsPath
                                                                              error:NULL];
 	for( NSString *fileName in documents )
@@ -223,8 +225,7 @@ static CSV_TouchAppDelegate *sharedInstance = nil;
 		if(![fileName hasPrefix:@"."] &&
 		   [fileName hasSuffix:INTERNAL_EXTENSION])
 		{
-			CSVFileParser *fp = [CSVFileParser parserWithFile:[importedDocumentsPath stringByAppendingPathComponent:fileName]];
-			[files addObject:fp];
+            [CSVFileParser addParserWithFile:[importedDocumentsPath stringByAppendingPathComponent:fileName]];
 		}
 	}
     [[FilesViewController sharedInstance].tableView reloadData];
@@ -368,6 +369,7 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 	}
 	else 
 	{
+        self.refreshingAllFilesInProgress = FALSE;
 		[CSVPreferencesController setHideAddress:NO]; // In case we had temporarily set this from
 													  // a URL list file with preference settings
         [[FilesViewController sharedInstance] allFilesRefreshed];
@@ -501,7 +503,7 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 	self.httpStatusCode = 0;
 	NSURLRequest *theRequest=[NSURLRequest requestWithURL:url
 											  cachePolicy:NSURLRequestReloadIgnoringLocalCacheData
-										  timeoutInterval:300.0];
+										  timeoutInterval:10.0];
 	self.connection = [[NSURLConnection alloc] initWithRequest:theRequest delegate:self];
 	if (!self.connection)
 	{
@@ -617,19 +619,23 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 
 - (void) reloadAllFiles
 {
-    [self.URLsToDownload removeAllObjects];
-    for( CSVFileParser *fp in [CSVFileParser files] )
+    self.refreshingAllFilesInProgress = TRUE;
+    if( !self.refreshingAllFilesInProgress)
     {
-        if( ![fp downloadedLocally])
-            [self.URLsToDownload addObject:[fp URL]];
+        [self.URLsToDownload removeAllObjects];
+        for( CSVFileParser *fp in [CSVFileParser files] )
+        {
+            if( ![fp downloadedLocally])
+                [self.URLsToDownload addObject:[fp URL]];
+        }
+        if( [self.URLsToDownload count] > 0 )
+        {
+            NSString *URL = [self.URLsToDownload objectAtIndex:0];
+            [self downloadFileWithString:URL];
+            [self.URLsToDownload removeObjectAtIndex:0];
+        }
+        [CSVPreferencesController setLastDownload:[NSDate date]];
     }
-    if( [self.URLsToDownload count] > 0 )
-    {
-        NSString *URL = [self.URLsToDownload objectAtIndex:0];
-        [self downloadFileWithString:URL];
-        [self.URLsToDownload removeObjectAtIndex:0];
-    }
-	[CSVPreferencesController setLastDownload:[NSDate date]];
 }
 
 - (void) delayedURLOpen:(NSString *)s
@@ -690,23 +696,6 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
         [CSVPreferencesController setHasShownHowTo];
         self.window.rootViewController = self.navigationController;
     }
-}
-
-@end
-
-@implementation CSV_TouchAppDelegate (NavigationControllerDelegate)
-
-- (nullable id <UIViewControllerAnimatedTransitioning>)navigationController:(UINavigationController *)navigationController
-                                            animationControllerForOperation:(UINavigationControllerOperation)operation
-                                                         fromViewController:(UIViewController *)fromVC
-                                                           toViewController:(UIViewController *)toVC
-{
-    if( ([fromVC isKindOfClass:[FilesViewController class]] && [toVC isKindOfClass:[FileDataViewController class]]) ||
-       ([fromVC isKindOfClass:[FileDataViewController class]] && [toVC isKindOfClass:[FilesViewController class]]))
-    {
-        return [[FadeAnimator alloc] init];
-    }
-    return nil;
 }
 
 @end

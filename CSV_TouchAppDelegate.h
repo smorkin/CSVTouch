@@ -49,6 +49,3 @@ OzymandiasApplicationDelegate>
 <IntroViewControllerDelegate>
 @end
 
-@interface CSV_TouchAppDelegate (NavigationControllerDelegate) <UINavigationControllerDelegate>
-@end
-

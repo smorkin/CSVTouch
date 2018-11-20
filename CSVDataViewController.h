@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CSVDataViewController : UINavigationController
-
+@interface CSVDataViewController : UINavigationController <UIGestureRecognizerDelegate,
+UINavigationControllerDelegate>
 @end

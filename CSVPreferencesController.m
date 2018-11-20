@@ -41,6 +41,7 @@
 #define PREFS_SHOW_DELETED_COLUMNS @"showDeletedColumns"
 #define PREFS_USE_AUTOMATED_DOWNLOAD @"useAutomatedDownload"
 #define PREFS_CONFIGURED_DOWNLOAD_TIME @"configuredDownloadTime"
+#define PREFS_MULTILINE_ITEM_CELLS @"multilineItemCells"
 
 NSUInteger sortingMask;
 static BOOL reverseItemSorting = FALSE;
@@ -506,7 +507,10 @@ static BOOL hideAdress = NO;
             else if( [[words objectAtIndex:0] isEqualToString:PREFS_BLANK_WORD_SEPARATOR] )
                 [[NSUserDefaults standardUserDefaults] setBool:[[words objectAtIndex:1] boolValue]
                                                         forKey:PREFS_BLANK_WORD_SEPARATOR];
-            
+            else if( [[words objectAtIndex:0] isEqualToString:PREFS_MULTILINE_ITEM_CELLS] )
+                [[NSUserDefaults standardUserDefaults] setBool:[[words objectAtIndex:1] boolValue]
+                                                        forKey:PREFS_MULTILINE_ITEM_CELLS];
+
         }
 	}
 	[[NSUserDefaults standardUserDefaults] synchronize];
@@ -606,6 +610,16 @@ static BOOL hideAdress = NO;
 + (BOOL) correctSort
 {
     return [[NSUserDefaults standardUserDefaults] boolForKey:PREFS_USE_CORRECT_SORTING];
+}
+
++ (void) setMultilineItemCells:(BOOL)yn
+{
+    [[NSUserDefaults standardUserDefaults] setBool:yn forKey:PREFS_MULTILINE_ITEM_CELLS];
+}
+
++ (BOOL) multilineItemCells
+{
+    return [[NSUserDefaults standardUserDefaults] boolForKey:PREFS_MULTILINE_ITEM_CELLS];
 }
 
 + (void) updateSortingMask

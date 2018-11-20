@@ -15,8 +15,6 @@
 
 @interface FilesViewController ()
 
-@property (assign) BOOL refreshFilesInProgress;
-
 @end
 
 @implementation FilesViewController
@@ -230,25 +228,15 @@ static FilesViewController *_sharedInstance = nil;
     UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"FileCell" forIndexPath:indexPath];
     CSVFileParser *file = [[CSVFileParser files] objectAtIndex:indexPath.row];
     cell.textLabel.text = [file tableViewDescription];
-    if( self.refreshFilesInProgress )
-    {
-        cell.accessoryType = UITableViewCellAccessoryNone;
-    }
-    else
-    {
-        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    }
+    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     CSVFileParser *selectedFile = [[CSVFileParser files] objectAtIndex:indexPath.row];
-    if( self.refreshFilesInProgress && selectedFile)
-    {
-        [[CSV_TouchAppDelegate sharedInstance] downloadFileWithString:[selectedFile URL]];
-    }
-    else if( selectedFile)
+    if( selectedFile)
     {
         if( ![self checkFileForSelection:selectedFile]){
             [self performSegueWithIdentifier:@"ToParseError" sender:selectedFile];

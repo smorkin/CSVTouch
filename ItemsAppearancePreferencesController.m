@@ -23,6 +23,7 @@
     fixedWidth.onTintColor = [[UIView appearance] tintColor];
     useWordSeparator.onTintColor = [[UIView appearance] tintColor];
     predefinedWidths.onTintColor = [[UIView appearance] tintColor];
+    multiLinte.onTintColor = [[UIView appearance] tintColor];
     [super viewWillAppear:animated];
     [self synchUI];
 }
@@ -34,6 +35,7 @@
     fixedWidth.on = [CSVPreferencesController useFixedWidth];
     useWordSeparator.on = ![CSVPreferencesController blankWordSeparator];
     predefinedWidths.on = [CSVPreferencesController definedFixedWidths];
+    multiLinte.on = [CSVPreferencesController multilineItemCells];
     
     groupNumbers.enabled = [CSVPreferencesController useGroupingForItems];
     predefinedWidths.enabled = [CSVPreferencesController useFixedWidth];
@@ -59,6 +61,10 @@
     else if( sender == predefinedWidths)
     {
         [CSVPreferencesController setDefinedFixedWidths:predefinedWidths.on];
+    }
+    else if( sender == multiLinte)
+    {
+        [CSVPreferencesController setMultilineItemCells:multiLinte.on];
     }
     [CSVRow refreshRowFormatStrings];
     [[ItemsViewController sharedInstance] refresh];
