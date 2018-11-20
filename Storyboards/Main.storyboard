@@ -305,7 +305,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="BMa-FU-yEE"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Sort &amp; Search" id="XnA-9u-H9m"/>
+                    <tabBarItem key="tabBarItem" title="Sort &amp; Search" image="items_prefs_sort_and_search" id="XnA-9u-H9m"/>
                     <connections>
                         <outlet property="caseSensitiveSort" destination="cmb-WV-irU" id="K52-cw-myb"/>
                         <outlet property="correctSort" destination="9Rb-ta-XUr" id="pHA-dP-lmL"/>
@@ -414,7 +414,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="eVG-Sn-q1l"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Appearance" id="MuA-fR-pc4"/>
+                    <tabBarItem key="tabBarItem" title="Appearance" image="items_prefs_appearance" id="MuA-fR-pc4"/>
                     <connections>
                         <outlet property="fixedWidth" destination="T0z-iu-r8v" id="beZ-tD-KuH"/>
                         <outlet property="groupItems" destination="tvh-hw-pZM" id="87U-K3-xnZ"/>
@@ -484,7 +484,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="lIB-Uc-ICq"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="App" id="Gds-oU-haA"/>
+                    <tabBarItem key="tabBarItem" title="App" image="app_prefs_diverse" id="Gds-oU-haA"/>
                     <size key="freeformSize" width="300" height="300"/>
                     <connections>
                         <outlet property="downloadTime" destination="gBR-8n-YBS" id="MEX-za-kph"/>
@@ -590,7 +590,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="k3J-Jx-Zn5"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Parsing" id="QML-Jo-PKW"/>
+                    <tabBarItem key="tabBarItem" title="Parsing" selectedImage="app_prefs_parsing" id="QML-Jo-PKW"/>
                     <size key="freeformSize" width="300" height="300"/>
                     <connections>
                         <outlet property="alternativeParsing" destination="5ml-qj-jOl" id="qRb-4I-I5Y"/>
@@ -871,6 +871,10 @@
     <resources>
         <image name="2lines.png" width="20" height="24"/>
         <image name="4lines.png" width="20" height="24"/>
+        <image name="app_prefs_diverse" width="50" height="50"/>
+        <image name="app_prefs_parsing" width="12.5" height="12.5"/>
+        <image name="items_prefs_appearance" width="50" height="50"/>
+        <image name="items_prefs_sort_and_search" width="12.5" height="12.5"/>
         <image name="prefs_main" width="44" height="44"/>
     </resources>
 </document>

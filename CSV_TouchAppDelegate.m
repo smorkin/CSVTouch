@@ -123,10 +123,17 @@ static CSV_TouchAppDelegate *sharedInstance = nil;
 	}
 	else if( self.httpStatusCode >= 400&& !isLocalDownload )
 	{
+        // Mark the parser with fail to download
+        CSVFileParser *fp = [CSVFileParser existingParserForName:fileName];
+        if( fp )
+        {
+            fp.hasFailedToDownload = YES;
+        }
+        
 		// Only show alert if we are not downloading multiple files
 		if( [self.URLsToDownload count] == 0 )
 		{
-            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Download failuer"
+            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Download failure"
                                                                            message:[NSString httpStatusDescription:self.httpStatusCode]
                                                                      okButtonTitle:@"OK"
                                                                          okHandler:nil];
@@ -373,27 +380,24 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 		[CSVPreferencesController setHideAddress:NO]; // In case we had temporarily set this from
 													  // a URL list file with preference settings
         [[FilesViewController sharedInstance] allFilesRefreshed];
+        [CSVFileParser resetClearingOfDownloadFlagsTimer];
 	}
 }
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
 {
     self.downloadFailed = true;
-    
-	NSString *alertTitle;
-	
-	if( self.readingFileList )
-		self.readingFileList = FALSE;
+    self.readingFileList = FALSE;
+
+    NSMutableString *alertTitle = [NSMutableString stringWithFormat:@"Download failure for %@", [[connection.currentRequest URL] description]];
 	
 	if( [self.URLsToDownload count] > 0 )
 	{
-		alertTitle = @"Download failure; no more files will be downloaded";
+        [alertTitle appendString:[NSString stringWithFormat:@" (skipping trying to download %lu additional file%@)",
+                                  [self.URLsToDownload count],
+                                  [self.URLsToDownload count] == 1 ? @"" : @"s"]];
 		[self.URLsToDownload removeAllObjects];
 	}
-	else
-    {
-		alertTitle = @"Download Failure";
-    }
     
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:alertTitle
                                                                    message:[error localizedDescription]
@@ -418,7 +422,7 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)conn
 {
-	// Are we downloading a file list?
+ 	// Are we downloading a file list?
 	if( self.readingFileList )
 	{
 		self.readingFileList = FALSE;

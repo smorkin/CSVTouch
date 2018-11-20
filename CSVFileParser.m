@@ -9,6 +9,7 @@
 #import "CSVFileParser.h"
 #import "CSVRow.h"
 #import "CSVPreferencesController.h"
+#import "FilesViewController.h"
 #import "csv.h"
 #import "parseCSV.h"
 #import "OzymandiasAdditions.h"
@@ -66,6 +67,19 @@ static NSMutableArray *_files;
     [_files removeObject:parser];
 }
 
++ (CSVFileParser *) existingParserForName:(NSString *)name
+{
+    for( CSVFileParser *file in _files )
+    {
+        // Do not use -isEqualToString! This gives wrong results due to using literal Unicode compare which is bad for us since strings might come from both file system names & URL paths
+        // Also, file name contains .csvtouch
+        if( [name localizedCompare:[[file fileName] stringByDeletingPathExtension]] == NSOrderedSame )
+        {
+            return file;
+        }
+    }
+    return nil;
+}
 + (void) removeFileWithName:(NSString *)name
 {
     for( CSVFileParser *oldFile in _files )
@@ -83,10 +97,29 @@ static NSMutableArray *_files;
 {
     for( CSVFileParser *fp in _files )
     {
-        if( [fp.URL isEqualToString:URL] )
+        if( [[fp.URL decomposedStringWithCanonicalMapping] isEqualToString:[URL decomposedStringWithCanonicalMapping]] )
             return YES;
     }
     return NO;
+}
+
+static NSTimer *_resetDownloadFlagsTimer;
+
++ (void) resetClearingOfDownloadFlagsTimer
+{
+    [_resetDownloadFlagsTimer invalidate];
+    _resetDownloadFlagsTimer = [NSTimer timerWithTimeInterval:60*60 // 1h
+                                                      repeats:NO
+                                                        block:^(NSTimer *timer)
+                                {
+                                    for( CSVFileParser *file in _files)
+                                    {
+                                        file.hasFailedToDownload = FALSE;
+                                        file.hasBeenDownloaded = FALSE;
+                                    }
+                                    [[FilesViewController sharedInstance].tableView reloadData];
+                                }];
+    [[NSRunLoop currentRunLoop] addTimer:_resetDownloadFlagsTimer forMode:NSDefaultRunLoopMode];
 }
 
 #define DEFS_COLUMN_NAMES @"defaultColumnNames"
@@ -699,8 +732,10 @@ static NSMutableArray *_files;
 
 - (NSString *) tableViewDescription
 {
-	if( self.hasBeenDownloaded )
-		return [NSString stringWithFormat:@"✓ %@", [self defaultTableViewDescription]];	
+    if( self.hasFailedToDownload)
+        return [NSString stringWithFormat:@"‒  %@", [self defaultTableViewDescription]];
+	else if( self.hasBeenDownloaded )
+		return [NSString stringWithFormat:@"✓ %@", [self defaultTableViewDescription]];
 	else
 		return [self defaultTableViewDescription];
 }

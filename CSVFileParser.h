@@ -26,6 +26,7 @@
 @property (nonatomic, assign) BOOL hasBeenSorted;
 @property (nonatomic, assign) BOOL hasBeenParsed;
 @property (nonatomic, assign) BOOL hasBeenDownloaded;
+@property (nonatomic, assign) BOOL hasFailedToDownload;
 @property (nonatomic, assign) NSUInteger iconIndex;
 @property (nonatomic, assign) BOOL hideAddress;
 
@@ -41,6 +42,9 @@
 + (void) saveColumnNames;
 
 + (CSVFileParser *) addParserWithRawData:(NSData *)data forFilePath:(NSString *)path;
++ (CSVFileParser *) existingParserForName:(NSString *)name;
+
++ (void) resetClearingOfDownloadFlagsTimer;
 
 - (void) saveToFile;
 
