@@ -213,6 +213,9 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <refreshControl key="refreshControl" opaque="NO" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" id="yzN-tY-xyt">
+                        <autoresizingMask key="autoresizingMask"/>
+                    </refreshControl>
                     <connections>
                         <segue destination="yKV-vJ-ur4" kind="show" identifier="ToItems" id="ZAC-ez-YP2"/>
                         <segue destination="dge-RM-wBU" kind="show" identifier="ToFileData" id="muK-hd-Wte"/>
@@ -590,7 +593,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="k3J-Jx-Zn5"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Parsing" selectedImage="app_prefs_parsing" id="QML-Jo-PKW"/>
+                    <tabBarItem key="tabBarItem" title="Parsing" image="app_prefs_parsing" id="QML-Jo-PKW"/>
                     <size key="freeformSize" width="300" height="300"/>
                     <connections>
                         <outlet property="alternativeParsing" destination="5ml-qj-jOl" id="qRb-4I-I5Y"/>
@@ -872,9 +875,9 @@
         <image name="2lines.png" width="20" height="24"/>
         <image name="4lines.png" width="20" height="24"/>
         <image name="app_prefs_diverse" width="50" height="50"/>
-        <image name="app_prefs_parsing" width="12.5" height="12.5"/>
+        <image name="app_prefs_parsing" width="50" height="50"/>
         <image name="items_prefs_appearance" width="50" height="50"/>
-        <image name="items_prefs_sort_and_search" width="12.5" height="12.5"/>
+        <image name="items_prefs_sort_and_search" width="50" height="50"/>
         <image name="prefs_main" width="44" height="44"/>
     </resources>
 </document>
