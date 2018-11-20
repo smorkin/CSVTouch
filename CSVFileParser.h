@@ -40,10 +40,9 @@
 
 + (void) saveColumnNames;
 
-+ (void) addParserWithFile:(NSString *)path;
-- (void) saveToFile;
++ (CSVFileParser *) addParserWithRawData:(NSData *)data forFilePath:(NSString *)path;
 
-- (id) initWithRawData:(NSData *)d filePath:(NSString *)filePath;
+- (void) saveToFile;
 
 - (NSData *) fileRawData;;
 

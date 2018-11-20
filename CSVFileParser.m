@@ -501,7 +501,6 @@ static NSMutableArray *_files;
     }
 	self.hasBeenParsed = NO;
     self.rawShownColumnIndexes = NULL;
-    [CSVFileParser addParser:self];
 	return self;
 }
 
@@ -521,7 +520,7 @@ static NSMutableArray *_files;
 
 - (NSString *) fileName
 {
-	return [self.filePath lastPathComponent];
+	return [[self.filePath lastPathComponent] decomposedStringWithCanonicalMapping];
 }
 
 - (NSUInteger) stringLength
@@ -529,9 +528,11 @@ static NSMutableArray *_files;
 	return [_rawString length];
 }
 
-+ (void) addParserWithFile:(NSString *)path
++ (CSVFileParser *) addParserWithRawData:(NSData *)data forFilePath:(NSString *)path
 {
-	CSVFileParser *fp = [[self alloc] initWithRawData:nil filePath:path];
+    CSVFileParser *cfp = [[self alloc] initWithRawData:data filePath:path];
+    [self addParser:cfp];
+    return cfp;
 }
 
 - (NSData *) fileRawData

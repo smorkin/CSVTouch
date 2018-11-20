@@ -140,7 +140,7 @@ static CSV_TouchAppDelegate *sharedInstance = nil;
         [CSVFileParser removeFileWithName:[CSV_TouchAppDelegate internalFileNameForOriginalFileName:fileName]];
         NSString *filePath = [[CSV_TouchAppDelegate importedDocumentsPath] stringByAppendingPathComponent:
                               [CSV_TouchAppDelegate internalFileNameForOriginalFileName:fileName]];
-		CSVFileParser *fp = [[CSVFileParser alloc] initWithRawData:data filePath:filePath];
+        CSVFileParser *fp = [CSVFileParser addParserWithRawData:data forFilePath:filePath];
 		if( !isLocalDownload )
 		{
 			fp.URL = self.lastFileURL;
@@ -225,7 +225,7 @@ static CSV_TouchAppDelegate *sharedInstance = nil;
 		if(![fileName hasPrefix:@"."] &&
 		   [fileName hasSuffix:INTERNAL_EXTENSION])
 		{
-            [CSVFileParser addParserWithFile:[importedDocumentsPath stringByAppendingPathComponent:fileName]];
+            [CSVFileParser addParserWithRawData:nil forFilePath:[importedDocumentsPath stringByAppendingPathComponent:fileName]];
 		}
 	}
     [[FilesViewController sharedInstance].tableView reloadData];
@@ -503,7 +503,7 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 	self.httpStatusCode = 0;
 	NSURLRequest *theRequest=[NSURLRequest requestWithURL:url
 											  cachePolicy:NSURLRequestReloadIgnoringLocalCacheData
-										  timeoutInterval:10.0];
+										  timeoutInterval:20.0];
 	self.connection = [[NSURLConnection alloc] initWithRequest:theRequest delegate:self];
 	if (!self.connection)
 	{
@@ -619,9 +619,9 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 
 - (void) reloadAllFiles
 {
-    self.refreshingAllFilesInProgress = TRUE;
     if( !self.refreshingAllFilesInProgress)
     {
+        self.refreshingAllFilesInProgress = TRUE;
         [self.URLsToDownload removeAllObjects];
         for( CSVFileParser *fp in [CSVFileParser files] )
         {
