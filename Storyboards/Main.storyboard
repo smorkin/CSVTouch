@@ -197,7 +197,7 @@
                             <outlet property="delegate" destination="0Yt-XR-lmL" id="pPT-8F-D9z"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Files" largeTitleDisplayMode="always" id="ven-nC-6ZT">
+                    <navigationItem key="navigationItem" title="Files" id="ven-nC-6ZT">
                         <barButtonItem key="leftBarButtonItem" systemItem="add" id="ZnK-SL-c4M">
                             <connections>
                                 <segue destination="xKh-gw-umc" kind="popoverPresentation" identifier="ToAddFiles" popoverAnchorBarButtonItem="ZnK-SL-c4M" id="lZR-7C-IbQ">

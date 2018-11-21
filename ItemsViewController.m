@@ -114,8 +114,6 @@ static NSMutableDictionary *_indexPathForFileName;
         [self.tableView scrollToRowAtIndexPath:indexPath
                               atScrollPosition:UITableViewScrollPositionTop
                                       animated:NO];
-        // And reset the navigstion item so we get large title if we scroll all the way to the top
-        self.navigationItem.largeTitleDisplayMode = UINavigationItemLargeTitleDisplayModeAlways;
     }
 }
 
@@ -146,11 +144,6 @@ static NSMutableDictionary *_indexPathForFileName;
         return (path.section == 0 && path.row == 0);
 }
 
-- (BOOL) wantsLargeDisplayTitle
-{
-    return [self isTopItem:[self cachedIndexPathPosition]];
-}
-
 - (void) awakeFromNib
 {
     [super awakeFromNib];
@@ -174,7 +167,7 @@ static NSMutableDictionary *_indexPathForFileName;
     self.navigationController.toolbarHidden = NO;
     self.tableView.rowHeight = UITableViewAutomaticDimension;
     self.tableView.estimatedRowHeight = 32;
-    self.navigationItem.largeTitleDisplayMode = ([self wantsLargeDisplayTitle] ? UINavigationItemLargeTitleDisplayModeAlways : UINavigationItemLargeTitleDisplayModeNever);
+    self.navigationItem.largeTitleDisplayMode = UINavigationItemLargeTitleDisplayModeNever;
     [super viewWillAppear:animated];
 }
 
@@ -183,10 +176,7 @@ static NSMutableDictionary *_indexPathForFileName;
 {
     [super viewDidLayoutSubviews];
     if( !self.hasBeenVisible){
-        if( ![self wantsLargeDisplayTitle])
-        {
-            [self updateInitialScrollPosition];
-        }
+        [self updateInitialScrollPosition];
         self.hasBeenVisible = YES;
     }
 }

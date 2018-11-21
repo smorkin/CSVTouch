@@ -381,6 +381,7 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 													  // a URL list file with preference settings
         [[FilesViewController sharedInstance] allFilesRefreshed];
         [CSVFileParser resetClearingOfDownloadFlagsTimer];
+        [[FilesViewController sharedInstance].tableView reloadData];
 	}
 }
 

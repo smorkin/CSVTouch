@@ -126,14 +126,13 @@ static FilesViewController *_sharedInstance = nil;
     _sharedInstance = self;
     [self configureGestures];
     self.edgesForExtendedLayout = UIRectEdgeNone;
+    self.extendedLayoutIncludesOpaqueBars = YES;
+
     self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
 }
 
-- (void) viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-
-    self.refreshControl = [[UIRefreshControl alloc] init];
+- (void)viewDidLoad {
+    [super viewDidLoad];
     [self.refreshControl addTarget:self
                             action:@selector(refreshAllFiles)
                   forControlEvents:UIControlEventValueChanged];
@@ -150,22 +149,16 @@ static FilesViewController *_sharedInstance = nil;
     [[CSV_TouchAppDelegate sharedInstance] reloadAllFiles];
 }
 
+- (void) returnAfterRefresh
+{
+}
+
 - (void) allFilesRefreshed
 {
     [self.refreshControl endRefreshing];
-}
-
-- (NSUInteger) indexOfToolbarItemWithSelector:(SEL)selector
-{
-    NSUInteger index = 0;
-    for( UIBarButtonItem *item in self.toolbarItems )
-    {
-        if( item.action == selector )
-            return index;
-        index++;
-    }
-    
-    return NSNotFound;
+    [self performSelector:@selector(returnAfterRefresh)
+               withObject:nil
+               afterDelay:3];
 }
 
 - (BOOL) checkFileForSelection:(CSVFileParser *)file
