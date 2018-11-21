@@ -31,6 +31,7 @@
 {
     [super viewDidLoad];
     self.interactivePopGestureRecognizer.delegate = self;
+    self.view.backgroundColor = [UIColor whiteColor];
 }
 
 - (void)pushViewController:(UIViewController *)viewController animated:(BOOL)animated

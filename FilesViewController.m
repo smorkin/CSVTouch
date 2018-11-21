@@ -125,7 +125,6 @@ static FilesViewController *_sharedInstance = nil;
     [super awakeFromNib];
     _sharedInstance = self;
     [self configureGestures];
-    self.edgesForExtendedLayout = UIRectEdgeNone;
     self.extendedLayoutIncludesOpaqueBars = YES;
 
     self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
@@ -149,16 +148,9 @@ static FilesViewController *_sharedInstance = nil;
     [[CSV_TouchAppDelegate sharedInstance] reloadAllFiles];
 }
 
-- (void) returnAfterRefresh
-{
-}
-
 - (void) allFilesRefreshed
 {
     [self.refreshControl endRefreshing];
-    [self performSelector:@selector(returnAfterRefresh)
-               withObject:nil
-               afterDelay:3];
 }
 
 - (BOOL) checkFileForSelection:(CSVFileParser *)file
