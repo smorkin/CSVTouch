@@ -272,6 +272,7 @@
 		F47819840E2BDE7A00B44E78 /* CSVPreferencesController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSVPreferencesController.m; sourceTree = "<group>"; };
 		F47DC80D1111004C00E8DD8B /* CSV Touch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "CSV Touch.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F47DC83A1111005400E8DD8B /* CSV Lite.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "CSV Lite.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		F48094CB21A6D5B200DEEA8D /* TODO */ = {isa = PBXFileReference; lastKnownFileType = text; path = TODO; sourceTree = "<group>"; };
 		F48584F511EE4F34001CFC28 /* dvd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dvd.png; sourceTree = "<group>"; };
 		F48584F611EE4F34001CFC28 /* hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hd.png; sourceTree = "<group>"; };
 		F48584F711EE4F34001CFC28 /* qt.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = qt.png; sourceTree = "<group>"; };
@@ -393,6 +394,7 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
+				F48094CB21A6D5B200DEEA8D /* TODO */,
 				F44AD0D51FF6F0EE00BC21D6 /* Storyboards */,
 				F44AD0DF1FFE668800BC21D6 /* Main classes */,
 				F44AD0DB1FFE647B00BC21D6 /* Parse */,

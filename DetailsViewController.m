@@ -202,7 +202,7 @@
     
     NSError *error;
     
-    NSString *cssString = [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"nksTablegallery" ofType:@"css"]
+    NSString *cssString = [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:[CSVPreferencesController cssFileName] ofType:@"css"]
                                                 usedEncoding:nil
                                                        error:&error];
     
@@ -213,8 +213,8 @@
     [s appendString:@"</STYLE>"];
     
     // This replacing depends on which css used, of course
-    [s replaceOccurrencesOfString:@"0.9em tahoma"
-                       withString:[NSString stringWithFormat:@"%fem tahoma", [CSVPreferencesController detailsFontSize]/16]
+    [s replaceOccurrencesOfString:@"font:normal 36px"
+                       withString:[NSString stringWithFormat:@"font:normal %fpx", [CSVPreferencesController detailsFontSize]]
                           options:0
                             range:NSMakeRange(0, [s length])];
     
@@ -236,7 +236,6 @@
            [self.row.fileParser.shownColumnIndexes count] != [columnsAndValues count] )
         {
             [data appendString:@"<tr class=\"rowstep\"><th><b> </b><td>"];
-//            [data appendString:@"<tr class=\"rowstep\"><th><b>-</b><td>"];
         }
         
         [data appendFormat:@"<tr%@><th valign=\"top\"><b>%@</b>",

@@ -644,6 +644,10 @@ static BOOL hideAdress = NO;
 	return sortingMask;
 }
 
++ (NSString *) cssFileName
+{
+    return @"seaglass";
+}
 
 
 + (void) toggleReverseItemSorting

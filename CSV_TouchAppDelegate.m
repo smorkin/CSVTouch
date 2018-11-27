@@ -339,11 +339,8 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
         [self.introHowToController startHowToShowing:self];
     }
 
-    [[UIView appearance] setTintColor:[UIColor redColor]];
+    [[UIView appearance] setTintColor:[UIColor colorWithRed:0.60 green:0.13 blue:0.13 alpha:1.0]];
     
-
-//    [[UITabBar appearance] setTintColor:[UIColor yellowColor]];
-
 	return NO;
 }
 

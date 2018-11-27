@@ -517,37 +517,3 @@ sectionForSectionIndexTitle:(NSString *)title
     return UIModalPresentationNone;
 }
 @end
-
-//
-//- (void) configureDateButton
-//{
-//    CGRect frame = CGRectMake(0, 0, 72, 44);
-//    UILabel *l = [[UILabel alloc] initWithFrame:frame];
-//    l.font = [UIFont fontWithName:l.font.fontName size:10];
-//    l.backgroundColor = [UIColor clearColor];
-//    l.textColor = [UIColor blackColor];
-//    l.lineBreakMode = NSLineBreakByWordWrapping;
-//    l.textAlignment = NSTextAlignmentCenter;
-//    l.numberOfLines = 2;
-//    modificationDateButton.customView = l;
-//}
-//
-//- (void) updateDateButton
-//{
-//    NSString *date;
-//    NSString *time;
-//    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-//
-//    [dateFormatter setDateStyle:NSDateFormatterShortStyle];
-//    [dateFormatter setTimeStyle:NSDateFormatterNoStyle];
-//    date = [dateFormatter stringFromDate:self.file.downloadDate];
-//    [dateFormatter setDateStyle:NSDateFormatterNoStyle];
-//    [dateFormatter setTimeStyle:NSDateFormatterShortStyle];
-//    time = [dateFormatter stringFromDate:self.file.downloadDate];
-//
-//    [modificationDateButton.customView setText:[NSString stringWithFormat:@"%@\n%@",
-//                                                date, time]];
-//}
-//
-
-

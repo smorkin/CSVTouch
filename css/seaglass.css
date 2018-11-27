@@ -7,16 +7,16 @@ video {
     max-width:100%;
 }
 table { border-collapse: collapse; 
-border: 1px solid #839E99; 
+/*    border: 1px solid #000000;*/
 background: #EEEEEE;
-font:normal 36px verdana, arial, helvetica, sans-serif;
-color: #033; }
+font:normal 36px helvetica, sans-serif;
+    color: #000; }
 caption { font-size: 1.3em; font-weight: bold; text-align: left; padding: 1em 4px; }
 td, th { padding: 3px 3px 4px 3px; line-height: 1.3em; }
-th { background: #A5B9CA; color: #fff; font-weight: bold; text-align: left; padding-right: .5em; vertical-align: top; }
+th { background: #AC4F53; color: #fff; font-weight: bold; text-align: right; padding-right: .5em; vertical-align: top; }
 thead th { background: #2C5755; text-align: center; }
-.odd td { background: #CCCCCC; }
-.odd th { background: #4A6C9B; }
+.odd td { background: #DDDDDD; }
+.odd th { background: #992220; }
 /* We want the rowsteps to have the same background color as the font;
    this way we can add some dummy text in the empty row to make sure the row is drawn
    without any text ebing visible */

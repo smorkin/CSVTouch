@@ -96,6 +96,8 @@
 + (NSUInteger) sortingMask;
 extern NSUInteger sortingMask; // This is available for performance-critical operations
 
++ (NSString *) cssFileName;
+
 // Internal use
 + (NSString *) lastUsedURL;
 + (void) setLastUsedURL:(NSString *)URL;
