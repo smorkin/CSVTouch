@@ -31,7 +31,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"AddFilesCell" forIndexPath:indexPath];
-    cell.textLabel.textColor = [[[[FilesViewController sharedInstance] navigationController] navigationBar] tintColor];
+    cell.textLabel.textColor = [[UIView appearance] tintColor];
 
     if( indexPath.row == 0 )
     {

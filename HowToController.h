@@ -1,6 +1,5 @@
 //
 //  HowToController.h
-//  CSV Touch
 //
 //  Created by Simon Wigzell on 2014-03-10.
 //

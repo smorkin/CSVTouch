@@ -8,7 +8,6 @@
 
 #import <UIKit/UIKit.h>
 #import "OzymandiasAdditions.h"
-#import "IntroViewController.h"
 #import "FileDataViewController.h"
 
 @interface CSV_TouchAppDelegate : NSObject <UIApplicationDelegate,
@@ -24,7 +23,6 @@ OzymandiasApplicationDelegate>
 + (NSString *) localMediaDocumentsPath;
 
 // Presenting a How-To at first ever start
-@property (nonatomic, retain) IntroViewController *introHowToController;
 @property (nonatomic, retain) UIWindow *window;
 @property (nonatomic, assign) NSInteger httpStatusCode;
 @property (nonatomic, readonly) NSMutableArray *URLsToDownload;
@@ -44,8 +42,3 @@ OzymandiasApplicationDelegate>
 - (void) scheduleAutomatedDownload;
 
 @end
-
-@interface CSV_TouchAppDelegate (IntroProtocol)
-<IntroViewControllerDelegate>
-@end
-

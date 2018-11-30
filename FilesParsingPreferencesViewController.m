@@ -17,8 +17,6 @@
 
 - (void) viewWillAppear:(BOOL)animated
 {
-    alternativeParsing.onTintColor = [[UIView appearance] tintColor];
-    keepQuotes.onTintColor = [[UIView appearance] tintColor];
     [super viewWillAppear:animated];
     [delimiterControl setTitle:AUTO_DELIMITER forSegmentAtIndex:0];
     [delimiterControl setTitle:@";" forSegmentAtIndex:1];

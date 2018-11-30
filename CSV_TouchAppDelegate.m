@@ -318,6 +318,16 @@ static CSV_TouchAppDelegate *sharedInstance = nil;
     }
 }
 
+- (void) setupTintColor
+{
+    UIColor *tint = [UIColor colorWithRed:0.60 green:0.13 blue:0.13 alpha:1.0];
+    [[UIView appearance] setTintColor:tint];
+    [[UIPageControl appearance] setPageIndicatorTintColor:[UIColor grayColor]];
+    [[UIPageControl appearance] setCurrentPageIndicatorTintColor:tint];
+    [[UISwitch appearance] setTintColor:tint];
+    [[UISwitch appearance] setOnTintColor:tint];
+}
+
 - (BOOL)application:(UIApplication *)application
 didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
@@ -331,15 +341,7 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
     }
     
     [self scheduleAutomatedDownload];
-    
-    // Show the Add file window in case no files are present
-    if( [[CSVFileParser files] count] == 0 && ![CSVPreferencesController hasShownHowTo])
-    {
-        self.introHowToController = [[IntroViewController alloc] init];
-        [self.introHowToController startHowToShowing:self];
-    }
-
-    [[UIView appearance] setTintColor:[UIColor colorWithRed:0.60 green:0.13 blue:0.13 alpha:1.0]];
+    [self setupTintColor];
     
 	return NO;
 }
@@ -627,6 +629,8 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
         [self.URLsToDownload removeAllObjects];
         for( CSVFileParser *fp in [CSVFileParser files] )
         {
+            fp.hasBeenDownloaded = NO;
+            fp.hasFailedToDownload = NO;
             if( ![fp downloadedLocally])
                 [self.URLsToDownload addObject:[fp URL]];
         }
@@ -688,18 +692,3 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 }
 
 @end
-
-@implementation CSV_TouchAppDelegate (IntroProtocol)
-
-- (void) dismissHowToController:(IntroViewController *)controller
-{
-    if( self.introHowToController == controller)
-    {
-        [CSVPreferencesController setHasShownHowTo];
-        self.window.rootViewController = self.navigationController;
-    }
-}
-
-@end
-
-

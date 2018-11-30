@@ -10,6 +10,9 @@
 #import "CSV_TouchAppDelegate.h"
 #import "FilesViewController.h"
 #import "FadeAnimator.h"
+#import "CSVPreferencesController.h"
+#import "HelpPagesViewController.h"
+#import "HelpPagesDelegate.h"
 
 @interface CSVDataViewController ()
 @property BOOL isPushing;
@@ -25,6 +28,18 @@
 	return self;
 }
 
+- (void) showHelp
+{
+    HelpPagesDelegate *delegate = [[HelpPagesDelegate alloc] init];
+    HelpPagesViewController *controller = [[HelpPagesViewController alloc] initWithDelegate:delegate];
+    
+    [self pushViewController:controller animated:YES];
+}
+
+- (IBAction)dismissSettingsViewAndShowHelp:(UIStoryboardSegue *)sender
+{
+    [self performSelector:@selector(showHelp) withObject:nil afterDelay:0];
+}
 
 // Now, a bunch of things to fix https://stackoverflow.com/questions/34942571/how-to-enable-back-left-swipe-gesture-in-uinavigationcontroller-after-setting-le/43433530#43433530
 - (void) viewDidLoad
@@ -32,6 +47,13 @@
     [super viewDidLoad];
     self.interactivePopGestureRecognizer.delegate = self;
     self.view.backgroundColor = [UIColor whiteColor];
+    
+    // Show the Add file window in case no files are present
+    if( [[CSVFileParser files] count] == 0 && ![CSVPreferencesController hasShownHowTo])
+    {
+        [self showHelp];
+    }
+
 }
 
 - (void)pushViewController:(UIViewController *)viewController animated:(BOOL)animated

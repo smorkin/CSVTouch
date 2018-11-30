@@ -462,9 +462,9 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="time" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="gBR-8n-YBS">
-                                <rect key="frame" x="16" y="102" width="270" height="43"/>
+                                <rect key="frame" x="16" y="102" width="270" height="75"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="43" id="hbO-R8-vzZ"/>
+                                    <constraint firstAttribute="height" constant="75" id="hbO-R8-vzZ"/>
                                 </constraints>
                                 <date key="date" timeIntervalSinceReferenceDate="541379584.38926601">
                                     <!--2018-02-26 23:13:04 +0000-->
@@ -473,6 +473,14 @@
                                     <action selector="somethingChanged:" destination="lMs-RE-JYJ" eventType="valueChanged" id="5zx-so-VO0"/>
                                 </connections>
                             </datePicker>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="J1T-qI-A7A">
+                                <rect key="frame" x="114" y="210" width="72" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Show help"/>
+                                <connections>
+                                    <segue destination="M8M-X0-2S8" kind="unwind" unwindAction="dismissSettingsViewAndShowHelp:" id="aDG-mF-v3z"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
@@ -496,6 +504,7 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uUX-Tn-iSE" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="M8M-X0-2S8" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="1300.8" y="-764.6176911544228"/>
         </scene>

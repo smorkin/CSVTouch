@@ -10,4 +10,8 @@
 
 @interface CSVDataViewController : UINavigationController <UIGestureRecognizerDelegate,
 UINavigationControllerDelegate>
+
+- (IBAction)dismissSettingsViewAndShowHelp:(UIStoryboardSegue *)sender;
+- (void) showHelp;
+
 @end

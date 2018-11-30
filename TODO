@@ -1,7 +1,8 @@
 FIX
 
 - Check if two columns have the same name
-- Remove hidAddress code
+- Remove hideAddress code
+- Remove check marks for files after exiting/entering app?
 
 
 FEATURES

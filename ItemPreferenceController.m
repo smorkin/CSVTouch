@@ -16,8 +16,6 @@
 
 - (void) viewWillAppear:(BOOL)animated
 {
-    showHidden.onTintColor = [[UIView appearance] tintColor];
-    showImages.onTintColor = [[UIView appearance] tintColor];
     [self synchUI];
     [super viewWillAppear:animated];
 }
