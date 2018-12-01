@@ -3,6 +3,8 @@ FIX
 - Check if two columns have the same name
 - Remove hideAddress code
 - Remove check marks for files after exiting/entering app?
+- Removing check marks does not seem to work with timer?
+- When looking at info for file, going back does not clear selection -> next click will be interpreted as clicking this file instead of the clicked one...
 
 
 FEATURES
