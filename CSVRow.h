@@ -22,12 +22,12 @@
 @property (nonatomic, retain) NSArray *items;
 @property (nonatomic, retain) NSMutableArray *fixedWidthItems;
 @property (nonatomic, assign) CSVFileParser *fileParser;
-@property (nonatomic, assign) NSUInteger rawDataPosition;
 @property (nonatomic, retain) NSString *imageName;
 
 // For performance reasons, we have a bunch of pre-initialized format strings. When settings
 // are changed, we need to redo those;
 + (void) refreshRowFormatStrings;
+
 
 - initWithItemCapacity:(NSUInteger)itemCapacity;
 
@@ -35,6 +35,9 @@
 // Call with YES for regular visible columns, NO for hidden columns
 - (NSMutableArray *) longDescriptionInArray:(BOOL)useShownColumns;
 - (NSArray *) columnsAndValues;
+
+// NOTE! Requires both fileParser & items to have been set already. Also, make sure size of widths == items.count
+- (void) createFixedWidthItemsUsingWidths:(int *)widths;
 
 + (SEL) compareSelector;
 @end

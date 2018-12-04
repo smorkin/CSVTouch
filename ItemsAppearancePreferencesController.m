@@ -55,6 +55,7 @@
     else if( sender == predefinedWidths)
     {
         [CSVPreferencesController setDefinedFixedWidths:predefinedWidths.on];
+        [[ItemsViewController sharedInstance] reparseFile];
     }
     else if( sender == multiLinte)
     {

@@ -45,6 +45,9 @@ static FilesViewController *_sharedInstance = nil;
         NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:p];
         if (indexPath != nil) {
             [self performSegueWithIdentifier:@"ToFileData" sender:[[CSVFileParser files] objectAtIndex:indexPath.row]];
+            // For some reason table view is in wonky mode with selection here: The row is selected, but when returning to this view it is still selected, and clicking a new row will not select that one. So if you look at file data for a file, go back to file list, and simply click on new file, you will see items from the file for which you looked at its data instead of the actually clicked one. Hence, the following code which fixes this.
+            // The delay is just to not make the row visually deselect before you see the file data.
+            [self.tableView performSelector:@selector(reloadData) withObject:nil afterDelay:1];
         }
     }
     else
@@ -126,6 +129,7 @@ static FilesViewController *_sharedInstance = nil;
     _sharedInstance = self;
     [self configureGestures];
     self.extendedLayoutIncludesOpaqueBars = YES;
+    self.clearsSelectionOnViewWillAppear = YES;
 
     self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
 }
@@ -252,7 +256,6 @@ static FilesViewController *_sharedInstance = nil;
 
 -(IBAction)prepareForUnwind:(UIStoryboardSegue *)segue
 {
-    
 }
 
 @end

@@ -234,7 +234,6 @@ static NSTimer *_resetDownloadFlagsTimer;
 	[self.parsedItems removeAllObjects];
 	[self.columnNames removeAllObjects];
 	self.problematicRow = nil;
-	_droppedRows = 0;
 	self.iconIndex = NSNotFound;
 	
 	if( useCorrect )
@@ -265,8 +264,10 @@ static NSTimer *_resetDownloadFlagsTimer;
 					NSArray *widths = [tmp objectAtIndex:0];
 					int columnNumber = 0;
 					columnWidths = malloc([widths count] * sizeof(int));
-					for( NSString *width in widths )
+                    for( NSString *width in widths )
+                    {
 						columnWidths[columnNumber++] = [width intValue];
+                    }
 					[tmp removeObjectAtIndex:0];
 				}
 				numberOfRows = [tmp count];
@@ -287,27 +288,14 @@ static NSTimer *_resetDownloadFlagsTimer;
 					else
 					{
 						CSVRow *csvrow = [[CSVRow alloc] initWithItemCapacity:[self.columnNames count]];
+                        csvrow.fileParser = self;
 						if( self.iconIndex != NSNotFound )
 						{
 							csvrow.imageName = [words objectAtIndex:self.iconIndex];
 							[words removeObjectAtIndex:self.iconIndex];
 						}
 						csvrow.items = words;
-						if( columnWidths != NULL )
-						{
-							[csvrow.fixedWidthItems removeAllObjects];
-							for( int col = 0 ; col < [self.columnNames count] ; col++ )
-							{
-								if( columnWidths[col] > 0 )
-									[csvrow.fixedWidthItems addObject:[[words objectAtIndex:col] stringByPaddingToLength:columnWidths[col]
-																										 withString:@" "
-																									startingAtIndex:0]];
-								else 
-									[csvrow.fixedWidthItems addObject:[words objectAtIndex:col]];
-							}
-						}
-						csvrow.fileParser = self;
-						csvrow.rawDataPosition = numberOfRows;
+                        [csvrow createFixedWidthItemsUsingWidths:columnWidths];
 						[self.parsedItems addObject:csvrow];
 					}
 				}
@@ -403,34 +391,20 @@ static NSTimer *_resetDownloadFlagsTimer;
 					else
 					{
 						CSVRow *csvrow = [[CSVRow alloc] initWithItemCapacity:[self.columnNames count]];
+                        csvrow.fileParser = self;
 						if( self.iconIndex != NSNotFound )
 						{
 							csvrow.imageName = [words objectAtIndex:self.iconIndex];
 							[words removeObjectAtIndex:self.iconIndex];
 						}
 						csvrow.items = words;
-						if( columnWidths != NULL )
-						{
-							[csvrow.fixedWidthItems removeAllObjects];
-							for( int i = 0 ; i < [self.columnNames count] ; i++ )
-							{
-								if( columnWidths[i] > 0 )
-									[csvrow.fixedWidthItems addObject:[[words objectAtIndex:i] stringByPaddingToLength:columnWidths[i]
-																										 withString:@" "
-																									startingAtIndex:0]];
-								else 
-									[csvrow.fixedWidthItems addObject:[words objectAtIndex:i]];
-								}
-						}
-						csvrow.fileParser = self;
-						csvrow.rawDataPosition = numberOfRows;
+                        [csvrow createFixedWidthItemsUsingWidths:columnWidths];
                         [self.parsedItems addObject:csvrow];
                     }
                 }
             }
             else
             {
-                _droppedRows++;
                 if( !self.problematicRow){ // Pick first problematic row
                     self.problematicRow = [NSString stringWithFormat:@"Problem parsing row %d: %@", numberOfRows, line];
                 }
@@ -440,8 +414,9 @@ static NSTimer *_resetDownloadFlagsTimer;
     }
         
     if( columnWidths != NULL )
+    {
         free( columnWidths);
-									  
+    }
 	return TRUE;
 }
 

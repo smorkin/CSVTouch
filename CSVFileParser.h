@@ -22,7 +22,6 @@
 @property (nonatomic, copy) NSDate *downloadDate;
 @property (nonatomic, readonly) NSString *rawString;
 @property (nonatomic, copy) NSString *problematicRow;
-@property (nonatomic, readonly) int droppedRows;
 @property (nonatomic, assign) BOOL hasBeenSorted;
 @property (nonatomic, assign) BOOL hasBeenParsed;
 @property (nonatomic, assign) BOOL hasBeenDownloaded;

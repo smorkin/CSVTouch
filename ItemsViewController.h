@@ -22,6 +22,9 @@
 // Will reload data in table but also do other necessary stuff to make table udate with current settings
 - (void) refresh;
 
+// Will force a reparsing of the file, typically if some fundamtental setting has changed which requires this.
+- (void) reparseFile;
+
 - (void) setFile:(CSVFileParser *)file;
 
 - (IBAction) decreaseTableViewSize;

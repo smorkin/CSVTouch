@@ -320,6 +320,11 @@ static NSMutableDictionary *_indexPathForFileName;
     [self.tableView reloadData];
 }
 
+- (void) reparseFile
+{
+    [self.file reparseIfParsed];
+}
+
 - (void) setItems:(NSMutableArray *)items
 {
     if( [CSVPreferencesController restrictedDataVersionRunning] && [items count] > MAX_ITEMS_IN_LITE_VERSION )
