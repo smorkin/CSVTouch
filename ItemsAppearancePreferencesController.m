@@ -47,6 +47,11 @@
     else if( sender == fixedWidth)
     {
         [CSVPreferencesController setUseFixedWidth:fixedWidth.on];
+        if( !fixedWidth.on && [CSVPreferencesController definedFixedWidths])
+        {
+            [CSVPreferencesController setDefinedFixedWidths:NO];
+            [[ItemsViewController sharedInstance] reparseFile];
+        }
     }
     else if( sender == useWordSeparator)
     {
