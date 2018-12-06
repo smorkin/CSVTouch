@@ -416,7 +416,7 @@ sectionForSectionIndexTitle:(NSString *)title
 {
     AutoSizingTableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"AutoCell" forIndexPath:indexPath];
     if( [CSVPreferencesController useFixedWidth])
-        [cell.label setFont:[UIFont fontWithName:@"Courier-Bold" size:[CSVPreferencesController itemsListFontSize]]];
+        [cell.label setFont:[UIFont fontWithName:@"Menlo" size:[CSVPreferencesController itemsListFontSize]]];
     else
         [cell.label setFont:[UIFont systemFontOfSize:[CSVPreferencesController itemsListFontSize]]];
 
