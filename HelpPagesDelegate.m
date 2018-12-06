@@ -42,7 +42,7 @@
         case 5:
             return [NSString stringWithFormat:@"Finally, there are some more unusual ways of getting your files into %@. See the full documentation at http://csvtouch.wordpress.com", appName];
         case 6:
-            return @"If you are having problems, please check the full documentation at http://csvtouch.wordpress.com; if that still doesn't help, you can always mail me (email address available in the AppStore) :-)";
+            return @"If the app has problems reading an imported file, please try toggling the \"Alternative parsing\" and/or the \"Keep quotes\" setting in the 'Files' view. If you are having problems or need to understand all the other settings (which might also help), please check the full documentation at http://csvtouch.wordpress.com. If that still doesn't help, you can always mail me (email address available in the AppStore) :-)";
         default:
             return @"";
     }

@@ -20,8 +20,8 @@
 #define PREFS_SORTING_MASK @"sortingMask"
 #define PREFS_USE_GROUPING_FOR_ITEMS @"useGroupingForItems"
 #define PREFS_GROUP_NUMBERS @"groupNumbers"
-#define PREFS_USE_FIXED_WIDTH @"useFixedWidth"
-#define PREFS_DEFINED_FIXED_WIDTHS @"definedFixedWidths"
+#define PREFS_USE_MONOSPACED_FONT @"useMonospacedFont"
+#define PREFS_FIXED_WIDTHS_ALTERNATIVE @"fixedWidthAlternative"
 #define PREFS_KEEP_QUOTES @"keepQuotes"
 #define PREFS_USE_CORRECT_PARSING @"useCorrectParsing"
 #define PREFS_USE_CORRECT_SORTING @"useCorrectSorting"
@@ -77,6 +77,8 @@ static BOOL reverseItemSorting = FALSE;
     [defaults removeObjectForKey:@"maxSafeBackgroundMinutes"];
     [defaults removeObjectForKey:@"usePassword"];
     [defaults removeObjectForKey:@"nextDownloadTime"];
+    [defaults removeObjectForKey:@"useFixedWidth"];
+    [defaults removeObjectForKey:@"definedFixedWidths"];
 
     if( [defaults objectForKey:@"smartDelimiter"]){
         [defaults removeObjectForKey:@"smartDelimiter"];
@@ -234,32 +236,32 @@ static BOOL reverseItemSorting = FALSE;
 		return YES;
 }
 
-+ (void) setUseFixedWidth:(BOOL)yn
++ (void) setUseMonospacedFont:(BOOL)yn
 {
-    [[NSUserDefaults standardUserDefaults] setBool:yn forKey:PREFS_USE_FIXED_WIDTH];
+    [[NSUserDefaults standardUserDefaults] setBool:yn forKey:PREFS_USE_MONOSPACED_FONT];
 }
 
-+ (BOOL) useFixedWidth
++ (BOOL) useMonospacedFont
 {
-	id obj = [[NSUserDefaults standardUserDefaults] objectForKey:PREFS_USE_FIXED_WIDTH];
+	id obj = [[NSUserDefaults standardUserDefaults] objectForKey:PREFS_USE_MONOSPACED_FONT];
 	if( obj )
 		return [obj boolValue];
 	else
 		return NO;
 }
 
-+ (void) setDefinedFixedWidths:(BOOL)yn
++ (void) setFixedWidthsAlternative:(FixedWidthAlternative)alt
 {
-    [[NSUserDefaults standardUserDefaults] setBool:yn forKey:PREFS_DEFINED_FIXED_WIDTHS];
+    [[NSUserDefaults standardUserDefaults] setInteger:alt forKey:PREFS_FIXED_WIDTHS_ALTERNATIVE];
 }
 
-+ (BOOL) definedFixedWidths
++ (FixedWidthAlternative) fixedWidthsAlternative
 {
-	id obj = [[NSUserDefaults standardUserDefaults] objectForKey:PREFS_DEFINED_FIXED_WIDTHS];
+	id obj = [[NSUserDefaults standardUserDefaults] objectForKey:PREFS_FIXED_WIDTHS_ALTERNATIVE];
 	if( obj )
-		return [obj boolValue];
+		return (FixedWidthAlternative)[obj integerValue];
 	else
-		return NO;
+		return NO_FIXED_WIDTHS;
 }
 
 + (void) setKeepQuotes:(BOOL)yn
@@ -461,13 +463,13 @@ static BOOL hideAdress = NO;
 				[[NSUserDefaults standardUserDefaults] setBool:[[words objectAtIndex:1] boolValue]
 														forKey:PREFS_GROUP_NUMBERS];
 			
-			else if( [[words objectAtIndex:0] isEqualToString:PREFS_USE_FIXED_WIDTH] )
+			else if( [[words objectAtIndex:0] isEqualToString:PREFS_USE_MONOSPACED_FONT] )
 				[[NSUserDefaults standardUserDefaults] setBool:[[words objectAtIndex:1] boolValue]
-														forKey:PREFS_USE_FIXED_WIDTH];
+														forKey:PREFS_USE_MONOSPACED_FONT];
 			
-			else if( [[words objectAtIndex:0] isEqualToString:PREFS_DEFINED_FIXED_WIDTHS] )
-				[[NSUserDefaults standardUserDefaults] setBool:[[words objectAtIndex:1] boolValue]
-														forKey:PREFS_DEFINED_FIXED_WIDTHS];
+			else if( [[words objectAtIndex:0] isEqualToString:PREFS_FIXED_WIDTHS_ALTERNATIVE] )
+				[[NSUserDefaults standardUserDefaults] setInteger:[[words objectAtIndex:1] boolValue]
+														forKey:PREFS_FIXED_WIDTHS_ALTERNATIVE];
 			
 			else if( [[words objectAtIndex:0] isEqualToString:PREFS_KEEP_QUOTES] )
 				[[NSUserDefaults standardUserDefaults] setBool:[[words objectAtIndex:1] boolValue]

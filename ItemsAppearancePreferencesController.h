@@ -11,8 +11,8 @@
 {
     IBOutlet UISwitch *groupItems;
     IBOutlet UISwitch *groupNumbers;
-    IBOutlet UISwitch *fixedWidth;
-    IBOutlet UISwitch *predefinedWidths;
+    IBOutlet UISwitch *monospaced;
+    IBOutlet UISegmentedControl *fixedWidthAlternative;
     IBOutlet UISwitch *useWordSeparator;
     IBOutlet UISwitch *multiLinte;
 }

@@ -449,12 +449,16 @@ static NSMutableArray *formatsStrings = nil;
 	return array;
 }
 
+- (NSArray *) itemsToUseInList
+{
+    return (([CSVPreferencesController useMonospacedFont] && [CSVPreferencesController fixedWidthsAlternative] != NO_FIXED_WIDTHS) ? self.fixedWidthItems : self.items);
+}
+
 - (NSString *) shortDescription
 {
 	if( !_shortDescription )
 	{
-        NSArray *items = ([CSVPreferencesController definedFixedWidths] ? self.fixedWidthItems : self.items);
-        _shortDescription = [CSVRow concatenateWords:items
+        _shortDescription = [CSVRow concatenateWords:[self itemsToUseInList]
                                         usingIndexes:self.fileParser.rawShownColumnIndexes
                                                count:[self.fileParser.shownColumnIndexes count]];
 	}
@@ -495,19 +499,7 @@ static NSMutableArray *formatsStrings = nil;
     {
         for( int i = 0 ; i < [self.items count] ; i++ )
         {
-            int width = widths[i];
-            if( width <= 0 || width > 256) // (Semi-)Reasonable width only
-            {
-                // At least 10 letters, but try to be a bit dynamic and assume something like 48 chars / line
-                if( [[self.fileParser shownColumnNames] count] < 2 )
-                {
-                    width = 12; // We really have no clue since we don't know how many column names will actually be shown (it might be that the file parser hasn't yet initialised the shownColumnNames member...)
-                }
-                else
-                {
-                    width = MAX(10, ((int) 48 / [[self.fileParser shownColumnNames] count]));
-                }
-            }
+            int width = (widths[i] > 0 ? widths[i] : 1); // At least 1 char so we get a space between fields
             [self.fixedWidthItems addObject:[[self.items objectAtIndex:i] stringByPaddingToLength:width
                                                                                        withString:@" "
                                                                                   startingAtIndex:0]];

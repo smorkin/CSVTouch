@@ -26,13 +26,13 @@
 {
     groupItems.on = [CSVPreferencesController useGroupingForItems];
     groupNumbers.on = [CSVPreferencesController groupNumbers];
-    fixedWidth.on = [CSVPreferencesController useFixedWidth];
+    monospaced.on = [CSVPreferencesController useMonospacedFont];
     useWordSeparator.on = ![CSVPreferencesController blankWordSeparator];
-    predefinedWidths.on = [CSVPreferencesController definedFixedWidths];
+    fixedWidthAlternative.selectedSegmentIndex = [CSVPreferencesController fixedWidthsAlternative];
     multiLinte.on = [CSVPreferencesController multilineItemCells];
     
     groupNumbers.enabled = [CSVPreferencesController useGroupingForItems];
-    predefinedWidths.enabled = [CSVPreferencesController useFixedWidth];
+    fixedWidthAlternative.enabled = [CSVPreferencesController useMonospacedFont];
 }
 
 - (IBAction)switchChanged:(id)sender
@@ -44,22 +44,18 @@
     {
         [CSVPreferencesController setGroupNumbers:groupNumbers.on];
     }
-    else if( sender == fixedWidth)
+    else if( sender == monospaced)
     {
-        [CSVPreferencesController setUseFixedWidth:fixedWidth.on];
-        if( !fixedWidth.on && [CSVPreferencesController definedFixedWidths])
-        {
-            [CSVPreferencesController setDefinedFixedWidths:NO];
-            [[ItemsViewController sharedInstance] reparseFile];
-        }
+        [CSVPreferencesController setUseMonospacedFont:monospaced.on];
+        [[ItemsViewController sharedInstance] reparseFile];
     }
     else if( sender == useWordSeparator)
     {
         [CSVPreferencesController setBlankWordSeparator:!useWordSeparator.on];
     }
-    else if( sender == predefinedWidths)
+    else if( sender == fixedWidthAlternative)
     {
-        [CSVPreferencesController setDefinedFixedWidths:predefinedWidths.on];
+        [CSVPreferencesController setFixedWidthsAlternative:(FixedWidthAlternative)fixedWidthAlternative.selectedSegmentIndex];
         [[ItemsViewController sharedInstance] reparseFile];
     }
     else if( sender == multiLinte)

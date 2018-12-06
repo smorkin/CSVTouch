@@ -326,6 +326,7 @@ static CSV_TouchAppDelegate *sharedInstance = nil;
     [[UIPageControl appearance] setCurrentPageIndicatorTintColor:tint];
     [[UISwitch appearance] setTintColor:tint];
     [[UISwitch appearance] setOnTintColor:tint];
+    [[UISegmentedControl appearance] setTintColor:tint];
 }
 
 - (BOOL)application:(UIApplication *)application

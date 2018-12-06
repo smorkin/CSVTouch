@@ -23,11 +23,15 @@
 
 #define DEFS_ENCODING_FOR_FILES @"encodingForFiles"
 
+#define MAX_AUTO_WIDTH 32
+
 @interface CSVFileParser ()
-@property (nonatomic, strong) NSMutableArray *parsedItems;
+@property (nonatomic, strong) NSMutableArray<CSVRow*> *parsedItems;
 @property (nonatomic, copy) NSData *rawData;
-@property (nonatomic, strong) NSMutableArray *shownColumnNames;
+@property (nonatomic, strong) NSMutableArray<NSString *> *shownColumnNames;
 @property (nonatomic) unichar usedDelimiter;
+@property NSMutableArray<NSNumber *> *maxLengths;
+
 @end
 
 @implementation CSVFileParser
@@ -227,9 +231,6 @@ static NSTimer *_resetDownloadFlagsTimer;
 	useCorrect:(BOOL)useCorrect
 {
     NSUInteger encoding = NSUTF8StringEncoding; // Use an encoding which works fine w c-string
-	int csvParseFlags = CSV_TRIM | ([CSVPreferencesController keepQuotes] ? 0 : CSV_QUOTES);
-	int *columnWidths = NULL;
-	
 	*foundColumns = -1;
 	[self.parsedItems removeAllObjects];
 	[self.columnNames removeAllObjects];
@@ -238,6 +239,11 @@ static NSTimer *_resetDownloadFlagsTimer;
 	
 	if( useCorrect )
 	{
+        if( testing)
+        {
+            self.problematicRow = @"Internal error; tried to autmoatically find delimiter using invaldi parsing logic. Please contact the developer.";
+            return FALSE;
+        }
 		NSUInteger numberOfRows = 0;
 		CSVParser *parser = [[CSVParser alloc] init];
 		[parser setEncoding:encoding];
@@ -245,64 +251,52 @@ static NSTimer *_resetDownloadFlagsTimer;
 		parser.string = s;
 		NSMutableArray *tmp = [parser parseFile];
 		
-		if( [tmp count] > 0 )
-		{
-			if( !testing )
-			{
-				[self.columnNames addObjectsFromArray:[tmp objectAtIndex:0]];
-				NSUInteger numberOfColumns = [self.columnNames count];
-				if( (self.iconIndex = [self.columnNames indexOfObject:ITEM_ICON_COLUMN_NAME]) != NSNotFound )
-					[self.columnNames removeObjectAtIndex:self.iconIndex];
-				[tmp removeObjectAtIndex:0];
-				if( [CSVPreferencesController definedFixedWidths] )
-				{
-					if( [tmp count] == 0 )
-					{
-						self.problematicRow = @"No row with defined widths found";
-						return FALSE;
-					}
-					NSArray *widths = [tmp objectAtIndex:0];
-					int columnNumber = 0;
-					columnWidths = malloc([widths count] * sizeof(int));
-                    for( NSString *width in widths )
-                    {
-						columnWidths[columnNumber++] = [width intValue];
-                    }
-					[tmp removeObjectAtIndex:0];
-				}
-				numberOfRows = [tmp count];
-				NSMutableArray *words;
-				for( NSUInteger rawrow = 0 ; rawrow < numberOfRows ; rawrow++ )
-				{
-					words = [tmp objectAtIndex:rawrow];
-					if( [words count] != numberOfColumns )
-					{
-                        if( !self.problematicRow){
-                            self.problematicRow = [NSString stringWithFormat:@"Found %lu values, expected %lu for row %lu; row data: %@",
-                                                   (unsigned long)[words count],
-                                                   (unsigned long)numberOfColumns,
-                                                   (unsigned long)rawrow+1,
-                                                   words];
-                        }
-					}
-					else
-					{
-						CSVRow *csvrow = [[CSVRow alloc] initWithItemCapacity:[self.columnNames count]];
-                        csvrow.fileParser = self;
-						if( self.iconIndex != NSNotFound )
-						{
-							csvrow.imageName = [words objectAtIndex:self.iconIndex];
-							[words removeObjectAtIndex:self.iconIndex];
-						}
-						csvrow.items = words;
-                        [csvrow createFixedWidthItemsUsingWidths:columnWidths];
-						[self.parsedItems addObject:csvrow];
-					}
-				}
-			}
-			
-		}
-	}
+        if( [tmp count] == 0)
+        {
+            self.problematicRow = @"No rows at all found in the file. Try toggling the setting for 'Alternative parsing', 'Keep quotes', and/or 'Encoding'";
+            return FALSE;
+        }
+        else if( [tmp count] == 1)
+        {
+            self.problematicRow = @"Only 1 row found in the file. Try toggling the setting for 'Alternative parsing', 'Keep quotes', and/or 'Encoding'";
+            return FALSE;
+        }
+
+        // First, the column names should not be saved as a CSVRow so we read in the names, and then remove the row
+        [self.columnNames addObjectsFromArray:[tmp objectAtIndex:0]];
+        NSUInteger numberOfColumns = [self.columnNames count];
+        if( (self.iconIndex = [self.columnNames indexOfObject:ITEM_ICON_COLUMN_NAME]) != NSNotFound )
+            [self.columnNames removeObjectAtIndex:self.iconIndex];
+        [tmp removeObjectAtIndex:0];
+        numberOfRows = [tmp count];
+        NSMutableArray *words;
+        for( NSUInteger rawrow = 0 ; rawrow < numberOfRows ; rawrow++ )
+        {
+            words = [tmp objectAtIndex:rawrow];
+            if( [words count] != numberOfColumns )
+            {
+                if( !self.problematicRow){
+                    self.problematicRow = [NSString stringWithFormat:@"Found %lu columns but in row %lu %lu values were found; row data:\n%@",
+                                           (unsigned long)numberOfColumns,
+                                           (unsigned long)rawrow+1,
+                                           (unsigned long)[words count],
+                                           words];
+                }
+            }
+            else
+            {
+                CSVRow *csvrow = [[CSVRow alloc] initWithItemCapacity:[self.columnNames count]];
+                csvrow.fileParser = self;
+                if( self.iconIndex != NSNotFound )
+                {
+                    csvrow.imageName = [words objectAtIndex:self.iconIndex];
+                    [words removeObjectAtIndex:self.iconIndex];
+                }
+                csvrow.items = words;
+                [self.parsedItems addObject:csvrow];
+            }
+        }
+    }
 	else
 	{
 		NSRange lineRange;
@@ -315,6 +309,7 @@ static NSTimer *_resetDownloadFlagsTimer;
 		NSMutableArray *result = [NSMutableArray arrayWithCapacity:(testing ? 2 : 5000)];
 		int maxNumberOfRows = (testing ? 3 : 1000000);
 		NSUInteger length = [s length];
+        int csvParseFlags = CSV_TRIM | ([CSVPreferencesController keepQuotes] ? 0 : CSV_QUOTES);
 
 		lineStart = lineEnd = nextLineStart = 0;
 		while( nextLineStart < length && numberOfRows < maxNumberOfRows )
@@ -340,25 +335,29 @@ static NSTimer *_resetDownloadFlagsTimer;
 					wordNumber++;
 				}
 				
-				// Check for consistency
+				// Was this the
 				if( *foundColumns == -1 )
+                {
 					*foundColumns = wordNumber;
+                }
 				else if( *foundColumns != wordNumber && wordNumber != 0 )
 				{
 					if(!testing && wordNumber < *foundColumns )
 					{
-						for( int i = 0 ; i < *foundColumns - wordNumber ; i++ )
+                        // Adding empty values for the last columns, i.e. handling cases like some Excel exports where nothing is exported in case there is nothing in the last columns
+                        for( int i = 0 ; i < *foundColumns - wordNumber ; i++ )
 							[words addObject:@""];
 					}
 					else
 					{
 						if( !testing )
 						{
-                            if( !self.problematicRow){
-                                self.problematicRow = [NSString stringWithFormat:@"Found %d values, expected %d for row %d:\n%@",
-                                                       wordNumber,
+                            if( !self.problematicRow)
+                            {
+                                self.problematicRow = [NSString stringWithFormat:@"Found %d columns but in row %d %d values were found; row data:\n%@",
                                                        *foundColumns,
                                                        numberOfRows,
+                                                       wordNumber,
                                                        line];
                             }
                         }
@@ -369,6 +368,7 @@ static NSTimer *_resetDownloadFlagsTimer;
 				// Add data if not testing
 				if( !testing )
 				{
+                    // So columns are here; store them but do not create a CSVRow boject, of course
 					if( numberOfRows == 0 )
 					{
 						[self.columnNames addObjectsFromArray:words];
@@ -376,17 +376,6 @@ static NSTimer *_resetDownloadFlagsTimer;
 						{
 							[self.columnNames removeObjectAtIndex:self.iconIndex];
 						}
-					}
-					else if(numberOfRows == 1 &&
-							[CSVPreferencesController definedFixedWidths])
-					{
-						if( self.iconIndex != NSNotFound )
-							[words removeObjectAtIndex:self.iconIndex];
-						NSArray *widths = words;
-						int columnNumber = 0;
-						columnWidths = malloc([widths count] * sizeof(int));
-						for( NSString *width in widths )
-							columnWidths[columnNumber++] = [width intValue];
 					}
 					else
 					{
@@ -398,7 +387,6 @@ static NSTimer *_resetDownloadFlagsTimer;
 							[words removeObjectAtIndex:self.iconIndex];
 						}
 						csvrow.items = words;
-                        [csvrow createFixedWidthItemsUsingWidths:columnWidths];
                         [self.parsedItems addObject:csvrow];
                     }
                 }
@@ -406,16 +394,65 @@ static NSTimer *_resetDownloadFlagsTimer;
             else
             {
                 if( !self.problematicRow){ // Pick first problematic row
-                    self.problematicRow = [NSString stringWithFormat:@"Problem parsing row %d: %@", numberOfRows, line];
+                    self.problematicRow = [NSString stringWithFormat:@"Problem parsing row %d:\n%@", numberOfRows, line];
                 }
             }
             numberOfRows++;
         }
     }
-        
-    if( columnWidths != NULL )
+    
+    
+    if( !testing &&
+       [CSVPreferencesController useMonospacedFont] &&
+       [self.parsedItems count] > 0) // Last should always be true since we return otherwise but in case the code changes, best to check to avoid exception below.
     {
-        free( columnWidths);
+        // So now we have all CSVRows with the words and we need to create the fixed width words as well.
+        //
+        // First, find the widths.
+        CSVRow *firstRow = [self.parsedItems objectAtIndex:0];
+        size_t numberOfWidths = [[firstRow items] count];
+        int *columnWidths = NULL;
+        columnWidths = calloc(numberOfWidths, sizeof(int)); // Code belows relies on 0-initialised.
+        switch([CSVPreferencesController fixedWidthsAlternative])
+        {
+            case PREDEFINED_FIXED_WIDTHS:
+            {
+                int col = 0;
+                for( NSString *width in [firstRow items])
+                {
+                    columnWidths[col++] = [width intValue];
+                }
+                [self.parsedItems removeObjectAtIndex:0];
+                break;
+            }
+            case AUTOMATIC_FIXED_WIDTHS:
+            {
+                // So find the max word length for each column. Using calloc we already have 0 for all entries.
+                for( CSVRow *row in self.parsedItems){
+                    for( int col = 0 ; col < MIN([row.items count], [self.columnNames count]) ; ++col)
+                    {
+                        int wordLength = MIN((int)[(NSString *)[row.items objectAtIndex:col] length], MAX_AUTO_WIDTH);
+                        if( wordLength > columnWidths[col])
+                        {
+                            columnWidths[col] = wordLength;
+                        }
+                    }
+                }
+                break;
+            }
+            case NO_FIXED_WIDTHS:
+                free(columnWidths);
+                columnWidths = NULL;
+                break;
+        }
+        if( columnWidths != NULL )
+        {
+            for( CSVRow *row in self.parsedItems)
+            {
+                [row createFixedWidthItemsUsingWidths:columnWidths];
+            }
+            free(columnWidths);
+        }
     }
 	return TRUE;
 }
@@ -587,7 +624,7 @@ static NSTimer *_resetDownloadFlagsTimer;
          (unsigned long)[[self columnNames] count],
          (unsigned long)[[self itemsWithResetShortdescriptions:NO] count]];
         if( [CSVPreferencesController keepQuotes] && [self.problematicRow hasSubstring:@"\""])
-            [s appendString:@"\n\nTry switching off the \"Keep Quotes\"-setting."];
+            [s appendString:@"\n\nTry changing the \"Alternative parsing\" and/or the \"Keep Quotes\"-setting, available in the previous view."];
         if( self.problematicRow && ![self.problematicRow isEqualToString:@""] ){
             [s appendFormat:@"\n\nPotentially first problematic row:\n\n%@\n\n",
              self.problematicRow];

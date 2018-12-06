@@ -10,6 +10,12 @@
 
 #import <UIKit/UIKit.h>
 
+typedef enum FixedWidthAlternative{
+    NO_FIXED_WIDTHS = 0,
+    PREDEFINED_FIXED_WIDTHS,
+    AUTOMATIC_FIXED_WIDTHS
+}FixedWidthAlternative;
+
 @interface CSVPreferencesController : NSObject
 
 + (void) applicationDidFinishLaunching;
@@ -34,10 +40,10 @@
 + (BOOL) useGroupingForItems;
 + (void) setGroupNumbers:(BOOL)yn;
 + (BOOL) groupNumbers;
-+ (void) setUseFixedWidth:(BOOL)yn;
-+ (BOOL) useFixedWidth;
-+ (void) setDefinedFixedWidths:(BOOL)yn;
-+ (BOOL) definedFixedWidths;
++ (void) setUseMonospacedFont:(BOOL)yn;
++ (BOOL) useMonospacedFont;
++ (void) setFixedWidthsAlternative:(FixedWidthAlternative)alt;
++ (FixedWidthAlternative) fixedWidthsAlternative;
 + (void) setKeepQuotes:(BOOL)yn;
 + (BOOL) keepQuotes;
 + (void) setUseCorrectParsing:(BOOL)yn;
