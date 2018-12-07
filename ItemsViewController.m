@@ -22,6 +22,7 @@
 @property (nonatomic, strong) NSMutableArray<CSVRow *> *items;
 @property (nonatomic, strong) NSMutableArray *sectionStarts;
 @property (nonatomic, strong) NSMutableArray *sectionIndices;
+@property CGFloat originalPointsWhenPinchStarted;
 @property BOOL hasBeenVisible;
 @end
 
@@ -152,6 +153,8 @@ static NSMutableDictionary *_indexPathForFileName;
     self.sectionIndices = [NSMutableArray array];
     self.edgesForExtendedLayout = UIRectEdgeNone;
     self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
+    UIPinchGestureRecognizer *p = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(pinch:)];
+    [self.tableView addGestureRecognizer:p];
     _sharedInstance = self;
 }
 
@@ -185,9 +188,8 @@ static NSMutableDictionary *_indexPathForFileName;
     [super viewWillDisappear:animated];
 }
 
-- (void) modifyItemsTableViewSize:(BOOL)increase
+- (void) sizeChanged
 {
-    (increase ? [CSVPreferencesController increaseItemsListFontSize] : [CSVPreferencesController decreaseItemsListFontSize]);
     NSArray *a = [[self tableView] indexPathsForVisibleRows];
     NSIndexPath *oldIndexPath = nil;
     if( [a count] > 0 )
@@ -196,6 +198,49 @@ static NSMutableDictionary *_indexPathForFileName;
         [[self tableView] scrollToRowAtIndexPath:oldIndexPath
                                 atScrollPosition:UITableViewScrollPositionTop
                                         animated:NO];
+    [self validateItemSizeButtons];
+    [self.tableView reloadData];
+}
+
+- (int) getPointsChange:(UIPinchGestureRecognizer *)pinch
+{
+    CGFloat currentPoints = [CSVPreferencesController itemsListFontSize];
+    CGFloat scaledPoints = pinch.scale * self.originalPointsWhenPinchStarted;
+    return (scaledPoints - currentPoints);
+}
+
+- (void) applyPointsChange:(int)pointsChange
+{
+    for( int i = 0 ; i < abs(pointsChange) ; ++i)
+    {
+        if( pointsChange > 0 )
+            [CSVPreferencesController increaseItemsListFontSize];
+        else
+            [CSVPreferencesController decreaseItemsListFontSize];
+    }
+    [self sizeChanged];
+}
+
+- (void) pinch:(UIPinchGestureRecognizer *)pinch
+{
+    switch(pinch.state)
+    {
+        case UIGestureRecognizerStateBegan:
+            self.originalPointsWhenPinchStarted = [CSVPreferencesController itemsListFontSize];
+            // Intentional fallthrough!
+        case UIGestureRecognizerStateChanged:
+        case UIGestureRecognizerStateEnded:
+            [self applyPointsChange:[self getPointsChange:pinch]];
+            break;
+        default:
+            break;
+    }
+}
+
+- (void) modifyItemsTableViewSize:(BOOL)increase
+{
+    (increase ? [CSVPreferencesController increaseItemsListFontSize] : [CSVPreferencesController decreaseItemsListFontSize]);
+    [self sizeChanged];
 }
 
 - (void) validateItemSizeButtons
@@ -213,15 +258,11 @@ static NSMutableDictionary *_indexPathForFileName;
 - (IBAction) increaseTableViewSize
 {
     [self modifyItemsTableViewSize:YES];
-    [self validateItemSizeButtons];
-    [self.tableView reloadData];
 }
 
 - (IBAction) decreaseTableViewSize
 {
     [self modifyItemsTableViewSize:NO];
-    [self validateItemSizeButtons];
-    [self.tableView reloadData];
 }
 
 - (IBAction) toggleItemSortOrder

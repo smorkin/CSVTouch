@@ -4,11 +4,12 @@ FIX
 - Remove hideAddress code
 - Remove check marks for files after exiting/entering app?
 - Removing check marks does not seem to work with timer?
+- Remove cached scroll position in items list view perhaps? Messy code, just for going out ti file list and then back to the same file again, not sure it's worth it...
 
 
 FEATURES
 
-- Pinch-to-zoom gesture support
+- Pinch-to-zoom gesture support in details view
 
 TEST
 
@@ -19,3 +20,4 @@ COMPLETED
 
 - When looking at info for file, going back does not clear selection -> next click will be interpreted as clicking this file instead of the clicked one...
 - Automatic analysis of fixed widths (i.e. max length / field)
+- Pinch-to-zoom gesture support in items list

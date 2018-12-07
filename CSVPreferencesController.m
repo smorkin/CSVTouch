@@ -136,23 +136,22 @@ NSUInteger sortingMask;
 #define MIN_FONT_SIZE 1
 #define STANDARD_FONT_SIZE 12
 
-+ (void) setItemsListFontSize:(CGFloat)size
++ (void) setItemsListFontSize:(NSInteger)size
 {
-    [[NSUserDefaults standardUserDefaults] setDouble:size forKey:PREFS_ITEMS_LIST_FONT_SIZE];
+    if( size >= MIN_FONT_SIZE && size <= MAX_FONT_SIZE)
+    {
+        [[NSUserDefaults standardUserDefaults] setInteger:size forKey:PREFS_ITEMS_LIST_FONT_SIZE];
+    }
 }
 
 + (CGFloat) itemsListFontSize
 {
-    CGFloat size = [[NSUserDefaults standardUserDefaults] doubleForKey:PREFS_ITEMS_LIST_FONT_SIZE];
-    if( size < MIN_FONT_SIZE)
+    NSInteger size = [[NSUserDefaults standardUserDefaults] integerForKey:PREFS_ITEMS_LIST_FONT_SIZE];
+    if( size < MIN_FONT_SIZE || size > MAX_FONT_SIZE)
     {
-        size = STANDARD_FONT_SIZE;
+       return STANDARD_FONT_SIZE;
     }
-    else if( size > MAX_FONT_SIZE)
-    {
-        size = STANDARD_FONT_SIZE;
-    }
-    return size;
+    return (CGFloat)size;
 }
 
 + (void) increaseItemsListFontSize

@@ -2,17 +2,17 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "parsesettings25.png",
+      "filename" : "altparsesettings25.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "filename" : "parsesettings50.png",
+      "filename" : "altparsesettings50.png",
       "scale" : "2x"
     },
     {
       "idiom" : "universal",
-      "filename" : "parsesettings75.png",
+      "filename" : "altparsesettings75.png",
       "scale" : "3x"
     }
   ],
