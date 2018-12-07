@@ -13,6 +13,7 @@
 #import "csv.h"
 #import "parseCSV.h"
 #import "OzymandiasAdditions.h"
+#import "ItemsViewController.h"
 
 #define FILEPARSER_RAW_DATA @"rawData"
 #define FILEPARSER_URL @"URL"
@@ -107,6 +108,18 @@ static NSMutableArray *_files;
     return NO;
 }
 
++ (void) fixedWidthSettingsChangedUsingUI
+{
+    CSVFileParser *current = [[ItemsViewController sharedInstance] file];
+    [current reparseIfParsed];
+    for( CSVFileParser *parser in _files)
+    {
+        if( parser != current)
+        {
+            parser.hasBeenParsed = NO;
+        }
+    }
+}
 static NSTimer *_resetDownloadFlagsTimer;
 
 + (void) resetClearingOfDownloadFlagsTimer

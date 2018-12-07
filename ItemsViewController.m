@@ -20,7 +20,6 @@
 
 
 @interface ItemsViewController ()
-@property (nonatomic, weak) CSVFileParser *file;
 @property (nonatomic, strong) UISearchController *searchController;
 @property (nonatomic, strong) NSMutableArray<CSVRow *> *items;
 @property (nonatomic, strong) NSMutableArray *sectionStarts;

@@ -8,6 +8,7 @@
 #import "ItemsAppearancePreferencesController.h"
 #import "CSVPreferencesController.h"
 #import "ItemsViewController.h"
+#import "CSVFileParser.h"
 #import "CSVRow.h"
 
 @interface ItemsAppearancePreferencesController ()
@@ -47,7 +48,7 @@
     else if( sender == monospaced)
     {
         [CSVPreferencesController setUseMonospacedFont:monospaced.on];
-        [[ItemsViewController sharedInstance] reparseFile];
+        [CSVFileParser fixedWidthSettingsChangedUsingUI];
     }
     else if( sender == useWordSeparator)
     {
@@ -56,7 +57,7 @@
     else if( sender == fixedWidthAlternative)
     {
         [CSVPreferencesController setFixedWidthsAlternative:(FixedWidthAlternative)fixedWidthAlternative.selectedSegmentIndex];
-        [[ItemsViewController sharedInstance] reparseFile];
+        [CSVFileParser fixedWidthSettingsChangedUsingUI];
     }
     else if( sender == multiLinte)
     {

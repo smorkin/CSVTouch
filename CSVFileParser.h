@@ -45,6 +45,8 @@
 
 + (void) resetClearingOfDownloadFlagsTimer;
 
++ (void) fixedWidthSettingsChangedUsingUI;
+
 - (void) saveToFile;
 
 - (NSData *) fileRawData;;

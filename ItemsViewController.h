@@ -17,6 +17,8 @@
     IBOutlet UIBarButtonItem *itemsCountButton;
 }
 
+@property (nonatomic, weak) CSVFileParser *file;
+
 + (instancetype) sharedInstance;
 
 // Will reload data in table but also do other necessary stuff to make table udate with current settings
@@ -24,8 +26,6 @@
 
 // Will force a reparsing of the file, typically if some fundamtental setting has changed which requires this.
 - (void) reparseFile;
-
-- (void) setFile:(CSVFileParser *)file;
 
 - (IBAction) decreaseTableViewSize;
 - (IBAction) increaseTableViewSize;
