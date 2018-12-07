@@ -34,6 +34,7 @@
     
     groupNumbers.enabled = [CSVPreferencesController useGroupingForItems];
     fixedWidthAlternative.enabled = [CSVPreferencesController useMonospacedFont];
+    fixedWidthAlternativeLabel.enabled = [CSVPreferencesController useMonospacedFont];
 }
 
 - (IBAction)switchChanged:(id)sender

@@ -12,9 +12,10 @@
     IBOutlet UISwitch *groupItems;
     IBOutlet UISwitch *groupNumbers;
     IBOutlet UISwitch *monospaced;
-    IBOutlet UISegmentedControl *fixedWidthAlternative;
     IBOutlet UISwitch *useWordSeparator;
     IBOutlet UISwitch *multiLinte;
+    IBOutlet UILabel *fixedWidthAlternativeLabel;
+    IBOutlet UISegmentedControl *fixedWidthAlternative;
 }
 
 - (IBAction)switchChanged:(id)sender;

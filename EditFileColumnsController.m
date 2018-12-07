@@ -59,9 +59,6 @@
 
 - (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if( indexPath.section == 0 ){
-        return UITableViewCellEditingStyleDelete;
-    }
     return UITableViewCellEditingStyleNone;
 }
 
@@ -107,9 +104,6 @@ moveRowAtIndexPath:(NSIndexPath *)fromIndexPath
 
 - (BOOL)tableView:(UITableView *)tableView shouldIndentWhileEditingRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if( indexPath.section == 0 ){
-        return YES;
-    }
    return NO;
 }
 
@@ -144,11 +138,11 @@ moveRowAtIndexPath:(NSIndexPath *)fromIndexPath
 {
     if( section == 0 )
     {
-        return @"Important columns";
+        return @"Shown columns (manual sort)";
     }
     else if( section == 1 )
     {
-        return @"Non-important columns (unsorted)";
+        return @"Hidden columns (alphabetical sort)";
     }
     return nil;
 

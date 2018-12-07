@@ -25,6 +25,7 @@
 #define DEFS_ENCODING_FOR_FILES @"encodingForFiles"
 
 #define MAX_AUTO_WIDTH 32
+#define MAX_PREDEFINED_WIDTH 256
 
 @interface CSVFileParser ()
 @property (nonatomic, strong) NSMutableArray<CSVRow*> *parsedItems;
@@ -433,7 +434,7 @@ static NSTimer *_resetDownloadFlagsTimer;
                 int col = 0;
                 for( NSString *width in [firstRow items])
                 {
-                    columnWidths[col++] = [width intValue];
+                    columnWidths[col++] = MIN([width intValue], MAX_PREDEFINED_WIDTH);
                 }
                 [self.parsedItems removeObjectAtIndex:0];
                 break;

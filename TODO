@@ -8,8 +8,6 @@ FIX
 
 FEATURES
 
-- Automatic analysis of fixed widths (i.e. max length / field)
-
 
 TEST
 
@@ -19,4 +17,4 @@ TEST
 COMPLETED
 
 - When looking at info for file, going back does not clear selection -> next click will be interpreted as clicking this file instead of the clicked one...
-
+- Automatic analysis of fixed widths (i.e. max length / field)
