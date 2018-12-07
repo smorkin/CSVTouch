@@ -709,17 +709,17 @@
                                 <segue destination="9lW-Nk-e8g" kind="show" identifier="ToEdit" id="oP3-ah-JeY"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem image="4lines.png" id="pdf-VF-k4G">
+                        <barButtonItem image="decrease" id="pdf-VF-k4G">
                             <connections>
                                 <action selector="decreaseTableViewSize" destination="yKV-vJ-ur4" id="S6n-Js-JpJ"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem image="2lines.png" id="0ps-lE-zjl">
+                        <barButtonItem image="increase" id="0ps-lE-zjl">
                             <connections>
                                 <action selector="increaseTableViewSize" destination="yKV-vJ-ur4" id="HKO-nA-QCS"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem title="↓" id="9SS-YP-gEn">
+                        <barButtonItem image="descending" id="9SS-YP-gEn">
                             <connections>
                                 <action selector="toggleItemSortOrder" destination="yKV-vJ-ur4" id="UNF-PL-EwS"/>
                             </connections>
@@ -888,10 +888,11 @@
         </scene>
     </scenes>
     <resources>
-        <image name="2lines.png" width="20" height="24"/>
-        <image name="4lines.png" width="20" height="24"/>
         <image name="app_prefs_diverse" width="50" height="50"/>
         <image name="app_prefs_parsing" width="50" height="50"/>
+        <image name="decrease" width="50" height="50"/>
+        <image name="descending" width="50" height="50"/>
+        <image name="increase" width="50" height="50"/>
         <image name="items_prefs_appearance" width="50" height="50"/>
         <image name="items_prefs_sort_and_search" width="50" height="50"/>
         <image name="prefs_main" width="44" height="44"/>

@@ -42,9 +42,12 @@
 #define PREFS_USE_AUTOMATED_DOWNLOAD @"useAutomatedDownload"
 #define PREFS_CONFIGURED_DOWNLOAD_TIME @"configuredDownloadTime"
 #define PREFS_MULTILINE_ITEM_CELLS @"multilineItemCells"
+#define PREFS_REVERSE_ITEM_SORTING @"reverseItemSorting"
+
+// Since this value will be used really frequently, we cahce it for quick return
+static BOOL _cachedReverseSorting;
 
 NSUInteger sortingMask;
-static BOOL reverseItemSorting = FALSE;
 
 + (void) applicationDidFinishLaunching
 {
@@ -86,7 +89,10 @@ static BOOL reverseItemSorting = FALSE;
     }
 
 	// Setup sortingMask
-    [self updateSortingMask];    
+    [self updateSortingMask];
+    
+    // Fix quick cache
+    [self updateFastCache];
     
     [self resetDefaultsHaveChanges];
 }
@@ -624,6 +630,11 @@ static BOOL hideAdress = NO;
     return [[NSUserDefaults standardUserDefaults] boolForKey:PREFS_MULTILINE_ITEM_CELLS];
 }
 
++ (void) updateFastCache
+{
+    _cachedReverseSorting = [[NSUserDefaults standardUserDefaults] boolForKey:PREFS_REVERSE_ITEM_SORTING];
+}
+
 + (void) updateSortingMask
 {
     // Default, so make sure default return values above correlates to these defaults
@@ -654,12 +665,13 @@ static BOOL hideAdress = NO;
 
 + (void) toggleReverseItemSorting
 {
-    reverseItemSorting = !reverseItemSorting;
+    _cachedReverseSorting = !_cachedReverseSorting;
+    [[NSUserDefaults standardUserDefaults] setBool:_cachedReverseSorting forKey:PREFS_REVERSE_ITEM_SORTING];
 }
 
 + (BOOL) reverseItemSorting
 {
-    return reverseItemSorting;
+    return _cachedReverseSorting;
 }
 
 + (NSString *) lastUsedURL

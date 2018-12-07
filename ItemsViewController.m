@@ -14,8 +14,6 @@
 #import "DetailsPagesController.h"
 #include "AutoSizingTableViewCell.h"
 
-#define NORMAL_SORT_ORDER @"↓"
-#define REVERSE_SORT_ORDER @"↑"
 #define MAX_ITEMS_IN_LITE_VERSION 150
 
 
@@ -167,6 +165,7 @@ static NSMutableDictionary *_indexPathForFileName;
     self.tableView.rowHeight = UITableViewAutomaticDimension;
     self.tableView.estimatedRowHeight = 32;
     self.navigationItem.largeTitleDisplayMode = UINavigationItemLargeTitleDisplayModeNever;
+    [self synchUI];
     [super viewWillAppear:animated];
 }
 
@@ -205,6 +204,12 @@ static NSMutableDictionary *_indexPathForFileName;
     enlargeItemsButton.enabled = [CSVPreferencesController canIncreaseItemsListFontSize];
 }
 
+- (void) synchUI
+{
+    sortOrderButton.image = [CSVPreferencesController reverseItemSorting] ?
+    [UIImage imageNamed:@"descending"] : [UIImage imageNamed:@"ascending"];
+}
+
 - (IBAction) increaseTableViewSize
 {
     [self modifyItemsTableViewSize:YES];
@@ -222,13 +227,14 @@ static NSMutableDictionary *_indexPathForFileName;
 - (IBAction) toggleItemSortOrder
 {
     [CSVPreferencesController toggleReverseItemSorting];
-    sortOrderButton.title = [CSVPreferencesController reverseItemSorting] ? REVERSE_SORT_ORDER : NORMAL_SORT_ORDER;
     [self.items sortUsingSelector:[CSVRow compareSelector]];
     // In case we have a subset of the file, let's sort the file as well
     if( self.items != [self.file itemsWithResetShortdescriptions:NO])
     {
         [self.file sortItems];
     }
+    [self synchUI];
+    [self refreshIndices];
     [self.tableView reloadData];
 }
 
