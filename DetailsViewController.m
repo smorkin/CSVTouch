@@ -6,6 +6,7 @@
 //
 
 #import "DetailsViewController.h"
+#import "DetailsPagesController.h"
 #import "OzymandiasAdditions.h"
 #import "CSVPreferencesController.h"
 #import "CSV_TouchAppDelegate.h"
@@ -16,6 +17,7 @@
 @property (nonatomic, strong) UITableView *fancyView;
 @property (nonatomic, strong) UITextView *simpleView;
 @property (nonatomic, assign) BOOL hasLoadedData;
+@property CGFloat originalPointsWhenPinchStarted;
 @end
 
 @interface DetailsViewController (Fancy) <UITableViewDataSource, UITableViewDelegate>
@@ -28,33 +30,56 @@
 
 @implementation DetailsViewController
 
+- (UIPinchGestureRecognizer *)gestureToAdd
+{
+    return [[UIPinchGestureRecognizer alloc] initWithTarget:self
+                                                     action:@selector(pinch:)];
+}
+
+- (void) setupWebView
+{
+    self.webView = [[UIWebView alloc] init];
+    self.webView.opaque = NO;
+    self.webView.backgroundColor = [UIColor whiteColor];
+    self.webView.delegate = self;
+    [self.webView addGestureRecognizer:[self gestureToAdd]];
+    self.view = self.webView;
+}
+
+- (void) setupSimpleView
+{
+    self.simpleView = [[UITextView alloc] init];
+    [self.simpleView addGestureRecognizer:[self gestureToAdd]];
+    self.view = self.simpleView;
+}
+
+- (void) setupFancyView
+{
+    self.fancyView = [[UITableView alloc] initWithFrame:CGRectZero
+                                                  style:UITableViewStyleGrouped];
+    [self.fancyView registerNib:[UINib nibWithNibName:@"AutoSizingTableViewCell" bundle:nil] forCellReuseIdentifier:@"AutoCell"];
+    self.fancyView.dataSource = self;
+    self.fancyView.delegate = self;
+    self.fancyView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
+    [self.fancyView addGestureRecognizer:[self gestureToAdd]];
+    self.view = self.fancyView;
+}
+
 - (void) setup
 {
     self.hasLoadedData = NO;
     self.edgesForExtendedLayout = UIRectEdgeNone;
     NSInteger viewToSelect = [CSVPreferencesController selectedDetailsView];
     if( viewToSelect == 0){
-        self.webView = [[UIWebView alloc] init];
-        self.webView.opaque = NO;
-        self.webView.backgroundColor = [UIColor whiteColor];
-        self.webView.delegate = self;
-        self.view = self.webView;
+        [self setupWebView];
     }
     else if( viewToSelect == 1 )
     {
-        self.simpleView = [[UITextView alloc] init];
-        self.simpleView.font = [UIFont systemFontOfSize:[CSVPreferencesController detailsFontSize]];
-        self.view = self.simpleView;
+        [self setupSimpleView];
     }
     else if( viewToSelect == 2 )
     {
-        self.fancyView = [[UITableView alloc] initWithFrame:CGRectZero
-                                                      style:UITableViewStyleGrouped];
-        [self.fancyView registerNib:[UINib nibWithNibName:@"AutoSizingTableViewCell" bundle:nil] forCellReuseIdentifier:@"AutoCell"];
-        self.fancyView.dataSource = self;
-        self.fancyView.delegate = self;
-        self.fancyView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
-        self.view = self.fancyView;
+        [self setupFancyView];
     }
 }
 
@@ -74,20 +99,21 @@
 - (void) viewWillAppear:(BOOL)animated
 {
     self.navigationController.toolbarHidden = YES;
-    [self refreshData];
+    [self refreshData:NO];
     self.parentViewController.navigationItem.title = self.title;
     [super viewWillAppear:animated];
 }
 
-- (void) refreshData
+- (void) refreshData:(BOOL)forceRefresh
 {
-    if( !self.hasLoadedData)
+    if( !self.hasLoadedData || forceRefresh)
     {
         NSInteger viewToSelect = [CSVPreferencesController selectedDetailsView];
         if( viewToSelect == 0 ){
             [self updateWebViewContent];
         }
         else if( viewToSelect == 1 ){
+            self.simpleView.font = [UIFont systemFontOfSize:[CSVPreferencesController detailsFontSize]];
             self.simpleView.text = [self.row longDescriptionWithHiddenValues:[CSVPreferencesController showDeletedColumns]];
         }
         else if( viewToSelect == 2 ){
@@ -106,6 +132,54 @@
 {
     return [self.row longDescriptionInArray:NO];
 }
+
+- (void) sizeChanged
+{
+    if( [self.parentViewController isKindOfClass:[DetailsPagesController class]])
+    {
+        [(DetailsPagesController *)self.parentViewController refreshViewControllersData];
+    }
+    else // Hm, weird, we should alway be in a DetailsPagesController... But let's just resize ourself instead since we apparently have no controllers being swiped left/right
+    {
+        [self refreshData:YES];
+    }
+}
+    
+- (int) getPointsChange:(UIPinchGestureRecognizer *)pinch
+{
+    CGFloat currentPoints = [CSVPreferencesController detailsFontSize];
+    CGFloat scaledPoints = pinch.scale * self.originalPointsWhenPinchStarted;
+    return (scaledPoints - currentPoints);
+}
+
+- (void) applyPointsChange:(int)pointsChange
+{
+    for( int i = 0 ; i < abs(pointsChange) ; ++i)
+    {
+        if( pointsChange > 0 )
+            [CSVPreferencesController increaseDetailsFontSize];
+        else
+            [CSVPreferencesController decreaseDetailsFontSize];
+    }
+    [self sizeChanged];
+}
+
+- (void) pinch:(UIPinchGestureRecognizer *)pinch
+{
+    switch(pinch.state)
+    {
+        case UIGestureRecognizerStateBegan:
+            self.originalPointsWhenPinchStarted = [CSVPreferencesController detailsFontSize];
+            // Intentional fallthrough!
+        case UIGestureRecognizerStateChanged:
+        case UIGestureRecognizerStateEnded:
+            [self applyPointsChange:[self getPointsChange:pinch]];
+            break;
+        default:
+            break;
+    }
+}
+
 
 @end
 

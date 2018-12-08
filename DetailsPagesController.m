@@ -35,8 +35,7 @@
 {
     if( [self.viewControllers count] > 0 )
     {
-        // So need a new version of the view controller for the current index, to make the view controller
-        // forget its cache of before/after. If not, we will crash since cached before/after have wrong subviews
+        // So need a new version of the view controller for the current index, to make the view controller forget its cache of before/after. If not, we will crash since cached before/after controllers have wrong subviews
         NSInteger currentIndex = -1;
         DetailsViewController *currentController = [self.viewControllers objectAtIndex:0];
         for( NSInteger i = 0 ; i < [self.items count] ; i++)
@@ -51,6 +50,14 @@
                        direction:UIPageViewControllerNavigationDirectionForward
                         animated:NO
                       completion:nil];
+    }
+}
+
+- (void) refreshViewControllersData
+{
+    for( DetailsViewController *controller in [self.controllers allValues])
+    {
+        [controller refreshData:YES];
     }
 }
 

@@ -140,7 +140,7 @@ NSUInteger sortingMask;
 {
     if( size >= MIN_FONT_SIZE && size <= MAX_FONT_SIZE)
     {
-        [[NSUserDefaults standardUserDefaults] setInteger:size forKey:PREFS_ITEMS_LIST_FONT_SIZE];
+        [[NSUserDefaults standardUserDefaults] setInteger:(NSInteger)size forKey:PREFS_ITEMS_LIST_FONT_SIZE];
     }
 }
 
@@ -174,23 +174,22 @@ NSUInteger sortingMask;
     return [self itemsListFontSize] > MIN_FONT_SIZE;
 }
 
-+ (void) setDetailsFontSize:(CGFloat)size
++ (void) setDetailsFontSize:(NSInteger)size
 {
-    [[NSUserDefaults standardUserDefaults] setDouble:size forKey:PREFS_DETAILS_FONT_SIZE];
+    if( size >= MIN_FONT_SIZE && size <= MAX_FONT_SIZE)
+    {
+        [[NSUserDefaults standardUserDefaults] setInteger:(NSInteger)size forKey:PREFS_DETAILS_FONT_SIZE];
+    }
 }
 
 + (CGFloat) detailsFontSize
 {
-    CGFloat size = [[NSUserDefaults standardUserDefaults] doubleForKey:PREFS_DETAILS_FONT_SIZE];
-    if( size < MIN_FONT_SIZE)
+    NSInteger size = [[NSUserDefaults standardUserDefaults] integerForKey:PREFS_DETAILS_FONT_SIZE];
+    if( size < MIN_FONT_SIZE || size > MAX_FONT_SIZE)
     {
-        size = STANDARD_FONT_SIZE;
+        return STANDARD_FONT_SIZE;
     }
-    else if( size > MAX_FONT_SIZE)
-    {
-        size = STANDARD_FONT_SIZE;
-    }
-    return size;
+    return (CGFloat)size;
 }
 
 + (void) increaseDetailsFontSize

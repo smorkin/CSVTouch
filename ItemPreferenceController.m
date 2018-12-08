@@ -32,7 +32,7 @@
 - (IBAction) showHiddenChanged:(id)sender
 {
     [CSVPreferencesController setShowDeletedColumns:showHidden.on];
-    [self.pageController refreshViewControllers];
+    [self.pageController refreshViewControllersData];
     [self synchUI];
 }
 
@@ -46,21 +46,21 @@
 - (IBAction) increaseSize:(id)sender
 {
     [CSVPreferencesController increaseDetailsFontSize];
-    [self.pageController refreshViewControllers];
+    [self.pageController refreshViewControllersData];
     [self synchUI];
 }
 
 - (IBAction) decreaseSize:(id)sender
 {
     [CSVPreferencesController decreaseDetailsFontSize];
-    [self.pageController refreshViewControllers];
+    [self.pageController refreshViewControllersData];
     [self synchUI];
 }
 
 - (IBAction) showImages:(id)sender
 {
     [CSVPreferencesController setShowInlineImages:showImages.on];
-    [self.pageController refreshViewControllers];
+    [self.pageController refreshViewControllersData];
     [self synchUI];
 }
 

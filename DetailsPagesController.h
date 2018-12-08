@@ -7,7 +7,6 @@
 
 #import <UIKit/UIKit.h>
 #import "CSVRow.h"
-#import "DetailsViewController.h"
 
 @interface DetailsPagesController : UIPageViewController <UIPageViewControllerDataSource,
 UIPageViewControllerDelegate,
@@ -17,5 +16,9 @@ UIPopoverPresentationControllerDelegate>
 
 - (void) setItems:(NSArray<CSVRow *> *)items;
 
+// This is a hard one, actually updating which view is shown etc
 - (void) refreshViewControllers;
+
+// Softer, keeping the same view in the controller and just refreshing data
+- (void) refreshViewControllersData;
 @end

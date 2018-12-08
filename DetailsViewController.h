@@ -13,6 +13,8 @@
 
 @property (nonatomic, strong) CSVRow *row;
 
+- (void) refreshData:(BOOL)forceRefresh;
+
 @end
 
 
