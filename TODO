@@ -9,8 +9,6 @@ FIX
 
 FEATURES
 
-- Pinch-to-zoom gesture support in details view
-
 TEST
 
 - Check error handling of bad parsing; could probably add better info
@@ -21,3 +19,4 @@ COMPLETED
 - When looking at info for file, going back does not clear selection -> next click will be interpreted as clicking this file instead of the clicked one...
 - Automatic analysis of fixed widths (i.e. max length / field)
 - Pinch-to-zoom gesture support in items list
+- Pinch-to-zoom gesture support in details view
