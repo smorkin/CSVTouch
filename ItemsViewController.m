@@ -366,10 +366,7 @@ static NSMutableDictionary *_indexPathForFileName;
     [self.sectionStarts removeAllObjects];
     [self.sectionIndices removeAllObjects];
     if( [CSVPreferencesController useGroupingForItems] )
-    {
-//        [self.sectionStarts addObject:[NSNumber numberWithInt:0]];
-//        [self.sectionIndices addObject:UITableViewIndexSearch];
-        
+    {        
         NSUInteger objectCount = [self.items count];
         NSString *latestFirstLetter = nil;
         NSString *currentFirstLetter;
