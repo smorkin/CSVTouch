@@ -16,6 +16,9 @@
 
 #define MAX_ITEMS_IN_LITE_VERSION 150
 
+#define TO_COLUMNS_EDIT_SEGUE @"ToEdit"
+#define TO_DETAILS_SEGUE @"ToDetails"
+#define TO_ITEMS_PREFS_SEGUE @"ToItemsViewPrefs"
 
 @interface ItemsViewController ()
 @property (nonatomic, strong) UISearchController *searchController;
@@ -23,8 +26,9 @@
 @property (nonatomic, strong) NSMutableArray *sectionStarts;
 @property (nonatomic, strong) NSMutableArray *sectionIndices;
 @property CGFloat originalPointsWhenPinchStarted;
-@property BOOL isShowingDetails;
 @property BOOL hasBeenVisible;
+@property NSString *currentSegue;
+@property NSString *lastSearchString;
 @end
 
 @interface ItemsViewController (PopoverDelegate) <UIPopoverPresentationControllerDelegate>
@@ -60,8 +64,8 @@ static NSMutableDictionary *_indexPathForFileName;
         [self.tableView visibleCells];
         NSArray<NSIndexPath *> *a = [self.tableView indexPathsForVisibleRows];
         if( [a count] > 0 ){
-            // Now, turns out that if we use section headers, visible rows include those under header ->
-            // We should actually use a[1] instead of a[0].
+            // Now, turns out that if we use section headers, visible rows include those "hidden" under header ->
+            // We should actually use a[1] instead of a[0]. Of course, if font for cells is really big/large 1 might not be correct, but it's better than nothing.
             NSUInteger i = 0;
             if( [CSVPreferencesController useGroupingForItems] && [a count] > 1 )
             {
@@ -127,9 +131,8 @@ static NSMutableDictionary *_indexPathForFileName;
     self.searchController.searchResultsUpdater = self;
     self.searchController.obscuresBackgroundDuringPresentation = NO;
     self.searchController.searchBar.placeholder = @"Search items";
-    self.searchController.hidesNavigationBarDuringPresentation = NO;
     self.navigationItem.searchController = self.searchController;
-    self.navigationItem.hidesSearchBarWhenScrolling = NO; 
+    self.navigationItem.hidesSearchBarWhenScrolling = NO;
     self.definesPresentationContext = YES;
 }
 
@@ -159,28 +162,21 @@ static NSMutableDictionary *_indexPathForFileName;
     self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     UIPinchGestureRecognizer *p = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(pinch:)];
     [self.tableView addGestureRecognizer:p];
-    _sharedInstance = self;
+    self.tableView.rowHeight = UITableViewAutomaticDimension;
+    self.tableView.estimatedRowHeight = 32;
+    self.navigationItem.largeTitleDisplayMode = UINavigationItemLargeTitleDisplayModeNever;
+    [self synchUI];
+   _sharedInstance = self;
 }
 
 - (void) viewWillAppear:(BOOL)animated
 {
-    // If we return from showing details, we don't have to update anything. If we do, we lose stuff like selection, scroll position, etc.
-    if( !self.isShowingDetails)
+    [self.navigationController setToolbarHidden:NO animated:YES];
+    if( [self.currentSegue isEqualToString:TO_COLUMNS_EDIT_SEGUE])
     {
-        [self updateItemCount];
-        [self.file sortItems]; // Need to sort rows before we set objects since otherwise indexes will be messed up
-        [self updateSearchResultsForSearchController:self.searchController]; // To keep search results we update objects by going through search controller
-        [self setTitle:[self.file defaultTableViewDescription]];
-        self.navigationController.toolbarHidden = NO;
-        self.tableView.rowHeight = UITableViewAutomaticDimension;
-        self.tableView.estimatedRowHeight = 32;
-        self.navigationItem.largeTitleDisplayMode = UINavigationItemLargeTitleDisplayModeNever;
-        [self synchUI];
+        [self refresh];
     }
-    else
-    {
-        self.isShowingDetails = NO;
-    }
+    self.currentSegue = nil;
     [super viewWillAppear:animated];
 }
 
@@ -200,18 +196,26 @@ static NSMutableDictionary *_indexPathForFileName;
     [super viewWillDisappear:animated];
 }
 
+- (void) setFile:(CSVFileParser *)file
+{
+    _file = file;
+    [self.file sortItems]; // Need to sort rows before we set objects (done in next row) since otherwise indices will be messed up
+    [self updateSearchResultsForSearchController:self.searchController]; // To keep search results we update
+    [self setTitle:[self.file defaultTableViewDescription]];
+}
+
 - (void) sizeChanged
 {
     NSArray *a = [[self tableView] indexPathsForVisibleRows];
     NSIndexPath *oldIndexPath = nil;
     if( [a count] > 0 )
         oldIndexPath = [a objectAtIndex:0];
+    [self validateItemSizeButtons];
+    [self.tableView reloadData];
     if( oldIndexPath )
         [[self tableView] scrollToRowAtIndexPath:oldIndexPath
                                 atScrollPosition:UITableViewScrollPositionTop
                                         animated:NO];
-    [self validateItemSizeButtons];
-    [self.tableView reloadData];
 }
 
 - (int) getPointsChange:(UIPinchGestureRecognizer *)pinch
@@ -363,8 +367,8 @@ static NSMutableDictionary *_indexPathForFileName;
     [self.sectionIndices removeAllObjects];
     if( [CSVPreferencesController useGroupingForItems] )
     {
-        [self.sectionStarts addObject:[NSNumber numberWithInt:0]];
-        [self.sectionIndices addObject:UITableViewIndexSearch];
+//        [self.sectionStarts addObject:[NSNumber numberWithInt:0]];
+//        [self.sectionIndices addObject:UITableViewIndexSearch];
         
         NSUInteger objectCount = [self.items count];
         NSString *latestFirstLetter = nil;
@@ -418,12 +422,12 @@ static NSMutableDictionary *_indexPathForFileName;
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if( [_sectionStarts count] > 0 )
+    if( [self.sectionStarts count] > 0 )
     {
-        if( section == [_sectionStarts count] - 1 )
-            return [self.items count] - [[self.sectionStarts objectAtIndex:section] intValue];
+        if( section == [self.sectionStarts count] - 1 )
+            return [self.items count] - [[self.sectionStarts lastObject] intValue];
         else
-            return [[_sectionStarts objectAtIndex:section+1] intValue] - [[_sectionStarts objectAtIndex:section] intValue];
+            return [[self.sectionStarts objectAtIndex:section+1] intValue] - [[self.sectionStarts objectAtIndex:section] intValue];
     }
     else
     {
@@ -433,9 +437,9 @@ static NSMutableDictionary *_indexPathForFileName;
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    if( [_sectionStarts count] > 0 )
+    if( [self.sectionStarts count] > 0 )
     {
-        return [_sectionStarts count];
+        return [self.sectionStarts count];
     }
     else
     {
@@ -447,8 +451,6 @@ static NSMutableDictionary *_indexPathForFileName;
 {
     if( [self.sectionIndices count] > 0 )
     {
-        if ( section == 0 )
-            return nil;
         return [self.sectionIndices objectAtIndex:section];
     }
     else
@@ -476,13 +478,6 @@ sectionForSectionIndexTitle:(NSString *)title
 {
     if( [self.sectionIndices count] > 0 )
     {
-        if (index == 0)
-        {
-            if( self.navigationItem.searchController ){
-                self.navigationItem.searchController.active = YES;
-                [self.navigationItem.searchController becomeFirstResponder];
-            }
-        }
         return [self.sectionIndices indexOfObject:title];
     }
     else
@@ -500,7 +495,7 @@ sectionForSectionIndexTitle:(NSString *)title
         [cell.label setFont:[UIFont systemFontOfSize:[CSVPreferencesController itemsListFontSize]]];
 
     CSVRow *item;
-    if( [_sectionStarts count] > 0 )
+    if( [self.sectionStarts count] > 0 )
         item = [self.items objectAtIndex:[[self.sectionStarts objectAtIndex:indexPath.section] intValue] + indexPath.row];
     else
         item = [self.items objectAtIndex:indexPath.row];
@@ -533,38 +528,47 @@ sectionForSectionIndexTitle:(NSString *)title
     return cell;
 }
 
+- (void) smartSearchReset:(CSVRow *)selectedRow
+{
+    self.searchController.searchBar.text = @"";
+    self.searchController.active = NO;
+    // Table view has now been reset so we select clicked item + scroll it to top
+    NSIndexPath *path = [self indexPathForObjectAtIndex:[self.items indexOfObject:selectedRow]];
+    [self.tableView selectRowAtIndexPath:path
+                                animated:NO
+                          scrollPosition:UITableViewScrollPositionTop];
+}
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     CSVRow *row = [self.items objectAtIndex:[self indexForObjectAtIndexPath:indexPath]];
     [self performSegueWithIdentifier:@"ToDetails" sender:row];
-    // If we are searching and have smart search clearing on, we should stop search, reload table view, and scroll the selected item to top
+    // If we are searching and have smart search clearing on, we should stop search etc,
     if( [CSVPreferencesController smartSeachClearing] &&
        self.searchController.active &&
-       ![self.searchController.searchBar.text isEqualToString:@""]){
-        self.searchController.searchBar.text = @"";
-        self.searchController.active = NO;
-        // Table view has now been reset so we select clicked item + scroll it to top
-        NSIndexPath *path = [self indexPathForObjectAtIndex:[self.items indexOfObject:row]];
-        [self.tableView selectRowAtIndexPath:path
-                                    animated:NO scrollPosition:UITableViewScrollPositionTop];
+       ![self.searchController.searchBar.text isEqualToString:@""])
+    {
+        [self smartSearchReset:row];
     }
-    self.isShowingDetails = TRUE;
 }
 
 - (void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    if( [segue.identifier isEqualToString:@"ToEdit"]){
+    if( [segue.identifier isEqualToString:TO_COLUMNS_EDIT_SEGUE]){
         [(EditFileColumnsController *)segue.destinationViewController setFile:self.file];
+        self.currentSegue = TO_COLUMNS_EDIT_SEGUE;
     }
-    else if([segue.identifier isEqualToString:@"ToDetails"])
+    else if([segue.identifier isEqualToString:TO_DETAILS_SEGUE])
     {
         DetailsPagesController *dpc = segue.destinationViewController;
         [dpc setItems:self.items];
         dpc.initialIndex = [self.items indexOfObject:sender];
+        self.currentSegue = TO_DETAILS_SEGUE;
     }
     else if([segue.identifier isEqualToString:@"ToItemsViewPrefs"])
     {
         segue.destinationViewController.popoverPresentationController.delegate = self;
+        self.currentSegue = TO_ITEMS_PREFS_SEGUE;
     }
 }
 @end
@@ -573,7 +577,14 @@ sectionForSectionIndexTitle:(NSString *)title
 
 - (void)updateSearchResultsForSearchController:(UISearchController *)searchController
 {
+    // Search ignores spaces before/after text. Also, in case the search string has not changed we don't want to go through the code since it will mean selection disappears (this matters when we have a search string, click on row, show details, and then goes back -> this code is called again when view appears, and selection disappears).
     NSString *searchString = [searchController.searchBar.text lowercaseString];
+    searchString = [searchString stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@" "]];
+    if( [searchString isEqualToString:self.lastSearchString])
+    {
+        return;
+    }
+    self.lastSearchString = searchString;
     NSMutableArray *allRows = [self.file itemsWithResetShortdescriptions:NO];
 
     if( searchString && ![searchString isEqualToString:@""] )
@@ -599,6 +610,7 @@ sectionForSectionIndexTitle:(NSString *)title
         self.items = allRows;
     }
     [self.tableView reloadData];
+    [self.tableView scrollToTopWithAnimation:NO];
 }
 
 @end

@@ -9,6 +9,8 @@ FIX
 
 FEATURES
 
+- Search: When search string changes, check if we have a selection before, and if item still matches, scroll to it.
+
 TEST
 
 - Check error handling of bad parsing; could probably add better info
