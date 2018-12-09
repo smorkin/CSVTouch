@@ -426,70 +426,7 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
  	// Are we downloading a file list?
 	if( self.readingFileList )
 	{
-		self.readingFileList = FALSE;
-		[self.URLsToDownload removeAllObjects];
-        
-        // Check that we didn't get an http error
-        if( self.httpStatusCode >= 400 )
-        {
-            self.downloadFailed = true;
-            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Download failure"
-                                                                           message:[NSString httpStatusDescription:self.httpStatusCode]
-                                                                     okButtonTitle:@"OK"
-                                                                         okHandler:nil];
-            [self.navigationController.topViewController presentViewController:alert
-                                                                               animated:YES
-                                                                             completion:nil];
-            [self downloadDone];
-            return;
-        }
-        
-		NSString *s = [[NSString alloc] initWithData:self.rawData
-											encoding:[CSVPreferencesController encoding]];
-		NSUInteger length = [s length];
-		NSUInteger lineStart, lineEnd, nextLineStart;
-		NSRange lineRange;
-		NSString *line;
-		NSMutableArray *settings = [NSMutableArray array];
-		BOOL readingSettings = FALSE;
-		
-		lineStart = lineEnd = nextLineStart = 0;
-		while( nextLineStart < length )
-		{
-			[s getLineStart:&lineStart end:&nextLineStart
-				contentsEnd:&lineEnd forRange:NSMakeRange(nextLineStart, 0)];
-			lineRange = NSMakeRange(lineStart, lineEnd - lineStart);
-			line = [s substringWithRange:lineRange];
-			if( !readingSettings && line && ![line isEqualToString:@""] )
-			{
-				NSArray *split = [line componentsSeparatedByString:@" "];
-				if( [split count] == 2 ) // We have predefined hidden columns
-				{
-					NSString *fileName = [split objectAtIndex:0];
-					[self.URLsToDownload addObject:fileName];
-					split = [[split objectAtIndex:1] componentsSeparatedByString:@","];
-					NSMutableIndexSet *hidden = [NSMutableIndexSet indexSet];
-                    for( NSString *n in split )
-                    {
-						[hidden addIndex:[n intValue]];
-                    }
-                    [self.preDefinedHiddenColumns setObject:hidden forKey:fileName];
-				}
-				else
-				{
-					[self.URLsToDownload addObject:line];
-				}
-			}
-			else if( !readingSettings && line && [line isEqualToString:@""] )
-				readingSettings = TRUE;
-			else if( readingSettings && line && ![line isEqualToString:@""] )
-				[settings addObject:line];
-		}
-		
-		// We are doing the settings immediately, instead of later in [self downloadDone]
-		// to avoid having to store the values somewhere locally
-		if( [settings count] > 0 )
-			[CSVPreferencesController applySettings:settings]; 
+        [self fileListDownloadDone];
 	}
 	else
 	{
@@ -499,6 +436,74 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 	}
 	self.rawData = nil;
 	[self downloadDone];
+}
+
+- (void) fileListDownloadDone
+{
+    self.readingFileList = FALSE;
+    [self.URLsToDownload removeAllObjects];
+    
+    // Check that we didn't get an http error
+    if( self.httpStatusCode >= 400 )
+    {
+        self.downloadFailed = true;
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Download failure"
+                                                                       message:[NSString httpStatusDescription:self.httpStatusCode]
+                                                                 okButtonTitle:@"OK"
+                                                                     okHandler:nil];
+        [self.navigationController.topViewController presentViewController:alert
+                                                                  animated:YES
+                                                                completion:nil];
+        return;
+    }
+    
+    NSString *s = [[NSString alloc] initWithData:self.rawData
+                                        encoding:[CSVPreferencesController encoding]];
+    NSUInteger length = [s length];
+    NSUInteger lineStart, lineEnd, nextLineStart;
+    NSRange lineRange;
+    NSString *line;
+    NSMutableArray *settings = [NSMutableArray array];
+    BOOL readingSettings = FALSE;
+    
+    lineStart = lineEnd = nextLineStart = 0;
+    while( nextLineStart < length )
+    {
+        [s getLineStart:&lineStart end:&nextLineStart
+            contentsEnd:&lineEnd forRange:NSMakeRange(nextLineStart, 0)];
+        lineRange = NSMakeRange(lineStart, lineEnd - lineStart);
+        line = [s substringWithRange:lineRange];
+        if( !readingSettings && line && ![line isEqualToString:@""] )
+        {
+            NSArray *split = [line componentsSeparatedByString:@" "];
+            if( [split count] == 2 ) // We have predefined hidden columns
+            {
+                NSString *fileName = [split objectAtIndex:0];
+                [self.URLsToDownload addObject:fileName];
+                split = [[split objectAtIndex:1] componentsSeparatedByString:@","];
+                NSMutableIndexSet *hidden = [NSMutableIndexSet indexSet];
+                for( NSString *n in split )
+                {
+                    [hidden addIndex:[n intValue]];
+                }
+                [self.preDefinedHiddenColumns setObject:hidden forKey:fileName];
+            }
+            else
+            {
+                [self.URLsToDownload addObject:line];
+            }
+        }
+        else if( !readingSettings && line && [line isEqualToString:@""] )
+            readingSettings = TRUE;
+        else if( readingSettings && line && ![line isEqualToString:@""] )
+            [settings addObject:line];
+    }
+    
+    // We are doing the settings immediately, instead of later in [self downloadDone]
+    // to avoid having to store the values somewhere locally
+    if( [settings count] > 0 )
+        [CSVPreferencesController applySettings:settings];
+
 }
 
 - (void) startDownloadUsingURL:(NSURL *)url

@@ -23,6 +23,7 @@
 @property (nonatomic, strong) NSMutableArray *sectionStarts;
 @property (nonatomic, strong) NSMutableArray *sectionIndices;
 @property CGFloat originalPointsWhenPinchStarted;
+@property BOOL isShowingDetails;
 @property BOOL hasBeenVisible;
 @end
 
@@ -126,7 +127,9 @@ static NSMutableDictionary *_indexPathForFileName;
     self.searchController.searchResultsUpdater = self;
     self.searchController.obscuresBackgroundDuringPresentation = NO;
     self.searchController.searchBar.placeholder = @"Search items";
+    self.searchController.hidesNavigationBarDuringPresentation = NO;
     self.navigationItem.searchController = self.searchController;
+    self.navigationItem.hidesSearchBarWhenScrolling = NO; 
     self.definesPresentationContext = YES;
 }
 
@@ -151,6 +154,7 @@ static NSMutableDictionary *_indexPathForFileName;
     self.items = [NSMutableArray array];
     self.sectionStarts = [NSMutableArray array];
     self.sectionIndices = [NSMutableArray array];
+    self.clearsSelectionOnViewWillAppear = NO;
     self.edgesForExtendedLayout = UIRectEdgeNone;
     self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     UIPinchGestureRecognizer *p = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(pinch:)];
@@ -160,15 +164,23 @@ static NSMutableDictionary *_indexPathForFileName;
 
 - (void) viewWillAppear:(BOOL)animated
 {
-    [self updateItemCount];
-    [self.file sortItems]; // Need to sort rows before we set objects since otherwise indexes will be messed up
-    [self updateSearchResultsForSearchController:self.searchController]; // To keep search results we update objects by going through search controller
-    [self setTitle:[self.file defaultTableViewDescription]];
-    self.navigationController.toolbarHidden = NO;
-    self.tableView.rowHeight = UITableViewAutomaticDimension;
-    self.tableView.estimatedRowHeight = 32;
-    self.navigationItem.largeTitleDisplayMode = UINavigationItemLargeTitleDisplayModeNever;
-    [self synchUI];
+    // If we return from showing details, we don't have to update anything. If we do, we lose stuff like selection, scroll position, etc.
+    if( !self.isShowingDetails)
+    {
+        [self updateItemCount];
+        [self.file sortItems]; // Need to sort rows before we set objects since otherwise indexes will be messed up
+        [self updateSearchResultsForSearchController:self.searchController]; // To keep search results we update objects by going through search controller
+        [self setTitle:[self.file defaultTableViewDescription]];
+        self.navigationController.toolbarHidden = NO;
+        self.tableView.rowHeight = UITableViewAutomaticDimension;
+        self.tableView.estimatedRowHeight = 32;
+        self.navigationItem.largeTitleDisplayMode = UINavigationItemLargeTitleDisplayModeNever;
+        [self synchUI];
+    }
+    else
+    {
+        self.isShowingDetails = NO;
+    }
     [super viewWillAppear:animated];
 }
 
@@ -301,6 +313,27 @@ static NSMutableDictionary *_indexPathForFileName;
     else
     {
         return indexPath.row;
+    }
+}
+
+- (NSIndexPath *) indexPathForObjectAtIndex:(NSUInteger)index
+{
+    if( index >= [self.items count] || index == NSNotFound )
+        return [NSIndexPath indexPathForRow:0 inSection:0];
+    
+    if( [self.sectionStarts count] > 0 )
+    {
+        NSUInteger section;
+        for( section = 1 ; section < [self.sectionStarts count] ; section++ )
+        {
+            if( index < [[self.sectionStarts objectAtIndex:section] intValue] )
+                return [NSIndexPath indexPathForRow:(index - [[self.sectionStarts objectAtIndex:section-1] intValue] ) inSection:section-1];
+        }
+        return [NSIndexPath indexPathForRow:(index - [[self.sectionStarts objectAtIndex:section-1] intValue] ) inSection:section-1];
+    }
+    else
+    {
+        return [NSIndexPath indexPathForRow:index inSection:0];
     }
 }
 
@@ -504,10 +537,18 @@ sectionForSectionIndexTitle:(NSString *)title
 {
     CSVRow *row = [self.items objectAtIndex:[self indexForObjectAtIndexPath:indexPath]];
     [self performSegueWithIdentifier:@"ToDetails" sender:row];
-    if( [CSVPreferencesController smartSeachClearing]){
+    // If we are searching and have smart search clearing on, we should stop search, reload table view, and scroll the selected item to top
+    if( [CSVPreferencesController smartSeachClearing] &&
+       self.searchController.active &&
+       ![self.searchController.searchBar.text isEqualToString:@""]){
         self.searchController.searchBar.text = @"";
         self.searchController.active = NO;
+        // Table view has now been reset so we select clicked item + scroll it to top
+        NSIndexPath *path = [self indexPathForObjectAtIndex:[self.items indexOfObject:row]];
+        [self.tableView selectRowAtIndexPath:path
+                                    animated:NO scrollPosition:UITableViewScrollPositionTop];
     }
+    self.isShowingDetails = TRUE;
 }
 
 - (void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
