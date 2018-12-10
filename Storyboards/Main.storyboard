@@ -84,7 +84,7 @@
             <objects>
                 <tableViewController id="9lW-Nk-e8g" customClass="EditFileColumnsController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" id="ByK-q8-fg2">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="507"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="559"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <prototypes>
@@ -121,7 +121,7 @@
             <objects>
                 <viewController id="IPc-16-9qP" customClass="ParseErrorViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="WfJ-O2-oFn">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="507"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="559"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" editable="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="sH5-ft-0le">
@@ -173,12 +173,12 @@
             </objects>
             <point key="canvasLocation" x="82" y="-769"/>
         </scene>
-        <!--Files-->
+        <!--FILES-->
         <scene sceneID="Uxg-ws-PVe">
             <objects>
                 <tableViewController id="0Yt-XR-lmL" customClass="FilesViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="ARf-3C-mxb">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="507"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="559"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <prototypes>
@@ -197,7 +197,7 @@
                             <outlet property="delegate" destination="0Yt-XR-lmL" id="pPT-8F-D9z"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Files" id="ven-nC-6ZT">
+                    <navigationItem key="navigationItem" title="FILES" id="ven-nC-6ZT">
                         <barButtonItem key="leftBarButtonItem" systemItem="add" id="ZnK-SL-c4M">
                             <connections>
                                 <segue destination="xKh-gw-umc" kind="popoverPresentation" identifier="ToAddFiles" popoverAnchorBarButtonItem="ZnK-SL-c4M" id="lZR-7C-IbQ">
@@ -661,7 +661,7 @@
             <objects>
                 <tableViewController clearsSelectionOnViewWillAppear="NO" id="yKV-vJ-ur4" customClass="ItemsViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="qRd-ft-2oG">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="507"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="559"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <prototypes>
@@ -863,8 +863,8 @@
                     <toolbarItems/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <nil key="simulatedBottomBarMetrics"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translucent="NO" largeTitles="YES" id="8Hb-Tp-Dbz">
-                        <rect key="frame" x="0.0" y="20" width="375" height="96"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translucent="NO" id="8Hb-Tp-Dbz">
+                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
