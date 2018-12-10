@@ -26,17 +26,20 @@
 // For use when reading a CSV file list which includes
 // pre-defined columns not to show
 @property (nonatomic, strong) NSMutableDictionary *preDefinedHiddenColumns;
+@property (nonatomic, assign) NSInteger httpStatusCode;
+@property (nonatomic, readonly) NSMutableArray *URLsToDownload;
+@property (nonatomic, assign) BOOL readingFileList;
+@property (nonatomic, assign) BOOL downloadFailed;
 @property BOOL refreshingAllFilesInProgress;
+@property (nonatomic, retain) NSDate *enteredBackground;
+@property (nonatomic, retain) NSMutableData *rawData;
+@property (nonatomic, retain) NSURLConnection *connection;
+@property (nonatomic, retain) NSString *lastFileURL;
 @end
 
 @implementation CSV_TouchAppDelegate
 
 static CSV_TouchAppDelegate *sharedInstance = nil;
-
-+ (BOOL) iPadMode
-{
-    return ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad);
-}
 
 + (NSString *) internalFileNameForOriginalFileName:(NSString *)original
 {
@@ -306,14 +309,6 @@ static CSV_TouchAppDelegate *sharedInstance = nil;
                                                  userInfo:nil
                                                   repeats:true];
         [[NSRunLoop currentRunLoop] addTimer:downloadTimer forMode:NSDefaultRunLoopMode];
-        // Now let's check if we need to do a new download immediately
-        NSDate *lastDownload = [CSVPreferencesController lastDownload];
-        if( lastDownload && [nextDownload timeIntervalSinceDate:lastDownload] > 24*60*60 )
-        {
-            [self performSelector:@selector(downloadScheduled)
-                       withObject:nil
-                       afterDelay:2.0];
-        }
     }
 }
 
@@ -356,6 +351,11 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
     [CSVFileParser saveColumnNames];
 }
 
+- (BOOL) downloadInProgress
+{
+    return self.connection != nil;
+}
+
 - (void) downloadDone
 {
 	self.connection = nil;
@@ -378,7 +378,7 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
         self.refreshingAllFilesInProgress = FALSE;
 		[CSVPreferencesController setHideAddress:NO]; // In case we had temporarily set this from
 													  // a URL list file with preference settings
-        [[FilesViewController sharedInstance] allFilesRefreshed];
+        [[FilesViewController sharedInstance] allDownloadsCompleted];
         [CSVFileParser resetClearingOfDownloadFlagsTimer];
         [[FilesViewController sharedInstance].tableView reloadData];
 	}
@@ -507,6 +507,7 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 
 - (void) startDownloadUsingURL:(NSURL *)url
 {
+    [[FilesViewController sharedInstance] fileDownloadsStarted];
 	self.rawData = [[NSMutableData alloc] init];
     self.downloadFailed = false;
 	self.httpStatusCode = 0;

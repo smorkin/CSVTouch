@@ -19,8 +19,9 @@
 - (void) addFileUsingURLList;
 - (void) importLocalFile;
 
-// Call after files have been refreshed
-- (void) allFilesRefreshed;
+// Call when any file start download and when all downloads finished
+- (void) fileDownloadsStarted;
+- (void) allDownloadsCompleted;
 
 @end
 

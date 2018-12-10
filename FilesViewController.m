@@ -152,7 +152,16 @@ static FilesViewController *_sharedInstance = nil;
     [[CSV_TouchAppDelegate sharedInstance] reloadAllFiles];
 }
 
-- (void) allFilesRefreshed
+- (void) fileDownloadsStarted
+{
+    if( !self.refreshControl.refreshing )
+    {
+        [self.refreshControl beginRefreshing];
+        [self.tableView setContentOffset:CGPointMake(0, self.tableView.contentOffset.y-self.refreshControl.frame.size.height) animated:YES];
+    }
+}
+
+- (void) allDownloadsCompleted
 {
     [self.refreshControl endRefreshing];
 }
@@ -206,12 +215,6 @@ static FilesViewController *_sharedInstance = nil;
     return 1;
 }
 
-// For implementing leading swipe to reload file
-//- (nullable UISwipeActionsConfiguration *)tableView:(UITableView *)tableView leadingSwipeActionsConfigurationForRowAtIndexPath:(NSIndexPath *)indexPath
-//{
-//    
-//}
-
 - (UITableViewCell *)tableView:(UITableView *)aTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"FileCell" forIndexPath:indexPath];
@@ -220,6 +223,12 @@ static FilesViewController *_sharedInstance = nil;
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 
     return cell;
+}
+
+// Stop selection while downloads are in progress
+- (nullable NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return [[CSV_TouchAppDelegate sharedInstance] downloadInProgress] ? nil : indexPath;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
