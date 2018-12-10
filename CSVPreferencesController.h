@@ -54,8 +54,9 @@ typedef enum FixedWidthAlternative{
 + (BOOL) smartSeachClearing;
 + (BOOL) useAutomatedDownload;
 + (void) setUseAutomatedDownload:(BOOL)yn;
-+ (void) setConfiguredDownloadTime:(NSDate *)time;
-+ (NSDate *) configuredDownloadTime;
++ (void) setConfiguredDownloadHour:(NSInteger)hour minute:(NSInteger)minute;
++ (NSInteger) configuredDownloadHour; // 0-23
++ (NSInteger) configuredDownloadMinute; // 0-59
 + (NSDate *) nextDownload; // Returns nil if none set
 + (NSDate *) lastDownload;
 + (void) setLastDownload:(NSDate *)lastDownload;

@@ -79,7 +79,6 @@ NSUInteger sortingMask;
     [defaults removeObjectForKey:@"safeStart"];
     [defaults removeObjectForKey:@"maxSafeBackgroundMinutes"];
     [defaults removeObjectForKey:@"usePassword"];
-    [defaults removeObjectForKey:@"nextDownloadTime"];
     [defaults removeObjectForKey:@"useFixedWidth"];
     [defaults removeObjectForKey:@"definedFixedWidths"];
 
@@ -329,32 +328,54 @@ NSUInteger sortingMask;
         return NO;
 }
 
-+ (void) setConfiguredDownloadTime:(NSDate *)time
++ (void) setConfiguredDownloadHour:(NSInteger)hour minute:(NSInteger)minute
 {
-    if( time)
+    if( hour >= 0 && hour <= 23 && minute >= 0 && minute <= 59)
     {
+        NSString *time = [NSString stringWithFormat:@"%02ld:%02ld", (long)hour, (long)minute];
         [[NSUserDefaults standardUserDefaults] setObject:time forKey:PREFS_CONFIGURED_DOWNLOAD_TIME];
-    }
-    else
-    {
-        [[NSUserDefaults standardUserDefaults] removeObjectForKey:PREFS_CONFIGURED_DOWNLOAD_TIME];
     }
 }
 
-+ (NSDate *) configuredDownloadTime
++ (NSInteger) configuredDownloadHour
 {
-    id obj = [[NSUserDefaults standardUserDefaults] objectForKey:PREFS_CONFIGURED_DOWNLOAD_TIME];
-    if( obj && [obj isKindOfClass:[NSDate class]])
+    NSString *time = [[NSUserDefaults standardUserDefaults] objectForKey:PREFS_CONFIGURED_DOWNLOAD_TIME];
+    if( [time isKindOfClass:[NSString class]])
     {
-        return obj;
+        NSArray *hourminute = [time componentsSeparatedByString:@":"];
+        if( [hourminute count] == 2 )
+        {
+            NSInteger hour = [[hourminute objectAtIndex:0] integerValue];
+            if( hour >= 0 && hour <= 23)
+            {
+                return hour;
+            }
+        }
     }
-    return nil;
+    return 12;
+}
+
++ (NSInteger) configuredDownloadMinute
+{
+    NSString *time = [[NSUserDefaults standardUserDefaults] objectForKey:PREFS_CONFIGURED_DOWNLOAD_TIME];
+    if( [time isKindOfClass:[NSString class]])
+    {
+        NSArray *hourminute = [time componentsSeparatedByString:@":"];
+        if( [hourminute count] == 2 )
+        {
+            NSInteger minute = [[hourminute objectAtIndex:1] integerValue];
+            if( minute >= 0 && minute <= 59)
+            {
+                return minute;
+            }
+        }
+    }
+    return 00;
 }
 
 + (NSDate *) nextDownload
 {
-    NSDate *configuredDownloadTime = [CSVPreferencesController configuredDownloadTime];
-    if( ![CSVPreferencesController useAutomatedDownload] || !configuredDownloadTime)
+    if( ![CSVPreferencesController useAutomatedDownload])
     {
         return nil;
     }
@@ -362,12 +383,10 @@ NSUInteger sortingMask;
     // relevant. Next download is either today's date with this time, or tomorrow with this time.
     NSDate *today = [NSDate date];
     NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier: NSCalendarIdentifierGregorian];
-    NSDateComponents *configuredComponents = [gregorian components: NSUIntegerMax
-                                                          fromDate: configuredDownloadTime];
     NSDateComponents *todayComponents = [gregorian components: NSUIntegerMax
                                                      fromDate: today];
-    todayComponents.hour = configuredComponents.hour;
-    todayComponents.minute = configuredComponents.minute;
+    todayComponents.hour = [self configuredDownloadHour];
+    todayComponents.minute = [self configuredDownloadMinute];
     todayComponents.second = 0;
     NSDate *configuredToday = [gregorian dateFromComponents:todayComponents];
     if( [configuredToday compare:today] == NSOrderedDescending)
@@ -516,8 +535,19 @@ static BOOL hideAdress = NO;
             else if( [[words objectAtIndex:0] isEqualToString:PREFS_MULTILINE_ITEM_CELLS] )
                 [[NSUserDefaults standardUserDefaults] setBool:[[words objectAtIndex:1] boolValue]
                                                         forKey:PREFS_MULTILINE_ITEM_CELLS];
-
+            else if( [[words objectAtIndex:0] isEqualToString:PREFS_CONFIGURED_DOWNLOAD_TIME] )
+            {
+                NSArray *time = [(NSString *)[words objectAtIndex:1] componentsSeparatedByString:@":"];
+                if( [time count] == 2)
+                {
+                    [CSVPreferencesController setConfiguredDownloadHour:[[time objectAtIndex:0] integerValue]
+                                                                 minute:[[time objectAtIndex:1] integerValue]];
+                }
+            }
+            
         }
+        [self updateSortingMask];
+        [self updateFastCache];
 	}
 	[[NSUserDefaults standardUserDefaults] synchronize];
 }

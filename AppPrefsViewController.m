@@ -20,11 +20,11 @@
 - (void) synchUI
 {
     useAutomatedDownload.on = [CSVPreferencesController useAutomatedDownload];
-    if( [CSVPreferencesController configuredDownloadTime])
-    {
-        downloadTime.date = [CSVPreferencesController configuredDownloadTime];
-    }
-    downloadTime.enabled = useAutomatedDownload.on;
+    [downloadTimePicker selectRow:[CSVPreferencesController configuredDownloadHour] inComponent:0 animated:NO];
+    [downloadTimePicker selectRow:[CSVPreferencesController configuredDownloadMinute] inComponent:1 animated:NO];
+    downloadTimePicker.userInteractionEnabled = useAutomatedDownload.on;
+    downloadTimePicker.alpha = useAutomatedDownload.on ? 1.0 : 0.5;
+    downloadTimePickerLabel.enabled = useAutomatedDownload.on;
 }
 
 - (IBAction)somethingChanged:(id)sender
@@ -34,12 +34,55 @@
         [CSVPreferencesController setUseAutomatedDownload:useAutomatedDownload.on];
         [[CSV_TouchAppDelegate sharedInstance] scheduleAutomatedDownload];
     }
-    else if( sender == downloadTime )
-    {
-        [CSVPreferencesController setConfiguredDownloadTime:downloadTime.date];
-        [[CSV_TouchAppDelegate sharedInstance] scheduleAutomatedDownload];
-    }
     [self synchUI];
 }
 
+- (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
+{
+    switch(component)
+    {
+        case 0:
+            [CSVPreferencesController setConfiguredDownloadHour:row
+                                                         minute:[CSVPreferencesController configuredDownloadMinute]];
+            break;
+        case 1:
+            [CSVPreferencesController setConfiguredDownloadHour:[CSVPreferencesController
+                                                                 configuredDownloadHour] minute:row];
+            break;
+        default:
+            break;
+    }
+    [[CSV_TouchAppDelegate sharedInstance] scheduleAutomatedDownload];
+    [self synchUI];
+}
+
+- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView
+{
+    return 2;
+}
+
+- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
+{
+    switch(component)
+    {
+        case 0:
+            return 24;
+        case 1:
+            return 60;
+        default:
+            return 0;
+    }
+}
+
+- (nullable NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
+{
+    switch(component)
+    {
+        case 0:
+        case 1:
+            return [NSString stringWithFormat:@"%02ld", (long)row];
+       default:
+            return nil;
+    }
+}
 @end

@@ -7,10 +7,11 @@
 
 #import <UIKit/UIKit.h>
 
-@interface AppPrefsViewController : UIViewController
+@interface AppPrefsViewController : UIViewController <UIPickerViewDelegate, UIPickerViewDataSource>
 {
     IBOutlet UISwitch *useAutomatedDownload;
-    IBOutlet UIDatePicker *downloadTime;
+    IBOutlet UIPickerView *downloadTimePicker;
+    IBOutlet UILabel *downloadTimePickerLabel;
 }
 
 - (IBAction)somethingChanged:(id)sender;

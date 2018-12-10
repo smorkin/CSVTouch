@@ -103,7 +103,6 @@ static CSV_TouchAppDelegate *sharedInstance = nil;
 	return path;
 }
 
-// File name: Note that this will not necessarily become
 - (void) readRawFileData:(NSData *)data
 				fileName:(NSString *)fileName
 		 isLocalDownload:(BOOL)isLocalDownload
@@ -394,7 +393,7 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 	
 	if( [self.URLsToDownload count] > 0 )
 	{
-        [alertTitle appendString:[NSString stringWithFormat:@" (skipping trying to download %lu additional file%@)",
+        [alertTitle appendString:[NSString stringWithFormat:@"\n\nSkipping download of %lu remaining file%@. Error:",
                                   [self.URLsToDownload count],
                                   [self.URLsToDownload count] == 1 ? @"" : @"s"]];
 		[self.URLsToDownload removeAllObjects];
@@ -447,7 +446,7 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
     if( self.httpStatusCode >= 400 )
     {
         self.downloadFailed = true;
-        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Download failure"
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Download failure for file list"
                                                                        message:[NSString httpStatusDescription:self.httpStatusCode]
                                                                  okButtonTitle:@"OK"
                                                                      okHandler:nil];
@@ -501,9 +500,9 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
     
     // We are doing the settings immediately, instead of later in [self downloadDone]
     // to avoid having to store the values somewhere locally
-    if( [settings count] > 0 )
+    if( [settings count] > 0 ){
         [CSVPreferencesController applySettings:settings];
-
+    }
 }
 
 - (void) startDownloadUsingURL:(NSURL *)url
@@ -513,7 +512,7 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 	self.httpStatusCode = 0;
 	NSURLRequest *theRequest=[NSURLRequest requestWithURL:url
 											  cachePolicy:NSURLRequestReloadIgnoringLocalCacheData
-										  timeoutInterval:20.0];
+										  timeoutInterval:60];
 	self.connection = [[NSURLConnection alloc] initWithRequest:theRequest delegate:self];
 	if (!self.connection)
 	{
