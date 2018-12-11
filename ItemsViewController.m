@@ -209,7 +209,10 @@ static NSMutableDictionary *_indexPathForFileName;
     NSArray *a = [[self tableView] indexPathsForVisibleRows];
     NSIndexPath *oldIndexPath = nil;
     if( [a count] > 0 )
-        oldIndexPath = [a objectAtIndex:0];
+    {
+        // Here, taking the natural index 0 is actually a bad idea in case we have section headers, because in that case 0 id actually the row underneath the top header (unless the item is the first in the section in which case there is no row under it), but scrolling this to the top later will respect the header. So when repeatedly pinching, we will scroll upwards until we reach the first item in the section which was at the top when pinch started. Hence, use 1 which means we will scroll upwards when zooming in, but as soon as row height >= section header height, "autoscroll" will stop!
+        oldIndexPath = [a objectAtIndex: [a count] > 1 ? 1 : 0];
+    }
     [self validateItemSizeButtons];
     [self.tableView reloadData];
     if( oldIndexPath )

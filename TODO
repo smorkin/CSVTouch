@@ -5,11 +5,14 @@ FIX
 - Removing check marks does not seem to work with timer?
 - Remove cached scroll position in items list view perhaps? Messy code, just for going out to file list and then back to the same file again, not sure it's worth it...
 - All file handling stuff like download etc should move from CSV_TouchAppDelegate to some new class
+- Large titles in Fles view: 2 gliches. First is that when programmatically staring refresh, size is wrong. Apparaently Aoole bug, others sreport same thing. Second is when going back to Files from Items where large title does not zoom in. Culprit is hidesSearchBarWhenScrolling setting in items view which apparently makes navigation bar unusually sized so when popping, well, not correct behaviour.
+- Suspected crash bug still remains: If having configured a automated refresh time, and popup abut refreshing all files comes up while in items or details view, the actual file currently inspected might disappear -> app will crash... Not common scenario, but still.
 
 FEATURES
 
 - Search: When search string changes, check if we have a selection before, and if item still matches, scroll to it.
 - Synchronize files: Add new setting in UI which will be used when refreshing all (will then save up all URLs, delete all files, and start downloading). But when downloading a file with URLs + settings, check if this key is set before deleting all files.
+- Keyboard shortcuts
 
 TEST
 
