@@ -4,12 +4,12 @@ FIX
 - Remove check marks for files after exiting/entering app?
 - Removing check marks does not seem to work with timer?
 - Remove cached scroll position in items list view perhaps? Messy code, just for going out to file list and then back to the same file again, not sure it's worth it...
-- ALl file handling stuff like download etc should move from CSV_TouchAppDelegate to some new class
-
+- All file handling stuff like download etc should move from CSV_TouchAppDelegate to some new class
 
 FEATURES
 
 - Search: When search string changes, check if we have a selection before, and if item still matches, scroll to it.
+- Synchronize files: Add new setting in UI which will be used when refreshing all (will then save up all URLs, delete all files, and start downloading). But when downloading a file with URLs + settings, check if this key is set before deleting all files.
 
 TEST
 

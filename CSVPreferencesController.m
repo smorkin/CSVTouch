@@ -526,9 +526,12 @@ static BOOL hideAdress = NO;
 				[[NSUserDefaults standardUserDefaults] setBool:[[words objectAtIndex:1] boolValue]
 														forKey:PREFS_CLEAR_SEARCH_WHEN_QUICK_SELECTING];
 			
-			else if( [[words objectAtIndex:0] isEqualToString:PREFS_HIDE_ADDRESS] )
-				[CSVPreferencesController setHideAddress:[[words objectAtIndex:1] boolValue]];
-
+            else if( [[words objectAtIndex:0] isEqualToString:PREFS_HIDE_ADDRESS] )
+                [CSVPreferencesController setHideAddress:[[words objectAtIndex:1] boolValue]];
+            
+            else if( [[words objectAtIndex:0] isEqualToString:PREFS_SHOW_DELETED_COLUMNS] )
+                [CSVPreferencesController setShowDeletedColumns:[[words objectAtIndex:1] boolValue]];
+            
             else if( [[words objectAtIndex:0] isEqualToString:PREFS_BLANK_WORD_SEPARATOR] )
                 [[NSUserDefaults standardUserDefaults] setBool:[[words objectAtIndex:1] boolValue]
                                                         forKey:PREFS_BLANK_WORD_SEPARATOR];
