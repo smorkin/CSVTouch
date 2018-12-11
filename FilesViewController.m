@@ -93,11 +93,13 @@ static FilesViewController *_sharedInstance = nil;
 
 - (void) addFileUsingURL
 {
+    [CSVFileParser clearAllDownloadFlags];
     [[CSV_TouchAppDelegate sharedInstance] loadNewFile];
 }
 
 - (void) addFileUsingURLList
 {
+    [CSVFileParser clearAllDownloadFlags];
     [[CSV_TouchAppDelegate sharedInstance] loadFileList];
 }
 
@@ -143,12 +145,13 @@ static FilesViewController *_sharedInstance = nil;
 
 - (void) viewWillAppear:(BOOL)animated
 {
+    [self.navigationController setToolbarHidden:YES animated:animated];
     [super viewWillAppear:animated];
-    self.navigationController.toolbarHidden = YES;
 }
 
 - (void) refreshAllFiles
 {
+    [CSVFileParser clearAllDownloadFlags];
     [[CSV_TouchAppDelegate sharedInstance] reloadAllFiles];
 }
 
@@ -159,11 +162,15 @@ static FilesViewController *_sharedInstance = nil;
         [self.refreshControl beginRefreshing];
         [self.tableView setContentOffset:CGPointMake(0, self.tableView.contentOffset.y-self.refreshControl.frame.size.height) animated:YES];
     }
+    [self.tableView reloadData];
+    self.view.alpha = 0.5;
 }
 
 - (void) allDownloadsCompleted
 {
     [self.refreshControl endRefreshing];
+    [self.tableView reloadData];
+    self.view.alpha = 1;
 }
 
 - (BOOL) checkFileForSelection:(CSVFileParser *)file

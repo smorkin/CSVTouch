@@ -1,10 +1,10 @@
 FIX
 
 - Check if two columns have the same name
-- Remove hideAddress code
 - Remove check marks for files after exiting/entering app?
 - Removing check marks does not seem to work with timer?
-- Remove cached scroll position in items list view perhaps? Messy code, just for going out ti file list and then back to the same file again, not sure it's worth it...
+- Remove cached scroll position in items list view perhaps? Messy code, just for going out to file list and then back to the same file again, not sure it's worth it...
+- ALl file handling stuff like download etc should move from CSV_TouchAppDelegate to some new class
 
 
 FEATURES

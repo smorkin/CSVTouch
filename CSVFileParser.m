@@ -41,7 +41,7 @@
 static NSMutableDictionary *encodingForFileName;
 static NSArray *_allowedEncodings = nil;
 static NSArray *_allowedEncodingNames = nil;
-static NSMutableArray *_files;
+static NSMutableArray<CSVFileParser *> *_files;
 
 + (NSMutableArray *) files
 {
@@ -138,6 +138,15 @@ static NSTimer *_resetDownloadFlagsTimer;
                                     [[FilesViewController sharedInstance].tableView reloadData];
                                 }];
     [[NSRunLoop currentRunLoop] addTimer:_resetDownloadFlagsTimer forMode:NSDefaultRunLoopMode];
+}
+
++ (void) clearAllDownloadFlags
+{
+    for( CSVFileParser *fp in [CSVFileParser files] )
+    {
+        fp.hasBeenDownloaded = NO;
+        fp.hasFailedToDownload = NO;
+    }
 }
 
 #define DEFS_COLUMN_NAMES @"defaultColumnNames"

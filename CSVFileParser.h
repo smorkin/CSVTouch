@@ -44,6 +44,7 @@
 + (CSVFileParser *) existingParserForName:(NSString *)name;
 
 + (void) resetClearingOfDownloadFlagsTimer;
++ (void) clearAllDownloadFlags;
 
 + (void) fixedWidthSettingsChangedUsingUI;
 

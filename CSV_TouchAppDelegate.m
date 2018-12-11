@@ -635,10 +635,10 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
         [self.URLsToDownload removeAllObjects];
         for( CSVFileParser *fp in [CSVFileParser files] )
         {
-            fp.hasBeenDownloaded = NO;
-            fp.hasFailedToDownload = NO;
             if( ![fp downloadedLocally])
+            {
                 [self.URLsToDownload addObject:[fp URL]];
+            }
         }
         if( [self.URLsToDownload count] > 0 )
         {
