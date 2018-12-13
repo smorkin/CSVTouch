@@ -11,6 +11,7 @@
 		F40D21331FE6A67800146BB4 /* EditFileColumnsController.m in Sources */ = {isa = PBXBuildFile; fileRef = F40D21311FE6A66F00146BB4 /* EditFileColumnsController.m */; };
 		F412B2D2115567D0000C7596 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28AD735F0D9D9599002E5188 /* MainWindow.xib */; };
 		F412B2D4115567DE000C7596 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28AD735F0D9D9599002E5188 /* MainWindow.xib */; };
+		F415EC6E21C2BDCD00E7F88A /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F415EC6D21C2BDCD00E7F88A /* QuartzCore.framework */; };
 		F434D1411FF1518800CD622D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F434D1401FF1518800CD622D /* Main.storyboard */; };
 		F434D1421FF1518800CD622D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F434D1401FF1518800CD622D /* Main.storyboard */; };
 		F434D1441FF2A96200CD622D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F434D1431FF2A96200CD622D /* LaunchScreen.storyboard */; };
@@ -211,6 +212,7 @@
 		F41233A20DE4AD64005E355F /* msgno.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = msgno.h; sourceTree = "<group>"; };
 		F41233A30DE4AD64005E355F /* text.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = text.h; sourceTree = "<group>"; };
 		F413FF810E648C93006C7348 /* Description.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = Description.rtf; sourceTree = "<group>"; };
+		F415EC6D21C2BDCD00E7F88A /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		F42D908C0DE95538001A2E5C /* CSVDataViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSVDataViewController.h; sourceTree = "<group>"; };
 		F42D908D0DE95538001A2E5C /* CSVDataViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSVDataViewController.m; sourceTree = "<group>"; };
 		F434D1401FF1518800CD622D /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
@@ -342,6 +344,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F415EC6E21C2BDCD00E7F88A /* QuartzCore.framework in Frameworks */,
 				F434D1571FF6B56D00CD622D /* CoreGraphics.framework in Frameworks */,
 				F434D1561FF6B55D00CD622D /* Foundation.framework in Frameworks */,
 				F434D1551FF6B55600CD622D /* UIKit.framework in Frameworks */,
@@ -429,6 +432,7 @@
 		F434D14F1FF6B50900CD622D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F415EC6D21C2BDCD00E7F88A /* QuartzCore.framework */,
 				F434D1541FF6B51700CD622D /* CoreGraphics.framework */,
 				F434D1531FF6B51700CD622D /* UIKit.framework */,
 				F434D1521FF6B51700CD622D /* Foundation.framework */,

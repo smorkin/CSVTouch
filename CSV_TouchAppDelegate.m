@@ -618,19 +618,41 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
                                                                    message:@"Time to reload all your files!"
                                                              okButtonTitle:@"Download"
                                                                  okHandler:^(UIAlertAction *action) {
-                                                                     [self reloadAllFiles];
+                                                                     // Special thing here: Since this might pop up no matter where we are in the navigation controller, we must go back to files list view since otherwise we might crash (in case the file currently being inspected is reloaded)
+                                                                     // Also, we shouldn't actually call the reloadAllFiles until we have popped back since otherwise UI will be a bit weird (resizing of navigationItem with large titles is a bit buggy)
+                                                                     [CATransaction begin];
+                                                                     [self.navigationController popToRootViewControllerAnimated:YES];
+                                                                     [CATransaction setCompletionBlock:^{
+                                                                         [self reloadAllFiles];
+                                                                     }];
+                                                                     [CATransaction commit];
                                                                  }
                                                          cancelButtonTitle:@"Cancel"
                                                              cancelHandler:nil];
-    [self.navigationController.topViewController presentViewController:alert
-                                                                        animated:YES
-                                                                      completion:nil];
+    
+    // Dismiss any presented view controllers, then show the alert
+    if( self.navigationController.topViewController.presentedViewController != nil)
+    {
+        [self.navigationController.topViewController dismissViewControllerAnimated:NO completion:^{
+            [self.navigationController.topViewController presentViewController:alert
+                                                                      animated:YES
+                                                                    completion:nil];
+
+        }];
+    }
+    else
+    {
+        [self.navigationController.topViewController presentViewController:alert
+                                                                  animated:YES
+                                                                completion:nil];
+    }
 }
 
 - (void) reloadAllFiles
 {
     if( !self.refreshingAllFilesInProgress)
     {
+        [CSVFileParser clearAllDownloadFlags];
         self.refreshingAllFilesInProgress = TRUE;
         [self.URLsToDownload removeAllObjects];
         for( CSVFileParser *fp in [CSVFileParser files] )

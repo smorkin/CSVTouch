@@ -151,7 +151,6 @@ static FilesViewController *_sharedInstance = nil;
 
 - (void) refreshAllFiles
 {
-    [CSVFileParser clearAllDownloadFlags];
     [[CSV_TouchAppDelegate sharedInstance] reloadAllFiles];
 }
 
@@ -159,8 +158,8 @@ static FilesViewController *_sharedInstance = nil;
 {
     if( !self.refreshControl.refreshing )
     {
-        [self.refreshControl beginRefreshing];
         [self.tableView setContentOffset:CGPointMake(0, self.tableView.contentOffset.y-self.refreshControl.frame.size.height) animated:YES];
+        [self.refreshControl beginRefreshing];
     }
     [self.tableView reloadData];
     self.view.alpha = 0.5;
