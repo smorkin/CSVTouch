@@ -25,6 +25,11 @@
     downloadTimePicker.userInteractionEnabled = useAutomatedDownload.on;
     downloadTimePicker.alpha = useAutomatedDownload.on ? 1.0 : 0.5;
     downloadTimePickerLabel.enabled = useAutomatedDownload.on;
+    synchronizeFiles.on = [CSVPreferencesController synchronizeDownloadedFiles];
+    NSString *s = ![[[CSVPreferencesController lastUsedListURL] absoluteString] isEqualToString:@""] ?
+    [[CSVPreferencesController lastUsedListURL] absoluteString] : @"no file list URL has been used)";
+    fileListURLForSynchronizing.text = [NSString stringWithFormat:@"(%@)", s];
+    fileListURLForSynchronizing.enabled = ![[[CSVPreferencesController lastUsedListURL] absoluteString] isEqualToString:@""];
 }
 
 - (IBAction)somethingChanged:(id)sender
@@ -33,6 +38,10 @@
     {
         [CSVPreferencesController setUseAutomatedDownload:useAutomatedDownload.on];
         [[CSV_TouchAppDelegate sharedInstance] scheduleAutomatedDownload];
+    }
+    else if( sender == synchronizeFiles )
+    {
+        [CSVPreferencesController setSynchronizeDownloadedFiles:synchronizeFiles.on];
     }
     [self synchUI];
 }

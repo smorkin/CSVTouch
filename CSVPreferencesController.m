@@ -43,6 +43,7 @@
 #define PREFS_CONFIGURED_DOWNLOAD_TIME @"configuredDownloadTime"
 #define PREFS_MULTILINE_ITEM_CELLS @"multilineItemCells"
 #define PREFS_REVERSE_ITEM_SORTING @"reverseItemSorting"
+#define PREFS_SYNCHRONIZE_DOWNLOADED_FILES @"synchronizeDownloadedFiles"
 
 // Since this value will be used really frequently, we cahce it for quick return
 static BOOL _cachedReverseSorting;
@@ -75,7 +76,6 @@ NSUInteger sortingMask;
     [defaults removeObjectForKey:@"enablePhoneLinks"];
     [defaults removeObjectForKey:@"showDebugInfo"];
     [defaults removeObjectForKey:@"simpleMode"];
-    [defaults removeObjectForKey:@"synchronizeDownloadedFiles"];
     [defaults removeObjectForKey:@"safeStart"];
     [defaults removeObjectForKey:@"maxSafeBackgroundMinutes"];
     [defaults removeObjectForKey:@"usePassword"];
@@ -538,6 +538,9 @@ static BOOL hideAdress = NO;
             else if( [[words objectAtIndex:0] isEqualToString:PREFS_MULTILINE_ITEM_CELLS] )
                 [[NSUserDefaults standardUserDefaults] setBool:[[words objectAtIndex:1] boolValue]
                                                         forKey:PREFS_MULTILINE_ITEM_CELLS];
+            else if( [[words objectAtIndex:0] isEqualToString:PREFS_SYNCHRONIZE_DOWNLOADED_FILES] )
+                [[NSUserDefaults standardUserDefaults] setBool:[[words objectAtIndex:1] boolValue]
+                                                        forKey:PREFS_SYNCHRONIZE_DOWNLOADED_FILES];
             else if( [[words objectAtIndex:0] isEqualToString:PREFS_CONFIGURED_DOWNLOAD_TIME] )
             {
                 NSArray *time = [(NSString *)[words objectAtIndex:1] componentsSeparatedByString:@":"];
@@ -659,6 +662,16 @@ static BOOL hideAdress = NO;
 + (BOOL) multilineItemCells
 {
     return [[NSUserDefaults standardUserDefaults] boolForKey:PREFS_MULTILINE_ITEM_CELLS];
+}
+
++ (void) setSynchronizeDownloadedFiles:(BOOL)yn
+{
+    [[NSUserDefaults standardUserDefaults] setBool:yn forKey:PREFS_SYNCHRONIZE_DOWNLOADED_FILES];
+}
+
++ (BOOL) synchronizeDownloadedFiles
+{
+    return [[NSUserDefaults standardUserDefaults] boolForKey:PREFS_SYNCHRONIZE_DOWNLOADED_FILES];
 }
 
 + (void) updateFastCache

@@ -74,6 +74,8 @@ typedef enum FixedWidthAlternative{
 + (BOOL) correctSort;
 + (void) setMultilineItemCells:(BOOL)yn;
 + (BOOL) multilineItemCells;
++ (void) setSynchronizeDownloadedFiles:(BOOL)yn;
++ (BOOL) synchronizeDownloadedFiles;
 
 + (NSInteger) selectedDetailsView;
 + (void) setSelectedDetailsView:(NSInteger) view;

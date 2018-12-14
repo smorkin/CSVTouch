@@ -9,6 +9,8 @@
 
 @interface AppPrefsViewController : UIViewController <UIPickerViewDelegate, UIPickerViewDataSource>
 {
+    IBOutlet UISwitch *synchronizeFiles;
+    IBOutlet UILabel *fileListURLForSynchronizing;
     IBOutlet UISwitch *useAutomatedDownload;
     IBOutlet UIPickerView *downloadTimePicker;
     IBOutlet UILabel *downloadTimePickerLabel;
