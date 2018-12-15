@@ -446,6 +446,12 @@ NSUInteger sortingMask;
         [[NSUserDefaults standardUserDefaults] setObject:[URL absoluteString] forKey:LAST_USED_LIST_URL];
 }
 
++ (BOOL) canSynchronizeFiles
+{
+    NSURL *last = [self lastUsedListURL];
+    return last != nil && [last absoluteString] != nil && ![[last absoluteString] isEqualToString:@""];
+}
+
 static BOOL hideAdress = NO;
 
 + (BOOL) hideAddress

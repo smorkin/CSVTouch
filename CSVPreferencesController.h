@@ -76,6 +76,7 @@ typedef enum FixedWidthAlternative{
 + (BOOL) multilineItemCells;
 + (void) setSynchronizeDownloadedFiles:(BOOL)yn;
 + (BOOL) synchronizeDownloadedFiles;
++ (BOOL) canSynchronizeFiles; // Convenience, checks that we do have a last used URL to use
 
 + (NSInteger) selectedDetailsView;
 + (void) setSelectedDetailsView:(NSInteger) view;

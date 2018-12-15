@@ -27,7 +27,7 @@
 // pre-defined columns not to show
 @property (nonatomic, strong) NSMutableDictionary *preDefinedHiddenColumns;
 @property (nonatomic, assign) NSInteger httpStatusCode;
-@property (nonatomic, readonly) NSMutableArray *URLsToDownload;
+@property (nonatomic) NSMutableArray *URLsToDownload;
 @property (nonatomic, assign) BOOL readingFileList;
 @property (nonatomic, assign) BOOL downloadFailed;
 @property BOOL refreshingAllFilesInProgress;
@@ -284,7 +284,7 @@ static CSV_TouchAppDelegate *sharedInstance = nil;
 	if (self = [super init])
 	{
 		sharedInstance = self;
-		_URLsToDownload = [[NSMutableArray alloc] init];
+        self.URLsToDownload = [[NSMutableArray alloc] init];
         self.preDefinedHiddenColumns = [NSMutableDictionary dictionary];
 	}
 	return self;
@@ -356,6 +356,16 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
     return self.connection != nil;
 }
 
+- (void) allDownloadsDone
+{
+    self.refreshingAllFilesInProgress = FALSE;
+    [CSVPreferencesController setHideAddress:NO]; // In case we had temporarily set this from
+    // a URL list file with preference settings
+    [[FilesViewController sharedInstance] allDownloadsCompleted];
+    [CSVFileParser resetClearingOfDownloadFlagsTimer];
+    [[FilesViewController sharedInstance].tableView reloadData];
+}
+
 - (void) downloadDone
 {
 	self.connection = nil;
@@ -375,12 +385,7 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 	}
 	else 
 	{
-        self.refreshingAllFilesInProgress = FALSE;
-		[CSVPreferencesController setHideAddress:NO]; // In case we had temporarily set this from
-													  // a URL list file with preference settings
-        [[FilesViewController sharedInstance] allDownloadsCompleted];
-        [CSVFileParser resetClearingOfDownloadFlagsTimer];
-        [[FilesViewController sharedInstance].tableView reloadData];
+        [self allDownloadsDone];
 	}
 }
 
@@ -503,6 +508,21 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
     if( [settings count] > 0 ){
         [CSVPreferencesController applySettings:settings];
     }
+    
+    // Now, remember the URLs in a non-volatile array since we will need those in case we are synchronising files.
+    // Also, we need to store those we actually download during the downloads
+    NSMutableSet *forRemoval = [NSMutableSet set];
+    for( CSVFileParser *file in [CSVFileParser files])
+    {
+        if( ![self.URLsToDownload containsObject:file.URL] && !file.downloadedLocally)
+        {
+            [forRemoval addObject:file];
+        }
+    }
+    for( CSVFileParser *file in forRemoval)
+    {
+        [CSVFileParser removeFile:file];
+    }
 }
 
 - (void) startDownloadUsingURL:(NSURL *)url
@@ -612,6 +632,19 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 	self.lastFileURL = URLString;
 }
 
+- (void) startScheduledDownload
+{
+    if( [CSVPreferencesController synchronizeDownloadedFiles] &&
+       [CSVPreferencesController canSynchronizeFiles])
+    {
+        [self readFileListFromURL:[[CSVPreferencesController lastUsedListURL] absoluteString]];
+    }
+    else
+    {
+        [self reloadAllFiles];
+    }
+}
+    
 - (void) downloadScheduled
 {
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Download scheduled"
@@ -619,11 +652,11 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
                                                              okButtonTitle:@"Download"
                                                                  okHandler:^(UIAlertAction *action) {
                                                                      // Special thing here: Since this might pop up no matter where we are in the navigation controller, we must go back to files list view since otherwise we might crash (in case the file currently being inspected is reloaded)
-                                                                     // Also, we shouldn't actually call the reloadAllFiles until we have popped back since otherwise UI will be a bit weird (resizing of navigationItem with large titles is a bit buggy)
+                                                                     // Also, we shouldn't actually start reloading until we have popped back since otherwise UI will be a bit weird (resizing of navigationItem with large titles is a bit buggy), so we use CATransaction
                                                                      [CATransaction begin];
                                                                      [self.navigationController popToRootViewControllerAnimated:YES];
                                                                      [CATransaction setCompletionBlock:^{
-                                                                         [self reloadAllFiles];
+                                                                         [self startScheduledDownload];
                                                                      }];
                                                                      [CATransaction commit];
                                                                  }
@@ -674,8 +707,8 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 
 - (void) delayedURLOpen:(NSString *)s
 {
+    [self.navigationController popToRootViewControllerAnimated:NO];
 	[self downloadFileWithString:s];
-	[self.navigationController popToRootViewControllerAnimated:NO];
 }
 
 - (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey, id> *)options

@@ -29,7 +29,7 @@
     NSString *s = ![[[CSVPreferencesController lastUsedListURL] absoluteString] isEqualToString:@""] ?
     [[CSVPreferencesController lastUsedListURL] absoluteString] : @"no file list URL has been used)";
     fileListURLForSynchronizing.text = [NSString stringWithFormat:@"(%@)", s];
-    fileListURLForSynchronizing.enabled = ![[[CSVPreferencesController lastUsedListURL] absoluteString] isEqualToString:@""];
+    fileListURLForSynchronizing.enabled = [CSVPreferencesController canSynchronizeFiles];
 }
 
 - (IBAction)somethingChanged:(id)sender
