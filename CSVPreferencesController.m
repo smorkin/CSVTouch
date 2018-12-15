@@ -328,9 +328,19 @@ NSUInteger sortingMask;
         return NO;
 }
 
++ (BOOL) isHourOK:(NSInteger)hour
+{
+    return hour >= 0 && hour <= 23;
+}
+
++ (BOOL) isMinuteOK:(NSInteger)minute
+{
+    return minute >= 0 && minute <= 59;
+}
+
 + (void) setConfiguredDownloadHour:(NSInteger)hour minute:(NSInteger)minute
 {
-    if( hour >= 0 && hour <= 23 && minute >= 0 && minute <= 59)
+    if( [self isHourOK:hour] && [self isMinuteOK:minute])
     {
         NSString *time = [NSString stringWithFormat:@"%02ld:%02ld", (long)hour, (long)minute];
         [[NSUserDefaults standardUserDefaults] setObject:time forKey:PREFS_CONFIGURED_DOWNLOAD_TIME];
@@ -346,7 +356,7 @@ NSUInteger sortingMask;
         if( [hourminute count] == 2 )
         {
             NSInteger hour = [[hourminute objectAtIndex:0] integerValue];
-            if( hour >= 0 && hour <= 23)
+            if( [self isHourOK:hour])
             {
                 return hour;
             }
@@ -364,7 +374,7 @@ NSUInteger sortingMask;
         if( [hourminute count] == 2 )
         {
             NSInteger minute = [[hourminute objectAtIndex:1] integerValue];
-            if( minute >= 0 && minute <= 59)
+            if( [self isMinuteOK:minute])
             {
                 return minute;
             }
