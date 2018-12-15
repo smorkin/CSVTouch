@@ -498,10 +498,11 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="beU-5t-Ruh">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="middleTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="beU-5t-Ruh">
                                 <rect key="frame" x="16" y="41" width="33" height="12"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="33" id="7oT-cU-nGs"/>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" priority="500" constant="33" id="7oT-cU-nGs"/>
+                                    <constraint firstAttribute="width" relation="lessThanOrEqual" constant="200" id="QL3-EW-Hgg"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="italicSystem" pointSize="10"/>
                                 <nil key="textColor"/>

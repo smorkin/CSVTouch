@@ -14,7 +14,7 @@
 @interface CSVFileParser : NSObject {
 }
 @property (nonatomic, strong) NSMutableArray *columnNames;
-@property (nonatomic, strong) NSMutableIndexSet *hiddenColumns; // Just used temporary, for a newly downloaded file
+@property (nonatomic, strong) NSMutableIndexSet *predefineHiddenColumns; // Just used temporary, for a newly downloaded file
 @property (nonatomic, assign) int *rawShownColumnIndexes;
 @property (nonatomic, strong) NSMutableArray *shownColumnIndexes;
 @property (nonatomic, copy) NSString *filePath;

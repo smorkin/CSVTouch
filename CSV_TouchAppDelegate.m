@@ -163,7 +163,7 @@ static CSV_TouchAppDelegate *sharedInstance = nil;
 		fp.downloadDate = [NSDate date];
         fp.hasBeenDownloaded = TRUE;
 		[fp saveToFile];
-        fp.hiddenColumns = [self.preDefinedHiddenColumns objectForKey:fp.URL];
+        fp.predefineHiddenColumns = [self.preDefinedHiddenColumns objectForKey:fp.URL];
         [self.preDefinedHiddenColumns removeObjectForKey:fp.URL];
         [[FilesViewController sharedInstance].tableView reloadData];
 	}
@@ -450,7 +450,7 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
     // Check that we didn't get an http error
     if( self.httpStatusCode >= 400 )
     {
-        self.downloadFailed = true;
+        self.downloadFailed = TRUE;
         UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Download failure for file list"
                                                                        message:[NSString httpStatusDescription:self.httpStatusCode]
                                                                  okButtonTitle:@"OK"
@@ -461,9 +461,9 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
         return;
     }
     
-    NSString *s = [[NSString alloc] initWithData:self.rawData
+    NSString *completeText = [[NSString alloc] initWithData:self.rawData
                                         encoding:[CSVPreferencesController encoding]];
-    NSUInteger length = [s length];
+    NSUInteger length = [completeText length];
     NSUInteger lineStart, lineEnd, nextLineStart;
     NSRange lineRange;
     NSString *line;
@@ -473,14 +473,18 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
     lineStart = lineEnd = nextLineStart = 0;
     while( nextLineStart < length )
     {
-        [s getLineStart:&lineStart end:&nextLineStart
+        [completeText getLineStart:&lineStart end:&nextLineStart
             contentsEnd:&lineEnd forRange:NSMakeRange(nextLineStart, 0)];
         lineRange = NSMakeRange(lineStart, lineEnd - lineStart);
-        line = [s substringWithRange:lineRange];
+        line = [completeText substringWithRange:lineRange];
         if( !readingSettings && line && ![line isEqualToString:@""] )
         {
             NSArray *split = [line componentsSeparatedByString:@" "];
-            if( [split count] == 2 ) // We have predefined hidden columns
+            if( [split count] == 1)
+            {
+                [self.URLsToDownload addObject:line];
+            }
+            else if( [split count] == 2 ) // We have predefined hidden columns
             {
                 NSString *fileName = [split objectAtIndex:0];
                 [self.URLsToDownload addObject:fileName];
@@ -488,13 +492,24 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
                 NSMutableIndexSet *hidden = [NSMutableIndexSet indexSet];
                 for( NSString *n in split )
                 {
-                    [hidden addIndex:[n intValue]];
+                    if( ![n isEqualToString:@""]) // This happens if the row ends with a space, after file name
+                        [hidden addIndex:[n intValue]];
                 }
-                [self.preDefinedHiddenColumns setObject:hidden forKey:fileName];
+                if( [hidden count] > 0)
+                    [self.preDefinedHiddenColumns setObject:hidden forKey:fileName];
             }
             else
             {
-                [self.URLsToDownload addObject:line];
+                self.downloadFailed = TRUE;
+                [self.URLsToDownload removeAllObjects];
+                UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Download failure for file list"
+                                                                               message:[NSString stringWithFormat:@"Row containing > 1 space character found:\n\n\"%@\"", line]
+                                                                         okButtonTitle:@"OK"
+                                                                             okHandler:nil];
+                [self.navigationController.topViewController presentViewController:alert
+                                                                          animated:YES
+                                                                        completion:nil];
+                return;
             }
         }
         else if( !readingSettings && line && [line isEqualToString:@""] )
@@ -509,19 +524,39 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
         [CSVPreferencesController applySettings:settings];
     }
     
-    // Now, remember the URLs in a non-volatile array since we will need those in case we are synchronising files.
-    // Also, we need to store those we actually download during the downloads
-    NSMutableSet *forRemoval = [NSMutableSet set];
-    for( CSVFileParser *file in [CSVFileParser files])
+    // Now, if we are synchronising files, remove those not included in the files list. To prevent issues if we find
+    // a file, but there is "bad" data in it, we do some sanity checks as well.
+    if( [CSVPreferencesController synchronizeDownloadedFiles])
     {
-        if( ![self.URLsToDownload containsObject:file.URL] && !file.downloadedLocally)
+        if([self.URLsToDownload count] > 0 &&
+           [[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:[self.URLsToDownload firstObject]]])
         {
-            [forRemoval addObject:file];
+            NSMutableSet *forRemoval = [NSMutableSet set];
+            for( CSVFileParser *file in [CSVFileParser files])
+            {
+                if( ![self.URLsToDownload containsObject:file.URL] && !file.downloadedLocally)
+                {
+                    [forRemoval addObject:file];
+                }
+            }
+            for( CSVFileParser *file in forRemoval)
+            {
+                [[NSFileManager defaultManager] removeItemAtPath:[file filePath] error:NULL];
+                [CSVFileParser removeFile:file];
+            }
         }
-    }
-    for( CSVFileParser *file in forRemoval)
-    {
-        [CSVFileParser removeFile:file];
+        else
+        {
+            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Couldn't find any URLs listed in the downloaded file"
+                                                                           message:nil
+                                                                     okButtonTitle:@"OK"
+                                                                         okHandler:nil];
+            [self.navigationController.topViewController presentViewController:alert
+                                                                      animated:YES
+                                                                    completion:nil];
+            return;
+
+        }
     }
 }
 

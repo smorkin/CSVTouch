@@ -707,12 +707,18 @@ static NSTimer *_resetDownloadFlagsTimer;
     {
         self.shownColumnNames = [NSMutableArray arrayWithArray:shown];
     }
-    else if( [self.hiddenColumns count] > 0){
-        [self.shownColumnNames removeAllObjects];
+    else if( [self.predefineHiddenColumns count] > 0){
+        self.shownColumnNames = [NSMutableArray array];
         for( NSUInteger index = 0 ; index < [self.columnNames count] ; index++)
         {
-            if( ![self.hiddenColumns containsIndex:index] )
+            if( ![self.predefineHiddenColumns containsIndex:index] )
                 [self.shownColumnNames addObject:[self.columnNames objectAtIndex:index]];
+        }
+        // So we've used these. Save result, and remove the cached ones.
+        if( [self.shownColumnNames count] > 0)
+        {
+            [CSVFileParser saveColumnNames];
+            [self.predefineHiddenColumns removeAllIndexes];
         }
     }
     else
