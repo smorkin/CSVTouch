@@ -14,7 +14,7 @@
 #import "AddFilesSelectionController.h"
 
 @interface FilesViewController ()
-
+@property BOOL UIDisabled;
 @end
 
 @implementation FilesViewController
@@ -40,6 +40,10 @@ static FilesViewController *_sharedInstance = nil;
     {
         // We ignore state and just cancels the gesture
         longPress.enabled = FALSE;
+        if( self.UIDisabled )
+        {
+            return;
+        }
         CGPoint p = [longPress locationInView:self.tableView];
         
         NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:p];
@@ -132,6 +136,7 @@ static FilesViewController *_sharedInstance = nil;
     [self configureGestures];
     self.extendedLayoutIncludesOpaqueBars = YES;
     self.clearsSelectionOnViewWillAppear = YES;
+    self.UIDisabled = NO;
 
     self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
 }
@@ -149,6 +154,22 @@ static FilesViewController *_sharedInstance = nil;
     [super viewWillAppear:animated];
 }
 
+- (void) disableUI
+{
+    self.UIDisabled = YES;
+    self.navigationItem.leftBarButtonItem.enabled = NO;
+    self.navigationItem.rightBarButtonItem.enabled = NO;
+    self.view.alpha = 0.5;
+}
+
+- (void) enableUI
+{
+    self.UIDisabled = NO;
+    self.navigationItem.leftBarButtonItem.enabled = YES;
+    self.navigationItem.rightBarButtonItem.enabled = YES;
+    self.view.alpha = 1;
+}
+
 - (void) refreshAllFiles
 {
     [[CSV_TouchAppDelegate sharedInstance] reloadAllFiles];
@@ -161,15 +182,15 @@ static FilesViewController *_sharedInstance = nil;
         [self.tableView setContentOffset:CGPointMake(0, self.tableView.contentOffset.y-self.refreshControl.frame.size.height) animated:YES];
         [self.refreshControl beginRefreshing];
     }
+    [self disableUI];
     [self.tableView reloadData];
-    self.view.alpha = 0.5;
 }
 
 - (void) allDownloadsCompleted
 {
     [self.refreshControl endRefreshing];
+    [self enableUI];
     [self.tableView reloadData];
-    self.view.alpha = 1;
 }
 
 - (BOOL) checkFileForSelection:(CSVFileParser *)file
@@ -234,7 +255,7 @@ static FilesViewController *_sharedInstance = nil;
 // Stop selection while downloads are in progress
 - (nullable NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return [[CSV_TouchAppDelegate sharedInstance] downloadInProgress] ? nil : indexPath;
+    return [self UIDisabled] ? nil : indexPath;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
