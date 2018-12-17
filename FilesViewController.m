@@ -151,7 +151,74 @@ static FilesViewController *_sharedInstance = nil;
 - (void) viewWillAppear:(BOOL)animated
 {
     [self.navigationController setToolbarHidden:YES animated:animated];
+    [self addKeyCommands];
     [super viewWillAppear:animated];
+}
+
+- (void) showSettings
+{
+    [self performSegueWithIdentifier:@"ToFilesPrefs" sender:self];
+}
+
+- (void) numberCommand:(id)sender
+{
+    NSInteger fileNumber = [[sender input] integerValue];
+    if( [[CSVFileParser files] count] > fileNumber)
+    {
+        NSIndexPath *path = [NSIndexPath indexPathForRow:fileNumber inSection:0];
+        [self.tableView selectRowAtIndexPath:path
+                                    animated:NO
+                              scrollPosition:NO];
+        [self tableView:self.tableView didSelectRowAtIndexPath:path];
+    }
+}
+
+- (void) deleteKeyCommands
+{
+    NSArray *cmds = [[self keyCommands] copy];
+    for( UIKeyCommand *cmd in cmds){
+        [self removeKeyCommand:cmd];
+    }
+}
+
+- (void) addKeyCommands
+{
+    [self deleteKeyCommands];
+    UIKeyCommand *cmd;
+    for( int i = 0 ; i < MIN([[CSVFileParser files] count], 10); ++i)
+    {
+        CSVFileParser *file = [[CSVFileParser files] objectAtIndex:i];
+        cmd = [UIKeyCommand keyCommandWithInput:[NSString stringWithFormat:@"%d", i]
+                                  modifierFlags:UIKeyModifierCommand
+                                         action:@selector(numberCommand:)
+                           discoverabilityTitle:[file tableViewDescription]];
+        [self addKeyCommand:cmd];
+    }
+    cmd = [UIKeyCommand keyCommandWithInput:@"r"
+                              modifierFlags:UIKeyModifierCommand
+                                     action:@selector(refreshAllFiles)
+                       discoverabilityTitle:@"Reload files"];
+    [self addKeyCommand:cmd];
+    cmd = [UIKeyCommand keyCommandWithInput:@"n"
+                              modifierFlags:UIKeyModifierCommand
+                                     action:@selector(addFileUsingURL)
+                       discoverabilityTitle:@"Add using URL"];
+    [self addKeyCommand:cmd];
+    cmd = [UIKeyCommand keyCommandWithInput:@"n"
+                              modifierFlags:UIKeyModifierCommand ^ UIKeyModifierShift
+                                     action:@selector(addFileUsingURLList)
+                       discoverabilityTitle:@"Add using URL for list of files"];
+    [self addKeyCommand:cmd];
+    cmd = [UIKeyCommand keyCommandWithInput:@"l"
+                              modifierFlags:UIKeyModifierCommand
+                                     action:@selector(importLocalFile)
+                       discoverabilityTitle:@"Import local file"];
+    [self addKeyCommand:cmd];
+    cmd = [UIKeyCommand keyCommandWithInput:@","
+                              modifierFlags:UIKeyModifierCommand
+                                     action:@selector(showSettings)
+                       discoverabilityTitle:@"Preferences"];
+    [self addKeyCommand:cmd];
 }
 
 - (void) disableUI
@@ -159,6 +226,7 @@ static FilesViewController *_sharedInstance = nil;
     self.UIDisabled = YES;
     self.navigationItem.leftBarButtonItem.enabled = NO;
     self.navigationItem.rightBarButtonItem.enabled = NO;
+    [self deleteKeyCommands];
     self.view.alpha = 0.5;
 }
 
@@ -167,6 +235,7 @@ static FilesViewController *_sharedInstance = nil;
     self.UIDisabled = NO;
     self.navigationItem.leftBarButtonItem.enabled = YES;
     self.navigationItem.rightBarButtonItem.enabled = YES;
+    [self addKeyCommands];
     self.view.alpha = 1;
 }
 
@@ -180,9 +249,9 @@ static FilesViewController *_sharedInstance = nil;
     if( !self.refreshControl.refreshing )
     {
         [self.tableView setContentOffset:CGPointMake(0, self.tableView.contentOffset.y-self.refreshControl.frame.size.height) animated:YES];
+        [self disableUI];
         [self.refreshControl beginRefreshing];
     }
-    [self disableUI];
     [self.tableView reloadData];
 }
 
@@ -287,6 +356,7 @@ static FilesViewController *_sharedInstance = nil;
     CSVFileParser *file = [[CSVFileParser files] objectAtIndex:index];
     [[NSFileManager defaultManager] removeItemAtPath:[file filePath] error:NULL];
     [[CSVFileParser files] removeObjectAtIndex:index];
+    [self addKeyCommands]; // Files changed, so...
     [self.tableView reloadData];
 }
 
