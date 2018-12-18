@@ -61,6 +61,102 @@
     }
 }
 
+- (void) showSettings
+{
+    [self showPreferences];
+}
+
+- (void) goBack
+{
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (void) increaseTableViewSize
+{
+    [CSVPreferencesController increaseDetailsFontSize];
+    [self refreshViewControllersData];
+}
+
+- (void) decreaseTableViewSize
+{
+    [CSVPreferencesController decreaseDetailsFontSize];
+    [self refreshViewControllersData];
+}
+
+- (void) goToPrevious
+{
+    if( [self.viewControllers count] > 0)
+    {
+        UIViewController *controller = [self.dataSource pageViewController:self viewControllerBeforeViewController:[self.viewControllers objectAtIndex:0]];
+        if( controller ){
+            [self setViewControllers:@[controller]
+                           direction:UIPageViewControllerNavigationDirectionReverse
+                            animated:YES
+                          completion:nil];
+        }
+    }
+}
+
+- (void) goToNext
+{
+    if( [self.viewControllers count] > 0)
+    {
+        UIViewController *controller = [self.dataSource pageViewController:self viewControllerAfterViewController:[self.viewControllers objectAtIndex:0]];
+        if( controller ){
+            [self setViewControllers:@[controller]
+                           direction:UIPageViewControllerNavigationDirectionForward
+                            animated:YES
+                          completion:nil];
+        }
+    }
+}
+
+- (void) toggleShowHidden
+{
+    [CSVPreferencesController setShowDeletedColumns:![CSVPreferencesController showDeletedColumns]];
+    [self refreshViewControllersData];
+}
+
+- (void) addKeyCommands
+{
+    UIKeyCommand *cmd;
+    cmd = [UIKeyCommand keyCommandWithInput:@"b"
+                              modifierFlags:UIKeyModifierCommand
+                                     action:@selector(goBack)
+                       discoverabilityTitle:@"Go back"];
+    [self addKeyCommand:cmd];
+    cmd = [UIKeyCommand keyCommandWithInput:UIKeyInputLeftArrow
+                              modifierFlags:UIKeyModifierCommand
+                                     action:@selector(goToPrevious)
+                       discoverabilityTitle:@"Go to previous"];
+    [self addKeyCommand:cmd];
+    cmd = [UIKeyCommand keyCommandWithInput:UIKeyInputRightArrow
+                              modifierFlags:UIKeyModifierCommand
+                                     action:@selector(goToNext)
+                       discoverabilityTitle:@"Go to next"];
+    [self addKeyCommand:cmd];
+    cmd = [UIKeyCommand keyCommandWithInput:@"+"
+                              modifierFlags:UIKeyModifierCommand
+                                     action:@selector(increaseTableViewSize)
+                       discoverabilityTitle:@"Zoom in"];
+    [self addKeyCommand:cmd];
+    cmd = [UIKeyCommand keyCommandWithInput:@"-"
+                              modifierFlags:UIKeyModifierCommand
+                                     action:@selector(decreaseTableViewSize)
+                       discoverabilityTitle:@"Zoom out"];
+    [self addKeyCommand:cmd];
+    cmd = [UIKeyCommand keyCommandWithInput:@"t"
+                              modifierFlags:UIKeyModifierCommand
+                                     action:@selector(toggleShowHidden)
+                       discoverabilityTitle:@"Toggle show hidden"];
+    [self addKeyCommand:cmd];
+    cmd = [UIKeyCommand keyCommandWithInput:@","
+                              modifierFlags:UIKeyModifierCommand
+                                     action:@selector(showSettings)
+                       discoverabilityTitle:@"Preferences"];
+    [self addKeyCommand:cmd];
+}
+
 - (void) viewWillAppear:(BOOL)animated
 {
     DetailsViewController *controller = [self controllerAtIndex:self.initialIndex];
@@ -73,6 +169,7 @@
                                                              target:self
                                                              action:@selector(showPreferences)];
     self.navigationItem.rightBarButtonItem = prefs;
+    [self addKeyCommands];
     [super viewWillAppear:animated];
 }
 

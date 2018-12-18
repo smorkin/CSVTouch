@@ -177,6 +177,7 @@ static NSMutableDictionary *_indexPathForFileName;
         [self refresh];
     }
     self.currentSegue = nil;
+    [self addKeyCommands];
     [super viewWillAppear:animated];
 }
 
@@ -202,6 +203,101 @@ static NSMutableDictionary *_indexPathForFileName;
     [self.file sortItems]; // Need to sort rows before we set objects (done in next row) since otherwise indices will be messed up
     [self updateSearchResultsForSearchController:self.searchController]; // To keep search results we update
     [self setTitle:[self.file defaultTableViewDescription]];
+}
+
+- (void) showSettings
+{
+    [self performSegueWithIdentifier:TO_ITEMS_PREFS_SEGUE sender:self];
+}
+
+- (void) goBack
+{
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (void) openFind
+{
+// I ought to call self.navigationItem.searchController.active, but if I do becomeFirstResponder won't work, i.e. text field won't be active unless you manually click in it. Weird! See https://stackoverflow.com/questions/27951965/cannot-set-searchbar-as-firstresponder
+    [self.navigationItem.searchController.searchBar becomeFirstResponder];
+}
+
+- (void) selectItem:(id)sender
+{
+    NSInteger itemNumber = [[sender input] integerValue];
+    if( [self.items count] > itemNumber)
+    {
+        NSIndexPath *path = [self indexPathForObjectAtIndex:itemNumber];
+        [self.tableView selectRowAtIndexPath:path
+                                    animated:NO
+                              scrollPosition:NO];
+        [self tableView:self.tableView didSelectRowAtIndexPath:path];
+    }
+}
+
+- (void) addItemShortcuts
+{
+    UIKeyCommand *cmd;
+    if( [self.items count] <= 10 )
+    {
+        for( int i = 0 ; i < MIN([self.items count], 10); ++i)
+        {
+            NSString *title = [[self.items objectAtIndex:i] shortDescription];
+            if( [title length] > 16)
+            {
+                title = [NSString stringWithFormat:@"%@...", [title substringToIndex:16]];
+            }
+            cmd = [UIKeyCommand keyCommandWithInput:[NSString stringWithFormat:@"%d", i]
+                                      modifierFlags:UIKeyModifierCommand
+                                             action:@selector(selectItem:)
+                               discoverabilityTitle:title];
+            [self addKeyCommand:cmd];
+        }
+    }
+}
+
+- (void) deleteKeyCommands
+{
+    NSArray *cmds = [[self keyCommands] copy];
+    for( UIKeyCommand *cmd in cmds){
+        [self removeKeyCommand:cmd];
+    }
+}
+
+- (void) addKeyCommands
+{
+    [self deleteKeyCommands];
+    [self addItemShortcuts];
+    UIKeyCommand *cmd;
+    cmd = [UIKeyCommand keyCommandWithInput:@"b"
+                              modifierFlags:UIKeyModifierCommand
+                                     action:@selector(goBack)
+                       discoverabilityTitle:@"Go back"];
+    [self addKeyCommand:cmd];
+    cmd = [UIKeyCommand keyCommandWithInput:@"f"
+                              modifierFlags:UIKeyModifierCommand
+                                     action:@selector(openFind)
+                       discoverabilityTitle:@"Find"];
+    [self addKeyCommand:cmd];
+    cmd = [UIKeyCommand keyCommandWithInput:@"+"
+                              modifierFlags:UIKeyModifierCommand
+                                     action:@selector(increaseTableViewSize)
+                       discoverabilityTitle:@"Zoom in"];
+    [self addKeyCommand:cmd];
+    cmd = [UIKeyCommand keyCommandWithInput:@"-"
+                              modifierFlags:UIKeyModifierCommand
+                                     action:@selector(decreaseTableViewSize)
+                       discoverabilityTitle:@"Zoom out"];
+    [self addKeyCommand:cmd];
+    cmd = [UIKeyCommand keyCommandWithInput:@"t"
+                              modifierFlags:UIKeyModifierCommand
+                                     action:@selector(toggleItemSortOrder)
+                       discoverabilityTitle:@"Toggle reverse sorting"];
+    [self addKeyCommand:cmd];
+    cmd = [UIKeyCommand keyCommandWithInput:@","
+                              modifierFlags:UIKeyModifierCommand
+                                     action:@selector(showSettings)
+                       discoverabilityTitle:@"Preferences"];
+    [self addKeyCommand:cmd];
 }
 
 - (void) sizeChanged
@@ -610,6 +706,7 @@ sectionForSectionIndexTitle:(NSString *)title
         self.items = allRows;
     }
     [self.tableView reloadData];
+    [self addKeyCommands];
     [self.tableView scrollToTopWithAnimation:NO];
 }
 
