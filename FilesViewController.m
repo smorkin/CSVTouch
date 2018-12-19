@@ -249,9 +249,9 @@ static FilesViewController *_sharedInstance = nil;
     if( !self.refreshControl.refreshing )
     {
         [self.tableView setContentOffset:CGPointMake(0, self.tableView.contentOffset.y-self.refreshControl.frame.size.height) animated:YES];
-        [self disableUI];
         [self.refreshControl beginRefreshing];
     }
+    [self disableUI];
     [self.tableView reloadData];
 }
 
