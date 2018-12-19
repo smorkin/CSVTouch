@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F402A97421CAA4E20097D875 /* sandra.css in Resources */ = {isa = PBXBuildFile; fileRef = F402A97321CAA4E20097D875 /* sandra.css */; };
 		F40D21321FE6A66F00146BB4 /* EditFileColumnsController.m in Sources */ = {isa = PBXBuildFile; fileRef = F40D21311FE6A66F00146BB4 /* EditFileColumnsController.m */; };
 		F40D21331FE6A67800146BB4 /* EditFileColumnsController.m in Sources */ = {isa = PBXBuildFile; fileRef = F40D21311FE6A66F00146BB4 /* EditFileColumnsController.m */; };
 		F412B2D2115567D0000C7596 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28AD735F0D9D9599002E5188 /* MainWindow.xib */; };
@@ -32,8 +33,6 @@
 		F44AD0D91FFD0CC800BC21D6 /* DetailsPagesController.m in Sources */ = {isa = PBXBuildFile; fileRef = F44AD0D71FFD0CC800BC21D6 /* DetailsPagesController.m */; };
 		F44AD0E21FFE671300BC21D6 /* AddFilesSelectionController.m in Sources */ = {isa = PBXBuildFile; fileRef = F44AD0E11FFE671300BC21D6 /* AddFilesSelectionController.m */; };
 		F44AD0E31FFE671300BC21D6 /* AddFilesSelectionController.m in Sources */ = {isa = PBXBuildFile; fileRef = F44AD0E11FFE671300BC21D6 /* AddFilesSelectionController.m */; };
-		F45807FF11466E9400A4C4E1 /* nksTablegallery.css in Resources */ = {isa = PBXBuildFile; fileRef = F45807FC11466E9400A4C4E1 /* nksTablegallery.css */; };
-		F458080011466E9400A4C4E1 /* nksTablegallery.css in Resources */ = {isa = PBXBuildFile; fileRef = F45807FC11466E9400A4C4E1 /* nksTablegallery.css */; };
 		F458080C11466F1600A4C4E1 /* seaglass.css in Resources */ = {isa = PBXBuildFile; fileRef = F458080911466F1600A4C4E1 /* seaglass.css */; };
 		F458080D11466F1600A4C4E1 /* seaglass.css in Resources */ = {isa = PBXBuildFile; fileRef = F458080911466F1600A4C4E1 /* seaglass.css */; };
 		F46CA0CC1FE56DEC00FE645C /* FilesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F46CA0CB1FE56DEC00FE645C /* FilesViewController.m */; };
@@ -72,8 +71,6 @@
 		F48584FB11EE4F34001CFC28 /* dvd.png in Resources */ = {isa = PBXBuildFile; fileRef = F48584F511EE4F34001CFC28 /* dvd.png */; };
 		F48584FC11EE4F34001CFC28 /* hd.png in Resources */ = {isa = PBXBuildFile; fileRef = F48584F611EE4F34001CFC28 /* hd.png */; };
 		F48584FD11EE4F34001CFC28 /* qt.png in Resources */ = {isa = PBXBuildFile; fileRef = F48584F711EE4F34001CFC28 /* qt.png */; };
-		F488D8401146607400583920 /* bluedream.css in Resources */ = {isa = PBXBuildFile; fileRef = F488D83D1146606300583920 /* bluedream.css */; };
-		F488D8411146607A00583920 /* bluedream.css in Resources */ = {isa = PBXBuildFile; fileRef = F488D83D1146606300583920 /* bluedream.css */; };
 		F4ADD7CB115E573C0095F061 /* alert.png in Resources */ = {isa = PBXBuildFile; fileRef = F4ADD79E115E573B0095F061 /* alert.png */; };
 		F4ADD7CC115E573C0095F061 /* ball_blue.png in Resources */ = {isa = PBXBuildFile; fileRef = F4ADD79F115E573B0095F061 /* ball_blue.png */; };
 		F4ADD7CD115E573C0095F061 /* ball_green.png in Resources */ = {isa = PBXBuildFile; fileRef = F4ADD7A0115E573B0095F061 /* ball_green.png */; };
@@ -202,6 +199,7 @@
 		28A0AAE50D9B0CCF005BE974 /* CSV_Touch_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSV_Touch_Prefix.pch; sourceTree = "<group>"; };
 		28AD735F0D9D9599002E5188 /* MainWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainWindow.xib; sourceTree = "<group>"; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		F402A97321CAA4E20097D875 /* sandra.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = sandra.css; sourceTree = "<group>"; };
 		F4074E880E52242B004BCDB7 /* Request list.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "Request list.txt"; sourceTree = "<group>"; };
 		F40D21301FE6A66F00146BB4 /* EditFileColumnsController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EditFileColumnsController.h; sourceTree = "<group>"; };
 		F40D21311FE6A66F00146BB4 /* EditFileColumnsController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EditFileColumnsController.m; sourceTree = "<group>"; };
@@ -232,7 +230,6 @@
 		F44AD0D71FFD0CC800BC21D6 /* DetailsPagesController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DetailsPagesController.m; sourceTree = "<group>"; };
 		F44AD0E01FFE671300BC21D6 /* AddFilesSelectionController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AddFilesSelectionController.h; sourceTree = "<group>"; };
 		F44AD0E11FFE671300BC21D6 /* AddFilesSelectionController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AddFilesSelectionController.m; sourceTree = "<group>"; };
-		F45807FC11466E9400A4C4E1 /* nksTablegallery.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = nksTablegallery.css; sourceTree = "<group>"; };
 		F458080911466F1600A4C4E1 /* seaglass.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = seaglass.css; sourceTree = "<group>"; };
 		F46CA0CA1FE56DEC00FE645C /* FilesViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FilesViewController.h; sourceTree = "<group>"; };
 		F46CA0CB1FE56DEC00FE645C /* FilesViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FilesViewController.m; sourceTree = "<group>"; };
@@ -252,7 +249,6 @@
 		F48584F711EE4F34001CFC28 /* qt.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = qt.png; sourceTree = "<group>"; };
 		F48836560DF53E2C0063EF75 /* CSVFileParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSVFileParser.h; sourceTree = "<group>"; };
 		F48836570DF53E2C0063EF75 /* CSVFileParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSVFileParser.m; sourceTree = "<group>"; };
-		F488D83D1146606300583920 /* bluedream.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = bluedream.css; sourceTree = "<group>"; };
 		F4990C160E4276C500D64667 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		F4A3BCAB17F8978000B7C201 /* Appstore, Docs images */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "Appstore, Docs images"; sourceTree = "<group>"; };
 		F4A73D190E2EB49200E1DF27 /* OzymandiasAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OzymandiasAdditions.h; sourceTree = "<group>"; };
@@ -552,9 +548,8 @@
 		F488D83C1146604800583920 /* css */ = {
 			isa = PBXGroup;
 			children = (
+				F402A97321CAA4E20097D875 /* sandra.css */,
 				F458080911466F1600A4C4E1 /* seaglass.css */,
-				F45807FC11466E9400A4C4E1 /* nksTablegallery.css */,
-				F488D83D1146606300583920 /* bluedream.css */,
 			);
 			path = css;
 			sourceTree = "<group>";
@@ -723,8 +718,6 @@
 				F434D1411FF1518800CD622D /* Main.storyboard in Resources */,
 				F47DC7ED1111004C00E8DD8B /* Settings.bundle in Resources */,
 				F434D1441FF2A96200CD622D /* LaunchScreen.storyboard in Resources */,
-				F488D8401146607400583920 /* bluedream.css in Resources */,
-				F45807FF11466E9400A4C4E1 /* nksTablegallery.css in Resources */,
 				F458080C11466F1600A4C4E1 /* seaglass.css in Resources */,
 				F4BFE6D521B0AB9800D3E6A3 /* next.png in Resources */,
 				F412B2D2115567D0000C7596 /* MainWindow.xib in Resources */,
@@ -738,6 +731,7 @@
 				F4ADD7D0115E573C0095F061 /* ball_orange.png in Resources */,
 				F4ADD7D1115E573C0095F061 /* ball_purple.png in Resources */,
 				F4ADD7D2115E573C0095F061 /* ball_red_glow.png in Resources */,
+				F402A97421CAA4E20097D875 /* sandra.css in Resources */,
 				F4C2E44718CE0CE9004E49E5 /* HowToController.xib in Resources */,
 				F4ADD7D3115E573C0095F061 /* ball_red.png in Resources */,
 				F4BFE6C621AEC32500D3E6A3 /* file_via_mail.png in Resources */,
@@ -792,8 +786,6 @@
 			files = (
 				F47DC81E1111005400E8DD8B /* Settings.bundle in Resources */,
 				F4EC005017F8845B00A52838 /* Images.xcassets in Resources */,
-				F488D8411146607A00583920 /* bluedream.css in Resources */,
-				F458080011466E9400A4C4E1 /* nksTablegallery.css in Resources */,
 				F458080D11466F1600A4C4E1 /* seaglass.css in Resources */,
 				F412B2D4115567DE000C7596 /* MainWindow.xib in Resources */,
 				F4ADD7F8115E573C0095F061 /* alert.png in Resources */,
