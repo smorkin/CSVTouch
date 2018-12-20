@@ -121,7 +121,6 @@ static CSV_TouchAppDelegate *sharedInstance = nil;
         [self.navigationController.topViewController presentViewController:alert
                                                                             animated:YES
                                                                           completion:nil];
-
 	}
 	else if( self.httpStatusCode >= 400&& !isLocalDownload )
 	{

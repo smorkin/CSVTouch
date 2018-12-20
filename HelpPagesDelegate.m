@@ -24,7 +24,7 @@
     {
         case 0:
         {
-            NSMutableString *s = [NSMutableString stringWithString:@"Welcome! To get started, you first need to get your CSV file(s) into the app. There are multiple ways of doing this, presented on the following pages."];
+            NSMutableString *s = [NSMutableString stringWithString:@"Welcome! To get started, you first need to get your CSV file(s) into the app. There are multiple ways of doing this, presented on the following pages.\n\nIf you instead want to see the complete documentation, go here:\n\nhttp://csvtouch.wordpress.com"];
             if( [CSVPreferencesController restrictedDataVersionRunning])
             {
                 [s appendString:@"\n\nNOTE: This free version is restricted to 1 file and only shows the 150 first items."];
@@ -42,7 +42,7 @@
         case 5:
             return [NSString stringWithFormat:@"Finally, there are some more unusual ways of getting your files into %@. See the full documentation at http://csvtouch.wordpress.com", appName];
         case 6:
-            return @"If the app has problems reading an imported file, please try toggling the \"Alternative parsing\" and/or the \"Keep quotes\" setting in the 'Files' view. If you are having problems or need to understand all the other settings (which might also help), please check the full documentation at http://csvtouch.wordpress.com. If that still doesn't help, you can always mail me (email address available in the AppStore) :-)";
+            return @"If the app has problems reading an imported file, please try toggling the \"Alternative parsing\" and/or the \"Keep quotes\" setting in the 'Files' view. If you are having problems or need to understand all the other settings (which might also help), please check the full documentation at http://csvtouch.wordpress.com. If that still doesn't help, you can always mail me (email address available in the AppStore) 🙂";
         default:
             return @"";
     }

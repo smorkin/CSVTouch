@@ -88,9 +88,6 @@ typedef enum FixedWidthAlternative{
 + (BOOL) hideAddress;
 + (void) setHideAddress:(BOOL)hide;
 
-+ (BOOL) hasBeenUpgradedToCustomExtension;
-+ (void) setHasBeenUpgradedToCustomExtension;
-
 + (void) applySettings:(NSArray *)settings;
 
 + (BOOL) restrictedDataVersionRunning;
@@ -101,6 +98,9 @@ typedef enum FixedWidthAlternative{
 
 + (BOOL) hasShownHowTo;
 + (void) setHasShownHowTo;
+
++ (BOOL) hasShown40Notes;
++ (void) setHasShown40Notes;
 
 + (void) updateSortingMask; // Needs to be called as part of initialization
 + (NSUInteger) sortingMask;

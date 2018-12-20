@@ -24,7 +24,7 @@
 
 #define DEFS_ENCODING_FOR_FILES @"encodingForFiles"
 
-#define MAX_AUTO_WIDTH 32
+#define MAX_AUTO_WIDTH 24
 #define MAX_PREDEFINED_WIDTH 256
 
 @interface CSVFileParser ()
@@ -454,6 +454,10 @@ static NSTimer *_resetDownloadFlagsTimer;
                 for( CSVRow *row in self.parsedItems){
                     for( int col = 0 ; col < MIN([row.items count], [self.columnNames count]) ; ++col)
                     {
+                        if( columnWidths[col] == MAX_AUTO_WIDTH)
+                        {
+                            continue; // No point in checking length of string here
+                        }
                         int wordLength = MIN((int)[(NSString *)[row.items objectAtIndex:col] length], MAX_AUTO_WIDTH);
                         if( wordLength > columnWidths[col])
                         {

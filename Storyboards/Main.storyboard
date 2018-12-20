@@ -438,7 +438,7 @@
             </objects>
             <point key="canvasLocation" x="2625.5999999999999" y="-1095.6521739130435"/>
         </scene>
-        <!--App-->
+        <!--App & Help-->
         <scene sceneID="tZP-L2-Z2s">
             <objects>
                 <viewController id="lMs-RE-JYJ" customClass="AppPrefsViewController" sceneMemberID="viewController">
@@ -530,7 +530,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="lIB-Uc-ICq"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="App" image="app_prefs_diverse" id="Gds-oU-haA"/>
+                    <tabBarItem key="tabBarItem" title="App &amp; Help" image="app_prefs_diverse" id="Gds-oU-haA"/>
                     <size key="freeformSize" width="300" height="300"/>
                     <connections>
                         <outlet property="downloadTimePicker" destination="Rwr-Qw-FYp" id="7E3-tJ-XEZ"/>

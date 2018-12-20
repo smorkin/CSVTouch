@@ -36,6 +36,17 @@
     [self pushViewController:controller animated:YES];
 }
 
+- (void) show40Notes
+{
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Welcome to 4.0!"
+                                                                   message:@"This is a big update so here are a few new things (check home page for more details):\n\n- Pull to reload all files\n-Long-click to check & reload a single file\n- Load files using the 'Files' app (so e.g. import from DropBox can be done inside the app\n-Pinch-to-zoom in views supporting size changes\n\nNote that due to the large changes, you might have to redo some settings but since all settings are now inside the app and takes effect immediately, this should be simple. I hope!"
+                                                             okButtonTitle:@"OK"
+                                                                 okHandler:nil];
+    [self.topViewController presentViewController:alert
+                                         animated:YES
+                                       completion:nil];
+}
+
 - (IBAction)dismissSettingsViewAndShowHelp:(UIStoryboardSegue *)sender
 {
     [self performSelector:@selector(showHelp) withObject:nil afterDelay:0];
@@ -53,6 +64,11 @@
     {
         [self showHelp];
     }
+    else if( ![CSVPreferencesController hasShown40Notes])
+    {
+        [self performSelector:@selector(show40Notes) withObject:nil afterDelay:1];
+    }
+    [CSVPreferencesController setHasShown40Notes]; // Help includes notes
 
 }
 

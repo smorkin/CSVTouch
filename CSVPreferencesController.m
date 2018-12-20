@@ -30,7 +30,6 @@
 #define PREFS_CASE_SENSITIVE_SORTING @"caseSensitiveSorting"
 #define PREFS_LITERAL_SORTING @"literalSorting"
 #define PREFS_CLEAR_SEARCH_WHEN_QUICK_SELECTING @"clearSearchWhenQuickSelecting"
-#define PREFS_HAS_BEEN_UPGRADED_TO_CUSTOM_EXTENSION @"hasBeenUpgradedToCustomExtension"
 #define PREFS_HAS_SHOWN_HOW_TO @"hasShownHowTo"
 #define PREFS_HIDE_ADDRESS @"hideAddress"
 #define PREFS_LAST_DOWNLOAD @"lastDownload"
@@ -44,6 +43,7 @@
 #define PREFS_MULTILINE_ITEM_CELLS @"multilineItemCells"
 #define PREFS_REVERSE_ITEM_SORTING @"reverseItemSorting"
 #define PREFS_SYNCHRONIZE_DOWNLOADED_FILES @"synchronizeDownloadedFiles"
+#define PREFS_HAS_SHOWN_40_NOTES @"40NotesShown"
 
 // Since this value will be used really frequently, we cahce it for quick return
 static BOOL _cachedReverseSorting;
@@ -81,6 +81,7 @@ NSUInteger sortingMask;
     [defaults removeObjectForKey:@"usePassword"];
     [defaults removeObjectForKey:@"useFixedWidth"];
     [defaults removeObjectForKey:@"definedFixedWidths"];
+    [defaults removeObjectForKey:@"hasBeenUpgradedToCustomExtension"];
 
     if( [defaults objectForKey:@"smartDelimiter"]){
         [defaults removeObjectForKey:@"smartDelimiter"];
@@ -585,32 +586,32 @@ static BOOL hideAdress = NO;
 }
 
 
-+ (BOOL) hasBeenUpgradedToCustomExtension
-{
-	id obj = [[NSUserDefaults standardUserDefaults] objectForKey:PREFS_HAS_BEEN_UPGRADED_TO_CUSTOM_EXTENSION];
-	if( obj )
-		return [[NSUserDefaults standardUserDefaults] boolForKey:PREFS_HAS_BEEN_UPGRADED_TO_CUSTOM_EXTENSION];
-	else
-		return NO;
-}
-
-+ (void) setHasBeenUpgradedToCustomExtension
-{
-	[[NSUserDefaults standardUserDefaults] setBool:YES forKey:PREFS_HAS_BEEN_UPGRADED_TO_CUSTOM_EXTENSION];
-}
-
 + (BOOL) hasShownHowTo
 {
-	id obj = [[NSUserDefaults standardUserDefaults] objectForKey:PREFS_HAS_SHOWN_HOW_TO];
-	if( obj )
-		return [[NSUserDefaults standardUserDefaults] boolForKey:PREFS_HAS_SHOWN_HOW_TO];
-	else
-		return NO;
+    id obj = [[NSUserDefaults standardUserDefaults] objectForKey:PREFS_HAS_SHOWN_HOW_TO];
+    if( obj )
+        return [[NSUserDefaults standardUserDefaults] boolForKey:PREFS_HAS_SHOWN_HOW_TO];
+    else
+        return NO;
 }
 
 + (void) setHasShownHowTo
 {
-	[[NSUserDefaults standardUserDefaults] setBool:YES forKey:PREFS_HAS_SHOWN_HOW_TO];
+    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:PREFS_HAS_SHOWN_HOW_TO];
+}
+
++ (BOOL) hasShown40Notes
+{
+    id obj = [[NSUserDefaults standardUserDefaults] objectForKey:PREFS_HAS_SHOWN_40_NOTES];
+    if( obj )
+        return [[NSUserDefaults standardUserDefaults] boolForKey:PREFS_HAS_SHOWN_40_NOTES];
+    else
+        return NO;
+}
+
++ (void) setHasShown40Notes
+{
+    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:PREFS_HAS_SHOWN_40_NOTES];
 }
 
 + (void) setCaseSensitiveSort:(BOOL)yn

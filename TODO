@@ -5,13 +5,13 @@ FIX
 - Removing check marks does not seem to work with timer?
 - Remove cached scroll position in items list view perhaps? Messy code, just for going out to file list and then back to the same file again, not sure it's worth it...
 - All file handling stuff like download etc should move from CSV_TouchAppDelegate to some new class
-- Large titles in Fles view: 2 gliches. First is that when programmatically starting refresh, size is wrong. Apparaently Apple bug, others sreport same thing. Second is when going back to Files from Items where large title does not zoom in. Culprit is hidesSearchBarWhenScrolling setting in items view which apparently makes navigation bar unusually sized so when popping, well, not correct behaviour.
+- Large titles in Fles view: 2 gliches. First is that when programmatically starting refresh, size is wrong. Apparently Apple bug, others sreport same thing. Second is when going back to Files from Items where large title does not zoom in. Culprit is hidesSearchBarWhenScrolling setting in items view which apparently makes navigation bar unusually sized so when popping, well, not correct behaviour.
 
 FEATURES
 
 - Search: When search string changes, check if we have a selection before, and if item still matches, scroll to it.
-- Keyboard shortcuts
 - Perhaps if scheduled downloads setting is on, there should be a setting for whether to use file list URL or the existing files?
+- Fixed auto width: If word > width, replace last character with …
 
 TEST
 
@@ -27,3 +27,4 @@ COMPLETED
 - Suspected crash bug: If having configured a automated refresh time, and popup about refreshing all files comes up while in items or details view, the actual file currently inspected might disappear -> app will crash... Not common scenario, but still.
 - Similar crash bug, when interacting with a file / choosing to download from within the Files view while re-downloading files. Now UI in Files view completely disabled while downloading.
 - Synchronize files: Add new setting in UI which will be used when refreshing all (will then save up all URLs, delete all files, and start downloading). But when downloading a file with URLs + settings, check if this key is set before deleting all files.
+- Keyboard shortcuts
