@@ -642,7 +642,7 @@ static NSTimer *_resetDownloadFlagsTimer;
     // What type of problem?
     if( [self.rawString length] == 0 )
     {
-        [s appendString:@"Couldn't read the file using the selected encoding."];
+        [s appendString:@"Couldn't read the file using the currently selected encoding; please try another one in the settings available in the 'Files' view.\n\nNote that if you want to override the selected encoding for a single file, long-click on the file instead and select encoding in the shown view instead."];
     }
     else
     {
@@ -651,14 +651,14 @@ static NSTimer *_resetDownloadFlagsTimer;
          (unsigned long)[[self columnNames] count],
          (unsigned long)[[self itemsWithResetShortdescriptions:NO] count]];
         if( [CSVPreferencesController keepQuotes] && [self.problematicRow hasSubstring:@"\""])
-            [s appendString:@"\n\nTry changing the \"Alternative parsing\" and/or the \"Keep Quotes\"-setting, available in the previous view."];
+            [s appendString:@"\n\nTry changing the \"Alternative parsing\" and/or the \"Keep Quotes\"-setting, available in the previous view. In some case it might also be that encoding needs to be changed."];
         if( self.problematicRow && ![self.problematicRow isEqualToString:@""] ){
             [s appendFormat:@"\n\nPotentially first problematic row:\n\n%@\n\n",
              self.problematicRow];
         }
         else
         {
-            [s appendFormat:@"\n\nFile read when using the selected encoding:\n\n%@", self.rawString];
+            [s appendFormat:@"\n\nFile read when using the selected encoding (change encoding in the setting avaiable in 'Files' view in case the following text does not match what is in the CSV file:\n\n%@", self.rawString];
         }
     }
     return s;

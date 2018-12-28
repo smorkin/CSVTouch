@@ -508,7 +508,7 @@ static BOOL hideAdress = NO;
 														forKey:PREFS_USE_MONOSPACED_FONT];
 			
 			else if( [[words objectAtIndex:0] isEqualToString:PREFS_FIXED_WIDTHS_ALTERNATIVE] )
-				[[NSUserDefaults standardUserDefaults] setInteger:[[words objectAtIndex:1] boolValue]
+				[[NSUserDefaults standardUserDefaults] setInteger:[[words objectAtIndex:1] integerValue]
 														forKey:PREFS_FIXED_WIDTHS_ALTERNATIVE];
 			
 			else if( [[words objectAtIndex:0] isEqualToString:PREFS_KEEP_QUOTES] )
