@@ -454,6 +454,15 @@ static NSMutableArray *formatsStrings = nil;
     return (([CSVPreferencesController useMonospacedFont] && [CSVPreferencesController fixedWidthsAlternative] != NO_FIXED_WIDTHS) ? self.fixedWidthItems : self.items);
 }
 
+- (NSString *) lowercaseShortDescription
+{
+    if( !_lowercaseShortDescription)
+    {
+        _lowercaseShortDescription = [self.shortDescription lowercaseString];
+    }
+    return _lowercaseShortDescription;
+}
+
 - (NSString *) shortDescription
 {
 	if( !_shortDescription )

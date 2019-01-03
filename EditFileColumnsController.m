@@ -7,6 +7,7 @@
 
 #import "EditFileColumnsController.h"
 #import "CSVFileParser.h"
+#import "ItemsViewController.h"
 
 @interface EditFileColumnsController ()
 @property (nonatomic, weak) CSVFileParser *file;
@@ -34,8 +35,7 @@
 {
     if( self.columnsChanged)
     {
-        NSMutableArray *rows = [self.file itemsWithResetShortdescriptions:YES];
-        [rows sortUsingSelector:[CSVRow compareSelector]];
+        [ItemsViewController sharedInstance].needsResetShortDescriptions = YES;
         [CSVFileParser saveColumnNames];
     }
     [super viewWillDisappear:animated];
@@ -138,11 +138,11 @@ moveRowAtIndexPath:(NSIndexPath *)fromIndexPath
 {
     if( section == 0 )
     {
-        return @"Shown columns (manual sort)";
+        return @"Shown columns (drag to sort)";
     }
     else if( section == 1 )
     {
-        return @"Hidden columns (alphabetical sort)";
+        return @"Hidden columns (drag here to hide)";
     }
     return nil;
 

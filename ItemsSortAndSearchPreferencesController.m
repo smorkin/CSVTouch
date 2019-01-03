@@ -34,18 +34,22 @@
 - (IBAction)switchChanged:(id)sender
 {
     if( sender == caseSensitiveSort){
+        [ItemsViewController sharedInstance].needsSort = YES;
         [CSVPreferencesController setCaseSensitiveSort:caseSensitiveSort.on];
     }
     else if( sender == numericSort)
     {
+        [ItemsViewController sharedInstance].needsSort = YES;
         [CSVPreferencesController setNumericSort:numericSort.on];
     }
     else if( sender == literalSort)
     {
+        [ItemsViewController sharedInstance].needsSort = YES;
         [CSVPreferencesController setLiteralSort:literalSort.on];
     }
     else if( sender == correctSort)
     {
+        [ItemsViewController sharedInstance].needsSort = YES;
         [CSVPreferencesController setCorrectSort:correctSort.on];
     }
     else if( sender == smartSearchClearing)

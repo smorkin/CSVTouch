@@ -18,14 +18,13 @@
 }
 
 @property (nonatomic, weak) CSVFileParser *file;
+@property (nonatomic) BOOL needsSort;
+@property (nonatomic) BOOL needsResetShortDescriptions; // This will also set the needsSort flag
 
 + (instancetype) sharedInstance;
 
 // Will reload data in table but also do other necessary stuff to make table udate with current settings
 - (void) refresh;
-
-// Will force a reparsing of the file, typically if some fundamtental setting has changed which requires this.
-- (void) reparseFile;
 
 - (IBAction) decreaseTableViewSize;
 - (IBAction) increaseTableViewSize;

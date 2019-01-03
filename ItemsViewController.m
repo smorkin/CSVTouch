@@ -200,9 +200,15 @@ static NSMutableDictionary *_indexPathForFileName;
 - (void) setFile:(CSVFileParser *)file
 {
     _file = file;
-    [self.file sortItems]; // Need to sort rows before we set objects (done in next row) since otherwise indices will be messed up
+    self.needsSort = YES;
     [self updateSearchResultsForSearchController:self.searchController]; // To keep search results we update
     [self setTitle:[self.file defaultTableViewDescription]];
+}
+
+- (void) setNeedsResetShortDescriptions:(BOOL)needsResetShortDescriptions
+{
+    _needsResetShortDescriptions = needsResetShortDescriptions;
+    self.needsSort = YES;
 }
 
 - (void) showSettings
@@ -383,15 +389,9 @@ static NSMutableDictionary *_indexPathForFileName;
 - (IBAction) toggleItemSortOrder
 {
     [CSVPreferencesController toggleReverseItemSorting];
-    [self.items sortUsingSelector:[CSVRow compareSelector]];
-    // In case we have a subset of the file, let's sort the file as well
-    if( self.items != [self.file itemsWithResetShortdescriptions:NO])
-    {
-        [self.file sortItems];
-    }
     [self synchUI];
-    [self refreshIndices];
-    [self.tableView reloadData];
+    self.needsSort = YES;
+    [self refresh];
 }
 
 - (void) updateItemCount
@@ -493,15 +493,18 @@ static NSMutableDictionary *_indexPathForFileName;
 
 - (void) refresh
 {
-    [self.file itemsWithResetShortdescriptions:YES]; // Call to reset
-    [self.file sortItems];
+    if( self.needsResetShortDescriptions)
+    {
+        [self.file itemsWithResetShortdescriptions:YES];
+        self.needsResetShortDescriptions = NO;
+    }
+    if( self.needsSort)
+    {
+        [self.items sortUsingSelector:[CSVRow compareSelector]];
+        self.needsSort = NO;
+    }
     [self refreshIndices];
     [self.tableView reloadData];
-}
-
-- (void) reparseFile
-{
-    [self.file reparseIfParsed];
 }
 
 - (void) setItems:(NSMutableArray *)items
@@ -513,7 +516,6 @@ static NSMutableDictionary *_indexPathForFileName;
     
     _items = items;
     [self updateItemCount];
-    [self refresh];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -680,9 +682,6 @@ sectionForSectionIndexTitle:(NSString *)title
     {
         return;
     }
-    self.lastSearchString = searchString;
-    NSMutableArray *allRows = [self.file itemsWithResetShortdescriptions:NO];
-
     if( searchString && ![searchString isEqualToString:@""] )
     {
         NSMutableArray *filteredRows = [NSMutableArray array];
@@ -690,9 +689,13 @@ sectionForSectionIndexTitle:(NSString *)title
         NSUInteger wordCount = [words count];
         NSUInteger wordNr;
         NSString *objectDescription;
-        for( CSVRow *row in allRows )
+        // In case old searchstring is a substring of new -> we only need to look among items currently shown
+        BOOL useCurrentItems = self.lastSearchString &&
+        ![self.lastSearchString isEqualToString:@""] &&
+        [searchString hasSubstring:self.lastSearchString];
+        for( CSVRow *row in (useCurrentItems ? self.items : [self.file itemsWithResetShortdescriptions:NO]) )
         {
-            objectDescription = [[row shortDescription] lowercaseString];
+            objectDescription = [row lowercaseShortDescription];
             for( wordNr = 0 ;
                 wordNr < wordCount && [objectDescription hasSubstring:[words objectAtIndex:wordNr]];
                 wordNr++ );
@@ -703,11 +706,13 @@ sectionForSectionIndexTitle:(NSString *)title
     }
     else
     {
-        self.items = allRows;
+        self.items = [self.file itemsWithResetShortdescriptions:NO];
     }
+    [self refresh];
     [self.tableView reloadData];
     [self addKeyCommands];
     [self.tableView scrollToTopWithAnimation:NO];
+    self.lastSearchString = searchString;
 }
 
 @end

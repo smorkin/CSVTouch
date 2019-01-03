@@ -22,7 +22,6 @@
 @property (nonatomic, copy) NSDate *downloadDate;
 @property (nonatomic, readonly) NSString *rawString;
 @property (nonatomic, copy) NSString *problematicRow;
-@property (nonatomic, assign) BOOL hasBeenSorted;
 @property (nonatomic, assign) BOOL hasBeenParsed;
 @property (nonatomic, assign) BOOL hasBeenDownloaded;
 @property (nonatomic, assign) BOOL hasFailedToDownload;
@@ -70,7 +69,6 @@
 - (void) encodingUpdated;
 
 - (NSMutableArray *) itemsWithResetShortdescriptions:(BOOL)reset; // Note that a caller for performance reasons can resort these, but nothing else
-- (void) sortItems;
 
 - (NSString *) fileName;
 - (NSUInteger) stringLength;

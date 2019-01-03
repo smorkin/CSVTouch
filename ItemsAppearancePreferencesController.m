@@ -30,7 +30,7 @@
     monospaced.on = [CSVPreferencesController useMonospacedFont];
     useWordSeparator.on = ![CSVPreferencesController blankWordSeparator];
     fixedWidthAlternative.selectedSegmentIndex = [CSVPreferencesController fixedWidthsAlternative];
-    multiLinte.on = [CSVPreferencesController multilineItemCells];
+    multiLine.on = [CSVPreferencesController multilineItemCells];
     
     groupNumbers.enabled = [CSVPreferencesController useGroupingForItems];
     fixedWidthAlternative.enabled = [CSVPreferencesController useMonospacedFont];
@@ -48,21 +48,24 @@
     }
     else if( sender == monospaced)
     {
+        [ItemsViewController sharedInstance].needsResetShortDescriptions = YES;
         [CSVPreferencesController setUseMonospacedFont:monospaced.on];
         [CSVFileParser fixedWidthSettingsChangedUsingUI];
     }
     else if( sender == useWordSeparator)
     {
+        [ItemsViewController sharedInstance].needsResetShortDescriptions = YES;
         [CSVPreferencesController setBlankWordSeparator:!useWordSeparator.on];
     }
     else if( sender == fixedWidthAlternative)
     {
+        [ItemsViewController sharedInstance].needsResetShortDescriptions = YES;
         [CSVPreferencesController setFixedWidthsAlternative:(FixedWidthAlternative)fixedWidthAlternative.selectedSegmentIndex];
         [CSVFileParser fixedWidthSettingsChangedUsingUI];
     }
-    else if( sender == multiLinte)
+    else if( sender == multiLine)
     {
-        [CSVPreferencesController setMultilineItemCells:multiLinte.on];
+        [CSVPreferencesController setMultilineItemCells:multiLine.on];
     }
     [CSVRow refreshRowFormatStrings];
     [[ItemsViewController sharedInstance] refresh];

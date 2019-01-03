@@ -12,6 +12,10 @@ FEATURES
 - Search: When search string changes, check if we have a selection before, and if item still matches, scroll to it.
 - Perhaps if scheduled downloads setting is on, there should be a setting for whether to use file list URL or the existing files?
 - Fixed auto width: If word > width, replace last character with …
+- Add custom CSS
+- Add custom main color
+- Update file info view with updated time when re-downloading from the view
+- SKStoreReviewController
 
 TEST
 
@@ -20,6 +24,11 @@ TEST
 
 COMPLETED
 
+4.0.1
+- Fixed slow searching
+
+
+4.0
 - When looking at info for file, going back does not clear selection -> next click will be interpreted as clicking this file instead of the clicked one...
 - Automatic analysis of fixed widths (i.e. max length / field)
 - Pinch-to-zoom gesture support in items list

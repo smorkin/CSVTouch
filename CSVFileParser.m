@@ -240,12 +240,6 @@ static NSTimer *_resetDownloadFlagsTimer;
 	return self.parsedItems;
 }
 
-- (void) sortItems
-{
-    [self.parsedItems sortUsingSelector:[CSVRow compareSelector]];
-    self.hasBeenSorted = YES;
-}
-
 // Returns FALSE if error is encountered
 - (BOOL) parse:(NSString *)s
 	 delimiter:(int)delimiter
@@ -745,7 +739,6 @@ static NSTimer *_resetDownloadFlagsTimer;
 {
     self.shownColumnNames = [self.columnNames mutableCopy];
     [self updateRawColumnIndexes];
-    self.hasBeenSorted = FALSE;
 }
 
 - (BOOL) hiddenColumnsExist

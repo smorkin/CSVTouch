@@ -19,6 +19,7 @@
 }
 
 @property (nonatomic, retain) NSString *shortDescription;
+@property (nonatomic, retain) NSString *lowercaseShortDescription;
 @property (nonatomic, retain) NSArray *items;
 @property (nonatomic, retain) NSMutableArray *fixedWidthItems;
 @property (nonatomic, assign) CSVFileParser *fileParser;

@@ -13,7 +13,7 @@
     IBOutlet UISwitch *groupNumbers;
     IBOutlet UISwitch *monospaced;
     IBOutlet UISwitch *useWordSeparator;
-    IBOutlet UISwitch *multiLinte;
+    IBOutlet UISwitch *multiLine;
     IBOutlet UILabel *fixedWidthAlternativeLabel;
     IBOutlet UISegmentedControl *fixedWidthAlternative;
 }
