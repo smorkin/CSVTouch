@@ -125,6 +125,8 @@
 		F46CA0D01FE5960700FE645C /* ItemsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F46CA0CF1FE5960700FE645C /* ItemsViewController.m */; };
 		F46CA0D41FE59A4900FE645C /* ParseErrorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F46CA0D31FE59A4900FE645C /* ParseErrorViewController.m */; };
 		F46CA0D81FE5AEAA00FE645C /* FileDataViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F46CA0D71FE5AEAA00FE645C /* FileDataViewController.m */; };
+		F472DB8421E12FDA005157F5 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F472DB8321E12FDA005157F5 /* StoreKit.framework */; };
+		F472DB8521E12FE5005157F5 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F472DB8321E12FDA005157F5 /* StoreKit.framework */; };
 		F47DC7ED1111004C00E8DD8B /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = F4990C160E4276C500D64667 /* Settings.bundle */; };
 		F47DC7F51111004C00E8DD8B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
 		F47DC7F61111004C00E8DD8B /* CSV_TouchAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* CSV_TouchAppDelegate.m */; };
@@ -253,6 +255,7 @@
 		F46CA0D31FE59A4900FE645C /* ParseErrorViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ParseErrorViewController.m; sourceTree = "<group>"; };
 		F46CA0D61FE5AEAA00FE645C /* FileDataViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FileDataViewController.h; sourceTree = "<group>"; };
 		F46CA0D71FE5AEAA00FE645C /* FileDataViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FileDataViewController.m; sourceTree = "<group>"; };
+		F472DB8321E12FDA005157F5 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		F47819830E2BDE7A00B44E78 /* CSVPreferencesController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSVPreferencesController.h; sourceTree = "<group>"; };
 		F47819840E2BDE7A00B44E78 /* CSVPreferencesController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSVPreferencesController.m; sourceTree = "<group>"; };
 		F47DC80D1111004C00E8DD8B /* CSV Touch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "CSV Touch.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -352,6 +355,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F472DB8521E12FE5005157F5 /* StoreKit.framework in Frameworks */,
 				F402AA4421CBE61D0097D875 /* QuartzCore.framework in Frameworks */,
 				F402AA4521CBE61D0097D875 /* CoreGraphics.framework in Frameworks */,
 				F402AA4621CBE61D0097D875 /* Foundation.framework in Frameworks */,
@@ -364,6 +368,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F472DB8421E12FDA005157F5 /* StoreKit.framework in Frameworks */,
 				F415EC6E21C2BDCD00E7F88A /* QuartzCore.framework in Frameworks */,
 				F434D1571FF6B56D00CD622D /* CoreGraphics.framework in Frameworks */,
 				F434D1561FF6B55D00CD622D /* Foundation.framework in Frameworks */,
@@ -445,6 +450,7 @@
 		F434D14F1FF6B50900CD622D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F472DB8321E12FDA005157F5 /* StoreKit.framework */,
 				F415EC6D21C2BDCD00E7F88A /* QuartzCore.framework */,
 				F434D1541FF6B51700CD622D /* CoreGraphics.framework */,
 				F434D1531FF6B51700CD622D /* UIKit.framework */,

@@ -24,6 +24,7 @@
 #define PREFS_FIXED_WIDTHS_ALTERNATIVE @"fixedWidthAlternative"
 #define PREFS_KEEP_QUOTES @"keepQuotes"
 #define PREFS_USE_CORRECT_PARSING @"useCorrectParsing"
+#define PREFS_SHOULD_SORT @"shouldShort"
 #define PREFS_USE_CORRECT_SORTING @"useCorrectSorting"
 #define PREFS_SHOW_INLINE_IMAGES @"showInlineImages"
 #define PREFS_NUMBER_SENSITIVE_SORTING @"numberSensitiveSorting"
@@ -44,6 +45,8 @@
 #define PREFS_REVERSE_ITEM_SORTING @"reverseItemSorting"
 #define PREFS_SYNCHRONIZE_DOWNLOADED_FILES @"synchronizeDownloadedFiles"
 #define PREFS_HAS_SHOWN_40_NOTES @"40NotesShown"
+
+#define NUMBER_OF_STARTS @"NUMBER_OF_STARTS"
 
 // Since this value will be used really frequently, we cahce it for quick return
 static BOOL _cachedReverseSorting;
@@ -95,6 +98,9 @@ NSUInteger sortingMask;
     [self updateFastCache];
     
     [self resetDefaultsHaveChanges];
+
+    // Up the number of starts
+    [[NSUserDefaults standardUserDefaults] setInteger:[[NSUserDefaults standardUserDefaults] integerForKey:NUMBER_OF_STARTS]+1 forKey:NUMBER_OF_STARTS];
 }
 
 + (void) setDelimiter:(NSString *)delimiter
@@ -519,10 +525,14 @@ static BOOL hideAdress = NO;
 				[[NSUserDefaults standardUserDefaults] setBool:[[words objectAtIndex:1] boolValue]
 														forKey:PREFS_USE_CORRECT_PARSING];
 			
-			else if( [[words objectAtIndex:0] isEqualToString:PREFS_USE_CORRECT_SORTING] )
-				[[NSUserDefaults standardUserDefaults] setBool:[[words objectAtIndex:1] boolValue]
-														forKey:PREFS_USE_CORRECT_SORTING];
-			
+            else if( [[words objectAtIndex:0] isEqualToString:PREFS_USE_CORRECT_SORTING] )
+                [[NSUserDefaults standardUserDefaults] setBool:[[words objectAtIndex:1] boolValue]
+                                                        forKey:PREFS_USE_CORRECT_SORTING];
+            
+            else if( [[words objectAtIndex:0] isEqualToString:PREFS_SHOULD_SORT] )
+                [[NSUserDefaults standardUserDefaults] setBool:[[words objectAtIndex:1] boolValue]
+                                                        forKey:PREFS_SHOULD_SORT];
+            
 			else if( [[words objectAtIndex:0] isEqualToString:PREFS_SHOW_INLINE_IMAGES] )
 				[[NSUserDefaults standardUserDefaults] setBool:[[words objectAtIndex:1] boolValue]
 														forKey:PREFS_SHOW_INLINE_IMAGES];
@@ -612,6 +622,20 @@ static BOOL hideAdress = NO;
 + (void) setHasShown40Notes
 {
     [[NSUserDefaults standardUserDefaults] setBool:YES forKey:PREFS_HAS_SHOWN_40_NOTES];
+}
+
++ (void) setShouldSort:(BOOL)yn
+{
+    [[NSUserDefaults standardUserDefaults] setBool:yn forKey:PREFS_SHOULD_SORT];
+}
++ (BOOL) shouldSort
+{
+    id obj;
+    obj = [[NSUserDefaults standardUserDefaults] objectForKey:PREFS_SHOULD_SORT];
+    if( obj )
+        return [obj boolValue];
+    else
+        return TRUE;
 }
 
 + (void) setCaseSensitiveSort:(BOOL)yn
@@ -771,6 +795,11 @@ static BOOL hideAdress = NO;
 + (void) setShowDeletedColumns:(BOOL)yn
 {
     [[NSUserDefaults standardUserDefaults] setBool:yn forKey:PREFS_SHOW_DELETED_COLUMNS];
+}
+
++ (NSInteger) numberOfStarts
+{
+    return [[NSUserDefaults standardUserDefaults] integerForKey:NUMBER_OF_STARTS];
 }
 
 static NSDictionary *oldDefaults = nil;

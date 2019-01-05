@@ -12,9 +12,11 @@
 #import "ItemsViewController.h"
 #import "ParseErrorViewController.h"
 #import "AddFilesSelectionController.h"
+#import <StoreKit/StoreKit.h>
 
 @interface FilesViewController ()
 @property BOOL UIDisabled;
+@property BOOL hasAppeared;
 @end
 
 @implementation FilesViewController
@@ -154,6 +156,17 @@ static FilesViewController *_sharedInstance = nil;
     [self addKeyCommands];
     [super viewWillAppear:animated];
 }
+- (void) viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    if( !self.hasAppeared)
+    {
+        self.hasAppeared = TRUE;
+    }
+    else if( [CSVPreferencesController numberOfStarts] > 20){
+            [SKStoreReviewController requestReview];
+    }
+}
 
 - (void) showSettings
 {
@@ -260,6 +273,22 @@ static FilesViewController *_sharedInstance = nil;
     [self.refreshControl endRefreshing];
     [self enableUI];
     [self.tableView reloadData];
+    FileDataViewController *current = [FileDataViewController currentInstance];
+    if( current )
+    {
+        NSString *URL = [current fileURL];
+        if(URL && ![URL isEqualToString:@""])
+        {
+            for( CSVFileParser *file in [CSVFileParser files])
+            {
+                if( [file.URL isEqualToString:URL])
+                {
+                    current.file = file;
+                    [current updateFileInfo];
+                }
+            }
+        }
+    }
 }
 
 - (BOOL) checkFileForSelection:(CSVFileParser *)file
@@ -272,7 +301,7 @@ static FilesViewController *_sharedInstance = nil;
     }
     
     // Check if there seems to be a problem with the file preventing us from reading it
-    if( [[file itemsWithResetShortdescriptions:NO] count] < 1 ||
+    if( [file.parsedItems count] < 1 ||
        [file.columnNames count] == 0 )
     {
         return FALSE;
@@ -281,7 +310,7 @@ static FilesViewController *_sharedInstance = nil;
     {
         // We could read the file and will display it, but we should also check if we have any other problems
         // Check if something seems screwy...
-        if( [file.shownColumnIndexes count] == 0 && [[file itemsWithResetShortdescriptions:NO] count] > 1 )
+        if( [file.shownColumnIndexes count] == 0 && [file.parsedItems count] > 1 )
         {
             UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"No columns to show!"
                                                                            message:@"Probably reason: Separator has been changed and file was not correctly re-parsed; will try to fix it. Please try again, and if file still fails to load, try using another separator."

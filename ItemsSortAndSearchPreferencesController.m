@@ -23,17 +23,28 @@
 
 - (void) synchUI
 {
+    shouldSort.on = [CSVPreferencesController shouldSort];
     caseSensitiveSort.on = [CSVPreferencesController caseSensitiveSort];
     numericSort.on = [CSVPreferencesController numericSort];
     literalSort.on = [CSVPreferencesController literalSort];
     correctSort.on = [CSVPreferencesController correctSort];
     smartSearchClearing.on = [CSVPreferencesController smartSeachClearing];
     
+    BOOL sortEnabled = [CSVPreferencesController shouldSort];
+    caseSensitiveSort.enabled = sortEnabled;
+    numericSort.enabled = sortEnabled;
+    literalSort.enabled = sortEnabled;
+    correctSort.enabled = sortEnabled;
 }
 
 - (IBAction)switchChanged:(id)sender
 {
-    if( sender == caseSensitiveSort){
+    if( sender == shouldSort)
+    {
+        [ItemsViewController sharedInstance].needsSort = YES;
+        [CSVPreferencesController setShouldSort:shouldSort.on];
+    }
+    else if( sender == caseSensitiveSort){
         [ItemsViewController sharedInstance].needsSort = YES;
         [CSVPreferencesController setCaseSensitiveSort:caseSensitiveSort.on];
     }

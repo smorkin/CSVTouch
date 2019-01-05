@@ -27,7 +27,7 @@
             NSMutableString *s = [NSMutableString stringWithString:@"Welcome! To get started, you first need to get your CSV file(s) into the app. There are multiple ways of doing this, presented on the following pages.\n\nIf you instead want to see the complete documentation, go here:\n\nhttp://csvtouch.wordpress.com"];
             if( [CSVPreferencesController restrictedDataVersionRunning])
             {
-                [s appendString:@"\n\nNOTE: This free version is restricted to 1 file and only shows the 150 first items."];
+                [s appendString:@"\n\nNOTE: This free version is restricted to only showing the 150 first items in a file."];
             }
             return s;
         }

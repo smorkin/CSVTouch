@@ -177,7 +177,6 @@ static NSMutableDictionary *_indexPathForFileName;
         [self refresh];
     }
     self.currentSegue = nil;
-    [self addKeyCommands];
     [super viewWillAppear:animated];
 }
 
@@ -201,7 +200,7 @@ static NSMutableDictionary *_indexPathForFileName;
 {
     _file = file;
     self.needsSort = YES;
-    [self updateSearchResultsForSearchController:self.searchController]; // To keep search results we update
+    [self updateSearchResultsForSearchController:self.searchController];
     [self setTitle:[self.file defaultTableViewDescription]];
 }
 
@@ -398,8 +397,8 @@ static NSMutableDictionary *_indexPathForFileName;
 {
     NSString *addString = @"";
     NSUInteger count = [self.items count];
-    if( count != [[self.file itemsWithResetShortdescriptions:NO] count] )
-        addString = [NSString stringWithFormat:@"/%lu", (unsigned long)[[self.file itemsWithResetShortdescriptions:NO] count]];
+    if( count != [self.file.parsedItems count] )
+        addString = [NSString stringWithFormat:@"/%lu", (unsigned long)[self.file.parsedItems count]];
     itemsCountButton.title = [NSString stringWithFormat:@"%lu%@", (unsigned long)count, addString];
 
 }
@@ -495,16 +494,30 @@ static NSMutableDictionary *_indexPathForFileName;
 {
     if( self.needsResetShortDescriptions)
     {
-        [self.file itemsWithResetShortdescriptions:YES];
+        [self.file invalidateShortDescriptions];
+        self.file.isSorted = NO;
         self.needsResetShortDescriptions = NO;
     }
     if( self.needsSort)
     {
-        [self.items sortUsingSelector:[CSVRow compareSelector]];
+        if( [CSVPreferencesController shouldSort])
+        {
+            [self.items sortUsingSelector:[CSVRow compareSelector]];
+            self.file.isSorted = YES;
+        }
+        else if(self.file.isSorted)
+        {
+            // In case in the future settings will be accessbile while search is active, we need to fix something here since we will show all items after the code below
+            // Also, lazy code. Instead I could keep the original order of all rows somewher eand use that, but hey, this works and it is not too slow. Also, I suspect changing whether to sort or not will be very uncommon
+            [self.file reparseIfParsed];
+            self.items = self.file.parsedItems;
+            self.file.isSorted = NO;
+        }
         self.needsSort = NO;
     }
     [self refreshIndices];
     [self.tableView reloadData];
+    [self addKeyCommands];
 }
 
 - (void) setItems:(NSMutableArray *)items
@@ -693,7 +706,7 @@ sectionForSectionIndexTitle:(NSString *)title
         BOOL useCurrentItems = self.lastSearchString &&
         ![self.lastSearchString isEqualToString:@""] &&
         [searchString hasSubstring:self.lastSearchString];
-        for( CSVRow *row in (useCurrentItems ? self.items : [self.file itemsWithResetShortdescriptions:NO]) )
+        for( CSVRow *row in (useCurrentItems ? self.items : self.file.parsedItems) )
         {
             objectDescription = [row lowercaseShortDescription];
             for( wordNr = 0 ;
@@ -706,10 +719,9 @@ sectionForSectionIndexTitle:(NSString *)title
     }
     else
     {
-        self.items = [self.file itemsWithResetShortdescriptions:NO];
+        self.items = self.file.parsedItems;
     }
     [self refresh];
-    [self.tableView reloadData];
     [self addKeyCommands];
     [self.tableView scrollToTopWithAnimation:NO];
     self.lastSearchString = searchString;

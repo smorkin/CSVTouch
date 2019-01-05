@@ -5,17 +5,18 @@ FIX
 - Removing check marks does not seem to work with timer?
 - Remove cached scroll position in items list view perhaps? Messy code, just for going out to file list and then back to the same file again, not sure it's worth it...
 - All file handling stuff like download etc should move from CSV_TouchAppDelegate to some new class
-- Large titles in Fles view: 2 gliches. First is that when programmatically starting refresh, size is wrong. Apparently Apple bug, others sreport same thing. Second is when going back to Files from Items where large title does not zoom in. Culprit is hidesSearchBarWhenScrolling setting in items view which apparently makes navigation bar unusually sized so when popping, well, not correct behaviour.
+- Large titles in Files view: Glitches.
+    - When programmatically starting refresh, size is wrong. Apparently Apple bug, others sreport same thing.
+    - When going back to Files from Items where large title does not zoom in. Culprit is hidesSearchBarWhenScrolling setting in items view which apparently makes navigation bar unusually sized so when popping, well, not correct behaviour.
+    - When going back from FileDataView, after having re-downloaded the file visible in the view. Funnily enough, each download offsets the 'Files' title additionally, so click-click-click to re-download, and 'Files' will end up really far down.
 
 FEATURES
 
 - Search: When search string changes, check if we have a selection before, and if item still matches, scroll to it.
 - Perhaps if scheduled downloads setting is on, there should be a setting for whether to use file list URL or the existing files?
-- Fixed auto width: If word > width, replace last character with …
+- Fixed auto width: If word > width, replace last character with … . Problems abound, such that you still want to search with the missing text. But since we actually do have a separate container for lowercase string for row to search, we "just" have to create the lowercase string before adding the … at the end...
 - Add custom CSS
 - Add custom main color
-- Update file info view with updated time when re-downloading from the view
-- SKStoreReviewController
 
 TEST
 
@@ -23,6 +24,13 @@ TEST
 
 
 COMPLETED
+
+4.1
+- Allow not sorting a file
+- SKStoreReviewController
+- Fixed crash when clicking multiple times to download a single file
+- Update file info view with updated time when re-downloading from the view
+- Allowing any number of files in CSV Lite
 
 4.0.1
 - Fixed slow searching

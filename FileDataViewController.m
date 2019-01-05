@@ -10,7 +10,29 @@
 #import "FileDownloader.h"
 #import "CSVPreferencesController.h"
 
+@interface FileDataViewController()
+@property (nonatomic, strong) NSString *URLForFile;
+@end
+
 @implementation FileDataViewController
+
+static FileDataViewController *_currentFileDataViewControllerInstance;
+
++ (FileDataViewController *) currentInstance
+{
+    return _currentFileDataViewControllerInstance;
+}
+
+- (void) setFile:(CSVFileParser *)file
+{
+    _file = file;
+    self.URLForFile = file.URL;
+}
+
+- (NSString *) fileURL
+{
+    return self.URLForFile;
+}
 
 - (void) configureFileEncodings
 {
@@ -33,9 +55,16 @@
 
 - (void) viewWillAppear:(BOOL)animated
 {
+    _currentFileDataViewControllerInstance = self;
     [self updateFileInfo];
     self.title = self.file.tableViewDescription;
     [super viewWillAppear:animated];
+}
+
+- (void) viewWillDisappear:(BOOL)animated
+{
+    _currentFileDataViewControllerInstance = nil;
+    [super viewWillDisappear:animated];
 }
 
 - (void) synchronizeFileEncoding
@@ -115,8 +144,11 @@
 {
     // Do not use the actual URL we get here since it might have "wrong" string encodings etc. Instead use the URL stored in the actual file parser
     NSString *s = self.file.URL;
-    [[CSV_TouchAppDelegate sharedInstance] downloadFileWithString:s];
-    [[UIPasteboard generalPasteboard] setString:s];
+    if( s ) // E.g. locally downloaded files have no URL
+    {
+        [[CSV_TouchAppDelegate sharedInstance] downloadFileWithString:s];
+        [[UIPasteboard generalPasteboard] setString:s];
+    }
     return NO;
 }
 

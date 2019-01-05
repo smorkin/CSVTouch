@@ -7,7 +7,6 @@
 //
 
 #import "CSVFileParser.h"
-#import "CSVRow.h"
 #import "CSVPreferencesController.h"
 #import "FilesViewController.h"
 #import "csv.h"
@@ -28,7 +27,6 @@
 #define MAX_PREDEFINED_WIDTH 256
 
 @interface CSVFileParser ()
-@property (nonatomic, strong) NSMutableArray<CSVRow*> *parsedItems;
 @property (nonatomic, copy) NSData *rawData;
 @property (nonatomic, strong) NSMutableArray<NSString *> *shownColumnNames;
 @property (nonatomic) unichar usedDelimiter;
@@ -231,13 +229,10 @@ static NSTimer *_resetDownloadFlagsTimer;
 - (void) invalidateShortDescriptions
 {
 	for( CSVRow *row in self.parsedItems )
+    {
 		row.shortDescription = nil;
-}
-- (NSMutableArray<CSVRow *> *) itemsWithResetShortdescriptions:(BOOL)reset
-{
-	if( reset )
-		[self invalidateShortDescriptions];
-	return self.parsedItems;
+        row.lowercaseShortDescription = nil;
+    }
 }
 
 // Returns FALSE if error is encountered
@@ -643,7 +638,7 @@ static NSTimer *_resetDownloadFlagsTimer;
         [s appendFormat:@"Error reading file:\n\nUsed separator: %@\n\nFound number of columns using separator:%lu\n\nFound rows using separator:%lu",
          [self readableUsedDelimiter],
          (unsigned long)[[self columnNames] count],
-         (unsigned long)[[self itemsWithResetShortdescriptions:NO] count]];
+         (unsigned long)[self.parsedItems count]];
         if( [CSVPreferencesController keepQuotes] && [self.problematicRow hasSubstring:@"\""])
             [s appendString:@"\n\nTry changing the \"Alternative parsing\" and/or the \"Keep Quotes\"-setting, available in the previous view. In some case it might also be that encoding needs to be changed."];
         if( self.problematicRow && ![self.problematicRow isEqualToString:@""] ){

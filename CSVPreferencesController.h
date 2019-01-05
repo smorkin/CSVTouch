@@ -64,6 +64,8 @@ typedef enum FixedWidthAlternative{
 + (BOOL) blankWordSeparator;
 + (NSURL *) lastUsedListURL;
 + (void) setLastUsedListURL:(NSURL *)URL;
++ (void) setShouldSort:(BOOL)yn;
++ (BOOL) shouldSort;
 + (void) setCaseSensitiveSort:(BOOL)yn;
 + (BOOL) caseSensitiveSort;
 + (void) setNumericSort:(BOOL)yn;
@@ -105,6 +107,9 @@ typedef enum FixedWidthAlternative{
 + (void) updateSortingMask; // Needs to be called as part of initialization
 + (NSUInteger) sortingMask;
 extern NSUInteger sortingMask; // This is available for performance-critical operations
+
+// Number of times app has started
++ (NSInteger) numberOfStarts;
 
 + (NSString *) cssFileName;
 

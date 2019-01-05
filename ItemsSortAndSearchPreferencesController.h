@@ -14,6 +14,7 @@
     IBOutlet UISwitch *literalSort;
     IBOutlet UISwitch *correctSort;
     IBOutlet UISwitch *smartSearchClearing;
+    IBOutlet UISwitch *shouldSort;
 }
 
 - (IBAction)switchChanged:(id)sender;

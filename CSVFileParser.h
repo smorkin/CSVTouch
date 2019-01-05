@@ -8,11 +8,13 @@
 
 #import <UIKit/UIKit.h>
 #import "OzymandiasAdditions.h"
+#import "CSVRow.h"
 
 #define DEFAULT_ENCODING 0
 
 @interface CSVFileParser : NSObject {
 }
+@property (nonatomic, strong) NSMutableArray<CSVRow*> *parsedItems;
 @property (nonatomic, strong) NSMutableArray *columnNames;
 @property (nonatomic, strong) NSMutableIndexSet *predefineHiddenColumns; // Just used temporary, for a newly downloaded file
 @property (nonatomic, assign) int *rawShownColumnIndexes;
@@ -25,6 +27,7 @@
 @property (nonatomic, assign) BOOL hasBeenParsed;
 @property (nonatomic, assign) BOOL hasBeenDownloaded;
 @property (nonatomic, assign) BOOL hasFailedToDownload;
+@property BOOL isSorted;
 @property (nonatomic, assign) NSUInteger iconIndex;
 @property (nonatomic, assign) BOOL hideAddress;
 
@@ -54,6 +57,8 @@
 - (void) parseIfNecessary;
 - (void) reparseIfParsed;
 
+- (void) invalidateShortDescriptions;
+
 - (NSMutableArray *)shownColumnNames;
 
 // Updates the hidden/shown stuff
@@ -67,8 +72,6 @@
 - (BOOL) hiddenColumnsExist;
 
 - (void) encodingUpdated;
-
-- (NSMutableArray *) itemsWithResetShortdescriptions:(BOOL)reset; // Note that a caller for performance reasons can resort these, but nothing else
 
 - (NSString *) fileName;
 - (NSUInteger) stringLength;

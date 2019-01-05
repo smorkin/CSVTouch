@@ -110,19 +110,7 @@ static CSV_TouchAppDelegate *sharedInstance = nil;
 				fileName:(NSString *)fileName
 		 isLocalDownload:(BOOL)isLocalDownload
 {
-	if( [[CSVFileParser files] count] > 0 &&
-	   ![CSVFileParser fileExistsWithURL:self.lastFileURL] &&
-	   [CSVPreferencesController restrictedDataVersionRunning] )
-	{
-        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Only 1 file allowed"
-                                                                       message:@"CSV Lite only allows 1 file; please delete the old one before downloading a new. Or buy CSV Touch :-)"
-                                                                 okButtonTitle:@"OK"
-                                                                     okHandler:nil];
-        [self.navigationController.topViewController presentViewController:alert
-                                                                            animated:YES
-                                                                          completion:nil];
-	}
-	else if( self.httpStatusCode >= 400&& !isLocalDownload )
+    if( self.httpStatusCode >= 400&& !isLocalDownload )
 	{
         // Mark the parser with fail to download
         CSVFileParser *fp = [CSVFileParser existingParserForName:fileName];
