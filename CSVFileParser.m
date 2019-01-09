@@ -640,7 +640,9 @@ static NSTimer *_resetDownloadFlagsTimer;
          (unsigned long)[[self columnNames] count],
          (unsigned long)[self.parsedItems count]];
         if( [CSVPreferencesController keepQuotes] && [self.problematicRow hasSubstring:@"\""])
-            [s appendString:@"\n\nTry changing the \"Alternative parsing\" and/or the \"Keep Quotes\"-setting, available in the previous view. In some case it might also be that encoding needs to be changed."];
+            [s appendString:@"\n\nTry switching on the \"Keep Quotes\"-setting, available in the 'Files''view settings. "];
+        else
+            [s appendString:@"\n\nTry changing the \"Alternative parsing\" and/or the \"Keep Quotes\"-setting, available in the 'Files' view settings. In some case it might also be that encoding needs to be changed."];
         if( self.problematicRow && ![self.problematicRow isEqualToString:@""] ){
             [s appendFormat:@"\n\nPotentially first problematic row:\n\n%@\n\n",
              self.problematicRow];

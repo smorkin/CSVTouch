@@ -17,6 +17,7 @@ FEATURES
 - Fixed auto width: If word > width, replace last character with … . Problems abound, such that you still want to search with the missing text. But since we actually do have a separate container for lowercase string for row to search, we "just" have to create the lowercase string before adding the … at the end...
 - Add custom CSS
 - Add custom main color
+- Add info panel when first time > 150 items in CSV Lite. Or better: The number of... can be colored red, with clicking -> info panel
 
 TEST
 
