@@ -32,6 +32,7 @@ typedef enum FixedWidthAlternative{
 + (CGFloat) detailsFontSize;
 + (void) increaseDetailsFontSize;
 + (void) decreaseDetailsFontSize;
++ (void) changeDetailsFontSize:(int)change;
 + (BOOL) canIncreaseDetailsFontSize;
 + (BOOL) canDecreaseDetailsFontSize;
 + (void) setStringEncoding:(NSStringEncoding)encoding;

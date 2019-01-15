@@ -18,6 +18,9 @@ FEATURES
 - Add custom CSS
 - Add custom main color
 - Add info panel when first time > 150 items in CSV Lite. Or better: The number of... can be colored red, with clicking -> info panel
+- Zooming in detailed view in the UIWebView. Should perhaps work as in Safari instead of my custom zoom.
+- Restrict max width of header column in UIWebView
+- Phone links enable/disable? UIDataDetectorTypes
 
 TEST
 

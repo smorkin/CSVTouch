@@ -182,10 +182,12 @@ NSUInteger sortingMask;
 
 + (void) setDetailsFontSize:(NSInteger)size
 {
-    if( size >= MIN_FONT_SIZE && size <= MAX_FONT_SIZE)
-    {
-        [[NSUserDefaults standardUserDefaults] setInteger:(NSInteger)size forKey:PREFS_DETAILS_FONT_SIZE];
-    }
+    if( size < MIN_FONT_SIZE)
+        size = MIN_FONT_SIZE;
+    else if( size > MAX_FONT_SIZE)
+        size = MAX_FONT_SIZE;
+    
+    [[NSUserDefaults standardUserDefaults] setInteger:(NSInteger)size forKey:PREFS_DETAILS_FONT_SIZE];
 }
 
 + (CGFloat) detailsFontSize
@@ -206,6 +208,11 @@ NSUInteger sortingMask;
 + (void) decreaseDetailsFontSize
 {
     [self setDetailsFontSize:[self detailsFontSize] - 1];
+}
+
++ (void) changeDetailsFontSize:(int)change
+{
+    [self setDetailsFontSize:[self detailsFontSize] + change];
 }
 
 + (BOOL) canIncreaseDetailsFontSize

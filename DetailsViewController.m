@@ -12,6 +12,7 @@
 #import "CSV_TouchAppDelegate.h"
 #import "AutoSizingTableViewCell.h"
 
+
 @interface DetailsViewController ()
 @property (nonatomic, strong) UIWebView *webView;
 @property (nonatomic, strong) UITableView *fancyView;
@@ -154,13 +155,10 @@
 
 - (void) applyPointsChange:(int)pointsChange
 {
-    for( int i = 0 ; i < abs(pointsChange) ; ++i)
-    {
-        if( pointsChange > 0 )
-            [CSVPreferencesController increaseDetailsFontSize];
-        else
-            [CSVPreferencesController decreaseDetailsFontSize];
-    }
+    if( pointsChange == 0 )
+        return;
+    
+    [CSVPreferencesController changeDetailsFontSize:pointsChange];
     [self sizeChanged];
 }
 
