@@ -331,13 +331,10 @@ static NSMutableDictionary *_indexPathForFileName;
 
 - (void) applyPointsChange:(int)pointsChange
 {
-    for( int i = 0 ; i < abs(pointsChange) ; ++i)
-    {
-        if( pointsChange > 0 )
-            [CSVPreferencesController increaseItemsListFontSize];
-        else
-            [CSVPreferencesController decreaseItemsListFontSize];
-    }
+    if( pointsChange == 0 )
+        return;
+    
+    [CSVPreferencesController changeItemsListFontSize:pointsChange];
     [self sizeChanged];
 }
 

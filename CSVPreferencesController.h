@@ -27,6 +27,7 @@ typedef enum FixedWidthAlternative{
 + (CGFloat) itemsListFontSize;
 + (void) increaseItemsListFontSize;
 + (void) decreaseItemsListFontSize;
++ (void) changeItemsListFontSize:(int)change;
 + (BOOL) canIncreaseItemsListFontSize;
 + (BOOL) canDecreaseItemsListFontSize;
 + (CGFloat) detailsFontSize;

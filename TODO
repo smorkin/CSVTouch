@@ -29,6 +29,10 @@ TEST
 
 COMPLETED
 
+4.2 (?)
+- Improved performance when zooming in details view
+- Improved error messages
+
 4.1
 - Allow not sorting a file
 - SKStoreReviewController
