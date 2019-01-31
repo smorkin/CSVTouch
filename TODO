@@ -21,6 +21,7 @@ FEATURES
 - Zooming in detailed view in the UIWebView. Should perhaps work as in Safari instead of my custom zoom.
 - Restrict max width of header column in UIWebView
 - Phone links enable/disable? UIDataDetectorTypes
+- Add password support (GenericKeychain etc)
 
 TEST
 
@@ -29,8 +30,8 @@ TEST
 
 COMPLETED
 
-4.2 (?)
-- Improved performance when zooming in details view
+4.1.1 (?)
+- Improved performance when zooming in details & item list views
 - Improved error messages
 
 4.1
