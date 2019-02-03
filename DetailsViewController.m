@@ -273,47 +273,15 @@
                                                        error:NULL];
 
     [s appendString:@"<html><head><title>Details</title>"];
-    [s appendString:@"<STYLE type=\"text/css\">"];
+    [s appendString:@"<style type=\"text/css\">"];
     [s appendString:cssString];
-    [s appendString:@"</STYLE>"];
+    [s appendString:@"</style>"];
     // This replacing depends on which css used, of course
-    [s replaceOccurrencesOfString:@"font:normal 36px"
-                       withString:[NSString stringWithFormat:@"font:normal %fpx", [CSVPreferencesController detailsFontSize]]
+    [s replaceOccurrencesOfString:@"FONTSIZE"
+                       withString:[NSString stringWithFormat:@"%fpx", [CSVPreferencesController detailsFontSize]]
                           options:0
                             range:NSMakeRange(0, [s length])];
     [s appendString:@"</head>"];
-}
-
-- (void) addSimpleHtmlTable:(NSMutableString *)s
-{
-    NSMutableString *data = [NSMutableString string];
-    NSArray *columnsAndValues = [self.row columnsAndValues];
-    NSInteger row = 1;
-    for( NSDictionary *d in columnsAndValues )
-    {
-        // Are we done already?
-        if(row > [self.row.fileParser.shownColumnIndexes count] &&
-           ![CSVPreferencesController showDeletedColumns])
-            break;
-
-        // Indicating start of hidden columns
-        if(row != 1 && // In case someone has a file where no column is important...
-           row-1 == [self.row.fileParser.shownColumnIndexes count] &&
-           [self.row.fileParser.shownColumnIndexes count] != [columnsAndValues count] )
-        {
-            [data appendString:@"<tr class=\"rowstep\">"];
-        }
-        
-        [data appendFormat:@"<tr>%@: %@>", [d objectForKey:COLUMN_KEY], [d objectForKey:VALUE_KEY]];
-        row++;
-    }
-    [data replaceOccurrencesOfString:@"\n"
-                          withString:@"<br>"
-                             options:0
-                               range:NSMakeRange(0, [data length])];
-    [s appendString:@"<table>"];
-    [s appendString:data];
-    [s appendFormat:@"</table>"];
 }
 
 - (void) addHtmlTable:(NSMutableString *)s
@@ -336,7 +304,7 @@
             [data appendString:@"<tr class=\"rowstep\"><th><b> </b><td>"];
         }
         
-        [data appendFormat:@"<tr%@><th valign=\"top\"><b>%@</b>",
+        [data appendFormat:@"<tr%@><th>%@",
          ((row % 2) == 1 ? @" class=\"odd\"" : @""),
          [d objectForKey:COLUMN_KEY]];
         if( [[d objectForKey:VALUE_KEY] containsImageURL] && [CSVPreferencesController showInlineImages] )
