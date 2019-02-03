@@ -16,26 +16,22 @@
 @interface DetailsViewController ()
 @property (nonatomic, strong) UIWebView *webView;
 @property (nonatomic, strong) UITableView *fancyView;
-@property (nonatomic, strong) UITextView *simpleView;
 @property (nonatomic, assign) BOOL hasLoadedData;
 @property CGFloat originalPointsWhenPinchStarted;
+@property BOOL imageShown;
+@property UIPinchGestureRecognizer *pinchGesture;
 @end
 
 @interface DetailsViewController (Fancy) <UITableViewDataSource, UITableViewDelegate>
 @end
 
-@interface DetailsViewController (Web) <WKNavigationDelegate, UIWebViewDelegate>
+@interface DetailsViewController (Web) <WKNavigationDelegate, UIWebViewDelegate, UIGestureRecognizerDelegate>
 - (void) delayedHtmlClick:(NSURL *)URL;
 - (void) updateWebViewContent;
+- (void) updateWebViewSimpleContent;
 @end
 
 @implementation DetailsViewController
-
-- (UIPinchGestureRecognizer *)gestureToAdd
-{
-    return [[UIPinchGestureRecognizer alloc] initWithTarget:self
-                                                     action:@selector(pinch:)];
-}
 
 - (void) setupWebView
 {
@@ -43,15 +39,9 @@
     self.webView.opaque = NO;
     self.webView.backgroundColor = [UIColor whiteColor];
     self.webView.delegate = self;
-    [self.webView addGestureRecognizer:[self gestureToAdd]];
+    [self.webView addGestureRecognizer:self.pinchGesture];
+    self.webView.scalesPageToFit = YES;
     self.view = self.webView;
-}
-
-- (void) setupSimpleView
-{
-    self.simpleView = [[UITextView alloc] init];
-    [self.simpleView addGestureRecognizer:[self gestureToAdd]];
-    self.view = self.simpleView;
 }
 
 - (void) setupFancyView
@@ -62,7 +52,7 @@
     self.fancyView.dataSource = self;
     self.fancyView.delegate = self;
     self.fancyView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
-    [self.fancyView addGestureRecognizer:[self gestureToAdd]];
+    [self.fancyView addGestureRecognizer:self.pinchGesture];
     self.view = self.fancyView;
 }
 
@@ -70,13 +60,16 @@
 {
     self.hasLoadedData = NO;
     self.edgesForExtendedLayout = UIRectEdgeNone;
+    self.pinchGesture = [[UIPinchGestureRecognizer alloc] initWithTarget:self
+                                                                  action:@selector(pinch:)];
+    self.pinchGesture.delegate = self;
     NSInteger viewToSelect = [CSVPreferencesController selectedDetailsView];
     if( viewToSelect == 0){
         [self setupWebView];
     }
     else if( viewToSelect == 1 )
     {
-        [self setupSimpleView];
+        [self setupWebView];
     }
     else if( viewToSelect == 2 )
     {
@@ -114,8 +107,7 @@
             [self updateWebViewContent];
         }
         else if( viewToSelect == 1 ){
-            self.simpleView.font = [UIFont systemFontOfSize:[CSVPreferencesController detailsFontSize]];
-            self.simpleView.text = [self.row longDescriptionWithHiddenValues:[CSVPreferencesController showDeletedColumns]];
+            [self updateWebViewSimpleContent];
         }
         else if( viewToSelect == 2 ){
             [self.fancyView reloadData];
@@ -268,31 +260,64 @@
                              completionHandler:nil];
 }
 
-- (void) updateWebViewContent
+- (void) imageWasShown
 {
-    [self.webView stopLoading];
-    
-    NSError *error;
-    
+    self.imageShown = YES;
+    [self.webView removeGestureRecognizer:self.pinchGesture];
+}
+
+- (void) addHtmlHeader:(NSMutableString *)s
+{
     NSString *cssString = [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:[CSVPreferencesController cssFileName] ofType:@"css"]
                                                 usedEncoding:nil
-                                                       error:&error];
-    
-    NSMutableString *s = [NSMutableString string];
+                                                       error:NULL];
+
     [s appendString:@"<html><head><title>Details</title>"];
     [s appendString:@"<STYLE type=\"text/css\">"];
     [s appendString:cssString];
     [s appendString:@"</STYLE>"];
-    
     // This replacing depends on which css used, of course
     [s replaceOccurrencesOfString:@"font:normal 36px"
                        withString:[NSString stringWithFormat:@"font:normal %fpx", [CSVPreferencesController detailsFontSize]]
                           options:0
                             range:NSMakeRange(0, [s length])];
-    
-    
-    [s appendString:@"</head><body>"];
-    [s appendString:@"<table width=\"100%\">"];
+    [s appendString:@"</head>"];
+}
+
+- (void) addSimpleHtmlTable:(NSMutableString *)s
+{
+    NSMutableString *data = [NSMutableString string];
+    NSArray *columnsAndValues = [self.row columnsAndValues];
+    NSInteger row = 1;
+    for( NSDictionary *d in columnsAndValues )
+    {
+        // Are we done already?
+        if(row > [self.row.fileParser.shownColumnIndexes count] &&
+           ![CSVPreferencesController showDeletedColumns])
+            break;
+
+        // Indicating start of hidden columns
+        if(row != 1 && // In case someone has a file where no column is important...
+           row-1 == [self.row.fileParser.shownColumnIndexes count] &&
+           [self.row.fileParser.shownColumnIndexes count] != [columnsAndValues count] )
+        {
+            [data appendString:@"<tr class=\"rowstep\">"];
+        }
+        
+        [data appendFormat:@"<tr>%@: %@>", [d objectForKey:COLUMN_KEY], [d objectForKey:VALUE_KEY]];
+        row++;
+    }
+    [data replaceOccurrencesOfString:@"\n"
+                          withString:@"<br>"
+                             options:0
+                               range:NSMakeRange(0, [data length])];
+    [s appendString:@"<table>"];
+    [s appendString:data];
+    [s appendFormat:@"</table>"];
+}
+
+- (void) addHtmlTable:(NSMutableString *)s
+{
     NSMutableString *data = [NSMutableString string];
     NSArray *columnsAndValues = [self.row columnsAndValues];
     NSInteger row = 1;
@@ -303,6 +328,7 @@
            ![CSVPreferencesController showDeletedColumns])
             break;
         
+        // Indicating start of hidden columns
         if(row != 1 && // In case someone has a file where no column is important...
            row-1 == [self.row.fileParser.shownColumnIndexes count] &&
            [self.row.fileParser.shownColumnIndexes count] != [columnsAndValues count] )
@@ -314,11 +340,20 @@
          ((row % 2) == 1 ? @" class=\"odd\"" : @""),
          [d objectForKey:COLUMN_KEY]];
         if( [[d objectForKey:VALUE_KEY] containsImageURL] && [CSVPreferencesController showInlineImages] )
+        {
             [data appendFormat:@"<td><img src=\"%@\">", [d objectForKey:VALUE_KEY]];
+            [self imageWasShown];
+        }
         else if( [[d objectForKey:VALUE_KEY] containsLocalImageURL] && [CSVPreferencesController showInlineImages] )
+        {
             [data appendFormat:@"<td><img src=\"%@\"></img>", [DetailsViewController sandboxedFileURLFromLocalURL:[d objectForKey:VALUE_KEY]]];
+            [self imageWasShown];
+        }
         else if( [[d objectForKey:VALUE_KEY] containsLocalMovieURL] && [CSVPreferencesController showInlineImages] )
+        {
             [data appendFormat:@"<td><video src=\"%@\" controls x-webkit-airplay=\"allow\"></video>", [DetailsViewController sandboxedFileURLFromLocalURL:[d objectForKey:VALUE_KEY]]];
+            [self imageWasShown];
+        }
         else if( [[d objectForKey:VALUE_KEY] containsURL] )
             [data appendFormat:@"<td><a href=\"%@\">%@</a>", [d objectForKey:VALUE_KEY], [d objectForKey:VALUE_KEY]];
         else if( [[d objectForKey:VALUE_KEY] containsMailAddress] )
@@ -331,8 +366,35 @@
                           withString:@"<br>"
                              options:0
                                range:NSMakeRange(0, [data length])];
+    [s appendString:@"<table>"];
     [s appendString:data];
     [s appendFormat:@"</table>"];
+}
+
+- (void) addSimpleRowRepresentation:(NSMutableString *)s
+{
+    NSMutableString *row = [NSMutableString stringWithString:[self.row htmlDescriptionWithHiddenValues:[CSVPreferencesController showDeletedColumns]]];
+    [s appendString:row];
+}
+
+- (void) updateWebViewSimpleContent
+{
+    [self.webView stopLoading];
+    NSMutableString *s = [NSMutableString string];
+    [self addHtmlHeader:s];
+    [s appendString:@"<body>"];
+    [self addSimpleRowRepresentation:s];
+    [s appendFormat:@"</body></html>"];
+    [self.webView loadHTMLString:s baseURL:nil];
+}
+
+- (void) updateWebViewContent
+{
+    [self.webView stopLoading];
+    NSMutableString *s = [NSMutableString string];
+    [self addHtmlHeader:s];
+    [s appendString:@"<body>"];
+    [self addHtmlTable:s];
     [s appendFormat:@"</body></html>"];
     [self.webView loadHTMLString:s baseURL:nil];
 }
@@ -364,5 +426,14 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
     return YES;
 }
 
+- (BOOL) gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
+    if( !self.imageShown && [otherGestureRecognizer isKindOfClass:[UIPinchGestureRecognizer class]] )
+    {
+        [otherGestureRecognizer setState:UIGestureRecognizerStateEnded];
+        return YES;
+    }
+    
+    return NO;
+}
 
 @end

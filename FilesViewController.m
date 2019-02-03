@@ -17,6 +17,7 @@
 @interface FilesViewController ()
 @property BOOL UIDisabled;
 @property BOOL hasAppeared;
+@property NSInteger numberOfChecksForRequestingReviewsThisRun; // To avoid getting the popup too early and everytime when returning to main window while testing
 @end
 
 @implementation FilesViewController
@@ -26,6 +27,18 @@ static FilesViewController *_sharedInstance = nil;
 + (instancetype) sharedInstance
 {
     return _sharedInstance;
+}
+
+- (BOOL) isOKToRequestReview
+{
+    self.numberOfChecksForRequestingReviewsThisRun++;
+    return [CSVPreferencesController numberOfStarts] > 30 &&
+    self.numberOfChecksForRequestingReviewsThisRun == 7; // Don't ask too early
+}
+
+- (void) requestReview
+{
+    [SKStoreReviewController requestReview];
 }
 
 - (void) configureGestures
@@ -163,8 +176,8 @@ static FilesViewController *_sharedInstance = nil;
     {
         self.hasAppeared = TRUE;
     }
-    else if( [CSVPreferencesController numberOfStarts] > 20){
-            [SKStoreReviewController requestReview];
+    else if( [self isOKToRequestReview]){
+            [self requestReview];
     }
 }
 

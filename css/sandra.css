@@ -1,17 +1,27 @@
+body {
+    font:normal 36px helvetica;
+    word-break: break-word;
+}
 img {
+    width:100%;
    max-width:100%;
 }
 
 video {
+    width:100%;
    max-width:100%;
 }
-table { border-collapse: collapse;
-background: #EEEEEE;
-font:normal 36px helvetica, sans-serif;
-   color: #000; }
+table {
+    border-collapse: collapse;
+    background: #EEEEEE;
+    font:normal 36px helvetica;
+    color: #000;
+    width: 100%;
+}
 caption { font-size: 1.3em; font-weight: bold; text-align: left; padding: 1em 4px; }
-td, th { padding: 3px 3px 4px 3px; line-height: 1.3em; }
-th { background: #AC4F53; color: #fff; font-weight: bold; text-align: right; padding-right: .5em; padding-left: 0.5em; vertical-align: top; width: 1px; white-space:nowrap;}
+td, th { padding: 3px 3px 4px 3px; line-height: 1.3em;}
+th { background: #AC4F53; color: #fff; font-weight: bold; text-align: right; padding-right: .5em; padding-left: 0.5em; vertical-align: top; width: 1px; white-space: nowrap; max-width: 70vw; text-overflow:ellipsis; overflow:hidden;}
+/* th { background: #AC4F53; color: #fff; font-weight: bold; text-align: right; padding-right: .5em; padding-left: 0.5em; vertical-align: top; width: 1px; white-space:nowrap; max-width: 25vw; text-overflow:ellipsis; overflow:hidden;} */
 thead th { background: #2C5755; text-align: center; }
 .odd td { background: #DDDDDD; }
 .odd th { background: #992220; }

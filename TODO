@@ -18,10 +18,12 @@ FEATURES
 - Add custom CSS
 - Add custom main color
 - Add info panel when first time > 150 items in CSV Lite. Or better: The number of... can be colored red, with clicking -> info panel
-- Zooming in detailed view in the UIWebView. Should perhaps work as in Safari instead of my custom zoom.
+- Zooming in detailed view in the UIWebView. Should perhaps work as in Safari instead of my custom zoom. Solution: Switch on/off gestures depending on image. Different pref for size for web vs others. Different default dep on device type.
+- Cache images (NSURLCache)
 - Restrict max width of header column in UIWebView
 - Phone links enable/disable? UIDataDetectorTypes
 - Add password support (GenericKeychain etc)
+- word-wrap: break-word (for long URL address shown in table)
 
 TEST
 
