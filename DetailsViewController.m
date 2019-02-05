@@ -29,6 +29,7 @@
 - (void) delayedHtmlClick:(NSURL *)URL;
 - (void) updateWebViewContent;
 - (void) updateWebViewSimpleContent;
+- (void) updateSimpleTable;
 @end
 
 @implementation DetailsViewController
@@ -110,7 +111,7 @@
             [self updateWebViewSimpleContent];
         }
         else if( viewToSelect == 2 ){
-            [self.fancyView reloadData];
+            [self updateSimpleTable];
         }
         self.hasLoadedData = YES;
     }
@@ -365,6 +366,11 @@
     [self addHtmlTable:s];
     [s appendFormat:@"</body></html>"];
     [self.webView loadHTMLString:s baseURL:nil];
+}
+
+- (void) updateSimpleTable
+{
+    [self.fancyView reloadData];
 }
 
 - (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler

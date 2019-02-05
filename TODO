@@ -23,7 +23,6 @@ FEATURES
 - Restrict max width of header column in UIWebView
 - Phone links enable/disable? UIDataDetectorTypes
 - Add password support (GenericKeychain etc)
-- word-wrap: break-word (for long URL address shown in table)
 
 TEST
 
@@ -32,7 +31,13 @@ TEST
 
 COMPLETED
 
-4.1.1 (?)
+4.2
+
+- Improved zooming when images are shown
+- Moving to HTML for simple details view
+- word-wrap: break-word (for long URL address shown in table)
+
+4.1.1
 - Improved performance when zooming in details & item list views
 - Improved error messages
 
