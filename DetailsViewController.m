@@ -15,21 +15,15 @@
 
 @interface DetailsViewController ()
 @property (nonatomic, strong) UIWebView *webView;
-@property (nonatomic, strong) UITableView *fancyView;
 @property (nonatomic, assign) BOOL hasLoadedData;
 @property CGFloat originalPointsWhenPinchStarted;
 @property BOOL imageShown;
 @property UIPinchGestureRecognizer *pinchGesture;
 @end
 
-@interface DetailsViewController (Fancy) <UITableViewDataSource, UITableViewDelegate>
-@end
-
 @interface DetailsViewController (Web) <WKNavigationDelegate, UIWebViewDelegate, UIGestureRecognizerDelegate>
 - (void) delayedHtmlClick:(NSURL *)URL;
-- (void) updateWebViewContent;
-- (void) updateWebViewSimpleContent;
-- (void) updateSimpleTable;
+- (void) updateContent;
 @end
 
 @implementation DetailsViewController
@@ -45,18 +39,6 @@
     self.view = self.webView;
 }
 
-- (void) setupFancyView
-{
-    self.fancyView = [[UITableView alloc] initWithFrame:CGRectZero
-                                                  style:UITableViewStyleGrouped];
-    [self.fancyView registerNib:[UINib nibWithNibName:@"AutoSizingTableViewCell" bundle:nil] forCellReuseIdentifier:@"AutoCell"];
-    self.fancyView.dataSource = self;
-    self.fancyView.delegate = self;
-    self.fancyView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
-    [self.fancyView addGestureRecognizer:self.pinchGesture];
-    self.view = self.fancyView;
-}
-
 - (void) setup
 {
     self.hasLoadedData = NO;
@@ -64,18 +46,7 @@
     self.pinchGesture = [[UIPinchGestureRecognizer alloc] initWithTarget:self
                                                                   action:@selector(pinch:)];
     self.pinchGesture.delegate = self;
-    NSInteger viewToSelect = [CSVPreferencesController selectedDetailsView];
-    if( viewToSelect == 0){
-        [self setupWebView];
-    }
-    else if( viewToSelect == 1 )
-    {
-        [self setupWebView];
-    }
-    else if( viewToSelect == 2 )
-    {
-        [self setupFancyView];
-    }
+    [self setupWebView];
 }
 
 - (void) awakeFromNib
@@ -103,16 +74,7 @@
 {
     if( !self.hasLoadedData || forceRefresh)
     {
-        NSInteger viewToSelect = [CSVPreferencesController selectedDetailsView];
-        if( viewToSelect == 0 ){
-            [self updateWebViewContent];
-        }
-        else if( viewToSelect == 1 ){
-            [self updateWebViewSimpleContent];
-        }
-        else if( viewToSelect == 2 ){
-            [self updateSimpleTable];
-        }
+        [self updateContent];
         self.hasLoadedData = YES;
     }
 }
@@ -174,69 +136,6 @@
 
 @end
 
-@implementation DetailsViewController (Fancy)
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    if( section == 0){
-        return [[self normalObjects] count];
-    }
-    else if( section == 1){
-        return [[self hiddenObjects] count];
-    }
-    return 0;
-}
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
-    if( [CSVPreferencesController showDeletedColumns] && [self.row.fileParser hiddenColumnsExist])
-    {
-        return 2;
-    }
-    else
-    {
-        return 1;
-    }
-}
-    
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    AutoSizingTableViewCell *cell = [self.fancyView dequeueReusableCellWithIdentifier:@"AutoCell" forIndexPath:indexPath];
-    [cell.label setFont:[[cell.label font] fontWithSize:[CSVPreferencesController detailsFontSize]]];
-    cell.imageWidthConstraint.constant = 0;
-    cell.imageHeightConstraint.constant = 0;
-    cell.imageWTrailingSpaceConstraint.constant = 0;
-    NSString *text;
-    if( indexPath.section == 0){
-        text = [[self normalObjects] objectAtIndex:indexPath.row];
-    }
-    else if( indexPath.section == 1){
-        text = [[self hiddenObjects] objectAtIndex:indexPath.row];
-    }
-    cell.label.text = text;
-    return cell;
-
-}
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    NSArray *words = [[(indexPath.section == 0 ? [self normalObjects] : [self hiddenObjects]) objectAtIndex:indexPath.row]
-                          componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-        for(NSString *word in words)
-        {
-            if( [word containsURL] )
-            {
-                [self delayedHtmlClick:[NSURL URLWithString:word]];
-            }
-            else if( [word containsMailAddress] )
-            {
-                [self delayedHtmlClick:[NSURL URLWithString:[NSString stringWithFormat:@"mailto:%@", word]]];
-            }
-        }
-}
-
-@end
-
 @implementation DetailsViewController (Web)
 
 + (NSString *) sandboxedFileURLFromLocalURL:(NSString *) localURL
@@ -267,17 +166,22 @@
     [self.webView removeGestureRecognizer:self.pinchGesture];
 }
 
-- (void) addHtmlHeader:(NSMutableString *)s
+- (void) addHtmlHeader:(NSMutableString *)s useSingleColumn:(BOOL)useSingleColumn
 {
-    NSString *cssString = [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:[CSVPreferencesController cssFileName] ofType:@"css"]
+    NSString *cssString;
+    if( useSingleColumn)
+        cssString = [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:[CSVPreferencesController singleColumnCSSFileName] ofType:@"css"]
                                                 usedEncoding:nil
                                                        error:NULL];
+    else
+        cssString = [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:[CSVPreferencesController doubleColumnCSSFileName] ofType:@"css"]
+                                          usedEncoding:nil
+                                                 error:NULL];
 
     [s appendString:@"<html><head><title>Details</title>"];
     [s appendString:@"<style type=\"text/css\">"];
     [s appendString:cssString];
     [s appendString:@"</style>"];
-    // This replacing depends on which css used, of course
     [s replaceOccurrencesOfString:@"FONTSIZE"
                        withString:[NSString stringWithFormat:@"%fpx", [CSVPreferencesController detailsFontSize]]
                           options:0
@@ -331,11 +235,38 @@
             [data appendFormat:@"<td>%@", [d objectForKey:VALUE_KEY]];
         row++;
     }
-    [data replaceOccurrencesOfString:@"\n"
-                          withString:@"<br>"
-                             options:0
-                               range:NSMakeRange(0, [data length])];
+
     [s appendString:@"<table>"];
+    [s appendString:data];
+    [s appendFormat:@"</table>"];
+}
+
+- (void) addSimpleHtmlTable:(NSMutableString *)s
+{
+    NSMutableString *data = [NSMutableString string];
+    NSArray *columnsAndValues = [self.row columnsAndValues];
+    NSInteger row = 1;
+    for( NSDictionary *d in columnsAndValues )
+    {
+        // Are we done already?
+        if(row > [self.row.fileParser.shownColumnIndexes count] &&
+           ![CSVPreferencesController showDeletedColumns])
+            break;
+        
+        // Indicating start of hidden columns
+        if(row != 1 && // In case someone has a file where no column is important...
+           row-1 == [self.row.fileParser.shownColumnIndexes count] &&
+           [self.row.fileParser.shownColumnIndexes count] != [columnsAndValues count] )
+        {
+            [data appendString:@"</table><br><br><table>"];
+        }
+        
+        [data appendFormat:@"<tr><td>%@: %@",
+         [d objectForKey:COLUMN_KEY],
+         [d objectForKey:VALUE_KEY]];
+        row++;
+    }
+    [s appendString:@"<br><table>"];
     [s appendString:data];
     [s appendFormat:@"</table>"];
 }
@@ -346,31 +277,28 @@
     [s appendString:row];
 }
 
-- (void) updateWebViewSimpleContent
+- (void) updateContent
 {
     [self.webView stopLoading];
     NSMutableString *s = [NSMutableString string];
-    [self addHtmlHeader:s];
-    [s appendString:@"<body>"];
-    [self addSimpleRowRepresentation:s];
+    NSInteger viewToSelect = [CSVPreferencesController selectedDetailsView];
+    if( viewToSelect == 0 ){
+        [self addHtmlHeader:s useSingleColumn:NO];
+        [s appendString:@"<body>"];
+        [self addHtmlTable:s];
+    }
+    else if( viewToSelect == 1 ){
+        [self addHtmlHeader:s useSingleColumn:YES];
+        [s appendString:@"<body>"];
+        [self addSimpleRowRepresentation:s];
+    }
+    else if( viewToSelect == 2 ){
+        [self addHtmlHeader:s useSingleColumn:YES];
+        [s appendString:@"<body>"];
+        [self addSimpleHtmlTable:s];
+    }
     [s appendFormat:@"</body></html>"];
     [self.webView loadHTMLString:s baseURL:nil];
-}
-
-- (void) updateWebViewContent
-{
-    [self.webView stopLoading];
-    NSMutableString *s = [NSMutableString string];
-    [self addHtmlHeader:s];
-    [s appendString:@"<body>"];
-    [self addHtmlTable:s];
-    [s appendFormat:@"</body></html>"];
-    [self.webView loadHTMLString:s baseURL:nil];
-}
-
-- (void) updateSimpleTable
-{
-    [self.fancyView reloadData];
 }
 
 - (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler

@@ -113,7 +113,8 @@ extern NSUInteger sortingMask; // This is available for performance-critical ope
 // Number of times app has started
 + (NSInteger) numberOfStarts;
 
-+ (NSString *) cssFileName;
++ (NSString *) doubleColumnCSSFileName;
++ (NSString *) singleColumnCSSFileName;
 
 // Internal use
 + (NSString *) lastUsedURL;

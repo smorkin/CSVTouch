@@ -755,11 +755,15 @@ static BOOL hideAdress = NO;
 	return sortingMask;
 }
 
-+ (NSString *) cssFileName
++ (NSString *) doubleColumnCSSFileName
 {
-    return @"sandra";
+    return @"doublecolumn";
 }
 
++ (NSString *) singleColumnCSSFileName
+{
+    return @"singlecolumn";
+}
 
 + (void) toggleReverseItemSorting
 {
