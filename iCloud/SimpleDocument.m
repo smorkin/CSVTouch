@@ -20,7 +20,7 @@ static NSMetadataQuery *_icloudQuery;
         [query setSearchScopes:[NSArray arrayWithObject:NSMetadataQueryUbiquitousDocumentsScope]];
         
         // Add a predicate for finding the documents
-        NSString * filePattern = @"csv_doublecolumn.css";
+        NSString * filePattern = @"doublecolumn.css";
         [query setPredicate:[NSPredicate predicateWithFormat:@"%K LIKE %@",
                              NSMetadataItemFSNameKey, filePattern]];
     }
@@ -72,10 +72,13 @@ static NSString *_customCssString;
     [_icloudQuery disableUpdates];
     
     // The query reports all files found, every time.
-    NSLog(@"Found iCloud custom files: %@",[_icloudQuery results].count > 0 ? @"YES" : @"NO");
+    NSLog(@"Found iCloud custom css file: %@",[_icloudQuery results].count > 0 ? @"YES" : @"NO");
     BOOL foundCustomCssFile = NO;
     for (NSMetadataItem * result in [_icloudQuery results])
     {
+        // Ignore while downloading...
+        if( [[result valueForAttribute:@"NSMetadataUbiquitousItemIsDownloadingKey"] boolValue] )
+            continue;
         NSURL * fileURL = [result valueForAttribute:NSMetadataItemURLKey];
         NSNumber *fileIsHiddenKey = nil;
         
@@ -87,8 +90,12 @@ static NSString *_customCssString;
             SimpleDocument *sd = [[SimpleDocument alloc] initWithFileURL:fileURL];
             if( [sd readFromURL:sd.fileURL error:nil])
             {
-                NSLog(@"Setting new custom css synch");
-                [self setCustomCss:sd.documentText];
+                if( sd.documentText && ![sd.documentText isEqualToString:@""] &&
+                   ![sd.documentText isEqualToString:[self customCssString]])
+                {
+                    NSLog(@"Setting new custom css string");
+                    [self setCustomCss:sd.documentText];
+                }
             }
             else
             {
@@ -100,7 +107,6 @@ static NSString *_customCssString;
     if( !foundCustomCssFile )
     {
         [self setCustomCss:nil];
-//        customCssFileChangeDateCurrent = nil;
     }
     [_icloudQuery enableUpdates];
 }
@@ -124,7 +130,7 @@ static NSString *_customCssString;
                              initWithData:contents
                              encoding:NSUTF8StringEncoding];
     else
-        self.documentText = nil;
+        self.documentText = @"";
     
     return YES;
 }

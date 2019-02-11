@@ -10,33 +10,38 @@ FIX
     - When going back to Files from Items where large title does not zoom in. Culprit is hidesSearchBarWhenScrolling setting in items view which apparently makes navigation bar unusually sized so when popping, well, not correct behaviour.
     - When going back from FileDataView, after having re-downloaded the file visible in the view. Funnily enough, each download offsets the 'Files' title additionally, so click-click-click to re-download, and 'Files' will end up really far down.
 - Use NSIndexSet for rawShownColumnIndexes?
+- Mark all current controllers as dirty when custom css changes
 
 FEATURES
 
 - Search: When search string changes, check if we have a selection before, and if item still matches, scroll to it.
 - Perhaps if scheduled downloads setting is on, there should be a setting for whether to use file list URL or the existing files?
 - Fixed auto width: If word > width, replace last character with … . Problems abound, such that you still want to search with the missing text. But since we actually do have a separate container for lowercase string for row to search, we "just" have to create the lowercase string before adding the … at the end...
-- Add custom CSS
-- Add custom main color
+- Add custom main color?
 - Add info panel when first time > 150 items in CSV Lite. Or better: The number of... can be colored red, with clicking -> info panel
-- Zooming in detailed view in the UIWebView. Should perhaps work as in Safari instead of my custom zoom. Solution: Switch on/off gestures depending on image. Different pref for size for web vs others. Different default dep on device type.
 - Cache images (NSURLCache)
-- Restrict max width of header column in UIWebView
 - Phone links enable/disable? UIDataDetectorTypes
 - Add password support (GenericKeychain etc)
 
 TEST
 
-- Check error handling of bad parsing; could probably add better info
-
-
 COMPLETED
 
 4.2
 
-- Improved zooming when images are shown
-- Moving to HTML for simple details view
-- word-wrap: break-word (for long URL address shown in table)
+Store notes:
+- Major changes in how a single item is shown; this means you might have to resize (pinch-to-zoom) in this view. Changes include:
+  * Zooming when images are shown now work as in Safari (e.g. only temporary zoom in the given view)
+  * Custom css support (see support site for details)
+  * All text is rendered using HTML
+  * Changed treatment of really long column names and cell text
+- Improved error messages when having trouble parsing a file
+
+Me notes:
+- Custom css support
+- Safari zooming when images are shown
+- Moving to HTML for all details views
+- word-wrap etc: break-word (for long URL address shown in table)
 
 4.1.1
 - Improved performance when zooming in details & item list views

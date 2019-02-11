@@ -11,7 +11,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SimpleDocument : UIDocument
 
-@property (copy, nonatomic) NSString* documentText;
+@property (strong, nonatomic) NSString* documentText;
 
 + (void) start;
 + (void) stop;

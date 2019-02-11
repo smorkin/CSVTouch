@@ -74,7 +74,7 @@
     if( !self.hasLoadedData || forceRefresh)
     {
         [self updateContent];
-//        self.hasLoadedData = YES;
+        self.hasLoadedData = YES;
     }
 }
 

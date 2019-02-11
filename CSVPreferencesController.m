@@ -138,9 +138,10 @@ NSUInteger sortingMask;
 		return NSISOLatin1StringEncoding;
 }
 
-#define MAX_FONT_SIZE 100
+#define MAX_FONT_SIZE 160
 #define MIN_FONT_SIZE 1
-#define STANDARD_FONT_SIZE 12
+#define STANDARD_ITEMS_LIST_FONT_SIZE 14
+#define STANDARD_DETAILS_VIEW_FONT_SIZE 36
 
 + (void) setItemsListFontSize:(NSInteger)size
 {
@@ -156,7 +157,7 @@ NSUInteger sortingMask;
     NSInteger size = [[NSUserDefaults standardUserDefaults] integerForKey:PREFS_ITEMS_LIST_FONT_SIZE];
     if( size < MIN_FONT_SIZE || size > MAX_FONT_SIZE)
     {
-       return STANDARD_FONT_SIZE;
+       return STANDARD_ITEMS_LIST_FONT_SIZE;
     }
     return (CGFloat)size;
 }
@@ -201,7 +202,7 @@ NSUInteger sortingMask;
     NSInteger size = [[NSUserDefaults standardUserDefaults] integerForKey:PREFS_DETAILS_FONT_SIZE];
     if( size < MIN_FONT_SIZE || size > MAX_FONT_SIZE)
     {
-        return STANDARD_FONT_SIZE;
+        return STANDARD_DETAILS_VIEW_FONT_SIZE;
     }
     return (CGFloat)size;
 }
