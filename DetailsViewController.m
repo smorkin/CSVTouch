@@ -10,12 +10,11 @@
 #import "OzymandiasAdditions.h"
 #import "CSVPreferencesController.h"
 #import "CSV_TouchAppDelegate.h"
-#import "AutoSizingTableViewCell.h"
+#import "CSSProvider.h"
 
 
 @interface DetailsViewController ()
 @property (nonatomic, strong) UIWebView *webView;
-@property (nonatomic, assign) BOOL hasLoadedData;
 @property CGFloat originalPointsWhenPinchStarted;
 @property BOOL imageShown;
 @property UIPinchGestureRecognizer *pinchGesture;
@@ -75,7 +74,7 @@
     if( !self.hasLoadedData || forceRefresh)
     {
         [self updateContent];
-        self.hasLoadedData = YES;
+//        self.hasLoadedData = YES;
     }
 }
 
@@ -93,12 +92,9 @@
 {
     if( [self.parentViewController isKindOfClass:[DetailsPagesController class]])
     {
-        [(DetailsPagesController *)self.parentViewController refreshViewControllersData];
+        [(DetailsPagesController *)self.parentViewController markViewControllersAsDirty];
     }
-    else // Hm, weird, we should alway be in a DetailsPagesController... But let's just resize ourself instead since we apparently have no controllers being swiped left/right
-    {
-        [self refreshData:YES];
-    }
+    [self refreshData:YES];
 }
     
 - (int) getPointsChange:(UIPinchGestureRecognizer *)pinch
@@ -168,15 +164,7 @@
 
 - (void) addHtmlHeader:(NSMutableString *)s useSingleColumn:(BOOL)useSingleColumn
 {
-    NSString *cssString;
-    if( useSingleColumn)
-        cssString = [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:[CSVPreferencesController singleColumnCSSFileName] ofType:@"css"]
-                                                usedEncoding:nil
-                                                       error:NULL];
-    else
-        cssString = [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:[CSVPreferencesController doubleColumnCSSFileName] ofType:@"css"]
-                                          usedEncoding:nil
-                                                 error:NULL];
+    NSString *cssString = (useSingleColumn ? [CSSProvider singleColumnCSS] : [CSSProvider doubleColumnCSS]);
 
     [s appendString:@"<html><head><title>Details</title>"];
     [s appendString:@"<style type=\"text/css\">"];

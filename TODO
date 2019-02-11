@@ -9,6 +9,7 @@ FIX
     - When programmatically starting refresh, size is wrong. Apparently Apple bug, others sreport same thing.
     - When going back to Files from Items where large title does not zoom in. Culprit is hidesSearchBarWhenScrolling setting in items view which apparently makes navigation bar unusually sized so when popping, well, not correct behaviour.
     - When going back from FileDataView, after having re-downloaded the file visible in the view. Funnily enough, each download offsets the 'Files' title additionally, so click-click-click to re-download, and 'Files' will end up really far down.
+- Use NSIndexSet for rawShownColumnIndexes?
 
 FEATURES
 

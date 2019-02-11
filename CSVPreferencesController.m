@@ -755,16 +755,6 @@ static BOOL hideAdress = NO;
 	return sortingMask;
 }
 
-+ (NSString *) doubleColumnCSSFileName
-{
-    return @"doublecolumn";
-}
-
-+ (NSString *) singleColumnCSSFileName
-{
-    return @"singlecolumn";
-}
-
 + (void) toggleReverseItemSorting
 {
     _cachedReverseSorting = !_cachedReverseSorting;

@@ -12,6 +12,7 @@
 @interface DetailsViewController : UIViewController
 
 @property (nonatomic, strong) CSVRow *row;
+@property (nonatomic, assign) BOOL hasLoadedData;
 
 - (void) refreshData:(BOOL)forceRefresh;
 

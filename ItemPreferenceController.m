@@ -39,7 +39,7 @@
 - (IBAction) viewSelectionChanged:(id)sender
 {
     [CSVPreferencesController setSelectedDetailsView:viewSelection.selectedSegmentIndex];
-    [self.pageController refreshViewControllers];
+    [self.pageController refreshViewControllersData];
     [self synchUI];
 }
 

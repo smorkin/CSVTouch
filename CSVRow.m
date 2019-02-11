@@ -107,21 +107,7 @@ static NSMutableArray *formatsStrings = nil;
 		return @"";
 	else if( indexCount > [words count] )
 		return nil;
-	
-//	if( indexCount  == 1 )
-//		return [words objectAtIndex:indexes[0]];
-//	else if( indexCount <= 19 )
-//		return [NSString stringWithFormat:formatsStrings[indexCount-2]];
-//	else
-//	{
-//		NSMutableString *s = [[[NSMutableString alloc] initWithCapacity:200] autorelease];
-//		for( NSUInteger i = 0 ; i < indexCount ; i++ )
-//			[s appendFormat:@"%@‧", [words objectAtIndex:indexes[i]]];
-//		return s;
-//	}
-	
-	
-		
+			
 	switch(indexCount)
 	{
 		case 1:

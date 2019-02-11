@@ -136,11 +136,15 @@
 		F47DC8001111004C00E8DD8B /* CSVPreferencesController.m in Sources */ = {isa = PBXBuildFile; fileRef = F47819840E2BDE7A00B44E78 /* CSVPreferencesController.m */; };
 		F47DC8011111004C00E8DD8B /* OzymandiasAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F4A73D1A0E2EB49200E1DF27 /* OzymandiasAdditions.m */; };
 		F47DC8021111004C00E8DD8B /* parseCSV.m in Sources */ = {isa = PBXBuildFile; fileRef = F4E9290A0E4F5D4C006165B0 /* parseCSV.m */; };
+		F483B384220DB49D0018A25A /* SimpleDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = F483B383220DB49D0018A25A /* SimpleDocument.m */; };
+		F483B385220DB49D0018A25A /* SimpleDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = F483B383220DB49D0018A25A /* SimpleDocument.m */; };
 		F48584F811EE4F34001CFC28 /* dvd.png in Resources */ = {isa = PBXBuildFile; fileRef = F48584F511EE4F34001CFC28 /* dvd.png */; };
 		F48584F911EE4F34001CFC28 /* hd.png in Resources */ = {isa = PBXBuildFile; fileRef = F48584F611EE4F34001CFC28 /* hd.png */; };
 		F48584FA11EE4F34001CFC28 /* qt.png in Resources */ = {isa = PBXBuildFile; fileRef = F48584F711EE4F34001CFC28 /* qt.png */; };
 		F48CAEFA220A56E200975205 /* singlecolumn.css in Resources */ = {isa = PBXBuildFile; fileRef = F48CAEF9220A56E200975205 /* singlecolumn.css */; };
 		F48CAEFB220A56E200975205 /* singlecolumn.css in Resources */ = {isa = PBXBuildFile; fileRef = F48CAEF9220A56E200975205 /* singlecolumn.css */; };
+		F48CAEFF220A659B00975205 /* CSSProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = F48CAEFE220A659B00975205 /* CSSProvider.m */; };
+		F48CAF00220A659B00975205 /* CSSProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = F48CAEFE220A659B00975205 /* CSSProvider.m */; };
 		F4ADD7CB115E573C0095F061 /* alert.png in Resources */ = {isa = PBXBuildFile; fileRef = F4ADD79E115E573B0095F061 /* alert.png */; };
 		F4ADD7CC115E573C0095F061 /* ball_blue.png in Resources */ = {isa = PBXBuildFile; fileRef = F4ADD79F115E573B0095F061 /* ball_blue.png */; };
 		F4ADD7CD115E573C0095F061 /* ball_green.png in Resources */ = {isa = PBXBuildFile; fileRef = F4ADD7A0115E573B0095F061 /* ball_green.png */; };
@@ -259,12 +263,16 @@
 		F47819840E2BDE7A00B44E78 /* CSVPreferencesController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSVPreferencesController.m; sourceTree = "<group>"; };
 		F47DC80D1111004C00E8DD8B /* CSV Touch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "CSV Touch.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F48094CB21A6D5B200DEEA8D /* TODO */ = {isa = PBXFileReference; lastKnownFileType = text; path = TODO; sourceTree = "<group>"; };
+		F483B382220DB49D0018A25A /* SimpleDocument.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SimpleDocument.h; sourceTree = "<group>"; };
+		F483B383220DB49D0018A25A /* SimpleDocument.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SimpleDocument.m; sourceTree = "<group>"; };
 		F48584F511EE4F34001CFC28 /* dvd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dvd.png; sourceTree = "<group>"; };
 		F48584F611EE4F34001CFC28 /* hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hd.png; sourceTree = "<group>"; };
 		F48584F711EE4F34001CFC28 /* qt.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = qt.png; sourceTree = "<group>"; };
 		F48836560DF53E2C0063EF75 /* CSVFileParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSVFileParser.h; sourceTree = "<group>"; };
 		F48836570DF53E2C0063EF75 /* CSVFileParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSVFileParser.m; sourceTree = "<group>"; };
 		F48CAEF9220A56E200975205 /* singlecolumn.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = singlecolumn.css; sourceTree = "<group>"; };
+		F48CAEFD220A659B00975205 /* CSSProvider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CSSProvider.h; sourceTree = "<group>"; };
+		F48CAEFE220A659B00975205 /* CSSProvider.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CSSProvider.m; sourceTree = "<group>"; };
 		F4990C160E4276C500D64667 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		F4A3BCAB17F8978000B7C201 /* Appstore, Docs images */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "Appstore, Docs images"; sourceTree = "<group>"; };
 		F4A73D190E2EB49200E1DF27 /* OzymandiasAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OzymandiasAdditions.h; sourceTree = "<group>"; };
@@ -392,6 +400,7 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
+				F48CAEFC220A651C00975205 /* iCloud */,
 				F48094CB21A6D5B200DEEA8D /* TODO */,
 				F44AD0D51FF6F0EE00BC21D6 /* Storyboards */,
 				F44AD0DF1FFE668800BC21D6 /* Main classes */,
@@ -577,6 +586,17 @@
 			path = css;
 			sourceTree = "<group>";
 		};
+		F48CAEFC220A651C00975205 /* iCloud */ = {
+			isa = PBXGroup;
+			children = (
+				F48CAEFD220A659B00975205 /* CSSProvider.h */,
+				F48CAEFE220A659B00975205 /* CSSProvider.m */,
+				F483B382220DB49D0018A25A /* SimpleDocument.h */,
+				F483B383220DB49D0018A25A /* SimpleDocument.m */,
+			);
+			path = iCloud;
+			sourceTree = "<group>";
+		};
 		F4A3BCAA17F8975100B7C201 /* Plists */ = {
 			isa = PBXGroup;
 			children = (
@@ -703,10 +723,20 @@
 					F402A9E221CBE61D0097D875 = {
 						DevelopmentTeam = 6Q962CA6TS;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.iCloud = {
+								enabled = 1;
+							};
+						};
 					};
 					F47DC7E71111004C00E8DD8B = {
 						DevelopmentTeam = 6Q962CA6TS;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.iCloud = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -889,6 +919,7 @@
 				F402AA2B21CBE61D0097D875 /* msgno.c in Sources */,
 				F402AA2C21CBE61D0097D875 /* CSVDataViewController.m in Sources */,
 				F402AA2D21CBE61D0097D875 /* FilesParsingPreferencesViewController.m in Sources */,
+				F48CAF00220A659B00975205 /* CSSProvider.m in Sources */,
 				F402AA2E21CBE61D0097D875 /* FileDownloader.m in Sources */,
 				F402AA2F21CBE61D0097D875 /* CSVRow.m in Sources */,
 				F402AA3021CBE61D0097D875 /* AppPrefsViewController.m in Sources */,
@@ -908,6 +939,7 @@
 				F402AA3E21CBE61D0097D875 /* parseCSV.m in Sources */,
 				F402AA3F21CBE61D0097D875 /* FilesViewController.m in Sources */,
 				F402AA4021CBE61D0097D875 /* ItemsViewController.m in Sources */,
+				F483B385220DB49D0018A25A /* SimpleDocument.m in Sources */,
 				F402AA4121CBE61D0097D875 /* ItemPreferenceController.m in Sources */,
 				F402AA4221CBE61D0097D875 /* ItemsSortAndSearchPreferencesController.m in Sources */,
 			);
@@ -925,6 +957,7 @@
 				F47DC7F91111004C00E8DD8B /* msgno.c in Sources */,
 				F47DC7FA1111004C00E8DD8B /* CSVDataViewController.m in Sources */,
 				F4DF84E32044BBF500AE653A /* FilesParsingPreferencesViewController.m in Sources */,
+				F48CAEFF220A659B00975205 /* CSSProvider.m in Sources */,
 				F434D15A1FF6E17E00CD622D /* FileDownloader.m in Sources */,
 				F47DC7FB1111004C00E8DD8B /* CSVRow.m in Sources */,
 				F4DF84E72044CB1F00AE653A /* AppPrefsViewController.m in Sources */,
@@ -944,6 +977,7 @@
 				F47DC8021111004C00E8DD8B /* parseCSV.m in Sources */,
 				F46CA0CC1FE56DEC00FE645C /* FilesViewController.m in Sources */,
 				F46CA0D01FE5960700FE645C /* ItemsViewController.m in Sources */,
+				F483B384220DB49D0018A25A /* SimpleDocument.m in Sources */,
 				F4DC40E3200BB0A800EA43A8 /* ItemPreferenceController.m in Sources */,
 				F4DF84DF20433A6D00AE653A /* ItemsSortAndSearchPreferencesController.m in Sources */,
 			);

@@ -16,9 +16,9 @@ UIPopoverPresentationControllerDelegate>
 
 - (void) setItems:(NSArray<CSVRow *> *)items;
 
-// This is a hard one, actually updating which view is shown etc
-- (void) refreshViewControllers;
-
-// Softer, keeping the same view in the controller and just refreshing data
+// Refreshing data inside all view controllers
 - (void) refreshViewControllersData;
+
+// Softer, just marking all as dirty (used e.g. when change is trigged by one if the view controllers so it can redraw itself and needs the others to be redrawn when necessary)
+- (void) markViewControllersAsDirty;
 @end

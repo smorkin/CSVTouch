@@ -15,6 +15,7 @@
 #import "FilesViewController.h"
 #import "FadeAnimator.h"
 #import "CSVDataViewController.h"
+#import "CSSProvider.h"
 
 #define SELECTED_TAB_BAR_INDEX @"selectedTabBarIndex"
 #define FILE_PASSWORD @"filePassword"
@@ -315,6 +316,7 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     [self loadLocalFiles];
     [CSVPreferencesController applicationDidFinishLaunching];
+    [CSSProvider startCustomCssRetrieving];
     
     self.lastFileURL = [CSVPreferencesController lastUsedURL];
     if( !self.lastFileURL || [self.lastFileURL isEqualToString:@""] )

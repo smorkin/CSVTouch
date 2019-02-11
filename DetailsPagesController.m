@@ -57,7 +57,16 @@
 {
     for( DetailsViewController *controller in [self.controllers allValues])
     {
+        controller.hasLoadedData = NO;
         [controller refreshData:YES];
+    }
+}
+
+- (void) markViewControllersAsDirty
+{
+    for( DetailsViewController *controller in [self.controllers allValues])
+    {
+        controller.hasLoadedData = NO;
     }
 }
 

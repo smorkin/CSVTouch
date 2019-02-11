@@ -253,7 +253,7 @@ static NSTimer *_resetDownloadFlagsTimer;
 	{
         if( testing)
         {
-            self.problematicRow = @"Internal error; tried to autmoatically find delimiter using invaldi parsing logic. Please contact the developer.";
+            self.problematicRow = @"Internal error; tried to automatically find delimiter using invald parsing logic. Please contact the developer.";
             return FALSE;
         }
 		NSUInteger numberOfRows = 0;
@@ -265,12 +265,12 @@ static NSTimer *_resetDownloadFlagsTimer;
 		
         if( [tmp count] == 0)
         {
-            self.problematicRow = @"No rows at all found in the file. Try toggling the setting for 'Alternative parsing', 'Keep quotes', and/or 'Encoding'";
+            self.problematicRow = @"No rows at all found in the file. Try toggling the setting for 'Alternative parsing', 'Keep quotes', and/or 'Encoding' in the previous 'Files' view";
             return FALSE;
         }
         else if( [tmp count] == 1)
         {
-            self.problematicRow = @"Only 1 row found in the file. Try toggling the setting for 'Alternative parsing', 'Keep quotes', and/or 'Encoding'";
+            self.problematicRow = @"Only 1 row found in the file. Try toggling the setting for 'Alternative parsing', 'Keep quotes', and/or 'Encoding' in the previous 'Files' view";
             return FALSE;
         }
 
@@ -288,7 +288,7 @@ static NSTimer *_resetDownloadFlagsTimer;
             if( [words count] != numberOfColumns )
             {
                 if( !self.problematicRow){
-                    self.problematicRow = [NSString stringWithFormat:@"Found %lu columns but in row %lu %lu values were found; row data:\n%@",
+                    self.problematicRow = [NSString stringWithFormat:@"Found %lu columns but in row %lu %lu values were found; row values:\n%@",
                                            (unsigned long)numberOfColumns,
                                            (unsigned long)rawrow+1,
                                            (unsigned long)[words count],
@@ -366,7 +366,7 @@ static NSTimer *_resetDownloadFlagsTimer;
 						{
                             if( !self.problematicRow)
                             {
-                                self.problematicRow = [NSString stringWithFormat:@"Found %d columns but in row %d %d values were found; row data:\n%@",
+                                self.problematicRow = [NSString stringWithFormat:@"Found %d columns but in row %d %d values were found; row values:\n%@",
                                                        *foundColumns,
                                                        numberOfRows,
                                                        wordNumber,
@@ -631,25 +631,26 @@ static NSTimer *_resetDownloadFlagsTimer;
     // What type of problem?
     if( [self.rawString length] == 0 )
     {
-        [s appendString:@"Couldn't read the file using the currently selected encoding; please try another one in the settings available in the 'Files' view.\n\nNote that if you want to override the selected encoding for a single file, long-click on the file instead and select encoding in the shown view instead."];
+        [s appendString:@"Couldn't read the file using the currently selected encoding; please try another one in the settings available in the previous 'Files' view.\n\nNote that if you want to override the selected encoding for a single file, long-click on the file instead and select encoding in the shown view instead."];
     }
     else
     {
-        [s appendFormat:@"Error reading file:\n\nUsed separator: %@\n\nFound number of columns using separator:%lu\n\nFound rows using separator:%lu",
+        [s appendFormat:@"Used separator: %@\nFound number of columns using separator: %lu\nRead rows using separator: %lu",
          [self readableUsedDelimiter],
          (unsigned long)[[self columnNames] count],
          (unsigned long)[self.parsedItems count]];
-        if( [CSVPreferencesController keepQuotes] && [self.problematicRow hasSubstring:@"\""])
-            [s appendString:@"\n\nTry switching on the \"Keep Quotes\"-setting, available in the 'Files''view settings. "];
-        else
-            [s appendString:@"\n\nTry changing the \"Alternative parsing\" and/or the \"Keep Quotes\"-setting, available in the 'Files' view settings. In some case it might also be that encoding needs to be changed."];
+        if( [[self columnNames] count] == 1){
+            [s appendString:@"\n\nThe problem is likely that the correct separator was not found, since only having one column is unusual (but possible). Please specify the correct separator manually in the 'Files' view settings."];
+            return s;
+        }
+        [s appendString:@"\n\nThe problem is either due to an error in the file itself, or by current app settings. Potential fixes using app settings available from the 'Files' view:\n\n- If above separator is wrong, specify separator manually\n- If the text read from the file shown below looks weird, change the encoding (most common is UTF8, followed by ISOLatin1)\n- Change the \"Alternative parsing\" setting\n- Change the \"Keep Quotes\" setting"];
         if( self.problematicRow && ![self.problematicRow isEqualToString:@""] ){
-            [s appendFormat:@"\n\nPotentially first problematic row:\n\n%@\n\n",
+            [s appendFormat:@"\n\nPotential problem:\n\n%@\n\n",
              self.problematicRow];
         }
         else
         {
-            [s appendFormat:@"\n\nFile read when using the selected encoding (change encoding in the setting avaiable in 'Files' view in case the following text does not match what is in the CSV file:\n\n%@", self.rawString];
+            [s appendFormat:@"\n\nFile read when using the currently selected encoding:\n\n%@", self.rawString];
         }
     }
     return s;
