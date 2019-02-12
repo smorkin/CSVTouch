@@ -136,8 +136,6 @@
 		F47DC8001111004C00E8DD8B /* CSVPreferencesController.m in Sources */ = {isa = PBXBuildFile; fileRef = F47819840E2BDE7A00B44E78 /* CSVPreferencesController.m */; };
 		F47DC8011111004C00E8DD8B /* OzymandiasAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F4A73D1A0E2EB49200E1DF27 /* OzymandiasAdditions.m */; };
 		F47DC8021111004C00E8DD8B /* parseCSV.m in Sources */ = {isa = PBXBuildFile; fileRef = F4E9290A0E4F5D4C006165B0 /* parseCSV.m */; };
-		F483B384220DB49D0018A25A /* SimpleDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = F483B383220DB49D0018A25A /* SimpleDocument.m */; };
-		F483B385220DB49D0018A25A /* SimpleDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = F483B383220DB49D0018A25A /* SimpleDocument.m */; };
 		F48584F811EE4F34001CFC28 /* dvd.png in Resources */ = {isa = PBXBuildFile; fileRef = F48584F511EE4F34001CFC28 /* dvd.png */; };
 		F48584F911EE4F34001CFC28 /* hd.png in Resources */ = {isa = PBXBuildFile; fileRef = F48584F611EE4F34001CFC28 /* hd.png */; };
 		F48584FA11EE4F34001CFC28 /* qt.png in Resources */ = {isa = PBXBuildFile; fileRef = F48584F711EE4F34001CFC28 /* qt.png */; };
@@ -263,8 +261,6 @@
 		F47819840E2BDE7A00B44E78 /* CSVPreferencesController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSVPreferencesController.m; sourceTree = "<group>"; };
 		F47DC80D1111004C00E8DD8B /* CSV Touch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "CSV Touch.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F48094CB21A6D5B200DEEA8D /* TODO */ = {isa = PBXFileReference; lastKnownFileType = text; path = TODO; sourceTree = "<group>"; };
-		F483B382220DB49D0018A25A /* SimpleDocument.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SimpleDocument.h; sourceTree = "<group>"; };
-		F483B383220DB49D0018A25A /* SimpleDocument.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SimpleDocument.m; sourceTree = "<group>"; };
 		F48584F511EE4F34001CFC28 /* dvd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dvd.png; sourceTree = "<group>"; };
 		F48584F611EE4F34001CFC28 /* hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hd.png; sourceTree = "<group>"; };
 		F48584F711EE4F34001CFC28 /* qt.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = qt.png; sourceTree = "<group>"; };
@@ -591,8 +587,6 @@
 			children = (
 				F48CAEFD220A659B00975205 /* CSSProvider.h */,
 				F48CAEFE220A659B00975205 /* CSSProvider.m */,
-				F483B382220DB49D0018A25A /* SimpleDocument.h */,
-				F483B383220DB49D0018A25A /* SimpleDocument.m */,
 			);
 			path = iCloud;
 			sourceTree = "<group>";
@@ -939,7 +933,6 @@
 				F402AA3E21CBE61D0097D875 /* parseCSV.m in Sources */,
 				F402AA3F21CBE61D0097D875 /* FilesViewController.m in Sources */,
 				F402AA4021CBE61D0097D875 /* ItemsViewController.m in Sources */,
-				F483B385220DB49D0018A25A /* SimpleDocument.m in Sources */,
 				F402AA4121CBE61D0097D875 /* ItemPreferenceController.m in Sources */,
 				F402AA4221CBE61D0097D875 /* ItemsSortAndSearchPreferencesController.m in Sources */,
 			);
@@ -977,7 +970,6 @@
 				F47DC8021111004C00E8DD8B /* parseCSV.m in Sources */,
 				F46CA0CC1FE56DEC00FE645C /* FilesViewController.m in Sources */,
 				F46CA0D01FE5960700FE645C /* ItemsViewController.m in Sources */,
-				F483B384220DB49D0018A25A /* SimpleDocument.m in Sources */,
 				F4DC40E3200BB0A800EA43A8 /* ItemPreferenceController.m in Sources */,
 				F4DF84DF20433A6D00AE653A /* ItemsSortAndSearchPreferencesController.m in Sources */,
 			);

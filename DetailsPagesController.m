@@ -182,6 +182,27 @@
     [super viewWillAppear:animated];
 }
 
+- (void) viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    if( ![CSVPreferencesController hasShown42ResizingNotes])
+    {
+        [CSVPreferencesController setHasShown42ResizingNotes];
+        [self show42ResizingNote];
+    }
+}
+
+- (void) show42ResizingNote
+{
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Resizing changes!"
+                                                                   message:@"This version uses new code for handling resizing in this window, and this means that your previous settings might result in too small/large text in this view. If so, just resize again (either by pinching or by using the settings button)."
+                                                             okButtonTitle:@"OK"
+                                                                 okHandler:nil];
+    [self presentViewController:alert
+                       animated:YES
+                     completion:nil];
+}
+
 - (DetailsViewController *) controllerAtIndex:(NSInteger)index
 {
     if( index < 0 || index >= self.items.count){

@@ -45,6 +45,7 @@
 #define PREFS_REVERSE_ITEM_SORTING @"reverseItemSorting"
 #define PREFS_SYNCHRONIZE_DOWNLOADED_FILES @"synchronizeDownloadedFiles"
 #define PREFS_HAS_SHOWN_40_NOTES @"40NotesShown"
+#define PREFS_HAS_SHOWN_42_RESIZING_NOTE @"42NotesShown"
 
 #define NUMBER_OF_STARTS @"NUMBER_OF_STARTS"
 
@@ -636,6 +637,20 @@ static BOOL hideAdress = NO;
 + (void) setHasShown40Notes
 {
     [[NSUserDefaults standardUserDefaults] setBool:YES forKey:PREFS_HAS_SHOWN_40_NOTES];
+}
+
++ (BOOL) hasShown42ResizingNotes
+{
+    id obj = [[NSUserDefaults standardUserDefaults] objectForKey:PREFS_HAS_SHOWN_42_RESIZING_NOTE];
+    if( obj )
+        return [[NSUserDefaults standardUserDefaults] boolForKey:PREFS_HAS_SHOWN_42_RESIZING_NOTE];
+    else
+        return NO;
+}
+
++ (void) setHasShown42ResizingNotes
+{
+    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:PREFS_HAS_SHOWN_42_RESIZING_NOTE];
 }
 
 + (void) setShouldSort:(BOOL)yn

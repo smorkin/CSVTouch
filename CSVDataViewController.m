@@ -63,10 +63,13 @@
     if( [[CSVFileParser files] count] == 0 && ![CSVPreferencesController hasShownHowTo])
     {
         [self showHelp];
+        // This is a bit special since it is shown when looking at details, but only if you were already using the app before resizing code changed -> since this is the first time you are running the app, no need to notify about resizing differences
+        [CSVPreferencesController setHasShown42ResizingNotes];
     }
     else if( ![CSVPreferencesController hasShown40Notes])
     {
         [self performSelector:@selector(show40Notes) withObject:nil afterDelay:1];
+        [CSVPreferencesController setHasShown42ResizingNotes]; // Similar reason as above
     }
     [CSVPreferencesController setHasShown40Notes]; // Help includes notes
 

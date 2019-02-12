@@ -6,49 +6,184 @@
 //
 
 #import "CSSProvider.h"
-#import "SimpleDocument.h"
 
-#ifdef CSV_LITE
-static NSString *UbiquityContainerIdentifier = @"iCloud.se.ozymandias.csvlite";
-#else
-static NSString *UbiquityContainerIdentifier = @"iCloud.se.ozymandias.csvtouch";
-#endif
+#define MULTICOLUMNNAME @"doublecolumn"
+#define SINGLECOLUMNNAME @"singlecolumn"
 
-static NSString *customCSSFolder = @"custom_css";
+@interface SimpleDocument : UIDocument
+@property (strong, nonatomic) NSString* documentText;
+@end
 
 @implementation CSSProvider
 
+static NSMetadataQuery *_icloudQuery;
+static NSString *_customMultiColumnCssString;
+static NSString *_customSingleColumnCssString;
+static NSString *_standardMultiColumnCssString;
+static NSString *_standardSingleColumnCssString;
+
++ (NSMetadataQuery *)documentQuery {
+    
+    NSMetadataQuery * query = [[NSMetadataQuery alloc] init];
+    // Search documents subdir only
+    [query setSearchScopes:[NSArray arrayWithObject:NSMetadataQueryUbiquitousDocumentsScope]];
+    
+    // Add a predicate for finding the documents
+    // NSPredicate requires the whole LIKE entry to be a single string (it puts "" around it) so we need to put the whole file name together before building the predicate
+    NSString *multiName = [NSString stringWithFormat:@"%@.css", MULTICOLUMNNAME];
+    NSString *singleName = [NSString stringWithFormat:@"%@.css", SINGLECOLUMNNAME];
+    NSPredicate *multiPattern = [NSPredicate predicateWithFormat:@"%K LIKE %@",
+                                 NSMetadataItemFSNameKey, multiName];
+    NSPredicate *singlePattern = [NSPredicate predicateWithFormat:@"%K LIKE %@",
+                                  NSMetadataItemFSNameKey, singleName];
+    [query setPredicate:[NSCompoundPredicate orPredicateWithSubpredicates:@[multiPattern, singlePattern]]];
+    return query;
+}
+
 + (void) startCustomCssRetrieving
 {
-    [SimpleDocument start];
+    if( !_icloudQuery)
+    {
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(processiCloudFiles:)
+                                                     name:NSMetadataQueryDidFinishGatheringNotification
+                                                   object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(processiCloudFiles:)
+                                                     name:NSMetadataQueryDidUpdateNotification
+                                                   object:nil];
+        _icloudQuery = [self documentQuery];
+        [_icloudQuery startQuery];
+    }
+}
+
++ (void) setCustomMultiColumnCssString:(NSString *)custom
+{
+    _customMultiColumnCssString = [custom copy];
+}
+
++ (NSString *) customMultiColumnCssString
+{
+    return _customMultiColumnCssString;
+}
+
++ (void) setCustomSingleColumnCssString:(NSString *)custom
+{
+    _customSingleColumnCssString = [custom copy];
+}
+
++ (NSString *) customSingleColumnCssString
+{
+    return _customSingleColumnCssString;
+}
+
++ (void)processiCloudFiles:(NSNotification *)notification {
+    // Always disable updates while processing results
+    [_icloudQuery disableUpdates];
+    
+    // The query reports all files found, every time.
+    NSLog(@"Found iCloud custom files: %@",[_icloudQuery results].count > 0 ? @"YES" : @"NO");
+    BOOL foundCustomMultiCssFile = NO;
+    BOOL foundCustomSingleCssFile = NO;
+    // NOTE! Queries always return the full file set -> if one of multi/single files is not here, it doesn't exist
+    for (NSMetadataItem * result in [_icloudQuery results])
+    {
+        // Ignore while downloading...
+        if( [[result valueForAttribute:@"NSMetadataUbiquitousItemIsDownloadingKey"] boolValue] )
+            continue;
+        NSURL * fileURL = [result valueForAttribute:NSMetadataItemURLKey];
+        NSNumber *fileIsHiddenKey = nil;
+        
+        // Don't include hidden files
+        [fileURL getResourceValue:&fileIsHiddenKey forKey:NSURLIsHiddenKey error:nil];
+        if ((!fileIsHiddenKey || ![fileIsHiddenKey boolValue]) &&
+            ![[fileURL path] containsString:@".Trash"]) {
+            BOOL isMultipleUpdate = [[fileURL path] containsString:MULTICOLUMNNAME];
+            SimpleDocument *sd = [[SimpleDocument alloc] initWithFileURL:fileURL];
+            if( isMultipleUpdate)
+                foundCustomMultiCssFile = TRUE;
+            else
+                foundCustomSingleCssFile = TRUE;
+            if( [sd readFromURL:sd.fileURL error:nil])
+            {
+                if( sd.documentText && ![sd.documentText isEqualToString:@""] &&
+                   ![sd.documentText isEqualToString:[self customMultiColumnCssString]])
+                {
+                    NSLog(@"Setting new custom %@ css string", (isMultipleUpdate ? @"multi-column" : @"single column"));
+                    if( isMultipleUpdate)
+                        [self setCustomMultiColumnCssString:sd.documentText];
+                    else
+                        [self setCustomSingleColumnCssString:sd.documentText];
+                }
+            }
+            else
+            {
+                [[NSFileManager defaultManager] startDownloadingUbiquitousItemAtURL:fileURL error:nil];
+            }
+        }
+    }
+    
+    if( !foundCustomMultiCssFile )
+    {
+        [self setCustomMultiColumnCssString:nil];
+    }
+    if( !foundCustomSingleCssFile )
+    {
+        [self setCustomSingleColumnCssString:nil];
+    }
+    [_icloudQuery enableUpdates];
 }
 
 + (NSString *) doubleColumnCSS
 {
-    NSString *custom = [SimpleDocument customCssString];
-    if( custom && ![custom isEqualToString:@""])
-        return custom;
+    // The standard one cannot change while app is running -> cache it
+    if( !_standardMultiColumnCssString )
+        _standardMultiColumnCssString = [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:MULTICOLUMNNAME ofType:@"css"]
+                                                              usedEncoding:nil
+                                                                     error:NULL];
     
-    return [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"doublecolumn" ofType:@"css"]
-                                      usedEncoding:nil
-                                             error:NULL];
+    // Now, return custom string if it exists
+    return ( _customMultiColumnCssString && ![_customMultiColumnCssString isEqualToString:@""]) ?
+    _customMultiColumnCssString : _standardMultiColumnCssString;
 }
 
 + (NSString *) singleColumnCSS
 {
-    return [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"singlecolumn" ofType:@"css"]
-                                 usedEncoding:nil
-                                        error:NULL];
+    if( !_standardSingleColumnCssString )
+        _standardSingleColumnCssString = [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:SINGLECOLUMNNAME ofType:@"css"]
+                                                               usedEncoding:nil
+                                                                      error:NULL];
+
+    return ( _customSingleColumnCssString && ![_customSingleColumnCssString isEqualToString:@""]) ?
+    _customSingleColumnCssString : _standardSingleColumnCssString;
 }
 
-+ (NSURL*) ubiquitousContainerURL
+@end
+
+@implementation SimpleDocument
+
+- (instancetype) initWithFileURL:(NSURL *)url
 {
-    return [[NSFileManager defaultManager] URLForUbiquityContainerIdentifier:UbiquityContainerIdentifier];
+    self = [super initWithFileURL:url];
+    return self;
 }
 
-+ (NSURL*) ubiquitousDocumentsDirectoryURL
+- (BOOL) hasUnsavedChanges
 {
-    return [[self ubiquitousContainerURL] URLByAppendingPathComponent:@"Documents" isDirectory:YES];
+    return NO;
+}
+
+- (BOOL)loadFromContents:(id)contents
+                  ofType:(NSString *)typeName
+                   error:(NSError **)outError {
+    if ([contents length] > 0)
+        self.documentText = [[NSString alloc]
+                             initWithData:contents
+                             encoding:NSUTF8StringEncoding];
+    else
+        self.documentText = @"";
+    
+    return YES;
 }
 
 @end

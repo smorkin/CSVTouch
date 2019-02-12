@@ -18,6 +18,7 @@
     self.textView.text = self.errorText;
     self.navigationItem.rightBarButtonItem = nil;
     self.navigationController.toolbarHidden = YES;
+    self.navigationItem.largeTitleDisplayMode = UINavigationItemLargeTitleDisplayModeNever;
     [super viewWillAppear:animated];
 }
 

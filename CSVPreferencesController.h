@@ -106,6 +106,9 @@ typedef enum FixedWidthAlternative{
 + (BOOL) hasShown40Notes;
 + (void) setHasShown40Notes;
 
++ (BOOL) hasShown42ResizingNotes;
++ (void) setHasShown42ResizingNotes;
+
 + (void) updateSortingMask; // Needs to be called as part of initialization
 + (NSUInteger) sortingMask;
 extern NSUInteger sortingMask; // This is available for performance-critical operations

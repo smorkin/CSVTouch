@@ -643,7 +643,7 @@ static NSTimer *_resetDownloadFlagsTimer;
             [s appendString:@"\n\nThe problem is likely that the correct separator was not found, since only having one column is unusual (but possible). Please specify the correct separator manually in the 'Files' view settings."];
             return s;
         }
-        [s appendString:@"\n\nThe problem is either due to an error in the file itself, or by current app settings. Potential fixes using app settings available from the 'Files' view:\n\n- If above separator is wrong, specify separator manually\n- If the text read from the file shown below looks weird, change the encoding (most common is UTF8, followed by ISOLatin1)\n- Change the \"Alternative parsing\" setting\n- Change the \"Keep Quotes\" setting"];
+        [s appendString:@"\n\nThe problem is either due to an error in the file itself, or to current app settings. Potential fixes using app settings available from the 'Files' view:\n\n- If above separator is wrong, specify separator manually\n- If the text read from the file shown below looks weird, change the encoding (most common is UTF8, followed by ISOLatin1)\n- Change the \"Alternative parsing\" setting\n- Change the \"Keep Quotes\" setting"];
         if( self.problematicRow && ![self.problematicRow isEqualToString:@""] ){
             [s appendFormat:@"\n\nPotential problem:\n\n%@\n\n",
              self.problematicRow];
