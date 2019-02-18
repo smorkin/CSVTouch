@@ -7,6 +7,7 @@
 
 #import "ItemPreferenceController.h"
 #import "CSVPreferencesController.h"
+#import "CSSProvider.h"
 
 @interface ItemPreferenceController ()
 
@@ -27,6 +28,7 @@
     increaseSize.enabled = [CSVPreferencesController canIncreaseDetailsFontSize];
     decreaseSize.enabled = [CSVPreferencesController canDecreaseDetailsFontSize];
     showImages.on = [CSVPreferencesController showInlineImages];
+    customCSSInfo.text = [CSSProvider customCSSExists] ? @"Custom CSS: Yes" : @"Custom CSS: No";
 }
 
 - (IBAction) showHiddenChanged:(id)sender

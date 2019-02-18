@@ -13,6 +13,8 @@
 + (NSString *) doubleColumnCSS;
 + (NSString *) singleColumnCSS;
 
++ (BOOL) customCSSExists;
+
 + (void) startCustomCssRetrieving;
 
 @end

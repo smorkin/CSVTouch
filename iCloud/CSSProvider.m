@@ -22,6 +22,11 @@ static NSString *_customSingleColumnCssString;
 static NSString *_standardMultiColumnCssString;
 static NSString *_standardSingleColumnCssString;
 
++ (BOOL) customCSSExists
+{
+    return _customSingleColumnCssString != nil || _customMultiColumnCssString != nil;
+}
+
 + (NSMetadataQuery *)documentQuery {
     
     NSMetadataQuery * query = [[NSMetadataQuery alloc] init];

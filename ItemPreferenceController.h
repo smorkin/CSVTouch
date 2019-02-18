@@ -15,6 +15,7 @@
     IBOutlet UIButton *increaseSize;
     IBOutlet UIButton *decreaseSize;
     IBOutlet UISwitch *showImages;
+    IBOutlet UILabel *customCSSInfo;
 }
 
 @property (nonatomic, weak) DetailsPagesController *pageController;

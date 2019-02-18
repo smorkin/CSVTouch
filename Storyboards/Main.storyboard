@@ -871,6 +871,13 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pxO-71-Gru">
+                                <rect key="frame" x="16" y="259" width="268" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="italicSystem" pointSize="11"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
@@ -887,6 +894,7 @@
                     <value key="contentSizeForViewInPopover" type="size" width="300" height="300"/>
                     <size key="freeformSize" width="300" height="300"/>
                     <connections>
+                        <outlet property="customCSSInfo" destination="pxO-71-Gru" id="isV-d4-XT3"/>
                         <outlet property="decreaseSize" destination="BtM-IE-PuU" id="wiq-eH-17A"/>
                         <outlet property="increaseSize" destination="9je-GE-SB9" id="aJ8-5Z-eFz"/>
                         <outlet property="showHidden" destination="C8G-YH-IP6" id="Cjs-tf-ErR"/>
@@ -896,7 +904,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Oni-In-iei" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3174" y="-461"/>
+            <point key="canvasLocation" x="3172.8000000000002" y="-461.46926536731638"/>
         </scene>
         <!--Details-->
         <scene sceneID="p4N-7S-fE5">

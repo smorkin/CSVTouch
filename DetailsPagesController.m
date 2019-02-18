@@ -194,11 +194,22 @@
 
 - (void) show42ResizingNote
 {
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Resizing changes!"
-                                                                   message:@"This version uses new code for handling resizing in this window, and this means that your previous settings might result in too small/large text in this view. If so, just resize again (either by pinching or by using the settings button)."
-                                                             okButtonTitle:@"OK"
-                                                                 okHandler:nil];
-    [self presentViewController:alert
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Resizing changes!"
+                                                                             message:@"This version uses new code for handling resizing in this window, and this means that your previous settings might result in too small/large text in this view. If so, just resize again (either by pinching or by using the settings button)."
+                                                                      preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK"
+                                                 style:UIAlertActionStyleDefault
+                                               handler:nil];
+    UIAlertAction *read = [UIAlertAction actionWithTitle:@"Read more"
+                                                 style:UIAlertActionStyleDefault
+                                               handler:^(UIAlertAction *action)
+    {
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://csvtouch.wordpress.com/advanced-custom-css/"] options:@{} completionHandler:nil];
+
+    }];
+    [alertController addAction:ok];
+    [alertController addAction:read];
+    [self presentViewController:alertController
                        animated:YES
                      completion:nil];
 }
