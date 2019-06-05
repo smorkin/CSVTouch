@@ -26,10 +26,6 @@
 
 @implementation DetailsViewController
 
-- (void) setupTableView
-{
-}
-
 - (void) setupWebView
 {
     self.webView = [[UIWebView alloc] init];
@@ -49,8 +45,6 @@
                                                                   action:@selector(pinch:)];
     self.pinchGesture.delegate = self;
     [self setupWebView];
-    [self setupTableView];
-    
 }
 
 - (void) awakeFromNib

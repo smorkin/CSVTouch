@@ -751,12 +751,20 @@ static NSTimer *_resetDownloadFlagsTimer;
 - (NSString *) defaultTableViewDescription
 {
 	NSString *s = [[self filePath] lastPathComponent];
-	
+    
 	// First remove the .csvtouch extension. Should always be there, but we need to be careful about
 	// backwards compatibility
 	if( [[[s pathExtension] lowercaseString] isEqualToString:@"csvtouch"] )
 		s = [s stringByDeletingPathExtension];
 	
+    // Then, if file is from URL, lastPathComponent might be something like pub.csv?download=csv&style=3. For example links to Google docs look like that. So, remove everything after first '?'.
+    if( !self.downloadedLocally && self.URL )
+    {
+        NSArray *array = [s componentsSeparatedByString:@"?"];
+        if( [array count] > 1 )
+            s = [array objectAtIndex:0];
+    }
+    
 	// Then we remove standard csv file extensions
 	if( [[[s pathExtension] lowercaseString] isEqualToString:@"csv"] ||
 	   [[[s pathExtension] lowercaseString] isEqualToString:@"tsv"] ||
