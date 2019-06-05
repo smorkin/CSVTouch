@@ -629,7 +629,7 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     NSMutableCharacterSet *set = [[NSMutableCharacterSet alloc] init];
     [set formUnionWithCharacterSet:[NSCharacterSet URLPathAllowedCharacterSet]];
-    [set addCharactersInString:@":"];
+    [set addCharactersInString:@":?"];
     return set;
 }
 

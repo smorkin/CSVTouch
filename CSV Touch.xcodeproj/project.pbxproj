@@ -108,6 +108,10 @@
 		F40D21321FE6A66F00146BB4 /* EditFileColumnsController.m in Sources */ = {isa = PBXBuildFile; fileRef = F40D21311FE6A66F00146BB4 /* EditFileColumnsController.m */; };
 		F412B2D2115567D0000C7596 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28AD735F0D9D9599002E5188 /* MainWindow.xib */; };
 		F415EC6E21C2BDCD00E7F88A /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F415EC6D21C2BDCD00E7F88A /* QuartzCore.framework */; };
+		F418E183223C19F0008DF95B /* InventoryCounterTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F418E181223C19F0008DF95B /* InventoryCounterTableViewCell.m */; };
+		F418E184223C19F0008DF95B /* InventoryCounterTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F418E181223C19F0008DF95B /* InventoryCounterTableViewCell.m */; };
+		F418E185223C19F0008DF95B /* InventoryCounterTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F418E182223C19F0008DF95B /* InventoryCounterTableViewCell.xib */; };
+		F418E186223C19F0008DF95B /* InventoryCounterTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F418E182223C19F0008DF95B /* InventoryCounterTableViewCell.xib */; };
 		F434D1411FF1518800CD622D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F434D1401FF1518800CD622D /* Main.storyboard */; };
 		F434D1441FF2A96200CD622D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F434D1431FF2A96200CD622D /* LaunchScreen.storyboard */; };
 		F434D1481FF40D0000CD622D /* FadeAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = F434D1471FF40D0000CD622D /* FadeAnimator.m */; };
@@ -229,6 +233,9 @@
 		F41233A30DE4AD64005E355F /* text.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = text.h; sourceTree = "<group>"; };
 		F413FF810E648C93006C7348 /* Description.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = Description.rtf; sourceTree = "<group>"; };
 		F415EC6D21C2BDCD00E7F88A /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		F418E180223C19F0008DF95B /* InventoryCounterTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = InventoryCounterTableViewCell.h; sourceTree = "<group>"; };
+		F418E181223C19F0008DF95B /* InventoryCounterTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = InventoryCounterTableViewCell.m; sourceTree = "<group>"; };
+		F418E182223C19F0008DF95B /* InventoryCounterTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = InventoryCounterTableViewCell.xib; sourceTree = "<group>"; };
 		F42D908C0DE95538001A2E5C /* CSVDataViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSVDataViewController.h; sourceTree = "<group>"; };
 		F42D908D0DE95538001A2E5C /* CSVDataViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSVDataViewController.m; sourceTree = "<group>"; };
 		F434D1401FF1518800CD622D /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
@@ -397,7 +404,9 @@
 			isa = PBXGroup;
 			children = (
 				F48094CB21A6D5B200DEEA8D /* TODO */,
-				F44AD0D51FF6F0EE00BC21D6 /* Storyboards */,
+				F418E17D223C1888008DF95B /* Files view */,
+				F418E17E223C18A0008DF95B /* Items view */,
+				F418E17F223C18B7008DF95B /* Single item view */,
 				F44AD0DF1FFE668800BC21D6 /* Main classes */,
 				F44AD0DB1FFE647B00BC21D6 /* Parse */,
 				F44AD0DE1FFE64E200BC21D6 /* Preferences */,
@@ -450,6 +459,47 @@
 				F4A3BCAB17F8978000B7C201 /* Appstore, Docs images */,
 			);
 			name = "iTunes Connect";
+			sourceTree = "<group>";
+		};
+		F418E17D223C1888008DF95B /* Files view */ = {
+			isa = PBXGroup;
+			children = (
+				F46CA0CA1FE56DEC00FE645C /* FilesViewController.h */,
+				F46CA0CB1FE56DEC00FE645C /* FilesViewController.m */,
+				F46CA0D61FE5AEAA00FE645C /* FileDataViewController.h */,
+				F46CA0D71FE5AEAA00FE645C /* FileDataViewController.m */,
+				F44AD0E01FFE671300BC21D6 /* AddFilesSelectionController.h */,
+				F44AD0E11FFE671300BC21D6 /* AddFilesSelectionController.m */,
+			);
+			path = "Files view";
+			sourceTree = "<group>";
+		};
+		F418E17E223C18A0008DF95B /* Items view */ = {
+			isa = PBXGroup;
+			children = (
+				F46CA0CE1FE5960700FE645C /* ItemsViewController.h */,
+				F46CA0CF1FE5960700FE645C /* ItemsViewController.m */,
+				F4E8FAF22001409F00E55844 /* AutoSizingTableViewCell.h */,
+				F4E8FAF32001409F00E55844 /* AutoSizingTableViewCell.m */,
+				F4E8FAF42001409F00E55844 /* AutoSizingTableViewCell.xib */,
+				F40D21301FE6A66F00146BB4 /* EditFileColumnsController.h */,
+				F40D21311FE6A66F00146BB4 /* EditFileColumnsController.m */,
+			);
+			path = "Items view";
+			sourceTree = "<group>";
+		};
+		F418E17F223C18B7008DF95B /* Single item view */ = {
+			isa = PBXGroup;
+			children = (
+				F434D14B1FF6A9B900CD622D /* DetailsViewController.h */,
+				F434D14C1FF6A9B900CD622D /* DetailsViewController.m */,
+				F44AD0D61FFD0CC800BC21D6 /* DetailsPagesController.h */,
+				F44AD0D71FFD0CC800BC21D6 /* DetailsPagesController.m */,
+				F418E180223C19F0008DF95B /* InventoryCounterTableViewCell.h */,
+				F418E181223C19F0008DF95B /* InventoryCounterTableViewCell.m */,
+				F418E182223C19F0008DF95B /* InventoryCounterTableViewCell.xib */,
+			);
+			path = "Single item view";
 			sourceTree = "<group>";
 		};
 		F434D14F1FF6B50900CD622D /* Frameworks */ = {
@@ -546,29 +596,13 @@
 		F44AD0DF1FFE668800BC21D6 /* Main classes */ = {
 			isa = PBXGroup;
 			children = (
+				F44AD0D51FF6F0EE00BC21D6 /* Storyboards */,
 				1D3623240D0F684500981E51 /* CSV_TouchAppDelegate.h */,
 				1D3623250D0F684500981E51 /* CSV_TouchAppDelegate.m */,
 				F42D908C0DE95538001A2E5C /* CSVDataViewController.h */,
 				F42D908D0DE95538001A2E5C /* CSVDataViewController.m */,
-				F46CA0CA1FE56DEC00FE645C /* FilesViewController.h */,
-				F46CA0CB1FE56DEC00FE645C /* FilesViewController.m */,
-				F46CA0CE1FE5960700FE645C /* ItemsViewController.h */,
-				F46CA0CF1FE5960700FE645C /* ItemsViewController.m */,
 				F46CA0D21FE59A4900FE645C /* ParseErrorViewController.h */,
 				F46CA0D31FE59A4900FE645C /* ParseErrorViewController.m */,
-				F46CA0D61FE5AEAA00FE645C /* FileDataViewController.h */,
-				F46CA0D71FE5AEAA00FE645C /* FileDataViewController.m */,
-				F40D21301FE6A66F00146BB4 /* EditFileColumnsController.h */,
-				F40D21311FE6A66F00146BB4 /* EditFileColumnsController.m */,
-				F434D14B1FF6A9B900CD622D /* DetailsViewController.h */,
-				F434D14C1FF6A9B900CD622D /* DetailsViewController.m */,
-				F44AD0D61FFD0CC800BC21D6 /* DetailsPagesController.h */,
-				F44AD0D71FFD0CC800BC21D6 /* DetailsPagesController.m */,
-				F44AD0E01FFE671300BC21D6 /* AddFilesSelectionController.h */,
-				F44AD0E11FFE671300BC21D6 /* AddFilesSelectionController.m */,
-				F4E8FAF22001409F00E55844 /* AutoSizingTableViewCell.h */,
-				F4E8FAF32001409F00E55844 /* AutoSizingTableViewCell.m */,
-				F4E8FAF42001409F00E55844 /* AutoSizingTableViewCell.xib */,
 			);
 			name = "Main classes";
 			sourceTree = "<group>";
@@ -801,6 +835,7 @@
 				F402AA0A21CBE61D0097D875 /* no.png in Resources */,
 				F402AA0B21CBE61D0097D875 /* ok.png in Resources */,
 				F402AA0C21CBE61D0097D875 /* problem.png in Resources */,
+				F418E186223C19F0008DF95B /* InventoryCounterTableViewCell.xib in Resources */,
 				F402AA0D21CBE61D0097D875 /* right_blue.png in Resources */,
 				F402AA0E21CBE61D0097D875 /* square_blue.png in Resources */,
 				F402AA0F21CBE61D0097D875 /* square_green.png in Resources */,
@@ -872,6 +907,7 @@
 				F4ADD7E3115E573C0095F061 /* no.png in Resources */,
 				F4ADD7E4115E573C0095F061 /* ok.png in Resources */,
 				F4ADD7E5115E573C0095F061 /* problem.png in Resources */,
+				F418E185223C19F0008DF95B /* InventoryCounterTableViewCell.xib in Resources */,
 				F4ADD7E6115E573C0095F061 /* right_blue.png in Resources */,
 				F4ADD7E7115E573C0095F061 /* square_blue.png in Resources */,
 				F4ADD7E8115E573C0095F061 /* square_green.png in Resources */,
@@ -933,6 +969,7 @@
 				F402AA3E21CBE61D0097D875 /* parseCSV.m in Sources */,
 				F402AA3F21CBE61D0097D875 /* FilesViewController.m in Sources */,
 				F402AA4021CBE61D0097D875 /* ItemsViewController.m in Sources */,
+				F418E184223C19F0008DF95B /* InventoryCounterTableViewCell.m in Sources */,
 				F402AA4121CBE61D0097D875 /* ItemPreferenceController.m in Sources */,
 				F402AA4221CBE61D0097D875 /* ItemsSortAndSearchPreferencesController.m in Sources */,
 			);
@@ -970,6 +1007,7 @@
 				F47DC8021111004C00E8DD8B /* parseCSV.m in Sources */,
 				F46CA0CC1FE56DEC00FE645C /* FilesViewController.m in Sources */,
 				F46CA0D01FE5960700FE645C /* ItemsViewController.m in Sources */,
+				F418E183223C19F0008DF95B /* InventoryCounterTableViewCell.m in Sources */,
 				F4DC40E3200BB0A800EA43A8 /* ItemPreferenceController.m in Sources */,
 				F4DF84DF20433A6D00AE653A /* ItemsSortAndSearchPreferencesController.m in Sources */,
 			);

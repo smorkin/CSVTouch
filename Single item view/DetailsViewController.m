@@ -11,6 +11,7 @@
 #import "CSVPreferencesController.h"
 #import "CSV_TouchAppDelegate.h"
 #import "CSSProvider.h"
+#import "InventoryCounterTableViewCell.h"
 
 
 @interface DetailsViewController ()
@@ -18,6 +19,7 @@
 @property CGFloat originalPointsWhenPinchStarted;
 @property BOOL imageShown;
 @property UIPinchGestureRecognizer *pinchGesture;
+@property UITableView *inventoryTable;
 @end
 
 @interface DetailsViewController (Web) <WKNavigationDelegate, UIWebViewDelegate, UIGestureRecognizerDelegate>
@@ -25,7 +27,18 @@
 - (void) updateContent;
 @end
 
+@interface DetailsViewController (Inventory) <UITableViewDelegate, UITableViewDataSource>
+@end
+
 @implementation DetailsViewController
+
+- (void) setupTableView
+{
+    self.inventoryTable = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
+    self.inventoryTable.dataSource = self;
+    self.inventoryTable.delegate = self;
+    [self.inventoryTable registerNib:[UINib nibWithNibName:@"InventoryCounterTableViewCell" bundle:nil] forCellReuseIdentifier:@"InventoryCell"];
+}
 
 - (void) setupWebView
 {
@@ -46,6 +59,8 @@
                                                                   action:@selector(pinch:)];
     self.pinchGesture.delegate = self;
     [self setupWebView];
+    [self setupTableView];
+    
 }
 
 - (void) awakeFromNib
@@ -58,6 +73,11 @@
 {
     self = [super init];
     [self setup];
+    if( ![self.view isKindOfClass:[UITableView class]])
+    {
+        self.view = self.inventoryTable;
+        [self.inventoryTable reloadData];
+    }
     return self;
 }
 
@@ -265,6 +285,12 @@
     [s appendString:row];
 }
 
+- (void)inv
+{
+    self.view = self.inventoryTable;
+    [self.inventoryTable reloadData];
+}
+
 - (void) updateContent
 {
     [self.webView stopLoading];
@@ -287,6 +313,7 @@
     }
     [s appendFormat:@"</body></html>"];
     [self.webView loadHTMLString:s baseURL:nil];
+    [self.inventoryTable reloadData];
 }
 
 - (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler
@@ -324,6 +351,22 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
     }
     
     return NO;
+}
+
+@end
+
+@implementation DetailsViewController (Inventory)
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return 2;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)aTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    InventoryCounterTableViewCell *cell = [self.inventoryTable dequeueReusableCellWithIdentifier:@"InventoryCell" forIndexPath:indexPath];
+    cell.text.text = @"Uninitialised";
+    return cell;
 }
 
 @end
