@@ -137,19 +137,15 @@ static CSV_TouchAppDelegate *sharedInstance = nil;
         [CSVFileParser removeFileWithName:[CSV_TouchAppDelegate internalFileNameForOriginalFileName:fileName]];
         NSString *filePath = [[CSV_TouchAppDelegate importedDocumentsPath] stringByAppendingPathComponent:
                               [CSV_TouchAppDelegate internalFileNameForOriginalFileName:fileName]];
-        CSVFileParser *fp = [CSVFileParser addParserWithRawData:data forFilePath:filePath];
-		if( !isLocalDownload )
-		{
-			fp.URL = self.lastFileURL;
-			if( [CSVPreferencesController hideAddress] )
-				fp.hideAddress = TRUE;
-		}
-		else
-		{
-			fp.URL = @"";
-		}
+        NSString *fileURL = !isLocalDownload ? self.lastFileURL : @"";
+
+        CSVFileParser *fp = [CSVFileParser addParserWithRawData:data
+                                                    forFilePath:filePath
+                                                            fileURL:fileURL];
 		fp.downloadDate = [NSDate date];
         fp.hasBeenDownloaded = TRUE;
+        if( !isLocalDownload && [CSVPreferencesController hideAddress])
+            fp.hideAddress = TRUE;
 		[fp saveToFile];
         fp.predefineHiddenColumns = [self.preDefinedHiddenColumns objectForKey:fp.URL];
         [self.preDefinedHiddenColumns removeObjectForKey:fp.URL];
@@ -222,7 +218,7 @@ static CSV_TouchAppDelegate *sharedInstance = nil;
 		if(![fileName hasPrefix:@"."] &&
 		   [fileName hasSuffix:INTERNAL_EXTENSION])
 		{
-            [CSVFileParser addParserWithRawData:nil forFilePath:[importedDocumentsPath stringByAppendingPathComponent:fileName]];
+            [CSVFileParser loadParserFromFilePath:[importedDocumentsPath stringByAppendingPathComponent:fileName]];
 		}
 	}
     [[FilesViewController sharedInstance].tableView reloadData];

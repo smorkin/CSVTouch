@@ -42,7 +42,8 @@
 
 + (void) saveColumnNames;
 
-+ (CSVFileParser *) addParserWithRawData:(NSData *)data forFilePath:(NSString *)path;
++ (CSVFileParser *) addParserWithRawData:(NSData *)data forFilePath:(NSString *)path fileURL:(NSString *)URL;
++ (void) loadParserFromFilePath:(NSString *)path;
 + (CSVFileParser *) existingParserForName:(NSString *)name;
 
 + (void) resetClearingOfDownloadFlagsTimer;

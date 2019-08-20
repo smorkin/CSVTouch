@@ -198,6 +198,9 @@ static NSTimer *_resetDownloadFlagsTimer;
  - (void) loadFile
 {
 	NSDictionary *d = [NSDictionary dictionaryWithContentsOfFile:self.filePath];
+    if( !d || ![d isKindOfClass:[NSDictionary class]])
+        return;
+    
 	self.URL = [d objectForKey:FILEPARSER_URL];
 	self.downloadDate = [d objectForKey:FILEPARSER_DOWNLOAD_DATE];
 	if( [d objectForKey:FILEPARSER_HIDE_ADDRESS] )
@@ -210,13 +213,6 @@ static NSTimer *_resetDownloadFlagsTimer;
         _rawString = [[NSString alloc] initWithData:self.rawData
 										   encoding:[CSVFileParser getEncodingForFile:[self fileName]]];
     }
-}
-
-- (NSString *) URL
-{
-	if( !_URL )
-		[self loadFile];
-	return _URL;
 }
 
 - (NSDate *) downloadDate
@@ -548,13 +544,14 @@ static NSTimer *_resetDownloadFlagsTimer;
     [self resetColumnsInfo];
 }
 
-- (id) initWithRawData:(NSData *)d filePath:(NSString *)path
+- (id) initWithRawData:(NSData *)d filePath:(NSString *)path fileURL:(NSString *)fileURL
 {
 	self = [super init];
 	self.parsedItems = [[NSMutableArray alloc] init];
 	self.columnNames = [[NSMutableArray alloc] init];
 	self.rawData = [NSData dataWithData:d];
     self.filePath = path;
+    self.URL = fileURL;
 	if( self.rawData )
 	{
         _rawString = [[NSString alloc] initWithData:self.rawData
@@ -589,9 +586,16 @@ static NSTimer *_resetDownloadFlagsTimer;
 	return [_rawString length];
 }
 
-+ (CSVFileParser *) addParserWithRawData:(NSData *)data forFilePath:(NSString *)path
++ (void) loadParserFromFilePath:(NSString *)path
 {
-    CSVFileParser *cfp = [[self alloc] initWithRawData:data filePath:path];
+    CSVFileParser *cfp = [[self alloc] initWithRawData:nil filePath:path fileURL:nil];
+    [cfp loadFile];
+    [self addParser:cfp];
+}
+
++ (CSVFileParser *) addParserWithRawData:(NSData *)data forFilePath:(NSString *)path fileURL:(NSString *)URL
+{
+    CSVFileParser *cfp = [[self alloc] initWithRawData:data filePath:path fileURL:URL];
     [self addParser:cfp];
     return cfp;
 }
@@ -631,7 +635,10 @@ static NSTimer *_resetDownloadFlagsTimer;
     // What type of problem?
     if( [self.rawString length] == 0 )
     {
-        [s appendString:@"Couldn't read the file using the currently selected encoding; please try another one in the settings available in the previous 'Files' view.\n\nNote that if you want to override the selected encoding for a single file, long-click on the file instead and select encoding in the shown view instead."];
+        if( !self.rawData )
+            [s appendString:@"No data found in file; please delete it and download/import it again.\n\nNote that version 4.3 unfortunately had a bug which caused the app to lose the data about the downloaded file in some cases, resulting in this exact problem."];
+        else
+            [s appendString:@"Couldn't read the file using the currently selected encoding; please try another one in the settings available in the previous 'Files' view.\n\nNote that if you want to override the selected encoding for a single file, long-click on the file instead and select encoding in the shown view instead."];
     }
     else
     {
@@ -758,7 +765,7 @@ static NSTimer *_resetDownloadFlagsTimer;
 		s = [s stringByDeletingPathExtension];
 	
     // Then, if file is from URL, lastPathComponent might be something like pub.csv?download=csv&style=3. For example links to Google docs look like that. So, remove everything after first '?'.
-    if( !self.downloadedLocally && self.URL )
+    if( !self.downloadedLocally )
     {
         NSArray *array = [s componentsSeparatedByString:@"?"];
         if( [array count] > 1 )
