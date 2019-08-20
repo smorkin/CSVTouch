@@ -204,10 +204,10 @@ static NSTimer *_resetDownloadFlagsTimer;
 		self.hideAddress = [[d objectForKey:FILEPARSER_HIDE_ADDRESS] boolValue];
 	else
 		self.hideAddress = NO;
-    _rawData = [d objectForKey:FILEPARSER_RAW_DATA];
-	if( _rawData )
+    self.rawData = [d objectForKey:FILEPARSER_RAW_DATA];
+	if( self.rawData )
 	{
-        _rawString = [[NSString alloc] initWithData:_rawData
+        _rawString = [[NSString alloc] initWithData:self.rawData
 										   encoding:[CSVFileParser getEncodingForFile:[self fileName]]];
     }
 }
@@ -505,7 +505,7 @@ static NSTimer *_resetDownloadFlagsTimer;
 
 - (void)parseString
 {    
-	if( !_rawData )
+	if( !self.rawData )
 		[self loadFile];
 	
 	int foundColumns;
@@ -539,9 +539,9 @@ static NSTimer *_resetDownloadFlagsTimer;
 - (void) encodingUpdated
 {
     _rawString = nil;
-    if( _rawData)
+    if( self.rawData)
     {
-        _rawString = [[NSString alloc] initWithData:_rawData
+        _rawString = [[NSString alloc] initWithData:self.rawData
 										   encoding:[CSVFileParser getEncodingForFile:[self fileName]]];
     }
     [self reparseIfParsed];
@@ -553,11 +553,11 @@ static NSTimer *_resetDownloadFlagsTimer;
 	self = [super init];
 	self.parsedItems = [[NSMutableArray alloc] init];
 	self.columnNames = [[NSMutableArray alloc] init];
-	_rawData = d;
+	self.rawData = [NSData dataWithData:d];
     self.filePath = path;
-	if( _rawData )
+	if( self.rawData )
 	{
-        _rawString = [[NSString alloc] initWithData:_rawData
+        _rawString = [[NSString alloc] initWithData:self.rawData
 										   encoding:[CSVFileParser getEncodingForFile:[self fileName]]];
     }
 	self.hasBeenParsed = NO;
@@ -570,7 +570,7 @@ static NSTimer *_resetDownloadFlagsTimer;
     self.parsedItems = nil;
     self.columnNames = nil;
     _rawString = nil;
-    _rawData = nil;
+    self.rawData = nil;
 	self.problematicRow = nil;
 	self.URL = nil;
 	self.downloadDate = nil;
@@ -598,12 +598,12 @@ static NSTimer *_resetDownloadFlagsTimer;
 
 - (NSData *) fileRawData
 {
-    return _rawData;
+    return self.rawData;
 }
 
 - (void) saveToFile
 {
-	NSDictionary *d = [NSDictionary dictionaryWithObjectsAndKeys:_rawData, FILEPARSER_RAW_DATA,
+	NSDictionary *d = [NSDictionary dictionaryWithObjectsAndKeys:self.rawData, FILEPARSER_RAW_DATA,
 					   self.URL, FILEPARSER_URL,
 					   self.downloadDate, FILEPARSER_DOWNLOAD_DATE,
 					   [NSNumber numberWithBool:self.hideAddress], FILEPARSER_HIDE_ADDRESS,
