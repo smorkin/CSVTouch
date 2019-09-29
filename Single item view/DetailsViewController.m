@@ -30,7 +30,7 @@
 {
     self.webView = [[UIWebView alloc] init];
     self.webView.opaque = NO;
-    self.webView.backgroundColor = [UIColor whiteColor];
+    self.webView.backgroundColor = [CSVPreferencesController systemBackgroundColor];
     self.webView.delegate = self;
     [self.webView addGestureRecognizer:self.pinchGesture];
     self.webView.scalesPageToFit = YES;
@@ -161,9 +161,19 @@
     [self.webView removeGestureRecognizer:self.pinchGesture];
 }
 
+- (BOOL) useDarkCSS
+{
+    if( @available(iOS 13, *))
+    {
+        return self.view.traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark;
+    }
+    return NO;
+}
 - (void) addHtmlHeader:(NSMutableString *)s useSingleColumn:(BOOL)useSingleColumn
 {
-    NSString *cssString = (useSingleColumn ? [CSSProvider singleColumnCSS] : [CSSProvider doubleColumnCSS]);
+    NSString *cssString = (useSingleColumn ?
+                           [CSSProvider singleColumnCSSForDarkMode:[self useDarkCSS]] :
+                           [CSSProvider doubleColumnCSSForDarkMode:[self useDarkCSS]]);
 
     [s appendString:@"<html><head><title>Details</title>"];
     [s appendString:@"<style type=\"text/css\">"];

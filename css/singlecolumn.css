@@ -1,13 +1,15 @@
 body{
-    font:normal FONTSIZE helvetica;
+    font: normal FONTSIZE helvetica;
+    background-color: white;
+    color: black;
     white-space: pre-wrap;
     word-break: break-word;
 }
 table {
     border-collapse: collapse;
     background: #EEE;
-    font:normal FONTSIZE helvetica;
-    color: #000;
+    font: normal FONTSIZE helvetica;
+    color: black;
     width: 100%;
     white-space: pre-wrap;
     word-break: break-word;

@@ -207,6 +207,10 @@
 		F4E8FAF52001409F00E55844 /* AutoSizingTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F4E8FAF32001409F00E55844 /* AutoSizingTableViewCell.m */; };
 		F4E8FAF72001409F00E55844 /* AutoSizingTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F4E8FAF42001409F00E55844 /* AutoSizingTableViewCell.xib */; };
 		F4EC004F17F87E8600A52838 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F4EC004E17F87E8600A52838 /* Images.xcassets */; };
+		F4FF52E02340E91E000DACF1 /* singlecolumn_dark.css in Resources */ = {isa = PBXBuildFile; fileRef = F4FF52DE2340E91D000DACF1 /* singlecolumn_dark.css */; };
+		F4FF52E12340E91E000DACF1 /* singlecolumn_dark.css in Resources */ = {isa = PBXBuildFile; fileRef = F4FF52DE2340E91D000DACF1 /* singlecolumn_dark.css */; };
+		F4FF52E22340E91E000DACF1 /* doublecolumn_dark.css in Resources */ = {isa = PBXBuildFile; fileRef = F4FF52DF2340E91E000DACF1 /* doublecolumn_dark.css */; };
+		F4FF52E32340E91E000DACF1 /* doublecolumn_dark.css in Resources */ = {isa = PBXBuildFile; fileRef = F4FF52DF2340E91E000DACF1 /* doublecolumn_dark.css */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -352,6 +356,8 @@
 		F4E9290A0E4F5D4C006165B0 /* parseCSV.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = parseCSV.m; sourceTree = "<group>"; };
 		F4EC004E17F87E8600A52838 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = "CSV Touch/Images.xcassets"; sourceTree = "<group>"; };
 		F4EC006217F88A1C00A52838 /* Image masters */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "Image masters"; sourceTree = "<group>"; };
+		F4FF52DE2340E91D000DACF1 /* singlecolumn_dark.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = singlecolumn_dark.css; sourceTree = "<group>"; };
+		F4FF52DF2340E91E000DACF1 /* doublecolumn_dark.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = doublecolumn_dark.css; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -601,7 +607,9 @@
 			isa = PBXGroup;
 			children = (
 				F48CAEF9220A56E200975205 /* singlecolumn.css */,
+				F4FF52DE2340E91D000DACF1 /* singlecolumn_dark.css */,
 				F402A97321CAA4E20097D875 /* doublecolumn.css */,
+				F4FF52DF2340E91E000DACF1 /* doublecolumn_dark.css */,
 			);
 			path = css;
 			sourceTree = "<group>";
@@ -788,6 +796,7 @@
 				F402A9E521CBE61D0097D875 /* Images.xcassets in Resources */,
 				F402A9E621CBE61D0097D875 /* add_file_options.png in Resources */,
 				F402A9E721CBE61D0097D875 /* Main.storyboard in Resources */,
+				F4FF52E12340E91E000DACF1 /* singlecolumn_dark.css in Resources */,
 				F402A9E821CBE61D0097D875 /* Settings.bundle in Resources */,
 				F402A9E921CBE61D0097D875 /* LaunchScreen.storyboard in Resources */,
 				F402A9EB21CBE61D0097D875 /* next.png in Resources */,
@@ -815,6 +824,7 @@
 				F402AA0021CBE61D0097D875 /* down_blue.png in Resources */,
 				F402AA0121CBE61D0097D875 /* down_red.png in Resources */,
 				F402AA0221CBE61D0097D875 /* DSI.png in Resources */,
+				F4FF52E32340E91E000DACF1 /* doublecolumn_dark.css in Resources */,
 				F402AA0321CBE61D0097D875 /* error.png in Resources */,
 				F402AA0421CBE61D0097D875 /* information.png in Resources */,
 				F402AA0521CBE61D0097D875 /* left_blue.png in Resources */,
@@ -859,6 +869,7 @@
 				F4EC004F17F87E8600A52838 /* Images.xcassets in Resources */,
 				F4BFE6CA21AEC32500D3E6A3 /* add_file_options.png in Resources */,
 				F434D1411FF1518800CD622D /* Main.storyboard in Resources */,
+				F4FF52E02340E91E000DACF1 /* singlecolumn_dark.css in Resources */,
 				F47DC7ED1111004C00E8DD8B /* Settings.bundle in Resources */,
 				F434D1441FF2A96200CD622D /* LaunchScreen.storyboard in Resources */,
 				F4BFE6D521B0AB9800D3E6A3 /* next.png in Resources */,
@@ -886,6 +897,7 @@
 				F4ADD7D9115E573C0095F061 /* down_blue.png in Resources */,
 				F4ADD7DA115E573C0095F061 /* down_red.png in Resources */,
 				F4ADD7DB115E573C0095F061 /* DSI.png in Resources */,
+				F4FF52E22340E91E000DACF1 /* doublecolumn_dark.css in Resources */,
 				F4ADD7DC115E573C0095F061 /* error.png in Resources */,
 				F4ADD7DD115E573C0095F061 /* information.png in Resources */,
 				F4ADD7DE115E573C0095F061 /* left_blue.png in Resources */,
@@ -1048,7 +1060,6 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-lite";
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_ASSIGN_ENUM = YES;
 				CODE_SIGN_ENTITLEMENTS = Entitlements.plist;
@@ -1084,7 +1095,6 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-lite";
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_ASSIGN_ENUM = YES;
 				CODE_SIGN_ENTITLEMENTS = Entitlements.plist;
@@ -1120,7 +1130,6 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-lite";
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_ASSIGN_ENUM = YES;
 				CODE_SIGN_ENTITLEMENTS = Entitlements.plist;
@@ -1194,7 +1203,6 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_ASSIGN_ENUM = YES;
 				CODE_SIGN_ENTITLEMENTS = Entitlements.plist;
@@ -1228,7 +1236,6 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_ASSIGN_ENUM = YES;
 				CODE_SIGN_ENTITLEMENTS = Entitlements.plist;
@@ -1259,7 +1266,6 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_ASSIGN_ENUM = YES;
 				CODE_SIGN_ENTITLEMENTS = Entitlements.plist;

@@ -837,5 +837,12 @@ static NSDictionary *oldDefaults = nil;
     oldDefaults = [[[NSUserDefaults standardUserDefaults] dictionaryRepresentation] copy];
 }
 
++ (UIColor *) systemBackgroundColor
+{
+    if (@available(iOS 13, *))
+        return [UIColor systemBackgroundColor];
+    else
+        return [UIColor whiteColor];
+}
 
 @end

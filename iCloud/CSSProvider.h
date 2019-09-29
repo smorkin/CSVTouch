@@ -10,8 +10,8 @@
 
 @interface CSSProvider : NSObject
 
-+ (NSString *) doubleColumnCSS;
-+ (NSString *) singleColumnCSS;
++ (NSString *) doubleColumnCSSForDarkMode:(BOOL)dark;
++ (NSString *) singleColumnCSSForDarkMode:(BOOL)dark;
 
 + (BOOL) customCSSExists;
 

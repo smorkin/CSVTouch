@@ -124,4 +124,5 @@ extern NSUInteger sortingMask; // This is available for performance-critical ope
 + (BOOL) defaultsHaveChanged;
 + (void) resetDefaultsHaveChanges;
 
++ (UIColor *) systemBackgroundColor;
 @end

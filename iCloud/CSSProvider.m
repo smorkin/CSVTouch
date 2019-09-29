@@ -9,6 +9,8 @@
 
 #define MULTICOLUMNNAME @"doublecolumn"
 #define SINGLECOLUMNNAME @"singlecolumn"
+#define MULTICOLUMNNAMEDARK @"doublecolumn_dark"
+#define SINGLECOLUMNNAMEDARK @"singlecolumn_dark"
 
 @interface SimpleDocument : UIDocument
 @property (strong, nonatomic) NSString* documentText;
@@ -21,6 +23,8 @@ static NSString *_customMultiColumnCssString;
 static NSString *_customSingleColumnCssString;
 static NSString *_standardMultiColumnCssString;
 static NSString *_standardSingleColumnCssString;
+static NSString *_standardMultiColumnCssDarkString;
+static NSString *_standardSingleColumnCssDarkString;
 
 + (BOOL) customCSSExists
 {
@@ -139,6 +143,17 @@ static NSString *_standardSingleColumnCssString;
     [_icloudQuery enableUpdates];
 }
 
++ (NSString *) doubleColumnCSSDark
+{
+    // The standard one cannot change while app is running -> cache it
+    if( !_standardMultiColumnCssDarkString )
+        _standardMultiColumnCssDarkString = [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:MULTICOLUMNNAMEDARK ofType:@"css"]
+                                                              usedEncoding:nil
+                                                                     error:NULL];
+    
+    return _standardMultiColumnCssDarkString;
+}
+
 + (NSString *) doubleColumnCSS
 {
     // The standard one cannot change while app is running -> cache it
@@ -152,6 +167,16 @@ static NSString *_standardSingleColumnCssString;
     _customMultiColumnCssString : _standardMultiColumnCssString;
 }
 
++ (NSString *) singleColumnCSSDark
+{
+    if( !_standardSingleColumnCssDarkString )
+        _standardSingleColumnCssDarkString = [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:SINGLECOLUMNNAMEDARK ofType:@"css"]
+                                                               usedEncoding:nil
+                                                                      error:NULL];
+    
+    return _standardSingleColumnCssDarkString;
+}
+
 + (NSString *) singleColumnCSS
 {
     if( !_standardSingleColumnCssString )
@@ -161,6 +186,16 @@ static NSString *_standardSingleColumnCssString;
 
     return ( _customSingleColumnCssString && ![_customSingleColumnCssString isEqualToString:@""]) ?
     _customSingleColumnCssString : _standardSingleColumnCssString;
+}
+
++ (NSString *) singleColumnCSSForDarkMode:(BOOL)dark
+{
+    return dark ? [self singleColumnCSSDark] : [self singleColumnCSS];
+}
+
++ (NSString *) doubleColumnCSSForDarkMode:(BOOL)dark
+{
+    return dark ? [self doubleColumnCSSDark] : [self doubleColumnCSS];
 }
 
 @end

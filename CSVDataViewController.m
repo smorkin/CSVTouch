@@ -57,7 +57,7 @@
 {
     [super viewDidLoad];
     self.interactivePopGestureRecognizer.delegate = self;
-    self.view.backgroundColor = [UIColor whiteColor];
+    self.view.backgroundColor = [CSVPreferencesController systemBackgroundColor];
     
     // Show the Add file window in case no files are present
     if( [[CSVFileParser files] count] == 0 && ![CSVPreferencesController hasShownHowTo])

@@ -298,7 +298,16 @@ static CSV_TouchAppDelegate *sharedInstance = nil;
 
 - (void) setupTintColor
 {
-    UIColor *tint = [UIColor colorWithRed:0.60 green:0.13 blue:0.13 alpha:1.0];
+    UIColor *tint;
+    if( @available(iOS 13, *))
+        tint = [[UIColor alloc] initWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traitCollection) {
+            return ([UITraitCollection currentTraitCollection].userInterfaceStyle ==
+            UIUserInterfaceStyleDark) ?
+            [UIColor colorWithRed:0.9765 green:0.1490 blue:0.1647 alpha:1.0] :
+            [UIColor colorWithRed:0.60 green:0.13 blue:0.13 alpha:1.0];
+             }];
+    else
+        tint = [UIColor colorWithRed:0.60 green:0.13 blue:0.13 alpha:1.0];
     [[UIView appearance] setTintColor:tint];
     [[UIPageControl appearance] setPageIndicatorTintColor:[UIColor grayColor]];
     [[UIPageControl appearance] setCurrentPageIndicatorTintColor:tint];
