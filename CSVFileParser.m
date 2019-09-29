@@ -215,13 +215,6 @@ static NSTimer *_resetDownloadFlagsTimer;
     }
 }
 
-- (NSDate *) downloadDate
-{
-	if( !_URL )
-		[self loadFile];
-    return _downloadDate;
-}
-
 - (void) invalidateShortDescriptions
 {
 	for( CSVRow *row in self.parsedItems )
@@ -501,9 +494,6 @@ static NSTimer *_resetDownloadFlagsTimer;
 
 - (void)parseString
 {    
-	if( !self.rawData )
-		[self loadFile];
-	
 	int foundColumns;
 	self.usedDelimiter = [self delimiter];
 	
@@ -544,22 +534,36 @@ static NSTimer *_resetDownloadFlagsTimer;
     [self resetColumnsInfo];
 }
 
+- (id) init
+{
+    self = [super init];
+    self.parsedItems = [[NSMutableArray alloc] init];
+    self.columnNames = [[NSMutableArray alloc] init];
+    self.hasBeenParsed = NO;
+    self.rawShownColumnIndexes = NULL;
+    return self;
+}
+
 - (id) initWithRawData:(NSData *)d filePath:(NSString *)path fileURL:(NSString *)fileURL
 {
-	self = [super init];
-	self.parsedItems = [[NSMutableArray alloc] init];
-	self.columnNames = [[NSMutableArray alloc] init];
-	self.rawData = [NSData dataWithData:d];
+	self = [self init];
     self.filePath = path;
+	self.rawData = [NSData dataWithData:d];
     self.URL = fileURL;
 	if( self.rawData )
 	{
         _rawString = [[NSString alloc] initWithData:self.rawData
 										   encoding:[CSVFileParser getEncodingForFile:[self fileName]]];
     }
-	self.hasBeenParsed = NO;
-    self.rawShownColumnIndexes = NULL;
 	return self;
+}
+
+- (id) initWithFilePath:(NSString *)path
+{
+    self = [self init];
+    self.filePath = path;
+    [self loadFile];
+    return self;
 }
 
 - (void) dealloc
@@ -588,8 +592,7 @@ static NSTimer *_resetDownloadFlagsTimer;
 
 + (void) loadParserFromFilePath:(NSString *)path
 {
-    CSVFileParser *cfp = [[self alloc] initWithRawData:nil filePath:path fileURL:nil];
-    [cfp loadFile];
+    CSVFileParser *cfp = [[self alloc] initWithFilePath:path];
     [self addParser:cfp];
 }
 
