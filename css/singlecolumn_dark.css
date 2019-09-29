@@ -1,0 +1,21 @@
+body{
+    font: normal FONTSIZE helvetica;
+    background-color: black;
+    color: white;
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+table {
+    border-collapse: collapse;
+    background-color: #111;
+    font: normal FONTSIZE helvetica;
+    color: white;
+    width: 100%;
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+td {
+    padding: 3px 3px 4px 3px; line-height: 1.3em;
+    border-bottom: solid 0.5px #363539;
+    border-top: solid 0.5px #363539;
+}

@@ -1,0 +1,29 @@
+body {
+    font:normal FONTSIZE helvetica;
+    background-color: black;
+    word-break: break-word;
+}
+img {
+    width:100%;
+    max-width:100%;
+}
+
+video {
+    width:100%;
+    max-width:100%;
+}
+table {
+    border-collapse: collapse;
+    background: #111111;
+    color: white;
+    width: 100%;
+    font:normal FONTSIZE helvetica;
+    word-break: break-word;
+}
+td, th { padding: 3px 3px 4px 3px; line-height: 1.3em;}
+th { background: #AC4F53; color: white; font-weight: bold; text-align: right; padding-right: .5em; padding-left: 0.5em; vertical-align: top; width: 1px; white-space: nowrap; max-width: 70vw; text-overflow:ellipsis; overflow:hidden;}
+td {white-space: pre-wrap;}
+.odd td { background: #222222; }
+.odd th { background: #992220; }
+.rowstep td { background: black; }
+.rowstep th { background: black; }
