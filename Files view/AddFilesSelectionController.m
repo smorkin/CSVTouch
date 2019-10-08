@@ -14,9 +14,18 @@
 
 @implementation AddFilesSelectionController
 
+- (void) viewWillLayoutSubviews
+{
+    [self.tableView layoutIfNeeded];
+    CGSize s = [self.tableView contentSize];
+    self.preferredContentSize = s;
+}
+
 - (void) awakeFromNib
 {
     self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
+    if( @available(iOS 11, *))
+        self.tableView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentAlways;
     [super awakeFromNib];
 }
 

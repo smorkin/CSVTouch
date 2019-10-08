@@ -78,11 +78,6 @@ static FilesViewController *_sharedInstance = nil;
     }
     else if( [segue.identifier isEqualToString:@"ToAddFiles"]){
         segue.destinationViewController.popoverPresentationController.delegate = self;
-        AddFilesSelectionController *controller = segue.destinationViewController;
-        [controller.tableView layoutIfNeeded];
-        CGSize s = [controller.tableView contentSize];
-        s.width = MIN(s.width, 300);
-        controller.preferredContentSize = s;
     }
     else if( [segue.identifier isEqualToString:@"ToFilesPrefs"])
     {

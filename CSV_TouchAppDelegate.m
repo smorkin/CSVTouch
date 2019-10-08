@@ -314,6 +314,8 @@ static CSV_TouchAppDelegate *sharedInstance = nil;
     [[UISwitch appearance] setTintColor:tint];
     [[UISwitch appearance] setOnTintColor:tint];
     [[UISegmentedControl appearance] setTintColor:tint];
+    if( @available(iOS 13, *))
+        [[UITableViewHeaderFooterView appearance] setTintColor:nil]; // Too much color with tinted header views
 }
 
 - (BOOL)application:(UIApplication *)application
