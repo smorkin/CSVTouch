@@ -16,6 +16,7 @@
 
 - (void) viewWillLayoutSubviews
 {
+    [super viewWillLayoutSubviews];
     [self.tableView layoutIfNeeded];
     CGSize s = [self.tableView contentSize];
     self.preferredContentSize = s;

@@ -260,7 +260,7 @@
 }
 
 // To avoid full screen presentation
--(UIModalPresentationStyle)adaptivePresentationStyleForPresentationController:(UIPresentationController *)controller
+-(UIModalPresentationStyle)adaptivePresentationStyleForPresentationController:(UIPresentationController *)controller traitCollection:(UITraitCollection *)traitCollection
 {
     return UIModalPresentationNone;
 }

@@ -727,7 +727,7 @@ sectionForSectionIndexTitle:(NSString *)title
 @end
 
 @implementation ItemsViewController (PopoverDelegate)
--(UIModalPresentationStyle)adaptivePresentationStyleForPresentationController:(UIPresentationController *)controller
+-(UIModalPresentationStyle)adaptivePresentationStyleForPresentationController:(UIPresentationController *)controller traitCollection:(UITraitCollection *)traitCollection
 {
     return UIModalPresentationNone;
 }
