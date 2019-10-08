@@ -768,14 +768,14 @@
 			};
 			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "CSV Touch" */;
 			compatibilityVersion = "Xcode 3.2";
-			developmentRegion = English;
+			developmentRegion = en;
 			hasScannedForEncodings = 1;
 			knownRegions = (
-				English,
-				Japanese,
-				French,
-				German,
 				en,
+				ja,
+				fr,
+				de,
+				Base,
 			);
 			mainGroup = 29B97314FDCFA39411CA2CEA /* CustomTemplate */;
 			projectDirPath = "";
@@ -1067,6 +1067,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 422;
 				DEVELOPMENT_TEAM = 6Q962CA6TS;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -1078,6 +1079,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				INFOPLIST_FILE = csvlite.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
+				MARKETING_VERSION = 440;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CFLAGS = "-DCSV_LITE";
 				PRODUCT_BUNDLE_IDENTIFIER = se.ozymandias.csvlite;
@@ -1102,6 +1104,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = YES;
+				CURRENT_PROJECT_VERSION = 422;
 				DEVELOPMENT_TEAM = 6Q962CA6TS;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = CSV_Touch_Prefix.pch;
@@ -1111,6 +1114,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				INFOPLIST_FILE = csvlite.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
+				MARKETING_VERSION = 440;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_CFLAGS = "-DCSV_LITE";
 				PRODUCT_BUNDLE_IDENTIFIER = se.ozymandias.csvlite;
@@ -1137,6 +1141,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = YES;
+				CURRENT_PROJECT_VERSION = 422;
 				DEVELOPMENT_TEAM = 6Q962CA6TS;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = CSV_Touch_Prefix.pch;
@@ -1146,6 +1151,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				INFOPLIST_FILE = csvlite.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
+				MARKETING_VERSION = 440;
 				OTHER_CFLAGS = "-DCSV_LITE";
 				PRODUCT_BUNDLE_IDENTIFIER = se.ozymandias.csvlite;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1209,6 +1215,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 422;
 				DEVELOPMENT_TEAM = 6Q962CA6TS;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -1220,6 +1227,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				INFOPLIST_FILE = csvtouch.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
+				MARKETING_VERSION = 440;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = se.ozymandias.csvtouch;
 				PRODUCT_NAME = "CSV Touch";
@@ -1242,6 +1250,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
+				CURRENT_PROJECT_VERSION = 422;
 				DEVELOPMENT_TEAM = 6Q962CA6TS;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = CSV_Touch_Prefix.pch;
@@ -1251,6 +1260,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				INFOPLIST_FILE = csvtouch.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
+				MARKETING_VERSION = 440;
 				PRODUCT_BUNDLE_IDENTIFIER = se.ozymandias.csvtouch;
 				PRODUCT_NAME = "CSV Touch";
 				PROVISIONING_PROFILE = "";
@@ -1272,6 +1282,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
+				CURRENT_PROJECT_VERSION = 422;
 				DEVELOPMENT_TEAM = 6Q962CA6TS;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = CSV_Touch_Prefix.pch;
@@ -1281,6 +1292,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				INFOPLIST_FILE = csvtouch.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
+				MARKETING_VERSION = 440;
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = se.ozymandias.csvtouch;
 				PRODUCT_NAME = "CSV Touch";
