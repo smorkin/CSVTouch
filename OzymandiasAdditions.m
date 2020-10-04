@@ -224,58 +224,6 @@
 
 @end
 
-@implementation OzyWebView
-
-- (void) dispatchSwipe:(UITouch *)finalTouch
-{
-	CGPoint endSwipePoint = [finalTouch locationInView:self];
-	if( beginSwipePoint.x - endSwipePoint.x > 80 &&
-	   fabs(beginSwipePoint.y - endSwipePoint.y) < 50 &&
-	   [self.delegate respondsToSelector:@selector(rightSwipe:)] )
-		[(id <OzyViewDelegate>)self.delegate rightSwipe:self];
-	else if( endSwipePoint.x - beginSwipePoint.x > 80 &&
-			fabs(beginSwipePoint.y - endSwipePoint.y) < 50 &&
-			[self.delegate respondsToSelector:@selector(leftSwipe:)] )
-		[(id <OzyViewDelegate>)self.delegate leftSwipe:self];
-}
-
-- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
-{
-	[super touchesBegan:touches withEvent:event];
-	
-	UITouch *touch = [touches anyObject];
-    NSUInteger numTaps = [touch tapCount];
-	if( numTaps == 1 )
-	{
-		beginSwipePoint = [touch locationInView:self];
-	}
-	else
-	{
-		beginSwipePoint = CGPointZero;
-	}	
-}
-
-- (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event
-{
-	[super touchesCancelled:touches withEvent:event];
-	if( !CGPointEqualToPoint(beginSwipePoint, CGPointZero) )
-		[self dispatchSwipe:[touches anyObject]];
-}
-
-- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
-{
-	[super touchesEnded:touches withEvent:event];
-	if( !CGPointEqualToPoint(beginSwipePoint, CGPointZero) )
-		[self dispatchSwipe:[touches anyObject]];
-}
-
-- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
-{
-	[super touchesMoved:touches withEvent:event];
-}
-
-@end
-
 @implementation UIAlertController (OzymandiasExtension)
 
 + (UIAlertController *) alertControllerWithTitle:(NSString *)title

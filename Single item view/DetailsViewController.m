@@ -13,13 +13,13 @@
 #import "CSSProvider.h"
 
 @interface DetailsViewController ()
-@property (nonatomic, strong) UIWebView *webView;
+@property (nonatomic, strong) WKWebView *webView;
 @property CGFloat originalPointsWhenPinchStarted;
 @property BOOL imageShown;
 @property UIPinchGestureRecognizer *pinchGesture;
 @end
 
-@interface DetailsViewController (Web) <WKNavigationDelegate, UIWebViewDelegate, UIGestureRecognizerDelegate>
+@interface DetailsViewController (Web) <WKNavigationDelegate, UIGestureRecognizerDelegate>
 - (void) delayedHtmlClick:(NSURL *)URL;
 - (void) updateContent;
 @end
@@ -28,12 +28,12 @@
 
 - (void) setupWebView
 {
-    self.webView = [[UIWebView alloc] init];
+    self.webView = [[WKWebView alloc] init];
     self.webView.opaque = NO;
     self.webView.backgroundColor = [CSVPreferencesController systemBackgroundColor];
-    self.webView.delegate = self;
+    self.webView.navigationDelegate = self;
     [self.webView addGestureRecognizer:self.pinchGesture];
-    self.webView.scalesPageToFit = YES;
+//    self.webView.scalesPageToFit = YES;
     self.view = self.webView;
 }
 
@@ -309,20 +309,6 @@
     {
         decisionHandler(WKNavigationActionPolicyAllow);
     }
-}
-
-- (BOOL)webView:(UIWebView *)webView
-shouldStartLoadWithRequest:(NSURLRequest *)request
- navigationType:(UIWebViewNavigationType)navigationType
-{
-    if( navigationType == UIWebViewNavigationTypeLinkClicked )
-    {
-        [self performSelector:@selector(delayedHtmlClick:)
-                   withObject:[request URL]
-                   afterDelay:0];
-        return NO;
-    }
-    return YES;
 }
 
 - (BOOL) gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {

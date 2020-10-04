@@ -72,12 +72,6 @@ typedef enum OzyTableViewSize {
 }
 @end
 
-@interface OzyWebView : UIWebView
-{
-	CGPoint beginSwipePoint;
-}
-@end
-
 @interface OzyTextView : UITextView
 {
 	CGPoint beginSwipePoint;
