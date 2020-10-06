@@ -24,17 +24,40 @@
 - (void) updateContent;
 @end
 
+@interface DetailsViewController (LocalFileAccess) <WKURLSchemeHandler>
+@end
+
+@implementation DetailsViewController (LocalFileAccess)
+
+- (void)webView:(WKWebView *)webView startURLSchemeTask:(id <WKURLSchemeTask>)urlSchemeTask
+{
+    NSURL* url = urlSchemeTask.request.URL;
+    NSData* data = [NSData dataWithContentsOfFile: url.path];
+    NSURLResponse* response = [[NSURLResponse alloc] initWithURL:url MIMEType:nil expectedContentLength:[data length] textEncodingName:nil];
+
+    [urlSchemeTask didReceiveResponse:response];
+    [urlSchemeTask didReceiveData:data];
+    [urlSchemeTask didFinish];
+}
+
+- (void)webView:(WKWebView *)webView stopURLSchemeTask:(id <WKURLSchemeTask>)urlSchemeTask
+{}
+
+@end
+
 @implementation DetailsViewController
 
 - (void) setupWebView
 {
-    self.webView = [[WKWebView alloc] init];
+    WKWebViewConfiguration *config = [[WKWebViewConfiguration alloc] init];
+    [config  setURLSchemeHandler:self forURLScheme:@"localfile"];
+    self.webView = [[WKWebView alloc] initWithFrame:CGRectZero configuration:config];
     self.webView.opaque = NO;
     self.webView.backgroundColor = [CSVPreferencesController systemBackgroundColor];
     self.webView.navigationDelegate = self;
     [self.webView addGestureRecognizer:self.pinchGesture];
-//    self.webView.scalesPageToFit = YES;
     self.view = self.webView;
+
 }
 
 - (void) setup
@@ -137,10 +160,11 @@
 {
     // We assume that the localURL has already been checked for a true local file URL
     NSArray *tmpArray = [localURL componentsSeparatedByString:@"file://"];
+
     if( [tmpArray count] == 2 )
     {
         NSMutableString *s = [NSMutableString string];
-        [s appendString:@"file://"];
+        [s appendString:@"localfile://"];
         [s appendString:[[CSV_TouchAppDelegate localMediaDocumentsPath] stringByAppendingPathComponent:[tmpArray objectAtIndex:1]]];
         return s;
     }
