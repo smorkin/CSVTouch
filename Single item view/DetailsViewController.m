@@ -51,11 +51,14 @@
 {
     WKWebViewConfiguration *config = [[WKWebViewConfiguration alloc] init];
     [config  setURLSchemeHandler:self forURLScheme:@"localfile"];
+    config.allowsInlineMediaPlayback = TRUE;
+    config.dataDetectorTypes = WKDataDetectorTypeAll;
     self.webView = [[WKWebView alloc] initWithFrame:CGRectZero configuration:config];
     self.webView.opaque = NO;
     self.webView.backgroundColor = [CSVPreferencesController systemBackgroundColor];
     self.webView.navigationDelegate = self;
     [self.webView addGestureRecognizer:self.pinchGesture];
+    self.webView.allowsLinkPreview = YES;
     self.view = self.webView;
 
 }
