@@ -111,7 +111,7 @@ static CSV_TouchAppDelegate *sharedInstance = nil;
 				fileName:(NSString *)fileName
 		 isLocalDownload:(BOOL)isLocalDownload
 {
-    if( self.httpStatusCode >= 400&& !isLocalDownload )
+    if( self.httpStatusCode >= 400 && !isLocalDownload )
 	{
         // Mark the parser with fail to download
         CSVFileParser *fp = [CSVFileParser existingParserForName:fileName];
@@ -134,6 +134,21 @@ static CSV_TouchAppDelegate *sharedInstance = nil;
 	}
 	else
 	{
+        if( fileName == NULL || data == NULL)
+        {
+            // Only show alert if we are not downloading multiple files
+            if( [self.URLsToDownload count] == 0 )
+            {
+                UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Import failure"
+                                                                               message:[NSString stringWithFormat:@"Couldn't import file %@", fileName]
+                                                                         okButtonTitle:@"OK"
+                                                                             okHandler:nil];
+                [self.navigationController.topViewController presentViewController:alert
+                                                                                    animated:YES
+                                                                                  completion:nil];
+            }
+            return;
+        }
         [CSVFileParser removeFileWithName:[CSV_TouchAppDelegate internalFileNameForOriginalFileName:fileName]];
         NSString *filePath = [[CSV_TouchAppDelegate importedDocumentsPath] stringByAppendingPathComponent:
                               [CSV_TouchAppDelegate internalFileNameForOriginalFileName:fileName]];
@@ -752,7 +767,7 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 		return YES;
 	}
 	else if( [url isFileURL] )
-	{		
+	{
 		// First "download" the file
 		[self readRawFileData:[NSData dataWithContentsOfFile:[url path]]
 					 fileName:[[url path] lastPathComponent]
