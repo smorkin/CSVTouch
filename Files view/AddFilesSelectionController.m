@@ -53,7 +53,7 @@
     }
     else if( indexPath.row == 2 )
     {
-        cell.textLabel.text = @"Import local file";
+        cell.textLabel.text = @"Import local file(s)";
     }
     return cell;
 }
