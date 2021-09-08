@@ -29,6 +29,7 @@
 - (IBAction) decreaseTableViewSize;
 - (IBAction) increaseTableViewSize;
 - (IBAction) toggleItemSortOrder;
+- (IBAction)share:(id)sender;
 
 @end
 

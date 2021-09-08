@@ -120,6 +120,34 @@
 							animated:animate];
 }
 
+- (NSData *) pdfData
+{
+    NSMutableData *pdfData = [NSMutableData data];
+    CGRect originalBounds = self.bounds;
+    self.bounds = CGRectMake(originalBounds.origin.x, originalBounds.origin.y,
+                             self.contentSize.width, self.contentSize.height);
+    UIGraphicsBeginPDFContextToData(pdfData, self.bounds, nil);
+    UIGraphicsBeginPDFPage();
+    CGContextRef pdfContext = UIGraphicsGetCurrentContext();
+    [self.layer renderInContext:pdfContext];
+    UIGraphicsEndPDFContext();
+    self.bounds = originalBounds;
+    return pdfData;
+}
+
+@end
+
+@implementation UIView (OzymandiasExtension)
+- (NSData *) pdfData
+{
+    NSMutableData *pdfData = [NSMutableData data];
+    UIGraphicsBeginPDFContextToData(pdfData, self.bounds, nil);
+    UIGraphicsBeginPDFPage();
+    CGContextRef pdfContext = UIGraphicsGetCurrentContext();
+    [self.layer renderInContext:pdfContext];
+    UIGraphicsEndPDFContext();
+    return pdfData;
+}
 @end
 
 @implementation OzyTableView
