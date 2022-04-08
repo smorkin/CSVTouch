@@ -38,7 +38,7 @@
         case 3:
             return @"Inside any other iOS app which supports export/sharing of files, you can select a CSV file and then import it.";
         case 4:
-            return  [NSString stringWithFormat:@"If you connect your device to iTunes, you can add CSV files directly in iTunes in the same way you add files to any app: Select the device, go to 'File sharing', select %@, and add the files.", appName];
+            return  [NSString stringWithFormat:@"If you connect your device to your computer, you can add CSV files directly in the same way you add files to any app: Select the device, go to 'Files', select %@, and add the files.", appName];
         case 5:
             return [NSString stringWithFormat:@"Finally, there are some more unusual ways of getting your files into %@ and other customisations possible. See the full documentation at http://csvtouch.wordpress.com", appName];
         case 6:
@@ -61,7 +61,7 @@
         case 3:
             return @"Files, Mail, Dropbox, ...";
         case 4:
-            return @"iTunes";
+            return @"Computer";
         case 5:
             return @"Advanced";
         case 6:
@@ -84,7 +84,7 @@
         case 3:
             return [UIImage imageNamed:@"file_via_mail.png"];
         case 4:
-            return [UIImage imageNamed:@"file_via_itunes.png"];
+            return [UIImage imageNamed:@"files_via_finder.png"];
         default:
             return nil;
     }
