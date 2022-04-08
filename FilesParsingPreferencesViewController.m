@@ -12,8 +12,8 @@
 @implementation FilesParsingPreferencesViewController
 
 #define AUTO_DELIMITER @"<auto>"
-#define TAB_DELIMITER @"<tab>"
-#define SPACE_DELIMITER @"<space>"
+#define TAB_DELIMITER @"tab"
+#define SPACE_DELIMITER @"space"
 
 - (void) viewWillAppear:(BOOL)animated
 {

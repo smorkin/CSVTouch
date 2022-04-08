@@ -747,6 +747,10 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
             [self downloadFileWithString:URL];
             [self.URLsToDownload removeObjectAtIndex:0];
         }
+        else
+        {
+            [self allDownloadsDone];
+        }
         [CSVPreferencesController setLastDownload:[NSDate date]];
     }
 }

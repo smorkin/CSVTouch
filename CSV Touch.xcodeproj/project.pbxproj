@@ -19,7 +19,6 @@
 		F402A9ED21CBE61D0097D875 /* alert.png in Resources */ = {isa = PBXBuildFile; fileRef = F4ADD79E115E573B0095F061 /* alert.png */; };
 		F402A9EE21CBE61D0097D875 /* ball_blue.png in Resources */ = {isa = PBXBuildFile; fileRef = F4ADD79F115E573B0095F061 /* ball_blue.png */; };
 		F402A9EF21CBE61D0097D875 /* add_file_button.png in Resources */ = {isa = PBXBuildFile; fileRef = F4BFE6C321AEC32500D3E6A3 /* add_file_button.png */; };
-		F402A9F021CBE61D0097D875 /* file_via_itunes.png in Resources */ = {isa = PBXBuildFile; fileRef = F4BFE6C221AEC32500D3E6A3 /* file_via_itunes.png */; };
 		F402A9F121CBE61D0097D875 /* ball_green.png in Resources */ = {isa = PBXBuildFile; fileRef = F4ADD7A0115E573B0095F061 /* ball_green.png */; };
 		F402A9F221CBE61D0097D875 /* ball_grey.png in Resources */ = {isa = PBXBuildFile; fileRef = F4ADD7A1115E573B0095F061 /* ball_grey.png */; };
 		F402A9F321CBE61D0097D875 /* ball_lime.png in Resources */ = {isa = PBXBuildFile; fileRef = F4ADD7A2115E573B0095F061 /* ball_lime.png */; };
@@ -190,7 +189,6 @@
 		F4ADD7F7115E573C0095F061 /* yes.png in Resources */ = {isa = PBXBuildFile; fileRef = F4ADD7CA115E573C0095F061 /* yes.png */; };
 		F4ADD90E115E692D0095F061 /* empty.png in Resources */ = {isa = PBXBuildFile; fileRef = F4ADD90D115E692D0095F061 /* empty.png */; };
 		F4BFE6C621AEC32500D3E6A3 /* file_via_mail.png in Resources */ = {isa = PBXBuildFile; fileRef = F4BFE6C121AEC32500D3E6A3 /* file_via_mail.png */; };
-		F4BFE6C721AEC32500D3E6A3 /* file_via_itunes.png in Resources */ = {isa = PBXBuildFile; fileRef = F4BFE6C221AEC32500D3E6A3 /* file_via_itunes.png */; };
 		F4BFE6C821AEC32500D3E6A3 /* add_file_button.png in Resources */ = {isa = PBXBuildFile; fileRef = F4BFE6C321AEC32500D3E6A3 /* add_file_button.png */; };
 		F4BFE6C921AEC32500D3E6A3 /* file_via_files_app.png in Resources */ = {isa = PBXBuildFile; fileRef = F4BFE6C421AEC32500D3E6A3 /* file_via_files_app.png */; };
 		F4BFE6CA21AEC32500D3E6A3 /* add_file_options.png in Resources */ = {isa = PBXBuildFile; fileRef = F4BFE6C521AEC32500D3E6A3 /* add_file_options.png */; };
@@ -199,6 +197,8 @@
 		F4BFE6D521B0AB9800D3E6A3 /* next.png in Resources */ = {isa = PBXBuildFile; fileRef = F4BFE6D421B0AB9800D3E6A3 /* next.png */; };
 		F4C2E44518CE0CE9004E49E5 /* HowToController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4C2E44318CE0CE9004E49E5 /* HowToController.m */; };
 		F4C2E44718CE0CE9004E49E5 /* HowToController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F4C2E44418CE0CE9004E49E5 /* HowToController.xib */; };
+		F4D6882D2800467C00AC46E7 /* files_via_finder.png in Resources */ = {isa = PBXBuildFile; fileRef = F4D6882C2800467C00AC46E7 /* files_via_finder.png */; };
+		F4D6882E2800467C00AC46E7 /* files_via_finder.png in Resources */ = {isa = PBXBuildFile; fileRef = F4D6882C2800467C00AC46E7 /* files_via_finder.png */; };
 		F4DC40E3200BB0A800EA43A8 /* ItemPreferenceController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4DC40E2200BB0A800EA43A8 /* ItemPreferenceController.m */; };
 		F4DF84DB20432B8000AE653A /* ItemsAppearancePreferencesController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4DF84DA20432B8000AE653A /* ItemsAppearancePreferencesController.m */; };
 		F4DF84DF20433A6D00AE653A /* ItemsSortAndSearchPreferencesController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4DF84DE20433A6D00AE653A /* ItemsSortAndSearchPreferencesController.m */; };
@@ -326,7 +326,6 @@
 		F4AE44850DF469BF001197AB /* CSVRow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSVRow.h; sourceTree = "<group>"; };
 		F4AE44860DF469BF001197AB /* CSVRow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSVRow.m; sourceTree = "<group>"; };
 		F4BFE6C121AEC32500D3E6A3 /* file_via_mail.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = file_via_mail.png; sourceTree = "<group>"; };
-		F4BFE6C221AEC32500D3E6A3 /* file_via_itunes.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = file_via_itunes.png; sourceTree = "<group>"; };
 		F4BFE6C321AEC32500D3E6A3 /* add_file_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = add_file_button.png; sourceTree = "<group>"; };
 		F4BFE6C421AEC32500D3E6A3 /* file_via_files_app.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = file_via_files_app.png; sourceTree = "<group>"; };
 		F4BFE6C521AEC32500D3E6A3 /* add_file_options.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = add_file_options.png; sourceTree = "<group>"; };
@@ -339,6 +338,7 @@
 		F4C2E44318CE0CE9004E49E5 /* HowToController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HowToController.m; sourceTree = "<group>"; };
 		F4C2E44418CE0CE9004E49E5 /* HowToController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HowToController.xib; sourceTree = "<group>"; };
 		F4CB510B11689FD300CFCBBC /* csvtouch.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = csvtouch.plist; sourceTree = "<group>"; };
+		F4D6882C2800467C00AC46E7 /* files_via_finder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = files_via_finder.png; sourceTree = "<group>"; };
 		F4DC40E1200BB0A800EA43A8 /* ItemPreferenceController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ItemPreferenceController.h; sourceTree = "<group>"; };
 		F4DC40E2200BB0A800EA43A8 /* ItemPreferenceController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ItemPreferenceController.m; sourceTree = "<group>"; };
 		F4DF84D920432B8000AE653A /* ItemsAppearancePreferencesController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ItemsAppearancePreferencesController.h; sourceTree = "<group>"; };
@@ -691,9 +691,9 @@
 		F4BFE6C021AEC32500D3E6A3 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				F4D6882C2800467C00AC46E7 /* files_via_finder.png */,
 				F4BFE6D421B0AB9800D3E6A3 /* next.png */,
 				F4BFE6C121AEC32500D3E6A3 /* file_via_mail.png */,
-				F4BFE6C221AEC32500D3E6A3 /* file_via_itunes.png */,
 				F4BFE6C321AEC32500D3E6A3 /* add_file_button.png */,
 				F4BFE6C421AEC32500D3E6A3 /* file_via_files_app.png */,
 				F4BFE6C521AEC32500D3E6A3 /* add_file_options.png */,
@@ -744,7 +744,7 @@
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0940;
+				LastUpgradeCheck = 1320;
 				ORGANIZATIONNAME = Ozymandias;
 				TargetAttributes = {
 					F402A9E221CBE61D0097D875 = {
@@ -801,11 +801,11 @@
 				F402A9E821CBE61D0097D875 /* Settings.bundle in Resources */,
 				F402A9E921CBE61D0097D875 /* LaunchScreen.storyboard in Resources */,
 				F402A9EB21CBE61D0097D875 /* next.png in Resources */,
+				F4D6882E2800467C00AC46E7 /* files_via_finder.png in Resources */,
 				F402A9EC21CBE61D0097D875 /* MainWindow.xib in Resources */,
 				F402A9ED21CBE61D0097D875 /* alert.png in Resources */,
 				F402A9EE21CBE61D0097D875 /* ball_blue.png in Resources */,
 				F402A9EF21CBE61D0097D875 /* add_file_button.png in Resources */,
-				F402A9F021CBE61D0097D875 /* file_via_itunes.png in Resources */,
 				F402A9F121CBE61D0097D875 /* ball_green.png in Resources */,
 				F402A9F221CBE61D0097D875 /* ball_grey.png in Resources */,
 				F402A9F321CBE61D0097D875 /* ball_lime.png in Resources */,
@@ -874,11 +874,11 @@
 				F47DC7ED1111004C00E8DD8B /* Settings.bundle in Resources */,
 				F434D1441FF2A96200CD622D /* LaunchScreen.storyboard in Resources */,
 				F4BFE6D521B0AB9800D3E6A3 /* next.png in Resources */,
+				F4D6882D2800467C00AC46E7 /* files_via_finder.png in Resources */,
 				F412B2D2115567D0000C7596 /* MainWindow.xib in Resources */,
 				F4ADD7CB115E573C0095F061 /* alert.png in Resources */,
 				F4ADD7CC115E573C0095F061 /* ball_blue.png in Resources */,
 				F4BFE6C821AEC32500D3E6A3 /* add_file_button.png in Resources */,
-				F4BFE6C721AEC32500D3E6A3 /* file_via_itunes.png in Resources */,
 				F4ADD7CD115E573C0095F061 /* ball_green.png in Resources */,
 				F4ADD7CE115E573C0095F061 /* ball_grey.png in Resources */,
 				F4ADD7CF115E573C0095F061 /* ball_lime.png in Resources */,
@@ -1031,6 +1031,7 @@
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -1049,7 +1050,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "\"$SRCROOT\"/**";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1068,7 +1069,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 429;
+				CURRENT_PROJECT_VERSION = 430;
 				DEVELOPMENT_TEAM = 6Q962CA6TS;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -1079,8 +1080,8 @@
 				GCC_WARN_SHADOW = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				INFOPLIST_FILE = csvlite.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
-				MARKETING_VERSION = 446;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				MARKETING_VERSION = 450;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CFLAGS = "-DCSV_LITE";
 				PRODUCT_BUNDLE_IDENTIFIER = se.ozymandias.csvlite;
@@ -1105,7 +1106,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = YES;
-				CURRENT_PROJECT_VERSION = 429;
+				CURRENT_PROJECT_VERSION = 430;
 				DEVELOPMENT_TEAM = 6Q962CA6TS;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = CSV_Touch_Prefix.pch;
@@ -1114,8 +1115,8 @@
 				GCC_WARN_SHADOW = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				INFOPLIST_FILE = csvlite.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
-				MARKETING_VERSION = 446;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				MARKETING_VERSION = 450;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_CFLAGS = "-DCSV_LITE";
 				PRODUCT_BUNDLE_IDENTIFIER = se.ozymandias.csvlite;
@@ -1142,7 +1143,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = YES;
-				CURRENT_PROJECT_VERSION = 429;
+				CURRENT_PROJECT_VERSION = 430;
 				DEVELOPMENT_TEAM = 6Q962CA6TS;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = CSV_Touch_Prefix.pch;
@@ -1151,8 +1152,8 @@
 				GCC_WARN_SHADOW = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				INFOPLIST_FILE = csvlite.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
-				MARKETING_VERSION = 446;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				MARKETING_VERSION = 450;
 				OTHER_CFLAGS = "-DCSV_LITE";
 				PRODUCT_BUNDLE_IDENTIFIER = se.ozymandias.csvlite;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1180,6 +1181,7 @@
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -1197,7 +1199,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "\"$SRCROOT\"/**";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
@@ -1216,7 +1218,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 429;
+				CURRENT_PROJECT_VERSION = 430;
 				DEVELOPMENT_TEAM = 6Q962CA6TS;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -1227,8 +1229,8 @@
 				GCC_WARN_SHADOW = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				INFOPLIST_FILE = csvtouch.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
-				MARKETING_VERSION = 446;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				MARKETING_VERSION = 450;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = se.ozymandias.csvtouch;
 				PRODUCT_NAME = "CSV Touch";
@@ -1251,7 +1253,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
-				CURRENT_PROJECT_VERSION = 429;
+				CURRENT_PROJECT_VERSION = 430;
 				DEVELOPMENT_TEAM = 6Q962CA6TS;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = CSV_Touch_Prefix.pch;
@@ -1260,8 +1262,8 @@
 				GCC_WARN_SHADOW = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				INFOPLIST_FILE = csvtouch.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
-				MARKETING_VERSION = 446;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				MARKETING_VERSION = 450;
 				PRODUCT_BUNDLE_IDENTIFIER = se.ozymandias.csvtouch;
 				PRODUCT_NAME = "CSV Touch";
 				PROVISIONING_PROFILE = "";
@@ -1283,7 +1285,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
-				CURRENT_PROJECT_VERSION = 429;
+				CURRENT_PROJECT_VERSION = 430;
 				DEVELOPMENT_TEAM = 6Q962CA6TS;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = CSV_Touch_Prefix.pch;
@@ -1292,8 +1294,8 @@
 				GCC_WARN_SHADOW = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				INFOPLIST_FILE = csvtouch.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
-				MARKETING_VERSION = 446;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				MARKETING_VERSION = 450;
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = se.ozymandias.csvtouch;
 				PRODUCT_NAME = "CSV Touch";
@@ -1323,6 +1325,7 @@
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -1341,7 +1344,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "\"$SRCROOT\"/**";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				PROVISIONING_PROFILE = "41E4B329-E642-4CF8-AD32-BA40F5D62779";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "41E4B329-E642-4CF8-AD32-BA40F5D62779";
 				SDKROOT = iphoneos;

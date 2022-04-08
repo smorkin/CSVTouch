@@ -836,7 +836,7 @@ static NSTimer *_resetDownloadFlagsTimer;
                              [NSNumber numberWithUnsignedInteger:NSUnicodeStringEncoding],
                              [NSNumber numberWithUnsignedInteger:NSISOLatin1StringEncoding],
                              [NSNumber numberWithUnsignedInteger:NSMacOSRomanStringEncoding], nil];
-        _allowedEncodingNames = [NSArray arrayWithObjects:@"<default>", @"UTF8", @"Unicode", @"Latin1", @"Mac", nil];
+        _allowedEncodingNames = [NSArray arrayWithObjects:@"default", @"UTF8", @"Unicode", @"Latin1", @"Mac", nil];
         _files = [NSMutableArray array];
     }
 }

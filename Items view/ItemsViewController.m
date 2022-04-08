@@ -372,6 +372,16 @@ static NSMutableDictionary *_indexPathForFileName;
     [UIImage imageNamed:@"descending"] : [UIImage imageNamed:@"ascending"];
 }
 
+- (IBAction)share:(id)sender
+{
+    UIActivityViewController *controller = [[UIActivityViewController alloc] initWithActivityItems:@[[self.view pdfData]] applicationActivities:nil];
+    controller.modalPresentationStyle = UIModalPresentationPopover;
+    controller.popoverPresentationController.permittedArrowDirections =
+    UIPopoverArrowDirectionAny;
+    controller.popoverPresentationController.barButtonItem = sender;
+    [self presentViewController:controller animated:YES completion:nil];
+}
+
 - (IBAction) increaseTableViewSize
 {
     [self modifyItemsTableViewSize:YES];

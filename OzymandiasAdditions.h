@@ -59,7 +59,11 @@ typedef enum OzyTableViewSize {
 @interface UITableView (OzymandiasExtension)
 
 - (void) scrollToTopWithAnimation:(BOOL)animate;
+- (NSData *) pdfData;
+@end
 
+@interface UIView (OzymandiasExtension)
+- (NSData *) pdfData;
 @end
 
 @protocol OzymandiasApplicationDelegate
