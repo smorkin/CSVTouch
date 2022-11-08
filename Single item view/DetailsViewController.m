@@ -218,12 +218,16 @@
     NSMutableString *data = [NSMutableString string];
     NSArray *columnsAndValues = [self.row columnsAndValues];
     NSInteger row = 1;
+    BOOL hideEmptyColumns = [CSVPreferencesController hideEmptyColumns];
     for( NSDictionary *d in columnsAndValues )
     {
         // Are we done already?
         if(row > [self.row.fileParser.shownColumnIndexes count] &&
            ![CSVPreferencesController showDeletedColumns])
             break;
+        
+        if( hideEmptyColumns && ([d objectForKey:VALUE_KEY] == NULL || [[d objectForKey:VALUE_KEY] isEqualToString:@""]))
+            continue;
         
         // Indicating start of hidden columns
         if(row != 1 && // In case someone has a file where no column is important...
@@ -270,13 +274,17 @@
     NSMutableString *data = [NSMutableString string];
     NSArray *columnsAndValues = [self.row columnsAndValues];
     NSInteger row = 1;
+    BOOL hideEmptyColumns = [CSVPreferencesController hideEmptyColumns];
     for( NSDictionary *d in columnsAndValues )
     {
         // Are we done already?
         if(row > [self.row.fileParser.shownColumnIndexes count] &&
            ![CSVPreferencesController showDeletedColumns])
             break;
-        
+                
+        if( hideEmptyColumns && ([d objectForKey:VALUE_KEY] == NULL || [[d objectForKey:VALUE_KEY] isEqualToString:@""]))
+            continue;
+
         // Indicating start of hidden columns
         if(row != 1 && // In case someone has a file where no column is important...
            row-1 == [self.row.fileParser.shownColumnIndexes count] &&
@@ -297,7 +305,8 @@
 
 - (void) addSimpleRowRepresentation:(NSMutableString *)s
 {
-    NSMutableString *row = [NSMutableString stringWithString:[self.row htmlDescriptionWithHiddenValues:[CSVPreferencesController showDeletedColumns]]];
+    NSMutableString *row = [NSMutableString stringWithString:[self.row htmlDescriptionWithHiddenValues:[CSVPreferencesController showDeletedColumns]
+                                                                                      hideEmptyColumns:[CSVPreferencesController hideEmptyColumns]]];
     [s appendString:row];
 }
 

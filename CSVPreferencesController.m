@@ -39,6 +39,7 @@
 #define NEW_FILE_URL @"newFileURL"
 #define PREFS_DETAILS_VIEW @"detailsView"
 #define PREFS_SHOW_DELETED_COLUMNS @"showDeletedColumns"
+#define PREFS_HIDE_EMPTY_COLUMNS @"showEmptyColumns"
 #define PREFS_USE_AUTOMATED_DOWNLOAD @"useAutomatedDownload"
 #define PREFS_CONFIGURED_DOWNLOAD_TIME @"configuredDownloadTime"
 #define PREFS_MULTILINE_ITEM_CELLS @"multilineItemCells"
@@ -574,6 +575,9 @@ static BOOL hideAdress = NO;
             else if( [[words objectAtIndex:0] isEqualToString:PREFS_SHOW_DELETED_COLUMNS] )
                 [CSVPreferencesController setShowDeletedColumns:[[words objectAtIndex:1] boolValue]];
             
+            else if( [[words objectAtIndex:0] isEqualToString:PREFS_HIDE_EMPTY_COLUMNS] )
+                [CSVPreferencesController setHideEmptyColumns:[[words objectAtIndex:1] boolValue]];
+            
             else if( [[words objectAtIndex:0] isEqualToString:PREFS_BLANK_WORD_SEPARATOR] )
                 [[NSUserDefaults standardUserDefaults] setBool:[[words objectAtIndex:1] boolValue]
                                                         forKey:PREFS_BLANK_WORD_SEPARATOR];
@@ -818,6 +822,16 @@ static BOOL hideAdress = NO;
 + (void) setShowDeletedColumns:(BOOL)yn
 {
     [[NSUserDefaults standardUserDefaults] setBool:yn forKey:PREFS_SHOW_DELETED_COLUMNS];
+}
+
++ (BOOL) hideEmptyColumns
+{
+    return [[NSUserDefaults standardUserDefaults] boolForKey:PREFS_HIDE_EMPTY_COLUMNS];
+}
+
++ (void) setHideEmptyColumns:(BOOL)yn
+{
+    [[NSUserDefaults standardUserDefaults] setBool:yn forKey:PREFS_HIDE_EMPTY_COLUMNS];
 }
 
 + (NSInteger) numberOfStarts

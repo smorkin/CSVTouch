@@ -32,7 +32,8 @@
 
 - initWithItemCapacity:(NSUInteger)itemCapacity;
 
-- (NSString *) htmlDescriptionWithHiddenValues:(BOOL)includeHiddenValues;
+- (NSString *) htmlDescriptionWithHiddenValues:(BOOL)includeHiddenValues
+                              hideEmptyColumns:(BOOL)hideEmptyColumns;
 // Call with YES for regular visible columns, NO for hidden columns
 - (NSMutableArray *) longDescriptionInArray:(BOOL)useShownColumns;
 - (NSArray *) columnsAndValues;

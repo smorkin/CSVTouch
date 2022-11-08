@@ -24,6 +24,7 @@
 - (void) synchUI
 {
     showHidden.on = [CSVPreferencesController showDeletedColumns];
+    hideEmpty.on = [CSVPreferencesController hideEmptyColumns];
     viewSelection.selectedSegmentIndex = [CSVPreferencesController selectedDetailsView];
     increaseSize.enabled = [CSVPreferencesController canIncreaseDetailsFontSize];
     decreaseSize.enabled = [CSVPreferencesController canDecreaseDetailsFontSize];
@@ -34,6 +35,13 @@
 - (IBAction) showHiddenChanged:(id)sender
 {
     [CSVPreferencesController setShowDeletedColumns:showHidden.on];
+    [self.pageController refreshViewControllersData];
+    [self synchUI];
+}
+
+- (IBAction) hideEmptyChanged:(id)sender
+{
+    [CSVPreferencesController setHideEmptyColumns:hideEmpty.on];
     [self.pageController refreshViewControllersData];
     [self synchUI];
 }

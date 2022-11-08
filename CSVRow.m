@@ -461,11 +461,14 @@ static NSMutableArray *formatsStrings = nil;
 }
 
 - (NSString *) htmlDescriptionWithHiddenValues:(BOOL)includeHiddenValues
+                              hideEmptyColumns:(BOOL)hideEmptyColumns
 {
 	// First add sorted column data
 	NSMutableString *s = [NSMutableString stringWithCapacity:200];
 	for( NSNumber *index in self.fileParser.shownColumnIndexes )
 	{
+        if( hideEmptyColumns && ([self.items objectAtIndex:[index intValue]] == nil || [[self.items objectAtIndex:[index intValue]] isEqualToString:@""]) )
+            continue;
 		[s appendFormat:@"<strong>%@</strong>: %@<br>",
 		 [self.fileParser.columnNames objectAtIndex:[index intValue]],
 		 [self.items objectAtIndex:[index intValue]]];
@@ -477,6 +480,8 @@ static NSMutableArray *formatsStrings = nil;
         [s appendString:@"<hr>"];
         for( NSUInteger i = 0 ; i < [self.items count] ; i++ )
         {
+            if( hideEmptyColumns && ([self.items objectAtIndex:i] == nil || [[self.items objectAtIndex:i] isEqualToString:@""]) )
+                continue;
             if( ![self.fileParser.shownColumnIndexes containsObject:[NSNumber numberWithUnsignedInteger:i]] )
                 [s appendFormat:@"<strong>%@</strong>: %@<br>",
                  [self.fileParser.columnNames objectAtIndex:i],

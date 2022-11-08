@@ -12,6 +12,7 @@
 {
     IBOutlet UISegmentedControl *viewSelection;
     IBOutlet UISwitch *showHidden;
+    IBOutlet UISwitch *hideEmpty;
     IBOutlet UIButton *increaseSize;
     IBOutlet UIButton *decreaseSize;
     IBOutlet UISwitch *showImages;
@@ -21,6 +22,7 @@
 @property (nonatomic, weak) DetailsPagesController *pageController;
 
 - (IBAction)showHiddenChanged:(id)sender;
+- (IBAction)hideEmptyChanged:(id)sender;
 - (IBAction)viewSelectionChanged:(id)sender;
 - (IBAction)increaseSize:(id)sender;
 - (IBAction)decreaseSize:(id)sender;

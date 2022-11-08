@@ -88,6 +88,9 @@ typedef enum FixedWidthAlternative{
 + (BOOL) showDeletedColumns;
 + (void) setShowDeletedColumns:(BOOL)yn;
 
++ (BOOL) hideEmptyColumns;
++ (void) setHideEmptyColumns:(BOOL)yn;
+
 // This is temporary, while downloading a file with addresses to CSV files
 + (BOOL) hideAddress;
 + (void) setHideAddress:(BOOL)hide;
