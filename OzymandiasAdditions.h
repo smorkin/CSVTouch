@@ -32,6 +32,9 @@ typedef enum OzyTableViewSize {
 - (BOOL) containsMailAddress;
 - (NSComparisonResult) numericSensitiveCompare:(NSString *)s;
 - (NSData *) ozyHash;
+- (NSUInteger) characterCount;
+- (NSString *) stringWithCharacterCount:(NSUInteger)count; // Returns chopped string or space-padded string
+
 @end
 
 @interface NSIndexPath (OzymandiasExtension)

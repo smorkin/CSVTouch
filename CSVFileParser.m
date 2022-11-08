@@ -325,7 +325,7 @@ static NSTimer *_resetDownloadFlagsTimer;
 				int wordNumber = 0;
 				NSString *word;
 				NSMutableArray *words = [[NSMutableArray alloc] init];
-				while( row[wordNumber] != '\0' && wordNumber < maxWords)
+				while( row[wordNumber] != NULL && wordNumber < maxWords)
 				{
 					if( [result count] < wordNumber+1 )
 						[result addObject:[NSMutableArray array]];
@@ -436,7 +436,8 @@ static NSTimer *_resetDownloadFlagsTimer;
                         {
                             continue; // No point in checking length of string here
                         }
-                        int wordLength = MIN((int)[(NSString *)[row.items objectAtIndex:col] length], MAX_AUTO_WIDTH);
+                        NSUInteger actualLength = [(NSString *)[row.items objectAtIndex:col] characterCount];
+                        int wordLength = MIN((int)actualLength, MAX_AUTO_WIDTH);
                         if( wordLength > columnWidths[col])
                         {
                             columnWidths[col] = wordLength;

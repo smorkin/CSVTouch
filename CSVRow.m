@@ -495,9 +495,10 @@ static NSMutableArray *formatsStrings = nil;
         for( int i = 0 ; i < [self.items count] ; i++ )
         {
             int width = (widths[i] > 0 ? widths[i] : 1); // At least 1 char so we get a space between fields
-            [self.fixedWidthItems addObject:[[self.items objectAtIndex:i] stringByPaddingToLength:width
-                                                                                       withString:@" "
-                                                                                  startingAtIndex:0]];
+//            [self.fixedWidthItems addObject:[[self.items objectAtIndex:i] stringByPaddingToLength:width
+//                                                                                       withString:@" "
+//                                                                                  startingAtIndex:0]];
+            [self.fixedWidthItems addObject:[[self.items objectAtIndex:i] stringWithCharacterCount:width]];
         }
     }
     else

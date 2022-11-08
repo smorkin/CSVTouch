@@ -89,6 +89,47 @@
 	return [NSData dataWithBytes:hash length:CC_MD5_DIGEST_LENGTH];
 }
 
+- (NSUInteger) characterCount
+{
+    __block NSUInteger count = 0;
+    [self enumerateSubstringsInRange:NSMakeRange(0, [self length])
+                             options:NSStringEnumerationByComposedCharacterSequences
+                          usingBlock:^(NSString *substring, NSRange substringRange, NSRange enclosingRange, BOOL *stop) {
+        count++;
+    }];
+    return count;
+}
+
+- (NSString *) stringWithCharacterCount:(NSUInteger)count
+{
+    NSUInteger actualLength = [self characterCount];
+    if( actualLength <= count)
+    {
+        NSMutableString *s = [self mutableCopy];
+        
+        for( int i = 0 ; i < count-actualLength ; i++)
+            [s appendString:@" "];
+        return s;
+    }
+    else
+    {
+        __block NSMutableString *s = [NSMutableString string];
+        __block NSUInteger charactersAdded = 0;
+        [self enumerateSubstringsInRange:NSMakeRange(0, [self length])
+                                 options:NSStringEnumerationByComposedCharacterSequences
+                              usingBlock:^(NSString *substring, NSRange substringRange, NSRange enclosingRange, BOOL *stop) {
+            [s appendString:substring];
+            charactersAdded++;
+            if( charactersAdded == count-1 )
+            {
+                [s appendString:@"…"];
+                *stop = TRUE;
+            }
+        }];
+        return s;
+    }
+}
+
 @end
 
 @implementation NSIndexPath (OzymandiasExtension)
