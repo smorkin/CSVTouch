@@ -20,7 +20,9 @@
 
 static NSMetadataQuery *_icloudQuery;
 static NSString *_customMultiColumnCssString;
+static NSString *_customMultiColumnCssDarkString;
 static NSString *_customSingleColumnCssString;
+static NSString *_customSingleColumnCssDarkString;
 static NSString *_standardMultiColumnCssString;
 static NSString *_standardSingleColumnCssString;
 static NSString *_standardMultiColumnCssDarkString;
@@ -28,7 +30,7 @@ static NSString *_standardSingleColumnCssDarkString;
 
 + (BOOL) customCSSExists
 {
-    return _customSingleColumnCssString != nil || _customMultiColumnCssString != nil;
+    return _customSingleColumnCssString != nil || _customMultiColumnCssString != nil || _customSingleColumnCssDarkString != nil || _customMultiColumnCssDarkString != nil;
 }
 
 + (NSMetadataQuery *)documentQuery {
@@ -41,11 +43,17 @@ static NSString *_standardSingleColumnCssDarkString;
     // NSPredicate requires the whole LIKE entry to be a single string (it puts "" around it) so we need to put the whole file name together before building the predicate
     NSString *multiName = [NSString stringWithFormat:@"%@.css", MULTICOLUMNNAME];
     NSString *singleName = [NSString stringWithFormat:@"%@.css", SINGLECOLUMNNAME];
+    NSString *multiNameDark = [NSString stringWithFormat:@"%@.css", MULTICOLUMNNAMEDARK];
+    NSString *singleNameDark = [NSString stringWithFormat:@"%@.css", SINGLECOLUMNNAMEDARK];
     NSPredicate *multiPattern = [NSPredicate predicateWithFormat:@"%K LIKE %@",
                                  NSMetadataItemFSNameKey, multiName];
     NSPredicate *singlePattern = [NSPredicate predicateWithFormat:@"%K LIKE %@",
                                   NSMetadataItemFSNameKey, singleName];
-    [query setPredicate:[NSCompoundPredicate orPredicateWithSubpredicates:@[multiPattern, singlePattern]]];
+    NSPredicate *multiPatternDark = [NSPredicate predicateWithFormat:@"%K LIKE %@",
+                                 NSMetadataItemFSNameKey, multiNameDark];
+    NSPredicate *singlePatternDark = [NSPredicate predicateWithFormat:@"%K LIKE %@",
+                                  NSMetadataItemFSNameKey, singleNameDark];
+    [query setPredicate:[NSCompoundPredicate orPredicateWithSubpredicates:@[multiPattern, singlePattern, multiPatternDark, singlePatternDark]]];
     return query;
 }
 
@@ -76,6 +84,16 @@ static NSString *_standardSingleColumnCssDarkString;
     return _customMultiColumnCssString;
 }
 
++ (void) setCustomMultiColumnCssDarkString:(NSString *)custom
+{
+    _customMultiColumnCssDarkString = [custom copy];
+}
+
++ (NSString *) customMultiColumnCssDarkString
+{
+    return _customMultiColumnCssDarkString;
+}
+
 + (void) setCustomSingleColumnCssString:(NSString *)custom
 {
     _customSingleColumnCssString = [custom copy];
@@ -86,14 +104,45 @@ static NSString *_standardSingleColumnCssDarkString;
     return _customSingleColumnCssString;
 }
 
++ (void) setCustomSingleColumnCssDarkString:(NSString *)custom
+{
+    _customSingleColumnCssDarkString = [custom copy];
+}
+
++ (NSString *) customSingleColumnCssDarkString
+{
+    return _customSingleColumnCssDarkString;
+}
+
+typedef enum CustomCssFileType
+{
+    cssMulti, cssMultiDark, cssSingle, cssSingleDark, cssUndefined
+}CustomCssFileType;
+
++ (CustomCssFileType) cssFileTypeForPath:(NSString *)path
+{
+    if([path containsString:MULTICOLUMNNAMEDARK])
+        return cssMultiDark;
+    else if([path containsString:SINGLECOLUMNNAMEDARK])
+        return cssSingleDark;
+    else if([path containsString:MULTICOLUMNNAME])
+        return cssMulti;
+    else if([path containsString:SINGLECOLUMNNAME])
+        return cssSingle;
+    else
+        return cssUndefined;
+}
+
 + (void)processiCloudFiles:(NSNotification *)notification {
     // Always disable updates while processing results
     [_icloudQuery disableUpdates];
     
     // The query reports all files found, every time.
     NSLog(@"Found iCloud custom files: %@",[_icloudQuery results].count > 0 ? @"YES" : @"NO");
-    BOOL foundCustomMultiCssFile = NO;
-    BOOL foundCustomSingleCssFile = NO;
+    BOOL foundMulti = NO;
+    BOOL foundSingle = NO;
+    BOOL foundMultiDark = NO;
+    BOOL foundSingleDark = NO;
     // NOTE! Queries always return the full file set -> if one of multi/single files is not here, it doesn't exist
     for (NSMetadataItem * result in [_icloudQuery results])
     {
@@ -107,22 +156,34 @@ static NSString *_standardSingleColumnCssDarkString;
         [fileURL getResourceValue:&fileIsHiddenKey forKey:NSURLIsHiddenKey error:nil];
         if ((!fileIsHiddenKey || ![fileIsHiddenKey boolValue]) &&
             ![[fileURL path] containsString:@".Trash"]) {
-            BOOL isMultipleUpdate = [[fileURL path] containsString:MULTICOLUMNNAME];
             SimpleDocument *sd = [[SimpleDocument alloc] initWithFileURL:fileURL];
-            if( isMultipleUpdate)
-                foundCustomMultiCssFile = TRUE;
-            else
-                foundCustomSingleCssFile = TRUE;
             if( [sd readFromURL:sd.fileURL error:nil])
             {
-                if( sd.documentText && ![sd.documentText isEqualToString:@""] &&
-                   ![sd.documentText isEqualToString:[self customMultiColumnCssString]])
+                if(sd.documentText && ![sd.documentText isEqualToString:@""])
                 {
-                    NSLog(@"Setting new custom %@ css string", (isMultipleUpdate ? @"multi-column" : @"single column"));
-                    if( isMultipleUpdate)
-                        [self setCustomMultiColumnCssString:sd.documentText];
-                    else
-                        [self setCustomSingleColumnCssString:sd.documentText];
+                    CustomCssFileType fileType = [self cssFileTypeForPath:[fileURL path]];
+                    switch(fileType)
+                    {
+                        case cssMulti:
+                            foundMulti = YES;
+                            [self setCustomMultiColumnCssString:sd.documentText];
+                            break;
+                        case cssMultiDark:
+                            foundMultiDark = YES;
+                            [self setCustomMultiColumnCssDarkString:sd.documentText];
+                            break;
+                        case cssSingle:
+                            foundSingle = YES;
+                            [self setCustomSingleColumnCssString:sd.documentText];
+                            break;
+                        case cssSingleDark:
+                            foundSingleDark = YES;
+                            [self setCustomSingleColumnCssDarkString:sd.documentText];
+                            break;
+                        case cssUndefined:
+                            NSLog(@"Ignoring CSS file with name: %@", [[fileURL path] lastPathComponent]);
+                            break;
+                    }
                 }
             }
             else
@@ -132,13 +193,22 @@ static NSString *_standardSingleColumnCssDarkString;
         }
     }
     
-    if( !foundCustomMultiCssFile )
+    if( !foundMulti )
     {
         [self setCustomMultiColumnCssString:nil];
     }
-    if( !foundCustomSingleCssFile )
+    if( !foundMultiDark )
+    {
+        [self setCustomMultiColumnCssDarkString:nil];
+    }
+    if( !foundSingle )
     {
         [self setCustomSingleColumnCssString:nil];
+    }
+    [_icloudQuery enableUpdates];
+    if( !foundSingleDark )
+    {
+        [self setCustomSingleColumnCssDarkString:nil];
     }
     [_icloudQuery enableUpdates];
 }
@@ -151,7 +221,9 @@ static NSString *_standardSingleColumnCssDarkString;
                                                               usedEncoding:nil
                                                                      error:NULL];
     
-    return _standardMultiColumnCssDarkString;
+    // Now, return custom string if it exists
+    return ( _customMultiColumnCssDarkString && ![_customMultiColumnCssDarkString isEqualToString:@""]) ?
+    _customMultiColumnCssDarkString : _standardMultiColumnCssDarkString;
 }
 
 + (NSString *) doubleColumnCSS
@@ -174,7 +246,8 @@ static NSString *_standardSingleColumnCssDarkString;
                                                                usedEncoding:nil
                                                                       error:NULL];
     
-    return _standardSingleColumnCssDarkString;
+    return ( _customSingleColumnCssDarkString && ![_customSingleColumnCssDarkString isEqualToString:@""]) ?
+    _customSingleColumnCssDarkString : _standardSingleColumnCssDarkString;
 }
 
 + (NSString *) singleColumnCSS
