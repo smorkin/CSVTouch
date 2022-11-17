@@ -18,6 +18,36 @@
 
 @implementation CSSProvider
 
+
+static NSString *UbiquityContainerIdentifier = @"iCloud.se.ozymandias.csvtouch";
+
++ (NSURL*) ubiquitousContainerURL
+{
+    if( [[NSFileManager defaultManager] ubiquityIdentityToken]) // Recommended by Apple to check that we do have iCloud
+        return [[NSFileManager defaultManager] URLForUbiquityContainerIdentifier:UbiquityContainerIdentifier];
+    else
+        return nil;
+}
+
++ (NSURL*) ubiquitousDocumentsDirectoryURL
+{
+    return [[self ubiquitousContainerURL] URLByAppendingPathComponent:@"Documents" isDirectory:YES];
+}
+
++ (void) createDefaultFileInAppDocumentsFolder
+{
+    NSURL *fileURL = [self ubiquitousDocumentsDirectoryURL];
+    NSError *error;
+    [[NSFileManager defaultManager] createDirectoryAtURL:fileURL withIntermediateDirectories:YES
+                                              attributes:nil error:&error];
+    if( !error )
+    {
+        fileURL = [fileURL URLByAppendingPathComponent:@"PUT CSS FILES HERE"];
+        BOOL created = [[NSFileManager defaultManager] createFileAtPath:[fileURL path] contents:nil attributes:nil];
+    }
+}
+
+
 static NSMetadataQuery *_icloudQuery;
 static NSString *_customMultiColumnCssString;
 static NSString *_customMultiColumnCssDarkString;
