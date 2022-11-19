@@ -37,6 +37,8 @@ static NSString *UbiquityContainerIdentifier = @"iCloud.se.ozymandias.csvtouch";
 + (void) createDefaultFileInAppDocumentsFolder
 {
     NSURL *fileURL = [self ubiquitousDocumentsDirectoryURL];
+    if( !fileURL || [[NSFileManager defaultManager] fileExistsAtPath:[fileURL path]])
+        return;
     NSError *error;
     [[NSFileManager defaultManager] createDirectoryAtURL:fileURL withIntermediateDirectories:YES
                                               attributes:nil error:&error];
@@ -44,6 +46,7 @@ static NSString *UbiquityContainerIdentifier = @"iCloud.se.ozymandias.csvtouch";
     {
         fileURL = [fileURL URLByAppendingPathComponent:@"PUT CSS FILES HERE"];
         BOOL created = [[NSFileManager defaultManager] createFileAtPath:[fileURL path] contents:nil attributes:nil];
+        NSLog(@"Created: %@", created ? @"YES" : @"NO");
     }
 }
 
@@ -91,6 +94,7 @@ static NSString *_standardSingleColumnCssDarkString;
 {
     if( !_icloudQuery)
     {
+        [self createDefaultFileInAppDocumentsFolder];
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(processiCloudFiles:)
                                                      name:NSMetadataQueryDidFinishGatheringNotification
