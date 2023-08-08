@@ -695,17 +695,30 @@ sectionForSectionIndexTitle:(NSString *)title
 
 - (void)updateSearchResultsForSearchController:(UISearchController *)searchController
 {
-    // Search ignores spaces before/after text. Also, in case the search string has not changed we don't want to go through the code since it will mean selection disappears (this matters when we have a search string, click on row, show details, and then goes back -> this code is called again when view appears, and selection disappears).
+    // Search ignores spaces before/after text. Also, in case the search string has not changed we don't want to go through the code since it will mean selection disappears (this matters when we have a search string, click on row, show details, and then go back -> this code is called again when view appears, and selection disappears).
     NSString *searchString = [searchController.searchBar.text lowercaseString];
     searchString = [searchString stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@" "]];
     if( [searchString isEqualToString:self.lastSearchString])
     {
         return;
     }
-    if( searchString && ![searchString isEqualToString:@""] )
+    // Now, check if there is a quoted string, i.e. search is of the form
+    // "<some string>"
+    // If so, we'll do a seaerch for <some string>; if not, we search for objects containing all the words in search string
+    NSString *quotedSearchWord = nil;
+    if( [searchString length] >= 2 &&
+       (([searchString hasPrefix:@"”"] && [searchString hasSuffix:@"”"]) ||
+       ([searchString hasPrefix:@"\""] && [searchString hasSuffix:@"\""])))
+    {
+        quotedSearchWord = [searchString substringWithRange:NSMakeRange(1, [searchString length] - 2)];
+    }
+    
+    // Now we check if there is something to search for at all
+    if( searchString && ![searchString isEqualToString:@""] &&
+       (!quotedSearchWord || ![quotedSearchWord isEqualToString:@""]))
     {
         NSMutableArray *filteredRows = [NSMutableArray array];
-        NSArray *words = [searchString componentsSeparatedByString:@" "];
+        NSArray *words = (quotedSearchWord ? [NSArray arrayWithObject:quotedSearchWord] : [searchString componentsSeparatedByString:@" "]);
         NSUInteger wordCount = [words count];
         NSUInteger wordNr;
         NSString *objectDescription;

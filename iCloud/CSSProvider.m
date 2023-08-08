@@ -37,7 +37,7 @@ static NSString *UbiquityContainerIdentifier = @"iCloud.se.ozymandias.csvtouch";
 + (void) createDefaultFileInAppDocumentsFolder
 {
     NSURL *fileURL = [self ubiquitousDocumentsDirectoryURL];
-    if( !fileURL || [[NSFileManager defaultManager] fileExistsAtPath:[fileURL path]])
+    if( !fileURL)
         return;
     NSError *error;
     [[NSFileManager defaultManager] createDirectoryAtURL:fileURL withIntermediateDirectories:YES
