@@ -706,16 +706,19 @@ sectionForSectionIndexTitle:(NSString *)title
     // "<some string>"
     // If so, we'll do a seaerch for <some string>; if not, we search for objects containing all the words in search string
     NSString *quotedSearchWord = nil;
+    BOOL useQuoteSearch = NO;
     if( [searchString length] >= 2 &&
-       (([searchString hasPrefix:@"”"] && [searchString hasSuffix:@"”"]) ||
-       ([searchString hasPrefix:@"\""] && [searchString hasSuffix:@"\""])))
+       (([searchString hasPrefix:@"“"] && [searchString hasSuffix:@"”"]) ||
+        ([searchString hasPrefix:@"”"] && [searchString hasSuffix:@"”"]) ||
+        ([searchString hasPrefix:@"\""] && [searchString hasSuffix:@"\""])))
     {
         quotedSearchWord = [searchString substringWithRange:NSMakeRange(1, [searchString length] - 2)];
+        useQuoteSearch = YES;
     }
     
     // Now we check if there is something to search for at all
-    if( searchString && ![searchString isEqualToString:@""] &&
-       (!quotedSearchWord || ![quotedSearchWord isEqualToString:@""]))
+    if( (searchString && ![searchString isEqualToString:@""]) &&
+        !(useQuoteSearch && [quotedSearchWord isEqualToString:@""]))
     {
         NSMutableArray *filteredRows = [NSMutableArray array];
         NSArray *words = (quotedSearchWord ? [NSArray arrayWithObject:quotedSearchWord] : [searchString componentsSeparatedByString:@" "]);
@@ -723,7 +726,13 @@ sectionForSectionIndexTitle:(NSString *)title
         NSUInteger wordNr;
         NSString *objectDescription;
         // In case old searchstring is a substring of new -> we only need to look among items currently shown
-        BOOL useCurrentItems = self.lastSearchString &&
+        // NOTE! If we are doing quote search, never use current items since e.g.
+        //
+        // old search = "adv , new search = "adv"
+        //
+        // means we previously searched for '"adv' and now we search for 'adv'
+        BOOL useCurrentItems = !useQuoteSearch &&
+        self.lastSearchString &&
         ![self.lastSearchString isEqualToString:@""] &&
         [searchString hasSubstring:self.lastSearchString];
         for( CSVRow *row in (useCurrentItems ? self.items : self.file.parsedItems) )
